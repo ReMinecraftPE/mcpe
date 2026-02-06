@@ -192,3 +192,26 @@ bool AppPlatform_sdl2::GetMouseButtonState(const SDL_Event& event)
 
 	return result;
 }
+
+void AppPlatform_sdl2::showMessageModal(struct MessageModal struct)
+{
+	const char *title;
+	Uint32 flags = 0;
+
+	switch (struct.type)
+	{
+		case MessageModal::ERROR:
+			title = "Error";
+			flags = SDL_MESSAGEBOX_ERROR;
+			break;
+		default:
+			LOG_W("Unhandled MessageModal type");
+			// fall through
+		case MessageModal::INFO:
+			title = "Info";
+			flags = SDL_MESSAGEBOX_INFORMATION;
+			break;
+	}
+
+	SDL_ShowSimpleMessageBox(flags, title, struct.message.c_str(), nullptr);
+}
