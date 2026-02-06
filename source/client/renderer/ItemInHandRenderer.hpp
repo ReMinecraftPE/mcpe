@@ -24,6 +24,7 @@ protected:
 		mce::MaterialPtr entity;
 		mce::MaterialPtr entity_alphatest;
 		mce::MaterialPtr item_in_hand;
+		mce::MaterialPtr item_in_hand_color;
 		mce::MaterialPtr entity_glint;
 		mce::MaterialPtr entity_alphatest_glint;
 		mce::MaterialPtr item_in_hand_glint;

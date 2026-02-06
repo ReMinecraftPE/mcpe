@@ -18,6 +18,7 @@ ItemInHandRenderer::Materials::Materials()
     MATERIAL_PTR(switchable, entity);
     MATERIAL_PTR(switchable, entity_alphatest);
     MATERIAL_PTR(switchable, item_in_hand);
+    MATERIAL_PTR(switchable, item_in_hand_color);
     MATERIAL_PTR(switchable, entity_glint);
     MATERIAL_PTR(switchable, entity_alphatest_glint);
     MATERIAL_PTR(switchable, item_in_hand_glint);
@@ -173,7 +174,7 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
 #	define ARGPATCH
 #endif
         
-        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand ARGPATCH);
+        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand_color ARGPATCH);
         
 #ifdef ARGPATCH
 #	undef ARGPATCH
@@ -266,7 +267,11 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
             t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
         }
         
+#ifdef ENH_SHADE_HELD_TILES
+        t.draw(m_materials.item_in_hand_color);
+#else
         t.draw(m_materials.item_in_hand);
+#endif
     }
 }
 

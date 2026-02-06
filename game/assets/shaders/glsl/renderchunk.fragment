@@ -1,4 +1,6 @@
 // __multiversion__
+#include "ShaderConstants.h"
+
 
 varying vec2 uv0;
 //varying vec2 uv1;

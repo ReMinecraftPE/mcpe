@@ -84,8 +84,6 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	glEnable(GL_RESCALE_NORMAL);
 #endif
 
-	_setupShaderParameters(entity, Color::NIL, a);
-
 	Tile* pTile = itemStack.getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
@@ -148,7 +146,8 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 			t.vertexUV(+0.5f, -0.25f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
 			t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16))     / 256.0f);
-
+            
+            _setupShaderParameters(entity, Color::NIL, a);
 			t.draw(m_itemMaterials.item_entity);
 		}
 	}
