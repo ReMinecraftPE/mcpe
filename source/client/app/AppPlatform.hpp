@@ -154,7 +154,7 @@ public:
 	virtual void beginProfileDataWrite(unsigned int playerId);
 	virtual void endProfileDataWrite(unsigned int playerId);
 
-	virtual void showMessageModal(struct MessageModal msg);
+	virtual void showMessageModal(const struct MessageModal& msg);
 
 public:
 	ListenerMap m_listeners;

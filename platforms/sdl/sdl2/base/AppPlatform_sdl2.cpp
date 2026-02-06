@@ -193,7 +193,8 @@ bool AppPlatform_sdl2::GetMouseButtonState(const SDL_Event& event)
 	return result;
 }
 
-void AppPlatform_sdl2::showMessageModal(struct MessageModal msg)
+// this segfaults on wsl, why?
+void AppPlatform_sdl2::showMessageModal(const struct MessageModal& msg)
 {
 	const char *title;
 	Uint32 flags = 0;

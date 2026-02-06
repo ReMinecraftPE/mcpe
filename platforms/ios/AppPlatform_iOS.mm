@@ -178,7 +178,7 @@ std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
     return [assetPath UTF8String];
 }
 
-void AppPlatform_iOS::showMessageModal(struct MessageModal msg)
+void AppPlatform_iOS::showMessageModal(const struct MessageModal& msg)
 {
 	NSString *title;
 	switch(msg.type)

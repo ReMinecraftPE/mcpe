@@ -571,7 +571,7 @@ Keyboard::KeyState AppPlatform_win32::GetKeyState(UINT iMsg)
 	}
 }
 
-void AppPlatform_win32::showMessageModal(struct MessageModal msg)
+void AppPlatform_win32::showMessageModal(const struct MessageModal& msg)
 {
 	const char *title;
 	uint32_t flags = 0;
