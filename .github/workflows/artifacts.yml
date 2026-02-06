@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'android-signing' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
