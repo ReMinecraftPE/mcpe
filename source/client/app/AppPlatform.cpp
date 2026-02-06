@@ -403,3 +403,22 @@ void AppPlatform::beginProfileDataWrite(unsigned int playerId)
 void AppPlatform::endProfileDataWrite(unsigned int playerId)
 {
 }
+
+void AppPlatform::showMessageModal(struct MessageModal struct)
+{
+	FILE *stream;
+	switch(struct.type)
+	{
+		case MessageModal::ERROR:
+			stream = stderr;
+			break;
+		default:
+			LOG_W("Unhandled MessageModal type");
+			// fall through
+		case MessageModal::INFO:
+			stream = stdout;
+			break;
+	}
+
+	fputs(struct.test.c_str(), stream);
+}

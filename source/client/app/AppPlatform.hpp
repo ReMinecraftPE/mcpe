@@ -43,6 +43,24 @@ class AppPlatformListener;
 class AppPlatform
 {
 public:
+	struct MessageModal
+	{
+		enum Type
+		{
+			INFO,
+			ERROR
+		};
+
+		Type type;
+		std::string text;
+
+		MessageModal(Type type, const std::string& text)
+			: type(type)
+			, text(text)
+		{
+		}
+	};
+
 	typedef std::multimap<float, AppPlatformListener*> ListenerMap;
 
 public:
@@ -134,6 +152,8 @@ public:
 	virtual void endProfileDataRead(unsigned int playerId);
 	virtual void beginProfileDataWrite(unsigned int playerId);
 	virtual void endProfileDataWrite(unsigned int playerId);
+
+	virtual void showMessageModal(struct MessageModal);
 
 public:
 	ListenerMap m_listeners;
