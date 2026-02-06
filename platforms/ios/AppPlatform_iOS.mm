@@ -177,3 +177,31 @@ std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
     
     return [assetPath UTF8String];
 }
+
+void AppPlatform_iOS::showMessageModal(struct MessageModal msg)
+{
+	NSString *title;
+	switch(msg.type)
+	{
+		case MessageModal::TYPE_ERROR:
+			title = @"Error";
+			break;
+		default:
+			LOG_W("Unhandled MessageModal type");
+			// fall through
+		case MessageModal::TYPE_INFO:
+			title = @"Info";
+			break;
+	}
+
+	UIAlertView *alert = [[UIAlertView alloc]
+		initWithTitle:title
+		message:[NSString stringWithCString:msg.text.c_str()
+		encoding:[NSString defaultCStringEncoding]]
+		delegate:nil
+		cancelButtonTitle:@"OK"
+		otherButtonTitles:nil
+	];
+	[alert show];
+	[alert release];
+}
