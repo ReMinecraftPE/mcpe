@@ -31,6 +31,7 @@ ItemRenderer::Materials::Materials()
 {
 	MATERIAL_PTR(switchable, item_entity);
 	MATERIAL_PTR(common, ui_fill_color);
+	MATERIAL_PTR(common, ui_fill_gradient);
 	MATERIAL_PTR(common, ui_textured);
 	MATERIAL_PTR(common, ui_texture_and_color);
 	MATERIAL_PTR(common, ui_item);
@@ -159,14 +160,13 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 
 void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color)
 {
-	// UNUSED
 	t.begin(4);
 	t.color(color);
 	t.vertex(float(x),     float(y),     0.0f);
 	t.vertex(float(x),     float(y + h), 0.0f);
 	t.vertex(float(x + w), float(y + h), 0.0f);
 	t.vertex(float(x + w), float(y),     0.0f);
-	t.draw(m_itemMaterials.ui_fill_color);
+	t.draw(m_itemMaterials.ui_fill_gradient);
 }
 
 void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
