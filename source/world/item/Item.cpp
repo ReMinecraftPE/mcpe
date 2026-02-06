@@ -17,6 +17,7 @@
 #include "RocketItem.hpp"
 #include "ToolItem.hpp"
 #include "BowItem.hpp"
+#include "DyePowderItem.hpp"
 #include "WeaponItem.hpp"
 
 #define ITEM(x) ((x) - 256)
@@ -495,7 +496,7 @@ void Item::initItems()
 		->setIcon(5, 4)
 		->setDescriptionId("fishingRod");
 
-	Item::dye_powder = NEW_ITEM(ITEM_DYE_POWDER)
+	Item::dye_powder = NEW_X_ITEMN(DyePowderItem, ITEM_DYE_POWDER)
 		->setIcon(14, 4)
 		->setDescriptionId("dyePowder");
 
@@ -608,6 +609,12 @@ ItemStack* Item::use(ItemStack* instance, Level* level, Mob* user) const
 int Item::getMaxStackSize() const
 {
 	return m_maxStackSize;
+}
+
+Item* Item::setMaxDamage(int damage)
+{
+	m_maxDamage = damage;
+	return this;
 }
 
 TileData Item::getLevelDataForAuxValue(int x) const

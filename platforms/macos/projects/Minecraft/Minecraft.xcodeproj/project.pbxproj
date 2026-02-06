@@ -287,6 +287,8 @@
 		8477B3BA2C4DC42E004E1AC5 /* Vec2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8477B3B82C4DC42E004E1AC5 /* Vec2.cpp */; };
 		8477B3BB2C4DC42E004E1AC5 /* Vec2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8477B3B92C4DC42E004E1AC5 /* Vec2.hpp */; };
 		8488C08A2B1EDD4F001AEC4F /* ShowKeyboardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */; };
+		848AA3152F34E897007E9A3E /* DyePowderItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848AA3142F34E897007E9A3E /* DyePowderItem.cpp */; };
+		848AA3162F34E897007E9A3E /* DyePowderItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848AA3132F34E897007E9A3E /* DyePowderItem.hpp */; };
 		848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848CBD0F2AFD847C007634F6 /* AVFoundation.framework */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */; };
@@ -2242,6 +2244,8 @@
 		8489B0972A86D4B2004CA8EC /* MinecraftClient.SDL2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftClient.SDL2; sourceTree = BUILT_PRODUCTS_DIR; };
 		8489B3212A86E464004CA8EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8489B3252A86E4B0004CA8EC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		848AA3132F34E897007E9A3E /* DyePowderItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DyePowderItem.hpp; sourceTree = "<group>"; };
+		848AA3142F34E897007E9A3E /* DyePowderItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DyePowderItem.cpp; sourceTree = "<group>"; };
 		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
@@ -3689,6 +3693,8 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
+				848AA3132F34E897007E9A3E /* DyePowderItem.hpp */,
+				848AA3142F34E897007E9A3E /* DyePowderItem.cpp */,
 				84C614242F323602008AC5BE /* BowItem.hpp */,
 				84C614252F323602008AC5BE /* BowItem.cpp */,
 				84C614262F323602008AC5BE /* WeaponItem.hpp */,
@@ -5749,6 +5755,7 @@
 				84BF63CD2AF186C9008A9995 /* StoneSlabTile.hpp in Headers */,
 				84BF63CE2AF186C9008A9995 /* StoneTile.hpp in Headers */,
 				84E7BF1D2F286A08002D3936 /* ContainerMenu.hpp in Headers */,
+				848AA3162F34E897007E9A3E /* DyePowderItem.hpp in Headers */,
 				84BF63CF2AF186C9008A9995 /* Tile.hpp in Headers */,
 				84BF63D02AF186C9008A9995 /* TntTile.hpp in Headers */,
 				84BF63D12AF186C9008A9995 /* TopSnowTile.hpp in Headers */,
@@ -6811,6 +6818,7 @@
 				84DED1AD2F309611004001C5 /* Recipes.cpp in Sources */,
 				84BF634D2AF18631008A9995 /* RedDustParticle.cpp in Sources */,
 				84BF634E2AF18631008A9995 /* SmokeParticle.cpp in Sources */,
+				848AA3152F34E897007E9A3E /* DyePowderItem.cpp in Sources */,
 				84BF634F2AF18631008A9995 /* TerrainParticle.cpp in Sources */,
 				84BF63502AF18631008A9995 /* AABB.cpp in Sources */,
 				84BF63512AF18631008A9995 /* HitResult.cpp in Sources */,

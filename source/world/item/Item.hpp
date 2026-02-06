@@ -79,6 +79,7 @@ public: // Methods
 	virtual TileData getLevelDataForAuxValue(int x) const;
 	virtual bool isStackedByData() const;
 	virtual int getMaxDamage() const;
+	virtual Item* setMaxDamage(int);
 	virtual void hurtEnemy(ItemStack*, Mob*) const;
 	virtual void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face, Mob* mob) const;
 	virtual int getAttackDamage(Entity*) const;
