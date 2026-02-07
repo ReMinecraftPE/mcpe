@@ -82,6 +82,7 @@ private:
 		state.m_bIsRunning = false;
 
 		delete state.m_pFunctor;
+		state.m_pFunctor = nullptr;
 
 		return nullptr;
 	}
@@ -192,7 +193,7 @@ private:
 #define MC_ASYNC_FUNC_1(name, T1, m1)       \
 struct name##Async {                        \
     T1 m1;                                  \
-    name##Async(T1 m1) : m1(m1) {}          \
+    name##Async(T1& m1) : m1(m1) {}          \
     void* operator()() { return name(m1); } \
 }
 
@@ -200,7 +201,7 @@ struct name##Async {                        \
 struct name##Async {                              \
     T1 m1;                                        \
     T2 m2;                                        \
-    name##Async(T1 m1, T2 m2) : m1(m1), m2(m2) {} \
+    name##Async(T1& m1, T2& m2) : m1(m1), m2(m2) {} \
     void* operator()() { return name(m1, m2); }   \
 }
 
@@ -209,7 +210,7 @@ struct name##Async {                                             \
     T1 m1;                                                       \
     T2 m2;                                                       \
     T3 m3;                                                       \
-    name##Async(T1 m1, T2 m2, T3 m3) : m1(m1), m2(m2), m3(m3) {} \
+    name##Async(T1& m1, T2& m2, T3& m3) : m1(m1), m2(m2), m3(m3) {} \
     void* operator()() { return name(m1, m2, m3); }              \
 }
 
@@ -217,7 +218,7 @@ struct name##Async {                                             \
 #define MC_ASYNC_FUNC_VOID_1(name, T1, m1)               \
 struct name##Async {                                     \
     T1 m1;                                               \
-    name##Async(T1 m1) : m1(m1) {}                       \
+    name##Async(T1& m1) : m1(m1) {}                       \
     void* operator()() { name(m1); return nullptr; }     \
 }
 
@@ -225,7 +226,7 @@ struct name##Async {                                     \
 struct name##Async {                                     \
     T1 m1;                                               \
     T2 m2;                                               \
-    name##Async(T1 m1, T2 m2) : m1(m1), m2(m2) {}        \
+    name##Async(T1& m1, T2& m2) : m1(m1), m2(m2) {}        \
     void* operator()() { name(m1, m2); return nullptr; } \
 }
 
@@ -234,6 +235,6 @@ struct name##Async {                                             \
     T1 m1;                                                       \
     T2 m2;                                                       \
     T3 m3;                                                       \
-    name##Async(T1 m1, T2 m2, T3 m3) : m1(m1), m2(m2), m3(m3) {} \
+    name##Async(T1& m1, T2& m2, T3& m3) : m1(m1), m2(m2), m3(m3) {} \
     void* operator()() { name(m1, m2, m3); return nullptr; }     \
 }
