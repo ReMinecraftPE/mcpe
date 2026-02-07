@@ -33,12 +33,12 @@ if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     (
     # for x86
     [ -d "$x86_sdk" ] && rm -rf "$x86_sdk"
-    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.11/MacOSX10.11.tar.bz2
-    tar xf MacOSX10.11.tar.bz2
-    mv MacOSX10.11.sdk "$x86_sdk"
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.10/MacOSX10.10.tar.bz2
+    tar xf MacOSX10.10.tar.bz2
+    mv MacOSX10.10.sdk "$x86_sdk"
     )
     wait
-    rm *.tar.bz2
+    rm ./*.tar.bz2
     printf '%s' "$sdkver" > sdkver
     outdated_sdk=1
 fi
@@ -163,9 +163,11 @@ for target in $targets; do
     case ${target%%-*} in
         (i386|x86_64*)
             export REMCPE_SDK="$x86_sdk"
+            set --
         ;;
         (arm64*)
             export REMCPE_SDK="$arm64_sdk"
+            set -- -DCMAKE_SHARED_LINKER_FLAGS='-framework GameController' -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
         ;;
         (*)
             echo "Unknown target"
@@ -193,6 +195,7 @@ for target in $targets; do
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
         -DWERROR="${WERROR:-OFF}" \
+        "$@" \
         $lto
     make -j"$ncpus"
 
@@ -201,7 +204,10 @@ done
 
 lipo -create build-*/"$bin" -output "$bin"
 lipo -create build-*/libSDL2-2.0.0.dylib -output libSDL2-2.0.0.dylib
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin" libSDL2-2.0.0.dylib
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && {
+    "$strip" -no_code_signature_warning "$bin"
+    "$strip" -no_code_signature_warning -x libSDL2-2.0.0.dylib
+}
 if command -v ldid >/dev/null; then
     ldid -S "$bin" libSDL2-2.0.0.dylib
 else
