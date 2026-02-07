@@ -214,7 +214,7 @@ install_name_tool -change libSDL2-2.0.0.dylib '@executable_path/libSDL2-2.0.0.dy
 if command -v ldid >/dev/null; then
     ldid -S "$bin" libSDL2-2.0.0.dylib
 else
-    codesign -s - "$bin" libSDL2-2.0.0.dylib
+    codesign -f -s - "$bin" libSDL2-2.0.0.dylib
 fi
 
 mkdir -p ../ReMCPE
