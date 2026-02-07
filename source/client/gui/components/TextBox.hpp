@@ -18,8 +18,6 @@ class Minecraft;
 
 #ifndef ORIGINAL_CODE
 
-// @TODO: Rename this to TextBox
-// Don't trash this in favor of Mojang's class, just mold it, since this is better at handling all platforms
 class TextBox : public GuiElement
 {
 private:

@@ -265,19 +265,19 @@ void ScrolledSelectionList::render(const MenuPointer& pointer, float f)
 	renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
 
 	t.begin(4);
-	t.color(0, 0);
+	t.color(0x000000, 0);
 	t.vertexUV(m_x1, m_y0 + 4.0f, 0.0f, 0.0f, 1.0f);
 	t.vertexUV(m_x0, m_y0 + 4.0f, 0.0f, 1.0f, 1.0f);
-	t.color(0, 255);
+	t.color(0x000000, 255);
 	t.vertexUV(m_x0, m_y0, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(m_x1, m_y0, 0.0f, 0.0f, 0.0f);
 	t.draw(m_materials.ui_fill_gradient);
 
 	t.begin(4);
-	t.color(0, 255);
+	t.color(0x000000, 255);
 	t.vertexUV(m_x1, m_y1, 0.0f, 0.0f, 1.0f);
 	t.vertexUV(m_x0, m_y1, 0.0f, 1.0f, 1.0f);
-	t.color(0, 0);
+	t.color(0x000000, 0);
 	t.vertexUV(m_x0, m_y1 - 4.0f, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(m_x1, m_y1 - 4.0f, 0.0f, 0.0f, 0.0f);
 	t.draw(m_materials.ui_fill_gradient);
@@ -300,25 +300,25 @@ void ScrolledSelectionList::render(const MenuPointer& pointer, float f)
 		int barRight = barLeft + 6;
 
 		t.begin(4);
-		t.color(0, 255);
-		t.vertexUV(barLeft, m_y1, 0.0, 0.0, 1.0);
-		t.vertexUV(barRight, m_y1, 0.0, 1.0, 1.0);
-		t.vertexUV(barRight, m_y0, 0.0, 1.0, 0.0);
-		t.vertexUV(barLeft, m_y0, 0.0, 0.0, 0.0);
+		t.color(0x000000, 255);
+		t.vertexUV(barLeft, m_y1, 0.0f, 0.0f, 1.0f);
+		t.vertexUV(barRight, m_y1, 0.0f, 1.0f, 1.0f);
+		t.vertexUV(barRight, m_y0, 0.0f, 1.0f, 0.0f);
+		t.vertexUV(barLeft, m_y0, 0.0f, 0.0f, 0.0f);
 		t.draw(m_materials.ui_fill_gradient);
 		t.begin(4);
-		t.color(8421504, 255);
-		t.vertexUV(barLeft, (barTop + barHeight), 0.0, 0.0, 1.0);
-		t.vertexUV(barRight, (barTop + barHeight), 0.0, 1.0, 1.0);
-		t.vertexUV(barRight, barTop, 0.0, 1.0, 0.0);
-		t.vertexUV(barLeft, barTop, 0.0, 0.0, 0.0);
+		t.color(0x808080, 255);
+		t.vertexUV(barLeft, (barTop + barHeight), 0.0f, 0.0f, 1.0f);
+		t.vertexUV(barRight, (barTop + barHeight), 0.0f, 1.0f, 1.0f);
+		t.vertexUV(barRight, barTop, 0.0f, 1.0f, 0.0f);
+		t.vertexUV(barLeft, barTop, 0.0f, 0.0f, 0.0f);
 		t.draw(m_materials.ui_fill_gradient);
 		t.begin(4);
-		t.color(12632256, 255);
-		t.vertexUV(barLeft, (barTop + barHeight - 1), 0.0, 0.0, 1.0);
-		t.vertexUV((barRight - 1), (barTop + barHeight - 1), 0.0, 1.0, 1.0);
-		t.vertexUV((barRight - 1), barTop, 0.0, 1.0, 0.0);
-		t.vertexUV(barLeft, barTop, 0.0, 0.0, 0.0);
+		t.color(0xC0C0C0, 255);
+		t.vertexUV(barLeft, (barTop + barHeight - 1), 0.0f, 0.0f, 1.0f);
+		t.vertexUV((barRight - 1), (barTop + barHeight - 1), 0.0f, 1.0f, 1.0f);
+		t.vertexUV((barRight - 1), barTop, 0.0f, 1.0f, 0.0f);
+		t.vertexUV(barLeft, barTop, 0.0f, 0.0f, 0.0f);
 		t.draw(m_materials.ui_fill_gradient);
 	}
 

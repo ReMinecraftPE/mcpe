@@ -32,17 +32,11 @@ SmallButton::SmallButton(int id, int x, int y, Options::OptionEntry* pOption, co
 bool SmallButton::clicked(Minecraft* mc, int xPos, int yPos)
 {
 	if (!Button::clicked(mc, xPos, yPos)) return false;
-	if (getOption())
+	if (m_pOption)
 	{
-		getOption()->toggle();
-		setMessage(getOption()->getMessage());
-		//mc->getOptions()->save();
+		getOption().toggle();
+		setMessage(getOption().getMessage());
 	}
 
 	return true;
-}
-
-Options::OptionEntry* SmallButton::getOption()
-{
-	return m_pOption;
 }

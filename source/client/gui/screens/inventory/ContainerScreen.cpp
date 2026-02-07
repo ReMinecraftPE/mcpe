@@ -118,7 +118,7 @@ void ContainerScreen::render(float partialTicks)
 
     if (!inv->getCarried() && hoveredSlot && hoveredSlot->hasItem())
     {
-        std::string name = Language::singleton().get(hoveredSlot->getItem().getDescriptionId() + ".name");
+        std::string name = Language::get(hoveredSlot->getItem().getDescriptionId() + ".name");
         if (!name.empty())
         {
             int tx = m_menuPointer.x - m_leftPos + 12;

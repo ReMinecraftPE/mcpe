@@ -39,7 +39,7 @@ void SwitchValuesButton::render(Minecraft* mc, int xPos, int yPos)
 
 	drawCenteredString(
 		*mc->m_pFont,
-		Language::singleton().get(getOption().getDisplayValue()),
+		Language::get(getOption().getDisplayValue()),
 		x + C_SWITCH_VALUES_WIDTH / 2,
 		y + (C_SWITCH_VALUES_HEIGHT - 8) / 2,
 		0xFFFFFF

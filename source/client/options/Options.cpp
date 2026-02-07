@@ -50,38 +50,38 @@ void Options::_initDefaultValues()
 }
 
 Options::Options(Minecraft* mc, const std::string& folderPath) :
-	m_pMinecraft(mc),
-	m_musicVolume("audio_music", "options.music", 1.0f),
-	m_masterVolume("audio_master", "options.sound", 1.0f),
-	m_sensitivity("ctrl_sensitivity", "options.sensitivity", 0.5f),
-	m_invertMouse("ctrl_invertmouse", "options.invertMouse", false),
-	m_viewDistance("gfx_viewdistance", "options.renderDistance", 1, ValuesBuilder().add("options.renderDistance.far").add("options.renderDistance.normal").add("options.renderDistance.short").add("options.renderDistance.tiny")),
-	m_viewBobbing("gfx_bobview", "options.viewBobbing", false),
-	m_anaglyphs("gfx_3danaglyphs", "options.anaglyph", false),
-	m_fancyGraphics("gfx_fancygraphics", "options.fancyGraphics", true),
-	m_ambientOcclusion("gfx_smoothlighting", "options.ao", Minecraft::useAmbientOcclusion),
-	m_difficulty("misc_difficulty", "options.difficulty", 2, ValuesBuilder().add("options.difficulty.peaceful").add("options.difficulty.easy").add("options.difficulty.normal").add("options.difficulty.hard")),
-	m_hideGui("gfx_hidegui", "options.hideGui", false),
-	m_thirdPerson("gfx_thirdperson", "options.thirdPerson", false),
-	m_flightHax("misc_flycheat", "options.flightHax", false),
-	m_playerName("mp_username", "options.username", "Steve"),
-	m_serverVisibleDefault("mp_server_visible_default", "options.serverVisibleDefault", true),
-	m_autoJump("ctrl_autojump", "options.autoJump", false),
-	m_debugText("info_debugtext", "options.debugText", false),
-	m_blockOutlines("gfx_blockoutlines", "options.blockOutlines", false),
-	m_fancyGrass("gfx_fancygrass", "options.fancyGrass", true),
-	m_biomeColors("gfx_biomecolors", "options.biomeColors", true),
-	m_splitControls("ctrl_split", "options.splitControls", false),
-	m_bUseController("ctrl_usecontroller", "options.useController", false),
-	m_dynamicHand("gfx_dynamichand", "options.dynamicHand", false),
-	m_b2dTitleLogo("misc_oldtitle", "options.2dTitleLogo", false),
-	m_menuPanorama("misc_menupano", "options.menuPanorama", true),
-	m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large"))),
-	m_lang("gfx_lang", "options.lang", "en_us")
-	//m_limitFramerate("gfx_fpslimit", "options.framerateLimit", 0, ValuesBuilder().add(performance.max").add("performance.balanced").add("performance.powersaver")),
-	//m_bMipmaps("gfx_mipmaps", "options.mipmaps"),
-	//m_moreWorldOptions("misc_moreworldoptions", "options.moreWorldOptions", true),
-	//m_vSync("enableVsync", "options.enableVsync")
+	m_pMinecraft(mc)
+	, m_musicVolume("audio_music", "options.music", 1.0f)
+	, m_masterVolume("audio_master", "options.sound", 1.0f)
+	, m_sensitivity("ctrl_sensitivity", "options.sensitivity", 0.5f)
+	, m_invertMouse("ctrl_invertmouse", "options.invertMouse", false)
+	, m_viewDistance("gfx_viewdistance", "options.renderDistance", 1, ValuesBuilder().add("options.renderDistance.far").add("options.renderDistance.normal").add("options.renderDistance.short").add("options.renderDistance.tiny"))
+	, m_viewBobbing("gfx_bobview", "options.viewBobbing", false)
+	, m_anaglyphs("gfx_3danaglyphs", "options.anaglyph", false)
+	, m_fancyGraphics("gfx_fancygraphics", "options.fancyGraphics", true)
+	, m_ambientOcclusion("gfx_smoothlighting", "options.ao", Minecraft::useAmbientOcclusion)
+	, m_difficulty("misc_difficulty", "options.difficulty", 2, ValuesBuilder().add("options.difficulty.peaceful").add("options.difficulty.easy").add("options.difficulty.normal").add("options.difficulty.hard"))
+	, m_hideGui("gfx_hidegui", "options.hideGui", false)
+	, m_thirdPerson("gfx_thirdperson", "options.thirdPerson", false)
+	, m_flightHax("misc_flycheat", "options.flightHax", false)
+	, m_playerName("mp_username", "options.username", "Steve")
+	, m_serverVisibleDefault("mp_server_visible_default", "options.serverVisibleDefault", true)
+	, m_autoJump("ctrl_autojump", "options.autoJump", false)
+	, m_debugText("info_debugtext", "options.debugText", false)
+	, m_blockOutlines("gfx_blockoutlines", "options.blockOutlines", false)
+	, m_fancyGrass("gfx_fancygrass", "options.fancyGrass", true)
+	, m_biomeColors("gfx_biomecolors", "options.biomeColors", true)
+	, m_splitControls("ctrl_split", "options.splitControls", false)
+	, m_bUseController("ctrl_usecontroller", "options.useController", false)
+	, m_dynamicHand("gfx_dynamichand", "options.dynamicHand", false)
+	, m_b2dTitleLogo("misc_oldtitle", "options.2dTitleLogo", false)
+	, m_menuPanorama("misc_menupano", "options.menuPanorama", true)
+	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
+	, m_lang("gfx_lang", "options.lang", "en_us")
+	//, m_limitFramerate("gfx_fpslimit", "options.framerateLimit", 0, ValuesBuilder().add(performance.max").add("performance.balanced").add("performance.powersaver"))
+	//, m_bMipmaps("gfx_mipmaps", "options.mipmaps")
+	//, m_moreWorldOptions("misc_moreworldoptions", "options.moreWorldOptions", true)
+	//, m_vSync("enableVsync", "options.enableVsync")
 {
 	add(m_musicVolume);
 	add(m_masterVolume);
@@ -567,12 +567,12 @@ void Options::initResourceDependentOptions()
 
 const std::string& Options::OptionEntry::getName() const
 {
-	return Language::singleton().get(m_name);
+	return Language::get(m_name);
 }
 
 std::string Options::OptionEntry::getMessage() const
 {
-	return Util::format(Language::singleton().get("options.value").c_str(), getName().c_str(), getDisplayValue().c_str());
+	return Util::format(Language::get("options.value").c_str(), getName().c_str(), getDisplayValue().c_str());
 }
 
 void Options::OptionEntry::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
@@ -594,7 +594,7 @@ void Options::GuiScaleOption::apply()
 
 std::string Options::FloatOption::getDisplayValue() const
 {
-	return get() == 0.0f ? Language::singleton().get("options.off") : saveInt(get() * 100) + "%";
+	return get() == 0.0f ? Language::get("options.off") : saveInt(get() * 100) + "%";
 }
 
 void Options::FloatOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
@@ -604,7 +604,7 @@ void Options::FloatOption::addGuiElement(std::vector<GuiElement*>& elements, con
 
 std::string Options::BoolOption::getDisplayValue() const
 {
-	return Language::singleton().get(get() ? "options.on" : "options.off");
+	return Language::get(get() ? "options.on" : "options.off");
 }
 
 void Options::BoolOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
@@ -625,10 +625,10 @@ void Options::GraphicsOption::apply()
 
 std::string Options::FancyGraphicsOption::getMessage() const
 {
-	return Util::format(Language::singleton().get("options.value").c_str(), Language::singleton().get("options.graphics").c_str(), Language::singleton().get(get() ? "options.graphics.fancy" : "options.graphics.fast").c_str());
+	return Util::format(Language::get("options.value").c_str(), Language::get("options.graphics").c_str(), Language::get(get() ? "options.graphics.fancy" : "options.graphics.fast").c_str());
 }
 
 std::string Options::SensitivityOption::getDisplayValue() const
 {
-	return get() == 0.0f ? Language::singleton().get("options.sensitivity.min") : get() == 1.0f ? Language::singleton().get("options.sensitivity.max") : saveInt(get() * 200) + "%";
+	return get() == 0.0f ? Language::get("options.sensitivity.min") : get() == 1.0f ? Language::get("options.sensitivity.max") : saveInt(get() * 200) + "%";
 }
