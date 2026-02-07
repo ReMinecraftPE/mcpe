@@ -10,7 +10,6 @@ targets='i386-apple-macos10.7 x86_64-apple-macos10.7 arm64-apple-macos11.0'
 bin='reminecraftpe'
 
 platformdir=$PWD
-entitlements="$platformdir/minecraftpe.entitlements"
 
 workdir="$PWD/build/work"
 arm64_sdk="$workdir/arm64-mac-sdk"
@@ -33,9 +32,9 @@ if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     (
     # for x86
     [ -d "$x86_sdk" ] && rm -rf "$x86_sdk"
-    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.10/MacOSX10.10.tar.bz2
-    tar xf MacOSX10.10.tar.bz2
-    mv MacOSX10.10.sdk "$x86_sdk"
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.11/MacOSX10.11.tar.bz2
+    tar xf MacOSX10.11.tar.bz2
+    mv MacOSX10.11.sdk "$x86_sdk"
     )
     wait
     rm ./*.tar.bz2
