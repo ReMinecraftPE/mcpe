@@ -155,7 +155,6 @@ jobs:
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-
           - name: Build macOS binary
             run: ./platforms/macos/build.sh
             env:
@@ -203,7 +202,6 @@ jobs:
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-
           - name: Build iOS binary
             run: ./platforms/ios/build.sh
             env:
