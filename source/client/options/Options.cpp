@@ -625,7 +625,7 @@ void Options::GraphicsOption::apply()
 
 std::string Options::FancyGraphicsOption::getMessage() const
 {
-	return Util::format(Language::singleton().get("options.value").c_str(), Language::singleton().get("options.graphics").c_str(), Language::singleton().get(get() ? "options.graphics.fancy" : "options.graphics.fast"));
+	return Util::format(Language::singleton().get("options.value").c_str(), Language::singleton().get("options.graphics").c_str(), Language::singleton().get(get() ? "options.graphics.fancy" : "options.graphics.fast").c_str());
 }
 
 std::string Options::SensitivityOption::getDisplayValue() const
