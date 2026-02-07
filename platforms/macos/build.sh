@@ -133,6 +133,7 @@ if [ -n "$outdated_toolchain" ]; then
         cd ..
         rm -rf "ldid-$ldid_commit"
     fi
+    rm -rf include
     printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
 fi
 
