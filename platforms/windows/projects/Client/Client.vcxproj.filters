@@ -146,7 +146,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SmallButton.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\TextBox.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TextBox.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.hpp">
@@ -611,13 +611,13 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.hpp">
       <Filter>Header Files\GUI\Screens\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\SliderButton.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SliderButton.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\SwitchButton.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SwitchButton.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\SwitchValuesButton.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -637,7 +637,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SmallButton.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TextInputBox.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TextBox.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.cpp">
@@ -1081,13 +1081,13 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.cpp">
       <Filter>Source Files\GUI\Screens\Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\SliderButton.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SliderButton.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\SwitchButton.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchButton.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\SwitchValuesButton.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
   </ItemGroup>
