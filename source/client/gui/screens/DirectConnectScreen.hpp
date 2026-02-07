@@ -25,7 +25,7 @@ public:
 	void onTextBoxUpdated(int id) override;
 
 private:
-	TextInputBox m_textAddress;
+	TextBox m_textAddress;
 	Button m_btnCancel;
 	Button m_btnJoin;
 };

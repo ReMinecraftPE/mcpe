@@ -115,8 +115,11 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/AvailableGamesList.cpp
     client/gui/components/RolledSelectionList.cpp
     client/gui/components/Button.cpp
-    client/gui/components/TextInputBox.cpp
+    client/gui/components/TextBox.cpp
     client/gui/components/SmallButton.cpp
+    client/gui/components/SliderButton.cpp
+    client/gui/components/SwitchButton.cpp
+    client/gui/components/SwitchValuesButton.cpp
     client/gui/components/WorldSelectionList.cpp
     client/gui/components/OptionList.cpp
     client/locale/Language.cpp

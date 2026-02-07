@@ -1,7 +1,12 @@
 #include "GuiElement.hpp"
 
-GuiElement::GuiElement()
+GuiElement::GuiElement(int id)
 {
+	m_ID = id;
+	m_width = 0;
+	m_height = 0;
+	m_xPos = 0;
+	m_yPos = 0;
 	m_bEnabled = true;
 	m_bVisible = true;
 	m_bSelected = false;
@@ -49,4 +54,9 @@ void GuiElement::setFocused(bool value)
 	m_bHasFocus = value;
 	if (prev != value)
 		_onFocusChanged();
+}
+
+void GuiElement::setMessage(const std::string& message)
+{
+	m_message = message;
 }

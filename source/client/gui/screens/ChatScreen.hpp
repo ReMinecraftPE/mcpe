@@ -23,7 +23,7 @@ public:
 	void sendMessageAndExit();
 
 private:
-	TextInputBox m_textChat;
+	TextBox m_textChat;
 	Button m_btnSend;
 };
 

@@ -432,7 +432,7 @@
 		84B8AEEE2AF1890A008DE93D /* RolledSelectionList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD58C2AC810620006A435 /* RolledSelectionList.cpp */; };
 		84B8AEEF2AF1890A008DE93D /* ScrolledSelectionList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD58E2AC810620006A435 /* ScrolledSelectionList.cpp */; };
 		84B8AEF02AF1890A008DE93D /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5902AC810620006A435 /* SmallButton.cpp */; };
-		84B8AEF12AF1890A008DE93D /* TextInputBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5922AC810620006A435 /* TextInputBox.cpp */; };
+		84B8AEF12AF1890A008DE93D /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5922AC810620006A435 /* TextBox.cpp */; };
 		84B8AEF22AF1890A008DE93D /* WorldSelectionList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5942AC810620006A435 /* WorldSelectionList.cpp */; };
 		84B8AEF32AF1890A008DE93D /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5962AC810620006A435 /* Gui.cpp */; };
 		84B8AEF42AF1890A008DE93D /* GuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5982AC810620006A435 /* GuiComponent.cpp */; };
@@ -474,7 +474,7 @@
 		84B8AF3C2AF189D8008DE93D /* RolledSelectionList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD58D2AC810620006A435 /* RolledSelectionList.hpp */; };
 		84B8AF3D2AF189D8008DE93D /* ScrolledSelectionList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */; };
 		84B8AF3E2AF189D8008DE93D /* SmallButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5912AC810620006A435 /* SmallButton.hpp */; };
-		84B8AF3F2AF189D8008DE93D /* TextInputBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5932AC810620006A435 /* TextInputBox.hpp */; };
+		84B8AF3F2AF189D8008DE93D /* TextBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5932AC810620006A435 /* TextBox.hpp */; };
 		84B8AF402AF189D8008DE93D /* WorldSelectionList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5952AC810620006A435 /* WorldSelectionList.hpp */; };
 		84B8AF412AF189D8008DE93D /* Gui.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5972AC810620006A435 /* Gui.hpp */; };
 		84B8AF422AF189D8008DE93D /* GuiComponent.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5992AC810620006A435 /* GuiComponent.hpp */; };
@@ -1565,8 +1565,8 @@
 		840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScrolledSelectionList.hpp; sourceTree = "<group>"; };
 		840DD5902AC810620006A435 /* SmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallButton.cpp; sourceTree = "<group>"; };
 		840DD5912AC810620006A435 /* SmallButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SmallButton.hpp; sourceTree = "<group>"; };
-		840DD5922AC810620006A435 /* TextInputBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputBox.cpp; sourceTree = "<group>"; };
-		840DD5932AC810620006A435 /* TextInputBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextInputBox.hpp; sourceTree = "<group>"; };
+		840DD5922AC810620006A435 /* TextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
+		840DD5932AC810620006A435 /* TextBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextBox.hpp; sourceTree = "<group>"; };
 		840DD5942AC810620006A435 /* WorldSelectionList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldSelectionList.cpp; sourceTree = "<group>"; };
 		840DD5952AC810620006A435 /* WorldSelectionList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldSelectionList.hpp; sourceTree = "<group>"; };
 		840DD5962AC810620006A435 /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
@@ -3213,8 +3213,8 @@
 				840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */,
 				840DD5902AC810620006A435 /* SmallButton.cpp */,
 				840DD5912AC810620006A435 /* SmallButton.hpp */,
-				840DD5922AC810620006A435 /* TextInputBox.cpp */,
-				840DD5932AC810620006A435 /* TextInputBox.hpp */,
+				840DD5922AC810620006A435 /* TextBox.cpp */,
+				840DD5932AC810620006A435 /* TextBox.hpp */,
 				840DD5942AC810620006A435 /* WorldSelectionList.cpp */,
 				840DD5952AC810620006A435 /* WorldSelectionList.hpp */,
 			);
@@ -5474,7 +5474,7 @@
 				84B8AF3C2AF189D8008DE93D /* RolledSelectionList.hpp in Headers */,
 				84B8AF3D2AF189D8008DE93D /* ScrolledSelectionList.hpp in Headers */,
 				84B8AF3E2AF189D8008DE93D /* SmallButton.hpp in Headers */,
-				84B8AF3F2AF189D8008DE93D /* TextInputBox.hpp in Headers */,
+				84B8AF3F2AF189D8008DE93D /* TextBox.hpp in Headers */,
 				84EB09F02EE2CCA8008FB007 /* Fog.hpp in Headers */,
 				84EB09D72EE2CC86008FB007 /* SheepFurModel.hpp in Headers */,
 				84B8AF402AF189D8008DE93D /* WorldSelectionList.hpp in Headers */,
@@ -6605,7 +6605,7 @@
 				84B8AEEE2AF1890A008DE93D /* RolledSelectionList.cpp in Sources */,
 				84B8AEEF2AF1890A008DE93D /* ScrolledSelectionList.cpp in Sources */,
 				84B8AEF02AF1890A008DE93D /* SmallButton.cpp in Sources */,
-				84B8AEF12AF1890A008DE93D /* TextInputBox.cpp in Sources */,
+				84B8AEF12AF1890A008DE93D /* TextBox.cpp in Sources */,
 				84EB09F12EE2CCA8008FB007 /* EntityShaderManager.cpp in Sources */,
 				84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */,
 				84B8AEF22AF1890A008DE93D /* WorldSelectionList.cpp in Sources */,

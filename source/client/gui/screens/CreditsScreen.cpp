@@ -107,6 +107,6 @@ bool CreditsScreen::handleBackEvent(bool b)
 
 void CreditsScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnBack.m_buttonId)
+	if (pButton->getId() == m_btnBack.getId())
 		m_pMinecraft->setScreen(new StartMenuScreen);
 }

@@ -288,16 +288,16 @@ void IngameBlockSelectionScreen::render(float f)
 
 void IngameBlockSelectionScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnPause.m_buttonId)
+	if (pButton->getId() == m_btnPause.getId())
 		m_pMinecraft->setScreen(new PauseScreen);
 
-	if (pButton->m_buttonId == m_btnChat.m_buttonId)
+	if (pButton->getId() == m_btnChat.getId())
         m_pMinecraft->setScreen(new ChatScreen(true));
 
-		/*if (pButton->m_buttonId == m_btnCraft.m_buttonId)
+		/*if (pButton->getId() == m_btnCraft.getId())
 		m_pMinecraft->setScreen(new CraftingScreen(m_pMinecraft->m_pLocalPlayer));*/
 
-	/*if (pButton->m_buttonId == m_btnArmor.m_buttonId)
+	/*if (pButton->getId() == m_btnArmor.getId())
 		m_pMinecraft->setScreen(new ArmorScreen(m_pMinecraft->m_pLocalPlayer));*/
 }
 

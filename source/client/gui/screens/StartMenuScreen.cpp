@@ -550,7 +550,7 @@ void StartMenuScreen::_updateLicense()
 
 void StartMenuScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_startButton.m_buttonId)
+	if (pButton->getId() == m_startButton.getId())
 	{
 #if defined(DEMO)
 		m_pMinecraft->selectLevel("_DemoLevel", "_DemoLevel", int(getEpochTimeS()));
@@ -558,12 +558,12 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 		m_pMinecraft->setScreen(new SelectWorldScreen);
 #endif
 	}
-	else if (pButton->m_buttonId == m_joinButton.m_buttonId)
+	else if (pButton->getId() == m_joinButton.getId())
 	{
 		m_pMinecraft->locateMultiplayer();
 		m_pMinecraft->setScreen(new JoinGameScreen);
 	}
-	else if (pButton->m_buttonId == m_buyButton.m_buttonId)
+	else if (pButton->getId() == m_buyButton.getId())
 	{
 #ifdef TITLE_CROP_MODE
 		TitleTile::regenerate();
@@ -576,11 +576,11 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 		m_pMinecraft->quit();
 #endif
 	}
-	else if (pButton->m_buttonId == m_optionsButton.m_buttonId)
+	else if (pButton->getId() == m_optionsButton.getId())
 	{
 		m_pMinecraft->setScreen(new OptionsScreen);
 	}
-	else if (pButton->m_buttonId == m_creditsButton.m_buttonId)
+	else if (pButton->getId() == m_creditsButton.getId())
 	{
 		m_pMinecraft->setScreen(new CreditsScreen);
 	}
@@ -652,7 +652,7 @@ void StartMenuScreen::init()
 	field_188 = (m_width - m_pFont->width(field_170)) / 2;
 
 #ifndef DEMO
-	m_buyButton.m_text = "Quit";
+	m_buyButton.setMessage("Quit");
 #endif
 
 	_initResources();
@@ -815,7 +815,7 @@ void StartMenuScreen::render(float f)
 		titleYPos = 4;
 	}
 
-	if (m_pMinecraft->getOptions()->m_b2dTitleLogo)
+	if (m_pMinecraft->getOptions()->m_b2dTitleLogo.get())
 		draw2dTitle();
 	else
 		draw3dTitle(f);

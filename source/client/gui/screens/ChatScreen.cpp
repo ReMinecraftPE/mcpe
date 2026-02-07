@@ -18,7 +18,7 @@ ChatScreen::ChatScreen(bool slash) : m_textChat(this, 1, 0, 0), m_btnSend(2, 0, 
 
 void ChatScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnSend.m_buttonId)
+	if (pButton->getId() == m_btnSend.getId())
 		sendMessageAndExit();
 }
 

@@ -11,11 +11,6 @@
 
 void Button::_init()
 {
-	m_width = 0;
-	m_height = 0;
-	m_xPos = 0;
-	m_yPos = 0;
-	m_text = "";
 	m_color = Color::WHITE;
 
 #ifndef ORIGINAL_CODE
@@ -24,36 +19,33 @@ void Button::_init()
 #endif
 }
 
-Button::Button(int buttonId, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text)
+Button::Button(int buttonId, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text) : GuiElement(buttonId)
 {
 	_init();
 
-	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
-	m_text = text;
+	setMessage(text);
 	m_width  = btnWidth;
 	m_height = btnHeight;
 }
 
-Button::Button(int buttonId, int xPos, int yPos, const std::string& text)
+Button::Button(int buttonId, int xPos, int yPos, const std::string& text) : GuiElement(buttonId)
 {
 	_init();
 
-	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
-	m_text = text;
+	setMessage(text);
 	m_width  = 200;
 	m_height = 24;
 }
 
-Button::Button(int buttonId, const std::string& text)
+Button::Button(int buttonId, const std::string& text) : GuiElement(buttonId)
 {
 	_init();
 
-	m_buttonId = buttonId;
-	m_text = text;
+	setMessage(text);
 	m_width  = 200;
 	m_height = 24;
 }
@@ -67,6 +59,10 @@ bool Button::clicked(Minecraft* pMinecraft, int xPos, int yPos)
 	if (yPos >= m_yPos + m_height) return false;
 
 	return true;
+}
+
+void Button::pressed(Minecraft*, int xPos, int yPos)
+{
 }
 
 int Button::getYImage(bool bHovered)
@@ -117,5 +113,5 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	else
 		textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
 
-	drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
+	drawCenteredString(font, getMessage(), m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 }

@@ -27,19 +27,14 @@ public:
 
 public:
 	// I can't possibly explain why Minecraft is referenced here
-	bool clicked(Minecraft*, int xPos, int yPos);
-	int  getYImage(bool bHovered);
-	void released(int xPos, int yPos);
-	void renderBg(Minecraft*, int, int);
-	void render(Minecraft*, int xPos, int yPos);
+	virtual bool clicked(Minecraft*, int xPos, int yPos);
+	virtual void pressed(Minecraft*, int xPos, int yPos);
+	virtual int  getYImage(bool bHovered);
+	virtual void released(int xPos, int yPos);
+	virtual void renderBg(Minecraft*, int, int);
+	virtual void render(Minecraft*, int xPos, int yPos);
 
 public:
-	int m_width;
-	int m_height;
-	int m_xPos;
-	int m_yPos;
-	std::string m_text;
-	int m_buttonId;
 	Color m_color;
 
 #ifndef ORIGINAL_CODE

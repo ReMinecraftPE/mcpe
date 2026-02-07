@@ -15,8 +15,8 @@ void Language::init(Options* options)
 
     //@NOTE: Should be used for custom lang entries
     loadLanguageFile("lang/en_us.json");
-    //if (options->m_lang.get() != "en_us")
-    //    loadLanguageFile("lang/" + options->m_lang.get() + ".json");
+    if (options->m_lang.get() != "en_us")
+        loadLanguageFile("lang/" + options->m_lang.get() + ".json");
 }
 
 bool Language::loadLanguageFile(const std::string& path)

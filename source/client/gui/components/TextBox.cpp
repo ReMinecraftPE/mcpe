@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "TextInputBox.hpp"
+#include "TextBox.hpp"
 #include "common/Logger.hpp"
 #include "compat/KeyCodes.hpp"
 #include "client/app/Minecraft.hpp"
@@ -21,9 +21,8 @@ static bool IsInvalidCharacter(char c)
 	return c == '\n' || c < ' ' || c > '~';
 }
 
-TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
+TextBox::TextBox(Screen* parent, int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text) : GuiElement(id)
 {
-	m_ID = id;
 	m_xPos = x;
 	m_yPos = y;
 	m_width = width;
@@ -39,12 +38,12 @@ TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int 
 	m_scrollPos = 0;
 }
 
-TextInputBox::~TextInputBox()
+TextBox::~TextBox()
 {
 	m_pParent->m_pMinecraft->platform()->hideKeyboard();
 }
 
-void TextInputBox::_onFocusChanged()
+void TextBox::_onFocusChanged()
 {
 	if (hasFocus())
 	{
@@ -71,7 +70,7 @@ void TextInputBox::_onFocusChanged()
 	// - we may be undoing the work of another text box
 }
 
-void TextInputBox::init(Font* pFont)
+void TextBox::init(Font* pFont)
 {
 	m_pFont = pFont;
 }
@@ -125,7 +124,7 @@ void TextInputBox::init(Font* pFont)
 
 #ifndef HANDLE_CHARS_SEPARATELY
 
-char TextInputBox::guessCharFromKey(int key) {
+char TextBox::guessCharFromKey(int key) {
 	bool bShiftPressed = m_pParent->m_pMinecraft->platform()->shiftPressed();
 	char chr = '\0';
 	if (key >= AKEYCODE_A && key <= AKEYCODE_Z)
@@ -181,7 +180,7 @@ char TextInputBox::guessCharFromKey(int key) {
 
 #endif
 
-void TextInputBox::keyPressed(int key)
+void TextBox::keyPressed(int key)
 {
 	if (!hasFocus())
 	{
@@ -246,7 +245,7 @@ void TextInputBox::keyPressed(int key)
 	}
 }
 
-void TextInputBox::tick()
+void TextBox::tick()
 {
 	if (!m_lastFlashed)
 		m_lastFlashed = getTimeMs();
@@ -265,12 +264,12 @@ void TextInputBox::tick()
 	}
 }
 
-void TextInputBox::onClick(int x, int y)
+void TextBox::onClick(int x, int y)
 {
 	setFocused(clicked(x, y));
 }
 
-void TextInputBox::charPressed(int k)
+void TextBox::charPressed(int k)
 {
 	if (!hasFocus())
 		return;
@@ -336,10 +335,10 @@ void TextInputBox::charPressed(int k)
             break;
         }
     }
-	m_pParent->onTextBoxUpdated(m_ID);
+	m_pParent->onTextBoxUpdated(getId());
 }
 
-void TextInputBox::pasteText(const std::string& text)
+void TextBox::pasteText(const std::string& text)
 {
 	if (!hasFocus())
 		return;
@@ -352,11 +351,11 @@ void TextInputBox::pasteText(const std::string& text)
 		m_insertHead += int(sanitizedText.length());
 		recalculateScroll();
 
-		m_pParent->onTextBoxUpdated(m_ID);
+		m_pParent->onTextBoxUpdated(getId());
 	}
 }
 
-std::string TextInputBox::_sanitizePasteText(const std::string& text) const
+std::string TextBox::_sanitizePasteText(const std::string& text) const
 {
 	// check max size, can we add any further text?
 	if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
@@ -384,7 +383,7 @@ std::string TextInputBox::_sanitizePasteText(const std::string& text) const
 
 constexpr int PADDING = 5;
 
-std::string TextInputBox::getRenderedText(int scroll_pos, std::string text)
+std::string TextBox::getRenderedText(int scroll_pos, std::string text)
 {
 	// Not the most efficient code.
 	// But it does not run often enough to matter.
@@ -400,7 +399,7 @@ std::string TextInputBox::getRenderedText(int scroll_pos, std::string text)
 
 constexpr char CURSOR_CHAR = '_';
 
-void TextInputBox::render()
+void TextBox::render()
 {
 	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, 0xFFAAAAAA);
 	fill(m_xPos + 1, m_yPos + 1, m_xPos + m_width - 1, m_yPos + m_height - 1, 0xFF000000);
@@ -440,7 +439,7 @@ void TextInputBox::render()
 	}
 }
 
-bool TextInputBox::clicked(int xPos, int yPos)
+bool TextBox::clicked(int xPos, int yPos)
 {
 	if (!isEnabled()) return false;
 
@@ -452,7 +451,7 @@ bool TextInputBox::clicked(int xPos, int yPos)
 	return true;
 }
 
-void TextInputBox::recalculateScroll()
+void TextBox::recalculateScroll()
 {
 	// Skip If Size Unset
 	if (m_width == 0)
@@ -519,18 +518,13 @@ void TextInputBox::recalculateScroll()
 	}
 }
 
-std::string TextInputBox::getText()
-{
-	return m_text;
-}
-
-void TextInputBox::setText(const std::string& text)
+void TextBox::setText(const std::string& text)
 {
 	m_text = text;
 	m_insertHead = int(m_text.size());
 }
 
-void TextInputBox::setMaxLength(int max_length)
+void TextBox::setMaxLength(int max_length)
 {
 	m_maxLength = max_length;
 }

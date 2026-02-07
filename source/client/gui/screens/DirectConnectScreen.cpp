@@ -19,7 +19,7 @@ DirectConnectScreen::DirectConnectScreen() :
 
 void DirectConnectScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnJoin.m_buttonId)
+	if (pButton->getId() == m_btnJoin.getId())
 	{
 		if (m_textAddress.getText().empty())
 			return;
@@ -41,7 +41,7 @@ void DirectConnectScreen::_buttonClicked(Button* pButton)
 		m_btnJoin.setEnabled(false);
 		m_textAddress.setEnabled(false);
 	}
-	else if (pButton->m_buttonId == m_btnCancel.m_buttonId)
+	else if (pButton->getId() == m_btnCancel.getId())
 	{
 		DirectConnectScreen::handleBackEvent(false);
 	}
@@ -96,7 +96,7 @@ bool DirectConnectScreen::handleBackEvent(bool b)
 
 void DirectConnectScreen::onTextBoxUpdated(int id)
 {
-	if (id == m_textAddress.getKey())
+	if (id == m_textAddress.getId())
 	{
 		if (m_textAddress.getText().empty())
 			m_btnJoin.setEnabled(false);

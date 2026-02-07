@@ -19,7 +19,7 @@ public:
 	};
 
 public:
-	GuiElement();
+	GuiElement(int id);
 
 public:
 	void setBackground(const Color& color);
@@ -34,7 +34,10 @@ public:
 	virtual void setVisible(bool isVisible);
 	virtual void setSelected(bool isSelected);
 	virtual void setFocused(bool hasFocus);
+	virtual void setMessage(const std::string& message);
 	virtual Type getType() const { return TYPE_UNKNOWN; }
+	virtual const std::string& getMessage() { return m_message; }
+	virtual int getId() const { return m_ID; }
 	
 public:
 	bool isEnabled() const { return m_bEnabled; }
@@ -43,10 +46,18 @@ public:
 	bool hasFocus() const { return m_bHasFocus; }
 
 private:
+	std::string m_message;
+	int m_ID;
 	bool m_bEnabled;
 	bool m_bVisible;
 	Color m_backgroundColor;
 	bool m_bSelected;
 	bool m_bHasFocus;
+
+public:
+	int m_width;
+	int m_height;
+	int m_xPos;
+	int m_yPos;
 };
 

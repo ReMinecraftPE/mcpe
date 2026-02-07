@@ -317,6 +317,7 @@ void Screen::keyPressed(int key)
 				{
 					Button* button = (Button*)element;
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
+					button->pressed(m_pMinecraft, button->m_xPos, button->m_yPos);
 					_buttonClicked(button);
 				}
 			}
@@ -328,7 +329,7 @@ void Screen::keyPressed(int key)
 	
 	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
-		TextInputBox* textInput = m_textInputs[i];
+		TextBox* textInput = m_textInputs[i];
 		textInput->keyPressed(key);
 	}
 }
@@ -337,7 +338,7 @@ void Screen::keyboardNewChar(char chr)
 {
 	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
-		TextInputBox* textInput = m_textInputs[i];
+		TextBox* textInput = m_textInputs[i];
 		textInput->charPressed(chr);
 	}
 }
@@ -346,7 +347,7 @@ void Screen::keyboardTextPaste(const std::string& text)
 {
 	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
-		TextInputBox* textInput = m_textInputs[i];
+		TextBox* textInput = m_textInputs[i];
 		textInput->pasteText(text);
 	}
 }
@@ -365,7 +366,7 @@ static float g_panoramaAngle = 0.0f;
 
 void Screen::renderMenuBackground(float f)
 {
-	if (!m_pMinecraft->getOptions()->m_bMenuPanorama)
+	if (!m_pMinecraft->getOptions()->m_menuPanorama.get())
 	{
 		renderDirtBackground(0);
 		return;
@@ -467,6 +468,7 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
 				else
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_CLICK);
+				button->pressed(m_pMinecraft, xPos, yPos);
 				_buttonClicked(button);
 			}
 		}
@@ -481,7 +483,7 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 		bool handleFocused = phase == 0;
 		for (size_t i = 0; i < m_textInputs.size(); i++)
 		{
-			TextInputBox* textInput = m_textInputs[i];
+			TextBox* textInput = m_textInputs[i];
 			if (textInput->hasFocus() == handleFocused)
 			{
 				textInput->onClick(xPos, yPos);
@@ -497,7 +499,7 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 		bool areAnyFocused = false;
 		for (size_t i = 0; i < m_textInputs.size(); i++)
 		{
-			TextInputBox* textInput = m_textInputs[i];
+			TextBox* textInput = m_textInputs[i];
 			if (textInput->hasFocus())
 			{
 				areAnyFocused = true;
@@ -521,6 +523,7 @@ void Screen::pointerReleased(int xPos, int yPos, MouseButtonType btn)
 		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_RELEASE);
+			m_pClickedButton->pressed(m_pMinecraft, xPos, yPos);
 			_buttonClicked(m_pClickedButton);
 		}
 		m_pClickedButton->released(xPos, yPos);
@@ -543,7 +546,7 @@ void Screen::render(float a)
 #ifndef ORIGINAL_CODE
 	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
-		TextInputBox* textInput = m_textInputs[i];
+		TextBox* textInput = m_textInputs[i];
 		textInput->tick();
 		textInput->render();
 	}
@@ -660,7 +663,7 @@ int Screen::getYOffset() const
 	// and determine its offset from there
 	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
-		const TextInputBox* pBox = m_textInputs[i];
+		const TextBox* pBox = m_textInputs[i];
 
 		if (!pBox->hasFocus())
 			continue;
@@ -903,7 +906,7 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 	if (m_bRenderPointer && stick.id == 1)
 	{
 		// Behold pizzart's magic numbers
-		float baseSensitivity = m_pMinecraft->getOptions()->m_fSensitivity;
+		float baseSensitivity = m_pMinecraft->getOptions()->m_sensitivity.get();
 		float sensitivity = baseSensitivity * 2.0f;
 		float moveSensitivity = baseSensitivity * 2.0f;
 		//float affectY = Mth::clamp((sensitivity - 0.4f) * 1.67f, 0, 1);

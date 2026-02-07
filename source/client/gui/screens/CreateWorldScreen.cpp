@@ -50,12 +50,12 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 
 void CreateWorldScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnBack.m_buttonId)
+	if (pButton->getId() == m_btnBack.getId())
 	{
 		handleBackEvent(false);
 	}
 
-	if (pButton->m_buttonId == m_btnCreate.m_buttonId)
+	if (pButton->getId() == m_btnCreate.getId())
 	{
 		std::string nameStr = m_textName.getText();
 		std::string seedStr = m_textSeed.getText();

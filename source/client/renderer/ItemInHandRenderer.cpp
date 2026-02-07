@@ -62,7 +62,7 @@ void ItemInHandRenderer::render(float a)
 
     MatrixStack::Ref matrix = MatrixStack::World.push();
 
-	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pCameraEntity == pLP)
+	if (m_pMinecraft->getOptions()->m_dynamicHand.get() && m_pMinecraft->m_pCameraEntity == pLP)
 	{
 		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmRot.x, pLP->m_renderArmRot.x, a);
 		float rPitch = Mth::Lerp(pLP->m_lastRenderArmRot.y, pLP->m_renderArmRot.y, a);
@@ -287,7 +287,7 @@ void ItemInHandRenderer::renderScreenEffect(float a)
         renderFire(a);
     }
 
-    if (player->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
+    if (player->isInWall() && !m_pMinecraft->getOptions()->m_flightHax.get())
     {
         textures->loadAndBindTexture(C_TERRAIN_NAME);
 

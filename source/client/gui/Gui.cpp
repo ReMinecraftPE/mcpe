@@ -170,14 +170,14 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	_updateHudPositions();
 
-	if (mc.getOptions()->m_bFancyGraphics && isVignetteAvailable())
+	if (mc.getOptions()->m_fancyGraphics.get() && isVignetteAvailable())
 	{
 		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
 	}
 
 	ItemStack& headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(Item::SLOT_HEAD);
 
-	if (!mc.getOptions()->m_bThirdPerson && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
+	if (!mc.getOptions()->m_thirdPerson.get() && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
 		renderPumpkin(m_width, m_height);
 
 	currentShaderColor = Color::WHITE;
@@ -555,7 +555,7 @@ void Gui::renderProgressIndicator(int width, int height)
 		// if needed, draw feedback
 
 		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
-		// "last progress". Well guess what? The game mode in question updates our m_fSensitivity with
+		// "last progress". Well guess what? The game mode in question updates our m_sensitivity with
 		// the pre-interpolated break progress! Isn't that awesome?!
 		float breakProgress = m_progress;
 

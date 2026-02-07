@@ -13,11 +13,11 @@
 #include "client/player/input/Keyboard.hpp"
 #include "client/player/input/GameController.hpp"
 #include "components/Button.hpp"
-#include "components/TextInputBox.hpp"
+#include "components/TextBox.hpp"
 #include "MenuPointer.hpp"
 
 class Button;
-class TextInputBox;
+class TextBox;
 
 typedef std::vector<GuiElement*> GuiElementList;
 
@@ -155,7 +155,7 @@ public:
 	Button* m_pClickedButton;
 
 #ifndef ORIGINAL_CODE
-	std::vector<TextInputBox*> m_textInputs;
+	std::vector<TextBox*> m_textInputs;
 	int m_yOffset;
 #endif
 

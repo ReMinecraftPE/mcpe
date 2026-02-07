@@ -26,8 +26,8 @@ public:
 	bool handleBackEvent(bool b) override;
 
 public:
-	TextInputBox m_textName;
-	TextInputBox m_textSeed;
+	TextBox m_textName;
+	TextBox m_textSeed;
 	Button m_btnBack;
 	Button m_btnCreate;
 };

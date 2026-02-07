@@ -18,7 +18,7 @@ public:
 	int getNumberOfItems() override;
 	bool isSelectedItem(int i) override;
 	void renderBackground(float f) override;
-	void renderItem(int, int, int, int, Tesselator& t) override;
+	void renderItem(int, int, int, int, const MenuPointer& pointer, Tesselator& t) override;
 	void selectItem(int, bool) override;
 
 public:
