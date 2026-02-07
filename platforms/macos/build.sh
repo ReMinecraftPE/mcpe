@@ -52,12 +52,10 @@ if [ "$(uname -s)" = "Darwin" ]; then
     ar="${AR:-ar}"
     ranlib="${RANLIB:-ranlib}"
     strip='strip'
-    installnametool='install_name_tool'
 else
     ar="${AR:-"llvm-ar"}"
     ranlib="${RANLIB:-"llvm-ranlib"}"
     strip='cctools-strip'
-    installnametool='llvm-install-name-tool'
 fi
 
 for var in ar ranlib; do
@@ -116,9 +114,10 @@ if [ -n "$outdated_toolchain" ]; then
     mv ld64/src/ld/ld ../../bin/ld64.ld64
     make -C libmacho -j"$ncpus"
     make -C libstuff -j"$ncpus"
-    make -C misc strip lipo
+    make -C misc strip lipo install_name_tool
     cp misc/strip ../../bin/cctools-strip
     cp misc/lipo ../../bin/lipo
+    cp misc/lipo ../../bin/install_name_tool
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
@@ -211,7 +210,7 @@ lipo -create build-*/libSDL2-2.0.0.dylib -output libSDL2-2.0.0.dylib
     "$strip" -no_code_signature_warning "$bin"
     "$strip" -no_code_signature_warning -x libSDL2-2.0.0.dylib
 }
-"$installnametool" -change libSDL2-2.0.0.dylib '@executable_path/libSDL2-2.0.0.dylib' "$bin"
+install_name_tool -change libSDL2-2.0.0.dylib '@executable_path/libSDL2-2.0.0.dylib' "$bin"
 if command -v ldid >/dev/null; then
     ldid -S "$bin" libSDL2-2.0.0.dylib
 else

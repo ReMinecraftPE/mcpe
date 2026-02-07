@@ -126,13 +126,8 @@ jobs:
     macos:
         strategy:
             fail-fast: false
-            matrix: # TODO add PPC build
-                include:
-                  - name: SDL 2
-                    backend_name: 'SDL2'
-                    packages: 'libsdl2'
         name: macOS (${{ matrix.name }})
-        runs-on: macos-15
+        runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v6
