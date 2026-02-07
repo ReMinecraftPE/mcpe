@@ -218,6 +218,6 @@ else
     codesign -s - "$bin" libSDL2-2.0.0.dylib
 fi
 
-mkdir -p ReMCPE
-cp -a "$platformdir/../../game/assets" ReMCPE
-mv "$bin" libSDL2-2.0.0.dylib ReMCPE
+mkdir -p ../ReMCPE
+cp -a "$platformdir/../../game/assets" ../ReMCPE
+mv "$bin" libSDL2-2.0.0.dylib ../ReMCPE
