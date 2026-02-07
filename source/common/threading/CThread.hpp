@@ -10,6 +10,8 @@
 
 // CThread - Object oriented pthread wrapper
 
+#include <stdint.h>
+
 #ifdef _WIN32
 
 #ifndef USE_WIN32_THREADS
