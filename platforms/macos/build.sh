@@ -194,6 +194,7 @@ for target in $targets; do
         -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
+        -DCMAKE_SKIP_RPATH=ON \
         -DWERROR="${WERROR:-OFF}" \
         "$@" \
         $lto
