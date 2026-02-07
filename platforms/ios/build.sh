@@ -172,7 +172,7 @@ lipo -create build-*/"$bin" -output "$bin"
 if command -v ldid >/dev/null; then
     ldid -S"$entitlements" "$bin"
 else
-    codesign -s - --entitlements "$entitlements" "$bin"
+    codesign -f -s - --entitlements "$entitlements" "$bin"
 fi
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh" "$PWD/$bin"
