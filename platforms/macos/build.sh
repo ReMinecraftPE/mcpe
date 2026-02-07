@@ -210,7 +210,7 @@ lipo -create build-*/libSDL2-2.0.0.dylib -output libSDL2-2.0.0.dylib
     "$strip" -no_code_signature_warning "$bin"
     "$strip" -no_code_signature_warning -x libSDL2-2.0.0.dylib
 }
-install_name_tool -change libSDL2-2.0.0.dylib '@executable_path/libSDL2-2.0.0.dylib' "$bin"
+install_name_tool -change libSDL2-2.0.0.dylib '@executable_path/libSDL2-2.0.0.dylib' "$bin" 2>/dev/null
 if command -v ldid >/dev/null; then
     ldid -S "$bin" libSDL2-2.0.0.dylib
 else
