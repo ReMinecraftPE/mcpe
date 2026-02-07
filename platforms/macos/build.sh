@@ -117,7 +117,7 @@ if [ -n "$outdated_toolchain" ]; then
     make -C misc strip lipo install_name_tool
     cp misc/strip ../../bin/cctools-strip
     cp misc/lipo ../../bin/lipo
-    cp misc/lipo ../../bin/install_name_tool
+    cp misc/install_name_tool ../../bin/install_name_tool
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
