@@ -882,6 +882,8 @@ void GameRenderer::pick(float f)
 	HitResult& mchr = m_pMinecraft->m_hitResult;
 	float dist = m_pMinecraft->m_pGameMode->getBlockReachDistance();
 	bool isFirstPerson = !m_pMinecraft->getOptions()->m_thirdPerson.get();
+	Vec3 touchPosNear, touchPosFar;
+	bool bUseTouchCoords = false;
 
 	if (!m_pMinecraft->useSplitControls())
 	{
@@ -924,6 +926,11 @@ void GameRenderer::pick(float f)
 				mobPos = foundPosNear + normScaledDiff;
 
 				foundPosFar = mobPos;
+
+				// For touch entity detection
+				touchPosNear = foundPosNear;
+				touchPosFar = foundPosFar;
+				bUseTouchCoords = true;
 			}
 			
 			// keep the hit result forever
@@ -975,67 +982,107 @@ void GameRenderer::pick(float f)
 		dist = maxEntityDist;
 
 	Vec3 view = pMob->getViewVector(f);
-	Vec3 exp  = view * dist;
-	Vec3 limit = mobPos + view * dist;
-
-	m_pHovered = nullptr;
-
-	AABB scanAABB = pMob->m_hitbox;
-
-	if (exp.x < 0) scanAABB.min.x += exp.x;
-	if (exp.x > 0) scanAABB.max.x += exp.x;
-	if (exp.y < 0) scanAABB.min.y += exp.y;
-	if (exp.y > 0) scanAABB.max.y += exp.y;
-	if (exp.z < 0) scanAABB.min.z += exp.z;
-	if (exp.z > 0) scanAABB.max.z += exp.z;
-
-	scanAABB.grow(1, 1, 1);
-
-	EntityVector ents = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
-
-	float fDist = 0.0f;
-	for (size_t i = 0; i < ents.size(); i++)
+	Vec3 exp;
+	Vec3 limit;
+	Vec3 rayStart;
+	
+	// When not using split controls and touch coords are valid, use touch-based raycasting for entities
+	bool shouldDetectEntities = bUseTouchCoords || m_pMinecraft->useSplitControls();
+	
+	if (shouldDetectEntities)
 	{
-		Entity *pEnt = (ents)[i];
-		if (!pEnt->isPickable())
-			continue;
-
-		AABB checkAABB = pEnt->m_hitbox;
-		checkAABB.grow(pEnt->getPickRadius());
-
-		HitResult hrMobChk = checkAABB.clip(mobPos, limit);
-
-		if (checkAABB.contains(mobPos))
+		if (bUseTouchCoords)
 		{
-			if (fDist >= 0.0f)
-			{
-				//this is it brother
-				m_pHovered = pEnt;
-				fDist = 0.0f;
-			}
-			continue;
+			rayStart = touchPosNear;
+			Vec3 touchDir = (touchPosFar - touchPosNear).normalize();
+			limit = rayStart + (touchDir * maxEntityDist);
+			exp = limit - rayStart;
 		}
-
-		if (hrMobChk.m_hitType != HitResult::NONE)
+		else
 		{
-			float dX = hrMobChk.m_hitPos.x - mobPos.x;
-			float dY = hrMobChk.m_hitPos.y - mobPos.y;
-			float dZ = hrMobChk.m_hitPos.z - mobPos.z;
-			float fNewDist = Mth::sqrt(dX * dX + dY * dY + dZ * dZ);
-
-			if (fDist > fNewDist || fDist == 0.0f)
-			{
-				m_pHovered = pEnt;
-				fDist = fNewDist;
-			}
+			// For split controls - use center-based raycasting
+			rayStart = mobPos;
+			limit = mobPos + view * dist;
+			exp = view * dist;
 		}
 	}
 
-	// picked entities take priority over tiles (?!)
-	if (m_pHovered)
+	m_pHovered = nullptr;
+
+	AABB scanAABB;
+	
+	if (shouldDetectEntities)
 	{
-		mchr = HitResult(m_pHovered);
-		return;
+		if (bUseTouchCoords)
+		{
+			// Touch
+			scanAABB.min.x = rayStart.x < limit.x ? rayStart.x : limit.x;
+			scanAABB.min.y = rayStart.y < limit.y ? rayStart.y : limit.y;
+			scanAABB.min.z = rayStart.z < limit.z ? rayStart.z : limit.z;
+			scanAABB.max.x = rayStart.x > limit.x ? rayStart.x : limit.x;
+			scanAABB.max.y = rayStart.y > limit.y ? rayStart.y : limit.y;
+			scanAABB.max.z = rayStart.z > limit.z ? rayStart.z : limit.z;
+			scanAABB.grow(1, 1, 1);
+		}
+		else
+		{
+			// Split
+			scanAABB = pMob->m_hitbox;
+			if (exp.x < 0) scanAABB.min.x += exp.x;
+			if (exp.x > 0) scanAABB.max.x += exp.x;
+			if (exp.y < 0) scanAABB.min.y += exp.y;
+			if (exp.y > 0) scanAABB.max.y += exp.y;
+			if (exp.z < 0) scanAABB.min.z += exp.z;
+			if (exp.z > 0) scanAABB.max.z += exp.z;
+			scanAABB.grow(1, 1, 1);
+		}
+
+		EntityVector ents = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
+
+		float fDist = 0.0f;
+		for (size_t i = 0; i < ents.size(); i++)
+		{
+			Entity *pEnt = (ents)[i];
+			if (!pEnt->isPickable())
+				continue;
+
+			AABB checkAABB = pEnt->m_hitbox;
+			checkAABB.grow(pEnt->getPickRadius());
+
+			HitResult hrMobChk = checkAABB.clip(rayStart, limit);
+
+			if (checkAABB.contains(rayStart))
+			{
+				if (fDist >= 0.0f)
+				{
+					//this is it brother
+					m_pHovered = pEnt;
+					fDist = 0.0f;
+				}
+				continue;
+			}
+
+			if (hrMobChk.m_hitType != HitResult::NONE)
+			{
+				float dX = hrMobChk.m_hitPos.x - rayStart.x;
+				float dY = hrMobChk.m_hitPos.y - rayStart.y;
+				float dZ = hrMobChk.m_hitPos.z - rayStart.z;
+				float fNewDist = Mth::sqrt(dX * dX + dY * dY + dZ * dZ);
+
+				if (fDist > fNewDist || fDist == 0.0f)
+				{
+					m_pHovered = pEnt;
+					fDist = fNewDist;
+				}
+			}
+		}
+
+		// picked entities take priority over tiles (?!)
+		if (m_pHovered)
+		{
+			mchr = HitResult(m_pHovered);
+			return;
+		}
 	}
 
 	if (mchr.m_hitType != HitResult::NONE || view.y >= -0.7f)
