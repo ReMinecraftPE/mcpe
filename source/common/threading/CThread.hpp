@@ -60,12 +60,15 @@ typedef void* (*CThreadFunction)(void*);
 class CThread
 {
 public:
-	CThread(CThreadFunction, void* param);
+	CThread(CThreadFunction, void* context);
 	~CThread();
+
+	void join();
 
 	static void sleep(uint32_t ms);
 
 private:
+	bool m_bJoined;
 	CThreadFunction m_func;
 
 #ifdef USE_CPP11_THREADS

@@ -317,6 +317,12 @@ void Minecraft::saveOptions()
 		getOptions()->save();
 }
 
+void Minecraft::saveOptionsAsync()
+{
+	if (platform()->hasFileSystemAccess())
+		getOptions()->save().join();
+}
+
 bool Minecraft::isLevelGenerated() const
 {
 	return m_pLevel && !m_bPreparingLevel;
