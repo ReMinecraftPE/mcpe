@@ -33,12 +33,18 @@ target_link_libraries(reminecraftpe stb_image)
 
 # SDL
 add_library(SDL INTERFACE)
-if(ANDROID OR REMCPE_WIN32 OR APPLE)
+if(ANDROID OR REMCPE_WIN32)
     # Use Vendored SDL2
     add_subdirectory(../../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
     set_target_properties(SDL2 PROPERTIES CXX_STANDARD 11)
     target_link_libraries(SDL INTERFACE SDL2::SDL2)
     target_compile_options(SDL2 PRIVATE -w)
+elseif(APPLE)
+    # Use Vendored SDL2 (explicitly static)
+    add_subdirectory(../../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
+    set_target_properties(SDL2-static PROPERTIES CXX_STANDARD 11)
+    target_link_libraries(SDL INTERFACE SDL2::SDL2-static)
+    target_compile_options(SDL2-static PRIVATE -w)
 elseif(EMSCRIPTEN)
     # Use Emscripten's SDL2
     set(SDL_FLAG -sUSE_SDL=2)
