@@ -146,13 +146,8 @@ public:
 	public:
 		OptionInstance(const std::string& key, const std::string& name, V initial) : OptionEntry(key, name), m_value(initial), m_defaultValue(initial) {}
 
-		virtual void toggle()
-		{
-		}
-
-		virtual void apply()
-		{
-		}
+		virtual void toggle() {}
+		virtual void apply() {}
 
 		void set(const V& v)
 		{
@@ -162,11 +157,7 @@ public:
 				apply();
 		}
 
-		void reset()
-		{
-			set(m_defaultValue);
-		}
-
+		void reset() { set(m_defaultValue); }
 		const V& get() const { return m_value; }
 	};
 
@@ -177,14 +168,8 @@ public:
 
 		void load(const std::string& value) override { set(readBool(value)); }
 		std::string save() const override { return saveBool(get()); }
-
-		void toggle() override
-		{
-			set(get() ^ 1);
-		}
-
+		void toggle() override { set(get() ^ 1); }
 		std::string getDisplayValue() const override;
-
 		void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
 	};
 
@@ -195,10 +180,7 @@ public:
 
 		void load(const std::string& value) override { set(readFloat(value)); }
 		std::string save() const override { return saveFloat(get()); }
-
-
 		std::string getDisplayValue() const override;
-
 		void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
 	};
 
@@ -272,16 +254,8 @@ public:
 		{
 		}
 
-		void toggle() override
-		{
-			set((get() + 1) % m_values.size());
-		}
-
-		std::string getDisplayValue() const override
-		{
-			return m_values[Mth::Min(get(), int(m_values.size()))];
-		}
-
+		void toggle() override { set((get() + 1) % m_values.size()); }
+		std::string getDisplayValue() const override { return m_values[Mth::Min(get(), int(m_values.size()))]; }
 		void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
 
 	public:
