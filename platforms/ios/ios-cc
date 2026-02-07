@@ -10,13 +10,18 @@ case $0 in
     *)   cc="clang"   ;;
 esac
 
+case ${REMCPE_TARGET%%-*} in
+    (arm64*) stdlib=libc++    ;;
+    (*)      stdlib=libstdc++ ;;
+esac
+
 command -v ccache > /dev/null && ccache=ccache
 
 exec $ccache "$cc" \
     -mlinker-version=762 \
-    -stdlib=libstdc++ \
+    -stdlib="$stdlib" \
     "$@" \
-    -isysroot "${0%/*}/build/work/ios-sdk" \
+    -isysroot "$REMCPE_SDK" \
     -target "$REMCPE_TARGET" \
     -fuse-ld=ld64 \
     -Wno-unused-command-line-argument

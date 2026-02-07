@@ -33,8 +33,8 @@ target_link_libraries(reminecraftpe stb_image)
 
 # SDL
 add_library(SDL INTERFACE)
-if(ANDROID OR REMCPE_WIN32)
-    # Use Vendored SDL2 (Only For Android)
+if(ANDROID OR REMCPE_WIN32 OR APPLE)
+    # Use Vendored SDL2
     add_subdirectory(../../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
     set_target_properties(SDL2 PROPERTIES CXX_STANDARD 11)
     target_link_libraries(SDL INTERFACE SDL2::SDL2)

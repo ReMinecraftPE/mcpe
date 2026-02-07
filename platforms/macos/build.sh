@@ -5,8 +5,7 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
-# We could build for armv6, but we don't due to unplayable performance.
-targets='armv7-apple-ios3.1 arm64-apple-ios7.0'
+targets='i386-apple-macos10.7 x86_64-apple-macos10.7 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
@@ -14,23 +13,32 @@ platformdir=$PWD
 entitlements="$platformdir/minecraftpe.entitlements"
 
 workdir="$PWD/build/work"
-sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
-export REMCPE_SDK="$sdk"
+arm64_sdk="$workdir/arm64-mac-sdk"
+x86_sdk="$workdir/x86-mac-sdk"
 mkdir -p "$workdir"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
 sdkver=1
-if ! [ -d "$sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
-    # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
-    # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
-    printf '\nDownloading iOS SDK...\n\n'
-    [ -d "$sdk" ] && rm -rf "$sdk"
-    wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
-    tar xf iPhoneOS8.0.sdk.tar.lzma
-    mv iPhoneOS8.0.sdk "$sdk"
-    rm iPhoneOS8.0.sdk.tar.lzma
+if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
+    printf '\nDownloading macOS SDKs...\n\n'
+    (
+    # for arm64
+    [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk"
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/11.3/MacOSX11.3.tar.bz2
+    tar xf MacOSX11.3.tar.bz2
+    mv MacOSX11.3.sdk "$arm64_sdk"
+    ) &
+    (
+    # for x86
+    [ -d "$x86_sdk" ] && rm -rf "$x86_sdk"
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.11/MacOSX10.11.tar.bz2
+    tar xf MacOSX10.11.tar.bz2
+    mv MacOSX10.11.sdk "$x86_sdk"
+    )
+    wait
+    rm *.tar.bz2
     printf '%s' "$sdkver" > sdkver
     outdated_sdk=1
 fi
@@ -84,8 +92,17 @@ else
 fi
 
 if [ -n "$outdated_toolchain" ]; then
-    # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
+    # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old macOS versions anymore
     printf '\nBuilding ld64 and strip...\n\n'
+
+    tapi_commit=640b4623929c923c0468143ff2a363a48665fa54
+    rm -rf cctools-port-*
+    wget -O- "https://github.com/tpoechtrager/apple-libtapi/archive/$tapi_commit.tar.gz" | tar -xz
+
+    cd "apple-libtapi-$tapi_commit"
+    INSTALLPREFIX="$workdir" CC=clang CXX=clang++ ./build.sh && ./install.sh
+    cd ..
+    rm -rf "apple-libtapi-$tapi_commit"
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
     rm -rf cctools-port-*
@@ -93,7 +110,7 @@ if [ -n "$outdated_toolchain" ]; then
 
     cd "cctools-port-$cctools_commit/cctools"
     [ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
-    ./configure --enable-silent-rules $llvm_config
+    ./configure --enable-silent-rules --with-libtapi="$workdir" $llvm_config
     make -C ld64 -j"$ncpus"
     mv ld64/src/ld/ld ../../bin/ld64.ld64
     make -C libmacho -j"$ncpus"
@@ -123,7 +140,7 @@ fi
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=armv7-apple-ios3.1 "$platformdir/ios-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$x86_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
         lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
     fi
     rm -f "$workdir/testout"
@@ -143,6 +160,19 @@ fi
 mv buildsettings lastbuildsettings
 
 for target in $targets; do
+    case ${target%%-*} in
+        (i386|x86_64*)
+            export REMCPE_SDK="$x86_sdk"
+        ;;
+        (arm64*)
+            export REMCPE_SDK="$arm64_sdk"
+        ;;
+        (*)
+            echo "Unknown target"
+            exit 1
+        ;;
+    esac
+
     printf '\nBuilding for %s\n\n' "$target"
     export REMCPE_TARGET="$target"
 
@@ -152,13 +182,15 @@ for target in $targets; do
     cmake "$platformdir/../.." \
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
-        -DREMCPE_PLATFORM=ios \
+        -DREMCPE_PLATFORM=sdl2 \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+        -DOPENGL_gl_LIBRARY="$REMCPE_SDK/System/Library/Frameworks/OpenGL.framework" \
+        -DOPENGL_INCLUDE_DIR="$REMCPE_SDK/System/Library/Frameworks/OpenGL.framework/Headers" \
         -DCMAKE_AR="$(command -v "$ar")" \
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
-        -DCMAKE_C_COMPILER="$platformdir/ios-cc" \
-        -DCMAKE_CXX_COMPILER="$platformdir/ios-c++" \
+        -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
+        -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
         -DWERROR="${WERROR:-OFF}" \
         $lto
@@ -168,11 +200,14 @@ for target in $targets; do
 done
 
 lipo -create build-*/"$bin" -output "$bin"
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin"
+lipo -create build-*/libSDL2-2.0.0.dylib -output libSDL2-2.0.0.dylib
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin" libSDL2-2.0.0.dylib
 if command -v ldid >/dev/null; then
-    ldid -S"$entitlements" "$bin"
+    ldid -S "$bin" libSDL2-2.0.0.dylib
 else
-    codesign -s - --entitlements "$entitlements" "$bin"
+    codesign -s - "$bin" libSDL2-2.0.0.dylib
 fi
 
-[ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh" "$PWD/$bin"
+mkdir -p ReMCPE
+cp -a "$platformdir/../../game/assets" ReMCPE
+mv "$bin" libSDL2-2.0.0.dylib ReMCPE
