@@ -87,7 +87,7 @@ private:
 	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 
 private: // async
-	MC_ASYNC_FUNC_VOID(2, savePropertiesToFile,
+	MC_ASYNC_FUNC_VOID_2(savePropertiesToFile,
 		const std::string, filePath,
 		const std::vector<std::string>, properties
 	);

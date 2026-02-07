@@ -188,7 +188,6 @@ private:
 
 #define CONCAT_(a, b) a##b
 #define CONCAT(a, b) CONCAT_(a, b)
-#define MC_ASYNC_WRAPPER(...) __VA_ARGS__
 
 #define MC_ASYNC_FUNC_1(name, T1, m1)       \
 struct name##Async {                        \
@@ -214,8 +213,6 @@ struct name##Async {                                             \
     void* operator()() { return name(m1, m2, m3); }              \
 }
 
-#define MC_ASYNC_FUNC(n, ...) MC_ASYNC_WRAPPER(CONCAT(MC_ASYNC_FUNC_, n)(__VA_ARGS__))
-
 
 #define MC_ASYNC_FUNC_VOID_1(name, T1, m1)               \
 struct name##Async {                                     \
@@ -240,5 +237,3 @@ struct name##Async {                                             \
     name##Async(T1 m1, T2 m2, T3 m3) : m1(m1), m2(m2), m3(m3) {} \
     void* operator()() { name(m1, m2, m3); return nullptr; }     \
 }
-
-#define MC_ASYNC_FUNC_VOID(n, ...) MC_ASYNC_WRAPPER(CONCAT(MC_ASYNC_FUNC_VOID_, n)(__VA_ARGS__))
