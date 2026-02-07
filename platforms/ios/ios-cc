@@ -10,9 +10,9 @@ case $0 in
     *)   cc="clang"   ;;
 esac
 
-case ${REMCPE_TARGET%%-*} in
-    (arm64*) stdlib=libc++    ;;
-    (*)      stdlib=libstdc++ ;;
+case $REMCPE_TARGET in
+    (arm64*-apple-macos*) stdlib=libc++ ;;
+    (*) stdlib=libstdc++ ;;
 esac
 
 command -v ccache > /dev/null && ccache=ccache
