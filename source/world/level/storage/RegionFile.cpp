@@ -93,17 +93,9 @@ bool RegionFile::readChunk(const ChunkPos& pos, RakNet::BitStream** pBitStream)
 	length -= 4;
 
 	uint8_t* data = new uint8_t[length];
-	if (!data)
-		return false;
 	READ(data, 1, length, m_pFile);
 
-	RakNet::BitStream* stream = new RakNet::BitStream(data, length, false);
-	if (!stream)
-	{
-		delete[] data;
-		return false;
-	}
-	*pBitStream = stream;
+	*pBitStream = new RakNet::BitStream(data, length, false);
 	return true;
 }
 

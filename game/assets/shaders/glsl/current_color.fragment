@@ -1,4 +1,6 @@
 // __multiversion__
+#include "ShaderConstants.h"
+
 
 uniform vec4 CURRENT_COLOR;
 
