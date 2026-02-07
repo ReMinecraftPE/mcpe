@@ -12,9 +12,7 @@ void SliderButton::pressed(Minecraft* mc, int xPos, int yPos)
 {
 	m_value = (xPos - (m_xPos + 4)) / float(m_width - 8);
 
-	float oldValue = getOption().get();
 	getOption().set(m_value = Mth::clamp(m_value, 0.0f, 1.0f));
-	//if (oldValue != getOption().get()) mc->saveOptions();
 	setMessage(getOption().getMessage());
 	m_bDragging = true;
 }
@@ -39,7 +37,6 @@ void SliderButton::renderBg(Minecraft* mc, int xPos, int yPos)
 
 		float oldValue = getOption().get();
 		getOption().set(m_value = Mth::clamp(m_value, 0.0f, 1.0f));
-		//if (oldValue != getOption().get()) mc->saveOptions();
 		setMessage(getOption().getMessage());
 	}
 
