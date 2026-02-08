@@ -192,7 +192,7 @@ public:
 	StringOption(const std::string& key, const std::string& name, std::string initial = "") : OptionInstance(key, name, initial) {}
 
 	void load(const std::string& value) override { set(value); }
-	void save(std::stringstream& ss) const override { ss << get(); }
+	void save(std::stringstream& ss) const override { ss.str(get()); }
 };
 
 class ValuesBuilder
