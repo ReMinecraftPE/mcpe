@@ -127,7 +127,7 @@ jobs:
         strategy:
             fail-fast: false
         name: macOS
-        runs-on: ubuntu-24.04
+        runs-on: macos-15
         steps:
           - name: Get Time
             id: get-time
@@ -144,24 +144,10 @@ jobs:
             with:
                 submodules: true
           - name: Install Dependencies
-            run: |
-                wget https://apt.llvm.org/llvm.sh
-                sudo bash llvm.sh 21
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y \
-                    cmake \
-                    ccache \
-                    clang-21 \
-                    libplist-utils \
-                    libplist-dev \
-                    libssl-dev
+            run: brew install cmake ccache
           - name: Build macOS binary
             run: ./platforms/macos/build.sh
             env:
-              CLANG: clang-21
-              AR: llvm-ar-21
-              RANLIB: llvm-ranlib-21
-              LLVM_CONFIG: llvm-config-21
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
             with:
