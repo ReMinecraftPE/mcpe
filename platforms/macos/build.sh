@@ -114,10 +114,9 @@ if [ -n "$outdated_toolchain" ]; then
     mv ld64/src/ld/ld ../../bin/ld64.ld64
     make -C libmacho -j"$ncpus"
     make -C libstuff -j"$ncpus"
-    make -C misc strip lipo install_name_tool
+    make -C misc strip lipo
     cp misc/strip ../../bin/cctools-strip
     cp misc/lipo ../../bin/lipo
-    cp misc/install_name_tool ../../bin/install_name_tool
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
@@ -168,7 +167,7 @@ for target in $targets; do
         ;;
         (arm64*)
             export REMCPE_SDK="$arm64_sdk"
-            set -- -DCMAKE_SHARED_LINKER_FLAGS='-framework GameController' -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
+            set -- -DCMAKE_SHARED_LINKER_FLAGS='-framework GameController'
         ;;
         (*)
             echo "Unknown target"
@@ -195,7 +194,6 @@ for target in $targets; do
         -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
-        -DCMAKE_SKIP_RPATH=ON \
         -DWERROR="${WERROR:-OFF}" \
         "$@" \
         $lto
@@ -205,18 +203,13 @@ for target in $targets; do
 done
 
 lipo -create build-*/"$bin" -output "$bin"
-lipo -create build-*/libSDL2-2.0.0.dylib -output libSDL2-2.0.0.dylib
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && {
-    "$strip" -no_code_signature_warning "$bin"
-    "$strip" -no_code_signature_warning -x libSDL2-2.0.0.dylib
-}
-install_name_tool -change libSDL2-2.0.0.dylib '@executable_path/libSDL2-2.0.0.dylib' "$bin" 2>/dev/null
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin"
 if command -v ldid >/dev/null; then
-    ldid -S "$bin" libSDL2-2.0.0.dylib
+    ldid -S "$bin"
 else
-    codesign -f -s - "$bin" libSDL2-2.0.0.dylib
+    codesign -f -s - "$bin"
 fi
 
 mkdir -p ../ReMCPE
 cp -a "$platformdir/../../game/assets" ../ReMCPE
-mv "$bin" libSDL2-2.0.0.dylib ../ReMCPE
+mv "$bin" ../ReMCPE
