@@ -578,7 +578,7 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 	}
 }
 
-void GameRenderer::render(float f)
+void GameRenderer::render(const Timer& timer)
 {
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
@@ -599,7 +599,7 @@ void GameRenderer::render(float f)
 			Vec2 d = pMC->m_mouseHandler.m_delta * (4.0f * mult1);
 
 			float old_field_84 = field_84;
-			field_84 = float(field_C) + f;
+			field_84 = float(field_C) + timer.m_renderTicks;
 			diff_field_84 = field_84 - old_field_84;
 			m_smoothTurnDelta += d;
 
@@ -658,7 +658,10 @@ void GameRenderer::render(float f)
 	}
 	else if (m_pMinecraft->useController())
 	{
-		// do nothing
+		if (m_pMinecraft->m_pScreen)
+		{
+			m_pMinecraft->m_pScreen->controllerEvent(1, timer.m_deltaTime);
+		}
 	}
 	else
 	{
@@ -671,14 +674,16 @@ void GameRenderer::render(float f)
 	{
 		if (m_keepPic < 0)
 		{
-			renderLevel(f);
+			renderLevel(timer.m_renderTicks);
+			currentShaderColor = Color::WHITE;
+			currentShaderDarkColor = Color::WHITE;
 			if (m_pMinecraft->getOptions()->m_hideGui.get())
 			{
 				if (!m_pMinecraft->m_pScreen)
 					return;
 			}
 
-			m_pMinecraft->m_pGui->render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
+			m_pMinecraft->m_pGui->render(timer.m_renderTicks, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
 		}
 	}
 	else
@@ -694,7 +699,7 @@ void GameRenderer::render(float f)
 
 	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
 	if (pLocalPlayer && pLocalPlayer->m_pMoveInput)
-		pLocalPlayer->m_pMoveInput->render(f);
+		pLocalPlayer->m_pMoveInput->render(timer.m_renderTicks);
 
 	Screen* pScreen = m_pMinecraft->m_pScreen;
 	if (pScreen)
@@ -705,12 +710,12 @@ void GameRenderer::render(float f)
 			pScreen->handlePointerLocation(mouseX, mouseY);
 			pScreen->handlePointerPressed(Mouse::getButtonState(MOUSE_BUTTON_LEFT));
 		}
-		pScreen->onRender(f);
+		pScreen->onRender(timer.m_partialTicks);
 	}
 
 	if (m_pMinecraft->getOptions()->m_debugText.get())
 	{
-		_renderDebugOverlay(f);
+		_renderDebugOverlay(timer.m_partialTicks);
 	}
 
 	int timeMs = getTimeMs();
@@ -849,10 +854,13 @@ void GameRenderer::renderPointer(const MenuPointer& pointer)
 {
 	Textures& textures = *m_pMinecraft->m_pTextures;
 
-	Vec3 pos(pointer.x - (C_MENU_POINTER_WIDTH / 2), pointer.y - (C_MENU_POINTER_HEIGHT / 2), 0);
-
 	MatrixStack::Ref mtx = MatrixStack::World.push();
-	mtx->translate(pos);
+	mtx->translate(Vec3(pointer.x, pointer.y, 0));
+
+	if (m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiTheme == UI_CONSOLE)
+		mtx->scale(2.0f);
+
+	mtx->translate(Vec3(-(C_MENU_POINTER_WIDTH / 2), -(C_MENU_POINTER_HEIGHT / 2), 0));
 
 	textures.loadAndBindTexture("gui/pointer.png", true);
 	m_pointerMesh.render(ScreenRenderer::singleton().m_materials.ui_textured);

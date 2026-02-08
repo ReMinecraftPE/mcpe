@@ -100,8 +100,15 @@ void LocalPlayer::swing()
 
 void LocalPlayer::startCrafting(const TilePos& pos)
 {
-	// PE 0.3.2 doesn't let you craft in creative mode
-	m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
+	switch (m_pMinecraft->getOptions()->getUITheme() )
+	{
+	case UI_CONSOLE:
+		m_pMinecraft->setScreen(new ConsoleCraftingScreen(m_pInventory, pos, m_pLevel));
+		break;
+	default:
+		m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
+		break;
+	}
 }
 
 /*void LocalPlayer::openFurnace(FurnaceTileEntity* furnace)

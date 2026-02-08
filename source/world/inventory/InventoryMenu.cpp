@@ -13,28 +13,28 @@ InventoryMenu::InventoryMenu(Inventory* inventory, bool active)
     m_pCraftSlots = new CraftingContainer(this, 2, 2);
     m_pResultSlots = new ResultContainer;
 
-    addSlot(new ResultSlot(inventory->m_pPlayer, m_pCraftSlots, m_pResultSlots, 0, 144, 36));
+    addSlot(new ResultSlot(inventory->m_pPlayer, m_pCraftSlots, m_pResultSlots, 0));
 
     for (int y = 0; y < 2; ++y)
     {
         for (int x = 0; x < 2; ++x)
-            addSlot(new Slot(m_pCraftSlots, x + y * 2, 88 + x * 18, 26 + y * 18));
+            addSlot(new Slot(m_pCraftSlots, x + y * 2, Slot::INPUT));
     }
 
     for (int i = Item::SLOT_FEET; i <= Item::SLOT_HEAD; ++i)
     {
-        addSlot(new ArmorSlot(inventory, Item::EquipmentSlot(Item::SLOT_HEAD - i), inventory->getContainerSize() - 1 - i, 8, 8 + i * 18));
+        addSlot(new ArmorSlot(inventory, Item::EquipmentSlot(Item::SLOT_HEAD - i), inventory->getContainerSize() - 1 - i));
     }
 
     for (int y = 0; y < 3; ++y)
     {
         for (int x = 0; x < 9; ++x)
-            addSlot(new Slot(inventory, x + (y + 1) * 9, 8 + x * 18, 84 + y * 18));
+            addSlot(new Slot(inventory, x + (y + 1) * 9, Slot::INVENTORY));
     }
 
     for (int i = 0; i < 9; ++i)
     {
-        addSlot(new Slot(inventory, i, 8 + i * 18, 142));
+        addSlot(new Slot(inventory, i, Slot::HOTBAR));
     }
 
     slotsChanged(m_pCraftSlots);

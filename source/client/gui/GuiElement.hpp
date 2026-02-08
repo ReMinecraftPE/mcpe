@@ -73,5 +73,6 @@ public:
 	int m_height;
 	int m_xPos;
 	int m_yPos;
+	UITheme m_uiTheme;
 };
 

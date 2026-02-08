@@ -29,7 +29,7 @@ enum OptionsCategory
 class OptionsScreen : public Screen
 {
 public:
-	OptionsScreen();
+	OptionsScreen(Screen*);
 	~OptionsScreen();
 
 protected:
@@ -47,6 +47,7 @@ public:
 private:
 	void setCategory(OptionsCategory category);
 
+	Screen* m_pParent;
 	OptionList* m_pList;
 	OptionsCategory m_currentCategory;
 

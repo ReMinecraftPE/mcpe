@@ -27,6 +27,7 @@
 #include "client/gui/components/SliderButton.hpp"
 #include "client/gui/components/SwitchButton.hpp"
 #include "client/gui/components/SwitchValuesButton.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 
 void Options::_initDefaultValues()
@@ -40,6 +41,10 @@ void Options::_initDefaultValues()
 	field_240 = 1;
 	field_1C = "Default";
 	field_19 = 1;
+#if MC_PLATFORM_XBOX360
+	m_uiTheme.setDefault(UI_CONSOLE);
+	m_uiTheme.reset();
+#endif
 
 #ifdef ORIGINAL_CODE
 	m_viewDistance.set(2);
@@ -79,6 +84,10 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_menuPanorama("misc_menupano", "options.menuPanorama", true)
 	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
 	, m_lang("gfx_lang", "options.lang", "en_us")
+	, m_uiTheme("gfx_uitheme", "options.uiTheme", m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA, ValuesBuilder().add("options.uiTheme.pocket").add("options.uiTheme.java").add("options.uiTheme.console"))
+	, m_logoType("gfx_logotype", "options.logoType", LOGO_AUTO, ValuesBuilder().add("options.logoType.auto").add("options.logoType.pocket").add("options.logoType.java").add("options.logoType.console").add("options.logoType.xbox360"))
+	, m_hudSize("gfx_hudsize", "options.hudSize", HUD_SIZE_2)
+	, m_classicCrafting("gfx_classiccrafting", "options.classicCrafting", true)
 	//, m_limitFramerate("gfx_fpslimit", "options.framerateLimit", 0, ValuesBuilder().add(performance.max").add("performance.balanced").add("performance.powersaver"))
 	//, m_bMipmaps("gfx_mipmaps", "options.mipmaps")
 	//, m_moreWorldOptions("misc_moreworldoptions", "options.moreWorldOptions", true)
@@ -111,6 +120,10 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	add(m_playerName);
 	add(m_debugText);
 	add(m_lang);
+	add(m_uiTheme);
+	add(m_logoType);
+	add(m_hudSize);
+	add(m_classicCrafting);
 	_initDefaultValues();
 	if (folderPath.empty()) return;
 	m_filePath = folderPath + "/options.txt";
@@ -387,8 +400,11 @@ void Options::loadControls()
 	KM(KM_MENU_DOWN,    "key.menu.down",     0x28); // VK_DOWN
 	KM(KM_MENU_LEFT,    "key.menu.left",     0x25); // VK_LEFT
 	KM(KM_MENU_RIGHT,   "key.menu.right",    0x27); // VK_RIGHT
+	KM(KM_MENU_TAB_LEFT,"key.menu.tab.left", 0x25);	// VK_LEFT
+	KM(KM_MENU_TAB_RIGHT, "key.menu.tab.right", 0x27);// VK_RIGHT
 	KM(KM_MENU_OK,      "key.menu.ok",       0x0D); // VK_RETURN
 	KM(KM_MENU_CANCEL,  "key.menu.cancel",   0x1B); // VK_ESCAPE, was 0x08 = VK_BACK
+	KM(KM_MENU_PAUSE,	"key.menu.pause",	 0x1B); // VK_ESCAPE
 	KM(KM_SLOT_1,       "key.slot.1",        '1');
 	KM(KM_SLOT_2,       "key.slot.2",        '2');
 	KM(KM_SLOT_3,       "key.slot.3",        '3');
@@ -427,8 +443,11 @@ void Options::loadControls()
 	KM(KM_MENU_DOWN,     SDLVK_DOWN);
 	KM(KM_MENU_LEFT,     SDLVK_LEFT);
 	KM(KM_MENU_RIGHT,    SDLVK_RIGHT);
+	KM(KM_MENU_TAB_LEFT, SDLVK_LEFT);
+	KM(KM_MENU_TAB_RIGHT, SDLVK_RIGHT);
 	KM(KM_MENU_OK,       SDLVK_RETURN);
 	KM(KM_MENU_CANCEL,   SDLVK_ESCAPE);
+	KM(KM_MENU_PAUSE,	 SDLVK_ESCAPE);
 	KM(KM_DROP,          SDLVK_q);
 	KM(KM_CHAT,          SDLVK_t);
 	KM(KM_FOG,           SDLVK_f);
@@ -486,10 +505,13 @@ void Options::loadControls()
 	KM(KM_PLACE,         AKEYCODE_C);
 	KM(KM_MENU_UP,       AKEYCODE_DPAD_UP);
 	KM(KM_MENU_DOWN,     AKEYCODE_DPAD_DOWN);
-	KM(KM_MENU_LEFT,     AKEYCODE_BUTTON_L1);
-	KM(KM_MENU_RIGHT,    AKEYCODE_BUTTON_R1);
+	KM(KM_MENU_LEFT,     AKEYCODE_DPAD_LEFT);
+	KM(KM_MENU_RIGHT,    AKEYCODE_DPAD_RIGHT);
+	KM(KM_MENU_TAB_LEFT, AKEYCODE_BUTTON_L1);
+	KM(KM_MENU_TAB_RIGHT, AKEYCODE_BUTTON_R1);
 	KM(KM_MENU_OK,       AKEYCODE_ENTER);
-	KM(KM_MENU_CANCEL,	 AKEYCODE_BUTTON_START);
+	KM(KM_MENU_CANCEL,	 AKEYCODE_BUTTON_B);
+	KM(KM_MENU_PAUSE,	 AKEYCODE_BUTTON_START);
 	// custom
 	KM(KM_SLOT_L,		 AKEYCODE_BUTTON_L1);
 	KM(KM_SLOT_R,		 AKEYCODE_BUTTON_R1);
@@ -548,10 +570,13 @@ void Options::loadControls()
 		KM(KM_JUMP,          GameController::BUTTON_A);
 		KM(KM_MENU_UP,       GameController::BUTTON_DPAD_UP);
 		KM(KM_MENU_DOWN,     GameController::BUTTON_DPAD_DOWN);
-		KM(KM_MENU_LEFT,     GameController::BUTTON_LEFTSHOULDER);
-		KM(KM_MENU_RIGHT,    GameController::BUTTON_RIGHTSHOULDER);
+		KM(KM_MENU_LEFT,     GameController::BUTTON_DPAD_LEFT);
+		KM(KM_MENU_RIGHT,    GameController::BUTTON_DPAD_RIGHT);
+		KM(KM_MENU_TAB_LEFT, GameController::BUTTON_LEFTSHOULDER);
+		KM(KM_MENU_TAB_RIGHT, GameController::BUTTON_RIGHTSHOULDER);
 		KM(KM_MENU_OK,       GameController::BUTTON_A);
 		KM(KM_MENU_CANCEL,   GameController::BUTTON_B);
+		KM(KM_MENU_PAUSE,	 GameController::BUTTON_START);
 		KM(KM_DROP,          GameController::BUTTON_B);
 		KM(KM_CHAT,          GameController::BUTTON_BACK);
 		KM(KM_INVENTORY,     GameController::BUTTON_Y);
@@ -566,6 +591,35 @@ void Options::loadControls()
 #endif
 #undef KM
 	}
+}
+
+UITheme Options::getUITheme() const
+{
+	return UITheme(m_uiTheme.get());
+}
+
+LogoType Options::getLogoType() const
+{
+	if (m_logoType.get() == LOGO_AUTO)
+	{
+		switch (m_uiTheme.get())
+		{
+		case UI_POCKET:
+			return LOGO_POCKET;
+		case UI_JAVA:
+			return LOGO_JAVA;
+		case UI_CONSOLE:
+#if MC_PLATFORM_XBOX360
+			return LOGO_XBOX360;
+#else
+			return LOGO_CONSOLE;
+#endif
+		default:
+			return (LogoType) m_logoType.get();
+		}
+	}
+	else
+		return (LogoType) m_logoType.get();
 }
 
 void Options::initResourceDependentOptions()
@@ -670,4 +724,20 @@ std::string SensitivityOption::getDisplayValue() const
 void IntOption::load(const std::string& value)
 {
 	set(Options::readInt(value));
+}
+
+std::string HUDSizeOption::getDisplayValue() const
+{
+	return Options::saveInt(get() - 1);
+}
+
+void HUDSizeOption::toggle()
+{
+	set(Mth::Max(2, (get() % HUD_SIZE_3) + 1));
+}
+
+void LogoTypeOption::apply()
+{
+	if (m_pMinecraft->getOptions())
+		LogoRenderer::singleton().init(m_pMinecraft);
 }

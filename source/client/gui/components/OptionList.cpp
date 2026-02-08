@@ -12,9 +12,6 @@
 
 #define C_OPTION_ITEM_HEIGHT (20)
 
-#define C_SWITCH_VALUES_WIDTH (60)
-#define C_SWITCH_VALUES_HEIGHT (18)
-
 OptionList::OptionList(Minecraft* pMinecraft, int width, int height, int something, int something2) :
 	ScrolledSelectionList(pMinecraft, width, height, something, something2, C_OPTION_ITEM_HEIGHT)
 {
@@ -167,6 +164,7 @@ void OptionList::initVideoMenu()
 	OPTION(m_biomeColors);
 	OPTION(m_hideGui);
 	OPTION(m_dynamicHand);
+	OPTION(m_uiTheme);
 }
 
 void OptionList::initControlsMenu()
@@ -214,6 +212,7 @@ void OptionList::initMiscMenu()
 	int idxPano = -1;
 
 	OPTION(m_debugText);
+	OPTION(m_logoType);
 	OPTION(m_b2dTitleLogo);
 #ifdef ENH_MENU_BACKGROUND
 	OPTION(m_menuPanorama); idxPano = currentIndex;

@@ -39,4 +39,9 @@ void IMoveInput::setScreenSize(int width, int height)
 
 void IMoveInput::tick(Player* pPlayer)
 {
+	if (m_bSneaking)
+	{
+		m_horzInput = m_horzInput * 0.3f;
+		m_vertInput = m_vertInput * 0.3f;
+	}
 }

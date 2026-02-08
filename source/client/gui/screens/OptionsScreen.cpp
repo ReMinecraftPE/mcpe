@@ -16,7 +16,8 @@
 #define MAX_CATEGORY_BUTTON_ID 4
 #define BACK_BUTTON_ID 100
 
-OptionsScreen::OptionsScreen() :
+OptionsScreen::OptionsScreen(Screen* parent) :
+	m_pParent(parent),
 	m_pList(nullptr),
 	m_currentCategory(OC_MIN),
 	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
@@ -26,11 +27,13 @@ OptionsScreen::OptionsScreen() :
 	m_backButton(BACK_BUTTON_ID, "Done")
 {
 	m_bRenderPointer = true;
+	m_bDeletePrevious = false;
 }
 
 OptionsScreen::~OptionsScreen()
 {
 	SAFE_DELETE(m_pList);
+	SAFE_DELETE(m_pParent);
 }
 
 bool OptionsScreen::_nextTab()
@@ -108,7 +111,7 @@ void OptionsScreen::render(float f)
 
 	Screen::render(f);
 
-	//drawCenteredString(*m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
+	//drawCenteredString(*m_pFont, "Options", width / 2, 10, 0xFFFFFF);
 }
 
 void OptionsScreen::removed()
@@ -159,10 +162,7 @@ bool OptionsScreen::handleBackEvent(bool b)
 {
 	if (!b)
 	{
-		if (m_pMinecraft->isLevelGenerated())
-			m_pMinecraft->setScreen(new PauseScreen);
-		else
-			m_pMinecraft->setScreen(new StartMenuScreen);
+		m_pMinecraft->setScreen(m_pParent);
 	}
 
 	return true;
@@ -271,23 +271,23 @@ void OptionsScreen::updateTexts()
 }
 bool OptionsScreen::isCramped()
 {
-	return m_width < 150 * 2 + 20 || m_height < 200;
+	return width < 150 * 2 + 20 || height < 200;
 }
 
 void OptionsScreen::setWidthAllButtons(int width)
 {
-	m_AOButton.m_width =
-	m_srvVisButton.m_width =
-	m_fancyGfxButton.m_width =
-	m_viewDistButton.m_width =
-	m_blockLinesButton.m_width =
-	m_invertYButton.m_width =
-	m_anaglyphsButton.m_width =
-	m_viewBobButton.m_width =
-	m_flightHaxButton.m_width =
-	m_autoJumpButton.m_width =
-	m_fancyGrassButton.m_width = 
-	m_biomeColorsButton.m_width = width;
+	m_AOButton.width =
+	m_srvVisButton.width =
+	m_fancyGfxButton.width =
+	m_viewDistButton.width =
+	m_blockLinesButton.width =
+	m_invertYButton.width =
+	m_anaglyphsButton.width =
+	m_viewBobButton.width =
+	m_flightHaxButton.width =
+	m_autoJumpButton.width =
+	m_fancyGrassButton.width = 
+	m_biomeColorsButton.width = width;
 }
 
 void OptionsScreen::init()
@@ -317,23 +317,23 @@ void OptionsScreen::init()
 		setWidthAllButtons(150);
 	}
 
-	m_BackButton.m_xPos = m_width / 2 - m_BackButton.m_width / 2;
-	m_BackButton.m_height = 20;
-	m_BackButton.m_yPos = m_height - m_BackButton.m_height - backGap;
+	m_BackButton.m_xPos = width / 2 - m_BackButton.width / 2;
+	m_BackButton.height = 20;
+	m_BackButton.m_yPos = height - m_BackButton.height - backGap;
 
 	m_AOButton.m_xPos         =
 	m_srvVisButton.m_xPos     = 
 	m_fancyGfxButton.m_xPos   =
 	m_viewDistButton.m_xPos   = 
 	m_blockLinesButton.m_xPos =
-	m_fancyGrassButton.m_xPos = m_width / 2 - m_AOButton.m_width - 5;
+	m_fancyGrassButton.m_xPos = width / 2 - m_AOButton.width - 5;
 
 	m_invertYButton.m_xPos     =
 	m_anaglyphsButton.m_xPos   =
 	m_viewBobButton.m_xPos     =
 	m_flightHaxButton.m_xPos   =
 	m_autoJumpButton.m_xPos    = 
-	m_biomeColorsButton.m_xPos = m_width / 2 + 5;
+	m_biomeColorsButton.m_xPos = width / 2 + 5;
 
 	m_AOButton.m_yPos       = m_invertYButton.m_yPos       = yPos; yPos += incrementY;
 	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos     = yPos; yPos += incrementY;
@@ -369,7 +369,7 @@ void OptionsScreen::render(int a, int b, float c)
 	if (!m_pMinecraft->isLevelGenerated())
 		renderMenuBackground(c);
 
-	fillGradient(0, 0, m_width, m_height, 0xC0101010, 0xD0101010);
+	fillGradient(0, 0, width, height, 0xC0101010, 0xD0101010);
 
 	if (m_pMinecraft->m_pPlatform->getUserInputStatus() >= 0)
 	{
@@ -377,7 +377,7 @@ void OptionsScreen::render(int a, int b, float c)
 	}
 
 #ifndef ORIGINAL_CODE
-	drawCenteredString(*m_pFont, "Options", m_width / 2, isCramped() ? 5 : 20, 0xFFFFFF);
+	drawCenteredString(*m_pFont, "Options", width / 2, isCramped() ? 5 : 20, 0xFFFFFF);
 
 	Screen::render(a, b, c);
 #endif

@@ -7,7 +7,17 @@ class ItemStack;
 class Slot
 {
 public:
-    Slot(Container* container, int slot, int x, int y);
+    enum Group
+    {
+        CONTAINER,
+        INVENTORY,
+        HOTBAR,
+        INPUT,
+        OUTPUT,
+        ARMOR
+    };
+
+    Slot(Container* container, int slot, Group group = CONTAINER);
     virtual ~Slot();
 
     virtual bool canSync() const;
@@ -26,8 +36,6 @@ public:
 
     virtual int getMaxStackSize() const { return m_pContainer->getMaxStackSize(); }
 
-    virtual int getNoItemIcon() const { return -1; }
-
     virtual ItemStack remove(int count) { return m_pContainer->removeItem(m_slot, count); }
 
     virtual bool isAt(Container* cont, int s) { return cont == m_pContainer && s == m_slot; }
@@ -36,6 +44,5 @@ public:
     Container* m_pContainer;
     int m_slot;
     int m_index;
-    int m_x;
-    int m_y;
+    Group m_group;
 };

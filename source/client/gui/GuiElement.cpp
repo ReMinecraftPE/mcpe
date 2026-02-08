@@ -3,6 +3,7 @@
 GuiElement::GuiElement(GuiElement::ID id)
 {
 	m_ID = id;
+	m_uiTheme = UI_POCKET;
 	m_width = 0;
 	m_height = 0;
 	m_xPos = 0;

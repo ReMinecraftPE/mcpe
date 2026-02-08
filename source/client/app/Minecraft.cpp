@@ -43,6 +43,7 @@
 #include "client/renderer/PatchManager.hpp"
 
 #include "renderer/RenderContextImmediate.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 float Minecraft::_renderScaleMultiplier = 1.0f;
 
@@ -259,6 +260,7 @@ void Minecraft::recenterMouse()
 
 void Minecraft::setScreen(Screen* pScreen)
 {
+	float lastScale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
 #ifndef ORIGINAL_CODE
 	if (pScreen == nullptr && !isLevelGenerated())
 	{
@@ -283,7 +285,8 @@ void Minecraft::setScreen(Screen* pScreen)
 	if (m_pScreen)
 	{
 		m_pScreen->removed();
-		delete m_pScreen;
+		if (pScreen && pScreen->m_bDeletePrevious)
+			delete m_pScreen;
 	}
 
 	Mouse::reset();
@@ -292,16 +295,30 @@ void Minecraft::setScreen(Screen* pScreen)
 	Multitouch::resetThisUpdate();
 
 	m_pScreen = pScreen;
+
+	if (pScreen)
+	{
+		// the ceil prevents under-drawing
+		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
+	}
+
+	float scale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
+
+	if (scale != lastScale)
+	{
+		sizeUpdate(Minecraft::width, Minecraft::height);
+		if (pScreen)
+			pScreen->initMenuPointer();
+	}
+
 	if (pScreen)
 	{
 		releaseMouse();
-		// the ceil prevents under-drawing
-		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
 
 		if (pScreen->isPauseScreen())
 		{
 			if (m_pLevel && isLevelGenerated())
-				return m_pLevel->saveGame();
+				m_pLevel->saveGame();
 		}
 	}
 	else
@@ -506,7 +523,7 @@ void Minecraft::tickInput()
 {
 	if (m_pScreen)
 	{
-		if (!m_pScreen->field_10)
+		if (!m_pScreen->m_bPassEvents)
 		{
 			m_bUsingScreen = true;
 			m_pScreen->updateEvents();
@@ -570,7 +587,7 @@ void Minecraft::tickInput()
 			{
 				getOptions()->m_thirdPerson.toggle();
 			}
-			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
+			else if (getOptions()->isKey(KM_MENU_PAUSE, keyCode))
 			{
 				handleBack(false);
 			}
@@ -792,6 +809,8 @@ void Minecraft::tick()
 
 	m_pGui->tick();
 
+	LogoRenderer::singleton().tick();
+
 	// if the level has been prepared, delete the prep thread
 	if (!m_bPreparingLevel)
 	{
@@ -843,17 +862,7 @@ void Minecraft::tick()
 
 void Minecraft::update()
 {
-	if (isGamePaused() && m_pLevel)
-	{
-		// Don't advance renderTicks when we're paused
-		float x = m_timer.m_renderTicks;
-		m_timer.advanceTime();
-		m_timer.m_renderTicks = x;
-	}
-	else
-	{
-		m_timer.advanceTime();
-	}
+	m_timer.advanceTime(isGamePaused() && m_pLevel);
 
 	if (m_pRakNetInstance && m_pNetEventCallback)
 	{
@@ -881,7 +890,7 @@ void Minecraft::update()
 
 	renderContext.beginRender();
 
-	m_pGameRenderer->render(m_timer.m_renderTicks);
+	m_pGameRenderer->render(m_timer);
 
 	// Added by iProgramInCpp
 	if (m_pGameMode)
@@ -1010,12 +1019,23 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 			int(ceilf(Minecraft::height * Gui::InvGuiScale))
 		);
 
+	LogoRenderer::singleton().build(int(ceilf(Minecraft::width * Gui::InvGuiScale)));
+
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);
 }
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
+	if (m_pScreen)
+	{
+		float scale = m_pScreen->getScale(width, height);
+		if (scale > 0)
+			return scale;
+	}
+	else if (m_pOptions->getUITheme() == UI_CONSOLE)
+		return Screen::getConsoleScale(height);
+
 #if MC_PLATFORM_XBOX
 #define USE_JAVA_SCREEN_SCALING
 #endif

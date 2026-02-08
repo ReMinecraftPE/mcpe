@@ -36,8 +36,11 @@ enum eKeyMappingIndex
 	KM_MENU_DOWN,
 	KM_MENU_LEFT,
 	KM_MENU_RIGHT,
+	KM_MENU_TAB_LEFT,
+	KM_MENU_TAB_RIGHT,
 	KM_MENU_OK,
 	KM_MENU_CANCEL, KM_BACK = KM_MENU_CANCEL,
+	KM_MENU_PAUSE,
 	KM_SLOT_1,
 	KM_SLOT_2,
 	KM_SLOT_3,
@@ -71,6 +74,31 @@ struct KeyMapping
 	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 };
 
+enum UITheme
+{
+	UI_POCKET,
+	UI_JAVA,
+	UI_CONSOLE
+};
+
+enum LogoType
+{
+	LOGO_AUTO,
+	LOGO_POCKET,
+	LOGO_JAVA,
+	LOGO_CONSOLE,
+	LOGO_XBOX360
+};
+
+//@NOTE: Used only for the UI_CONSOLE UITheme for now
+enum HUDSize
+{
+	HUD_SIZE_1 = 2,
+	HUD_SIZE_2 = 3,
+	HUD_SIZE_3 = 4
+};
+
+class Minecraft;
 class GuiElement;
 class Minecraft;
 
@@ -118,8 +146,10 @@ public:
 			apply();
 	}
 
+	void setDefault(const V& v) { m_defaultValue = v; }
 	void reset() { set(m_defaultValue); }
 	const V& get() const { return m_value; }
+	const V& getDefault() const { return m_defaultValue; }
 };
 
 class BoolOption : public OptionInstance<bool>
@@ -233,6 +263,28 @@ public:
 	void apply() override;
 };
 
+class LogoTypeOption : public ValuesOption
+{
+public:
+	LogoTypeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
+	{
+	}
+
+	void apply() override;
+};
+
+class HUDSizeOption : public IntOption
+{
+public:
+	HUDSizeOption(const std::string& key, const std::string& name, int initial) : IntOption(key, name, initial)
+	{
+	}
+
+	std::string getDisplayValue() const override;
+
+	void toggle() override;
+};
+
 class Options
 {
 public:
@@ -276,6 +328,9 @@ public:
 	void loadControls();
 	void initResourceDependentOptions();
 
+	UITheme getUITheme() const;
+	LogoType getLogoType() const;
+
 private:
 	Minecraft* m_pMinecraft;
 	std::map<std::string, OptionEntry*> m_options;
@@ -288,6 +343,7 @@ public:
 	friend class FloatOption;
 	friend class SensitivityOption;
 	friend class IntOption;
+	friend class HUDSizeOption;
 
 	FloatOption m_musicVolume;
 	FloatOption m_masterVolume;
@@ -325,6 +381,10 @@ public:
 	BoolOption m_menuPanorama;
 	GuiScaleOption m_guiScale;
 	StringOption m_lang;
+	ValuesOption m_uiTheme;
+	LogoTypeOption m_logoType;
+	HUDSizeOption m_hudSize;
+	BoolOption m_classicCrafting;
 	ResourcePackStack m_resourcePacks;
 };
 
