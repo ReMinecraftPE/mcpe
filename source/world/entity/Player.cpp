@@ -20,8 +20,8 @@ void Player::_init()
 	m_jumpTriggerTime = 0;
 	m_destroyingBlock = false;
 
-	m_abilities.m_bCanFly = false;
-	m_abilities.m_bInvulnerable = false;
+	abilities.m_bCanFly = false;
+	abilities.m_bInvulnerable = false;
 }
 
 Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
@@ -86,7 +86,7 @@ void Player::remove()
 
 bool Player::hurt(Entity* pEnt, int damage)
 {
-	if (m_abilities.m_bInvulnerable)
+	if (abilities.m_bInvulnerable)
 		return false;
     
     m_noActionTime = 0;
@@ -337,7 +337,7 @@ void Player::travel(const Vec2& pos)
 void Player::causeFallDamage(float level)
 {
 	// There is absolutely no reason for this to be causing the bone cracking sound in creative mode.
-	if (!m_abilities.m_bInvulnerable)
+	if (!abilities.m_bInvulnerable)
 		Mob::causeFallDamage(level);
 }
 
@@ -574,8 +574,8 @@ void Player::setPlayerGameType(GameType playerGameType)
 
 	bool elevatedPrivs = (playerGameType == GAME_TYPE_CREATIVE || playerGameType == GAME_TYPE_SPECTATOR);
 
-	m_abilities.m_bCanFly = elevatedPrivs;
-	m_abilities.m_bInvulnerable = elevatedPrivs;
+	abilities.m_bCanFly = elevatedPrivs;
+	abilities.m_bInvulnerable = elevatedPrivs;
 }
 
 ItemStack& Player::getSelectedItem() const

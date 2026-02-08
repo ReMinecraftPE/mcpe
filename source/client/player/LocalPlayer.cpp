@@ -78,7 +78,7 @@ void LocalPlayer::aiStep()
 	m_renderArmRot.y = Mth::Lerp(m_renderArmRot.y, m_rot.y, 0.5f);
 
 	// timer for switching flight states
-	if (m_abilities.m_bCanFly && m_pMoveInput->m_bJumping && !wasJumping)
+	if (abilities.m_bCanFly && m_pMoveInput->m_bJumping && !wasJumping)
 	{
 		if (m_jumpTriggerTime == 0)
 			m_jumpTriggerTime = 7;
@@ -106,7 +106,7 @@ void LocalPlayer::aiStep()
 	Mob::aiStep();
 	Player::aiStep();
 
-	if ((m_bFlying && m_bOnGround) || !m_abilities.m_bCanFly)
+	if ((m_bFlying && m_bOnGround) || !abilities.m_bCanFly)
 		m_bFlying = false;
 
 	if (interpolateOnly())

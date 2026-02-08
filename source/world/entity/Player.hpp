@@ -24,7 +24,7 @@ public:
 	{
 		bool m_bCanFly;
 		bool m_bInvulnerable;
-	} m_abilities;
+	};
 
 private:
 	GameType _playerGameType;
@@ -94,6 +94,7 @@ public:
 	void rideTick();
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
+	inline Abilities& getAbilities() { return abilities; }
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
@@ -109,6 +110,9 @@ public:
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 	void interact(Entity* pEnt);
 #pragma GCC diagnostic pop
+
+protected:
+	Abilities abilities;
 
 public:
 	//TODO
