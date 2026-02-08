@@ -309,7 +309,7 @@ void SoundSystemDS::pauseMusic(bool state)
 	m_musicStream->setPausedState(state);
 }
 
-void SoundSystemDS::update(float)
+void SoundSystemDS::update()
 {
 	m_musicStream->update();
 }

@@ -180,10 +180,10 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!mc.getOptions()->m_thirdPerson.get() && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
 		renderPumpkin(m_width, m_height);
 
+	renderProgressIndicator(m_width, m_height);
+
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
-
-	renderProgressIndicator(m_width, m_height);
 
 	if (mc.m_pGameMode->canHurtPlayer())
 	{

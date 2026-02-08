@@ -314,6 +314,12 @@ void Minecraft::setScreen(Screen* pScreen)
 void Minecraft::saveOptions()
 {
 	if (platform()->hasFileSystemAccess())
+		getOptions()->save().join();
+}
+
+void Minecraft::saveOptionsAsync()
+{
+	if (platform()->hasFileSystemAccess())
 		getOptions()->save();
 }
 
@@ -825,9 +831,7 @@ void Minecraft::tick()
 			m_pTextures->tick();
 			m_pParticleEngine->tick();
 
-#ifndef ORIGINAL_CODE
-			m_pSoundEngine->update(m_pCameraEntity, m_timer.m_renderTicks);
-#endif
+			m_pSoundEngine->updateListener(m_pCameraEntity, m_timer.m_renderTicks);
 		}
 
 		if (m_pScreen)
@@ -870,6 +874,7 @@ void Minecraft::update()
 
 #ifndef ORIGINAL_CODE
 	tickMouse();
+	m_pSoundEngine->update();
 #endif
 
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
@@ -1195,7 +1200,7 @@ void Minecraft::selectLevel(const LevelSummary& ls, bool forceConversion)
 void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, const LevelSettings& levelSettings, bool forceConversion)
 {
 	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(levelDir, false, forceConversion);
-	Dimension* pDim = Dimension::createNew(DIMENSION_NORMAL);
+	Dimension* pDim = Dimension::createNew(DIMENSION_OVERWORLD);
 
 	m_pLevel = new Level(pStor, levelName, levelSettings, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
 	setLevel(m_pLevel, "Generating level", nullptr);
@@ -1255,7 +1260,7 @@ void Minecraft::leaveGame(bool bCopyMap)
 void Minecraft::gotoMainMenu()
 {
 #if MC_PLATFORM_CONSOLE
-	m_pSoundEngine->forcePlayMusic();
+	m_pSoundEngine->playMusic();
 #endif
 	setScreen(new StartMenuScreen);
 }

@@ -127,8 +127,10 @@ void SoundEngine::forcePlayMusic()
 	_playMusic();
 }
 
-void SoundEngine::update(const Mob* player, float elapsedTime)
+void SoundEngine::updateListener(const Mob* player, float elapsedTime)
 {
+	  assert(m_pSoundSystem->isAvailable());
+
     if (m_pOptions->m_masterVolume.get() > 0.0f)
     {
         if (player != nullptr)
@@ -143,10 +145,12 @@ void SoundEngine::update(const Mob* player, float elapsedTime)
             m_pSoundSystem->setListenerAngle(rot);
         }
     }
+}
 
+void SoundEngine::update()
+{
     assert(m_pSoundSystem->isAvailable());
-
-    m_pSoundSystem->update(elapsedTime);
+    m_pSoundSystem->update();
 }
 
 void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, float pitch)

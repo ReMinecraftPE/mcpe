@@ -114,7 +114,7 @@ void OptionsScreen::render(float f)
 void OptionsScreen::removed()
 {
 #ifndef ORIGINAL_CODE
-	m_pMinecraft->saveOptions();
+	m_pMinecraft->saveOptionsAsync();
 #endif
 }
 void OptionsScreen::setCategory(OptionsCategory category)
@@ -386,7 +386,7 @@ void OptionsScreen::render(int a, int b, float c)
 void OptionsScreen::removed()
 {
 #ifndef ORIGINAL_CODE
-	m_pMinecraft->saveOptions();
+	m_pMinecraft->saveOptionsAsync();
 #endif
 }
 

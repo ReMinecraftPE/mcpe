@@ -3,7 +3,8 @@ project(reminecraftpe-core)
 
 # Build
 add_library(reminecraftpe-core STATIC
-    common/CThread.cpp
+    common/threading/CThread.cpp
+    common/threading/AsyncTask.cpp
     common/DataIO.cpp
     common/Logger.cpp
     common/math/Color.cpp

@@ -136,9 +136,17 @@ void Options::_load()
 	}
 }
 
-void Options::save()
+AsyncTask Options::_saveAsync()
 {
-	savePropertiesToFile(m_filePath, getOptionStrings());
+	return AsyncTask(savePropertiesToFileAsync(m_filePath, getOptionStrings()));
+}
+
+const AsyncTask& Options::save()
+{
+	if (!m_saveTask.isRunning())
+		m_saveTask = _saveAsync();
+
+	return m_saveTask;
 }
 
 bool Options::readBool(const std::string& str)
