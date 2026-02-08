@@ -144,12 +144,10 @@ jobs:
             with:
                 submodules: true
           - name: Install Dependencies
-            run: brew install llvm@21 ccache && ccache -k cache_dir
+            run: brew install llvm@21 ccache
           - name: Build macOS binary
             run: |
-                LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" \
-                    PATH="$(brew --prefix)/opt/ccache/libexec:$PATH" \
-                    ./platforms/macos/build.sh
+                LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
             env:
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
@@ -157,7 +155,7 @@ jobs:
               name: macOS
               path: platforms/macos/build/ReMCPE
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache
 
     ios:
         strategy:
