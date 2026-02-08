@@ -102,41 +102,21 @@ jobs:
     macos:
         strategy:
             fail-fast: false
-            matrix: # TODO add PPC build
-                include:
-                  - name: SDL 2
-                    backend_name: 'SDL2'
-                    packages: 'libsdl2'
-        name: macOS (${{ matrix.name }})
+        name: macOS
         runs-on: macos-15
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
                 submodules: true
-          - name: Install MacPorts
-            uses: melusina-org/setup-macports@v1
           - name: Install Dependencies
-            run: |
-                port selfupdate
-                port install ${{ matrix.packages }} +universal
-          - name: Build macOS Archive
-            run: |
-                cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
-                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
-                -sdk macosx \
-                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
-                -destination generic/platform=macOS \
-                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
-                -quiet \
-                clean archive
-                mkdir ../../../../ReMCPE
-                mv $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ../../../../ReMCPE/reminecraftpe
-                strip ../../../../ReMCPE/reminecraftpe
-                mv ../../../../game/assets ../../../../ReMCPE
+            run: brew install llvm@21
+          - name: Build macOS binary
+            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
           - name: Pack release
-            run: zip -r ReMCPE-macOS.zip ReMCPE
+            run: |
+                mv platforms/macos/build/ReMCPE .
+                zip -r ReMCPE-macOS.zip ReMCPE
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}

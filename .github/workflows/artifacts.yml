@@ -126,45 +126,39 @@ jobs:
     macos:
         strategy:
             fail-fast: false
-            matrix: # TODO add PPC build
-                include:
-                  - name: SDL 2
-                    backend_name: 'SDL2'
-                    packages: 'libsdl2'
-        name: macOS (${{ matrix.name }})
+        name: macOS
         runs-on: macos-15
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: macos-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: macos-artifact-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
                 submodules: true
-          - name: Install MacPorts
-            uses: melusina-org/setup-macports@v1
           - name: Install Dependencies
-            run: |
-                port selfupdate
-                port install ${{ matrix.packages }} +universal
-          - name: Build macOS Archive
-            run: |
-                cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
-                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
-                -sdk macosx \
-                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
-                -destination generic/platform=macOS \
-                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
-                -quiet \
-                clean archive
-                mv $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ../../../../reminecraftpe
-                mv ../../../../game/assets ../../../..
+            run: brew install ccache llvm@21
+          - name: Build macOS binary
+            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+            env:
+              NOSTRIP: 1
           - uses: actions/upload-artifact@v6
             with:
               name: macOS
-              path: |
-                reminecraftpe
-                assets
+              path: platforms/macos/build/ReMCPE
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     ios:
+        strategy:
+            fail-fast: false
         name: iOS
         runs-on: ubuntu-24.04
         steps:
@@ -194,7 +188,6 @@ jobs:
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-
           - name: Build iOS binary
             run: ./platforms/ios/build.sh
             env:
