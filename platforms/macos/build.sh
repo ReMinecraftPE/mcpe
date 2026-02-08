@@ -167,7 +167,7 @@ for target in $targets; do
         ;;
         (arm64*)
             export REMCPE_SDK="$arm64_sdk"
-            set -- -DCMAKE_SHARED_LINKER_FLAGS='-framework GameController'
+            set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
         ;;
         (*)
             echo "Unknown target"
