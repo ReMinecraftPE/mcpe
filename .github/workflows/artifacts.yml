@@ -144,10 +144,15 @@ jobs:
             with:
                 submodules: true
           - name: Install Dependencies
-            run: brew install cmake ccache
+            run: brew install ccache llvm@21
+          - name: Get homebrew prefix
+            id: brew-prefix
+            run: echo "prefix=$(brew --prefix)" >> $GITHUB_OUTPUT
           - name: Build macOS binary
             run: ./platforms/macos/build.sh
             env:
+              CLANG: ${{ steps.brew-prefix.outputs.prefix }}/opt/llvm@21/bin/clang
+              LLVM_CONFIG: ${{ steps.brew-prefix.outputs.prefix }}/opt/llvm@21/bin/llvm-config
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
             with:
