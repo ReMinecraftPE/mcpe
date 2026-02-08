@@ -3,7 +3,8 @@ project(reminecraftpe-core)
 
 # Build
 add_library(reminecraftpe-core STATIC
-    common/CThread.cpp
+    common/threading/CThread.cpp
+    common/threading/AsyncTask.cpp
     common/DataIO.cpp
     common/Logger.cpp
     common/math/Color.cpp
@@ -117,8 +118,11 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/AvailableGamesList.cpp
     client/gui/components/RolledSelectionList.cpp
     client/gui/components/Button.cpp
-    client/gui/components/TextInputBox.cpp
+    client/gui/components/TextBox.cpp
     client/gui/components/SmallButton.cpp
+    client/gui/components/SliderButton.cpp
+    client/gui/components/SwitchButton.cpp
+    client/gui/components/SwitchValuesButton.cpp
     client/gui/components/WorldSelectionList.cpp
     client/gui/components/OptionList.cpp
     client/locale/Language.cpp
@@ -351,6 +355,7 @@ add_library(reminecraftpe-core STATIC
     world/item/ItemStack.cpp
     world/item/RocketItem.cpp
     world/item/Item.cpp
+    world/item/DyePowderItem.cpp
     world/item/ToolItem.cpp
     world/item/WeaponItem.cpp
     world/item/BowItem.cpp

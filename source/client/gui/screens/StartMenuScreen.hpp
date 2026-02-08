@@ -10,6 +10,7 @@
 
 #include "../Screen.hpp"
 #include "../IntRectangle.hpp"
+#include "client/gui/components/Button.hpp"
 #include "client/renderer/TileRenderer.hpp"
 
 class StartMenuScreen : public Screen

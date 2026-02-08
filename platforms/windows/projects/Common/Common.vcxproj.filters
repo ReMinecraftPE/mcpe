@@ -21,11 +21,14 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{53e4ada8-db6a-4d9a-b3b1-4f5b0c3a8f39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Threading">
+      <UniqueIdentifier>{6bece638-17fd-4d02-ba42-138ce9cebac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threading">
+      <UniqueIdentifier>{98eb3faf-163b-46e7-a605-a52084709e4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -62,11 +65,14 @@
     <ClCompile Include="$(MC_ROOT)\source\common\utility\Singleton.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\threading\CThread.cpp">
+      <Filter>Source Files\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\threading\AsyncTask.cpp">
+      <Filter>Source Files\Threading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -114,6 +120,12 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\common\utility\Singleton.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\threading\CThread.hpp">
+      <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\threading\AsyncTask.hpp">
+      <Filter>Header Files\Threading</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

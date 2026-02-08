@@ -86,7 +86,10 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\RolledSelectionList.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\ScrolledSelectionList.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SmallButton.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TextInputBox.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SliderButton.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SwitchButton.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TextBox.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\Gui.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\GuiComponent.hpp" />
@@ -249,7 +252,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\RolledSelectionList.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\ScrolledSelectionList.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SmallButton.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TextInputBox.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TextBox.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\Gui.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp" />
@@ -395,6 +398,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SliderButton.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchButton.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

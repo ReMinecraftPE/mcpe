@@ -69,5 +69,21 @@
   "legacy.loadingTip.wolfTame": "Feed a bone to a wolf to tame it. You can then make it sit or follow you.",
   "legacy.loadingTip.woolFire": "Take caution when building structures made of wool in open air, as lightning from thunderstorms can set wool on fire.",
   "legacy.initializing": "Initializing server",
-  "legacy.loading_spawn_area": "Loading spawn area"
+  "legacy.loading_spawn_area": "Loading spawn area",
+    "options.thirdPerson": "Third Person View",
+    "options.fancyGraphics": "Fancy Graphics",
+    "options.blockOutlines": "Block Outlines",
+    "options.fancyGrass": "Fancy Grass",
+    "options.biomeColors": "Biome Colors",
+    "options.hideGui": "Hide GUI",
+    "options.dynamicHand": "Dynamic Hand Movement",
+    "options.autoJump": "Auto Jump",
+    "options.splitControls": "Split Controls",
+    "options.useController": "Use Controller",
+    "options.flightHax": "Flight Hax",
+    "options.serverVisibleDefault": "Local Server Multiplayer",
+    "options.debugText": "Debug Text",
+    "options.2dTitleLogo": "2D Title Logo",
+    "options.menuPanorama": "Menu Panorama",
+    "options.value": "%s: %s"
 }

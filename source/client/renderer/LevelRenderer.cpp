@@ -591,13 +591,13 @@ void LevelRenderer::allChanged()
 
 	LeafTile* pLeaves = (LeafTile*)Tile::leaves;
 
-	pLeaves->m_bTransparent = m_pMinecraft->getOptions()->m_bFancyGraphics;
+	pLeaves->m_bTransparent = m_pMinecraft->getOptions()->m_fancyGraphics.get();
 	pLeaves->m_TextureFrame = !pLeaves->m_bTransparent + pLeaves->field_74;
 
-	TileRenderer::m_bFancyGrass = m_pMinecraft->getOptions()->m_bFancyGrass;
-	TileRenderer::m_bBiomeColors = m_pMinecraft->getOptions()->m_bBiomeColors;
+	TileRenderer::m_bFancyGrass = m_pMinecraft->getOptions()->m_fancyGrass.get();
+	TileRenderer::m_bBiomeColors = m_pMinecraft->getOptions()->m_biomeColors.get();
 
-	m_lastViewDistance = m_pMinecraft->getOptions()->m_iViewDistance;
+	m_lastViewDistance = m_pMinecraft->getOptions()->m_viewDistance.get();
 
 	int dist = 64 << (3 - m_lastViewDistance);
 	if (dist > 400)
@@ -892,7 +892,7 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 		m_dirtyChunks.push_back(pChunk);
 	}
 
-	if (m_pMinecraft->getOptions()->m_iViewDistance != m_lastViewDistance)
+	if (m_pMinecraft->getOptions()->m_viewDistance.get() != m_lastViewDistance)
 		allChanged();
 
 	if (layer == Tile::RENDER_LAYER_OPAQUE)
@@ -917,7 +917,7 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 	}
 
 	// @NOTE: m_bOcclusionCheck is always false
-	if (m_bOcclusionCheck && layer == Tile::RENDER_LAYER_OPAQUE && !m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_bOcclusionCheck && layer == Tile::RENDER_LAYER_OPAQUE && !m_pMinecraft->getOptions()->m_anaglyphs.get())
 	{
 		assert(false);
 		/*int c = 16;
@@ -1003,7 +1003,7 @@ const Color& LevelRenderer::setupClearColor(float f)
 	Level& level = *mc.m_pLevel;
 	const Entity& camera = *mc.m_pCameraEntity;
 
-	float x1 = 1.0f - powf(1.0f / float(4 - options.m_iViewDistance), 0.25f);
+	float x1 = 1.0f - powf(1.0f / float(4 - options.m_viewDistance.get()), 0.25f);
 
 	Vec3 skyColor = level.getSkyColor(camera, f), fogColorVec = level.getFogColor(f);
 
@@ -1027,7 +1027,7 @@ const Color& LevelRenderer::setupClearColor(float f)
 
 	fogColor *= x2;
 
-	if (options.m_bAnaglyphs)
+	if (options.m_anaglyphs.get())
 	{
 		fogColor.r = (fogColor.r * 30.0f + fogColor.g * 59.0f + fogColor.b * 11.0f) / 100.0f;
 		fogColor.g = (fogColor.r * 30.0f + fogColor.g * 70.0f) / 100.0f;
@@ -1125,7 +1125,7 @@ void LevelRenderer::tick()
 	m_fogBrO = m_fogBr;
 
 	float bright = level.getBrightness(camera.m_pos);
-	float x3 = float(3 - options.m_iViewDistance);
+	float x3 = float(3 - options.m_viewDistance.get());
 	float x4 = x3 / 3.0f;
 	float x5 = (x4 + bright * (1.0f - x4) - m_fogBr) * 0.1f;
 
@@ -1367,8 +1367,8 @@ void LevelRenderer::tileChanged(const TilePos& pos)
 void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
 	Mob* pOldMob = m_pMinecraft->m_pCameraEntity;
-	bool bOldDontRenderGui = m_pMinecraft->getOptions()->m_bDontRenderGui;
-	bool bOldThirdPerson = m_pMinecraft->getOptions()->m_bThirdPerson;
+	bool bOldDontRenderGui = m_pMinecraft->getOptions()->m_hideGui.get();
+	bool bOldThirdPerson = m_pMinecraft->getOptions()->m_thirdPerson.get();
 
 #ifdef ENH_CAMERA_NO_PARTICLES
 	extern bool g_bDisableParticles;
@@ -1376,12 +1376,12 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 #endif
 
 	m_pMinecraft->m_pCameraEntity = pCamera;
-	m_pMinecraft->getOptions()->m_bDontRenderGui = true;
-	m_pMinecraft->getOptions()->m_bThirdPerson = false; // really from the perspective of the camera
+	m_pMinecraft->getOptions()->m_hideGui.set(true);
+	m_pMinecraft->getOptions()->m_thirdPerson.set(false); // really from the perspective of the camera
 	m_pMinecraft->m_pGameRenderer->render(0.0f);
 	m_pMinecraft->m_pCameraEntity = pOldMob;
-	m_pMinecraft->getOptions()->m_bDontRenderGui = bOldDontRenderGui;
-	m_pMinecraft->getOptions()->m_bThirdPerson = bOldThirdPerson;
+	m_pMinecraft->getOptions()->m_hideGui.set(bOldDontRenderGui);
+	m_pMinecraft->getOptions()->m_thirdPerson.set(bOldThirdPerson);
 
 #ifdef ENH_CAMERA_NO_PARTICLES
 	g_bDisableParticles = false;
@@ -1590,7 +1590,7 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 		if (!culler->isVisible(entity->m_hitbox))
 			continue;
 
-		if (m_pMinecraft->m_pCameraEntity == entity && !m_pMinecraft->getOptions()->m_bThirdPerson)
+		if (m_pMinecraft->m_pCameraEntity == entity && !m_pMinecraft->getOptions()->m_thirdPerson.get())
 			continue;
 
 		if (m_pLevel->hasChunkAt(entity->m_pos))
@@ -1647,7 +1647,7 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 		return;
 
 	Vec3 sc = m_pLevel->getSkyColor(camera, alpha);
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_anaglyphs.get())
 	{
 		sc.x = (((sc.x * 30.0f) + (sc.y * 59.0f)) + (sc.z * 11.0f)) / 100.0f;
 		sc.y = ((sc.x * 30.0f) + (sc.y * 70.0f)) / 100.0f;
@@ -1718,7 +1718,7 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 	if (!areCloudsAvailable())
 		return;
 
-	if (m_pMinecraft->getOptions()->m_bFancyGraphics)
+	if (m_pMinecraft->getOptions()->m_fancyGraphics.get())
 	{
 		renderAdvancedClouds(alpha);
 		return;
@@ -1820,7 +1820,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
     float vo;
     float scale;
     
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_anaglyphs.get())
 	{
         uo = (cr * 30.0f + cg * 59.0f + cb * 11.0f) / 100.0f;
         vo = (cr * 30.0f + cg * 70.0f) / 100.0f;

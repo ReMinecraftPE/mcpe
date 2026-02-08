@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "client/gui/components/Button.hpp"
 
 class CreditsScreen : public Screen
 {

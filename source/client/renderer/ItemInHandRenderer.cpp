@@ -18,6 +18,7 @@ ItemInHandRenderer::Materials::Materials()
     MATERIAL_PTR(switchable, entity);
     MATERIAL_PTR(switchable, entity_alphatest);
     MATERIAL_PTR(switchable, item_in_hand);
+    MATERIAL_PTR(switchable, item_in_hand_color);
     MATERIAL_PTR(switchable, entity_glint);
     MATERIAL_PTR(switchable, entity_alphatest_glint);
     MATERIAL_PTR(switchable, item_in_hand_glint);
@@ -61,7 +62,7 @@ void ItemInHandRenderer::render(float a)
 
     MatrixStack::Ref matrix = MatrixStack::World.push();
 
-	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pCameraEntity == pLP)
+	if (m_pMinecraft->getOptions()->m_dynamicHand.get() && m_pMinecraft->m_pCameraEntity == pLP)
 	{
 		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmRot.x, pLP->m_renderArmRot.x, a);
 		float rPitch = Mth::Lerp(pLP->m_lastRenderArmRot.y, pLP->m_renderArmRot.y, a);
@@ -173,7 +174,7 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
 #	define ARGPATCH
 #endif
         
-        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand ARGPATCH);
+        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand_color ARGPATCH);
         
 #ifdef ARGPATCH
 #	undef ARGPATCH
@@ -266,7 +267,11 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
             t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
         }
         
+#ifdef ENH_SHADE_HELD_TILES
+        t.draw(m_materials.item_in_hand_color);
+#else
         t.draw(m_materials.item_in_hand);
+#endif
     }
 }
 
@@ -282,7 +287,7 @@ void ItemInHandRenderer::renderScreenEffect(float a)
         renderFire(a);
     }
 
-    if (player->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
+    if (player->isInWall() && !m_pMinecraft->getOptions()->m_flightHax.get())
     {
         textures->loadAndBindTexture(C_TERRAIN_NAME);
 

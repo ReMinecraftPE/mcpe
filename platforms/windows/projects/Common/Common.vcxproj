@@ -81,7 +81,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\threading\CThread.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Random.cpp" />
@@ -94,9 +94,10 @@
     <ClCompile Include="$(MC_ROOT)\source\common\utility\AlignmentHelper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\utility\JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\utility\Singleton.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\threading\AsyncTask.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\threading\CThread.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Mth.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Random.hpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="$(MC_ROOT)\source\common\utility\InheritanceTree.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\utility\JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\utility\Singleton.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\threading\AsyncTask.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

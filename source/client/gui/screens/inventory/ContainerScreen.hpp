@@ -71,8 +71,8 @@ public:
     void onClose() override;
     void tick() override;
     bool isPauseScreen() override;
-    void pointerPressed(int mouseX, int mouseY, MouseButtonType button) override;
-    void pointerReleased(int mouseX, int mouseY, MouseButtonType button) override;
+    void pointerPressed(const MenuPointer& pointer, MouseButtonType button) override;
+    void pointerReleased(const MenuPointer& pointer, MouseButtonType button) override;
     void handlePointerPressed(bool isPressed) override;
     void keyPressed(int key) override;
 
@@ -81,9 +81,9 @@ public:
 public:
     virtual void initMenuPointer() override;
     virtual void slotsChanged(Container* container);
-    virtual void slotClicked(int mouseX, int mouseY, MouseButtonType button, bool quick);
+    virtual void slotClicked(const MenuPointer& pointer, MouseButtonType button, bool quick);
     virtual void slotClicked(Slot* slot, int index, MouseButtonType button, bool quick);
-    void slotClicked(int mouseX, int mouseY, MouseButtonType button);
+    void slotClicked(const MenuPointer& pointer, MouseButtonType button);
 
 public:
     ContainerMenu* m_pMenu;

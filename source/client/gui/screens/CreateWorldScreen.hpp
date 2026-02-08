@@ -9,6 +9,8 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "client/gui/components/Button.hpp"
+#include "client/gui/components/TextBox.hpp"
 
 #ifndef ORIGINAL_CODE
 
@@ -26,8 +28,8 @@ public:
 	bool handleBackEvent(bool b) override;
 
 public:
-	TextInputBox m_textName;
-	TextInputBox m_textSeed;
+	TextBox m_textName;
+	TextBox m_textSeed;
 	Button m_btnBack;
 	Button m_btnCreate;
 };

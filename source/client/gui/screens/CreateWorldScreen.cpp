@@ -50,12 +50,12 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 
 void CreateWorldScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnBack.m_buttonId)
+	if (pButton->getId() == m_btnBack.getId())
 	{
 		handleBackEvent(false);
 	}
 
-	if (pButton->m_buttonId == m_btnCreate.m_buttonId)
+	if (pButton->getId() == m_btnCreate.getId())
 	{
 		std::string nameStr = m_textName.getText();
 		std::string seedStr = m_textSeed.getText();
@@ -107,10 +107,10 @@ void CreateWorldScreen::init()
 	m_btnBack.m_xPos   = m_width / 2 - 200 / 2;
 	m_btnCreate.m_xPos = m_width / 2 - 200 / 2;
 
-	m_textInputs.push_back(&m_textName);
-	m_textInputs.push_back(&m_textSeed);
-	_addElement(m_btnBack);
+	_addElement(m_textName);
+	_addElement(m_textSeed);
 	_addElement(m_btnCreate);
+	_addElement(m_btnBack);
 	m_textName.init(m_pFont);
 	m_textSeed.init(m_pFont);
 

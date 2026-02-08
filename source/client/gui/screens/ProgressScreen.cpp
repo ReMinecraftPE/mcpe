@@ -11,6 +11,7 @@
 #include "ProgressScreen.hpp"
 #include "client/locale/Language.hpp"
 #include "client/renderer/LogoRenderer.hpp"
+#include "client/app/Minecraft.hpp"
 
 bool ProgressScreen::isInGameScreen()
 {
@@ -64,7 +65,7 @@ void ProgressScreen::render(float f)
 			}
 		}
 
-		std::string header = Language::singleton().get("legacy.initializing");
+		std::string header = Language::get("legacy.initializing");
 
 		m_pFont->drawOutlinedString(header, (m_width - m_pFont->width(header) * 4) / 2, loadingBarY - 105, Color::WHITE, Color::BLACK);
 

@@ -47,7 +47,7 @@ public:
 	void setListenerAngle(const Vec2& rot) override;
 	void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch) override;
 	void setMusicVolume(float vol) override;
-	void update(float) override;
+	void update() override;
 	void playMusic(const std::string& soundPath) override;
 	bool isPlayingMusic() const override;
 	void stopMusic() override;

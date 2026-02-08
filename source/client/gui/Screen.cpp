@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "Screen.hpp"
+#include "client/app/Minecraft.hpp"
+#include "client/gui/components/Button.hpp"
 #include "client/player/input/GameControllerManager.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
@@ -124,15 +126,16 @@ bool Screen::_prevElement()
 	return true;
 }
 
-void Screen::_addElement(Button& element, bool isTabbable)
+void Screen::_addElement(GuiElement& element, bool isTabbable)
 {
 	_addElementToList(m_elementListIndex, element, isTabbable);
 }
 
-void Screen::_addElementToList(unsigned int index, Button& element, bool isTabbable)
+void Screen::_addElementToList(unsigned int index, GuiElement& element, bool isTabbable)
 {
 	m_elements.push_back(&element);
 	element.m_uiTheme = m_uiTheme;
+	m_elementsById[element.getId()] = &element;
 
 	if (isTabbable)
 		_getElementList(index).push_back(&element);
@@ -239,7 +242,7 @@ GuiElement* Screen::_getInternalElement(unsigned int index)
 	return list[index];
 }
 
-GuiElement* Screen::_getElement(unsigned int index)
+GuiElement* Screen::_getElementByIndex(unsigned int index)
 {
 	GuiElementList& list = _getElementList();
 	if (index >= list.size())
@@ -248,9 +251,18 @@ GuiElement* Screen::_getElement(unsigned int index)
 	return list[index];
 }
 
+GuiElement* Screen::_getElementById(GuiElement::ID id)
+{
+	GuiElementMap::const_iterator it = m_elementsById.find(id);
+	if (it != m_elementsById.end())
+		return it->second;
+
+	return nullptr;
+}
+
 GuiElement* Screen::_getSelectedElement()
 {
-	return _getElement(m_elementIndex);
+	return _getElementByIndex(m_elementIndex);
 }
 
 GuiElementList& Screen::_getElementList(unsigned int index)
@@ -280,7 +292,10 @@ void Screen::init(Minecraft* pMinecraft, int width, int height)
 
 void Screen::keyPressed(int key)
 {
-	if (m_pMinecraft->getOptions()->isKey(KM_MENU_CANCEL, key))
+	Options& options = *m_pMinecraft->getOptions();
+	GuiElement* element = _getSelectedElement();
+
+	if (options.isKey(KM_MENU_CANCEL, key))
 	{
 		m_pMinecraft->handleBack(false);
 	}
@@ -296,24 +311,29 @@ void Screen::keyPressed(int key)
 
 	if (doElementTabbing())
 	{
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_DOWN, key))
+		if (options.isKey(KM_MENU_DOWN, key))
 		{
 			nextElement();
 		}
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_UP, key))
+		if (options.isKey(KM_MENU_UP, key))
 		{
 			prevElement();
 		}
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, key))
+		if (options.isKey(KM_MENU_OK, key))
 		{
-			GuiElement* element = _getSelectedElement();
 			if (element && element->isEnabled())
 			{
-				if (element->getType() == GuiElement::TYPE_BUTTON)
+				switch (element->getType())
+				{
+				case GuiElement::TYPE_BUTTON:
 				{
 					Button* button = (Button*)element;
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
+					button->pressed(m_pMinecraft, MenuPointer(button->m_xPos, button->m_yPos));
 					_buttonClicked(button);
+					break;
+				}
+				default: break;
 				}
 			}
 		}
@@ -322,28 +342,27 @@ void Screen::keyPressed(int key)
 		//_updateTabButtonSelection();
 	}
 	
-	for (size_t i = 0; i < m_textInputs.size(); i++)
+	if (element && element->isEnabled())
 	{
-		TextInputBox* textInput = m_textInputs[i];
-		textInput->keyPressed(key);
+		element->handleButtonPress(m_pMinecraft, key);
 	}
 }
 
-void Screen::keyboardNewChar(char chr)
+void Screen::handleTextChar(char chr)
 {
-	for (size_t i = 0; i < m_textInputs.size(); i++)
+	GuiElement* element = _getSelectedElement();
+	if (element && element->isEnabled())
 	{
-		TextInputBox* textInput = m_textInputs[i];
-		textInput->charPressed(chr);
+		element->handleTextChar(m_pMinecraft, chr);
 	}
 }
 
 void Screen::keyboardTextPaste(const std::string& text)
 {
-	for (size_t i = 0; i < m_textInputs.size(); i++)
+	GuiElement* element = _getSelectedElement();
+	if (element && element->isEnabled())
 	{
-		TextInputBox* textInput = m_textInputs[i];
-		textInput->pasteText(text);
+		element->handleClipboardPaste(text);
 	}
 }
 
@@ -377,7 +396,7 @@ void Screen::renderMenuBackground(float f)
 		return;
 	}
 
-	if (!m_pMinecraft->getOptions()->m_bMenuPanorama)
+	if (!m_pMinecraft->getOptions()->m_menuPanorama.get())
 	{
 		renderDirtBackground(0);
 		return;
@@ -470,18 +489,20 @@ void Screen::renderLegacyPanorama()
 	renderLegacyPanorama(m_pMinecraft->m_pLevel && !m_pMinecraft->m_pLevel->isDay());
 }
 
-void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clicked?
+void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // d = clicked?
 {
 	if (btn == MOUSE_BUTTON_NONE) return;
 	
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		GuiElement* element = _getInternalElement((unsigned int)i);
+		element->pointerPressed(m_pMinecraft, pointer);
+
 		if (element->getType() != GuiElement::TYPE_BUTTON)
 			continue;
 
 		Button* button = (Button*)element;
-		if (button->clicked(m_pMinecraft, xPos, yPos))
+		if (button->clicked(m_pMinecraft, pointer))
 		{
 			m_pClickedButton = button;
 
@@ -491,43 +512,24 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
 				else
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_CLICK);
+				button->pressed(m_pMinecraft, pointer);
 				_buttonClicked(button);
 			}
 		}
 	}
 
 #ifndef ORIGINAL_CODE
-	// Iterate over focused text inputs first. This is because if changing
-	// focus, the previous focus must hide the OSK, before the new focus
-	// shows it.
-	for (int phase = 0; phase < 2; phase++)
-	{
-		bool handleFocused = phase == 0;
-		for (size_t i = 0; i < m_textInputs.size(); i++)
-		{
-			TextInputBox* textInput = m_textInputs[i];
-			if (textInput->hasFocus() == handleFocused)
-			{
-				textInput->onClick(xPos, yPos);
-			}
-		}
-	}
-
+	// @TODO: old code? why is this only doing this for Android? how does this work on iOS?
 #ifdef USE_NATIVE_ANDROID
 	// if the keyboard is shown:
 	if (m_pMinecraft->platform()->getKeyboardUpOffset())
 	{
 		// if there are none focused at the moment:
 		bool areAnyFocused = false;
-		for (size_t i = 0; i < m_textInputs.size(); i++)
-		{
-			TextInputBox* textInput = m_textInputs[i];
-			if (textInput->hasFocus())
-			{
-				areAnyFocused = true;
-				break;
-			}
-		}
+		
+		GuiElement* element = _getSelectedElement();
+		if (element && element->getType() == GuiElement::TYPE_TEXTBOX)
+			areAnyFocused = true;
 
 		if (!areAnyFocused)
 			m_pMinecraft->platform()->hideKeyboard();
@@ -536,18 +538,21 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 #endif
 }
 
-void Screen::pointerReleased(int xPos, int yPos, MouseButtonType btn)
+void Screen::pointerReleased(const MenuPointer& pointer, MouseButtonType btn)
 {
 	if (btn == MOUSE_BUTTON_NONE) return;
+	
+	// @TODO: call GuiElement::pointerReleased(m_pMinecraft, pointer);
 
 	if (m_pClickedButton)
 	{
-		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
+		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, pointer))
 		{
 			m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_RELEASE);
+			m_pClickedButton->pressed(m_pMinecraft, pointer);
 			_buttonClicked(m_pClickedButton);
 		}
-		m_pClickedButton->released(xPos, yPos);
+		m_pClickedButton->released(pointer);
 		m_pClickedButton = nullptr;
 	}
 }
@@ -557,21 +562,11 @@ void Screen::render(float a)
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		GuiElement* element = _getInternalElement(i);
-		if (element->getType() != GuiElement::TYPE_BUTTON)
-			continue;
+		if (!element) continue;
 
-		Button* button = (Button*)element;
-		button->render(m_pMinecraft, m_menuPointer.x, m_menuPointer.y);
+		element->tick(m_pMinecraft);
+		element->render(m_pMinecraft, m_menuPointer);
 	}
-
-#ifndef ORIGINAL_CODE
-	for (size_t i = 0; i < m_textInputs.size(); i++)
-	{
-		TextInputBox* textInput = m_textInputs[i];
-		textInput->tick();
-		textInput->render();
-	}
-#endif
 }
 
 void Screen::tick()
@@ -591,7 +586,6 @@ void Screen::setSize(int width, int height)
 	m_elements.clear();
 	m_elementTabLists.clear();
 	_addElementList();
-	m_textInputs.clear();
 	init();
 }
 
@@ -619,6 +613,27 @@ bool Screen::onBack(bool b)
 	// Play the sound regardless, since NinecraftApp will set the current screen to null anyways
 	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_BACK);
 	return result;
+}
+
+bool Screen::selectElement(GuiElement::ID id)
+{
+	// @TODO: this is pretty inefficient and should be redone
+	// we are doing a bruteforce search for an element with a matching ID
+	for (size_t i = 0; i < m_elementTabLists.size(); i++)
+	{
+		GuiElementList& list = _getElementList(i);
+		for (size_t j = 0; j < list.size(); j++)
+		{
+			if (_getElementByIndex(j)->getId() == id)
+			{
+				m_elementListIndex = (unsigned int)i;
+				m_elementIndex = (unsigned int)j;
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
 void Screen::onClose()
@@ -674,7 +689,7 @@ bool Screen::prevTab()
 	return result;
 }
 
-int Screen::getYOffset() const
+int Screen::getYOffset()
 {
 #ifdef USE_NATIVE_ANDROID
 	int keybOffset = m_pMinecraft->platform()->getKeyboardUpOffset();
@@ -683,23 +698,17 @@ int Screen::getYOffset() const
 
 	int offset = 0;
 
-	// look through every text box, see if one's open
-	// and determine its offset from there
-	for (size_t i = 0; i < m_textInputs.size(); i++)
+	GuiElement* element = _getSelectedElement();
+	if (element && element->getType() == GuiElement::TYPE_TEXTBOX)
 	{
-		const TextInputBox* pBox = m_textInputs[i];
-
-		if (!pBox->hasFocus())
-			continue;
-		
 		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
 
 		// we want to keep the center of the text box in the center of the screen
-		int textCenterY = pBox->m_yPos + pBox->m_height / 2;
+		int textCenterY = element->m_yPos + element->m_height / 2;
 		int scrnCenterY = heightLeft / 2;
 
 		int diff = textCenterY - scrnCenterY;
-		
+
 		// Prevent the difference from revealing the outside of the screen.
 		if (diff > m_height - heightLeft)
 			diff = m_height - heightLeft;
@@ -707,7 +716,6 @@ int Screen::getYOffset() const
 			diff = 0;
 
 		offset = diff;
-		break;
 	}
 
 	return offset;
@@ -800,8 +808,8 @@ void Screen::_updateTabButtonSelection()
 
 	for (size_t i = 0; i < _getElementList().size(); i++)
 	{
-		_getElement(i)->setFocused(m_elementIndex == i);
-		_getElement(i)->setSelected(m_elementIndex == i);
+		_getElementByIndex(i)->setFocused(m_elementIndex == i);
+		_getElementByIndex(i)->setSelected(m_elementIndex == i);
 	}
 }
 
@@ -903,13 +911,13 @@ void Screen::handlePointerAction(const MenuPointer& pointer, MouseButtonType but
 {
 	if (pointer.isPressed)
 	{
-		// pointerPressed(width * pAction->_posX / Minecraft::width, height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
-		pointerPressed(pointer.x, pointer.y + getYOffset(), button);
+		// pointerPressed(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
+		pointerPressed(MenuPointer(pointer.x, pointer.y + getYOffset()), button);
 	}
 	else
 	{
-		// pointerReleased(width * pAction->_posX / Minecraft::width, height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
-		pointerReleased(pointer.x, pointer.y + getYOffset(), button);
+		// pointerReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
+		pointerReleased(MenuPointer(pointer.x, pointer.y + getYOffset()), button);
 	}
 }
 
@@ -922,7 +930,7 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick,
 	if (m_bRenderPointer && stick.id == 1)
 	{
 		// Behold pizzart's magic numbers
-		float baseSensitivity = m_pMinecraft->getOptions()->m_fSensitivity;
+		float baseSensitivity = m_pMinecraft->getOptions()->m_sensitivity.get();
 		float sensitivity = baseSensitivity * 2.0f;
 		float moveSensitivity = baseSensitivity * 2.0f;
 

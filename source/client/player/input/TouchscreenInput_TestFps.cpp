@@ -200,12 +200,14 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 		switch (pointerId)
 		{
 			case 100 + INPUT_FORWARD:
-				if (m_bJumpBeingHeld && m_pOptions->m_bFlyCheat) {
+				if (m_bJumpBeingHeld && m_pOptions->m_flightHax.get())
+				{
 					m_bJumpBeingHeld = true;
 					m_bWasJumping = false;
 					bJumpPressed = true;
 				} 
-				else {
+				else
+				{
 					if (pPlayer->isInWater())
 						m_bJumping = true;
 					else
@@ -216,7 +218,8 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 				break;
 
 			case 100 + INPUT_BACKWARD:
-				if (m_bJumpBeingHeld && m_pOptions->m_bFlyCheat) {
+				if (m_bJumpBeingHeld && m_pOptions->m_flightHax.get())
+				{
 					m_bJumpBeingHeld = true;
 					m_bWasJumping = false;
 					bJumpPressed = true;
@@ -262,8 +265,9 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 			m_bJumping = true;
 		m_bJumpBeingHeld = true;
 
-		if (m_bWasJumping && m_pMinecraft->m_pGameMode->isCreativeType()) {
-			m_pOptions->m_bFlyCheat = !m_pOptions->m_bFlyCheat;
+		if (m_bWasJumping && m_pMinecraft->m_pGameMode->isCreativeType())
+		{
+			m_pOptions->m_flightHax.toggle();
 			m_bWasJumping = false;
 			m_bJumpBeingHeld = false;
 		}
@@ -343,10 +347,10 @@ void TouchscreenInput_TestFps::render(float f)
 	RenderTouchButton(&t, m_pAreaRight, 78, 106);
 
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	(m_pOptions->m_bFlyCheat) ?
+	(m_pOptions->m_flightHax) ?
 	RenderTouchButton(&t, m_pAreaJump, 104, 132) : RenderTouchButton(&t, m_pAreaJump, 104, 106);
 
-	if (m_pOptions->m_bFlyCheat && m_bJumpBeingHeld ) 
+	if (m_pOptions->m_flightHax && m_bJumpBeingHeld ) 
 	{
 		t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaForward, 52, 132);

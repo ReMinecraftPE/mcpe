@@ -34,7 +34,7 @@ void TileRenderer::_init()
 	m_bXFlipTexture = false;
 	m_bNoCulling = false;
 	m_bRenderingGui = false;
-	m_bAmbientOcclusion = false;
+	m_ambientOcclusion = false;
 
 	// AO stuff
 	field_C = 0;
@@ -206,7 +206,7 @@ void TileRenderer::renderEast(Tile* tile, const Vec3& pos, int texture)
 
 	Tesselator& t = Tesselator::instance;
 
-	if (m_bAmbientOcclusion)
+	if (m_ambientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
 		_tex1(m_vtxLightTex[0]);
@@ -283,7 +283,7 @@ void TileRenderer::renderWest(Tile* tile, const Vec3& pos, int texture)
 
 	Tesselator& t = Tesselator::instance;
 
-	if (m_bAmbientOcclusion)
+	if (m_ambientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
 		_tex1(m_vtxLightTex[0]);
@@ -360,7 +360,7 @@ void TileRenderer::renderSouth(Tile* tile, const Vec3& pos, int texture)
 
 	Tesselator& t = Tesselator::instance;
 
-	if (m_bAmbientOcclusion)
+	if (m_ambientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
 		_tex1(m_vtxLightTex[0]);
@@ -437,7 +437,7 @@ void TileRenderer::renderNorth(Tile* tile, const Vec3& pos, int texture)
 
 	Tesselator& t = Tesselator::instance;
 
-	if (m_bAmbientOcclusion)
+	if (m_ambientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
 		_tex1(m_vtxLightTex[0]);
@@ -508,7 +508,7 @@ void TileRenderer::renderFaceDown(Tile* tile, const Vec3& pos, int texture)
 
 	Tesselator& t = Tesselator::instance;
 
-	if (m_bAmbientOcclusion)
+	if (m_ambientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
 		_tex1(m_vtxLightTex[0]);
@@ -579,7 +579,7 @@ void TileRenderer::renderFaceUp(Tile* tile, const Vec3& pos, int texture)
 
 	Tesselator& t = Tesselator::instance;
 
-	if (m_bAmbientOcclusion)
+	if (m_ambientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
 		_tex1(m_vtxLightTex[0]);
@@ -1800,7 +1800,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusion(Tile* a2, const Ti
 	int v221; // [sp+28h] [bp-40h]
 	int v222; // [sp+2Ch] [bp-3Ch]
 
-	this->m_bAmbientOcclusion = true;
+	this->m_ambientOcclusion = true;
 	v12 = a2->getBrightness(this->m_pTileSource, pos);
 	v13 = this->m_pTileSource;
 	this->field_C = v12;
@@ -2573,7 +2573,7 @@ LABEL_101:
 	renderEast(a2, pos, v193);
 LABEL_102:
 	result = v69;
-	this->m_bAmbientOcclusion = false;
+	this->m_ambientOcclusion = false;
 	return result;
 }
 
@@ -2913,7 +2913,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 			m_vtxBlue [i] *= fB * lightingMult[dir];
 		}
 
-		m_bAmbientOcclusion = true;
+		m_ambientOcclusion = true;
 
 		switch (dir) 
 		{
@@ -2987,7 +2987,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 			}
 		}
 
-		m_bAmbientOcclusion = false;
+		m_ambientOcclusion = false;
 	}
 
 	return true;

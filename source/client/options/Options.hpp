@@ -8,11 +8,14 @@
 
 #pragma once
 
+#include <sstream>
 #include <stdint.h>
 
 #include <string>
 #include <vector>
+#include <map>
 
+#include "common/threading/AsyncTask.hpp"
 #include "client/resources/ResourcePackManager.hpp"
 
 enum eKeyMappingIndex
@@ -96,109 +99,265 @@ enum HUDScale
 };
 
 class Minecraft;
+class GuiElement;
+class Minecraft;
+
+class OptionEntry
+{
+public:
+	OptionEntry(const std::string& key, const std::string& name) : m_key(key), m_name(name), m_pMinecraft(nullptr) {}
+
+	virtual const std::string& getKey() const { return m_key; }
+	virtual const std::string& getName() const;
+	virtual std::string getDisplayValue() const;
+	virtual void save(std::stringstream&) const = 0;
+	virtual std::string getMessage() const;
+	virtual void load(const std::string& value) = 0;
+	virtual void toggle() = 0;
+
+	virtual void addGuiElement(std::vector<GuiElement*>&, const std::string&);
+
+private:
+	std::string m_key;
+	std::string m_name;
+
+public:
+	Minecraft* m_pMinecraft;
+};
+
+template <typename V>
+class OptionInstance : public OptionEntry
+{
+private:
+	V m_value;
+	V m_defaultValue;
+
+public:
+	OptionInstance(const std::string& key, const std::string& name, V initial) : OptionEntry(key, name), m_value(initial), m_defaultValue(initial) {}
+
+	virtual void toggle() {}
+	virtual void apply() {}
+
+	void set(const V& v)
+	{
+		V oldValue = m_value;
+		m_value = v;
+		if (oldValue != v)
+			apply();
+	}
+
+	void reset() { set(m_defaultValue); }
+	const V& get() const { return m_value; }
+};
+
+class BoolOption : public OptionInstance<bool>
+{
+public:
+	BoolOption(const std::string& key, const std::string& name, bool initial = true) : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override;
+	void save(std::stringstream& ss) const override;
+	void toggle() override { set(get() ^ 1); }
+	std::string getDisplayValue() const override;
+	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+};
+
+class FloatOption : public OptionInstance<float>
+{
+public:
+	FloatOption(const std::string& key, const std::string& name, float initial = 0.0f) : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override;
+	void save(std::stringstream& ss) const override { ss << get(); }
+	std::string getDisplayValue() const override;
+	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+};
+
+class SensitivityOption : public FloatOption
+{
+public:
+	SensitivityOption(const std::string& key, const std::string& name, float initial = 0.0f) : FloatOption(key, name, initial) {}
+
+	std::string getDisplayValue() const override;
+};
+
+class AOOption : public BoolOption
+{
+public:
+	AOOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
+class GraphicsOption : public BoolOption
+{
+public:
+	GraphicsOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
+class FancyGraphicsOption : public GraphicsOption
+{
+public:
+	FancyGraphicsOption(const std::string& key, const std::string& name, bool initial = true) : GraphicsOption(key, name, initial) {}
+
+	std::string getMessage() const override;
+};
+
+class IntOption : public OptionInstance<int>
+{
+public:
+	IntOption(const std::string& key, const std::string& name, int initial = 0) : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override;
+	void save(std::stringstream& ss) const override { ss << get(); }
+};
+
+class StringOption : public OptionInstance<std::string>
+{
+public:
+	StringOption(const std::string& key, const std::string& name, std::string initial = "") : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override { set(value); }
+	void save(std::stringstream& ss) const override { ss.str(get()); }
+};
+
+class ValuesBuilder
+{
+public:
+	ValuesBuilder& add(const std::string& value)
+	{
+		m_values.push_back(value);
+		return *this;
+	}
+
+public:
+	std::vector<std::string> m_values;
+};
+
+class ValuesOption : public IntOption
+{
+public:
+	ValuesOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : IntOption(key, name, initial), m_values(values.m_values)
+	{
+	}
+
+	void toggle() override { set((get() + 1) % m_values.size()); }
+	std::string getDisplayValue() const override { return m_values[Mth::Min(get(), int(m_values.size()))]; }
+	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+
+public:
+	std::vector<std::string> m_values;
+};
+
+class GuiScaleOption : public ValuesOption
+{
+public:
+	GuiScaleOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
+	{
+	}
+
+	void apply() override;
+};
 
 class Options
 {
 public:
-	struct Option;
 	struct KeyBind;
 private:
+    // @TODO: Move these to a "PlainTextSerializer" class, since we probably want to use these
+    // in PatchManager as well.
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
+	static float readFloat(const std::string& str);
 	static void readArray(const std::string& str, std::vector<std::string>& array);
 	static void readPackArray(const std::string& str, ResourcePackStack& array);
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
+	static std::string saveFloat(float f);
 	static std::string saveArray(const std::vector<std::string>& arr);
 	static std::string savePackArray(const ResourcePackStack& arr);
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
 	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 
+private: // async
+	MC_ASYNC_FUNC_VOID_2(savePropertiesToFile,
+		const std::string, filePath,
+		const std::vector<std::string>, properties
+	);
+
 private:
 	void _initDefaultValues();
 	void _load();
+	AsyncTask _saveAsync();
 public:
-	Options(Minecraft*);
-	Options(const std::string& folderPath, Minecraft*);
-	void save();
-	std::string getMessage(const Options::Option&);
+	Options(Minecraft*, const std::string& folderPath = "");
+
+	void add(OptionEntry&);
+	const AsyncTask& save();
 	std::vector<std::string> getOptionStrings();
 	
 	int getKey(eKeyMappingIndex idx) const { return m_keyMappings[idx].value; }
 	bool isKey(eKeyMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
 
 	void loadControls();
+	void initResourceDependentOptions();
 
 	LogoType getLogoType() const;
 
 private:
 	Minecraft* m_pMinecraft;
+	std::map<std::string, OptionEntry*> m_options;
+	AsyncTask m_saveTask;
 	std::string m_filePath;
 	KeyMapping m_keyMappings[KM_COUNT];
 
 public:
-	float m_fMusicVolume;
-	float m_fMasterVolume;
-	float m_fSensitivity;
-	bool m_bInvertMouse;
-	int m_iViewDistance;
-	bool m_bViewBobbing;
-	bool m_bAnaglyphs;
+	friend class BoolOption;
+	friend class FloatOption;
+	friend class SensitivityOption;
+	friend class IntOption;
+
+	FloatOption m_musicVolume;
+	FloatOption m_masterVolume;
+	SensitivityOption m_sensitivity;
+	BoolOption m_invertMouse;
+	ValuesOption m_viewDistance;
+	BoolOption m_viewBobbing;
+	BoolOption m_anaglyphs;
 	uint8_t field_16;
-	bool m_bFancyGraphics;
-	bool m_bAmbientOcclusion;
+	FancyGraphicsOption m_fancyGraphics;
+	AOOption m_ambientOcclusion;
 	uint8_t field_19; // use Mouse as input for breaking
 	std::string field_1C;
-	int m_difficulty;
-	bool m_bDontRenderGui;
-	bool m_bThirdPerson;
+	ValuesOption m_difficulty;
+	BoolOption m_hideGui;
+	BoolOption m_thirdPerson;
 	uint8_t field_23E;
-	bool m_bFlyCheat;
+	BoolOption m_flightHax;
 	uint8_t field_240;
 	bool field_241;
 	float field_244;
 	float field_248;
 	int field_24C;
-	std::string m_playerName;
-	bool m_bServerVisibleDefault;
-	bool m_bAutoJump;
-	bool m_bDebugText;
-	bool m_bBlockOutlines;
-	bool m_bFancyGrass;
-	bool m_bBiomeColors;
-	bool m_bSplitControls;
-	bool m_bUseController;
-	bool m_bDynamicHand;
-	bool m_b2dTitleLogo;
-	bool m_bMenuPanorama;
-	bool m_bClassicCrafting;
-	UITheme m_uiTheme;
+	StringOption m_playerName;
+	BoolOption m_serverVisibleDefault;
+	BoolOption m_autoJump;
+	BoolOption m_debugText;
+	BoolOption m_blockOutlines;
+	GraphicsOption m_fancyGrass;
+	GraphicsOption m_biomeColors;
+	BoolOption m_splitControls;
+	BoolOption m_bUseController;
+	BoolOption m_dynamicHand;
+	BoolOption m_b2dTitleLogo;
+	BoolOption m_menuPanorama;
+	GuiScaleOption m_guiScale;
+	StringOption m_lang;
+  UITheme m_uiTheme;
 	LogoType m_logoType;
 	HUDScale m_hudScale;
 	ResourcePackStack m_resourcePacks;
-
-public:
-	struct Option
-	{
-		bool field_0;
-		bool field_1;
-		std::string str;
-		int field_1C;
-		
-		Option(int i, const std::string& str, bool b1, bool b2) : field_0(b1), field_1(b2), str(str), field_1C(i) {}
-
-		static Option MUSIC;
-		static Option SOUND;
-		static Option INVERT_MOUSE;
-		static Option SENSITIVITY;
-		static Option RENDER_DISTANCE;
-		static Option VIEW_BOBBING;
-		static Option ANAGLYPH;
-		static Option LIMIT_FRAMERATE;
-		static Option DIFFICULTY;
-		static Option GRAPHICS;
-		static Option AMBIENT_OCCLUSION;
-		static Option GUI_SCALE;
-	};
 };
 

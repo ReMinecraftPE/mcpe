@@ -15,8 +15,8 @@ void Language::init(Options* options)
 
     //@NOTE: Should be used for custom lang entries
     loadLanguageFile("lang/en_us.json");
-    //if (options->m_lang.get() != "en_us")
-    //    loadLanguageFile("lang/" + options->m_lang.get() + ".json");
+    if (options->m_lang.get() != "en_us")
+        loadLanguageFile("lang/" + options->m_lang.get() + ".json");
 }
 
 bool Language::loadLanguageFile(const std::string& path)
@@ -72,12 +72,12 @@ bool Language::loadOriginalLanguageFile(const std::string& path)
     return true;
 }
 
-bool Language::contains(const std::string& key) const
+bool Language::has(const std::string& key) const
 {
     return m_translations.find(key) != m_translations.end();
 }
 
-const std::string& Language::get(const std::string& key) const
+const std::string& Language::getOrDefault(const std::string& key) const
 {
     std::map<std::string, std::string>::const_iterator it = m_translations.find(key);
     if (it != m_translations.end())

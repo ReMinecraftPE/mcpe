@@ -53,16 +53,17 @@ void NinecraftApp::_initResourceLoaders()
 void NinecraftApp::_initOptions()
 {
 	// Must be loaded before options, certain options states are forced based on this
-	_reloadOptionalFeatures();
 	_reloadPatchData();
 
 	if (platform()->hasFileSystemAccess())
-		m_pOptions = new Options(platform()->m_externalStorageDir, this);
+		m_pOptions = new Options(this, platform()->m_externalStorageDir);
 	else
 		m_pOptions = new Options(this);
 
 	// kind of a hack, just so we can keep everything centralized in options
 	m_pResourceLoader->m_pPacks = &m_pOptions->m_resourcePacks;
+	_reloadOptionalFeatures();
+	m_pOptions->initResourceDependentOptions();
 }
 
 void NinecraftApp::_initTextures()
@@ -93,13 +94,13 @@ void NinecraftApp::_initRenderMaterials()
 	mce::RenderMaterial::InitContext();
 
 	mce::RenderMaterialGroup::common.loadList("materials/common.json");
-	_reloadFancy(getOptions()->m_bFancyGraphics);
+	_reloadFancy(getOptions()->m_fancyGraphics.get());
 }
 
 void NinecraftApp::_initInput()
 {
 	m_bIsTouchscreen = platform()->isTouchscreen();
-	getOptions()->m_bUseController = platform()->hasGamepad();
+	getOptions()->m_bUseController.set(platform()->hasGamepad());
 	getOptions()->loadControls();
 	_reloadInput();
 }
@@ -199,7 +200,7 @@ void NinecraftApp::_initAll()
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
-	m_pUser = new User(getOptions()->m_playerName, "");
+	m_pUser = new User(getOptions()->m_playerName.get(), "");
 
 	_initInput();
 
@@ -360,7 +361,7 @@ void NinecraftApp::update()
 
 	Multitouch::commit();
 
-	if (getOptions()->m_bUseController)
+	if (getOptions()->m_bUseController.get())
 	{
 		GameControllerHandler* pControllerHandler = platform()->getGameControllerHandler();
 		if (pControllerHandler)

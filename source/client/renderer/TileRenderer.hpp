@@ -82,7 +82,7 @@ private:
 	bool m_bXFlipTexture;
 	bool m_bNoCulling;
 	bool m_bRenderingGui;
-	bool m_bAmbientOcclusion;
+	bool m_ambientOcclusion;
 	float field_C;
 	float field_10;
 	float field_14;
