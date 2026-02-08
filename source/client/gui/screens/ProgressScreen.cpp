@@ -20,7 +20,7 @@ bool ProgressScreen::isInGameScreen()
 
 void ProgressScreen::init()
 {
-	m_uiTheme = m_pMinecraft->getOptions()->m_uiTheme;
+	m_uiTheme = m_pMinecraft->getOptions()->getUITheme() ;
 	Screen::init();
 }
 

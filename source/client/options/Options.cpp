@@ -27,6 +27,7 @@
 #include "client/gui/components/SliderButton.hpp"
 #include "client/gui/components/SwitchButton.hpp"
 #include "client/gui/components/SwitchValuesButton.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 
 void Options::_initDefaultValues()
@@ -41,12 +42,9 @@ void Options::_initDefaultValues()
 	field_1C = "Default";
 	field_19 = 1;
 #if MC_PLATFORM_XBOX360
-	m_uiTheme = UI_CONSOLE;
-#else
-	m_uiTheme = m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA;
+	m_uiTheme.setDefault(UI_CONSOLE);
+	m_uiTheme.reset();
 #endif
-	m_logoType = LOGO_AUTO;
-	m_hudScale = HUD_SCALE_2;
 
 #ifdef ORIGINAL_CODE
 	m_viewDistance.set(2);
@@ -86,6 +84,10 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_menuPanorama("misc_menupano", "options.menuPanorama", true)
 	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
 	, m_lang("gfx_lang", "options.lang", "en_us")
+	, m_uiTheme("gfx_uitheme", "options.uiTheme", m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA, ValuesBuilder().add("options.uiTheme.pocket").add("options.uiTheme.java").add("options.uiTheme.console"))
+	, m_logoType("gfx_logotype", "options.logoType", LOGO_AUTO, ValuesBuilder().add("options.logoType.auto").add("options.logoType.pocket").add("options.logoType.java").add("options.logoType.console").add("options.logoType.xbox360"))
+	, m_hudSize("gfx_hudsize", "options.hudSize", HUD_SIZE_2)
+	, m_classicCrafting("gfx_classiccrafting", "options.classicCrafting", true)
 	//, m_limitFramerate("gfx_fpslimit", "options.framerateLimit", 0, ValuesBuilder().add(performance.max").add("performance.balanced").add("performance.powersaver"))
 	//, m_bMipmaps("gfx_mipmaps", "options.mipmaps")
 	//, m_moreWorldOptions("misc_moreworldoptions", "options.moreWorldOptions", true)
@@ -118,6 +120,10 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	add(m_playerName);
 	add(m_debugText);
 	add(m_lang);
+	add(m_uiTheme);
+	add(m_logoType);
+	add(m_hudSize);
+	add(m_classicCrafting);
 	_initDefaultValues();
 	if (folderPath.empty()) return;
 	m_filePath = folderPath + "/options.txt";
@@ -587,11 +593,16 @@ void Options::loadControls()
 	}
 }
 
+UITheme Options::getUITheme() const
+{
+	return UITheme(m_uiTheme.get());
+}
+
 LogoType Options::getLogoType() const
 {
-	if (m_logoType == LOGO_AUTO)
+	if (m_logoType.get() == LOGO_AUTO)
 	{
-		switch (m_uiTheme)
+		switch (m_uiTheme.get())
 		{
 		case UI_POCKET:
 			return LOGO_POCKET;
@@ -604,11 +615,11 @@ LogoType Options::getLogoType() const
 			return LOGO_CONSOLE;
 #endif
 		default:
-			return m_logoType;
+			return (LogoType) m_logoType.get();
 		}
 	}
 	else
-		return m_logoType;
+		return (LogoType) m_logoType.get();
 }
 
 void Options::initResourceDependentOptions()
@@ -713,4 +724,20 @@ std::string SensitivityOption::getDisplayValue() const
 void IntOption::load(const std::string& value)
 {
 	set(Options::readInt(value));
+}
+
+std::string HUDSizeOption::getDisplayValue() const
+{
+	return Options::saveInt(get() - 1);
+}
+
+void HUDSizeOption::toggle()
+{
+	set(Mth::Max(2, (get() % HUD_SIZE_3) + 1));
+}
+
+void LogoTypeOption::apply()
+{
+	if (m_pMinecraft->getOptions())
+		LogoRenderer::singleton().init(m_pMinecraft);
 }

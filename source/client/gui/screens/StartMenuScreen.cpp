@@ -447,7 +447,7 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 
 void StartMenuScreen::init()
 {
-	m_uiTheme = m_pMinecraft->getOptions()->m_uiTheme;
+	m_uiTheme = m_pMinecraft->getOptions()->getUITheme() ;
 
 	bool consoleUI = m_uiTheme == UI_CONSOLE;
 
@@ -472,7 +472,7 @@ void StartMenuScreen::init()
 	{
 		int yPos = m_height / 2;
 
-		m_startButton.m_yPos = m_joinButton.m_width;
+		m_startButton.m_width = m_joinButton.m_width = 160;
 		m_optionsButton.m_width = m_buyButton.m_width = 78;
 		m_startButton.m_height = m_joinButton.m_height = m_optionsButton.m_height = m_buyButton.m_height = 25;
 

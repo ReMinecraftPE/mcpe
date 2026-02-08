@@ -36,7 +36,6 @@ public:
 
 public:
 	Color m_color;
-	UITheme m_uiTheme;
 
 #ifndef ORIGINAL_CODE
 	int m_lastX;

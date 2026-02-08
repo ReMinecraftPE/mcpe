@@ -12,7 +12,6 @@
 void Button::_init()
 {
 	m_color = Color::WHITE;
-	m_uiTheme = UI_POCKET;
 
 #ifndef ORIGINAL_CODE
 	m_lastX = 0;
@@ -129,8 +128,8 @@ void Button::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 		}
 		else
 			textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
-		int textWidth = font.width(m_text) * 2;
-		font.drawScalableShadow(m_text, m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);
+		int textWidth = font.width(getMessage()) * 2;
+		font.drawScalableShadow(getMessage(), m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);
 	}
 	else
 	{
@@ -141,6 +140,6 @@ void Button::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 			textColor = Color(255, 255, 160, m_color.a); // 0xFFFFA0U
 		else
 			textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
-		drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
+		drawCenteredString(font, getMessage(), m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 	}
 }

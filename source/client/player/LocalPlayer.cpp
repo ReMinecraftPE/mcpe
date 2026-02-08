@@ -100,7 +100,7 @@ void LocalPlayer::swing()
 
 void LocalPlayer::startCrafting(const TilePos& pos)
 {
-	switch (m_pMinecraft->getOptions()->m_uiTheme)
+	switch (m_pMinecraft->getOptions()->getUITheme() )
 	{
 	case UI_CONSOLE:
 		m_pMinecraft->setScreen(new ConsoleCraftingScreen(m_pInventory, pos, m_pLevel));

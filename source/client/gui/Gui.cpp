@@ -161,8 +161,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	Minecraft& mc = *m_pMinecraft;
 	GameRenderer& renderer = *mc.m_pGameRenderer;
 	Textures& textures = *mc.m_pTextures;
-    bool isPocket = mc.getOptions()->m_uiTheme == UI_POCKET;
-	bool isConsole = mc.getOptions()->m_uiTheme == UI_CONSOLE;
+    bool isPocket = mc.getOptions()->getUITheme() == UI_POCKET;
+	bool isConsole = mc.getOptions()->getUITheme() == UI_CONSOLE;
 
 	renderer.setupGuiScreen();
 
@@ -189,14 +189,12 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 
-	renderProgressIndicator(m_width, m_height);
-
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 	matrix->translate(Vec3(m_width / 2, m_height, 0));
 	if (isConsole)
 	{
 		matrix->translate(Vec3(0, -35, 0));
-		matrix->scale(mc.getOptions()->m_hudScale);
+		matrix->scale(mc.getOptions()->m_hudSize.get());
 	}
 	if (mc.m_pGameMode->canHurtPlayer())
 	{
@@ -569,9 +567,9 @@ void Gui::renderProgressIndicator(int width, int height)
 		// draw crosshair
 		textures.loadAndBindTexture("gui/icons.png");
 		MatrixStack::Ref matrix = MatrixStack::World.push();
-		matrix->translate(Vec3(width / 2, m_height / 2, 0));
-		if (mc.getOptions()->m_uiTheme == UI_CONSOLE)
-			matrix->scale(mc.getOptions()->m_hudScale);
+		matrix->translate(Vec3(width / 2, height / 2, 0));
+		if (mc.getOptions()->getUITheme() == UI_CONSOLE)
+			matrix->scale(mc.getOptions()->m_hudSize.get());
 		blit(-8, -8, 0, 0, 16, 16, 0, 0, &m_guiMaterials.ui_crosshair);
 	}
 	else

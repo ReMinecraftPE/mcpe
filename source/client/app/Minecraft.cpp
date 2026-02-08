@@ -862,17 +862,7 @@ void Minecraft::tick()
 
 void Minecraft::update()
 {
-	if (isGamePaused() && m_pLevel)
-	{
-		// Don't advance renderTicks when we're paused
-		float x = m_timer.m_renderTicks;
-		m_timer.advanceTime();
-		m_timer.m_renderTicks = x;
-	}
-	else
-	{
-		m_timer.advanceTime();
-	}
+	m_timer.advanceTime(isGamePaused() && m_pLevel);
 
 	if (m_pRakNetInstance && m_pNetEventCallback)
 	{
@@ -900,7 +890,7 @@ void Minecraft::update()
 
 	renderContext.beginRender();
 
-	m_pGameRenderer->render(m_timer.m_renderTicks);
+	m_pGameRenderer->render(m_timer);
 
 	// Added by iProgramInCpp
 	if (m_pGameMode)
@@ -1043,7 +1033,7 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 		if (scale > 0)
 			return scale;
 	}
-	else if (m_pOptions->m_uiTheme == UI_CONSOLE)
+	else if (m_pOptions->getUITheme() == UI_CONSOLE)
 		return Screen::getConsoleScale(height);
 
 #if MC_PLATFORM_XBOX

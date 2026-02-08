@@ -362,11 +362,11 @@ void ContainerScreen::keyPressed(int keyCode)
     }
     else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
     {
-        slotClicked(m_menuPointer.x, m_menuPointer.y, MOUSE_BUTTON_LEFT, true);
+        slotClicked(m_menuPointer, MOUSE_BUTTON_LEFT, true);
     }
     else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_SPLIT, keyCode) && _useController())
     {
-        slotClicked(m_menuPointer.x, m_menuPointer.y, MOUSE_BUTTON_RIGHT, false);
+        slotClicked(m_menuPointer, MOUSE_BUTTON_RIGHT, false);
     }
     else
     {

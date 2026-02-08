@@ -20,7 +20,7 @@
 #define C_POINTER_FAST_MOVE_SPEED 0.09f
 #define C_POINTER_MINIMUM_SPEED 0.04f
 #define C_POINTER_DIAGONAL_SPEED 0.4f
-#define C_POINTER_FRICTION 15.0f
+#define C_POINTER_FRICTION 1500.0f
 #define C_ANGLE8 (45.0f * MTH_DEG_TO_RAD)
 #define C_ANGLE16 (22.5f * MTH_DEG_TO_RAD)
 
@@ -960,7 +960,7 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick,
 
 		handlePointerLocation(m_menuPointer.x + move.x, m_menuPointer.y - move.y);
 	}
-	if (stick.id == 2)
+	else if (stick.id == 2)
 	{
 		if (stick.state == GameController::STICK_STATE_DOWN || stick.state == GameController::STICK_STATE_UP)
 		{

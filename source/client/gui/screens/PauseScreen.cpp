@@ -26,7 +26,7 @@ PauseScreen::PauseScreen() :
 
 void PauseScreen::init()
 {
-	m_uiTheme = m_pMinecraft->getOptions()->m_uiTheme;
+	m_uiTheme = m_pMinecraft->getOptions()->getUITheme() ;
 
 	bool consoleUI = m_uiTheme == UI_CONSOLE;
 

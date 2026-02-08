@@ -68,7 +68,7 @@ void LogoRenderer::tick()
 
 void LogoRenderer::render(float f)
 {
-	if (m_pMinecraft->getOptions()->m_b2dTitleLogo)
+	if (m_pMinecraft->getOptions()->m_b2dTitleLogo.get())
 		render2D();
 	else
 		render3D(f);
@@ -76,9 +76,6 @@ void LogoRenderer::render(float f)
 
 void LogoRenderer::_initTextures()
 {
-	if (!m_p2dTitleTexPath.empty())
-		return;
-
 	Textures* tx = m_pMinecraft->m_pTextures;
 	std::string path;
 
@@ -120,7 +117,7 @@ void LogoRenderer::_build2dTitleMesh()
 	if (!pTex)
 		return;
 
-	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->m_uiTheme;
+	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->getUITheme();
 	bool isConsole = uiTheme == UI_CONSOLE;
 
 	switch (m_pMinecraft->getOptions()->getLogoType())
@@ -229,7 +226,7 @@ void LogoRenderer::render2D()
 
 void LogoRenderer::render3D(float f)
 {
-	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->m_uiTheme;
+	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->getUITheme();
 	bool isConsole = uiTheme == UI_CONSOLE;
 
 	int Width = int(sizeof gLogoLine1 - 1);

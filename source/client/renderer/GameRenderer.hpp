@@ -14,6 +14,7 @@
 #include "renderer/hal/interface/DepthStencilState.hpp"
 
 class Minecraft;
+class Timer;
 class Entity;
 
 class LevelRenderer;
@@ -48,7 +49,7 @@ public:
 
 	void renderLevel(float);
 	void renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, const Entity& camera, float f, ParticleEngine& particleEngine, float i);
-	void render(float);
+	void render(const Timer&);
 	void renderWeather(float f);
 	void renderPointer(const MenuPointer& pointer);
 	void setLevel(Level* pLevel, Dimension* pDimension);

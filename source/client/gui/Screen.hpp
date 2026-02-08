@@ -115,7 +115,7 @@ public:
 	virtual void handlePointerPressed(bool isPressed);
 	virtual void handlePointerAction(const MenuPointer& pointer, MouseButtonType button);
 	virtual void handleScrollWheel(float force);
-	virtual void handleControllerStickEvent(const GameController::StickEvent& stick, double deltaTime = 0.0);
+	virtual void handleControllerStickEvent(const GameController::StickEvent& stick, double deltaTime);
 	virtual void tick();
 	virtual void removed() {};
 	virtual void renderBackground(int vo);
