@@ -664,7 +664,7 @@ void Minecraft::tickMouse()
 void Minecraft::handleCharInput(char chr)
 {
 	if (m_pScreen)
-		m_pScreen->keyboardNewChar(chr);
+		m_pScreen->handleTextChar(chr);
 }
 
 void Minecraft::handleTextPaste(const std::string& text)

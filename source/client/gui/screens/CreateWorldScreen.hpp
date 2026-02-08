@@ -9,6 +9,8 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "client/gui/components/Button.hpp"
+#include "client/gui/components/TextBox.hpp"
 
 #ifndef ORIGINAL_CODE
 

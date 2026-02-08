@@ -21,7 +21,7 @@ OptionsScreen::OptionsScreen() :
 	m_currentCategory(OC_MIN),
 	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
 	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
-	m_multiplayerButton(MIN_CATEGORY_BUTTON_ID + 2, "Multiplayer"),
+	m_gameplayButton(MIN_CATEGORY_BUTTON_ID + 2, "Gameplay"),
 	m_miscButton(MAX_CATEGORY_BUTTON_ID, "Misc"),
 	m_backButton(BACK_BUTTON_ID, "Done")
 {
@@ -66,7 +66,7 @@ void OptionsScreen::init()
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
 	
-	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
+	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_gameplayButton, &m_miscButton };
 	constexpr int NUM_CATEGORY_BUTTONS = sizeof(tabButtons) / sizeof(tabButtons[0]);
 	int buttonWidth = 64;
 	int buttonHeight = 20;
@@ -132,8 +132,8 @@ void OptionsScreen::setCategory(OptionsCategory category)
 	case OC_CONTROLS:
 		m_pList->initControlsMenu();
 		break;
-	case OC_MULTIPLAYER:
-		m_pList->initMultiplayerMenu();
+	case OC_GAMEPLAY:
+		m_pList->initGameplayMenu();
 		break;
 	case OC_MISCELLANEOUS:
 		m_pList->initMiscMenu();

@@ -9,12 +9,19 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "client/gui/components/Button.hpp"
+#include "client/gui/components/TextBox.hpp"
 
 class ChatScreen : public Screen
 {
 public:
 	ChatScreen(bool slash = false);
+
+protected:
+	void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState) override;
 	void _buttonClicked(Button*) override;
+
+public:
 	void init() override;
 	void removed() override;
 	void render(float f) override;

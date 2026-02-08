@@ -8,11 +8,11 @@
 
 #pragma once
 
-#include "../GuiComponent.hpp"
+#include "../GuiElement.hpp"
 #include "../Screen.hpp"
+#include "../MenuPointer.hpp"
 
 class Screen;
-class Minecraft;
 
 // @NOTE: This is NOT original Mojang code.
 
@@ -24,27 +24,27 @@ private:
 	std::string m_text;
 
 public:
-	TextBox(Screen*, int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
+	TextBox(Screen*, GuiElement::ID, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
 	~TextBox();
 
 protected:
+	void _onSelectedChanged() override;
 	void _onFocusChanged() override;
 
 public:
-	Type getType() const override { return TYPE_TEXTINPUT; }
+	Type getType() const override { return TYPE_TEXTBOX; }
 
 private:
 	std::string _sanitizePasteText(const std::string& text) const;
 
 public:
 	void init(Font* pFont);
-	void keyPressed(int key);
-	void charPressed(int chr);
-	void pasteText(const std::string& text);
-	void render();
-	void tick();
-	void onClick(int x, int y);
-	bool clicked(int x, int y);
+	bool pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer) override;
+	void handleButtonPress(Minecraft* pMinecraft, int key) override;
+	void handleTextChar(Minecraft* pMinecraft, int chr) override;
+	void handleClipboardPaste(const std::string& text) override;
+	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;
+	void tick(Minecraft* pMinecraft) override;
 	void setText(const std::string& text);
 	void setMaxLength(int max_length);
 

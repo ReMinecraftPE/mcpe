@@ -10,15 +10,15 @@ SwitchButton::SwitchButton(int id, int x, int y, BoolOption* option, const std::
 {
 }
 
-void SwitchButton::pressed(Minecraft* mc, int xPos, int yPos)
+void SwitchButton::pressed(Minecraft* mc, const MenuPointer& pointer)
 {
-	if (xPos >= m_xPos + m_width - C_ON_OFF_SWITCH_WIDTH - 6 && xPos < m_xPos + m_width - 6)
+	if (pointer.x >= m_xPos + m_width - C_ON_OFF_SWITCH_WIDTH - 6 && pointer.x < m_xPos + m_width - 6)
 	{
 		getOption().toggle();
 	}
 }
 
-void SwitchButton::render(Minecraft* mc, int xPos, int yPos)
+void SwitchButton::render(Minecraft* mc, const MenuPointer& pointer)
 {
 	if (!isVisible()) return;
 

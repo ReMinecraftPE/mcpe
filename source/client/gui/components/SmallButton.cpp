@@ -29,9 +29,9 @@ SmallButton::SmallButton(int id, int x, int y, OptionEntry* pOption, const std::
 {
 }
 
-bool SmallButton::clicked(Minecraft* mc, int xPos, int yPos)
+bool SmallButton::clicked(Minecraft* mc, const MenuPointer& pointer)
 {
-	if (!Button::clicked(mc, xPos, yPos)) return false;
+	if (!Button::clicked(mc, pointer)) return false;
 	if (m_pOption)
 	{
 		getOption().toggle();

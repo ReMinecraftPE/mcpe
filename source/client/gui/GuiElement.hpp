@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common/math/Color.hpp"
+#include "client/gui/MenuPointer.hpp"
 #include "GuiComponent.hpp"
 
 #define C_SOUND_UI_BACK     "ui.back"
@@ -8,18 +9,23 @@
 #define C_SOUND_UI_PRESS    "ui.press"
 #define C_SOUND_UI_SCROLL   "ui.scroll"
 
+class Minecraft;
+
 class GuiElement : public GuiComponent
 {
+public:
+	typedef int ID;
+
 public:
 	enum Type
 	{
 		TYPE_UNKNOWN,
 		TYPE_BUTTON,
-		TYPE_TEXTINPUT
+		TYPE_TEXTBOX
 	};
 
 public:
-	GuiElement(int id);
+	GuiElement(GuiElement::ID id);
 
 public:
 	void setBackground(const Color& color);
@@ -27,9 +33,17 @@ public:
 protected:
 	virtual void _onSelectedChanged();
 	virtual void _onFocusChanged();
+	virtual bool _clicked(const MenuPointer& pointer);
 
 public:
 	virtual void setupPositions();
+	virtual void tick(Minecraft* pMinecraft);
+	virtual bool pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer);
+	virtual bool pointerReleased(Minecraft* pMinecraft, const MenuPointer& pointer);
+	virtual void handleButtonPress(Minecraft* pMinecraft, int key);
+	virtual void handleTextChar(Minecraft* pMinecraft, int chr);
+	virtual void handleClipboardPaste(const std::string& content);
+	virtual void render(Minecraft* pMinecraft, const MenuPointer& pointer);
 	virtual void setEnabled(bool isEnabled);
 	virtual void setVisible(bool isVisible);
 	virtual void setSelected(bool isSelected);
@@ -37,7 +51,7 @@ public:
 	virtual void setMessage(const std::string& message);
 	virtual Type getType() const { return TYPE_UNKNOWN; }
 	virtual const std::string& getMessage() { return m_message; }
-	virtual int getId() const { return m_ID; }
+	virtual ID getId() const { return m_ID; }
 	
 public:
 	bool isEnabled() const { return m_bEnabled; }
@@ -47,7 +61,7 @@ public:
 
 private:
 	std::string m_message;
-	int m_ID;
+	ID m_ID;
 	bool m_bEnabled;
 	bool m_bVisible;
 	Color m_backgroundColor;

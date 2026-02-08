@@ -8,18 +8,21 @@
 
 #pragma once
 
+#include <vector>
+#include <map>
+
 #include "renderer/MaterialPtr.hpp"
+#include "client/app/Minecraft.hpp"
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "client/player/input/GameController.hpp"
-#include "components/Button.hpp"
-#include "components/TextBox.hpp"
+#include "GuiElement.hpp"
 #include "MenuPointer.hpp"
 
 class Button;
-class TextBox;
 
 typedef std::vector<GuiElement*> GuiElementList;
+typedef std::map<GuiElement::ID, GuiElement*> GuiElementMap;
 
 class Screen : public GuiComponent
 {
@@ -56,8 +59,8 @@ private:
 protected:
 	bool _nextElement();
 	bool _prevElement();
-	void _addElement(Button& element, bool isTabbable = true);
-	void _addElementToList(unsigned int index, Button& element, bool isTabbable = true);
+	void _addElement(GuiElement& element, bool isTabbable = true);
+	void _addElementToList(unsigned int index, GuiElement& element, bool isTabbable = true);
 	bool _nextElementList();
 	bool _prevElementList();
 	void _addElementList();
@@ -66,8 +69,9 @@ protected:
 	void _playSelectSound();
 	void _centerMenuPointer();
 	void _renderPointer();
-	GuiElement* _getInternalElement(unsigned int index);
-	GuiElement* _getElement(unsigned int index);
+	GuiElement* _getInternalElement(unsigned int index); // returns any element
+	GuiElement* _getElementByIndex(unsigned int index); // only returns tabbable element
+	GuiElement* _getElementById(GuiElement::ID id); // returns any element
 	GuiElement* _getSelectedElement();
 	GuiElementList& _getElementList(unsigned int index);
 	GuiElementList& _getElementList();
@@ -78,6 +82,7 @@ public:
 	void setSize(int width, int height);
 	void onRender(float f);
 	bool onBack(bool b);
+	bool selectElement(GuiElement::ID id);
 	bool prevElement();
 	bool nextElement();
 	bool nextElementList();
@@ -123,10 +128,10 @@ public:
 	virtual bool isInGameScreen() { return true; }
 	virtual void confirmResult(bool b, int i) {};
 	virtual void onTextBoxUpdated(int id) {};
-	virtual void pointerPressed(int x, int y, MouseButtonType btn);
-	virtual void pointerReleased(int x, int y, MouseButtonType btn);
+	virtual void pointerPressed(const MenuPointer& pointer, MouseButtonType btn);
+	virtual void pointerReleased(const MenuPointer& pointer, MouseButtonType btn);
 	virtual void keyPressed(int);
-	virtual void keyboardNewChar(char);
+	virtual void handleTextChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
 
 	// ported from 0.8
@@ -147,6 +152,7 @@ public:
 	bool field_10;
 	Minecraft* m_pMinecraft;
 	GuiElementList m_elements;
+	GuiElementMap m_elementsById;
 	std::vector<GuiElementList> m_elementTabLists; 
 	unsigned int m_elementListIndex;
 	unsigned int m_elementIndex;
@@ -155,7 +161,6 @@ public:
 	Button* m_pClickedButton;
 
 #ifndef ORIGINAL_CODE
-	std::vector<TextBox*> m_textInputs;
 	int m_yOffset;
 #endif
 

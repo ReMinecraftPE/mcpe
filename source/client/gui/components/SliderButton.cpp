@@ -8,9 +8,9 @@ SliderButton::SliderButton(int id, int x, int y, FloatOption* option, const std:
 {
 }
 
-void SliderButton::pressed(Minecraft* mc, int xPos, int yPos)
+void SliderButton::pressed(Minecraft* mc, const MenuPointer& pointer)
 {
-	m_value = (xPos - (m_xPos + 4)) / float(m_width - 8);
+	m_value = (pointer.x - (m_xPos + 4)) / float(m_width - 8);
 
 	getOption().set(m_value = Mth::clamp(m_value, 0.0f, 1.0f));
 	setMessage(getOption().getMessage());
@@ -22,18 +22,18 @@ int SliderButton::getYImage(bool bHovered)
 	return 0;
 }
 
-void SliderButton::released(int xPos, int yPos)
+void SliderButton::released(const MenuPointer& pointer)
 {
 	m_bDragging = false;
 }
 
-void SliderButton::renderBg(Minecraft* mc, int xPos, int yPos)
+void SliderButton::renderBg(Minecraft* mc, const MenuPointer& pointer)
 {
 	if (!isVisible()) return;
 	
 	if (m_bDragging)
 	{
-		m_value = (xPos - (m_xPos + 4)) / float(m_width - 8);
+		m_value = (pointer.x - (m_xPos + 4)) / float(m_width - 8);
 
 		getOption().set(m_value = Mth::clamp(m_value, 0.0f, 1.0f));
 		setMessage(getOption().getMessage());

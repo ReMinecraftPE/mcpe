@@ -10,15 +10,15 @@ SwitchValuesButton::SwitchValuesButton(int id, int x, int y, ValuesOption* optio
 {
 }
 
-void SwitchValuesButton::pressed(Minecraft* mc, int xPos, int yPos)
+void SwitchValuesButton::pressed(Minecraft* mc, const MenuPointer& pointer)
 {
-	if (xPos >= m_xPos + m_width - C_SWITCH_VALUES_WIDTH - 6 && xPos < m_xPos + m_width - 6)
+	if (pointer.x >= m_xPos + m_width - C_SWITCH_VALUES_WIDTH - 6 && pointer.x < m_xPos + m_width - 6)
 	{
 		getOption().toggle();
 	}
 }
 
-void SwitchValuesButton::render(Minecraft* mc, int xPos, int yPos)
+void SwitchValuesButton::render(Minecraft* mc, const MenuPointer& pointer)
 {
 	if (!isVisible()) return;
 

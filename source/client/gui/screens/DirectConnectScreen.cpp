@@ -68,7 +68,7 @@ void DirectConnectScreen::init()
 	m_btnCancel.m_xPos = (m_width / 2) - (m_btnCancel.m_width / 2);
 	m_btnCancel.m_yPos = m_height - 30;
 
-	m_textInputs.push_back(&m_textAddress);
+	_addElement(m_textAddress);
 	_addElement(m_btnJoin);
 	_addElement(m_btnCancel);
 

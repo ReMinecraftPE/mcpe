@@ -27,12 +27,12 @@ public:
 
 public:
 	// I can't possibly explain why Minecraft is referenced here
-	virtual bool clicked(Minecraft*, int xPos, int yPos);
-	virtual void pressed(Minecraft*, int xPos, int yPos);
+	virtual bool clicked(Minecraft*, const MenuPointer& pointer);
+	virtual void pressed(Minecraft*, const MenuPointer& pointer);
 	virtual int  getYImage(bool bHovered);
-	virtual void released(int xPos, int yPos);
-	virtual void renderBg(Minecraft*, int, int);
-	virtual void render(Minecraft*, int xPos, int yPos);
+	virtual void released(const MenuPointer& pointer);
+	virtual void renderBg(Minecraft*, const MenuPointer& pointer);
+	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;
 
 public:
 	Color m_color;

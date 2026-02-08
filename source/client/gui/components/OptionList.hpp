@@ -31,11 +31,22 @@ public:
 	void initDefaultMenu();
 	void initVideoMenu();
 	void initControlsMenu();
-	void initMultiplayerMenu();
+	void initGameplayMenu();
 	void initMiscMenu();
 
 private:
 	int m_selectedItem;
-	std::vector<GuiElement*> m_items;
+	GuiElementList m_items;
 };
 
+class OptionHeader : public GuiElement
+{
+public:
+	OptionHeader(GuiElement::ID id, const std::string& text);
+
+public:
+	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;
+
+private:
+	std::string m_text;
+};

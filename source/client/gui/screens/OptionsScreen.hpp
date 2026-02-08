@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "client/gui/components/Button.hpp"
 
 #ifndef OLD_OPTIONS_SCREEN
 
@@ -17,7 +18,7 @@ enum OptionsCategory
 {
 	OC_VIDEO,
 	OC_CONTROLS,
-	OC_MULTIPLAYER,
+	OC_GAMEPLAY,
 	OC_MISCELLANEOUS,
 
 	OC_MIN = OC_VIDEO,
@@ -51,7 +52,7 @@ private:
 
 	Button m_videoButton;
 	Button m_controlsButton;
-	Button m_multiplayerButton;
+	Button m_gameplayButton;
 	Button m_miscButton;
 
 	Button m_backButton;

@@ -7,10 +7,10 @@ class SliderButton : public Button
 public:
 	SliderButton(int id, int x, int y, FloatOption*, const std::string&, float initialValue);
 
-	void pressed(Minecraft*, int xPos, int yPos) override;
+	void pressed(Minecraft*, const MenuPointer& pointer) override;
 	int getYImage(bool bHovered) override;
-	void released(int xPos, int yPos) override;
-	void renderBg(Minecraft*, int, int) override;
+	void released(const MenuPointer& pointer) override;
+	void renderBg(Minecraft*, const MenuPointer& pointer) override;
 
 	FloatOption& getOption() { return *m_pOption; };
 

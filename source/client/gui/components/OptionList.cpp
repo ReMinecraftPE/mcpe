@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "OptionList.hpp"
+#include "client/gui/components/Button.hpp"
 #include "client/options/Options.hpp"
 
 #define C_OPTION_ITEM_HEIGHT (20)
@@ -58,11 +59,7 @@ void OptionList::renderItem(int index, int x, int y, int height, const MenuPoint
 	pItem->m_width = C_SCROLLED_LIST_ITEM_WIDTH;
 	pItem->m_height = height;
 
-	if (pItem->getType() != GuiElement::TYPE_BUTTON) return;
-
-	Button* button = ((Button*)pItem);
-
-	button->render(m_pMinecraft, pointer.x, pointer.y);
+	pItem->render(m_pMinecraft, pointer);
 }
 
 void OptionList::renderBackground(float f)
@@ -96,7 +93,7 @@ void OptionList::onReleaseItem(int index, const MenuPointer& pointer)
 
 		if (pItem->getType() != GuiElement::TYPE_BUTTON) return;
 
-		((Button*)pItem)->released(pointer.x, pointer.y);
+		((Button*)pItem)->released(pointer);
 	}
 }
 
@@ -127,15 +124,15 @@ void OptionList::onClickItem(int index, const MenuPointer& pointer, int relMouse
 		
 		Button* button = ((Button*)pItem);
 
-		if (!button->clicked(m_pMinecraft, pointer.x, pointer.y)) return;
+		if (!button->clicked(m_pMinecraft, pointer)) return;
 
-		button->pressed(m_pMinecraft, pointer.x, pointer.y);
+		button->pressed(m_pMinecraft, pointer);
 	}
 }
 
 void OptionList::clear()
 {
-	for (std::vector<GuiElement*>::iterator iter = m_items.begin();
+	for (GuiElementList::iterator iter = m_items.begin();
 		iter != m_items.end();
 		++iter)
 	{
@@ -150,7 +147,7 @@ void OptionList::initDefaultMenu()
 	initVideoMenu();
 }
 
-#define HEADER(text) do { m_items.push_back(new HeaderOptionItem(text)); currentIndex++; } while (0)
+#define HEADER(text) do { m_items.push_back(new OptionHeader(0, text)); currentIndex++; } while (0)
 #define OPTION(name) do { pOptions->name.addGuiElement(m_items, pOptions->name.getName()); currentIndex++; } while (0)
 
 void OptionList::initVideoMenu()
@@ -190,12 +187,19 @@ void OptionList::initControlsMenu()
 	m_items[idxController]->setEnabled(false);
 }
 
-void OptionList::initMultiplayerMenu()
+void OptionList::initGameplayMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 
+	OPTION(m_difficulty);
 	OPTION(m_serverVisibleDefault);
+
+	HEADER(Util::EMPTY_STRING);
+
+	HEADER("Music & Sounds");
+	OPTION(m_musicVolume);
+	OPTION(m_masterVolume);
 
 #ifndef FEATURE_NETWORKING
 	m_items[currentIndex]->setEnabled(false);
@@ -209,10 +213,6 @@ void OptionList::initMiscMenu()
 	int currentIndex = -1;
 	int idxPano = -1;
 
-	// this should be in another section...
-	OPTION(m_musicVolume);
-	OPTION(m_masterVolume);
-	OPTION(m_difficulty);
 	OPTION(m_debugText);
 	OPTION(m_b2dTitleLogo);
 #ifdef ENH_MENU_BACKGROUND
@@ -223,4 +223,19 @@ void OptionList::initMiscMenu()
 	if (!Screen::isMenuPanoramaAvailable())
 		m_items[idxPano]->setEnabled(false);
 #endif
+}
+
+OptionHeader::OptionHeader(GuiElement::ID id, const std::string& text)
+	: GuiElement(id)
+	, m_text(text)
+{
+}
+
+void OptionHeader::render(Minecraft* pMinecraft, const MenuPointer& pointer)
+{
+	pMinecraft->m_pFont->draw(
+		m_text,
+		m_xPos + 2,
+		m_yPos + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
+		Color::WHITE);
 }
