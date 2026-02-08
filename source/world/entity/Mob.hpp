@@ -127,6 +127,7 @@ public:
 	bool m_bJumping;
 	float field_B10;
 	float m_runSpeed;
+	float m_flyingFriction;
 	std::string m_texture;
 	std::string m_class;
 	int field_B48;

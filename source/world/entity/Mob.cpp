@@ -41,6 +41,7 @@ void Mob::_init()
 	m_bJumping = false;
 	field_B10 = 0;
 	m_runSpeed = 0.7f;
+	m_flyingFriction = 0.02f;
 	field_B48 = 0;
 	field_B4C = 0.0f;
 	field_B50 = 0.0f;
@@ -611,7 +612,7 @@ void Mob::travel(const Vec2& pos)
 
 	if (!m_bOnGround)
 	{
-		x2 = 0.02f;
+		x2 = m_flyingFriction;
 	}
 	else
 	{
