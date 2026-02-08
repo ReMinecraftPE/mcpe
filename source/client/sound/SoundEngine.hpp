@@ -35,7 +35,8 @@ public:
 	void playMusic(bool resetDelay = false);
     void playMusicTick();
 	void forcePlayMusic();
-    void update(const Mob* player, float elapsedTime);
+    void updateListener(const Mob* player, float elapsedTime);
+    void update();
     void play(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
     void playUI(const std::string& name, float volume = 1.0f, float pitch = 1.0f);
     void playMusic(const std::string& name);

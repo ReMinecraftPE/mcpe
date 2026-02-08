@@ -79,7 +79,7 @@ void SoundSystem::pauseMusic(bool state)
 {
 }
 
-void SoundSystem::update(float elapsedTime)
+void SoundSystem::update()
 {
 }
 
