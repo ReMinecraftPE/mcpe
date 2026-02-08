@@ -187,13 +187,12 @@ for target in $targets; do
         -DREMCPE_PLATFORM=sdl2 \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
-        -DOPENGL_gl_LIBRARY="$REMCPE_SDK/System/Library/Frameworks/OpenGL.framework" \
-        -DOPENGL_INCLUDE_DIR="$REMCPE_SDK/System/Library/Frameworks/OpenGL.framework/Headers" \
         -DCMAKE_AR="$(command -v "$ar")" \
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
         -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
+        -DCMAKE_SYSROOT="$REMCPE_SDK" \
         -DWERROR="${WERROR:-OFF}" \
         "$@" \
         $lto
