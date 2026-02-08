@@ -96,7 +96,7 @@ void LocalPlayer::aiStep()
 		
 		if (m_pMoveInput->m_bSneaking)
 			--yChange;
-		if (m_pMoveInput->m_bJumping)
+		if (m_pMoveInput->m_bFlyUp)
 			++yChange;
 
 		if (yChange != 0)
