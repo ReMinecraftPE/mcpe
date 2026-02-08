@@ -107,9 +107,7 @@ if [ -n "$outdated_toolchain" ]; then
     wget -O- "https://github.com/tpoechtrager/apple-libtapi/archive/$tapi_commit.tar.gz" | tar -xz
 
     cd "apple-libtapi-$tapi_commit"
-    [ -n "$ccache" ] && export CMAKE_EXTRA_ARGS='-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
     INSTALLPREFIX="$workdir" CC=clang CXX=clang++ ./build.sh && ./install.sh
-    unset CMAKE_EXTRA_ARGS
     cd ..
     rm -rf "apple-libtapi-$tapi_commit"
 
