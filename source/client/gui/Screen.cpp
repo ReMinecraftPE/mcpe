@@ -662,7 +662,7 @@ bool Screen::prevTab()
 	return result;
 }
 
-int Screen::getYOffset() const
+int Screen::getYOffset()
 {
 #ifdef USE_NATIVE_ANDROID
 	int keybOffset = m_pMinecraft->platform()->getKeyboardUpOffset();

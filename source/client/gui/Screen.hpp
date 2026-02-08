@@ -89,7 +89,7 @@ public:
 	bool prevElementList();
 	bool nextTab();
 	bool prevTab();
-	int getYOffset() const;
+	int getYOffset();
 	unsigned int getCursorMoveThrottle() const { return 65; }
 	bool doElementTabbing() const;
 
