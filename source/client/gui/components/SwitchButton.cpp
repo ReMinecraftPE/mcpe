@@ -5,7 +5,7 @@
 #define C_ON_OFF_SWITCH_WIDTH (32)
 #define C_ON_OFF_SWITCH_HEIGHT (18)
 
-SwitchButton::SwitchButton(int id, int x, int y, Options::BoolOption* option, const std::string& message) : Button(id, x, y, 150, 20, message),
+SwitchButton::SwitchButton(int id, int x, int y, BoolOption* option, const std::string& message) : Button(id, x, y, 150, 20, message),
 	m_pOption(option)
 {
 }

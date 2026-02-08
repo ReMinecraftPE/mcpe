@@ -1122,7 +1122,7 @@ bool Minecraft::pauseGame()
 {
 	if (isGamePaused() || m_pScreen) return false;
 
-	if (!isOnline())
+	if (!isOnline() || m_pLevel->m_players.size() == 1)
 	{
 		// Actually pause the game, because fuck bedrock edition
 		m_bIsGamePaused = true;

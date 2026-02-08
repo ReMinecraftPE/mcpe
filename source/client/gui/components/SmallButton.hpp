@@ -15,13 +15,13 @@ class SmallButton : public Button
 public:
 	SmallButton(int id, int x, int y, const std::string& str);
 	SmallButton(int id, int x, int y, int width, int height, const std::string& str);
-	SmallButton(int id, int x, int y, Options::OptionEntry* pOption, const std::string& str);
+	SmallButton(int id, int x, int y, OptionEntry* pOption, const std::string& str);
 	bool clicked(Minecraft*, int xPos, int yPos) override;
-	Options::OptionEntry& getOption()
+	OptionEntry& getOption()
 	{
 		return *m_pOption;
 	}
 
 private:
-	Options::OptionEntry* m_pOption;
+	OptionEntry* m_pOption;
 };

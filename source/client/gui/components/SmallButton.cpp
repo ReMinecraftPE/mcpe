@@ -23,7 +23,7 @@ SmallButton::SmallButton(int id, int x, int y, int width, int height, const std:
 {
 }
 
-SmallButton::SmallButton(int id, int x, int y, Options::OptionEntry* pOption, const std::string& str) :
+SmallButton::SmallButton(int id, int x, int y, OptionEntry* pOption, const std::string& str) :
 	Button(id, x, y, 150, 20, str),
 	m_pOption(pOption)
 {

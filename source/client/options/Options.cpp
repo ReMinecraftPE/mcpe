@@ -6,8 +6,6 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include <fstream>
-
 // for SDL 1.2 controller buttons
 #include "thirdparty/SDL/SDL_gamecontroller.h"
 
@@ -346,9 +344,12 @@ std::vector<std::string> Options::getOptionStrings()
 
 #define SO(optname, value) do { vec.push_back(optname); vec.push_back(value); } while (0)
 
+	std::stringstream ss;
 	for (std::map<std::string, OptionEntry*>::iterator it = m_options.begin(); it != m_options.end(); ++it)
 	{
-		SO(it->first, it->second->save());
+		ss.str("");
+		it->second->save(ss);
+		SO(it->first, ss.str());
 	}
 	SO("gfx_resourcepacks", savePackArray(m_resourcePacks));
 
@@ -565,70 +566,97 @@ void Options::initResourceDependentOptions()
 		m_menuPanorama.set(false);
 }
 
-const std::string& Options::OptionEntry::getName() const
+const std::string& OptionEntry::getName() const
 {
 	return Language::get(m_name);
 }
 
-std::string Options::OptionEntry::getMessage() const
+std::string OptionEntry::getDisplayValue() const
+{
+	std::stringstream ss;
+	save(ss);
+	return ss.str();
+}
+
+std::string OptionEntry::getMessage() const
 {
 	return Util::format(Language::get("options.value").c_str(), getName().c_str(), getDisplayValue().c_str());
 }
 
-void Options::OptionEntry::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+void OptionEntry::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
 {
 	elements.push_back(new SmallButton(0, 0, 0, this, text));
 }
 
-void Options::AOOption::apply()
+void AOOption::apply()
 {
 	Minecraft::useAmbientOcclusion = get();
 	if (m_pMinecraft->m_pLevelRenderer)
 		m_pMinecraft->m_pLevelRenderer->allChanged();
 }
 
-void Options::GuiScaleOption::apply()
+void GuiScaleOption::apply()
 {
 	m_pMinecraft->sizeUpdate(Minecraft::width, Minecraft::height);
 }
 
-std::string Options::FloatOption::getDisplayValue() const
+void FloatOption::load(const std::string& value)
 {
-	return get() == 0.0f ? Language::get("options.off") : saveInt(get() * 100) + "%";
+	set(Options::readFloat(value));
 }
 
-void Options::FloatOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+std::string FloatOption::getDisplayValue() const
+{
+	return get() == 0.0f ? Language::get("options.off") : Options::saveInt(get() * 100) + "%";
+}
+
+void FloatOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
 {
 	elements.push_back(new SliderButton(0, 0, 0, this, getMessage(), get()));
 }
 
-std::string Options::BoolOption::getDisplayValue() const
+void BoolOption::load(const std::string& value)
+{
+	set(Options::readBool(value));
+}
+
+void BoolOption::save(std::stringstream& ss) const
+{
+	ss << Options::saveBool(get());
+}
+
+std::string BoolOption::getDisplayValue() const
 {
 	return Language::get(get() ? "options.on" : "options.off");
 }
 
-void Options::BoolOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+void BoolOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
 {
 	elements.push_back(new SwitchButton(0, 0, 0, this, text));
 }
 
-void Options::ValuesOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+void ValuesOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
 {
 	elements.push_back(new SwitchValuesButton(0, 0, 0, this, text));
 }
 
-void Options::GraphicsOption::apply()
+void GraphicsOption::apply()
 {
 	if (m_pMinecraft->m_pLevelRenderer)
 		m_pMinecraft->m_pLevelRenderer->allChanged();
 }
 
-std::string Options::FancyGraphicsOption::getMessage() const
+std::string FancyGraphicsOption::getMessage() const
 {
 	return Util::format(Language::get("options.value").c_str(), Language::get("options.graphics").c_str(), Language::get(get() ? "options.graphics.fancy" : "options.graphics.fast").c_str());
 }
 
-std::string Options::SensitivityOption::getDisplayValue() const
+std::string SensitivityOption::getDisplayValue() const
 {
-	return get() == 0.0f ? Language::get("options.sensitivity.min") : get() == 1.0f ? Language::get("options.sensitivity.max") : saveInt(get() * 200) + "%";
+	return get() == 0.0f ? Language::get("options.sensitivity.min") : get() == 1.0f ? Language::get("options.sensitivity.max") : Options::saveInt(get() * 200) + "%";
+}
+
+void IntOption::load(const std::string& value)
+{
+	set(Options::readInt(value));
 }

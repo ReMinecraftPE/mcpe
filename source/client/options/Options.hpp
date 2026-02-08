@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <fstream>
 #include <stdint.h>
 
 #include <string>
@@ -72,6 +73,165 @@ struct KeyMapping
 class GuiElement;
 class Minecraft;
 
+class OptionEntry
+{
+public:
+	OptionEntry(const std::string& key, const std::string& name) : m_key(key), m_name(name), m_pMinecraft(nullptr) {}
+
+	virtual const std::string& getKey() const { return m_key; }
+	virtual const std::string& getName() const;
+	virtual std::string getDisplayValue() const;
+	virtual void save(std::stringstream&) const = 0;
+	virtual std::string getMessage() const;
+	virtual void load(const std::string& value) = 0;
+	virtual void toggle() = 0;
+
+	virtual void addGuiElement(std::vector<GuiElement*>&, const std::string&);
+
+private:
+	std::string m_key;
+	std::string m_name;
+
+public:
+	Minecraft* m_pMinecraft;
+};
+
+template <typename V>
+class OptionInstance : public OptionEntry
+{
+private:
+	V m_value;
+	V m_defaultValue;
+
+public:
+	OptionInstance(const std::string& key, const std::string& name, V initial) : OptionEntry(key, name), m_value(initial), m_defaultValue(initial) {}
+
+	virtual void toggle() {}
+	virtual void apply() {}
+
+	void set(const V& v)
+	{
+		V oldValue = m_value;
+		m_value = v;
+		if (oldValue != v)
+			apply();
+	}
+
+	void reset() { set(m_defaultValue); }
+	const V& get() const { return m_value; }
+};
+
+class BoolOption : public OptionInstance<bool>
+{
+public:
+	BoolOption(const std::string& key, const std::string& name, bool initial = true) : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override;
+	void save(std::stringstream& ss) const override;
+	void toggle() override { set(get() ^ 1); }
+	std::string getDisplayValue() const override;
+	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+};
+
+class FloatOption : public OptionInstance<float>
+{
+public:
+	FloatOption(const std::string& key, const std::string& name, float initial = 0.0f) : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override;
+	void save(std::stringstream& ss) const override { ss << get(); }
+	std::string getDisplayValue() const override;
+	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+};
+
+class SensitivityOption : public FloatOption
+{
+public:
+	SensitivityOption(const std::string& key, const std::string& name, float initial = 0.0f) : FloatOption(key, name, initial) {}
+
+	std::string getDisplayValue() const override;
+};
+
+class AOOption : public BoolOption
+{
+public:
+	AOOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
+class GraphicsOption : public BoolOption
+{
+public:
+	GraphicsOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
+class FancyGraphicsOption : public GraphicsOption
+{
+public:
+	FancyGraphicsOption(const std::string& key, const std::string& name, bool initial = true) : GraphicsOption(key, name, initial) {}
+
+	std::string getMessage() const override;
+};
+
+class IntOption : public OptionInstance<int>
+{
+public:
+	IntOption(const std::string& key, const std::string& name, int initial = 0) : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override;
+	void save(std::stringstream& ss) const override { ss << get(); }
+};
+
+class StringOption : public OptionInstance<std::string>
+{
+public:
+	StringOption(const std::string& key, const std::string& name, std::string initial = "") : OptionInstance(key, name, initial) {}
+
+	void load(const std::string& value) override { set(value); }
+	void save(std::stringstream& ss) const override { ss << get(); }
+};
+
+class ValuesBuilder
+{
+public:
+	ValuesBuilder& add(const std::string& value)
+	{
+		m_values.push_back(value);
+		return *this;
+	}
+
+public:
+	std::vector<std::string> m_values;
+};
+
+class ValuesOption : public IntOption
+{
+public:
+	ValuesOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : IntOption(key, name, initial), m_values(values.m_values)
+	{
+	}
+
+	void toggle() override { set((get() + 1) % m_values.size()); }
+	std::string getDisplayValue() const override { return m_values[Mth::Min(get(), int(m_values.size()))]; }
+	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+
+public:
+	std::vector<std::string> m_values;
+};
+
+class GuiScaleOption : public ValuesOption
+{
+public:
+	GuiScaleOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
+	{
+	}
+
+	void apply() override;
+};
+
 class Options
 {
 public:
@@ -94,29 +254,6 @@ private:
 	void _initDefaultValues();
 	void _load();
 public:
-	class OptionEntry
-	{
-	public:
-		OptionEntry(const std::string& key, const std::string& name) : m_key(key), m_name(name), m_pMinecraft(nullptr) {}
-
-		virtual const std::string& getKey() const { return m_key; }
-		virtual const std::string& getName() const;
-		virtual std::string getDisplayValue() const { return save(); }
-		virtual std::string save() const = 0;
-		virtual std::string getMessage() const;
-		virtual void load(const std::string& value) = 0;
-		virtual void toggle() = 0;
-
-		virtual void addGuiElement(std::vector<GuiElement*>&, const std::string&);
-
-	private:
-		std::string m_key;
-		std::string m_name;
-
-	public:
-		Minecraft* m_pMinecraft;
-	};
-
 	Options(Minecraft*, const std::string& folderPath = "");
 
 	void add(OptionEntry&);
@@ -136,141 +273,10 @@ private:
 	KeyMapping m_keyMappings[KM_COUNT];
 
 public:
-	template <typename V>
-	class OptionInstance : public OptionEntry
-	{
-	private:
-		V m_value;
-		V m_defaultValue;
-
-	public:
-		OptionInstance(const std::string& key, const std::string& name, V initial) : OptionEntry(key, name), m_value(initial), m_defaultValue(initial) {}
-
-		virtual void toggle() {}
-		virtual void apply() {}
-
-		void set(const V& v)
-		{
-			V oldValue = m_value;
-			m_value = v;
-			if (oldValue != v)
-				apply();
-		}
-
-		void reset() { set(m_defaultValue); }
-		const V& get() const { return m_value; }
-	};
-
-	class BoolOption : public OptionInstance<bool>
-	{
-	public:
-		BoolOption(const std::string& key, const std::string& name, bool initial = true) : OptionInstance(key, name, initial) {}
-
-		void load(const std::string& value) override { set(readBool(value)); }
-		std::string save() const override { return saveBool(get()); }
-		void toggle() override { set(get() ^ 1); }
-		std::string getDisplayValue() const override;
-		void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
-	};
-
-	class FloatOption : public OptionInstance<float>
-	{
-	public:
-		FloatOption(const std::string& key, const std::string& name, float initial = 0.0f) : OptionInstance(key, name, initial) {}
-
-		void load(const std::string& value) override { set(readFloat(value)); }
-		std::string save() const override { return saveFloat(get()); }
-		std::string getDisplayValue() const override;
-		void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
-	};
-
-	class SensitivityOption : public FloatOption
-	{
-	public:
-		SensitivityOption(const std::string& key, const std::string& name, float initial = 0.0f) : FloatOption(key, name, initial) {}
-
-		std::string getDisplayValue() const override;
-	};
-
-	class AOOption : public BoolOption
-	{
-	public:
-		AOOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
-
-		void apply() override;
-	};
-
-	class GraphicsOption : public BoolOption
-	{
-	public:
-		GraphicsOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
-
-		void apply() override;
-	};
-
-	class FancyGraphicsOption : public GraphicsOption
-	{
-	public:
-		FancyGraphicsOption(const std::string& key, const std::string& name, bool initial = true) : GraphicsOption(key, name, initial) {}
-
-		std::string getMessage() const override;
-	};
-
-	class IntOption : public OptionInstance<int>
-	{
-	public:
-		IntOption(const std::string& key, const std::string& name, int initial = 0) : OptionInstance(key, name, initial) {}
-
-		void load(const std::string& value) override { set(readInt(value)); }
-		std::string save() const override { return saveInt(get()); }
-	};
-
-	class StringOption : public OptionInstance<std::string>
-	{
-	public:
-		StringOption(const std::string& key, const std::string& name, std::string initial = "") : OptionInstance(key, name, initial) {}
-
-		void load(const std::string& value) override { set(value); }
-		std::string save() const override { return get(); }
-	};
-
-	class ValuesBuilder
-	{
-	public:
-		ValuesBuilder& add(const std::string& value)
-		{
-			m_values.push_back(value);
-			return *this;
-		}
-
-	public:
-		std::vector<std::string> m_values;
-	};
-
-	class ValuesOption : public IntOption
-	{
-	public:
-		ValuesOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : IntOption(key, name, initial), m_values(values.m_values)
-		{
-		}
-
-		void toggle() override { set((get() + 1) % m_values.size()); }
-		std::string getDisplayValue() const override { return m_values[Mth::Min(get(), int(m_values.size()))]; }
-		void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
-
-	public:
-		std::vector<std::string> m_values;
-	};
-
-	class GuiScaleOption : public ValuesOption
-	{
-	public:
-		GuiScaleOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
-		{
-		}
-
-		void apply() override;
-	};
+	friend class BoolOption;
+	friend class FloatOption;
+	friend class SensitivityOption;
+	friend class IntOption;
 
 	FloatOption m_musicVolume;
 	FloatOption m_masterVolume;

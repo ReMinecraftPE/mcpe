@@ -212,6 +212,7 @@ void OptionList::initMiscMenu()
 	// this should be in another section...
 	OPTION(m_musicVolume);
 	OPTION(m_masterVolume);
+	OPTION(m_difficulty);
 	OPTION(m_debugText);
 	OPTION(m_b2dTitleLogo);
 #ifdef ENH_MENU_BACKGROUND

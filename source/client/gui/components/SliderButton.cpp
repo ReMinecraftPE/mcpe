@@ -1,7 +1,7 @@
 #include "SliderButton.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-SliderButton::SliderButton(int id, int x, int y, Options::FloatOption* option, const std::string& message, float initialValue) : Button(id, x, y, 150, 20, message),
+SliderButton::SliderButton(int id, int x, int y, FloatOption* option, const std::string& message, float initialValue) : Button(id, x, y, 150, 20, message),
 	m_pOption(option),
 	m_value(initialValue),
 	m_bDragging(false)

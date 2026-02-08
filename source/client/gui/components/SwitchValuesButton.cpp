@@ -5,7 +5,7 @@
 #define C_SWITCH_VALUES_WIDTH (60)
 #define C_SWITCH_VALUES_HEIGHT (18)
 
-SwitchValuesButton::SwitchValuesButton(int id, int x, int y, Options::ValuesOption* option, const std::string& message) : Button(id, x, y, 150, 20, message),
+SwitchValuesButton::SwitchValuesButton(int id, int x, int y, ValuesOption* option, const std::string& message) : Button(id, x, y, 150, 20, message),
 	m_pOption(option)
 {
 }
