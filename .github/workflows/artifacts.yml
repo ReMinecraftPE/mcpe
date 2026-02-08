@@ -144,7 +144,7 @@ jobs:
             with:
                 submodules: true
           - name: Install Dependencies
-            run: brew install llvm@21 ccache
+            run: brew install llvm@21 ccache && ccache -k cache_dir
           - name: Build macOS binary
             run: |
                 LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" \
