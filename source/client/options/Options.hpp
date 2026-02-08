@@ -238,6 +238,8 @@ class Options
 public:
 	struct KeyBind;
 private:
+    // @TODO: Move these to a "PlainTextSerializer" class, since we probably want to use these
+    // in PatchManager as well.
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
 	static float readFloat(const std::string& str);

@@ -1196,6 +1196,12 @@
 		84EB0E112EE2D4D4008FB007 /* JsonParser.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A042EE2CCC0008FB007 /* JsonParser.hpp */; };
 		84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0A052EE2CCC0008FB007 /* Singleton.cpp */; };
 		84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A062EE2CCC0008FB007 /* Singleton.hpp */; };
+		84EE49EF2F387DBD00677881 /* SliderButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE49E92F387DBD00677881 /* SliderButton.cpp */; };
+		84EE49F02F387DBD00677881 /* SliderButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE49EA2F387DBD00677881 /* SliderButton.hpp */; };
+		84EE49F12F387DBD00677881 /* SwitchButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE49EB2F387DBD00677881 /* SwitchButton.cpp */; };
+		84EE49F22F387DBD00677881 /* SwitchButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE49EC2F387DBD00677881 /* SwitchButton.hpp */; };
+		84EE49F32F387DBD00677881 /* SwitchValuesButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE49ED2F387DBD00677881 /* SwitchValuesButton.cpp */; };
+		84EE49F42F387DBD00677881 /* SwitchValuesButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE49EE2F387DBD00677881 /* SwitchValuesButton.hpp */; };
 		84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */; };
 		84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */; };
 		84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */; };
@@ -2892,6 +2898,12 @@
 		84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP.hpp; sourceTree = "<group>"; };
 		84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Compat.hpp; sourceTree = "<group>"; };
 		84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Info.hpp; sourceTree = "<group>"; };
+		84EE49E92F387DBD00677881 /* SliderButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SliderButton.cpp; sourceTree = "<group>"; };
+		84EE49EA2F387DBD00677881 /* SliderButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SliderButton.hpp; sourceTree = "<group>"; };
+		84EE49EB2F387DBD00677881 /* SwitchButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchButton.cpp; sourceTree = "<group>"; };
+		84EE49EC2F387DBD00677881 /* SwitchButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SwitchButton.hpp; sourceTree = "<group>"; };
+		84EE49ED2F387DBD00677881 /* SwitchValuesButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchValuesButton.cpp; sourceTree = "<group>"; };
+		84EE49EE2F387DBD00677881 /* SwitchValuesButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SwitchValuesButton.hpp; sourceTree = "<group>"; };
 		84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataLayer.cpp; sourceTree = "<group>"; };
 		84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataLayer.hpp; sourceTree = "<group>"; };
 		84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileChange.hpp; sourceTree = "<group>"; };
@@ -3215,8 +3227,14 @@
 				840DD58D2AC810620006A435 /* RolledSelectionList.hpp */,
 				840DD58E2AC810620006A435 /* ScrolledSelectionList.cpp */,
 				840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */,
+				84EE49E92F387DBD00677881 /* SliderButton.cpp */,
+				84EE49EA2F387DBD00677881 /* SliderButton.hpp */,
 				840DD5902AC810620006A435 /* SmallButton.cpp */,
 				840DD5912AC810620006A435 /* SmallButton.hpp */,
+				84EE49EB2F387DBD00677881 /* SwitchButton.cpp */,
+				84EE49EC2F387DBD00677881 /* SwitchButton.hpp */,
+				84EE49ED2F387DBD00677881 /* SwitchValuesButton.cpp */,
+				84EE49EE2F387DBD00677881 /* SwitchValuesButton.hpp */,
 				840DD5922AC810620006A435 /* TextBox.cpp */,
 				840DD5932AC810620006A435 /* TextBox.hpp */,
 				840DD5942AC810620006A435 /* WorldSelectionList.cpp */,
@@ -5521,6 +5539,7 @@
 				84EB09D52EE2CC86008FB007 /* QuadrupedModel.hpp in Headers */,
 				84EB09F42EE2CCA8008FB007 /* RenderMaterialGroup.hpp in Headers */,
 				84B8AF582AF189D8008DE93D /* ClientSideNetworkHandler.hpp in Headers */,
+				84EE49F02F387DBD00677881 /* SliderButton.hpp in Headers */,
 				84B8AF592AF189D8008DE93D /* Options.hpp in Headers */,
 				84F77A6F2EA1C27B0045C907 /* LocalPlayer.hpp in Headers */,
 				84EB09C62EE2CC86008FB007 /* PolygonQuad.hpp in Headers */,
@@ -5554,10 +5573,12 @@
 				84E0012E2AF39E84009B9555 /* Multitouch.hpp in Headers */,
 				84E001302AF39E84009B9555 /* PolygonArea.hpp in Headers */,
 				84EB09DF2EE2CC86008FB007 /* ZombieModel.hpp in Headers */,
+				84EE49F42F387DBD00677881 /* SwitchValuesButton.hpp in Headers */,
 				84E001322AF39E84009B9555 /* RectangleArea.hpp in Headers */,
 				84E001342AF39E84009B9555 /* TouchAreaModel.hpp in Headers */,
 				84E001362AF39E84009B9555 /* TouchInputHolder.hpp in Headers */,
 				84E001382AF39E84009B9555 /* TouchscreenInput_TestFps.hpp in Headers */,
+				84EE49F22F387DBD00677881 /* SwitchButton.hpp in Headers */,
 				84EB09CB2EE2CC86008FB007 /* CowModel.hpp in Headers */,
 				84E022FD2F2A0230003C8FFE /* Language.hpp in Headers */,
 				9D3996282F10E9C6002945D3 /* CreditsScreen.hpp in Headers */,
@@ -6633,6 +6654,7 @@
 				84EB09D02EE2CC86008FB007 /* Model.cpp in Sources */,
 				84B8AEF72AF1890A008DE93D /* ConfirmScreen.cpp in Sources */,
 				84E022EF2F2A0211003C8FFE /* ChestScreen.cpp in Sources */,
+				84EE49F12F387DBD00677881 /* SwitchButton.cpp in Sources */,
 				84F948292F2F5CB700217B16 /* ResourcePackRepository.cpp in Sources */,
 				84B8AEF82AF1890A008DE93D /* CreateWorldScreen.cpp in Sources */,
 				84B8AEF92AF1890A008DE93D /* DeathScreen.cpp in Sources */,
@@ -6650,6 +6672,7 @@
 				84E0012D2AF39E84009B9555 /* Multitouch.cpp in Sources */,
 				84E0012F2AF39E84009B9555 /* PolygonArea.cpp in Sources */,
 				84EB09C32EE2CC86008FB007 /* ModelPart.cpp in Sources */,
+				84EE49F32F387DBD00677881 /* SwitchValuesButton.cpp in Sources */,
 				84E001312AF39E84009B9555 /* RectangleArea.cpp in Sources */,
 				84E001332AF39E84009B9555 /* TouchAreaModel.cpp in Sources */,
 				84E001352AF39E84009B9555 /* TouchInputHolder.cpp in Sources */,
@@ -6664,6 +6687,7 @@
 				9DA5C64E2F2845F80039B697 /* ResourceLoader.cpp in Sources */,
 				9DA5C64F2F2845F80039B697 /* ResourcePackManager.cpp in Sources */,
 				84AA8BEF2B32F3F3003F5B82 /* DynamicTexture.cpp in Sources */,
+				84EE49EF2F387DBD00677881 /* SliderButton.cpp in Sources */,
 				84AA8BF12B32F3F3003F5B82 /* ChickenRenderer.cpp in Sources */,
 				84AA8BF32B32F3F3003F5B82 /* CowRenderer.cpp in Sources */,
 				84EB09CA2EE2CC86008FB007 /* CowModel.cpp in Sources */,
