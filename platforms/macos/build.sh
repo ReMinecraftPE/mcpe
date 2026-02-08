@@ -107,7 +107,7 @@ if [ -n "$outdated_toolchain" ]; then
     wget -O- "https://github.com/tpoechtrager/apple-libtapi/archive/$tapi_commit.tar.gz" | tar -xz
 
     cd "apple-libtapi-$tapi_commit"
-    INSTALLPREFIX="$workdir" CC=clang CXX=clang++ ./build.sh && ./install.sh
+    INSTALLPREFIX="$workdir" CC=remcpe-clang CXX=remcpe-clang++ ./build.sh && ./install.sh
     cd ..
     rm -rf "apple-libtapi-$tapi_commit"
 
