@@ -11,11 +11,6 @@
 
 void Button::_init()
 {
-	m_width = 0;
-	m_height = 0;
-	m_xPos = 0;
-	m_yPos = 0;
-	m_text = "";
 	m_color = Color::WHITE;
 
 #ifndef ORIGINAL_CODE
@@ -24,49 +19,44 @@ void Button::_init()
 #endif
 }
 
-Button::Button(int buttonId, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text)
+Button::Button(int buttonId, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text) : GuiElement(buttonId)
 {
 	_init();
 
-	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
-	m_text = text;
+	setMessage(text);
 	m_width  = btnWidth;
 	m_height = btnHeight;
 }
 
-Button::Button(int buttonId, int xPos, int yPos, const std::string& text)
+Button::Button(int buttonId, int xPos, int yPos, const std::string& text) : GuiElement(buttonId)
 {
 	_init();
 
-	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
-	m_text = text;
+	setMessage(text);
 	m_width  = 200;
 	m_height = 24;
 }
 
-Button::Button(int buttonId, const std::string& text)
+Button::Button(int buttonId, const std::string& text) : GuiElement(buttonId)
 {
 	_init();
 
-	m_buttonId = buttonId;
-	m_text = text;
+	setMessage(text);
 	m_width  = 200;
 	m_height = 24;
 }
 
-bool Button::clicked(Minecraft* pMinecraft, int xPos, int yPos)
+bool Button::clicked(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
-	if (!isEnabled()) return false;
-	if (xPos < m_xPos) return false;
-	if (yPos < m_yPos) return false;
-	if (xPos >= m_xPos + m_width) return false;
-	if (yPos >= m_yPos + m_height) return false;
+	return _clicked(pointer);
+}
 
-	return true;
+void Button::pressed(Minecraft* pMinecraft, const MenuPointer& pointer)
+{
 }
 
 int Button::getYImage(bool bHovered)
@@ -76,22 +66,22 @@ int Button::getYImage(bool bHovered)
 	return 1;
 }
 
-void Button::released(int xPos, int yPos)
+void Button::released(const MenuPointer& pointer)
 {
 
 }
 
-void Button::renderBg(Minecraft*, int, int)
+void Button::renderBg(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
 
 }
 
-void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
+void Button::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
 	if (!isVisible()) return;
 
 	if (!pMinecraft->m_pScreen->doElementTabbing())
-		setSelected(clicked(pMinecraft, xPos, yPos));
+		setSelected(clicked(pMinecraft, pointer));
 
 	if (m_color.a == 0.0f)
 		return;
@@ -107,7 +97,7 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	blit(m_xPos, m_yPos, 0, iYPos, m_width / 2, m_height, 0, 20, &m_materials.ui_textured_and_glcolor);
 	blit(m_xPos + m_width / 2, m_yPos, 200 - m_width / 2, iYPos, m_width / 2, m_height, 0, 20, &m_materials.ui_textured_and_glcolor);
 
-	renderBg(pMinecraft, xPos, yPos);
+	renderBg(pMinecraft, pointer);
 
 	Color textColor;
 	if (!isEnabled())
@@ -117,5 +107,5 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	else
 		textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
 
-	drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
+	drawCenteredString(font, getMessage(), m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 }

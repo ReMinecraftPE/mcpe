@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "../components/Button.hpp"
 #include "../components/AvailableGamesList.hpp"
 
 class JoinGameScreen : public Screen

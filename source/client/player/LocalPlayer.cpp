@@ -177,7 +177,7 @@ void LocalPlayer::calculateFlight(const Vec3& pos)
 		y1 = f1 * -0.2f;
 
 	field_BFC += x1;
-	float f2 = m_pMinecraft->getOptions()->m_fSensitivity * 0.35f;
+	float f2 = m_pMinecraft->getOptions()->m_sensitivity.get() * 0.35f;
 	float f3 = f2 * (field_BFC - field_C00);
 	float f4 = field_C04 + 0.5f * (f3 - field_C04);
 	field_C04 = f4;
@@ -218,7 +218,7 @@ bool LocalPlayer::isSneaking() const
 void LocalPlayer::move(const Vec3& pos)
 {
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
-	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->getOptions()->m_bFlyCheat)
+	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->getOptions()->m_flightHax.get())
 	{
 		//@HUH: Using m_pMinecraft->m_pLocalPlayer instead of this, even though they're the same
 		pLP->m_bNoPhysics = true;
@@ -284,7 +284,7 @@ void LocalPlayer::move(const Vec3& pos)
 				return;
 
 			// are we trying to walk into stairs or a slab?
-			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->getOptions()->m_bAutoJump)
+			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->getOptions()->m_autoJump.get())
 				// Nope, we're walking towards a full block. Trigger an auto jump.
 				m_nAutoJumpFrames = 1;
 		}

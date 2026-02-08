@@ -9,7 +9,7 @@
 #pragma once
 
 #include "App.hpp"
-#include "common/CThread.hpp"
+#include "common/threading/CThread.hpp"
 #include "common/Mth.hpp"
 #include "common/Timer.hpp"
 #include "client/gui/Gui.hpp"
@@ -55,6 +55,7 @@ public:
 	void tick();
 	void tickInput();
 	void saveOptions();
+	void saveOptionsAsync();
 	void handleBuildAction(const BuildActionIntention& action);
 	bool isLevelGenerated() const;
     void selectLevel(const LevelSummary& ls, bool forceConversion = false);

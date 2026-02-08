@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "ProgressScreen.hpp"
+#include "client/app/Minecraft.hpp"
 
 bool ProgressScreen::isInGameScreen()
 {

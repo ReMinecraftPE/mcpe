@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "../components/Button.hpp"
 #include "../components/WorldSelectionList.hpp"
 
 class SelectWorldScreen : public Screen

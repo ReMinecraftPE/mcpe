@@ -14,12 +14,12 @@ ToolItem::ToolItem(int id, Tool::Type toolType, Tier& tier) :
 
 bool ToolItem::_canDestroyTile(const Tile* tile) const
 {
-	return tile->m_toolMask & m_toolType;
+	return (tile->m_toolMask & m_toolType) != 0;
 }
 
 bool ToolItem::_canDestroyMaterial(const Material* material) const
 {
-	return material->m_toolMask & m_toolType;
+	return (material->m_toolMask & m_toolType) != 0;
 }
 
 float ToolItem::getDestroySpeed(ItemStack* instance, const Tile* tile) const

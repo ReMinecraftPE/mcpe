@@ -13,7 +13,6 @@
 		8406FD2E2AF1820700B09C1D /* Packet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63E2AC810620006A435 /* Packet.hpp */; };
 		8406FD2F2AF1820700B09C1D /* PingedCompatibleServer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD64D2AC810620006A435 /* PingedCompatibleServer.hpp */; };
 		8406FD302AF1820700B09C1D /* RakNetInstance.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD64F2AC810620006A435 /* RakNetInstance.hpp */; };
-		8406FD322AF1823600B09C1D /* CThread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6272AC810620006A435 /* CThread.hpp */; };
 		8406FD332AF1823600B09C1D /* Logger.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6292AC810620006A435 /* Logger.hpp */; };
 		8406FD362AF1823600B09C1D /* Mth.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD62E2AC810620006A435 /* Mth.hpp */; };
 		8406FD372AF1823600B09C1D /* Random.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6302AC810620006A435 /* Random.hpp */; };
@@ -432,7 +431,7 @@
 		84B8AEEE2AF1890A008DE93D /* RolledSelectionList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD58C2AC810620006A435 /* RolledSelectionList.cpp */; };
 		84B8AEEF2AF1890A008DE93D /* ScrolledSelectionList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD58E2AC810620006A435 /* ScrolledSelectionList.cpp */; };
 		84B8AEF02AF1890A008DE93D /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5902AC810620006A435 /* SmallButton.cpp */; };
-		84B8AEF12AF1890A008DE93D /* TextInputBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5922AC810620006A435 /* TextInputBox.cpp */; };
+		84B8AEF12AF1890A008DE93D /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5922AC810620006A435 /* TextBox.cpp */; };
 		84B8AEF22AF1890A008DE93D /* WorldSelectionList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5942AC810620006A435 /* WorldSelectionList.cpp */; };
 		84B8AEF32AF1890A008DE93D /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5962AC810620006A435 /* Gui.cpp */; };
 		84B8AEF42AF1890A008DE93D /* GuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5982AC810620006A435 /* GuiComponent.cpp */; };
@@ -474,7 +473,7 @@
 		84B8AF3C2AF189D8008DE93D /* RolledSelectionList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD58D2AC810620006A435 /* RolledSelectionList.hpp */; };
 		84B8AF3D2AF189D8008DE93D /* ScrolledSelectionList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */; };
 		84B8AF3E2AF189D8008DE93D /* SmallButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5912AC810620006A435 /* SmallButton.hpp */; };
-		84B8AF3F2AF189D8008DE93D /* TextInputBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5932AC810620006A435 /* TextInputBox.hpp */; };
+		84B8AF3F2AF189D8008DE93D /* TextBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5932AC810620006A435 /* TextBox.hpp */; };
 		84B8AF402AF189D8008DE93D /* WorldSelectionList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5952AC810620006A435 /* WorldSelectionList.hpp */; };
 		84B8AF412AF189D8008DE93D /* Gui.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5972AC810620006A435 /* Gui.hpp */; };
 		84B8AF422AF189D8008DE93D /* GuiComponent.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5992AC810620006A435 /* GuiComponent.hpp */; };
@@ -852,6 +851,10 @@
 		84E023012F2A0245003C8FFE /* ChestMenu.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E022FF2F2A0245003C8FFE /* ChestMenu.hpp */; };
 		84E023042F2A0255003C8FFE /* DyeColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E023022F2A0255003C8FFE /* DyeColor.cpp */; };
 		84E023052F2A0255003C8FFE /* DyeColor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E023032F2A0255003C8FFE /* DyeColor.hpp */; };
+		84E058FC2F383E9200F1E829 /* AsyncTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E058F82F383E9200F1E829 /* AsyncTask.cpp */; };
+		84E058FD2F383E9200F1E829 /* AsyncTask.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E058F92F383E9200F1E829 /* AsyncTask.hpp */; };
+		84E058FE2F383E9200F1E829 /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E058FA2F383E9200F1E829 /* CThread.cpp */; };
+		84E058FF2F383E9200F1E829 /* CThread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E058FB2F383E9200F1E829 /* CThread.hpp */; };
 		84E105F82E85157F00FAB6C5 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E105F62E85157F00FAB6C5 /* AppPlatform_sdl.cpp */; };
 		84E105F92E85157F00FAB6C5 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E105F62E85157F00FAB6C5 /* AppPlatform_sdl.cpp */; };
 		84E1C9CF2E7FDC26007D2F5D /* CactusTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9BF2E7FDC26007D2F5D /* CactusTile.cpp */; };
@@ -880,7 +883,6 @@
 		84E1C9EE2E7FDC89007D2F5D /* CactusFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9EB2E7FDC89007D2F5D /* CactusFeature.cpp */; };
 		84E1C9EF2E7FDC89007D2F5D /* PumpkinFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9EC2E7FDC89007D2F5D /* PumpkinFeature.cpp */; };
 		84E1C9F02E7FDC89007D2F5D /* VegetationFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9ED2E7FDC89007D2F5D /* VegetationFeature.cpp */; };
-		84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6262AC810620006A435 /* CThread.cpp */; };
 		84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6282AC810620006A435 /* Logger.cpp */; };
 		84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62D2AC810620006A435 /* Mth.cpp */; };
 		84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62F2AC810620006A435 /* Random.cpp */; };
@@ -1196,6 +1198,12 @@
 		84EB0E112EE2D4D4008FB007 /* JsonParser.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A042EE2CCC0008FB007 /* JsonParser.hpp */; };
 		84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0A052EE2CCC0008FB007 /* Singleton.cpp */; };
 		84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A062EE2CCC0008FB007 /* Singleton.hpp */; };
+		84EE49EF2F387DBD00677881 /* SliderButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE49E92F387DBD00677881 /* SliderButton.cpp */; };
+		84EE49F02F387DBD00677881 /* SliderButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE49EA2F387DBD00677881 /* SliderButton.hpp */; };
+		84EE49F12F387DBD00677881 /* SwitchButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE49EB2F387DBD00677881 /* SwitchButton.cpp */; };
+		84EE49F22F387DBD00677881 /* SwitchButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE49EC2F387DBD00677881 /* SwitchButton.hpp */; };
+		84EE49F32F387DBD00677881 /* SwitchValuesButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE49ED2F387DBD00677881 /* SwitchValuesButton.cpp */; };
+		84EE49F42F387DBD00677881 /* SwitchValuesButton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE49EE2F387DBD00677881 /* SwitchValuesButton.hpp */; };
 		84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */; };
 		84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */; };
 		84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */; };
@@ -1569,8 +1577,8 @@
 		840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScrolledSelectionList.hpp; sourceTree = "<group>"; };
 		840DD5902AC810620006A435 /* SmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallButton.cpp; sourceTree = "<group>"; };
 		840DD5912AC810620006A435 /* SmallButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SmallButton.hpp; sourceTree = "<group>"; };
-		840DD5922AC810620006A435 /* TextInputBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputBox.cpp; sourceTree = "<group>"; };
-		840DD5932AC810620006A435 /* TextInputBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextInputBox.hpp; sourceTree = "<group>"; };
+		840DD5922AC810620006A435 /* TextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
+		840DD5932AC810620006A435 /* TextBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextBox.hpp; sourceTree = "<group>"; };
 		840DD5942AC810620006A435 /* WorldSelectionList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldSelectionList.cpp; sourceTree = "<group>"; };
 		840DD5952AC810620006A435 /* WorldSelectionList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldSelectionList.hpp; sourceTree = "<group>"; };
 		840DD5962AC810620006A435 /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
@@ -1637,8 +1645,6 @@
 		840DD6212AC810620006A435 /* SoundRepository.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundRepository.hpp; sourceTree = "<group>"; };
 		840DD6222AC810620006A435 /* SoundSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystem.cpp; sourceTree = "<group>"; };
 		840DD6232AC810620006A435 /* SoundSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystem.hpp; sourceTree = "<group>"; };
-		840DD6262AC810620006A435 /* CThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CThread.cpp; sourceTree = "<group>"; };
-		840DD6272AC810620006A435 /* CThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CThread.hpp; sourceTree = "<group>"; };
 		840DD6282AC810620006A435 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
 		840DD6292AC810620006A435 /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
 		840DD62D2AC810620006A435 /* Mth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mth.cpp; sourceTree = "<group>"; };
@@ -2552,6 +2558,10 @@
 		84E022FF2F2A0245003C8FFE /* ChestMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ChestMenu.hpp; sourceTree = "<group>"; };
 		84E023022F2A0255003C8FFE /* DyeColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DyeColor.cpp; sourceTree = "<group>"; };
 		84E023032F2A0255003C8FFE /* DyeColor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DyeColor.hpp; sourceTree = "<group>"; };
+		84E058F82F383E9200F1E829 /* AsyncTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsyncTask.cpp; sourceTree = "<group>"; };
+		84E058F92F383E9200F1E829 /* AsyncTask.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AsyncTask.hpp; sourceTree = "<group>"; };
+		84E058FA2F383E9200F1E829 /* CThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CThread.cpp; sourceTree = "<group>"; };
+		84E058FB2F383E9200F1E829 /* CThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CThread.hpp; sourceTree = "<group>"; };
 		84E105F62E85157F00FAB6C5 /* AppPlatform_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl.cpp; sourceTree = "<group>"; };
 		84E105F72E85157F00FAB6C5 /* AppPlatform_sdl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl.hpp; sourceTree = "<group>"; };
 		84E1C9BF2E7FDC26007D2F5D /* CactusTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CactusTile.cpp; sourceTree = "<group>"; };
@@ -2896,6 +2906,12 @@
 		84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP.hpp; sourceTree = "<group>"; };
 		84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Compat.hpp; sourceTree = "<group>"; };
 		84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Info.hpp; sourceTree = "<group>"; };
+		84EE49E92F387DBD00677881 /* SliderButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SliderButton.cpp; sourceTree = "<group>"; };
+		84EE49EA2F387DBD00677881 /* SliderButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SliderButton.hpp; sourceTree = "<group>"; };
+		84EE49EB2F387DBD00677881 /* SwitchButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchButton.cpp; sourceTree = "<group>"; };
+		84EE49EC2F387DBD00677881 /* SwitchButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SwitchButton.hpp; sourceTree = "<group>"; };
+		84EE49ED2F387DBD00677881 /* SwitchValuesButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchValuesButton.cpp; sourceTree = "<group>"; };
+		84EE49EE2F387DBD00677881 /* SwitchValuesButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SwitchValuesButton.hpp; sourceTree = "<group>"; };
 		84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataLayer.cpp; sourceTree = "<group>"; };
 		84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataLayer.hpp; sourceTree = "<group>"; };
 		84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileChange.hpp; sourceTree = "<group>"; };
@@ -3221,10 +3237,16 @@
 				840DD58D2AC810620006A435 /* RolledSelectionList.hpp */,
 				840DD58E2AC810620006A435 /* ScrolledSelectionList.cpp */,
 				840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */,
+				84EE49E92F387DBD00677881 /* SliderButton.cpp */,
+				84EE49EA2F387DBD00677881 /* SliderButton.hpp */,
 				840DD5902AC810620006A435 /* SmallButton.cpp */,
 				840DD5912AC810620006A435 /* SmallButton.hpp */,
-				840DD5922AC810620006A435 /* TextInputBox.cpp */,
-				840DD5932AC810620006A435 /* TextInputBox.hpp */,
+				84EE49EB2F387DBD00677881 /* SwitchButton.cpp */,
+				84EE49EC2F387DBD00677881 /* SwitchButton.hpp */,
+				84EE49ED2F387DBD00677881 /* SwitchValuesButton.cpp */,
+				84EE49EE2F387DBD00677881 /* SwitchValuesButton.hpp */,
+				840DD5922AC810620006A435 /* TextBox.cpp */,
+				840DD5932AC810620006A435 /* TextBox.hpp */,
 				840DD5942AC810620006A435 /* WorldSelectionList.cpp */,
 				840DD5952AC810620006A435 /* WorldSelectionList.hpp */,
 			);
@@ -3401,8 +3423,6 @@
 		840DD6252AC810620006A435 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				840DD6262AC810620006A435 /* CThread.cpp */,
-				840DD6272AC810620006A435 /* CThread.hpp */,
 				84CCBC3D2E6183F300E251AF /* DataIO.cpp */,
 				84CCBC3E2E6183F300E251AF /* DataIO.hpp */,
 				840DD6282AC810620006A435 /* Logger.cpp */,
@@ -3414,6 +3434,7 @@
 				840DD6302AC810620006A435 /* Random.hpp */,
 				84E001B62AF3A3CB009B9555 /* SmoothFloat.cpp */,
 				84E001B72AF3A3CB009B9555 /* SmoothFloat.hpp */,
+				84E058F72F383E9200F1E829 /* threading */,
 				840DD6332AC810620006A435 /* Timer.cpp */,
 				840DD6342AC810620006A435 /* Timer.hpp */,
 				840DD6352AC810620006A435 /* Util.cpp */,
@@ -4817,6 +4838,17 @@
 			path = locale;
 			sourceTree = "<group>";
 		};
+		84E058F72F383E9200F1E829 /* threading */ = {
+			isa = PBXGroup;
+			children = (
+				84E058F82F383E9200F1E829 /* AsyncTask.cpp */,
+				84E058F92F383E9200F1E829 /* AsyncTask.hpp */,
+				84E058FA2F383E9200F1E829 /* CThread.cpp */,
+				84E058FB2F383E9200F1E829 /* CThread.hpp */,
+			);
+			path = threading;
+			sourceTree = "<group>";
+		};
 		84E105F52E85155F00FAB6C5 /* base */ = {
 			isa = PBXGroup;
 			children = (
@@ -5491,7 +5523,7 @@
 				84B8AF3C2AF189D8008DE93D /* RolledSelectionList.hpp in Headers */,
 				84B8AF3D2AF189D8008DE93D /* ScrolledSelectionList.hpp in Headers */,
 				84B8AF3E2AF189D8008DE93D /* SmallButton.hpp in Headers */,
-				84B8AF3F2AF189D8008DE93D /* TextInputBox.hpp in Headers */,
+				84B8AF3F2AF189D8008DE93D /* TextBox.hpp in Headers */,
 				84EB09F02EE2CCA8008FB007 /* Fog.hpp in Headers */,
 				84EB09D72EE2CC86008FB007 /* SheepFurModel.hpp in Headers */,
 				84B8AF402AF189D8008DE93D /* WorldSelectionList.hpp in Headers */,
@@ -5524,6 +5556,7 @@
 				84EB09D52EE2CC86008FB007 /* QuadrupedModel.hpp in Headers */,
 				84EB09F42EE2CCA8008FB007 /* RenderMaterialGroup.hpp in Headers */,
 				84B8AF582AF189D8008DE93D /* ClientSideNetworkHandler.hpp in Headers */,
+				84EE49F02F387DBD00677881 /* SliderButton.hpp in Headers */,
 				84B8AF592AF189D8008DE93D /* Options.hpp in Headers */,
 				84F77A6F2EA1C27B0045C907 /* LocalPlayer.hpp in Headers */,
 				84EB09C62EE2CC86008FB007 /* PolygonQuad.hpp in Headers */,
@@ -5557,10 +5590,12 @@
 				84E0012E2AF39E84009B9555 /* Multitouch.hpp in Headers */,
 				84E001302AF39E84009B9555 /* PolygonArea.hpp in Headers */,
 				84EB09DF2EE2CC86008FB007 /* ZombieModel.hpp in Headers */,
+				84EE49F42F387DBD00677881 /* SwitchValuesButton.hpp in Headers */,
 				84E001322AF39E84009B9555 /* RectangleArea.hpp in Headers */,
 				84E001342AF39E84009B9555 /* TouchAreaModel.hpp in Headers */,
 				84E001362AF39E84009B9555 /* TouchInputHolder.hpp in Headers */,
 				84E001382AF39E84009B9555 /* TouchscreenInput_TestFps.hpp in Headers */,
+				84EE49F22F387DBD00677881 /* SwitchButton.hpp in Headers */,
 				84EB09CB2EE2CC86008FB007 /* CowModel.hpp in Headers */,
 				84E022FD2F2A0230003C8FFE /* Language.hpp in Headers */,
 				9D3996282F10E9C6002945D3 /* CreditsScreen.hpp in Headers */,
@@ -5843,7 +5878,6 @@
 				84F66DF12F18CA3B00DE508E /* ToolsetDefinitions.h in Headers */,
 				84EB0E0E2EE2D4D4008FB007 /* AlignmentHelper.hpp in Headers */,
 				84EB0E112EE2D4D4008FB007 /* JsonParser.hpp in Headers */,
-				8406FD322AF1823600B09C1D /* CThread.hpp in Headers */,
 				84EB0E0F2EE2D4D4008FB007 /* InheritanceTree.hpp in Headers */,
 				8406FD332AF1823600B09C1D /* Logger.hpp in Headers */,
 				8406FD362AF1823600B09C1D /* Mth.hpp in Headers */,
@@ -5851,6 +5885,8 @@
 				8406FD372AF1823600B09C1D /* Random.hpp in Headers */,
 				84EB0E0C2EE2D4CA008FB007 /* Color.hpp in Headers */,
 				8406FD392AF1823700B09C1D /* Timer.hpp in Headers */,
+				84E058FF2F383E9200F1E829 /* CThread.hpp in Headers */,
+				84E058FD2F383E9200F1E829 /* AsyncTask.hpp in Headers */,
 				84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */,
 				84CCBC402E6183F300E251AF /* DataIO.hpp in Headers */,
 				8406FD3A2AF1823700B09C1D /* Util.hpp in Headers */,
@@ -6623,7 +6659,7 @@
 				84B8AEEE2AF1890A008DE93D /* RolledSelectionList.cpp in Sources */,
 				84B8AEEF2AF1890A008DE93D /* ScrolledSelectionList.cpp in Sources */,
 				84B8AEF02AF1890A008DE93D /* SmallButton.cpp in Sources */,
-				84B8AEF12AF1890A008DE93D /* TextInputBox.cpp in Sources */,
+				84B8AEF12AF1890A008DE93D /* TextBox.cpp in Sources */,
 				84EB09F12EE2CCA8008FB007 /* EntityShaderManager.cpp in Sources */,
 				84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */,
 				84B8AEF22AF1890A008DE93D /* WorldSelectionList.cpp in Sources */,
@@ -6636,6 +6672,7 @@
 				84EB09D02EE2CC86008FB007 /* Model.cpp in Sources */,
 				84B8AEF72AF1890A008DE93D /* ConfirmScreen.cpp in Sources */,
 				84E022EF2F2A0211003C8FFE /* ChestScreen.cpp in Sources */,
+				84EE49F12F387DBD00677881 /* SwitchButton.cpp in Sources */,
 				84F948292F2F5CB700217B16 /* ResourcePackRepository.cpp in Sources */,
 				84B8AEF82AF1890A008DE93D /* CreateWorldScreen.cpp in Sources */,
 				84B8AEF92AF1890A008DE93D /* DeathScreen.cpp in Sources */,
@@ -6653,6 +6690,7 @@
 				84E0012D2AF39E84009B9555 /* Multitouch.cpp in Sources */,
 				84E0012F2AF39E84009B9555 /* PolygonArea.cpp in Sources */,
 				84EB09C32EE2CC86008FB007 /* ModelPart.cpp in Sources */,
+				84EE49F32F387DBD00677881 /* SwitchValuesButton.cpp in Sources */,
 				84E001312AF39E84009B9555 /* RectangleArea.cpp in Sources */,
 				84E001332AF39E84009B9555 /* TouchAreaModel.cpp in Sources */,
 				84E001352AF39E84009B9555 /* TouchInputHolder.cpp in Sources */,
@@ -6667,6 +6705,7 @@
 				9DA5C64E2F2845F80039B697 /* ResourceLoader.cpp in Sources */,
 				9DA5C64F2F2845F80039B697 /* ResourcePackManager.cpp in Sources */,
 				84AA8BEF2B32F3F3003F5B82 /* DynamicTexture.cpp in Sources */,
+				84EE49EF2F387DBD00677881 /* SliderButton.cpp in Sources */,
 				84AA8BF12B32F3F3003F5B82 /* ChickenRenderer.cpp in Sources */,
 				84AA8BF32B32F3F3003F5B82 /* CowRenderer.cpp in Sources */,
 				84EB09CA2EE2CC86008FB007 /* CowModel.cpp in Sources */,
@@ -6948,14 +6987,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */,
-				84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */,
 				84CCBC3F2E6183F300E251AF /* DataIO.cpp in Sources */,
 				84EB0E102EE2D4D4008FB007 /* JsonParser.cpp in Sources */,
 				84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */,
 				84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */,
 				84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */,
 				84E4BFBB2AE9869A0023E16A /* Timer.cpp in Sources */,
+				84E058FC2F383E9200F1E829 /* AsyncTask.cpp in Sources */,
 				84E4BFBC2AE9869A0023E16A /* Util.cpp in Sources */,
+				84E058FE2F383E9200F1E829 /* CThread.cpp in Sources */,
 				84EB0E0B2EE2D4CA008FB007 /* Color.cpp in Sources */,
 				84EB0E0D2EE2D4D4008FB007 /* AlignmentHelper.cpp in Sources */,
 				84E4BFBD2AE9869A0023E16A /* Utils.cpp in Sources */,

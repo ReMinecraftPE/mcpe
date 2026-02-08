@@ -148,8 +148,8 @@ void RenderContextOGL::enableFixedLighting(bool init)
 #ifdef USE_GL_NORMAL_LIGHTING
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
-#if !defined(__EMSCRIPTEN__) && !defined(USE_GLES)
         glEnable(GL_COLOR_MATERIAL);
+#if !defined(__EMSCRIPTEN__) && !defined(USE_GLES)
         glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 #endif
 

@@ -182,7 +182,7 @@ void MobRenderer::renderName(const Mob& mob, const Vec3& pos)
 	}
 	else
 	{
-		if (m_pDispatcher->m_pOptions->m_bDebugText)
+		if (m_pDispatcher->m_pOptions->m_debugText.get())
 		{
 			std::stringstream ss;
 			ss << mob.m_EntityID;

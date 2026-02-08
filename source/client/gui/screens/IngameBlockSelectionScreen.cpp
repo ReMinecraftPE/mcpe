@@ -288,37 +288,37 @@ void IngameBlockSelectionScreen::render(float f)
 
 void IngameBlockSelectionScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnPause.m_buttonId)
+	if (pButton->getId() == m_btnPause.getId())
 		m_pMinecraft->setScreen(new PauseScreen);
 
-	if (pButton->m_buttonId == m_btnChat.m_buttonId)
+	if (pButton->getId() == m_btnChat.getId())
         m_pMinecraft->setScreen(new ChatScreen(true));
 
-		/*if (pButton->m_buttonId == m_btnCraft.m_buttonId)
+		/*if (pButton->getId() == m_btnCraft.getId())
 		m_pMinecraft->setScreen(new CraftingScreen(m_pMinecraft->m_pLocalPlayer));*/
 
-	/*if (pButton->m_buttonId == m_btnArmor.m_buttonId)
+	/*if (pButton->getId() == m_btnArmor.getId())
 		m_pMinecraft->setScreen(new ArmorScreen(m_pMinecraft->m_pLocalPlayer));*/
 }
 
-void IngameBlockSelectionScreen::pointerPressed(int x, int y, MouseButtonType btn)
+void IngameBlockSelectionScreen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn)
 {
-	Screen::pointerPressed(x, y, btn);
+	Screen::pointerPressed(pointer, btn);
 
 	if (btn != MOUSE_BUTTON_LEFT)
 		return;
 
 	m_bReleased = true;
-	m_bClickedOnSlot = isInsideSelectionArea(x, y);
+	m_bClickedOnSlot = isInsideSelectionArea(pointer.x, pointer.y);
 
-	int slot = getSelectedSlot(x, y);
+	int slot = getSelectedSlot(pointer.x, pointer.y);
 	if (isAllowed(slot))
 		m_selectedSlot = slot;
 }
 
-void IngameBlockSelectionScreen::pointerReleased(int x, int y, MouseButtonType btn)
+void IngameBlockSelectionScreen::pointerReleased(const MenuPointer& pointer, MouseButtonType btn)
 {
-	Screen::pointerReleased(x, y, btn);
+	Screen::pointerReleased(pointer, btn);
 	
 	if (btn != MOUSE_BUTTON_LEFT)
 		return;
@@ -330,13 +330,13 @@ void IngameBlockSelectionScreen::pointerReleased(int x, int y, MouseButtonType b
 			continue;
 
 		Button* btn = (Button*)element;
-		if (btn->clicked(m_pMinecraft, x, y))
+		if (btn->clicked(m_pMinecraft, pointer))
 			return;
 	}
 	
-	if (isInsideSelectionArea(x, y))
+	if (isInsideSelectionArea(pointer.x, pointer.y))
 	{
-		int slot = getSelectedSlot(x, y);
+		int slot = getSelectedSlot(pointer.x, pointer.y);
 		if (isAllowed(slot) && slot == m_selectedSlot)
 			selectSlotAndClose();
 		return;
@@ -347,7 +347,7 @@ void IngameBlockSelectionScreen::pointerReleased(int x, int y, MouseButtonType b
 		m_pMinecraft->setScreen(nullptr);
 	}
 
-	int slot = getSelectedSlot(x, y);
+	int slot = getSelectedSlot(pointer.x, pointer.y);
 	if (isAllowed(slot) && slot == m_selectedSlot)
 		selectSlotAndClose();
 }

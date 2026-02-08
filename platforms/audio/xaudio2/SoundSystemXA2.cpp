@@ -297,7 +297,7 @@ void SoundSystemXA2::pauseMusic(bool state)
     m_musicStream->setPausedState(state);
 }
 
-void SoundSystemXA2::update(float elapsedTime)
+void SoundSystemXA2::update()
 {
     m_musicStream->update();
     _cleanSources();

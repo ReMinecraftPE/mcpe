@@ -102,41 +102,21 @@ jobs:
     macos:
         strategy:
             fail-fast: false
-            matrix: # TODO add PPC build
-                include:
-                  - name: SDL 2
-                    backend_name: 'SDL2'
-                    packages: 'libsdl2'
-        name: macOS (${{ matrix.name }})
+        name: macOS
         runs-on: macos-15
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
                 submodules: true
-          - name: Install MacPorts
-            uses: melusina-org/setup-macports@v1
           - name: Install Dependencies
-            run: |
-                port selfupdate
-                port install ${{ matrix.packages }} +universal
-          - name: Build macOS Archive
-            run: |
-                cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
-                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
-                -sdk macosx \
-                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
-                -destination generic/platform=macOS \
-                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
-                -quiet \
-                clean archive
-                mkdir ../../../../ReMCPE
-                mv $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ../../../../ReMCPE/reminecraftpe
-                strip ../../../../ReMCPE/reminecraftpe
-                mv ../../../../game/assets ../../../../ReMCPE
+            run: brew install llvm@21
+          - name: Build macOS binary
+            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
           - name: Pack release
-            run: zip -r ReMCPE-macOS.zip ReMCPE
+            run: |
+                mv platforms/macos/build/ReMCPE .
+                zip -r ReMCPE-macOS.zip ReMCPE
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
@@ -180,9 +160,11 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                include:
-                  - name: Native
-                    directory: platforms/android/project
+                include: # TODO: switch to exclusively native android once it's fixed.
+                  # - name: Native
+                  #   directory: platforms/android/project
+                  - name: SDL 2
+                    directory: platforms/sdl/sdl2/android
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -200,8 +182,17 @@ jobs:
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleRelease
-                cd $GITHUB_WORKSPACE
-                mv platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ReMCPE.apk
+          - uses: upup-company/apksigner-android@v1
+            id: sign_apk
+            with:
+              releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
+              signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
+              keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+              alias: remcpe
+            env:
+              BUILD_TOOLS_VERSION: 33.0.1
+          - name: Rename APK
+            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE.apk
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}

@@ -87,7 +87,7 @@ public:
     void stopMusic() override;
     void pauseMusic(bool state) override;
 
-    void update(float elapsedTime) override; 
+    void update() override; 
 
     void startEngine() override;
     void stopEngine() override;
