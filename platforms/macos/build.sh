@@ -95,6 +95,7 @@ printf '#!/bin/sh\n
         exec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
 printf '#!/bin/sh\n
         exec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
+chmod +x remcpe-clang remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
     # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old macOS versions anymore
