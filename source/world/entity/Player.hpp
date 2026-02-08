@@ -19,6 +19,13 @@ class Inventory; // in case we're included from Inventory.hpp
 
 class Player : public Mob
 {
+public:
+	struct Abilities
+	{
+		bool m_bCanFly;
+		bool m_bInvulnerable;
+	} m_abilities;
+
 private:
 	GameType _playerGameType;
 
@@ -90,7 +97,7 @@ public:
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
-	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
+	virtual void setPlayerGameType(GameType playerGameType);
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 	ItemStack& getSelectedItem() const;
