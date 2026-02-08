@@ -151,7 +151,6 @@ jobs:
           - name: Build macOS binary
             run: ./platforms/macos/build.sh
             env:
-              CLANG: ${{ steps.brew-prefix.outputs.prefix }}/opt/llvm@21/bin/clang
               LLVM_CONFIG: ${{ steps.brew-prefix.outputs.prefix }}/opt/llvm@21/bin/llvm-config
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
