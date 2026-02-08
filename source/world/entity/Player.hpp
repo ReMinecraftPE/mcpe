@@ -22,8 +22,8 @@ class Player : public Mob
 public:
 	struct Abilities
 	{
-		bool m_bCanFly;
-		bool m_bInvulnerable;
+		bool bCanFly;
+		bool bInvulnerable;
 	};
 
 private:
@@ -94,7 +94,7 @@ public:
 	void rideTick();
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
-	inline Abilities& getAbilities() { return abilities; }
+	inline Abilities& getAbilities() { return m_abilities; }
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
@@ -112,7 +112,7 @@ public:
 #pragma GCC diagnostic pop
 
 protected:
-	Abilities abilities;
+	Abilities m_abilities;
 
 public:
 	//TODO
