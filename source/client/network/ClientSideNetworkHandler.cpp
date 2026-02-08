@@ -15,6 +15,7 @@
 #include "client/multiplayer/MultiplayerLocalPlayer.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/tile/BedTile.hpp"
 #include "world/level/Explosion.hpp"
 #include "world/inventory/SimpleContainer.hpp"
 
@@ -40,6 +41,23 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	m_field_14 = 0;
 	m_field_24 = 0;
 	clearChunksLoaded();
+}
+
+Entity* ClientSideNetworkHandler::_getEntityOrLocalPlayer(int entityId)
+{
+	if (!m_pLevel)
+		return nullptr;
+
+	Entity* pEntity = m_pLevel->getEntity(entityId);
+	
+	// Check if this is the local player (they may not be in the entity list on multiplayer clients)
+	if (!pEntity && m_pMinecraft && m_pMinecraft->m_pLocalPlayer && 
+		m_pMinecraft->m_pLocalPlayer->m_EntityID == entityId)
+	{
+		pEntity = m_pMinecraft->m_pLocalPlayer;
+	}
+	
+	return pEntity;
 }
 
 void ClientSideNetworkHandler::levelGenerated(Level* level)
@@ -320,14 +338,25 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 {
 	if (!m_pLevel) return;
 
-	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
+	Entity* pEntity = _getEntityOrLocalPlayer(packet->m_id);
+	
 	if (!pEntity)
 	{
 		LOG_E("MovePlayerPacket: No player with id %d", packet->m_id);
 		return;
 	}
 
-	pEntity->lerpTo(packet->m_pos, packet->m_rot);
+	if (pEntity->isPlayer() && ((Player*)pEntity)->isSleeping())
+	{
+		pEntity->setPos(packet->m_pos);
+		pEntity->m_rot = packet->m_rot;
+		pEntity->m_oPos = packet->m_pos;
+		pEntity->m_posPrev = packet->m_pos;
+	}
+	else
+	{
+		pEntity->lerpTo(packet->m_pos, packet->m_rot);
+	}
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBlockPacket* pPlaceBlockPkt)
@@ -587,6 +616,40 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Interac
 	}
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, InteractionPacket* pkt)
+{
+	puts_ignorable("InteractionPacket");
+
+	if (!m_pLevel)
+		return;
+
+	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	if (!pEntity || !pEntity->isPlayer())
+		return;
+
+	Player* pPlayer = (Player*)pEntity;
+	
+	if (pkt->m_actionType == InteractionPacket::SLEEP)
+	{
+		pPlayer->m_bSleeping = true;
+		pPlayer->m_sleepTimer = 0;
+		pPlayer->setRespawnPos(pkt->m_pos);
+		pPlayer->m_vel = Vec3::ZERO;
+		pPlayer->setSize(0.2f, 0.2f);
+		pPlayer->m_heightOffset = 0.2f;
+		
+		// Update bed direction for rendering
+		if (!m_pLevel->isEmptyTile(pkt->m_pos))
+		{
+			TileData data = m_pLevel->getData(pkt->m_pos);
+			Facing::Name dir = BedTile::getDirectionFromData(data);
+			pPlayer->updateSleepingPos(dir);
+		}
+		
+		m_pLevel->updateSleeping();
+	}
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetEntityDataPacket* pkt)
 {
 	puts_ignorable("SetEntityDataPacket");
@@ -630,7 +693,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 	if (!m_pLevel)
 		return;
 
-	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	Entity* pEntity = _getEntityOrLocalPlayer(pkt->m_entityId);
+	
 	if (!pEntity)
 		return;
 
@@ -650,6 +714,20 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 			pEntity->animateHurt();
 			break;
 		}
+		case AnimatePacket::WAKE_UP:
+		{
+			if (pEntity->isPlayer())
+			{
+				Player* pPlayer = (Player*)pEntity;
+				// Skip if this is our local player AND they're not sleeping
+				// (means they already woke themselves up)
+				// But if they ARE sleeping, the server is waking them (e.g., time skip)
+				if (pPlayer->isLocalPlayer() && !pPlayer->isSleeping())
+					break;
+				pPlayer->stopSleepInBed(false, false, false);
+			}
+			break;
+		}
 		default:
 		{
 			LOG_W("Received unkown action in AnimatePacket: %d, EntityType: %s", pkt->m_actionId, pEntity->getDescriptor().getEntityType().getName().c_str());
@@ -665,6 +743,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RespawnPac
 	if (!m_pLevel)
 		return;
 
+	// Call base handler to perform the respawn
 	NetEventCallback::handle(*m_pLevel, guid, packet);
 }
 
