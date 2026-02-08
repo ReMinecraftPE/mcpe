@@ -264,11 +264,8 @@ private:
 public:
 	Options(Minecraft*, const std::string& folderPath = "");
 
-	Options();
-	Options(const std::string& folderPath);
-  void add(OptionEntry&);
+	void add(OptionEntry&);
 	const AsyncTask& save();
-	std::string getMessage(const Options::Option&);
 	std::vector<std::string> getOptionStrings();
 	
 	int getKey(eKeyMappingIndex idx) const { return m_keyMappings[idx].value; }
