@@ -99,8 +99,12 @@ if [ -n "$outdated_toolchain" ]; then
     wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
-    [ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
-    ./configure --enable-silent-rules CC=remcpe-clang CXX=remcpe-clang++ $llvm_config
+    if [ -n "$LLVM_CONFIG" ]; then
+        set -- --with-llvm-config="$LLVM_CONFIG"
+    else
+        set --
+    fi
+    ./configure --enable-silent-rules CC=remcpe-clang CXX=remcpe-clang++ "$@"
     make -C ld64 -j"$ncpus"
     mv ld64/src/ld/ld ../../bin/ld64.ld64
     make -C libmacho -j"$ncpus"
