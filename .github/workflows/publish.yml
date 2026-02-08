@@ -103,31 +103,16 @@ jobs:
         strategy:
             fail-fast: false
         name: macOS
-        runs-on: ubuntu-24.04
+        runs-on: macos-15
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
-            run: |
-                wget https://apt.llvm.org/llvm.sh
-                sudo bash llvm.sh 21
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y \
-                    cmake \
-                    clang-21 \
-                    libplist-utils \
-                    libplist-dev \
-                    libssl-dev
+            run: brew install llvm@21
           - name: Build macOS binary
-            run: ./platforms/macos/build.sh
-            env:
-              CLANG: clang-21
-              AR: llvm-ar-21
-              RANLIB: llvm-ranlib-21
-              LLVM_CONFIG: llvm-config-21
-              NOSTRIP: 1
+            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
           - name: Pack release
             run: |
                 mv platforms/macos/build/ReMCPE .
