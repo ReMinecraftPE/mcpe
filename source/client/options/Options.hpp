@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 
+#include "common/threading/AsyncTask.hpp"
 #include "client/resources/ResourcePackManager.hpp"
 
 enum eKeyMappingIndex
@@ -85,13 +86,20 @@ private:
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
 	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 
+private: // async
+	MC_ASYNC_FUNC_VOID_2(savePropertiesToFile,
+		const std::string, filePath,
+		const std::vector<std::string>, properties
+	);
+
 private:
 	void _initDefaultValues();
 	void _load();
+	AsyncTask _saveAsync();
 public:
 	Options();
 	Options(const std::string& folderPath);
-	void save();
+	const AsyncTask& save();
 	std::string getMessage(const Options::Option&);
 	std::vector<std::string> getOptionStrings();
 	
@@ -101,6 +109,7 @@ public:
 	void loadControls();
 
 private:
+	AsyncTask m_saveTask;
 	std::string m_filePath;
 	KeyMapping m_keyMappings[KM_COUNT];
 

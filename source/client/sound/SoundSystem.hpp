@@ -47,7 +47,7 @@ public:
 	virtual void stopMusic();
 	virtual void pauseMusic(bool state);
 
-	virtual void update(float elapsedTime);
+	virtual void update();
     
     // Be prepared for these to be called regardless of engine state
     virtual void startEngine(); // called init in 0.10.0

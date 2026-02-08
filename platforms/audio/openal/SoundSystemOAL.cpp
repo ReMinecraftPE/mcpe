@@ -343,7 +343,7 @@ void SoundSystemOAL::pauseMusic(bool state)
 	m_musicStream->setPausedState(state);
 }
 
-void SoundSystemOAL::update(float elapsedTime)
+void SoundSystemOAL::update()
 {
 	m_musicStream->update();
 }
