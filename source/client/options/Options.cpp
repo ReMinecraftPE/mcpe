@@ -7,6 +7,9 @@
  ********************************************************************/
 
 // for SDL 1.2 controller buttons
+
+#include <fstream>
+
 #include "thirdparty/SDL/SDL_gamecontroller.h"
 
 #include "Options.hpp"
