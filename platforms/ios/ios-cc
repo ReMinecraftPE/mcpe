@@ -6,8 +6,8 @@ if [ -z "$REMCPE_TARGET" ]; then
 fi
 
 case $0 in
-    *++) cc="clang++" ;;
-    *)   cc="clang"   ;;
+    *++) cc="remcpe-clang++" ;;
+    *)   cc="remcpe-clang"   ;;
 esac
 
 case $REMCPE_TARGET in
@@ -15,9 +15,7 @@ case $REMCPE_TARGET in
     (*) stdlib=libstdc++ ;;
 esac
 
-command -v ccache > /dev/null && ccache=ccache
-
-exec $ccache "$cc" \
+exec "$cc" \
     -mlinker-version=762 \
     -stdlib="$stdlib" \
     "$@" \

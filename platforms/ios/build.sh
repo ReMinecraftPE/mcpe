@@ -82,6 +82,12 @@ if [ -n "$CLANG" ]; then
 else
     rm -f bin/clang bin/clang++
 fi
+# ensure we use ccache for the toolchain build
+ccache="$(command -v ccache || true)"
+printf '#!/bin/sh\n
+        exec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
+printf '#!/bin/sh\n
+        exec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
     # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
@@ -93,7 +99,7 @@ if [ -n "$outdated_toolchain" ]; then
 
     cd "cctools-port-$cctools_commit/cctools"
     [ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
-    ./configure --enable-silent-rules $llvm_config
+    ./configure --enable-silent-rules CC=remcpe-clang CXX=remcpe-clang++ $llvm_config
     make -C ld64 -j"$ncpus"
     mv ld64/src/ld/ld ../../bin/ld64.ld64
     make -C libmacho -j"$ncpus"
@@ -112,7 +118,7 @@ if [ -n "$outdated_toolchain" ]; then
         wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
 
         cd "ldid-$ldid_commit"
-        make CXX=clang++
+        make CXX=remcpe-clang++
         mv ldid ../bin
         cd ..
         rm -rf "ldid-$ldid_commit"

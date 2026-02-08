@@ -89,6 +89,12 @@ if [ -n "$CLANG" ]; then
 else
     rm -f bin/clang bin/clang++
 fi
+# ensure we use ccache for the toolchain build
+ccache="$(command -v ccache || true)"
+printf '#!/bin/sh\n
+        exec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
+printf '#!/bin/sh\n
+        exec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
     # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old macOS versions anymore
@@ -99,7 +105,7 @@ if [ -n "$outdated_toolchain" ]; then
     wget -O- "https://github.com/tpoechtrager/apple-libtapi/archive/$tapi_commit.tar.gz" | tar -xz
 
     cd "apple-libtapi-$tapi_commit"
-    INSTALLPREFIX="$workdir" CC=clang CXX=clang++ ./build.sh && ./install.sh
+    INSTALLPREFIX="$workdir" CC=remcpe-clang CXX=remcpe-clang++ ./build.sh && ./install.sh
     cd ..
     rm -rf "apple-libtapi-$tapi_commit"
 
@@ -109,7 +115,7 @@ if [ -n "$outdated_toolchain" ]; then
 
     cd "cctools-port-$cctools_commit/cctools"
     [ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
-    ./configure --enable-silent-rules --with-libtapi="$workdir" $llvm_config
+    ./configure --enable-silent-rules --with-libtapi="$workdir" CC=remcpe-clang CXX=remcpe-clang++ $llvm_config
     make -C ld64 -j"$ncpus"
     mv ld64/src/ld/ld ../../bin/ld64.ld64
     make -C libmacho -j"$ncpus"
@@ -128,7 +134,7 @@ if [ -n "$outdated_toolchain" ]; then
         wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
 
         cd "ldid-$ldid_commit"
-        make CXX=clang++
+        make CXX=remcpe-clang++
         mv ldid ../bin
         cd ..
         rm -rf "ldid-$ldid_commit"
