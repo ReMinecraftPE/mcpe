@@ -146,8 +146,7 @@ jobs:
           - name: Install Dependencies
             run: brew install llvm@21 ccache
           - name: Build macOS binary
-            run: |
-                LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
             env:
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
