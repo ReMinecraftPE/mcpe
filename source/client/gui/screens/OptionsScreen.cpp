@@ -21,7 +21,7 @@ OptionsScreen::OptionsScreen() :
 	m_currentCategory(OC_MIN),
 	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
 	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
-	m_multiplayerButton(MIN_CATEGORY_BUTTON_ID + 2, "Multiplayer"),
+	m_gameplayButton(MIN_CATEGORY_BUTTON_ID + 2, "Gameplay"),
 	m_miscButton(MAX_CATEGORY_BUTTON_ID, "Misc"),
 	m_backButton(BACK_BUTTON_ID, "Done")
 {
@@ -66,7 +66,7 @@ void OptionsScreen::init()
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
 	
-	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
+	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_gameplayButton, &m_miscButton };
 	constexpr int NUM_CATEGORY_BUTTONS = sizeof(tabButtons) / sizeof(tabButtons[0]);
 	int buttonWidth = 64;
 	int buttonHeight = 20;
@@ -132,8 +132,8 @@ void OptionsScreen::setCategory(OptionsCategory category)
 	case OC_CONTROLS:
 		m_pList->initControlsMenu();
 		break;
-	case OC_MULTIPLAYER:
-		m_pList->initMultiplayerMenu();
+	case OC_GAMEPLAY:
+		m_pList->initGameplayMenu();
 		break;
 	case OC_MISCELLANEOUS:
 		m_pList->initMiscMenu();
@@ -145,11 +145,11 @@ void OptionsScreen::setCategory(OptionsCategory category)
 
 void OptionsScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId >= MIN_CATEGORY_BUTTON_ID && pButton->m_buttonId <= MAX_CATEGORY_BUTTON_ID)
+	if (pButton->getId() >= MIN_CATEGORY_BUTTON_ID && pButton->getId() <= MAX_CATEGORY_BUTTON_ID)
 	{
-		setCategory((OptionsCategory)(pButton->m_buttonId - MIN_CATEGORY_BUTTON_ID));
+		setCategory((OptionsCategory)(pButton->getId() - MIN_CATEGORY_BUTTON_ID));
 	}
-	else if (pButton->m_buttonId == BACK_BUTTON_ID)
+	else if (pButton->getId() == BACK_BUTTON_ID)
 	{
 		handleBackEvent(false);
 	}
@@ -243,22 +243,22 @@ void OptionsScreen::updateTexts()
 {
 	Options& o = *(m_pMinecraft->getOptions());
 
-	m_AOButton.m_text          = "Smooth lighting: " + BoolOptionStr(o.m_bAmbientOcclusion);
-	m_invertYButton.m_text     = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
-	m_viewBobButton.m_text     = "View bobbing: "    + BoolOptionStr(o.m_bViewBobbing);
-	m_anaglyphsButton.m_text   = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
-	m_fancyGfxButton.m_text    = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
-	m_flightHaxButton.m_text   = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
-	m_autoJumpButton.m_text    = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
-	m_viewDistButton.m_text    = "View distance: "   + ViewDistanceStr(o.m_iViewDistance);
-	m_blockLinesButton.m_text  = "Block outlines: "  + BoolOptionStr(o.m_bBlockOutlines);
-	m_fancyGrassButton.m_text  = "Fancy grass: "     + BoolOptionStr(o.m_bFancyGrass);
-	m_biomeColorsButton.m_text = "Biome colors: "    + BoolOptionStr(o.m_bBiomeColors);
+	m_AOButton.m_text          = "Smooth lighting: " + BoolOptionStr(o.m_ambientOcclusion);
+	m_invertYButton.m_text     = "Invert Y-axis: "   + BoolOptionStr(o.m_invertMouse);
+	m_viewBobButton.m_text     = "View bobbing: "    + BoolOptionStr(o.m_viewBobbing);
+	m_anaglyphsButton.m_text   = "3d Anaglyphs: "    + BoolOptionStr(o.m_anaglyphs);
+	m_fancyGfxButton.m_text    = "Fancy graphics: "  + BoolOptionStr(o.m_fancyGraphics);
+	m_flightHaxButton.m_text   = "Flight hax: "      + BoolOptionStr(o.m_flightHax);
+	m_autoJumpButton.m_text    = "Auto Jump: "       + BoolOptionStr(o.m_autoJump);
+	m_viewDistButton.m_text    = "View distance: "   + ViewDistanceStr(o.m_viewDistance);
+	m_blockLinesButton.m_text  = "Block outlines: "  + BoolOptionStr(o.m_blockOutlines);
+	m_fancyGrassButton.m_text  = "Fancy grass: "     + BoolOptionStr(o.m_fancyGrass);
+	m_biomeColorsButton.m_text = "Biome colors: "    + BoolOptionStr(o.m_biomeColors);
 
 	if (!isCramped())
-		m_srvVisButton.m_text = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
+		m_srvVisButton.m_text = "Server " + std::string(o.m_serverVisibleDefault ? "visible" : "invisible") + " by default";
 	else
-		m_srvVisButton.m_text = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible");
+		m_srvVisButton.m_text = "Server " + std::string(o.m_serverVisibleDefault ? "visible" : "invisible");
 
 	if (!(GetPatchManager()->IsGrassSidesTinted()))
 	{
@@ -397,7 +397,7 @@ void OptionsScreen::_buttonClicked(Button* pButton)
 	Options& o = *(m_pMinecraft->getOptions());
 
 	bool* pOption = nullptr;
-	switch (pButton->m_buttonId)
+	switch (pButton->getId())
 	{
 		case OB_BACK:
 			if (m_pMinecraft->isLevelGenerated())
@@ -407,50 +407,50 @@ void OptionsScreen::_buttonClicked(Button* pButton)
 			return;
 
 		case OB_AO:
-			o.m_bAmbientOcclusion = !o.m_bAmbientOcclusion;
-			Minecraft::useAmbientOcclusion = o.m_bAmbientOcclusion;
+			o.m_ambientOcclusion = !o.m_ambientOcclusion;
+			Minecraft::useAmbientOcclusion = o.m_ambientOcclusion;
 			m_pMinecraft->m_pLevelRenderer->allChanged();
 			updateTexts();
 			return;
 		case OB_FANCY_GFX:
-			o.m_bFancyGraphics ^= 1;
+			o.m_fancyGraphics ^= 1;
 			m_pMinecraft->m_pLevelRenderer->allChanged();
 			updateTexts();
 			return;
 		case OB_VIEW_DIST:
 			// @TODO: fix the 'extreme'  render distance
-			o.m_iViewDistance = (o.m_iViewDistance + 1) % 4;
+			o.m_viewDistance = (o.m_viewDistance + 1) % 4;
 			updateTexts();
 			return;
 
 		case OB_ANAGLYPHS:
-			pOption = &o.m_bAnaglyphs;
+			pOption = &o.m_anaglyphs;
 			break;
 		case OB_INVERT_Y:
-			pOption = &o.m_bInvertMouse;
+			pOption = &o.m_invertMouse;
 			break;
 		case OB_SRV_VIS:
-			pOption = &o.m_bServerVisibleDefault;
+			pOption = &o.m_serverVisibleDefault;
 			break;
 		case OB_VIEW_BOB:
-			pOption = &o.m_bViewBobbing;
+			pOption = &o.m_viewBobbing;
 			break;
 		case OB_FLY_HAX:
-			pOption = &o.m_bFlyCheat;
+			pOption = &o.m_flightHax;
 			break;
 		case OB_AUTO_JUMP:
-			pOption = &o.m_bAutoJump;
+			pOption = &o.m_autoJump;
 			break;
 		case OB_BLOCK_LINES:
-			pOption = &o.m_bBlockOutlines;
+			pOption = &o.m_blockOutlines;
 			break;
 		case OB_FANCY_GRASS:
-			o.m_bFancyGrass ^= 1;
+			o.m_fancyGrass ^= 1;
 			m_pMinecraft->m_pLevelRenderer->allChanged();
 			updateTexts();
 			return;
 		case OB_BIOME_COLORS:
-			o.m_bBiomeColors ^= 1;
+			o.m_biomeColors ^= 1;
 			m_pMinecraft->m_pLevelRenderer->allChanged();
 			updateTexts();
 			return;

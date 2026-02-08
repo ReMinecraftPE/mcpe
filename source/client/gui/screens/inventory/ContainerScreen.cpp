@@ -118,7 +118,7 @@ void ContainerScreen::render(float partialTicks)
 
     if (!inv->getCarried() && hoveredSlot && hoveredSlot->hasItem())
     {
-        std::string name = Language::singleton().get(hoveredSlot->getItem().getDescriptionId() + ".name");
+        std::string name = Language::get(hoveredSlot->getItem().getDescriptionId() + ".name");
         if (!name.empty())
         {
             int tx = m_menuPointer.x - m_leftPos + 12;
@@ -133,18 +133,18 @@ void ContainerScreen::render(float partialTicks)
     Screen::render(partialTicks);
 }
 
-void ContainerScreen::pointerPressed(int mouseX, int mouseY, MouseButtonType button)
+void ContainerScreen::pointerPressed(const MenuPointer& pointer, MouseButtonType button)
 {
-    Screen::pointerPressed(mouseX, mouseY, button);
+    Screen::pointerPressed(pointer, button);
     if (m_pMinecraft->isTouchscreen()) return;
-    slotClicked(mouseX, mouseY, button);
+    slotClicked(pointer, button);
 }
 
-void ContainerScreen::pointerReleased(int mouseX, int mouseY, MouseButtonType button)
+void ContainerScreen::pointerReleased(const MenuPointer& pointer, MouseButtonType button)
 {
-    Screen::pointerReleased(mouseX, mouseY, button);
+    Screen::pointerReleased(pointer, button);
     if (m_pMinecraft->isTouchscreen() && m_timeSlotDragged < 5)
-        slotClicked(mouseX, mouseY, button);
+        slotClicked(pointer, button);
     m_timeSlotDragged = 0;
 }
 
@@ -157,16 +157,16 @@ void ContainerScreen::handlePointerPressed(bool isPressed)
 
     if (m_pMinecraft->isTouchscreen() && m_timeSlotDragged % 5 == 0)
     {
-        slotClicked(m_menuPointer.x, m_menuPointer.y, MOUSE_BUTTON_RIGHT);
+        slotClicked(m_menuPointer, MOUSE_BUTTON_RIGHT);
     }
 }
 
-void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button)
+void ContainerScreen::slotClicked(const MenuPointer& pointer, MouseButtonType button)
 {
     if (button == MOUSE_BUTTON_LEFT || button == MOUSE_BUTTON_RIGHT)
     {
-        Slot* slot = _findSlot(mouseX, mouseY);
-        bool outside = mouseX < m_leftPos || mouseY < m_topPos || mouseX >= m_leftPos + m_imageWidth || mouseY >= m_topPos + m_imageHeight;
+        Slot* slot = _findSlot(pointer.x, pointer.y);
+        bool outside = pointer.x < m_leftPos || pointer.y < m_topPos || pointer.x >= m_leftPos + m_imageWidth || pointer.y >= m_topPos + m_imageHeight;
         int index = -1;
         if (slot) index = slot->m_index;
         if (outside) index = -999;

@@ -40,7 +40,7 @@ void SoundEngine::_playMusic(bool resetDelay)
 		if (resetDelay)
 			m_noMusicDelay = m_random.nextInt(12000) + 12000;
 
-        m_pSoundSystem->setMusicVolume(m_pOptions->m_fMusicVolume);
+        m_pSoundSystem->setMusicVolume(m_pOptions->m_musicVolume.get());
         m_pSoundSystem->playMusic(songPath);
     }
 }
@@ -90,7 +90,7 @@ void SoundEngine::destroy()
 
 void SoundEngine::playMusic(bool resetDelay)
 {
-    if (m_pOptions->m_fMusicVolume <= 0.0f || m_pSoundSystem->isPlayingMusic())
+    if (m_pOptions->m_musicVolume.get() <= 0.0f || m_pSoundSystem->isPlayingMusic())
         return;
     
     _playMusic(resetDelay);
@@ -98,7 +98,7 @@ void SoundEngine::playMusic(bool resetDelay)
 
 void SoundEngine::playMusicTick()
 {
-    if (m_pOptions->m_fMusicVolume <= 0.0f)
+    if (m_pOptions->m_musicVolume.get() <= 0.0f)
         return;
 
     if (!m_pSoundSystem->isPlayingMusic()/* && !soundSystem.playing("streaming")*/)
@@ -116,7 +116,7 @@ void SoundEngine::playMusicTick()
 void SoundEngine::forcePlayMusic()
 {
 	// we're still not playing music if you can't hear it, fuck that
-    if (m_pOptions->m_fMusicVolume <= 0.0f)
+    if (m_pOptions->m_musicVolume.get() <= 0.0f)
         return;
     
     if (m_pSoundSystem->isPlayingMusic())
@@ -129,9 +129,9 @@ void SoundEngine::forcePlayMusic()
 
 void SoundEngine::updateListener(const Mob* player, float elapsedTime)
 {
-	assert(m_pSoundSystem->isAvailable());
+	  assert(m_pSoundSystem->isAvailable());
 
-    if (m_pOptions->m_fMasterVolume > 0.0f)
+    if (m_pOptions->m_masterVolume.get() > 0.0f)
     {
         if (player != nullptr)
         {
@@ -155,7 +155,7 @@ void SoundEngine::update()
 
 void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, float pitch)
 {
-    float vol = m_pOptions->m_fMasterVolume * volume;
+    float vol = m_pOptions->m_masterVolume.get() * volume;
     if (vol <= 0.0f)
         return;
     Vec3 nPos;
@@ -185,7 +185,7 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 void SoundEngine::playUI(const std::string& name, float volume, float pitch)
 {
     volume *= 0.25F; // present on Java b1.2_02, but not Pocket for some reason
-    float vol = m_pOptions->m_fMasterVolume * volume;
+    float vol = m_pOptions->m_masterVolume.get() * volume;
     if (vol <= 0.0f)
         return;
 
@@ -200,7 +200,7 @@ void SoundEngine::playUI(const std::string& name, float volume, float pitch)
 
 void SoundEngine::playMusic(const std::string& name)
 {
-    float vol = m_pOptions->m_fMusicVolume;
+    float vol = m_pOptions->m_musicVolume.get();
     if (vol <= 0.0f)
         return;
 

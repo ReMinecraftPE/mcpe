@@ -117,7 +117,7 @@ void GameRenderer::_renderItemInHand(float f, int i)
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
 
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_anaglyphs.get())
 	{
 		viewMtx.translate(Vec3(float(2 * i - 1) * 0.1f, 0.0f, 0.0f));
 	}
@@ -126,24 +126,24 @@ void GameRenderer::_renderItemInHand(float f, int i)
 
 	bobHurt(matrix, f);
 
-	if (m_pMinecraft->getOptions()->m_bViewBobbing)
+	if (m_pMinecraft->getOptions()->m_viewBobbing.get())
 	{
 		bobView(matrix, f);
 	}
 
-	if (!m_pMinecraft->getOptions()->m_bThirdPerson && !m_pMinecraft->getOptions()->m_bDontRenderGui)
+	if (!m_pMinecraft->getOptions()->m_thirdPerson.get() && !m_pMinecraft->getOptions()->m_hideGui.get())
 	{
 		mce::RenderContextImmediate::get().clearDepthStencilBuffer();
 		m_pItemInHandRenderer->render(f);
 	}
 
-	if (!m_pMinecraft->getOptions()->m_bThirdPerson)
+	if (!m_pMinecraft->getOptions()->m_thirdPerson.get())
 	{
 		m_pItemInHandRenderer->renderScreenEffect(f);
 		bobHurt(matrix, f);
 	}
 
-	if (m_pMinecraft->getOptions()->m_bViewBobbing)
+	if (m_pMinecraft->getOptions()->m_viewBobbing.get())
 	{
 		bobView(matrix, f);
 	}
@@ -258,12 +258,12 @@ void GameRenderer::unZoomRegion()
 
 void GameRenderer::setupCamera(float f, int i)
 {
-	m_renderDistance = float(256 >> m_pMinecraft->getOptions()->m_iViewDistance);
+	m_renderDistance = float(256 >> m_pMinecraft->getOptions()->m_viewDistance.get());
 
 	Matrix& projMtx = MatrixStack::Projection.getTop();
 	projMtx = Matrix::IDENTITY;
 
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_anaglyphs.get())
 	{
 		projMtx.translate(Vec3(float(1 - 2 * i) * 0.07f, 0.0f, 0.0f));
 	}
@@ -283,13 +283,13 @@ void GameRenderer::setupCamera(float f, int i)
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
 
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_anaglyphs.get())
 	{
 		viewMtx.translate(Vec3(float(2 * i - 1) * 0.1f, 0.0f, 0.0f));
 	}
 
 	bobHurt(viewMtx, f);
-	if (m_pMinecraft->getOptions()->m_bViewBobbing)
+	if (m_pMinecraft->getOptions()->m_viewBobbing.get())
 	{
 		bobView(viewMtx, f);
 	}
@@ -309,7 +309,7 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 
 	matrix.rotate(field_5C + f * (field_58 - field_5C), Vec3::UNIT_Z);
 
-	if (m_pMinecraft->getOptions()->m_bThirdPerson)
+	if (m_pMinecraft->getOptions()->m_thirdPerson.get())
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
 		if (m_pMinecraft->getOptions()->field_241)
@@ -490,7 +490,7 @@ void GameRenderer::renderLevel(float f)
 	const Entity& camera = *pCamera;
 	Vec3 camPos = camera.m_posPrev + (camera.m_pos - camera.m_posPrev) * f;
 
-	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
+	bool bAnaglyph = m_pMinecraft->getOptions()->m_anaglyphs.get();
 
 	LevelRenderer& levelRenderer = *m_pMinecraft->m_pLevelRenderer;
 	ParticleEngine& particleEngine = *m_pMinecraft->m_pParticleEngine;
@@ -534,7 +534,7 @@ void GameRenderer::renderLevel(float f)
 void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, const Entity& camera, float f, ParticleEngine& particleEngine, float i)
 {
 	/*
-	if (m_pMinecraft->getOptions()->m_iViewDistance <= 1)
+	if (m_pMinecraft->getOptions()->m_viewDistance <= 1)
 	{
 #ifndef ORIGINAL_CODE
 			// @NOTE: For whatever reason, Minecraft doesn't enable GL_FOG right away.
@@ -548,7 +548,7 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
+	if (m_pMinecraft->getOptions()->m_ambientOcclusion.get())
 	{
 		renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
 	}
@@ -566,7 +566,7 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 	{
 		levelRenderer.renderCracks(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
-		if (m_pMinecraft->getOptions()->m_bBlockOutlines)
+		if (m_pMinecraft->getOptions()->m_blockOutlines.get())
 			levelRenderer.renderHitOutline(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
 		else
 			levelRenderer.renderHitSelect(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
@@ -588,14 +588,14 @@ void GameRenderer::render(float f)
 		float multPitch = -1.0f;
 		float diff_field_84;
 
-		if (pMC->getOptions()->m_bInvertMouse)
+		if (pMC->getOptions()->m_invertMouse.get())
 			multPitch = 1.0f;
+
+		float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_sensitivity.get() * 0.6f);
+		mult1 = pow(mult1, 3);
 
 		if (pMC->m_mouseHandler.smoothTurning())
 		{
-			float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
-			mult1 = pow(mult1, 3);
-
 			Vec2 d = pMC->m_mouseHandler.m_delta * (4.0f * mult1);
 
 			float old_field_84 = field_84;
@@ -632,7 +632,7 @@ void GameRenderer::render(float f)
 		}
 		else
 		{
-			diff_field_84 = 1.0f;
+			diff_field_84 = mult1;
 			m_turnDelta = pMC->m_mouseHandler.m_delta;
 		}
 
@@ -672,7 +672,7 @@ void GameRenderer::render(float f)
 		if (m_keepPic < 0)
 		{
 			renderLevel(f);
-			if (m_pMinecraft->getOptions()->m_bDontRenderGui)
+			if (m_pMinecraft->getOptions()->m_hideGui.get())
 			{
 				if (!m_pMinecraft->m_pScreen)
 					return;
@@ -708,7 +708,7 @@ void GameRenderer::render(float f)
 		pScreen->onRender(f);
 	}
 
-	if (m_pMinecraft->getOptions()->m_bDebugText)
+	if (m_pMinecraft->getOptions()->m_debugText.get())
 	{
 		_renderDebugOverlay(f);
 	}
@@ -794,7 +794,7 @@ void GameRenderer::renderWeather(float f)
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("environment/snow.png");
 
-	int range = m_pMinecraft->getOptions()->m_bFancyGraphics ? 10 : 5;
+	int range = m_pMinecraft->getOptions()->m_fancyGraphics ? 10 : 5;
 
 	TilePos tp(bPosX - range, 128, bPosZ - range);
 	for (tp.x = bPosX - range; tp.x <= bPosX + range; tp.x++)
@@ -819,8 +819,8 @@ void GameRenderer::renderWeather(float f)
 
 			m_random.setSeed(tp.x * tp.x * 3121 + tp.x * 45238971 + tp.z * tp.z * 418711 + tp.z * 13761);
 
-			float x1 = float(field_C) + f;
-			float x2 = (float(field_C & 0x1FF) + f) / 512.0f;
+			float x1 = float(m_y0) + f;
+			float x2 = (float(m_y0 & 0x1FF) + f) / 512.0f;
 			float x3 = m_random.nextFloat() + x1 * 0.01f * m_random.nextGaussian();
 			float x4 = m_random.nextFloat() + x1 * 0.001f * m_random.nextGaussian();
 			float f1 = float(tp.x + 0.5f) - pLP->m_pos.x;
@@ -881,7 +881,7 @@ void GameRenderer::pick(float f)
 	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 	HitResult& mchr = m_pMinecraft->m_hitResult;
 	float dist = m_pMinecraft->m_pGameMode->getBlockReachDistance();
-	bool isFirstPerson = !m_pMinecraft->getOptions()->m_bThirdPerson;
+	bool isFirstPerson = !m_pMinecraft->getOptions()->m_thirdPerson.get();
 	Vec3 touchPosNear, touchPosFar;
 	bool bUseTouchCoords = false;
 

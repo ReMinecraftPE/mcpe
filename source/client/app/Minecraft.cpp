@@ -348,12 +348,12 @@ bool Minecraft::isTouchscreen() const
 
 bool Minecraft::useSplitControls() const
 {
-	return !m_bIsTouchscreen || getOptions()->m_bSplitControls;
+	return !m_bIsTouchscreen || getOptions()->m_splitControls.get();
 }
 
 bool Minecraft::useController() const
 {
-	return m_pPlatform->hasGamepad() && getOptions()->m_bUseController;
+	return m_pPlatform->hasGamepad() && getOptions()->m_bUseController.get();
 }
 
 void Minecraft::setGameMode(GameType gameType)
@@ -568,7 +568,7 @@ void Minecraft::tickInput()
 
 			if (getOptions()->isKey(KM_TOGGLE3RD, keyCode))
 			{
-				getOptions()->m_bThirdPerson = !getOptions()->m_bThirdPerson;
+				getOptions()->m_thirdPerson.toggle();
 			}
 			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
 			{
@@ -590,18 +590,18 @@ void Minecraft::tickInput()
 			}
 			else if (getOptions()->isKey(KM_TOGGLEGUI, keyCode))
 			{
-				getOptions()->m_bDontRenderGui = !getOptions()->m_bDontRenderGui;
+				getOptions()->m_hideGui.toggle();
 			}
 			else if (getOptions()->isKey(KM_TOGGLEDEBUG, keyCode))
 			{
-				getOptions()->m_bDebugText = !getOptions()->m_bDebugText;
+				getOptions()->m_debugText.toggle();
 			}
 #ifdef ENH_ALLOW_AO_TOGGLE
 			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
 				// Toggle ambient occlusion.
-				getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
-				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
+				getOptions()->m_ambientOcclusion.toggle();
+				Minecraft::useAmbientOcclusion = getOptions()->m_ambientOcclusion.get();
 				m_pLevelRenderer->allChanged();
 			}
 #endif
@@ -664,7 +664,7 @@ void Minecraft::tickMouse()
 void Minecraft::handleCharInput(char chr)
 {
 	if (m_pScreen)
-		m_pScreen->keyboardNewChar(chr);
+		m_pScreen->handleTextChar(chr);
 }
 
 void Minecraft::handleTextPaste(const std::string& text)
@@ -806,7 +806,7 @@ void Minecraft::tick()
 
 		if (m_pLevel && !isGamePaused())
 		{
-            m_pLevel->m_difficulty = getOptions()->m_difficulty;
+            m_pLevel->m_difficulty = getOptions()->m_difficulty.get();
             if (m_pLevel->m_bIsClientSide)
             {
                 m_pLevel->m_difficulty = 3;
@@ -1127,7 +1127,7 @@ bool Minecraft::pauseGame()
 {
 	if (isGamePaused() || m_pScreen) return false;
 
-	if (!isOnline())
+	if (!isOnline() || m_pLevel->m_players.size() == 1)
 	{
 		// Actually pause the game, because fuck bedrock edition
 		m_bIsGamePaused = true;

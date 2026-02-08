@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "client/gui/components/Button.hpp"
 #include "world/item/ItemStack.hpp"
 
 class Inventory;
@@ -33,12 +34,12 @@ public:
 	void renderSlot(int index, int x, int y, float f);
 	void selectSlotAndClose();
 
-	virtual void init() override;
-	virtual void render(float f) override;
-    virtual void _buttonClicked(Button*) override;
-	virtual void pointerPressed(int x, int y, MouseButtonType btn) override;
-	virtual void pointerReleased(int x, int y, MouseButtonType btn) override;
-	virtual void removed() override;
+	void init() override;
+	void render(float f) override;
+    void _buttonClicked(Button*) override;
+	void pointerPressed(const MenuPointer& pointer, MouseButtonType btn) override;
+	void pointerReleased(const MenuPointer& pointer, MouseButtonType btn) override;
+	void removed() override;
 
 private:
 	SlotID m_selectedSlot;

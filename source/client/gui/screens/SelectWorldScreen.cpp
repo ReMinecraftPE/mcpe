@@ -235,7 +235,7 @@ bool SelectWorldScreen::handleBackEvent(bool b)
 
 void SelectWorldScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnCreateNew.m_buttonId)
+	if (pButton->getId() == m_btnCreateNew.getId())
 	{
 #ifndef ORIGINAL_CODE
 		m_pMinecraft->setScreen(new CreateWorldScreen);
@@ -246,19 +246,19 @@ void SelectWorldScreen::_buttonClicked(Button* pButton)
 #endif
 	}
 
-	if (pButton->m_buttonId == m_btnDelete.m_buttonId)
+	if (pButton->getId() == m_btnDelete.getId())
 	{
 		LevelSummary ls(m_pWorldSelectionList->m_items[m_pWorldSelectionList->m_selectedIndex]);
 		m_pMinecraft->setScreen(new DeleteWorldScreen(ls));
 	}
 
-	if (pButton->m_buttonId == m_btnBack.m_buttonId)
+	if (pButton->getId() == m_btnBack.getId())
 	{
 		// @TODO: m_pMinecraft->cancelLocateMultiplayer();
 		m_pMinecraft->setScreen(new StartMenuScreen);
 	}
 
-	if (pButton->m_buttonId == m_btnWorld.m_buttonId)
+	if (pButton->getId() == m_btnWorld.getId())
 	{
 		m_pWorldSelectionList->selectItem(m_pWorldSelectionList->getItemAtPosition(m_width / 2, m_height / 2), false);
 	}

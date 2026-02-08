@@ -16,9 +16,27 @@ ChatScreen::ChatScreen(bool slash) : m_textChat(this, 1, 0, 0), m_btnSend(2, 0, 
 		m_textChat.setText("/");
 }
 
+void ChatScreen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)
+{
+	if (stickId == 1)
+	{
+		switch (stickState)
+		{
+		case GameController::STICK_STATE_LEFT:
+			prevElement();
+			break;
+		case GameController::STICK_STATE_RIGHT:
+			nextElement();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 void ChatScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == m_btnSend.m_buttonId)
+	if (pButton->getId() == m_btnSend.getId())
 		sendMessageAndExit();
 }
 
@@ -37,8 +55,8 @@ void ChatScreen::init()
 	m_textChat.init(m_pFont);
 	m_textChat.setFocused(true);
 
+	_addElement(m_textChat);
 	_addElement(m_btnSend);
-	m_textInputs.push_back(&m_textChat);
 }
 
 void ChatScreen::removed()

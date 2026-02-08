@@ -11,8 +11,10 @@ public:
     void init(Options*);
     bool loadLanguageFile(const std::string& path);
     bool loadOriginalLanguageFile(const std::string& path);
-    bool contains(const std::string& key) const;
-    const std::string& get(const std::string& key) const;
+    bool has(const std::string& key) const;
+    const std::string& getOrDefault(const std::string& key) const;
+
+    static const std::string& get(const std::string& key) { return singleton().getOrDefault(key); }
 
     static Language& singleton()
     {

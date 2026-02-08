@@ -8,53 +8,47 @@
 
 #pragma once
 
-#include "../GuiComponent.hpp"
+#include "../GuiElement.hpp"
 #include "../Screen.hpp"
+#include "../MenuPointer.hpp"
 
 class Screen;
-class Minecraft;
 
 // @NOTE: This is NOT original Mojang code.
 
 #ifndef ORIGINAL_CODE
 
-// @TODO: Rename this to TextBox
-// Don't trash this in favor of Mojang's class, just mold it, since this is better at handling all platforms
-class TextInputBox : public GuiElement
+class TextBox : public GuiElement
 {
 private:
-	int m_ID;
 	std::string m_text;
 
 public:
-	TextInputBox(Screen*, int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
-	~TextInputBox();
+	TextBox(Screen*, GuiElement::ID, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
+	~TextBox();
 
 protected:
+	void _onSelectedChanged() override;
 	void _onFocusChanged() override;
 
 public:
-	Type getType() const override { return TYPE_TEXTINPUT; }
+	Type getType() const override { return TYPE_TEXTBOX; }
 
 private:
 	std::string _sanitizePasteText(const std::string& text) const;
 
 public:
 	void init(Font* pFont);
-	void keyPressed(int key);
-	void charPressed(int chr);
-	void pasteText(const std::string& text);
-	void render();
-	void tick();
-	void onClick(int x, int y);
-	bool clicked(int x, int y);
-	std::string getText();
+	bool pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer) override;
+	void handleButtonPress(Minecraft* pMinecraft, int key) override;
+	void handleTextChar(Minecraft* pMinecraft, int chr) override;
+	void handleClipboardPaste(const std::string& text) override;
+	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;
+	void tick(Minecraft* pMinecraft) override;
 	void setText(const std::string& text);
 	void setMaxLength(int max_length);
 
-	// From TextBox in 0.7.0
-	int getKey() const { return m_ID; }
-	std::string getText() const { return m_text; }
+	const std::string& getText() const { return m_text; }
 
 public:
 #ifndef HANDLE_CHARS_SEPARATELY
@@ -64,10 +58,6 @@ public:
 	void recalculateScroll();
 
 public:
-	int m_xPos;
-	int m_yPos;
-	int m_width;
-	int m_height;
 	std::string m_placeholder;
 	bool m_bCursorOn;
 	int m_insertHead;
