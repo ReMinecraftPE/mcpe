@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <fstream>
+#include <sstream>
 #include <stdint.h>
 
 #include <string>
