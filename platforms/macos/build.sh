@@ -92,7 +92,6 @@ else
 fi
 # ensure we use ccache for the toolchain build
 ccache="$(command -v ccache || true)"
-echo "ccache: $ccache"
 printf '#!/bin/sh\n
         exec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
 printf '#!/bin/sh\n
