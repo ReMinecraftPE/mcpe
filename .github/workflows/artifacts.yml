@@ -129,33 +129,35 @@ jobs:
         name: macOS
         runs-on: macos-15
         steps:
-          # cache is broken for some reason, whoever fixes this will be reincarnated as a lotus flower
-          # - name: Get Time
-          #   id: get-time
-          #   run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
-          # - uses: actions/cache@v5
-          #   with:
-          #     path: ~/ccache.tar.xz
-          #     key: macos-artifact-${{ steps.get-time.outputs.time }}
-          #     restore-keys: macos-artifact-
-          # - name: Unpack cache
-          #   run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: macos-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: macos-artifact-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
-            run: brew install llvm@21 #ccache
+            run: brew install llvm@21 ccache
           - name: Build macOS binary
-            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+            run: |
+                LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" \
+                    PATH="$(brew --prefix)/opt/ccache/libexec:$PATH" \
+                    ./platforms/macos/build.sh
             env:
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
             with:
               name: macOS
               path: platforms/macos/build/ReMCPE
-          # - name: Pack cache
-          #   run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     ios:
         strategy:
