@@ -5,7 +5,7 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
-targets='i386-apple-macos10.7 x86_64-apple-macos10.7 arm64-apple-macos11.0'
+targets='x86_64-apple-macos10.9 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
