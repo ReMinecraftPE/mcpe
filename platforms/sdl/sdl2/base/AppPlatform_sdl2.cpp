@@ -192,3 +192,27 @@ bool AppPlatform_sdl2::GetMouseButtonState(const SDL_Event& event)
 
 	return result;
 }
+
+// this segfaults on wsl, why?
+void AppPlatform_sdl2::showMessageModal(const MessageModal& msg)
+{
+	const char *title;
+	Uint32 flags = 0;
+
+	switch (msg.type)
+	{
+		case MessageModal::TYPE_ERROR:
+			title = "Error";
+			flags = SDL_MESSAGEBOX_ERROR;
+			break;
+		default:
+			LOG_W("Unhandled MessageModal type");
+			// fall through
+		case MessageModal::TYPE_INFO:
+			title = "Info";
+			flags = SDL_MESSAGEBOX_INFORMATION;
+			break;
+	}
+
+	SDL_ShowSimpleMessageBox(flags, title, msg.text.c_str(), nullptr);
+}
