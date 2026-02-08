@@ -41,6 +41,7 @@ public:
 	float m_vertInput;
 	bool m_bWasJumping;
 	bool m_bJumping;
+	bool m_bFlyUp;
 	bool m_bSneaking;
 };
 

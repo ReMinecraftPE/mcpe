@@ -87,6 +87,9 @@ void ContainerScreen::render(float partialTicks)
 
     MatrixStack::Ref matrix = MatrixStack::World.push();
     matrix->translate(Vec3(m_leftPos, m_topPos, 0.0f));
+    
+    _renderLabels();
+
     currentShaderColor = Color::WHITE;
 
     Slot* hoveredSlot = nullptr;
@@ -114,7 +117,6 @@ void ContainerScreen::render(float partialTicks)
     }
 
     Lighting::turnOff();
-    _renderLabels();
 
     if (!inv->getCarried() && hoveredSlot && hoveredSlot->hasItem())
     {

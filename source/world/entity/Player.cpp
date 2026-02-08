@@ -12,11 +12,12 @@
 
 void Player::_init()
 {
-	// I just guessed, it's 5/5 fields
 	m_score = 0;
 	m_oBob = 0.0f;
 	m_bob = 0.0f;
 	m_dimension = 0;
+	m_bFlying = false;
+	m_jumpTriggerTime = 0;
 	m_destroyingBlock = false;
 }
 
@@ -170,6 +171,9 @@ void Player::die(Entity* pCulprit)
 
 void Player::aiStep()
 {
+	if (m_jumpTriggerTime > 0)
+		m_jumpTriggerTime--;
+
     if (m_pLevel->m_difficulty == 0 &&
         m_health < 20 &&
         m_tickCount % 20 * 12 == 0)
@@ -305,6 +309,33 @@ void Player::readAdditionalSaveData(const CompoundTag& tag)
 								static_cast<int>(tag.getInt32("SpawnY")),
 								static_cast<int>(tag.getInt32("SpawnZ"))));
 	}
+}
+
+void Player::travel(const Vec2& pos)
+{
+	// Normal movement
+	if (!m_bFlying)
+	{
+		Mob::travel(pos);
+		return;
+	}
+
+	// Flight movement
+	float yd = m_vel.y;
+	float oldFlyingFriction = m_flyingFriction;
+
+	m_flyingFriction = 0.05f;
+	Mob::travel(pos);
+	
+	m_flyingFriction = oldFlyingFriction;
+	m_vel.y = yd * 0.6;
+}
+
+void Player::causeFallDamage(float level)
+{
+	// There is absolutely no reason for this to be causing the bone cracking sound in creative mode.
+	if (!isCreative())
+		Mob::causeFallDamage(level);
 }
 
 void Player::animateRespawn()

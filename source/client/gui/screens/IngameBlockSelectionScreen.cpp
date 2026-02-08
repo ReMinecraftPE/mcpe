@@ -218,7 +218,7 @@ void IngameBlockSelectionScreen::init()
 	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		ItemStack& item = m_items[i];
-		if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId())
+		if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId() && (item.isDamageableItem() || item.getAuxValue() == pInv->getSelectedItem().getAuxValue()))
 		{
 			m_selectedSlot = i;
 			break;

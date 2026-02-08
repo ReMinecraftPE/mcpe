@@ -13,6 +13,7 @@ IMoveInput::IMoveInput() :
 	m_vertInput(0.0f),
 	m_bWasJumping(false),
 	m_bJumping(false),
+	m_bFlyUp(false),
 	m_bSneaking(false)
 {
 }
