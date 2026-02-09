@@ -785,7 +785,7 @@ void Level::setTilesDirty(const TilePos& min, const TilePos& max)
 void Level::entityAdded(Entity* pEnt)
 {
 	const EntityCategories& categories = pEnt->getDescriptor().getCategories();
-	for (unsigned int i = 0; i < EntityCategories::allCount; i++ ) 
+	for (unsigned int i = 0; i < EntityCategories::allCount; i++) 
 	{
 		EntityCategories::CategoriesMask category = EntityCategories::all[i];
 		if (categories.contains(category))
@@ -802,7 +802,7 @@ void Level::entityAdded(Entity* pEnt)
 void Level::entityRemoved(Entity* pEnt)
 {
 	const EntityCategories& categories = pEnt->getDescriptor().getCategories();
-	for (unsigned int i = 0; i < EntityCategories::allCount; i++ ) 
+	for (unsigned int i = 0; i < EntityCategories::allCount; i++) 
 	{
 		EntityCategories::CategoriesMask category = EntityCategories::all[i];
 		if (categories.contains(category))
