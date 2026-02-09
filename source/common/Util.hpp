@@ -33,6 +33,9 @@ public:
 	static std::string getExtension(const std::string& path);
 
 	static std::string toString(int value);
+	static std::string toString(const wchar_t* str);
+	static std::string toString(const std::wstring& str);
+	static std::wstring toWideString(const std::string& str);
 
 	template<typename T>
 	static bool remove(std::vector<T>& vec, const T& t)

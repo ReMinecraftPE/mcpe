@@ -102,3 +102,7 @@ void GuiElement::setMessage(const std::string& message)
 {
 	m_message = message;
 }
+
+void GuiElement::setTextboxText(const std::string& text)
+{
+}

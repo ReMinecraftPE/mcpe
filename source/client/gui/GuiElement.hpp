@@ -49,6 +49,7 @@ public:
 	virtual void setSelected(bool isSelected);
 	virtual void setFocused(bool hasFocus);
 	virtual void setMessage(const std::string& message);
+	virtual void setTextboxText(const std::string& text);
 	virtual Type getType() const { return TYPE_UNKNOWN; }
 	virtual const std::string& getMessage() { return m_message; }
 	virtual ID getId() const { return m_ID; }

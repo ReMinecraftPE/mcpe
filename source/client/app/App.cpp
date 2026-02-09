@@ -57,3 +57,8 @@ void App::sizeUpdate(int newWidth, int newHeight)
 {
 
 }
+
+void App::setTextboxText(const std::string& text)
+{
+
+}
