@@ -27,6 +27,7 @@ if ! [ -d "$sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
     printf '\nDownloading iOS SDK...\n\n'
     [ -d "$sdk" ] && rm -rf "$sdk"
+    rm -f iPhoneOS8.0.sdk.tar.lzma
     wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
     tar -x --lzma -f iPhoneOS8.0.sdk.tar.lzma
     mv iPhoneOS8.0.sdk "$sdk"

@@ -20,25 +20,27 @@ cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
-sdkver=1
+sdkver=2
 if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
     # for arm64
     [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk"
-    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/11.3/MacOSX11.3.tar.bz2
-    tar xf MacOSX11.3.tar.bz2
-    mv MacOSX11.3.sdk "$arm64_sdk"
+    rm -f MacOSX11.0.sdk.tar.xz
+    wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.0.sdk.tar.xz
+    tar -xJf MacOSX11.0.sdk.tar.xz
+    mv MacOSX11.0.sdk "$arm64_sdk"
     ) &
     (
     # for x86
     [ -d "$x86_sdk" ] && rm -rf "$x86_sdk"
-    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.9/MacOSX10.9.tar.bz2
-    tar xf MacOSX10.9.tar.bz2
-    mv MacOSX10.9.sdk "$x86_sdk"
+    rm -f MacOSX10.6.sdk.tar.xz
+    wget -q https://github.com/Un1q32/iphoneports-sdk/raw/refs/heads/master/MacOSX10.6.sdk.tar.xz
+    tar -xJf MacOSX10.6.sdk.tar.xz
+    mv x86_64-apple-darwin10 "$x86_sdk"
     )
     wait
-    rm ./*.tar.bz2
+    rm ./*.tar.xz
     printf '%s' "$sdkver" > sdkver
     outdated_sdk=1
 fi
@@ -172,11 +174,43 @@ fi
 mv buildsettings lastbuildsettings
 
 for target in $targets; do
-    case ${target%%-*} in
+    printf '\nBuilding for %s\n\n' "$target"
+    export REMCPE_TARGET="$target"
+
+    mkdir -p "build-$target"
+    cd "build-$target"
+
+    arch="${target%%-*}"
+    case $arch in
         (i386|x86_64*)
             export REMCPE_SDK="$x86_sdk"
-            set --
-            platform='sdl2'
+            set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit'
+            platform='sdl1'
+            cflags="$cflags -I$PWD/sdl1/include"
+            sdl1ver=1
+            if ! [ -f sdl1/lib/libSDL.a ] || [ "$(cat sdl1/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
+                sdl1_commit=25712c1e9270035667e1ed68f2acc5b82b441461
+                rm -rf SDL-1.2-*
+                if ! [ -f ../sdl1src.tar.gz ] ||
+                    [ "$(sha256sum ../sdl1src.tar.gz | awk '{print $1}')" != 'd1753e9d8fc3d25cabd0198122546a3d53b5b1df0b208145cff5fc4b2d50d786' ]; then
+                    wget -O ../sdl1src.tar.gz "https://github.com/libsdl-org/SDL-1.2/archive/$sdl1_commit.tar.gz"
+                fi
+                tar -xzf ../sdl1src.tar.gz
+                cd "SDL-1.2-$sdl1_commit"
+                ./configure \
+                    --host="$arch-apple-darwin" \
+                    --prefix="${PWD%/*}/sdl1" \
+                    --disable-shared \
+                    CC="$platformdir/macos-cc" \
+                    CXX="$platformdir/macos-c++" \
+                    AR="$ar" \
+                    RANLIB="$ranlib"
+                make -j"$ncpus"
+                make install -j"$ncpus"
+                cd ..
+                printf '%s' "$sdl1ver" > sdl1/sdl1ver
+                rm -rf "SDL-1.2-$sdl1_commit"
+            fi
         ;;
         (arm64*)
             export REMCPE_SDK="$arm64_sdk"
@@ -189,12 +223,6 @@ for target in $targets; do
         ;;
     esac
 
-    printf '\nBuilding for %s\n\n' "$target"
-    export REMCPE_TARGET="$target"
-
-    mkdir -p "build-$target"
-    cd "build-$target"
-
     cmake "$platformdir/../.." \
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
@@ -205,7 +233,7 @@ for target in $targets; do
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
         -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
-        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
+        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl1" \
         -DCMAKE_SYSROOT="$REMCPE_SDK" \
         -DCMAKE_C_FLAGS="$cflags" \
         -DCMAKE_CXX_FLAGS="$cflags" \
