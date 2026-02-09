@@ -336,9 +336,9 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 
 void TouchscreenInput_TestFps::render(float f)
 {
-	std::string gui = "gui/gui.png";
+	std::string gui = "gui/custom.png";
 	if (!m_pMinecraft->m_pResourceLoader->hasTexture(gui))
-		gui = "gui/gui.png";
+		gui = "gui/gui_custom.png";
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture(gui);
 
