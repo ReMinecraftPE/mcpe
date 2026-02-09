@@ -536,6 +536,10 @@ void TextBox::setTextboxText(const std::string& text)
 {
 	m_text = text;
 	m_insertHead = int(m_text.size());
+
+	recalculateScroll();
+
+	m_pParent->onTextBoxUpdated(getId());
 }
 
 void TextBox::setMaxLength(int max_length)
