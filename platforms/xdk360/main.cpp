@@ -16,6 +16,26 @@ void _setSize()
     Minecraft::height = Mth::Max(VideoMode.dwDisplayHeight, 720);
 }
 
+void _onKeyboardClosed()
+{
+	const XOVERLAPPED& xov = g_AppPlatform.m_vkOverlapped;
+
+	g_AppPlatform.onHideKeyboard();
+
+	if (xov.dwExtendedError == ERROR_SUCCESS)
+		g_pApp->setTextboxText(g_AppPlatform.getKeyboardText());
+
+	g_pApp->handleKeyboardClosed();
+}
+
+void _tickAppPlatform()
+{
+	if (g_AppPlatform.m_bVirtualKeyboard && XHasOverlappedIoCompleted(&g_AppPlatform.m_vkOverlapped) == TRUE)
+	{
+		_onKeyboardClosed();
+	}
+}
+
 void __cdecl main()
 {
 	Logger::setSingleton(new Logger);
@@ -35,6 +55,7 @@ void __cdecl main()
 
 	while (!g_pApp->wantToQuit())
 	{
+		_tickAppPlatform();
 		g_pApp->update();
 		g_AppPlatform.swapBuffers();
 	}

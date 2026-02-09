@@ -370,6 +370,25 @@ void Screen::keyboardTextPaste(const std::string& text)
 	}
 }
 
+void Screen::setTextboxText(const std::string& text)
+{
+	GuiElement* element = _getSelectedElement();
+	if (element && element->isEnabled())
+	{
+		element->setTextboxText(text);
+		element->setFocused(false);
+	}
+}
+
+void Screen::handleKeyboardClosed()
+{
+	GuiElement* element = _getSelectedElement();
+	if (element && element->isEnabled())
+	{
+		element->setFocused(false);
+	}
+}
+
 static const char* g_panoramaList[] =
 {
 	"gui/background/panorama_0.png",
@@ -508,7 +527,7 @@ void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // 
 			areAnyFocused = true;
 
 		if (!areAnyFocused)
-			m_pMinecraft->platform()->hideKeyboard();
+			m_pMinecraft->platform()->hideKeyboard(0);
 	}
 #endif
 #endif

@@ -33,7 +33,6 @@ public:
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	void loadImage(ImageData& data, const std::string& path) override;
-	int getUserInputStatus() override;
 	bool isTouchscreen() const override;
 	std::string getAssetPath(const std::string& path) const override;
 	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
@@ -41,9 +40,9 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
-	void showKeyboard() override;
-	void hideKeyboard() override;
-	int getKeyboardUpOffset() override;
+	void showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard) override;
+	void hideKeyboard(LocalPlayerID playerId) override;
+	unsigned int getKeyboardUpOffset() const override;
 	
 	// Also add these to allow saving options.
 	bool hasFileSystemAccess() override;
