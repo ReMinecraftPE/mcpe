@@ -19,6 +19,13 @@ class Inventory; // in case we're included from Inventory.hpp
 
 class Player : public Mob
 {
+public:
+	struct Abilities
+	{
+		bool bCanFly;
+		bool bInvulnerable;
+	};
+
 private:
 	GameType _playerGameType;
 
@@ -42,6 +49,7 @@ public:
 	bool isShootable() const override { return true; }
 	bool isPlayer() const override { return true; }
 	bool isCreativeModeAllowed() const override { return true; }
+	bool isSlowedByLiquids() const override { return !m_bFlying; }
 	bool hurt(Entity*, int) override;
 	void awardKillScore(Entity* pKilled, int score) override;
 	void resetPos(bool respawn = false) override;
@@ -53,6 +61,8 @@ public:
 	void updateAi() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
+	void travel(const Vec2& pos) override;
+	void causeFallDamage(float level) override;
 
 	virtual void animateRespawn();
 	//virtual void drop(); // see definition
@@ -85,10 +95,11 @@ public:
 	void rideTick();
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
+	inline const Abilities& getAbilities() const { return m_abilities; }
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
-	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
+	virtual void setPlayerGameType(GameType playerGameType);
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 	ItemStack& getSelectedItem() const;
@@ -101,18 +112,23 @@ public:
 	void interact(Entity* pEnt);
 #pragma GCC diagnostic pop
 
+protected:
+	Abilities m_abilities;
+
 public:
 	//TODO
 	Inventory* m_pInventory;
 	InventoryMenu* m_pInventoryMenu;
 	ContainerMenu* m_pContainerMenu;
 	uint8_t field_B94;
+	int m_jumpTriggerTime;
 	int m_score;
 	float m_oBob; // field_B9C
 	float m_bob;
 	std::string m_name;
 	int m_dimension;
 	RakNet::RakNetGUID m_guid;
+	bool m_bFlying;
 	//TODO
 	TilePos m_respawnPos;
 	//TODO

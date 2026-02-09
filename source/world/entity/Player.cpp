@@ -12,12 +12,16 @@
 
 void Player::_init()
 {
-	// I just guessed, it's 5/5 fields
 	m_score = 0;
 	m_oBob = 0.0f;
 	m_bob = 0.0f;
 	m_dimension = 0;
+	m_bFlying = false;
+	m_jumpTriggerTime = 0;
 	m_destroyingBlock = false;
+
+	m_abilities.bCanFly = false;
+	m_abilities.bInvulnerable = false;
 }
 
 Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
@@ -82,7 +86,7 @@ void Player::remove()
 
 bool Player::hurt(Entity* pEnt, int damage)
 {
-	if (isCreative())
+	if (m_abilities.bInvulnerable)
 		return false;
     
     m_noActionTime = 0;
@@ -170,6 +174,9 @@ void Player::die(Entity* pCulprit)
 
 void Player::aiStep()
 {
+	if (m_jumpTriggerTime > 0)
+		m_jumpTriggerTime--;
+
     if (m_pLevel->m_difficulty == 0 &&
         m_health < 20 &&
         m_tickCount % 20 * 12 == 0)
@@ -305,6 +312,33 @@ void Player::readAdditionalSaveData(const CompoundTag& tag)
 								static_cast<int>(tag.getInt32("SpawnY")),
 								static_cast<int>(tag.getInt32("SpawnZ"))));
 	}
+}
+
+void Player::travel(const Vec2& pos)
+{
+	// Normal movement
+	if (!m_bFlying)
+	{
+		Mob::travel(pos);
+		return;
+	}
+
+	// Flight movement
+	float yd = m_vel.y;
+	float oldFlyingFriction = m_flyingFriction;
+
+	m_flyingFriction = 0.05f;
+	Mob::travel(pos);
+	
+	m_flyingFriction = oldFlyingFriction;
+	m_vel.y = yd * 0.6;
+}
+
+void Player::causeFallDamage(float level)
+{
+	// There is absolutely no reason for this to be causing the bone cracking sound in creative mode.
+	if (!m_abilities.bInvulnerable)
+		Mob::causeFallDamage(level);
 }
 
 void Player::animateRespawn()
@@ -532,6 +566,16 @@ void Player::interact(Entity* pEnt)
 			removeSelectedItem();
 		} 
 	} 
+}
+
+void Player::setPlayerGameType(GameType playerGameType)
+{
+	_playerGameType = playerGameType;
+
+	bool elevatedPrivs = (playerGameType == GAME_TYPE_CREATIVE || playerGameType == GAME_TYPE_SPECTATOR);
+
+	m_abilities.bCanFly = elevatedPrivs;
+	m_abilities.bInvulnerable = elevatedPrivs;
 }
 
 ItemStack& Player::getSelectedItem() const
