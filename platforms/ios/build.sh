@@ -28,7 +28,7 @@ if ! [ -d "$sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading iOS SDK...\n\n'
     [ -d "$sdk" ] && rm -rf "$sdk"
     wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
-    tar xf iPhoneOS8.0.sdk.tar.lzma
+    tar -x --lzma -f iPhoneOS8.0.sdk.tar.lzma
     mv iPhoneOS8.0.sdk "$sdk"
     rm iPhoneOS8.0.sdk.tar.lzma
     printf '%s' "$sdkver" > sdkver
