@@ -6,7 +6,7 @@ set -e
 cd "$scriptroot"
 
 # TODO: i386 and powerpc
-targets='x86_64-apple-macos10.7 arm64-apple-macos11.0'
+targets='x86_64-apple-macos10.6 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
@@ -153,7 +153,7 @@ fi
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
     if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$x86_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
-        lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
+        cflags='-flto'
     fi
     rm -f "$workdir/testout"
 fi
@@ -176,10 +176,12 @@ for target in $targets; do
         (i386|x86_64*)
             export REMCPE_SDK="$x86_sdk"
             set --
+            platform='sdl2'
         ;;
         (arm64*)
             export REMCPE_SDK="$arm64_sdk"
             set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
+            platform='sdl2'
         ;;
         (*)
             echo "Unknown target"
@@ -196,7 +198,7 @@ for target in $targets; do
     cmake "$platformdir/../.." \
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
-        -DREMCPE_PLATFORM=sdl2 \
+        -DREMCPE_PLATFORM="$platform" \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
@@ -205,9 +207,10 @@ for target in $targets; do
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
         -DCMAKE_SYSROOT="$REMCPE_SDK" \
+        -DCMAKE_C_FLAGS="$cflags" \
+        -DCMAKE_CXX_FLAGS="$cflags" \
         -DWERROR="${WERROR:-OFF}" \
-        "$@" \
-        $lto
+        "$@"
     make -j"$ncpus"
 
     cd ..

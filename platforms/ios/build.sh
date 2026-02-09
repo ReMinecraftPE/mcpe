@@ -135,7 +135,7 @@ fi
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
     if printf 'int main(void) {return 0;}' | REMCPE_TARGET=armv7-apple-ios3.1 "$platformdir/ios-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
-        lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
+        cflags='-flto'
     fi
     rm -f "$workdir/testout"
 fi
@@ -171,8 +171,9 @@ for target in $targets; do
         -DCMAKE_C_COMPILER="$platformdir/ios-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/ios-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
-        -DWERROR="${WERROR:-OFF}" \
-        $lto
+        -DCMAKE_C_FLAGS="$cflags" \
+        -DCMAKE_CXX_FLAGS="$cflags" \
+        -DWERROR="${WERROR:-OFF}"
     make -j"$ncpus"
 
     cd ..
