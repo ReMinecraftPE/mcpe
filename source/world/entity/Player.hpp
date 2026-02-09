@@ -49,6 +49,7 @@ public:
 	bool isShootable() const override { return true; }
 	bool isPlayer() const override { return true; }
 	bool isCreativeModeAllowed() const override { return true; }
+	bool isSlowedByLiquids() const override { return !m_bFlying; }
 	bool hurt(Entity*, int) override;
 	void awardKillScore(Entity* pKilled, int score) override;
 	void resetPos(bool respawn = false) override;
@@ -62,7 +63,6 @@ public:
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 	void travel(const Vec2& pos) override;
 	void causeFallDamage(float level) override;
-	bool isSlowedByLiquids() const override { return !m_bFlying; }
 
 	virtual void animateRespawn();
 	//virtual void drop(); // see definition
