@@ -94,7 +94,7 @@ public:
 	void rideTick();
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
-	inline Abilities& getAbilities() { return m_abilities; }
+	const inline Abilities& getAbilities() const { return m_abilities; }
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
