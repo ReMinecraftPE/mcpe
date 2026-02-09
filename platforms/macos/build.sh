@@ -6,7 +6,7 @@ set -e
 cd "$scriptroot"
 
 # TODO: i386 and powerpc
-targets='x86_64-apple-macos10.6 arm64-apple-macos11.0'
+targets='i386-apple-macos10.6 x86_64-apple-macos10.6 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
