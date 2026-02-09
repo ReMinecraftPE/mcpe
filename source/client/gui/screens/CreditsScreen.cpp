@@ -32,6 +32,9 @@ void CreditsScreen::_initCreditsText()
 	{
 		m_credits.push_back("Failed to load credits.txt");
 	}
+
+	// for testing only, should not make it into master, remove if found
+	AppPlatform::singleton()->showMessageModal(MessageModal(MessageModal::TYPE_INFO, "death"));
 }
 
 void CreditsScreen::init()

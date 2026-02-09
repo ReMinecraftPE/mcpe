@@ -43,6 +43,8 @@ public:
 	void gameControllerAdded(int32_t index);
 	void gameControllerRemoved(int32_t index);
 
+	void showMessageModal(const MessageModal& msg) override;
+
 public:
 	static bool GetMouseButtonState(const SDL_Event& event);
 

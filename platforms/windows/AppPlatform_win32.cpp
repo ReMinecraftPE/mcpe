@@ -570,3 +570,26 @@ Keyboard::KeyState AppPlatform_win32::GetKeyState(UINT iMsg)
 		return Keyboard::KeyState::DOWN;
 	}
 }
+
+void AppPlatform_win32::showMessageModal(const MessageModal& msg)
+{
+	const char *title;
+	uint32_t flags = 0;
+
+	switch (msg.type)
+	{
+		case MessageModal::TYPE_ERROR:
+			title = "Error";
+			flags = MB_ICONERROR;
+			break;
+		default:
+			LOG_W("Unhandled MessageModal type");
+			// fall through
+		case MessageModal::TYPE_INFO:
+			title = "Info";
+			flags = MB_ICONINFORMATION;
+			break;
+	}
+
+	MessageBoxA(NULL, msg.text.c_str(), title, flags);
+}

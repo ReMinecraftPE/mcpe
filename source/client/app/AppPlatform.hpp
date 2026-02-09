@@ -37,6 +37,25 @@
 #define C_HOME_PATH "/games/com.mojang/"
 #define C_MAX_LOCAL_PLAYERS 4
 
+struct MessageModal
+{
+	enum Type
+	{
+		TYPE_INFO,
+		TYPE_ERROR
+	};
+
+	Type type;
+	std::string text;
+
+	MessageModal(Type type, const std::string& text)
+		: type(type)
+		, text(text)
+	{
+	}
+};
+
+
 class GameControllerHandler;
 class AppPlatformListener;
 
@@ -134,6 +153,8 @@ public:
 	virtual void endProfileDataRead(unsigned int playerId);
 	virtual void beginProfileDataWrite(unsigned int playerId);
 	virtual void endProfileDataWrite(unsigned int playerId);
+
+	virtual void showMessageModal(const MessageModal& msg);
 
 public:
 	ListenerMap m_listeners;
