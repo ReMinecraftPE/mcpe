@@ -106,22 +106,22 @@ int AppPlatform_sdl2::getScreenHeight() const
 	return height;
 }
 
-void AppPlatform_sdl2::showKeyboard(int x, int y, int w, int h)
+void AppPlatform_sdl2::showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard)
 {
 	if (SDL_IsTextInputActive())
 	{
-		hideKeyboard();
+		hideKeyboard(playerId);
 	}
 	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = w;
-	rect.h = h;
+	rect.x = keyboard.rect.x;
+	rect.y = keyboard.rect.y;
+	rect.w = keyboard.rect.w;
+	rect.h = keyboard.rect.h;
 	SDL_SetTextInputRect(&rect);
 	SDL_StartTextInput();
 }
 
-void AppPlatform_sdl2::hideKeyboard()
+void AppPlatform_sdl2::hideKeyboard(LocalPlayerID playerId)
 {
 	if (SDL_IsTextInputActive())
 	{

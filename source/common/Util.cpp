@@ -137,3 +137,24 @@ std::string Util::toString(int value)
 	std::reverse(str.begin(), str.end());
 	return str;
 }
+
+std::string Util::toString(const wchar_t* str)
+{
+	std::string result(wcslen(str), 0);
+	wcstombs((char*)result.data(), str, result.size());
+	return result;
+}
+
+std::string Util::toString(const std::wstring& str)
+{
+	std::string result(str.size(), 0);
+	wcstombs((char*)result.data(), str.c_str(), str.size());
+	return result;
+}
+
+std::wstring Util::toWideString(const std::string& str)
+{
+	std::wstring result(str.size(), 0);
+	mbstowcs((wchar_t*)result.data(), str.c_str(), str.size());
+	return result;
+}

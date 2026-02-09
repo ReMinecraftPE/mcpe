@@ -71,16 +71,17 @@
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;NOMINMAX;$(MC_GFX_API_MACRO);_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	  <ConformanceMode>false</ConformanceMode>
 	  <!-- Needed to allow __cplusplus to be set correctly -->
 	  <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>
+	  <ConformanceMode>false</ConformanceMode>
 	  <WarningLevel>Level3</WarningLevel>
 	  <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+	  <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

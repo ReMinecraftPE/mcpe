@@ -133,6 +133,8 @@ public:
 	virtual void keyPressed(int);
 	virtual void handleTextChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
+	virtual void setTextboxText(const std::string& text);
+	virtual void handleKeyboardClosed();
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);
