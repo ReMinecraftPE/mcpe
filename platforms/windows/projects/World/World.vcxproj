@@ -61,6 +61,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\DoorItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\Inventory.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\FoodItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\ItemStack.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp" />

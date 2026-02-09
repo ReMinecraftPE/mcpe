@@ -19,6 +19,7 @@
 #include "BowItem.hpp"
 #include "DyePowderItem.hpp"
 #include "WeaponItem.hpp"
+#include "FoodItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
@@ -353,7 +354,7 @@ void Item::initItems()
 		->setIcon(7, 4)
 		->setDescriptionId("bowl");
 
-	Item::mushroomStew = NEW_ITEM(ITEM_STEW_MUSHROOM)
+	Item::mushroomStew = NEW_ITEM(ITEM_STEW_MUSHROOM) // @TODO: stew needs to be implemented, needs itemstack rework
 		->setIcon(8, 4)
 		->setDescriptionId("mushroomStew");
 
@@ -381,7 +382,7 @@ void Item::initItems()
 		->setIcon(9, 1)
 		->setDescriptionId("wheat");
 
-	Item::bread = NEW_ITEM(ITEM_BREAD)
+	Item::bread = NEW_X_ITEM(FoodItem, ITEM_BREAD, 5)
 		->setIcon(9, 2)
 		->setDescriptionId("bread");
 
@@ -389,19 +390,19 @@ void Item::initItems()
 		->setIcon(6, 0)
 		->setDescriptionId("flint");
 
-	Item::porkChop_raw = NEW_ITEM(ITEM_PORKCHOP_RAW)
+	Item::porkChop_raw = NEW_X_ITEM(FoodItem, ITEM_PORKCHOP_RAW, 3)
 		->setIcon(7, 5)
 		->setDescriptionId("porkchopRaw");
 
-	Item::porkChop_cooked = NEW_ITEM(ITEM_PORKCHOP_COOKED)
+	Item::porkChop_cooked = NEW_X_ITEM(FoodItem, ITEM_PORKCHOP_COOKED, 8)
 		->setIcon(8, 5)
 		->setDescriptionId("porkchopCooked");
 
-	Item::apple = NEW_ITEM(ITEM_APPLE)
+	Item::apple = NEW_X_ITEM(FoodItem, ITEM_APPLE, 4)
 		->setIcon(10, 0)
 		->setDescriptionId("appleGold");
 
-	Item::apple_gold = NEW_ITEM(ITEM_APPLE_GOLD)
+	Item::apple_gold = NEW_X_ITEM(FoodItem, ITEM_APPLE_GOLD, 42)
 		->setIcon(11, 0)
 		->setDescriptionId("appleGold");
 
@@ -508,11 +509,11 @@ void Item::initItems()
 		->setIcon(9, 4)
 		->setDescriptionId("yellowDust");
 
-	Item::fish_raw = NEW_ITEM(ITEM_FISH_RAW)
+	Item::fish_raw = NEW_X_ITEM(FoodItem, ITEM_FISH_RAW, 2)
 		->setIcon(9, 5)
 		->setDescriptionId("fishRaw");
 
-	Item::fish_cooked = NEW_ITEM(ITEM_FISH_COOKED)
+	Item::fish_cooked = NEW_X_ITEM(FoodItem, ITEM_FISH_COOKED, 5)
 		->setIcon(10, 5)
 		->setDescriptionId("fishCooked");
 
@@ -539,7 +540,7 @@ void Item::initItems()
 		->setIcon(6, 5)
 		->setDescriptionId("diode");
 
-	Item::cookie = NEW_ITEM(ITEM_COOKIE)
+	Item::cookie = NEW_X_ITEM(FoodItem, ITEM_COOKIE, 1)
 		->setMaxStackSize(8)
 		->setIcon(12, 5)
 		->setDescriptionId("cookie");
