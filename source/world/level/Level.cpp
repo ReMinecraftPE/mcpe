@@ -1782,8 +1782,8 @@ HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const
 		}
 
 
-		hitVec.z = static_cast<float>(Mth::floor(v1.z));
-		tp1.z = static_cast<int>(hitVec.z);
+		hitVec.z = (float)Mth::floor(v1.z);
+		tp1.z = (float)hitVec.z;
 		if (hitSide == Facing::SOUTH)
 		{
 			tp1.z--;
