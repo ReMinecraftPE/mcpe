@@ -26,8 +26,6 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
         }
     }
 
-    int totalSpawned = 0;
-
     for (unsigned int i = 0; i < MobCategory::allCount; i++)
     {
         const MobCategory& category = *MobCategory::all[i]; 
@@ -127,7 +125,6 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                                 finalizeMobSettings(entity, level, pPos);
                                 if (spawned >= entity->getMaxSpawnClusterSize())
                                 {
-                                    totalSpawned += spawned;
                                     spawned = -1;
                                     break;
                                 }
@@ -135,9 +132,6 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                         }
                     }
                 }
-
-                if (spawned != -1)
-                    totalSpawned += spawned;
             }
         }
     }

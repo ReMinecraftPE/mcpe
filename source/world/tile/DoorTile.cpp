@@ -93,12 +93,10 @@ eRenderShape DoorTile::getRenderShape() const
 
 int DoorTile::getResource(TileData data, Random* random) const
 {
-#ifdef ORIGINAL_CODE
-	// breaking the top of the tile doesn't drop anything.
-	// In JE, it probably fixed a certain dupe glitch with doors
-	if (isTop(data))
-		return 0;
-#endif
+	// breaking the top of the tile doesn't drop anything in JE.
+	// It probably fixed a certain dupe glitch with doors
+	// if (isTop(data))
+	// 	return 0;
 
 	if (m_pMaterial == Material::metal)
 		return Item::door_iron->m_itemID;
