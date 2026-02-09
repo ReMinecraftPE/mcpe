@@ -186,7 +186,6 @@ for target in $targets; do
             export REMCPE_SDK="$x86_sdk"
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit'
             platform='sdl1'
-            cflags="$cflags -I$PWD/sdl1/include"
             sdl1ver=1
             if ! [ -f sdl1/lib/libSDL.a ] || [ "$(cat sdl1/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
                 sdl1_commit=25712c1e9270035667e1ed68f2acc5b82b441461
@@ -203,6 +202,8 @@ for target in $targets; do
                     --disable-shared \
                     CC="$platformdir/macos-cc" \
                     CXX="$platformdir/macos-c++" \
+                    CFLAGS="-O2 $cflags" \
+                    CXXFLAGS="-O2 $cflags" \
                     AR="$ar" \
                     RANLIB="$ranlib"
                 make -j"$ncpus"
@@ -211,6 +212,7 @@ for target in $targets; do
                 printf '%s' "$sdl1ver" > sdl1/sdl1ver
                 rm -rf "SDL-1.2-$sdl1_commit"
             fi
+            cflags="$cflags -I$PWD/sdl1/include"
         ;;
         (arm64*)
             export REMCPE_SDK="$arm64_sdk"
