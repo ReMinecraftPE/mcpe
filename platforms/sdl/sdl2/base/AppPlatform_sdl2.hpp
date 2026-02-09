@@ -31,8 +31,8 @@ public:
 	int getScreenHeight() const override;
 
 	// On-screen keyboard
-	void showKeyboard(int x, int y, int w, int h) override;
-	void hideKeyboard() override;
+	void showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard) override;
+	void hideKeyboard(LocalPlayerID playerId) override;
 
 	std::string getClipboardText() override;
 

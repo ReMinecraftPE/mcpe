@@ -76,6 +76,7 @@ public:
 	void handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y);
 	void handlePointerPressedButtonPress();
 	void handlePointerPressedButtonRelease();
+	void handleKeyboardClosed();
 	void resetInput();
 	void sendMessage(const std::string& message);
 	void respawnPlayer();
@@ -90,6 +91,7 @@ public:
 	void update() override;
 	void init() override;
 	void sizeUpdate(int newWidth, int newHeight) override;
+	void setTextboxText(const std::string& text) override;
 
 	virtual void reloadFancy(bool isFancy);
 	virtual int getFpsIntlCounter();

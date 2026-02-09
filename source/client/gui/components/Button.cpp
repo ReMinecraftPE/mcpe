@@ -103,9 +103,9 @@ void Button::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 	if (!isEnabled())
 		textColor = Color(160, 160, 160, m_color.a); // 0xFFA0A0A0
 	else if (isSelected())
-		textColor = Color(255, 255, 160, m_color.a); // 0xFFFFA0U
+		textColor = Color(255, 255, 160, m_color.a); // 0xFFFFA0
 	else
-		textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
+		textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0
 
 	drawCenteredString(font, getMessage(), m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 }

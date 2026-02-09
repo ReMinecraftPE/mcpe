@@ -239,6 +239,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />

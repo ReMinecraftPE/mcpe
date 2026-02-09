@@ -14,6 +14,7 @@
 #include "AppPlatform.hpp"
 #include "common/Logger.hpp"
 #include "common/Utils.hpp"
+#include "common/Util.hpp"
 #include "compat/LegacyCPP.hpp"
 #include "AppPlatformListener.hpp"
 
@@ -35,7 +36,7 @@ AppPlatform::~AppPlatform()
 
 }
 
-void AppPlatform::_tick()
+void AppPlatform::tick()
 {
 
 }
@@ -210,24 +211,11 @@ bool AppPlatform::shiftPressed()
 	return false;
 }
 
-void AppPlatform::showKeyboard(int x, int y, int w, int h)
-{
-	showKeyboard();
-}
-
-void AppPlatform::showKeyboard()
+void AppPlatform::showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard)
 {
 }
 
-void AppPlatform::showKeyboard(bool bShown)
-{
-	if (bShown)
-		showKeyboard();
-	else
-		hideKeyboard();
-}
-
-void AppPlatform::hideKeyboard()
+void AppPlatform::hideKeyboard(LocalPlayerID playerId)
 {
 }
 
@@ -235,12 +223,15 @@ void AppPlatform::onHideKeyboard()
 {
 }
 
-#ifdef USE_NATIVE_ANDROID
-int AppPlatform::getKeyboardUpOffset()
+const std::string& AppPlatform::getKeyboardText() const
+{
+	return Util::EMPTY_STRING;
+}
+
+unsigned int AppPlatform::getKeyboardUpOffset() const
 {
 	return 0;
 }
-#endif
 
 void AppPlatform::vibrate(int milliSeconds)
 {
@@ -388,18 +379,18 @@ void AppPlatform::makeNativePath(std::string& path) const
 {
 }
 
-void AppPlatform::beginProfileDataRead(unsigned int playerId)
+void AppPlatform::beginProfileDataRead(LocalPlayerID playerId)
 {
 }
 
-void AppPlatform::endProfileDataRead(unsigned int playerId)
+void AppPlatform::endProfileDataRead(LocalPlayerID playerId)
 {
 }
 
-void AppPlatform::beginProfileDataWrite(unsigned int playerId)
+void AppPlatform::beginProfileDataWrite(LocalPlayerID playerId)
 {
 }
 
-void AppPlatform::endProfileDataWrite(unsigned int playerId)
+void AppPlatform::endProfileDataWrite(LocalPlayerID playerId)
 {
 }
