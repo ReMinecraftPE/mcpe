@@ -321,6 +321,7 @@ Entity* Level::getEntity(Entity::ID id) const
 
 unsigned int Level::getEntityCount(const EntityCategories& category) const
 {
+	// @TODO: probably change this to a BST at some point. this works for now though
 	EntityCategories::CategoriesMask mask = category.getCategoryMask();
 	std::map<EntityCategories::CategoriesMask, int>::const_iterator it = m_entityCountsByCategory.find(mask);
 	if (it == m_entityCountsByCategory.end())

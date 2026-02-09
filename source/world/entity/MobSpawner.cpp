@@ -41,7 +41,7 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
         if ((isFriendly && !allowFriendly) || (!isFriendly && !allowHostile))
             continue;
 
-        if (level.getEntityCount(baseType) <= static_cast<unsigned int>(category.getMaxInstancesPerChunk() * (int)chunksToPoll.size() / 256))
+        if (level.getEntityCount(baseType) <= static_cast<unsigned int>(category.getMaxInstancesPerChunk() * static_cast<int>(chunksToPoll.size()) / 256))
         {    
             for (std::set<ChunkPos>::iterator it = chunksToPoll.begin(); it != chunksToPoll.end(); ++it) 
             {
@@ -54,12 +54,10 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
 
                 EntityType::ID entityID = spawnList.begin()->first;
 
-                int spawnWeight = 1; // make sure it starts with 1 so arithmetic exception doesn't occur    
+                int spawnWeight = 1; // make sure it starts with 1 so arithmetic exception doesn't occur
 
                 for (std::map<EntityType::ID, int>::const_iterator it = spawnList.begin(); it != spawnList.end(); ++it)
-                {
                     spawnWeight += it->second;
-                }
 
                 int randomRate = level.m_random.nextInt(spawnWeight);
 

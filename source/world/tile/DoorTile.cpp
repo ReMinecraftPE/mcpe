@@ -93,10 +93,12 @@ eRenderShape DoorTile::getRenderShape() const
 
 int DoorTile::getResource(TileData data, Random* random) const
 {
+#ifdef ORIGINAL_CODE
 	// breaking the top of the tile doesn't drop anything.
 	// In JE, it probably fixed a certain dupe glitch with doors
 	if (isTop(data))
 		return 0;
+#endif
 
 	if (m_pMaterial == Material::metal)
 		return Item::door_iron->m_itemID;
@@ -205,7 +207,10 @@ void DoorTile::neighborChanged(Level* level, const TilePos& pos, TileID newTile)
 	if (isTop)
 	{
 		if (level->getTile(pos.below()) != m_ID)
+		{
 			level->setTile(pos, TILE_AIR);
+			spawnResources(level, pos, level->getData(pos));
+		}
 
 		if (newTile > 0)
 		{
@@ -226,7 +231,10 @@ void DoorTile::neighborChanged(Level* level, const TilePos& pos, TileID newTile)
 	{
 		level->setTile(pos, TILE_AIR);
 		if (level->getTile(pos.above()) == m_ID)
+		{
 			level->setTile(pos.above(), TILE_AIR);
+			spawnResources(level, pos, level->getData(pos));
+		}
 	}
 
 	if (!isTop && newTile > 0 && Tile::tiles[newTile]->isSignalSource())
