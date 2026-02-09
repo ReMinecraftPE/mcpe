@@ -289,6 +289,8 @@
 		848AA3152F34E897007E9A3E /* DyePowderItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848AA3142F34E897007E9A3E /* DyePowderItem.cpp */; };
 		848AA3162F34E897007E9A3E /* DyePowderItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848AA3132F34E897007E9A3E /* DyePowderItem.hpp */; };
 		848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848CBD0F2AFD847C007634F6 /* AVFoundation.framework */; };
+		848CCB4A2F3A974000031D1F /* FoodItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848CCB482F3A974000031D1F /* FoodItem.hpp */; };
+		848CCB4B2F3A974000031D1F /* FoodItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848CCB492F3A974000031D1F /* FoodItem.cpp */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */; };
 		8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */; };
@@ -2253,6 +2255,8 @@
 		848AA3132F34E897007E9A3E /* DyePowderItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DyePowderItem.hpp; sourceTree = "<group>"; };
 		848AA3142F34E897007E9A3E /* DyePowderItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DyePowderItem.cpp; sourceTree = "<group>"; };
 		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		848CCB482F3A974000031D1F /* FoodItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FoodItem.hpp; sourceTree = "<group>"; };
+		848CCB492F3A974000031D1F /* FoodItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FoodItem.cpp; sourceTree = "<group>"; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
 		8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeAppDelegate.h; sourceTree = "<group>"; };
@@ -3714,6 +3718,8 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
+				848CCB482F3A974000031D1F /* FoodItem.hpp */,
+				848CCB492F3A974000031D1F /* FoodItem.cpp */,
 				848AA3132F34E897007E9A3E /* DyePowderItem.hpp */,
 				848AA3142F34E897007E9A3E /* DyePowderItem.cpp */,
 				84C614242F323602008AC5BE /* BowItem.hpp */,
@@ -5715,6 +5721,7 @@
 				84BF639C2AF186C8008A9995 /* LevelListener.hpp in Headers */,
 				84E1C9D62E7FDC26007D2F5D /* GlowstoneTile.hpp in Headers */,
 				84DAF5762F3464DD00D67310 /* TileEvent.hpp in Headers */,
+				848CCB4A2F3A974000031D1F /* FoodItem.hpp in Headers */,
 				84BF639D2AF186C8008A9995 /* Material.hpp in Headers */,
 				84E1C9D02E7FDC26007D2F5D /* CactusTile.hpp in Headers */,
 				84DED1B22F309611004001C5 /* ShapelessRecipe.hpp in Headers */,
@@ -6849,6 +6856,7 @@
 				84BF63482AF18631008A9995 /* ExplodeParticle.cpp in Sources */,
 				8445E7A92D769329008DC834 /* SynchedEntityData.cpp in Sources */,
 				84BF63492AF18631008A9995 /* FlameParticle.cpp in Sources */,
+				848CCB4B2F3A974000031D1F /* FoodItem.cpp in Sources */,
 				84BF634A2AF18631008A9995 /* LavaParticle.cpp in Sources */,
 				84DED1B32F309611004001C5 /* SingleInputRecipe.cpp in Sources */,
 				84B1E03D2E04FD7900ED000A /* Spider.cpp in Sources */,
