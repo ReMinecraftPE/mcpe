@@ -110,7 +110,7 @@ void AppPlatform_sdl2::showKeyboard(LocalPlayerID playerId, const VirtualKeyboar
 {
 	if (SDL_IsTextInputActive())
 	{
-		hideKeyboard();
+		hideKeyboard(playerId);
 	}
 	SDL_Rect rect;
 	rect.x = keyboard.rect.x;

@@ -527,7 +527,7 @@ void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // 
 			areAnyFocused = true;
 
 		if (!areAnyFocused)
-			m_pMinecraft->platform()->hideKeyboard();
+			m_pMinecraft->platform()->hideKeyboard(0);
 	}
 #endif
 #endif
