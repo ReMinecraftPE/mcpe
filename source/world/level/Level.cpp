@@ -1783,7 +1783,7 @@ HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const
 
 
 		hitVec.z = (float)Mth::floor(v1.z);
-		tp1.z = (float)hitVec.z;
+		tp1.z = (int)hitVec.z;
 		if (hitSide == Facing::SOUTH)
 		{
 			tp1.z--;
