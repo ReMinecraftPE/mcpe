@@ -39,103 +39,103 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
         if ((isFriendly && !allowFriendly) || (!isFriendly && !allowHostile))
             continue;
 
-        if (level.getEntityCount(baseType) <= static_cast<unsigned int>(category.getMaxInstancesPerChunk() * static_cast<int>(chunksToPoll.size()) / 256))
-        {    
-            for (std::set<ChunkPos>::iterator it = chunksToPoll.begin(); it != chunksToPoll.end(); ++it) 
+        // maximum of this mob type
+        if (level.getEntityCount(baseType) > static_cast<unsigned int>(category.getMaxInstancesPerChunk() * static_cast<int>(chunksToPoll.size()) / 256))
+            continue;
+
+        for (std::set<ChunkPos>::iterator it = chunksToPoll.begin(); it != chunksToPoll.end(); ++it) 
+        {
+            const ChunkPos& pos = *it;
+
+            const std::map<EntityType::ID, int>& spawnList = MobFactory::GetMobListOfCategory(baseType);
+                                
+            if (spawnList.empty())
+                continue;
+
+            EntityType::ID entityID = spawnList.begin()->first;
+
+            int spawnWeight = 1; // make sure it starts with 1 so arithmetic exception doesn't occur
+
+            for (std::map<EntityType::ID, int>::const_iterator it = spawnList.begin(); it != spawnList.end(); ++it)
+                spawnWeight += it->second;
+
+            int randomRate = level.m_random.nextInt(spawnWeight);
+
+            for (std::map<EntityType::ID, int>::const_iterator it = spawnList.begin(); it != spawnList.end(); ++it)
             {
-                const ChunkPos& pos = *it;
-
-                const std::map<EntityType::ID, int>& spawnList = MobFactory::GetMobListOfCategory(baseType);
-                                   
-                if (spawnList.empty())
-                    continue;
-
-                EntityType::ID entityID = spawnList.begin()->first;
-
-                int spawnWeight = 1; // make sure it starts with 1 so arithmetic exception doesn't occur
-
-                for (std::map<EntityType::ID, int>::const_iterator it = spawnList.begin(); it != spawnList.end(); ++it)
-                    spawnWeight += it->second;
-
-                int randomRate = level.m_random.nextInt(spawnWeight);
-
-                for (std::map<EntityType::ID, int>::const_iterator it = spawnList.begin(); it != spawnList.end(); ++it)
+                randomRate -= it->second;
+                if (randomRate < 0) 
                 {
-                    randomRate -= it->second;
-                    if (randomRate < 0) 
-                    {
-                        entityID = it->first;
-                        break;
-                    }
+                    entityID = it->first;
+                    break;
                 }
+            }
 
-                TilePos tpos = getRandomPosWithin(level, pos.x * 16, pos.z * 16);
+            TilePos tpos = getRandomPosWithin(level, pos.x * 16, pos.z * 16);
 
-                if (level.isSolidTile(tpos) || level.getMaterial(tpos) != category.getSpawnPositionMaterial()) 
-                    continue;
+            if (level.isSolidTile(tpos) || level.getMaterial(tpos) != category.getSpawnPositionMaterial()) 
+                continue;
 
-                int spawned = 0;
-                for (int i = 0; i < 3; ++i)
+            int spawned = 0;
+            for (int i = 0; i < 3; ++i)
+            {
+                TilePos tp(tpos);
+
+                if (spawned == -1)
+                    break;
+
+                for (int j = 0; j < 4; ++j) 
                 {
-                    TilePos tp(tpos);
+                    tp.x += level.m_random.nextInt(6) - level.m_random.nextInt(6);
+                    tp.y += level.m_random.nextInt(1) - level.m_random.nextInt(1);
+                    tp.z += level.m_random.nextInt(6) - level.m_random.nextInt(6);
 
-                    if (spawned == -1)
+                    if (!isSpawnPositionOk(category, level, tp)) 
+                        continue;
+
+                    int lightLevel = level.getRawBrightness(tp);
+                    if (isFriendly)
+                    {
+                        if (lightLevel < MOB_SPAWNER_FRIENDLY_BRIGHTNESS)
+                            continue;
+                    }
+                    else
+                    {
+                        if (lightLevel > MOB_SPAWNER_HOSTILE_BRIGHTNESS)
+                            continue;
+                    }
+
+                    Vec3 pPos(tp.x + 0.5, tp.y, tp.z + 0.5);
+
+                    if (level.getNearestPlayer(pPos, 24.0f, false)) 
+                        continue;
+                    
+                    Vec3 dPos = pPos - level.getSharedSpawnPos();
+                    
+                    if (dPos.lengthSqr() < 576.0f) 
+                        continue;
+                    
+                    Mob* entity = MobFactory::CreateMob(entityID, &level);
+                    if (!entity) 
                         break;
 
-                    for (int j = 0; j < 4; ++j) 
+                    entity->moveTo(pPos, Vec2(level.m_random.nextFloat() * 360.0f, 0.0f));
+                    
+                    if (entity->canSpawn()) 
                     {
-                        tp.x += level.m_random.nextInt(6) - level.m_random.nextInt(6);
-                        tp.y += level.m_random.nextInt(1) - level.m_random.nextInt(1);
-                        tp.z += level.m_random.nextInt(6) - level.m_random.nextInt(6);
-
-                        if (!isSpawnPositionOk(category, level, tp)) 
-                            continue;
-
-                        int lightLevel = level.getRawBrightness(tp);
-                        if (isFriendly)
+                        ++spawned;
+                        level.addEntity(entity);
+                        finalizeMobSettings(entity, level, pPos);
+                        if (spawned >= entity->getMaxSpawnClusterSize())
                         {
-                            if (lightLevel < MOB_SPAWNER_FRIENDLY_BRIGHTNESS)
-                                continue;
-                        }
-                        else
-                        {
-                            if (lightLevel > MOB_SPAWNER_HOSTILE_BRIGHTNESS)
-                                continue;
-                        }
-
-                        Vec3 pPos(tp.x + 0.5, tp.y, tp.z + 0.5);
-
-                        if (level.getNearestPlayer(pPos, 24.0f, false)) 
-                            continue;
-                        
-                        Vec3 dPos = pPos - level.getSharedSpawnPos();
-                        
-                        if (dPos.lengthSqr() >= 576.0f) 
-                        {   
-                            Mob* entity = MobFactory::CreateMob(entityID, &level);
-                            if (!entity) 
-                                break;
-
-                            entity->moveTo(pPos, Vec2(level.m_random.nextFloat() * 360.0f, 0.0f));
-                            
-                            if (entity->canSpawn()) 
-                            {
-                                ++spawned;
-                                level.addEntity(entity);
-                                finalizeMobSettings(entity, level, pPos);
-                                if (spawned >= entity->getMaxSpawnClusterSize())
-                                {
-                                    spawned = -1;
-                                    break;
-                                }
-                            }
+                            spawned = -1;
+                            break;
                         }
                     }
                 }
             }
         }
     }
-
 }
 
 TilePos MobSpawner::getRandomPosWithin(Level& level, int chunkX, int chunkZ) 
