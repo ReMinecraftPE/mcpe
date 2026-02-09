@@ -231,15 +231,25 @@ jobs:
                 ./gradlew assembleRelease
           - uses: upup-company/apksigner-android@v1
             id: sign_apk
+            env:
+              ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+              BUILD_TOOLS_VERSION: 33.0.1
+            if: ${{ env.ANDROID_KEYSTORE }}
             with:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
               signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
               keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
               alias: remcpe
-            env:
-              BUILD_TOOLS_VERSION: 33.0.1
           - name: Rename APK
+            env:
+              ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+            if: ${{ env.ANDROID_KEYSTORE }}
             run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE.apk
+          - name: Rename APK
+            env:
+              ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+            if: ${{ !env.ANDROID_KEYSTORE }}
+            run: mv ${{ matrix.directory }}/app/build/outputs/apk/release/app-release-unsigned.apk ReMCPE.apk
           - uses: actions/upload-artifact@v6
             with:
               name: Android (${{ matrix.name }})

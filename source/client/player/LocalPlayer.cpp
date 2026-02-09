@@ -67,7 +67,9 @@ void LocalPlayer::die(Entity* pCulprit)
 
 void LocalPlayer::aiStep()
 {
+	bool wasJumping = m_pMoveInput->m_bJumping;
 	m_pMoveInput->tick(this);
+
 	if (m_pMoveInput->m_bSneaking && m_ySlideOffset < 0.2f)
 		m_ySlideOffset = 0.2f;
 
@@ -75,8 +77,37 @@ void LocalPlayer::aiStep()
 	m_renderArmRot.x = Mth::Lerp(m_renderArmRot.x, m_rot.x, 0.5f);
 	m_renderArmRot.y = Mth::Lerp(m_renderArmRot.y, m_rot.y, 0.5f);
 
+	// timer for switching flight states
+	if (m_abilities.bCanFly && m_pMoveInput->m_bJumping && !wasJumping)
+	{
+		if (m_jumpTriggerTime == 0)
+			m_jumpTriggerTime = 7;
+		else
+		{
+			m_bFlying = !m_bFlying;
+			m_jumpTriggerTime = 0;
+		}
+	}
+
+	// up/down movement while flying
+	if (m_bFlying)
+	{
+		int yChange = 0;
+		
+		if (m_pMoveInput->m_bSneaking)
+			--yChange;
+		if (m_pMoveInput->m_bFlyUp)
+			++yChange;
+
+		if (yChange != 0)
+			m_vel.y += yChange * 0.15;
+	}
+
 	Mob::aiStep();
 	Player::aiStep();
+
+	if ((m_bFlying && m_bOnGround) || !m_abilities.bCanFly)
+		m_bFlying = false;
 
 	if (interpolateOnly())
 		updateAi();
@@ -211,7 +242,7 @@ void LocalPlayer::respawn()
 
 bool LocalPlayer::isSneaking() const
 {
-	return m_pMoveInput->m_bSneaking;
+	return m_pMoveInput->m_bSneaking && !m_bFlying;
 }
 
 void LocalPlayer::move(const Vec3& pos)
@@ -283,7 +314,10 @@ void LocalPlayer::move(const Vec3& pos)
 				return;
 
 			// are we trying to walk into stairs or a slab?
-			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->getOptions()->m_autoJump.get())
+			if (tileOnTop != Tile::stairs_stone->m_ID &&
+				tileOnTop != Tile::stairs_wood->m_ID &&
+				tileOnTop != Tile::stoneSlabHalf->m_ID &&
+				m_pMinecraft->getOptions()->m_autoJump.get())
 				// Nope, we're walking towards a full block. Trigger an auto jump.
 				m_nAutoJumpFrames = 1;
 		}
