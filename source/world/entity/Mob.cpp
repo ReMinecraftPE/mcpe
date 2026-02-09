@@ -595,7 +595,7 @@ void Mob::travel(const Vec2& pos)
 
 	float x2, dragFactor;
 	float oldYPos = m_pos.y;
-	if (isInWater() || isInLava())
+	if (isSlowedByLiquids() && (isInWater() || isInLava()))
 	{
 		moveRelative(Vec3(pos.x, 0.02f, pos.y));
 		move(m_vel);

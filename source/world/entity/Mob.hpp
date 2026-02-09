@@ -64,6 +64,7 @@ public:
 	virtual void aiStep();
 	virtual void lookAt(Entity* pEnt, float, float);
 	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
+	virtual bool isSlowedByLiquids() const { return true; }
 	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }
 	virtual void beforeRemove() {}
 	virtual bool canSpawn();

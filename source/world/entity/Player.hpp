@@ -62,6 +62,7 @@ public:
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 	void travel(const Vec2& pos) override;
 	void causeFallDamage(float level) override;
+	bool isSlowedByLiquids() const override { return !m_bFlying; }
 
 	virtual void animateRespawn();
 	//virtual void drop(); // see definition
@@ -94,7 +95,7 @@ public:
 	void rideTick();
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
-	const inline Abilities& getAbilities() const { return m_abilities; }
+	inline const Abilities& getAbilities() const { return m_abilities; }
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
