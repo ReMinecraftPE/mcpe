@@ -24,6 +24,8 @@ public:
 		ABSTRACT_ARROW   = 1<<15 | PROJECTILE,
 		VILLAGER_BASE    = 1<<16 | PATHFINDER_MOB
 	};
+	static const CategoriesMask all[];
+	static const unsigned int allCount;
 
 public:
 	EntityCategories(CategoriesMask = ENTITY);
