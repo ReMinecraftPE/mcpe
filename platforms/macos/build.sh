@@ -22,7 +22,7 @@ cd "$workdir"
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
 sdkver=2
-if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
+if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$x86_64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
     # for arm64
