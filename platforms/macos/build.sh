@@ -209,6 +209,11 @@ for target in $targets; do
                 fi
                 tar -xzf ../sdl1src.tar.gz
                 cd "SDL-1.2-$sdl1_commit"
+                if [ -n "$DEBUG" ]; then
+                    opt='-O2'
+                else
+                    opt='-O0'
+                fi
                 ./configure \
                     --host="$arch-apple-darwin" \
                     --prefix="${PWD%/*}/sdl1" \
@@ -216,8 +221,8 @@ for target in $targets; do
                     --disable-video-x11 \
                     CC="$platformdir/macos-cc" \
                     CXX="$platformdir/macos-c++" \
-                    CFLAGS="-O2 $cflags" \
-                    CXXFLAGS="-O2 $cflags" \
+                    CFLAGS="$opt $cflags" \
+                    CXXFLAGS="$opt $cflags" \
                     CPPFLAGS='-DNDEBUG' \
                     AR="$ar" \
                     RANLIB="$ranlib"
