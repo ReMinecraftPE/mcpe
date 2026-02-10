@@ -423,6 +423,7 @@ void Gui::renderMessages(bool bShowAll)
 void Gui::renderHearts(bool topLeft)
 {
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
+	topLeft = true;
 
 	int cenX = m_width / 2;
 
@@ -454,7 +455,8 @@ void Gui::renderHearts(bool topLeft)
     }
 
 	int hotbarWidth = 2 + getNumSlots() * 20;
-	int armorX = heartX + ((topLeft) ? (((C_MAX_MOB_HEALTH /* / 2 * 2 technically */) * 8) - 2) : (hotbarWidth - 9));
+	// int armorX = heartX + ((topLeft) ? (((C_MAX_MOB_HEALTH /* / 2 * 2 technically */) * 8) - 2) : (hotbarWidth - 9)); // Seated to the right of the hearts
+	int armorX = heartX + ((topLeft) ? (m_width - 13) : (hotbarWidth - 9));
 
 	int playerHealth = player->m_health;
 	int armor = player->m_pInventory->getArmorValue();
