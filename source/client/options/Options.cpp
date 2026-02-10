@@ -27,7 +27,7 @@
 #include "client/gui/components/SliderButton.hpp"
 #include "client/gui/components/SwitchButton.hpp"
 #include "client/gui/components/SwitchValuesButton.hpp"
-#include "client/gui/components/Tickbox.hpp"
+#include "client/gui/components/TickBox.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
 
