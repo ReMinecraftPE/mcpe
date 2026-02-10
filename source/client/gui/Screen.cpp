@@ -228,6 +228,8 @@ float Screen::getScale(int width, int height)
 float Screen::getConsoleScale(int height)
 {
 	return 1 / float(Mth::round((Mth::round(height / 180.0f) * 180) / 360.0f) / 2.0f);
+}
+
 void Screen::setTextboxText(const std::string& text)
 {
 	GuiElement* element = _getSelectedElement();

@@ -1,11 +1,13 @@
+#include <cstring>
+
 #include "ConsoleScrollRenderer.hpp"
 #include "renderer/ShaderConstants.hpp"
 
 std::string ConsoleScrollRenderer::SCROLLS[] = { "consolegui/scrollUp.png", "consolegui/scrollDown.png", "consolegui/scrollLeft.png", "consolegui/scrollRight.png" };
 
-ConsoleScrollRenderer::ConsoleScrollRenderer() :
-	m_lastScrolled{}
+ConsoleScrollRenderer::ConsoleScrollRenderer()
 {
+	memset(m_lastScrolled, 0, sizeof(m_lastScrolled));
 }
 
 void ConsoleScrollRenderer::updateScroll(AreaNavigation::Direction dir)
