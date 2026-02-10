@@ -90,7 +90,7 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                     tp.y += level.m_random.nextInt(1) - level.m_random.nextInt(1);
                     tp.z += level.m_random.nextInt(6) - level.m_random.nextInt(6);
 
-                    if (!isSpawnPositionOk(category, level, tp)) 
+                    if (!IsSpawnPositionOk(category, level, tp)) 
                         continue;
 
                     int lightLevel = level.getRawBrightness(tp);
@@ -125,7 +125,7 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                     {
                         ++spawned;
                         level.addEntity(entity);
-                        finalizeMobSettings(entity, level, pPos);
+                        FinalizeMobSettings(entity, level, pPos);
                         if (spawned >= entity->getMaxSpawnClusterSize())
                         {
                             spawned = -1;
@@ -146,23 +146,22 @@ TilePos MobSpawner::getRandomPosWithin(Level& level, int chunkX, int chunkZ)
     return TilePos(px, py, pz);
 }
 
-//todo: bool?
-int MobSpawner::addMob(Level& level, Mob *mob, const Vec3& pos, const Vec2& rot) 
+bool MobSpawner::AddMob(Level& level, Mob *mob, const Vec3& pos, const Vec2& rot) 
 {
     if (!mob)
-        return 0;
+        return false;
 
     if (!mob->canSpawn() || !mob->isAlive())
-        return 0;
+        return false;
 
     mob->moveTo(pos, rot);
     level.addEntity(mob);
-    finalizeMobSettings(mob, level, pos);
+    FinalizeMobSettings(mob, level, pos);
 
-    return 1;
+    return true;
 }
 
-bool MobSpawner::isSpawnPositionOk(const MobCategory& category, Level& level, const TilePos& pos) 
+bool MobSpawner::IsSpawnPositionOk(const MobCategory& category, Level& level, const TilePos& pos) 
 {
     if (category.getSpawnPositionMaterial() == Material::water) 
         return level.getMaterial(pos)->isLiquid() && !level.isSolidTile(pos.above());
@@ -170,28 +169,28 @@ bool MobSpawner::isSpawnPositionOk(const MobCategory& category, Level& level, co
     return level.isSolidTile(pos.below()) && !level.isSolidTile(pos) && !level.getMaterial(pos)->isLiquid() && !level.isSolidTile(pos.above());
 }
 
-void MobSpawner::finalizeMobSettings(Mob *mob, Level& level, const Vec3& pos) 
+void MobSpawner::FinalizeMobSettings(Mob *mob, Level& level, const Vec3& pos) 
 {
     if (!mob)
         return;
 
     //mob->finalizeMobSpawn();
-    makeBabyMob(mob, level);
+    MakeBabyMob(mob, level);
 }
 
 
-void MobSpawner::makeBabyMob(Mob *mob, Level& level) 
+void MobSpawner::MakeBabyMob(Mob *mob, Level& level) 
 {
     level.m_random.setSeed(0x5deea8f);
 
     if (mob->isBaby())
         return;
 
-    // todo
+    // 0.6.0+
 }
 
 
-void MobSpawner::postProcessSpawnMobs(Level& level, Biome& biome, const Vec3& pos) 
+void MobSpawner::PostProcessSpawnMobs(Level& level, Biome& biome, const Vec3& pos) 
 {
   // empty (0.7.1)
 }

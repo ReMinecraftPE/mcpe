@@ -15,11 +15,11 @@
 
 class MobSpawner {
 private:
-    static bool isSpawnPositionOk(const MobCategory& category, Level& level, const TilePos& pos);
-    static void finalizeMobSettings(Mob* mob, Level& level, const Vec3& pos);
-    static void makeBabyMob(Mob* mob, Level& level);
-    static void postProcessSpawnMobs(Level& level, Biome& biome, const Vec3& pos);
-    static int addMob(Level& level, Mob* mob, const Vec3& pos, const Vec2& rot = Vec2::ZERO);
+    static bool IsSpawnPositionOk(const MobCategory& category, Level& level, const TilePos& pos);
+    static void FinalizeMobSettings(Mob* mob, Level& level, const Vec3& pos);
+    static void MakeBabyMob(Mob* mob, Level& level);
+    static void PostProcessSpawnMobs(Level& level, Biome& biome, const Vec3& pos);
+    static bool AddMob(Level& level, Mob* mob, const Vec3& pos, const Vec2& rot = Vec2::ZERO);
 
 public:
     TilePos getRandomPosWithin(Level& level, int chunkX, int chunkZ);

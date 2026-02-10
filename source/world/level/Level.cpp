@@ -321,7 +321,6 @@ Entity* Level::getEntity(Entity::ID id) const
 
 unsigned int Level::getEntityCount(const EntityCategories& category) const
 {
-	// @TODO: probably change this to a BST at some point. this works for now though
 	EntityCategories::CategoriesMask mask = category.getCategoryMask();
 	std::map<EntityCategories::CategoriesMask, int>::const_iterator it = m_entityCountsByCategory.find(mask);
 	if (it == m_entityCountsByCategory.end())
@@ -784,6 +783,7 @@ void Level::setTilesDirty(const TilePos& min, const TilePos& max)
 
 void Level::entityAdded(Entity* pEnt)
 {
+	// @TODO: change this check (and the matching entityRemoved check) to a BST at some point. this works for now
 	const EntityCategories& categories = pEnt->getDescriptor().getCategories();
 	for (unsigned int i = 0; i < EntityCategories::allCount; i++) 
 	{
