@@ -626,22 +626,22 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\VerticalLayout.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\VerticalLayout.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\PanelScreen.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\AreaNavigation.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\AreaNavigation.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\ConsoleScrollRenderer.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\ConsoleScrollRenderer.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\TickBox.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TickBox.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\ConsoleSettingsScreen.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleSettingsScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp">
       <Filter>Header Files\App</Filter>
@@ -1125,26 +1125,23 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\VerticalLayout.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\PanelScreen.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\AreaNavigation.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\AreaNavigation.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\ConsoleScrollRenderer.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\ConsoleScrollRenderer.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\TickBox.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TickBox.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\ConsoleSettingsScreen.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsoleSettingsScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\ConsoleSettingsScreen.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
