@@ -26,25 +26,28 @@ if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$x86_64_sdk" ] || [ "
     printf '\nDownloading macOS SDKs...\n\n'
     (
     # for arm64
-    [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk"
+    [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk" &
     rm -f MacOSX11.3.tar.bz2
     wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/11.3/MacOSX11.3.tar.bz2
+    wait
     tar -xJf MacOSX11.3.tar.bz2
     mv MacOSX11.3.sdk "$arm64_sdk"
     ) &
     (
     # for x86_64
-    [ -d "$x86_64_sdk" ] && rm -rf "$x86_64_sdk"
+    [ -d "$x86_64_sdk" ] && rm -rf "$x86_64_sdk" &
     rm -f MacOSX10.9.tar.bz2
     wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.9/MacOSX10.9.tar.bz2
+    wait
     tar -xjf MacOSX10.9.tar.bz2 2>/dev/null
     mv MacOSX10.9.sdk "$x86_64_sdk"
     ) &
     (
     # for old stuff
-    [ -d "$old_sdk" ] && rm -rf "$old_sdk"
+    [ -d "$old_sdk" ] && rm -rf "$old_sdk" &
     rm -f MacOSX10.5.sdk.tar.xz
     wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.5.sdk.tar.xz
+    wait
     tar -xJf MacOSX10.5.sdk.tar.xz
     mv MacOSX10.5.sdk "$old_sdk"
     # patch the sdk to fix a bug
