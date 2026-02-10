@@ -32,6 +32,8 @@ public:
 	TextBox m_textSeed;
 	Button m_btnBack;
 	Button m_btnCreate;
+
+	int m_selectedGameType;
 };
 
 #endif
