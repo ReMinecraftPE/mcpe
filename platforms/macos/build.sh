@@ -52,7 +52,7 @@ if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     patch -p1 < "$platformdir/leopard-sdk-fix.patch"
     )
     wait
-    rm ./*.tar.xz ./*.tar.bz2
+    rm ./*.tar.xz
     printf '%s' "$sdkver" > sdkver
     outdated_sdk=1
 fi
