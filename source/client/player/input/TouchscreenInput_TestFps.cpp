@@ -241,6 +241,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 				break;
 
 			case 100 + INPUT_FORWARDLEFT:
+				if (m_bForwardBeingHeld)
 				{
 					bForwardPressed = true;
 					m_vertInput += 1.0f;
@@ -248,6 +249,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 				}
 				break;
 			case 100 + INPUT_FORWARDRIGHT:
+				if (m_bForwardBeingHeld)
 				{
 					bForwardPressed = true;
 					m_vertInput += 1.0f;
@@ -336,7 +338,7 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 
 void TouchscreenInput_TestFps::render(float f)
 {
-	std::string gui = "gui/custom.png";
+	std::string gui = "gui/gui_custom.png";
 	if (!m_pMinecraft->m_pResourceLoader->hasTexture(gui))
 		gui = "gui/gui_custom.png";
 

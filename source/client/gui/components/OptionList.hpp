@@ -32,7 +32,6 @@ public:
 	void initVideoMenu();
 	void initControlsMenu();
 	void initGameplayMenu();
-	void initMiscMenu();
 
 private:
 	int m_selectedItem;

@@ -150,23 +150,26 @@ void OptionList::initDefaultMenu()
 #define HEADER(text) do { m_items.push_back(new OptionHeader(0, text)); currentIndex++; } while (0)
 #define OPTION(name) do { pOptions->name.addGuiElement(m_items, pOptions->name.getName()); currentIndex++; } while (0)
 
-void OptionList::initVideoMenu()
+void OptionList::initGameplayMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
-	int currentIndex = 0;
-	(void)currentIndex;
+	int currentIndex = -1;
 
-	OPTION(m_viewDistance);
+	HEADER(Util::EMPTY_STRING);
+
+	HEADER("Audio");
+	OPTION(m_musicVolume);
+	OPTION(m_masterVolume);
+
+	HEADER("Game");
+	OPTION(m_difficulty);
 	OPTION(m_thirdPerson);
-	OPTION(m_ambientOcclusion);
-	OPTION(m_fancyGraphics);
-	OPTION(m_viewBobbing);
-	OPTION(m_anaglyphs);
-	OPTION(m_blockOutlines);
-	OPTION(m_fancyGrass);
-	OPTION(m_biomeColors);
-	OPTION(m_hideGui);
-	OPTION(m_dynamicHand);
+	OPTION(m_serverVisibleDefault);
+
+#ifndef FEATURE_NETWORKING
+	m_items[currentIndex]->setEnabled(false);
+#endif
+	(void)currentIndex; // compiler will warn about an unused variable sometimes if this isn't here
 }
 
 void OptionList::initControlsMenu()
@@ -175,44 +178,53 @@ void OptionList::initControlsMenu()
 	int currentIndex = -1;
 	int idxSplit = -1, idxController = -1;
 
-	OPTION(m_autoJump);
+	HEADER(Util::EMPTY_STRING);
+
+	HEADER("Controls");
+	OPTION(m_sensitivity);
 	OPTION(m_invertMouse);
 	OPTION(m_splitControls); idxSplit = currentIndex;
+	//OPTION(m_swapJumpSneak);
+	//OPTION(m_buttonSize);
+	OPTION(m_autoJump);
 	OPTION(m_bUseController); idxController = currentIndex;
+
+	/*HEADER("Feedback");
+	OPTION(m_vibrate);*/
+
+	HEADER("Experimental");
 	OPTION(m_flightHax);
-	OPTION(m_sensitivity);
 
 	if (!m_pMinecraft->isTouchscreen())
 		m_items[idxSplit]->setEnabled(false);
 	m_items[idxController]->setEnabled(false);
 }
 
-void OptionList::initGameplayMenu()
-{
-	Options* pOptions = m_pMinecraft->getOptions();
-	int currentIndex = -1;
-
-	OPTION(m_difficulty);
-	OPTION(m_serverVisibleDefault);
-
-	HEADER(Util::EMPTY_STRING);
-
-	HEADER("Music & Sounds");
-	OPTION(m_musicVolume);
-	OPTION(m_masterVolume);
-
-#ifndef FEATURE_NETWORKING
-	m_items[currentIndex]->setEnabled(false);
-#endif
-	(void)currentIndex; // compiler will warn about an unused variable sometimes if this isn't here
-}
-
-void OptionList::initMiscMenu()
+void OptionList::initVideoMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 	int idxPano = -1;
 
+	HEADER(Util::EMPTY_STRING);
+
+	HEADER("Graphics");
+	//OPTION(m_brigtness);
+	OPTION(m_viewDistance);
+	//OPTION(m_antiAliasing);
+	OPTION(m_guiScale);
+	//OPTION(m_fov);
+	OPTION(m_ambientOcclusion);
+	OPTION(m_fancyGraphics);
+	OPTION(m_viewBobbing);
+	OPTION(m_anaglyphs);
+	OPTION(m_blockOutlines);
+	OPTION(m_fancyGrass);
+	OPTION(m_biomeColors);
+	OPTION(m_dynamicHand);
+
+	HEADER("Experimental");
+	OPTION(m_hideGui);
 	OPTION(m_debugText);
 	OPTION(m_b2dTitleLogo);
 #ifdef ENH_MENU_BACKGROUND

@@ -16,13 +16,12 @@
 #include "../components/OptionList.hpp"
 enum OptionsCategory
 {
-	OC_VIDEO,
-	OC_CONTROLS,
 	OC_GAMEPLAY,
-	OC_MISCELLANEOUS,
+	OC_CONTROLS,
+	OC_VIDEO,
 
-	OC_MIN = OC_VIDEO,
-	OC_MAX = OC_MISCELLANEOUS,
+	OC_MIN = OC_GAMEPLAY,
+	OC_MAX = OC_VIDEO,
 	OC_COUNT
 };
 
@@ -50,10 +49,9 @@ private:
 	OptionList* m_pList;
 	OptionsCategory m_currentCategory;
 
-	Button m_videoButton;
-	Button m_controlsButton;
 	Button m_gameplayButton;
-	Button m_miscButton;
+	Button m_controlsButton;
+	Button m_videoButton;
 
 	Button m_backButton;
 };
