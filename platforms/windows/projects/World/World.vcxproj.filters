@@ -524,6 +524,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\MobFactory.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\MobSpawner.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp">
       <Filter>Source Files\Phys</Filter>
     </ClCompile>

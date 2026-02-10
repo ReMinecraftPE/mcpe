@@ -412,6 +412,8 @@ std::string TextBox::getRenderedText(int scroll_pos, std::string text)
 	// Not the most efficient code.
 	// But it does not run often enough to matter.
 	std::string rendered_text = text.substr(scroll_pos);
+	if (!m_pFont)
+		return rendered_text;
 	int max_width = m_width - (PADDING * 2);
 	while (m_pFont->width(rendered_text) > max_width && !rendered_text.empty())
 	{
@@ -425,6 +427,8 @@ constexpr char CURSOR_CHAR = '_';
 
 void TextBox::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
+	if (!m_pFont)
+		return;
 	// blue: 0xFFE9B3A9
 	// button-yellow: 0xFFA0FFFF
 	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, isSelected() ? 0xFFA0FFFF : 0xFFAAAAAA);
@@ -472,6 +476,8 @@ void TextBox::recalculateScroll()
 	{
 		return;
 	}
+	if (!m_pFont)
+		return;
 	// Ensure Cursor Is Visible
 	bool is_cursor_at_end = m_insertHead == int(m_text.length());
 	if (m_scrollPos >= m_insertHead && m_scrollPos > 0)
