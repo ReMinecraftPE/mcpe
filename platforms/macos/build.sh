@@ -6,7 +6,7 @@ set -e
 cd "$scriptroot"
 
 # TODO: powerpc
-targets='x86_64-apple-macos10.7 arm64-apple-macos11.0'
+targets='i386-apple-macos10.4 x86_64-apple-macos10.7 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
@@ -14,14 +14,15 @@ platformdir=$PWD
 
 workdir="$PWD/build/work"
 arm64_sdk="$workdir/arm64-mac-sdk"
-x86_sdk="$workdir/x86-mac-sdk"
+x86_64_sdk="$workdir/x86_64-mac-sdk"
+old_sdk="$workdir/old-mac-sdk"
 mkdir -p "$workdir"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
 sdkver=2
-if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
+if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
     # for arm64
@@ -33,14 +34,26 @@ if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     mv MacOSX11.3.sdk "$arm64_sdk"
     ) &
     (
-    # for x86
-    [ -d "$x86_sdk" ] && rm -rf "$x86_sdk" &
+    # for x86_64
+    [ -d "$x86_64_sdk" ] && rm -rf "$x86_64_sdk" &
     rm -f MacOSX10.9.tar.bz2
     wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.9/MacOSX10.9.tar.bz2
     wait
     tar -xjf MacOSX10.9.tar.bz2 2>/dev/null
-    mv MacOSX10.9.sdk "$x86_sdk"
+    mv MacOSX10.9.sdk "$x86_64_sdk"
     ) &
+    (
+    # for old stuff
+    [ -d "$old_sdk" ] && rm -rf "$old_sdk" &
+    rm -f MacOSX10.5.sdk.tar.xz
+    wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.5.sdk.tar.xz
+    wait
+    tar -xJf MacOSX10.5.sdk.tar.xz
+    mv MacOSX10.5.sdk "$old_sdk"
+    # patch the sdk to fix a bug
+    cd "$old_sdk"
+    patch -p1 < "$platformdir/leopard-sdk-fix.patch"
+    )
     wait
     rm ./*.tar.bz2
     printf '%s' "$sdkver" > sdkver
@@ -156,7 +169,7 @@ fi
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$x86_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$old_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
         cflags='-flto'
     fi
     rm -f "$workdir/testout"
@@ -185,8 +198,8 @@ for target in $targets; do
     arch="${target%%-*}"
     case $arch in
         (i386)
-            export REMCPE_SDK="$x86_sdk"
-            set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit'
+            export REMCPE_SDK="$old_sdk"
+            set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             platform='sdl1'
             sdl1ver=1
             if ! [ -f sdl1/lib/libSDL.a ] || [ "$(cat sdl1/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
@@ -225,7 +238,7 @@ for target in $targets; do
                     set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
                 ;;
                 (x86_64*)
-                    export REMCPE_SDK="$x86_sdk"
+                    export REMCPE_SDK="$x86_64_sdk"
                     set --
                 ;;
             esac
