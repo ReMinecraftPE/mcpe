@@ -29,6 +29,7 @@ private:
 	EquipmentSlot m_slot;
 	int m_defense;
 
+private:
 	static const int defensePerSlot[4];
 	static const int healthPerSlot[4];
 };
