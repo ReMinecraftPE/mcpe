@@ -464,18 +464,16 @@ void Gui::renderHeartsAndArmor(bool topLeft)
 	{
 		int heartY = heartYStart;
 
-		if (armor > 0) {
-			if (healthNo < armor) {
+		if (armor > 0)
+		{
+			if (healthNo < armor)
 				blit(armorX, heartY, 34, 9, 9, 9, 0, 0);
-			}
 
-			if (healthNo == armor) {
+			if (healthNo == armor)
 				blit(armorX, heartY, 25, 9, 9, 9, 0, 0);
-			}
 
-			if (healthNo > armor) {
+			if (healthNo > armor)
 				blit(armorX, heartY, 16, 9, 9, 9, 0, 0);
-			}
 		}
 
 		armorX -= 8;
