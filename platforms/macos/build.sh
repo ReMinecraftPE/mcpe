@@ -198,6 +198,7 @@ for target in $targets; do
     arch="${target%%-*}"
     case $arch in
         (i386)
+            export REMCPE_SDK="$old_sdk"
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit'
             platform='sdl1'
             sdl1ver=1
