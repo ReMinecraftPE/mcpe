@@ -5,8 +5,8 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
-# TODO: i386 and powerpc
-targets='i386-apple-macos10.6 x86_64-apple-macos10.6 arm64-apple-macos11.0'
+# TODO: powerpc
+targets='i386-apple-macos10.4 x86_64-apple-macos10.6 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
@@ -14,17 +14,18 @@ platformdir=$PWD
 
 workdir="$PWD/build/work"
 arm64_sdk="$workdir/arm64-mac-sdk"
-x86_sdk="$workdir/x86-mac-sdk"
+x86_64_sdk="$workdir/x86_64-mac-sdk"
+old_sdk="$workdir/old-mac-sdk"
 mkdir -p "$workdir"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
 sdkver=2
-if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
+if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
-    # for arm64
+    # for new stuff
     [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk"
     rm -f MacOSX11.0.sdk.tar.xz
     wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.0.sdk.tar.xz
@@ -32,15 +33,28 @@ if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     mv MacOSX11.0.sdk "$arm64_sdk"
     ) &
     (
-    # for x86
-    [ -d "$x86_sdk" ] && rm -rf "$x86_sdk"
-    rm -f MacOSX10.6.sdk.tar.xz
-    wget -q https://github.com/Un1q32/iphoneports-sdk/raw/refs/heads/master/MacOSX10.6.sdk.tar.xz
-    tar -xJf MacOSX10.6.sdk.tar.xz
-    mv x86_64-apple-darwin10 "$x86_sdk"
+    # for x86_64
+    [ -d "$x86_64_sdk" ] && rm -rf "$x86_64_sdk"
+    rm -f MacOSX10.6.tar.bz2
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.6/MacOSX10.6.tar.bz2
+    tar -xjf MacOSX10.6.tar.bz2 2>/dev/null
+    mv MacOSX10.6.sdk "$x86_64_sdk"
+    ) &
+    (
+    # for old stuff
+    [ -d "$old_sdk" ] && rm -rf "$old_sdk"
+    rm -f MacOSX10.5.sdk.tar.xz
+    wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.5.sdk.tar.xz
+    tar -xJf MacOSX10.5.sdk.tar.xz
+    mv MacOSX10.5.sdk "$old_sdk"
+    # patch the sdk to fix a bug
+    sed -e 's/^#if !__LP64__$//' -e 's/^#ifndef __SCSI__$/#if !__LP64__\n#ifndef __SCSI__/' \
+        "$old_sdk/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/OSServices.h" \
+        > OSServices.h
+    mv OSServices.h "$old_sdk/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers"
     )
     wait
-    rm ./*.tar.xz
+    rm ./*.tar.xz ./*.tar.bz2
     printf '%s' "$sdkver" > sdkver
     outdated_sdk=1
 fi
@@ -154,7 +168,7 @@ fi
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$x86_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$old_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
         cflags='-flto'
     fi
     rm -f "$workdir/testout"
@@ -183,7 +197,11 @@ for target in $targets; do
     arch="${target%%-*}"
     case $arch in
         (i386|x86_64*)
-            export REMCPE_SDK="$x86_sdk"
+            if [ "$arch" = 'i386' ]; then
+                export REMCPE_SDK="$old_sdk"
+            else
+                export REMCPE_SDK="$x86_64_sdk"
+            fi
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit'
             platform='sdl1'
             sdl1ver=1
@@ -200,10 +218,12 @@ for target in $targets; do
                     --host="$arch-apple-darwin" \
                     --prefix="${PWD%/*}/sdl1" \
                     --disable-shared \
+                    --disable-video-x11 \
                     CC="$platformdir/macos-cc" \
                     CXX="$platformdir/macos-c++" \
                     CFLAGS="-O2 $cflags" \
                     CXXFLAGS="-O2 $cflags" \
+                    CPPFLAGS='-D__DARWIN_UNIX03=1' \
                     AR="$ar" \
                     RANLIB="$ranlib"
                 make -j"$ncpus"
@@ -212,7 +232,7 @@ for target in $targets; do
                 printf '%s' "$sdl1ver" > sdl1/sdl1ver
                 rm -rf "SDL-1.2-$sdl1_commit"
             fi
-            cflags="$cflags -I$PWD/sdl1/include"
+            cflags="$cflags -I$PWD/sdl1/include -D__DARWIN_UNIX03=1"
         ;;
         (arm64*)
             export REMCPE_SDK="$arm64_sdk"
