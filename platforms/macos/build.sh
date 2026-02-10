@@ -25,7 +25,7 @@ sdkver=2
 if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
-    # for new stuff
+    # for arm64
     [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk"
     rm -f MacOSX11.0.sdk.tar.xz
     wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.0.sdk.tar.xz
