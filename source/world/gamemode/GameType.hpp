@@ -31,4 +31,19 @@ public:
 			return "Undefined";
 		}
 	}
+
+	static std::string GameTypeDescriptionToNonLocString(GameType type)
+	{
+		switch (type)
+		{
+		case GAME_TYPE_SURVIVAL:
+			return "Mobs, health and gather resources";
+		case GAME_TYPE_CREATIVE:
+			return "Unlimited resources and flying";
+		case GAME_TYPE_ADVENTURE:
+		case GAME_TYPE_SPECTATOR:
+		default:
+			return "";
+		}
+	}
 };
