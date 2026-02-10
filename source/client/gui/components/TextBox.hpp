@@ -24,7 +24,7 @@ private:
 	std::string m_text;
 
 public:
-	TextBox(Screen*, GuiElement::ID, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
+	TextBox(Screen*, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
 	~TextBox();
 
 protected:

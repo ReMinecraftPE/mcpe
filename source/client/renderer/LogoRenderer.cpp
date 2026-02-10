@@ -52,6 +52,11 @@ LogoRenderer::~LogoRenderer()
 void LogoRenderer::build(int width)
 {
 	m_width = width;
+	build();
+}
+
+void LogoRenderer::build()
+{
 	_build2dTitleMesh();
 }
 
@@ -68,10 +73,10 @@ void LogoRenderer::tick()
 
 void LogoRenderer::render(float f)
 {
-	if (m_pMinecraft->getOptions()->m_b2dTitleLogo.get())
-		render2D();
-	else
+	if (m_pMinecraft->getOptions()->getLogoType() == LOGO_3D)
 		render3D(f);
+	else
+		render2D();
 }
 
 void LogoRenderer::_initTextures()

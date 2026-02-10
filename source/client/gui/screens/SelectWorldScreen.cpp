@@ -14,17 +14,17 @@
 #include "common/Util.hpp"
 
 SelectWorldScreen::SelectWorldScreen() :
-	m_btnDelete   (1, "Delete"),
-	m_btnCreateNew(2, "Create New"),
-	m_btnBack     (3, "Back"),
-	m_btnWorld    (4, ""),
+	m_btnDelete   ("Delete"),
+	m_btnCreateNew("Create New"),
+	m_btnBack     ("Back"),
+	m_btnWorld    (""),
 	m_pWorldSelectionList(nullptr)
 {
-	m_bTabWrap = false;
 	m_btnDelete.setEnabled(false);
-	m_btnWorld.setVisible(false);
+	m_btnWorld.m_color.a = 0.0f;
 	field_12C = false;
 	field_130 = 0;
+	m_pSelectedElement = &m_btnWorld;
 }
 
 SelectWorldScreen::~SelectWorldScreen()
@@ -32,44 +32,19 @@ SelectWorldScreen::~SelectWorldScreen()
     SAFE_DELETE(m_pWorldSelectionList);
 }
 
-void SelectWorldScreen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)
+bool SelectWorldScreen::_areaNavigation(AreaNavigation::Direction dir)
 {
-	if (stickId == 1)
+	if (m_btnWorld.isSelected() && (dir == AreaNavigation::LEFT || dir == AreaNavigation::RIGHT))
 	{
-		switch (stickState)
-		{
-		case GameController::STICK_STATE_UP:
-			if (prevElementList())
-				_nextElement(); // skip to "Create New" button
-			break;
-		case GameController::STICK_STATE_DOWN:
-			if (nextElementList())
-				_nextElement(); // skip to "Create New" button
-			break;
-		case GameController::STICK_STATE_LEFT:
-			if (m_btnWorld.isSelected())
-			{
-				m_pWorldSelectionList->stepLeft();
-			}
-			else
-			{
-				prevElement();
-			}
-			break;
-		case GameController::STICK_STATE_RIGHT:
-			if (m_btnWorld.isSelected())
-			{
-				m_pWorldSelectionList->stepRight();
-			}
-			else
-			{
-				nextElement();
-			}
-			break;
-		default:
-			break;
-		}
+		if (dir == AreaNavigation::LEFT)
+			m_pWorldSelectionList->stepLeft();
+		else
+			m_pWorldSelectionList->stepRight();
+
+		return true;
 	}
+
+	return Screen::_areaNavigation(dir);
 }
 
 void SelectWorldScreen::init()
@@ -80,8 +55,6 @@ void SelectWorldScreen::init()
 	loadLevelSource();
 	m_pWorldSelectionList->commit();
 
-	m_btnWorld.setSelected(true);
-
 	m_btnDelete.m_yPos   = m_btnBack.m_yPos   = m_btnCreateNew.m_yPos   = m_height - 28;
 	m_btnDelete.m_width  = m_btnBack.m_width  = m_btnCreateNew.m_width  = 84;
 	m_btnDelete.m_height = m_btnBack.m_height = m_btnCreateNew.m_height = 24;
@@ -91,13 +64,9 @@ void SelectWorldScreen::init()
 	m_btnBack.m_xPos      = m_width / 2 + 46;
 
 	_addElement(m_btnWorld);
-
-	_addElementList();
-	_nextElementList();
-		_addElement(m_btnDelete);
-		_addElement(m_btnCreateNew);
-		_addElement(m_btnBack);
-	_prevElementList();
+	_addElement(m_btnDelete);
+	_addElement(m_btnCreateNew);
+	_addElement(m_btnBack);
 
 	field_12C = m_menuPointer.isPressed;
 }

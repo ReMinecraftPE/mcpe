@@ -18,7 +18,6 @@ public:
 	ChatScreen(bool slash = false);
 
 protected:
-	void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState) override;
 	void _buttonClicked(Button*) override;
 
 public:

@@ -33,6 +33,7 @@ public:
 	static float atan2(float y, float x);
 	static float cos(float);
 	static float clamp(float x, float min, float max);
+	static int clamp(int x, int min, int max);
 	static int floor(float);
 	static int round(float);
 	static void initMth();

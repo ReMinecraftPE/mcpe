@@ -17,6 +17,7 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 #include "CreditsScreen.hpp"
+#include "ConsoleSettingsScreen.hpp"
 
 // actual name
 const char* gSplashes[] =
@@ -366,11 +367,11 @@ const char* gSplashes[] =
 };
 
 StartMenuScreen::StartMenuScreen() :
-	m_startButton  (2,   0, 0, 160, 24, "Start Game"),
-	m_joinButton   (3,   0, 0, 160, 24, "Join Game"),
-	m_optionsButton(4,   0, 0,  78, 22, "Options"),
-	m_buyButton    (5,   0, 0,  78, 22, "Buy"),
-	m_creditsButton(6,   0, 0,  78, 22, "")
+	m_startButton  (0, 0, 160, 24, "Start Game"),
+	m_joinButton   (0, 0, 160, 24, "Join Game"),
+	m_optionsButton(0, 0,  78, 22, "Options"),
+	m_buyButton    (0, 0,  78, 22, "Buy"),
+	m_creditsButton(0, 0,  78, 22, "")
 {
 	m_chosenSplash = -1;
 
@@ -437,11 +438,19 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 	}
 	else if (pButton->getId() == m_optionsButton.getId())
 	{
-		m_pMinecraft->setScreen(new OptionsScreen(this));
+		switch (m_uiTheme)
+		{
+		case UI_CONSOLE:
+			m_pMinecraft->setScreen(new ConsoleSettingsScreen(this));
+			break;
+		default:
+			m_pMinecraft->setScreen(new OptionsScreen(this));
+			break;
+		}
 	}
 	else if (pButton->getId() == m_creditsButton.getId())
 	{
-		m_pMinecraft->setScreen(new CreditsScreen);
+		m_pMinecraft->setScreen(new CreditsScreen(this));
 	}
 }
 

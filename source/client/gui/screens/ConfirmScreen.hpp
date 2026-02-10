@@ -24,7 +24,7 @@ public:
 
 	virtual void postResult(bool b);
 
-private:
+protected:
 	Screen* m_pScreen;
 	int field_40;
 	std::string m_textLine1;

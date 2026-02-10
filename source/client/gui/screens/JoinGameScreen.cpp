@@ -12,9 +12,9 @@
 #include "StartMenuScreen.hpp"
 
 JoinGameScreen::JoinGameScreen() :
-	m_btnJoin(2, "Join Game"),
-	m_btnDirectConnect(3, "Direct Connect"),
-	m_btnBack(4, "Back"),
+	m_btnJoin("Join Game"),
+	m_btnDirectConnect("Direct Connect"),
+	m_btnBack("Back"),
 	m_pAvailableGamesList(nullptr)
 {
 }
@@ -22,24 +22,6 @@ JoinGameScreen::JoinGameScreen() :
 JoinGameScreen::~JoinGameScreen()
 {
 	SAFE_DELETE(m_pAvailableGamesList);
-}
-
-void JoinGameScreen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)
-{
-	if (stickId == 1)
-	{
-		switch (stickState)
-		{
-		case GameController::STICK_STATE_LEFT:
-			prevElement();
-			break;
-		case GameController::STICK_STATE_RIGHT:
-			nextElement();
-			break;
-		default:
-			break;
-		}
-	}
 }
 
 void JoinGameScreen::_buttonClicked(Button* pButton)

@@ -6,7 +6,7 @@
 class CreditsScreen : public Screen
 {
 public:
-	CreditsScreen();
+	CreditsScreen(Screen* parent);
 	~CreditsScreen();
 
 private:
@@ -25,5 +25,6 @@ public:
 	Button m_btnBack;
 
 private:
+	Screen* m_pParent;
 	std::vector<std::string> m_credits;
 };

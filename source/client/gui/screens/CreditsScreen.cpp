@@ -2,9 +2,11 @@
 #include "StartMenuScreen.hpp"
 #include "client/resources/Resource.hpp"
 
-CreditsScreen::CreditsScreen() :
-	m_btnBack(3, "Back")
+CreditsScreen::CreditsScreen(Screen* parent) :
+	m_pParent(parent),
+	m_btnBack("Back")
 {
+	m_bDeletePrevious = false;
 	_initCreditsText();
 }
 
@@ -36,8 +38,8 @@ void CreditsScreen::_initCreditsText()
 
 void CreditsScreen::init()
 {
-	m_btnBack.m_yPos   = m_height - 28;
-	m_btnBack.m_width  = 84;
+	m_btnBack.m_yPos = m_height - 28;
+	m_btnBack.m_width = 84;
 	m_btnBack.m_height = 24;
 
 	m_btnBack.m_xPos = m_width / 2 - m_btnBack.m_width / 2;
@@ -63,6 +65,8 @@ void CreditsScreen::tick()
 void CreditsScreen::render(float f)
 {
 	renderBackground();
+
+	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 
 	// Add dark background
 	Tesselator& t = Tesselator::instance;
@@ -101,12 +105,12 @@ bool CreditsScreen::handleBackEvent(bool b)
 	if (b)
 		return true;
 
-	m_pMinecraft->setScreen(new StartMenuScreen);
+	m_pMinecraft->setScreen(m_pParent);
 	return true;
 }
 
 void CreditsScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->getId() == m_btnBack.getId())
-		m_pMinecraft->setScreen(new StartMenuScreen);
+		handleBackEvent(false);
 }

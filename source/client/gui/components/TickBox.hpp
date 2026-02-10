@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Button.hpp"
+#include "../GuiElement.hpp"
 
-class SwitchButton : public Button
+class TickBox : public GuiElement
 {
 public:
-	SwitchButton(int x, int y, BoolOption*, const std::string&);
+	TickBox(int x, int y, BoolOption*, const std::string&);
 
 	void pressed(Minecraft*, const MenuPointer& pointer) override;
 	void pressed(Minecraft*) override;

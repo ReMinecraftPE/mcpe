@@ -12,19 +12,15 @@
 
 #ifndef OLD_OPTIONS_SCREEN
 
-#define MIN_CATEGORY_BUTTON_ID 1
-#define MAX_CATEGORY_BUTTON_ID 4
-#define BACK_BUTTON_ID 100
-
 OptionsScreen::OptionsScreen(Screen* parent) :
 	m_pParent(parent),
 	m_pList(nullptr),
 	m_currentCategory(OC_MIN),
-	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
-	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
-	m_gameplayButton(MIN_CATEGORY_BUTTON_ID + 2, "Gameplay"),
-	m_miscButton(MAX_CATEGORY_BUTTON_ID, "Misc"),
-	m_backButton(BACK_BUTTON_ID, "Done")
+	m_videoButton("Video"),
+	m_controlsButton("Controls"),
+	m_gameplayButton("Gameplay"),
+	m_miscButton("Misc"),
+	m_backButton("Done")
 {
 	m_bRenderPointer = true;
 	m_bDeletePrevious = false;
@@ -33,7 +29,6 @@ OptionsScreen::OptionsScreen(Screen* parent) :
 OptionsScreen::~OptionsScreen()
 {
 	SAFE_DELETE(m_pList);
-	SAFE_DELETE(m_pParent);
 }
 
 bool OptionsScreen::_nextTab()
@@ -122,9 +117,9 @@ void OptionsScreen::removed()
 }
 void OptionsScreen::setCategory(OptionsCategory category)
 {
-	_getInternalElement(m_currentCategory)->setEnabled(true);
+	_getElement(m_currentCategory)->setEnabled(true);
 	m_currentCategory = category;
-	_getInternalElement(m_currentCategory)->setEnabled(false);
+	_getElement(m_currentCategory)->setEnabled(false);
 	m_pList->clear();
 
 	switch (category)
@@ -148,14 +143,16 @@ void OptionsScreen::setCategory(OptionsCategory category)
 
 void OptionsScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->getId() >= MIN_CATEGORY_BUTTON_ID && pButton->getId() <= MAX_CATEGORY_BUTTON_ID)
-	{
-		setCategory((OptionsCategory)(pButton->getId() - MIN_CATEGORY_BUTTON_ID));
-	}
-	else if (pButton->getId() == BACK_BUTTON_ID)
-	{
+	if (pButton->getId() == m_videoButton.getId())
+		setCategory(OC_VIDEO);
+	if (pButton->getId() == m_controlsButton.getId())
+		setCategory(OC_CONTROLS);
+	if (pButton->getId() == m_gameplayButton.getId())
+		setCategory(OC_GAMEPLAY);
+	if (pButton->getId() == m_miscButton.getId())
+		setCategory(OC_MISCELLANEOUS);
+	else if (pButton->getId() == m_backButton.getId())
 		handleBackEvent(false);
-	}
 }
 
 bool OptionsScreen::handleBackEvent(bool b)

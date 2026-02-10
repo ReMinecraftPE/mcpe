@@ -20,7 +20,7 @@ static bool IsInvalidCharacter(char c)
 	return c == '\n' || c < ' ' || c > '~';
 }
 
-TextBox::TextBox(Screen* parent, GuiElement::ID id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text) : GuiElement(id)
+TextBox::TextBox(Screen* parent, int x, int y, int width, int height, const std::string& placeholder, const std::string& text) : GuiElement()
 {
 	m_xPos = x;
 	m_yPos = y;
@@ -82,7 +82,7 @@ void TextBox::init(Font* pFont)
 
 bool TextBox::pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
-	bool result = _clicked(pointer);
+	bool result = _isHovered(pointer);
 	setFocused(result);
 	if (result)
 	{

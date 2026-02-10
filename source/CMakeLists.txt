@@ -110,6 +110,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/IngameBlockSelectionScreen.cpp
     client/gui/screens/PauseScreen.cpp
     client/gui/screens/DeathScreen.cpp
+    client/gui/screens/ConsoleSettingsScreen.cpp
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp
     client/gui/screens/inventory/CraftingScreen.cpp
@@ -123,13 +124,17 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/SliderButton.cpp
     client/gui/components/SwitchButton.cpp
     client/gui/components/SwitchValuesButton.cpp
+    client/gui/components/TickBox.cpp
     client/gui/components/WorldSelectionList.cpp
     client/gui/components/OptionList.cpp
+    client/gui/components/ConsoleScrollRenderer.cpp
     client/locale/Language.cpp
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
     client/gui/GuiElement.cpp
     client/gui/MenuPointer.cpp
+    client/gui/VerticalLayout.cpp
+    client/gui/AreaNavigation.cpp
     client/model/geom/PolygonQuad.cpp
     client/model/geom/Cube.cpp
     client/model/geom/ModelPart.cpp

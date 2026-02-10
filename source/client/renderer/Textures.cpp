@@ -156,9 +156,15 @@ Textures::Textures() :
 	addSprite("consolegui/Graphics/Arrow_Small_Off.png", m_guiAtlas);
 	addSprite("consolegui/Graphics/MainMenuButton_Norm.png", m_filteredGuiAtlas);
 	addSprite("consolegui/Graphics/MainMenuButton_Over.png", m_filteredGuiAtlas);
-	addSprite("consolegui/scrolldown.png", m_guiAtlas);
-	addSprite("consolegui/scrollup.png", m_guiAtlas);
+	addSprite("consolegui/Graphics/Tickbox_Norm.png", m_guiAtlas);
+	addSprite("consolegui/Graphics/Tickbox_Over.png", m_guiAtlas);
+	addSprite("consolegui/Graphics/Tick.png", m_guiAtlas);
+	addSprite("consolegui/Graphics/Slider_Track.png", m_guiAtlas);
+	addSprite("consolegui/Graphics/Slider_Button.png", m_guiAtlas);
+	addSprite("consolegui/scrollDown.png", m_guiAtlas);
+	addSprite("consolegui/scrollUp.png", m_guiAtlas);
 	addSprite("gui/container/entity_slot.png", m_guiAtlas);
+	addSprite("gui/slider_highlight.png", m_guiAtlas);
 	//addSprite("gui/loading_bar.png", m_guiAtlas);
 	//addSprite("gui/loading_background.png", m_guiAtlas);
 

@@ -8,18 +8,19 @@
 
 #include "PauseScreen.hpp"
 #include "OptionsScreen.hpp"
+#include "ConsoleSettingsScreen.hpp"
 #include "server/ServerSideNetworkHandler.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
 PauseScreen::PauseScreen() :
 	//m_oPos(0),
 	field_40(0),
-	m_btnBack(1, "Back to game"),
-	m_btnQuit(2, "Quit to title"),
-	m_btnQuitAndCopy(3, "Quit and copy map"),
-	m_btnVisible(4, "")
+	m_btnBack("Back to game"),
+	m_btnQuit("Quit to title"),
+	m_btnQuitAndCopy("Quit and copy map"),
+	m_btnVisible("")
 #ifdef ENH_ADD_OPTIONS_PAUSE
-	, m_btnOptions(999, "Options")
+	, m_btnOptions("Options")
 #endif
 {
 }
@@ -141,6 +142,16 @@ void PauseScreen::_buttonClicked(Button* pButton)
 
 #ifdef ENH_ADD_OPTIONS_PAUSE
 	if (pButton->getId() == m_btnOptions.getId())
-		m_pMinecraft->setScreen(new OptionsScreen(this));
+	{
+		switch (m_uiTheme)
+		{
+		case UI_CONSOLE:
+			m_pMinecraft->setScreen(new ConsoleSettingsScreen(this));
+			break;
+		default:
+			m_pMinecraft->setScreen(new OptionsScreen(this));
+			break;
+		}
+	}
 #endif
 }

@@ -149,12 +149,12 @@ void Font::drawOutlinedString(const std::string& str, int x, int y, const Color&
 	drawScalable(str, x, y, color, scale, false);
 }
 
-void Font::drawWordWrap(const std::string& str, int x, int y, int color, int width, int lineHeight, bool shadow, bool isConsole)
+void Font::drawWordWrap(const std::string& str, int x, int y, const Color& color, int width, int lineHeight, bool shadow, bool isConsole)
 {
 	drawWordWrap(split(str, width), x, y, color, lineHeight, shadow, isConsole);
 }
 
-void Font::drawWordWrap(const std::vector<std::string>& lines, int x, int y, int color, int lineHeight, bool shadow, bool isConsole)
+void Font::drawWordWrap(const std::vector<std::string>& lines, int x, int y, const Color& color, int lineHeight, bool shadow, bool isConsole)
 {
 	for (std::vector<std::string>::const_iterator it = lines.begin(); it != lines.end(); ++it)
 	{

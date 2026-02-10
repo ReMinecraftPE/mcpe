@@ -121,7 +121,7 @@ void OptionList::onClickItem(int index, const MenuPointer& pointer, int relMouse
 		
 		Button* button = ((Button*)pItem);
 
-		if (!button->clicked(m_pMinecraft, pointer)) return;
+		if (!button->isHovered(m_pMinecraft, pointer)) return;
 
 		button->pressed(m_pMinecraft, pointer);
 	}
@@ -144,8 +144,8 @@ void OptionList::initDefaultMenu()
 	initVideoMenu();
 }
 
-#define HEADER(text) do { m_items.push_back(new OptionHeader(0, text)); currentIndex++; } while (0)
-#define OPTION(name) do { pOptions->name.addGuiElement(m_items, pOptions->name.getName()); currentIndex++; } while (0)
+#define HEADER(text) do { m_items.push_back(new OptionHeader(text)); currentIndex++; } while (0)
+#define OPTION(name) do { pOptions->name.addGuiElement(m_items, UI_POCKET); currentIndex++; } while (0)
 
 void OptionList::initVideoMenu()
 {
@@ -213,7 +213,6 @@ void OptionList::initMiscMenu()
 
 	OPTION(m_debugText);
 	OPTION(m_logoType);
-	OPTION(m_b2dTitleLogo);
 #ifdef ENH_MENU_BACKGROUND
 	OPTION(m_menuPanorama); idxPano = currentIndex;
 #endif
@@ -224,8 +223,8 @@ void OptionList::initMiscMenu()
 #endif
 }
 
-OptionHeader::OptionHeader(GuiElement::ID id, const std::string& text)
-	: GuiElement(id)
+OptionHeader::OptionHeader(const std::string& text)
+	: GuiElement()
 	, m_text(text)
 {
 }

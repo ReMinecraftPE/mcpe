@@ -18,11 +18,12 @@
 #include "client/player/input/GameController.hpp"
 #include "GuiElement.hpp"
 #include "MenuPointer.hpp"
+#include "AreaNavigation.hpp"
 
 class Button;
+class VerticalLayout;
 
 typedef std::vector<GuiElement*> GuiElementList;
-typedef std::map<GuiElement::ID, GuiElement*> GuiElementMap;
 
 class Screen : public GuiComponent
 {
@@ -54,23 +55,13 @@ public:
 	virtual ~Screen();
 
 protected:
-	bool _nextElement();
-	bool _prevElement();
-	void _addElement(GuiElement& element, bool isTabbable = true);
-	void _addElementToList(unsigned int index, GuiElement& element, bool isTabbable = true);
-	bool _nextElementList();
-	bool _prevElementList();
-	void _addElementList();
+	void _addElement(GuiElement& element, bool navigable = true);
 	void _selectCurrentElement();
 	void _deselectCurrentElement();
 	void _playSelectSound();
 	void _renderPointer();
-	GuiElement* _getInternalElement(unsigned int index); // returns any element
-	GuiElement* _getElementByIndex(unsigned int index); // only returns tabbable element
-	GuiElement* _getElementById(GuiElement::ID id); // returns any element
+	GuiElement* _getElement(GuiElement::ID id); // returns any element
 	GuiElement* _getSelectedElement();
-	GuiElementList& _getElementList(unsigned int index);
-	GuiElementList& _getElementList();
 	bool _useController() const;
 
 public:
@@ -78,11 +69,8 @@ public:
 	void setSize(int width, int height);
 	void onRender(float f);
 	bool onBack(bool b);
-	bool selectElement(GuiElement::ID id);
-	bool prevElement();
-	bool nextElement();
-	bool nextElementList();
-	bool prevElementList();
+	bool selectElement(AreaNavigation::ID id);
+	void selectElement(GuiElement*);
 	bool nextTab();
 	bool prevTab();
 	int getYOffset();
@@ -91,6 +79,7 @@ public:
 	void controllerEvent(GameController::StickID stickId, double deltaTime = 0.0);
 
 protected:
+	virtual bool _areaNavigation(AreaNavigation::Direction);
 	virtual void _processControllerDirection(GameController::StickID stickId);
 	virtual void _controllerDirectionChanged(GameController::StickID stickId, GameController::StickState stickState);
 	virtual void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState);
@@ -136,8 +125,8 @@ public:
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);
-	void renderLegacyPanorama(bool isNight);
-	void renderLegacyPanorama();
+	void renderConsolePanorama(bool isNight);
+	void renderConsolePanorama();
 
 protected:
 	Materials m_screenMaterials;
@@ -145,6 +134,21 @@ protected:
 	bool m_bLastPointerPressedState;
 
 public:
+	friend class VerticalLayout;
+
+	class Navigation : public AreaNavigation
+	{
+	public:
+		Navigation(Screen*);
+
+		bool next(int& x, int& y, bool invert) override;
+
+		bool isValid(ID) override;
+
+	private:
+		Screen* m_pScreen;
+	};
+
 	int m_width;
 	int m_height;
 	bool m_bPassEvents;
@@ -152,13 +156,9 @@ public:
 	bool m_bDeletePrevious;
 	Minecraft* m_pMinecraft;
 	GuiElementList m_elements;
-	GuiElementMap m_elementsById;
-	std::vector<GuiElementList> m_elementTabLists; 
-	unsigned int m_elementListIndex;
-	unsigned int m_elementIndex;
-	bool m_bTabWrap;
+	GuiElement* m_pSelectedElement;
 	Font* m_pFont;
-	Button* m_pClickedButton;
+	GuiElement* m_pClickedElement;
 	UITheme m_uiTheme;
 
 #ifndef ORIGINAL_CODE

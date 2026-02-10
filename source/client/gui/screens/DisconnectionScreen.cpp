@@ -11,7 +11,7 @@
 
 DisconnectionScreen::DisconnectionScreen(const std::string& text) :
 	m_text(text),
-	m_btnOK    (0, 0, 0, "OK")
+	m_btnOK    (0, 0, "OK")
 {
 }
 

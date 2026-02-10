@@ -1,18 +1,17 @@
 #pragma once
 
 #include "client/gui/Screen.hpp"
+#include "client/gui/IntRectangle.hpp"
 #include "world/inventory/ContainerMenu.hpp"
 #include "world/inventory/Slot.hpp"
 
-struct SlotDisplay
+struct SlotDisplay : IntRectangle
 {
-    int x, y, size, noItemIcon;
+    int size, noItemIcon;
     std::string noItemSprite;
     bool bVisible, bIconHolder;
 
     SlotDisplay() :
-        x(0),
-        y(0),
         size(0),
         noItemIcon(-1),
         noItemSprite(""),
@@ -22,36 +21,28 @@ struct SlotDisplay
     }
 
     SlotDisplay(int x, int y, int size = 18, bool iconHolder = false, int noItemIcon = -1, const std::string& noItemSprite = "") :
-        x(x),
-        y(y),
         size(size),
         noItemIcon(noItemIcon),
         noItemSprite(noItemSprite),
         bVisible(true),
         bIconHolder(iconHolder)
     {
+        this->x = x;
+        this->y = y;
+        this->w = size;
+        this->h = size;
     }
 };
 
 class ContainerScreen : public Screen
 {
 public:
-    //@TODO: Make this be used for other elements other than slots
-    enum ScreenDirection
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    };
-
     ContainerScreen(ContainerMenu* menu);
 
 private:
     void _renderSlot(Slot& slot);
     Slot* _findSlot();
     Slot* _findSlot(int mouseX, int mouseY);
-    Slot* _findSlotInDirection(ScreenDirection dir, bool invert = false);
     bool _isHovering(const Slot& slot) const;
     bool _isHovering(const Slot& slot, int mouseX, int mouseY) const;
 
@@ -62,7 +53,7 @@ protected:
     virtual void _playInteractSound();
     virtual void _tryPlayInteractSound();
     virtual void _selectSlot(Slot*);
-    virtual bool _selectSlotInDirection(ScreenDirection dir);
+    virtual bool _selectSlotInDirection(AreaNavigation::Direction dir);
     virtual void _controllerDirectionChanged(GameController::StickID stickId, GameController::StickState stickState) override;
 
 public:
@@ -86,6 +77,19 @@ public:
     void slotClicked(const MenuPointer& pointer, MouseButtonType button);
 
 public:
+    class SlotNavigation : public AreaNavigation
+    {
+    public:
+        SlotNavigation(ContainerScreen*);
+
+        bool next(int& x, int& y, bool cycle) override;
+
+        bool isValid(ID) override;
+
+    private:
+        ContainerScreen* m_pScreen;
+    };
+
     ContainerMenu* m_pMenu;
 
 protected:

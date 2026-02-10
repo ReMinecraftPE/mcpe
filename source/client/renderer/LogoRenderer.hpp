@@ -38,6 +38,7 @@ public:
     void init(Minecraft*);
 
     void build(int width);
+    void build();
 
     void tick();
 

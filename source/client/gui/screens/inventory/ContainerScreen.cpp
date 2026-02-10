@@ -71,76 +71,6 @@ Slot* ContainerScreen::_findSlot(int mouseX, int mouseY)
     return nullptr;
 }
 
-Slot* ContainerScreen::_findSlotInDirection(ScreenDirection dir, bool invert)
-{
-    if (m_slotDisplays.empty()) return nullptr;
-
-    float bestScore = FLT_MAX;
-    Slot* nearestSlot = nullptr;
-    Slot* hovered = _findSlot();
-
-    MenuPointer pointer = m_menuPointer;
-
-    float dirX = 0, dirY = 0;
-    switch (dir)
-    {
-    case UP:    dirY = -1; break;
-    case DOWN:  dirY = 1; break;
-    case LEFT:  dirX = -1; break;
-    case RIGHT: dirX = 1; break;
-    default: return nullptr;
-    }
-    
-    if (invert)
-    {
-        if (dirX) pointer.x = dirX < 0 ? m_width : 0;
-        else if (dirY) pointer.y = dirY < 0 ? m_height : 0;
-    }
-
-    for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
-    {
-        constexpr float maxAngle = 75.0f;
-        constexpr float penalty = 1.5f;
-        
-        Slot* slot = *it;
-        if (slot == hovered) continue;
-
-        const SlotDisplay& display = getSlotDisplay(*slot);
-
-        if (!display.bVisible) continue;
-
-        float off = 3 * display.size / 50.0f;
-        float tx = (m_leftPos + display.x - off + display.size / 2) - pointer.x;
-        float ty = (m_topPos + display.y - off + display.size / 2) - pointer.y;
-
-        float distance = Mth::sqrt(tx * tx + ty * ty);
-        if (distance < 1e-4f) continue;
-
-        float len = distance;
-        float nx = tx / len;
-        float ny = ty / len;
-
-        float cosTheta = nx * dirX + ny * dirY;
-
-        if (cosTheta < Mth::cos(maxAngle * M_PI / 180.0f))
-            continue;
-
-        float projectedDist = distance * cosTheta;
-
-        float lateralPenalty = distance * Mth::sqrt(1.0f - cosTheta * cosTheta) * penalty;
-
-        float score = projectedDist + lateralPenalty;
-
-        if (score < bestScore)
-        {
-            bestScore = score;
-            nearestSlot = slot;
-        }
-    }
-
-    return nearestSlot;
-}
-
 bool ContainerScreen::_isHovering(const Slot& slot) const
 {
     return _isHovering(slot, m_menuPointer.x, m_menuPointer.y);
@@ -176,15 +106,13 @@ void ContainerScreen::_selectSlot(Slot* slot)
     handlePointerLocation(m_leftPos + display.x - off + display.size / 2, m_topPos + display.y - off + display.size / 2);
 }
 
-bool ContainerScreen::_selectSlotInDirection(ScreenDirection dir)
+bool ContainerScreen::_selectSlotInDirection(AreaNavigation::Direction dir)
 {
-    Slot* toSelect = _findSlotInDirection(dir);
-    if (!toSelect)
-        toSelect = _findSlotInDirection(dir, true);
+    AreaNavigation::ID found = SlotNavigation(this).navigateCyclic(dir, m_menuPointer.x, m_menuPointer.y);
 
-    if (toSelect)
+    if (found >= 0)
     {
-        _selectSlot(toSelect);
+        _selectSlot(m_pMenu->getSlot(found));
         return true;
     }
 
@@ -356,7 +284,7 @@ void ContainerScreen::slotClicked(const MenuPointer& pointer, MouseButtonType bu
 
 void ContainerScreen::keyPressed(int keyCode)
 {
-    if (m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
+    if (m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode) && !_useController())
     {
         m_pMinecraft->handleBack(false);
     }
@@ -371,10 +299,10 @@ void ContainerScreen::keyPressed(int keyCode)
     else
     {
         if (_useController() &&
-                ((m_pMinecraft->getOptions()->isKey(KM_MENU_UP, keyCode) && _selectSlotInDirection(UP)) ||
-                (m_pMinecraft->getOptions()->isKey(KM_MENU_DOWN, keyCode) && _selectSlotInDirection(DOWN)) ||
-                (m_pMinecraft->getOptions()->isKey(KM_MENU_RIGHT, keyCode) && _selectSlotInDirection(RIGHT)) ||
-                (m_pMinecraft->getOptions()->isKey(KM_MENU_LEFT, keyCode) && _selectSlotInDirection(LEFT))))
+                ((m_pMinecraft->getOptions()->isKey(KM_MENU_UP, keyCode) && _selectSlotInDirection(AreaNavigation::UP)) ||
+                (m_pMinecraft->getOptions()->isKey(KM_MENU_DOWN, keyCode) && _selectSlotInDirection(AreaNavigation::DOWN)) ||
+                (m_pMinecraft->getOptions()->isKey(KM_MENU_RIGHT, keyCode) && _selectSlotInDirection(AreaNavigation::RIGHT)) ||
+                (m_pMinecraft->getOptions()->isKey(KM_MENU_LEFT, keyCode) && _selectSlotInDirection(AreaNavigation::LEFT))))
         {
             _playSelectSound();
             return;
@@ -409,4 +337,34 @@ void ContainerScreen::slotsChanged(Container* container)
 bool ContainerScreen::isPauseScreen()
 {
     return false;
+}
+
+ContainerScreen::SlotNavigation::SlotNavigation(ContainerScreen* screen) : m_pScreen(screen)
+{
+    m_area.w = screen->m_width;
+    m_area.h = screen->m_height;
+}
+
+bool ContainerScreen::SlotNavigation::next(int& x, int& y, bool cycle)
+{
+    while (++m_index < int(m_pScreen->m_slotDisplays.size()))
+    {
+        const SlotDisplay& display = m_pScreen->m_slotDisplays[m_index];
+
+        if (!display.bVisible || !(cycle || isValid(m_index))) continue;
+
+        int off = 3 * display.size / 50;
+        x = m_pScreen->m_leftPos + display.x - off + display.size / 2;
+        y = m_pScreen->m_topPos + display.y - off + display.size / 2;
+
+        return true;
+    }
+
+    return false;
+}
+
+bool ContainerScreen::SlotNavigation::isValid(ID id)
+{
+    Slot* hovered = m_pScreen->_findSlot();
+    return !hovered || hovered->m_index != id;
 }

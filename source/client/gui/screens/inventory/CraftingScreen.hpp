@@ -14,11 +14,11 @@ protected:
     SlotDisplay _createSlotDisplay(const Slot&);
 };
 
-class ConsoleCraftingScreen : public ContainerScreen
+class ConsoleClassicCraftingScreen : public ContainerScreen
 {
 
 public:
-    ConsoleCraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level);
+    ConsoleClassicCraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level);
 
     virtual void init() override;
     virtual void renderBackground() override;

@@ -27,6 +27,7 @@
 #include "client/gui/components/SliderButton.hpp"
 #include "client/gui/components/SwitchButton.hpp"
 #include "client/gui/components/SwitchValuesButton.hpp"
+#include "client/gui/components/Tickbox.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
 
@@ -80,12 +81,11 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_splitControls("ctrl_split", "options.splitControls", false)
 	, m_bUseController("ctrl_usecontroller", "options.useController", false)
 	, m_dynamicHand("gfx_dynamichand", "options.dynamicHand", false)
-	, m_b2dTitleLogo("misc_oldtitle", "options.2dTitleLogo", false)
 	, m_menuPanorama("misc_menupano", "options.menuPanorama", true)
 	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
 	, m_lang("gfx_lang", "options.lang", "en_us")
 	, m_uiTheme("gfx_uitheme", "options.uiTheme", m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA, ValuesBuilder().add("options.uiTheme.pocket").add("options.uiTheme.java").add("options.uiTheme.console"))
-	, m_logoType("gfx_logotype", "options.logoType", LOGO_AUTO, ValuesBuilder().add("options.logoType.auto").add("options.logoType.pocket").add("options.logoType.java").add("options.logoType.console").add("options.logoType.xbox360"))
+	, m_logoType("gfx_logotype", "options.logoType", LOGO_AUTO, ValuesBuilder().add("options.logoType.auto").add("options.logoType.pocket").add("options.logoType.java").add("options.logoType.console").add("options.logoType.xbox360").add("options.logoType.logo3d"))
 	, m_hudSize("gfx_hudsize", "options.hudSize", HUD_SIZE_2)
 	, m_classicCrafting("gfx_classiccrafting", "options.classicCrafting", true)
 	//, m_limitFramerate("gfx_fpslimit", "options.framerateLimit", 0, ValuesBuilder().add(performance.max").add("performance.balanced").add("performance.powersaver"))
@@ -114,7 +114,6 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	add(m_blockOutlines);
 	add(m_dynamicHand);
 	add(m_menuPanorama);
-	add(m_b2dTitleLogo);
 	add(m_thirdPerson);
 	add(m_hideGui);
 	add(m_playerName);
@@ -140,6 +139,8 @@ void Options::_load()
 {
 	std::vector<std::string> strings = readPropertiesFromFile(m_filePath);
 
+	bool logo3d = false;
+
 	for (size_t i = 0; i < strings.size(); i += 2)
 	{
 		std::string key = strings[i], value = strings[i + 1];
@@ -147,9 +148,14 @@ void Options::_load()
 		std::map<std::string, OptionEntry*>::iterator opt = m_options.find(key);
 		if (opt != m_options.end())
 			opt->second->load(value);
+		else if (key == "misc_oldtitle")
+			logo3d = !readBool(value);
 		else if (key == "gfx_resourcepacks")
 			readPackArray(value, m_resourcePacks);
 	}
+
+	if (logo3d)
+		m_logoType.set(LOGO_3D);
 }
 
 AsyncTask Options::_saveAsync()
@@ -593,6 +599,14 @@ void Options::loadControls()
 	}
 }
 
+void Options::reset()
+{
+	for (std::map<std::string, OptionEntry*>::iterator it = m_options.begin(); it != m_options.end(); ++it)
+	{
+		it->second->reset();
+	}
+}
+
 UITheme Options::getUITheme() const
 {
 	return UITheme(m_uiTheme.get());
@@ -631,9 +645,9 @@ void Options::initResourceDependentOptions()
 		m_menuPanorama.set(false);
 }
 
-const std::string& OptionEntry::getName() const
+const std::string& OptionEntry::getDisplayName() const
 {
-	return Language::get(m_name);
+	return Language::get(getName());
 }
 
 std::string OptionEntry::getDisplayValue() const
@@ -645,12 +659,12 @@ std::string OptionEntry::getDisplayValue() const
 
 std::string OptionEntry::getMessage() const
 {
-	return Util::format(Language::get("options.value").c_str(), getName().c_str(), getDisplayValue().c_str());
+	return Util::format(Language::get("options.value").c_str(), getDisplayName().c_str(), getDisplayValue().c_str());
 }
 
-void OptionEntry::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+void OptionEntry::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiTheme)
 {
-	elements.push_back(new SmallButton(0, 0, 0, this, text));
+	elements.push_back(new SmallButton(0, 0, this, getMessage()));
 }
 
 void AOOption::apply()
@@ -675,9 +689,9 @@ std::string FloatOption::getDisplayValue() const
 	return get() == 0.0f ? Language::get("options.off") : Options::saveInt(get() * 100) + "%";
 }
 
-void FloatOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+void FloatOption::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiTheme)
 {
-	elements.push_back(new SliderButton(0, 0, 0, this, getMessage(), get()));
+	elements.push_back(new SliderButton(0, 0, 200, uiTheme == UI_CONSOLE ? 32 : 20, this, getMessage(), toFloat()));
 }
 
 void BoolOption::load(const std::string& value)
@@ -695,14 +709,25 @@ std::string BoolOption::getDisplayValue() const
 	return Language::get(get() ? "options.on" : "options.off");
 }
 
-void BoolOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+void BoolOption::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiTheme)
 {
-	elements.push_back(new SwitchButton(0, 0, 0, this, text));
+	if (uiTheme == UI_CONSOLE)
+		elements.push_back(new TickBox(0, 0, this, getDisplayName()));
+	else
+		elements.push_back(new SwitchButton(0, 0, this, getDisplayName()));
 }
 
-void ValuesOption::addGuiElement(std::vector<GuiElement*>& elements, const std::string& text)
+std::string ValuesOption::getDisplayValue() const
 {
-	elements.push_back(new SwitchValuesButton(0, 0, 0, this, text));
+	return Language::get(getValue());
+}
+
+void MinMaxOption::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiTheme)
+{
+	if (uiTheme == UI_CONSOLE)
+		elements.push_back(new SliderButton(0, 0, 200, 32, this, getMessage(), toFloat()));
+	else
+		elements.push_back(new SwitchValuesButton(0, 0, this, getDisplayName()));
 }
 
 void GraphicsOption::apply()
@@ -726,18 +751,16 @@ void IntOption::load(const std::string& value)
 	set(Options::readInt(value));
 }
 
-std::string HUDSizeOption::getDisplayValue() const
-{
-	return Options::saveInt(get() - 1);
-}
-
-void HUDSizeOption::toggle()
-{
-	set(Mth::Max(2, (get() % HUD_SIZE_3) + 1));
-}
-
 void LogoTypeOption::apply()
 {
 	if (m_pMinecraft->getOptions())
+	{
 		LogoRenderer::singleton().init(m_pMinecraft);
+		LogoRenderer::singleton().build();
+	}
+}
+
+std::string HUDSizeOption::getDisplayValue() const
+{
+	return Options::saveInt(get() - 1);
 }

@@ -65,7 +65,7 @@ void ProgressScreen::render(float f)
 			}
 		}
 
-		std::string header = Language::get("legacy.initializing");
+		std::string header = Language::get("loading.initializing");
 
 		m_pFont->drawOutlinedString(header, (m_width - m_pFont->width(header) * 4) / 2, loadingBarY - 105, Color::WHITE, Color::BLACK);
 

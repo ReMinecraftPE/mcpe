@@ -18,10 +18,10 @@
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
 IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
-	m_btnPause(0, "\xF0"), // 3 lined bars
-	m_btnChat(1, "\x01\x27"), // face and comma
-	m_btnCraft(2, "Craft"),
-	m_btnArmor(3, "Armor")
+	m_btnPause("\xF0"), // 3 lined bars
+	m_btnChat("\x01\x27"), // face and comma
+	m_btnCraft("Craft"),
+	m_btnArmor("Armor")
 {
 	m_bRenderPointer = true;
 	m_selectedSlot = 0;
@@ -325,12 +325,12 @@ void IngameBlockSelectionScreen::pointerReleased(const MenuPointer& pointer, Mou
 
 	for (unsigned int i = 0; i < m_elements.size(); i++)
 	{
-		GuiElement* element = _getInternalElement(i);
+		GuiElement* element = _getElement(i);
 		if (element->getType() != GuiElement::TYPE_BUTTON)
 			continue;
 
 		Button* btn = (Button*)element;
-		if (btn->clicked(m_pMinecraft, pointer))
+		if (btn->isHovered(m_pMinecraft, pointer))
 			return;
 	}
 	

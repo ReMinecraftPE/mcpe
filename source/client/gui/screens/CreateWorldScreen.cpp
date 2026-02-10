@@ -14,10 +14,10 @@
 static char g_CreateWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':' };
 
 CreateWorldScreen::CreateWorldScreen() :
-	m_textName(this, 1, 0, 0, 0, 0, "", "Unnamed world"),
-	m_textSeed(this, 2, 0, 0, 0, 0, ""),
-	m_btnBack(3, "Cancel"),
-	m_btnCreate(4, "Create New World")
+	m_textName(this, 0, 0, 0, 0, "", "Unnamed world"),
+	m_textSeed(this, 0, 0, 0, 0, ""),
+	m_btnBack("Cancel"),
+	m_btnCreate("Create New World")
 {
 }
 

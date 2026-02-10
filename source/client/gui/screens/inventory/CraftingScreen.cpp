@@ -42,24 +42,24 @@ SlotDisplay CraftingScreen::_createSlotDisplay(const Slot& slot)
     }
 }
 
-ConsoleCraftingScreen::ConsoleCraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level) :
+ConsoleClassicCraftingScreen::ConsoleClassicCraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level) :
     ContainerScreen(new CraftingMenu(inventory, tilePos, level))
 {
     m_uiTheme = UI_CONSOLE;
 }
 
-void ConsoleCraftingScreen::init()
+void ConsoleClassicCraftingScreen::init()
 {
     m_imageWidth = 428;
     m_imageHeight = 450;
     ContainerScreen::init();
 }
 
-void ConsoleCraftingScreen::renderBackground()
+void ConsoleClassicCraftingScreen::renderBackground()
 {
 }
 
-void ConsoleCraftingScreen::_renderLabels()
+void ConsoleClassicCraftingScreen::_renderLabels()
 {
     CraftingMenu* craftingMenu = (CraftingMenu*)m_pMenu;
 
@@ -67,14 +67,14 @@ void ConsoleCraftingScreen::_renderLabels()
     m_pFont->drawScalable(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 28, 213, Color::GREY_TEXT);
 }
 
-void ConsoleCraftingScreen::_renderBg(float partialTick)
+void ConsoleClassicCraftingScreen::_renderBg(float partialTick)
 {
     currentShaderColor = Color::WHITE;
     blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_SLICES, m_leftPos, m_topPos, m_imageWidth, m_imageHeight, 32);
     blitSprite(*m_pMinecraft->m_pTextures, "consolegui/Graphics/Arrow_Off.png", m_leftPos + 206, m_topPos + 100, 72, 48);
 }
 
-SlotDisplay ConsoleCraftingScreen::_createSlotDisplay(const Slot& slot)
+SlotDisplay ConsoleClassicCraftingScreen::_createSlotDisplay(const Slot& slot)
 {
     constexpr int slotSize = 42;
     switch (slot.m_group)
