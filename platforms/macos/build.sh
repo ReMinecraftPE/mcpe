@@ -33,7 +33,7 @@ if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     mv MacOSX11.3.sdk "$arm64_sdk"
     ) &
     (
-    # for x86_64
+    # for x86
     [ -d "$x86_sdk" ] && rm -rf "$x86_sdk" &
     rm -f MacOSX10.9.tar.bz2
     wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.9/MacOSX10.9.tar.bz2
