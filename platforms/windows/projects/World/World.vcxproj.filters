@@ -155,6 +155,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\FoodItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\item\ItemStack.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
