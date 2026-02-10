@@ -55,7 +55,7 @@ if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "
     patch -p1 < "$platformdir/leopard-sdk-fix.patch"
     )
     wait
-    rm ./*.tar.bz2
+    rm ./*.tar.bz2 ./*.tar.xz
     printf '%s' "$sdkver" > sdkver
     outdated_sdk=1
 fi
@@ -109,10 +109,8 @@ else
 fi
 # ensure we use ccache for the toolchain build
 ccache="$(command -v ccache || true)"
-printf '#!/bin/sh\n
-        exec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
-printf '#!/bin/sh\n
-        exec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
+printf '#!/bin/sh\nexec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
+printf '#!/bin/sh\nexec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
 chmod +x bin/remcpe-clang bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
