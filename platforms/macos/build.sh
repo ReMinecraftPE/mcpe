@@ -30,7 +30,7 @@ if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$x86_64_sdk" ] || [ "
     rm -f MacOSX11.3.tar.bz2
     wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/11.3/MacOSX11.3.tar.bz2
     wait
-    tar -xJf MacOSX11.3.tar.bz2
+    tar -xjf MacOSX11.3.tar.bz2
     mv MacOSX11.3.sdk "$arm64_sdk"
     ) &
     (
