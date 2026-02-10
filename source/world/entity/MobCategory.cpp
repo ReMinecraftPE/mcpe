@@ -5,12 +5,12 @@
 MobCategory MobCategory::monster       = MobCategory(EntityCategories(EntityCategories::MONSTER),      10, 20, nullptr, false);
 MobCategory MobCategory::creature      = MobCategory(EntityCategories(EntityCategories::ANIMAL),       10, 15, nullptr, true);
 MobCategory MobCategory::waterCreature = MobCategory(EntityCategories(EntityCategories::WATER_ANIMAL), 5,  10, nullptr, true);
-const MobCategory MobCategory::values[] = {
-	MobCategory::monster,
-	MobCategory::creature,
-	MobCategory::waterCreature
+const MobCategory* MobCategory::all[] = {
+	&MobCategory::monster,
+	&MobCategory::creature,
+	// &MobCategory::waterCreature
 };
-const int MobCategory::numValues = sizeof(MobCategory::values) / sizeof(MobCategory);
+const unsigned int MobCategory::allCount = sizeof(MobCategory::all) / sizeof(MobCategory*);
 
 MobCategory::MobCategory(const EntityCategories& baseType, int unknown, int max, const Material* material, bool friendly)
 	: m_baseType(baseType)

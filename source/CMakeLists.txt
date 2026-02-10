@@ -268,6 +268,7 @@ add_library(reminecraftpe-core STATIC
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
     world/entity/EntityFactory.cpp
+    world/entity/MobSpawner.cpp
     world/entity/MobFactory.cpp
     world/entity/Chicken.cpp
     world/entity/Cow.cpp
@@ -353,6 +354,7 @@ add_library(reminecraftpe-core STATIC
     world/item/ItemStack.cpp
     world/item/RocketItem.cpp
     world/item/Item.cpp
+    world/item/FoodItem.cpp
     world/item/DyePowderItem.cpp
     world/item/ToolItem.cpp
     world/item/WeaponItem.cpp

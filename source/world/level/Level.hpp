@@ -9,6 +9,7 @@
 #pragma once
 
 #include <set>
+#include <map>
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
@@ -34,6 +35,7 @@ class Level;
 class LevelListener;
 class RakNetInstance;
 class Packet;
+class MobSpawner;
 
 typedef std::vector<Entity*> EntityVector;
 typedef std::vector<AABB> AABBVector;
@@ -175,6 +177,7 @@ public:
 	HitResult clip(const Vec3& a, const Vec3& b) const;
 	HitResult clip(Vec3 a, Vec3 b, bool c) const;
 	Entity* getEntity(Entity::ID id) const;
+	unsigned int getEntityCount(const EntityCategories&) const;
 	const EntityVector* getAllEntities() const;
 	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
 	BiomeSource* getBiomeSource() const override;
@@ -231,5 +234,8 @@ public:
 	uint8_t field_B0C;
 	int field_B10;
 	PathFinder* m_pPathFinder;
+	MobSpawner* m_pMobSpawner;
+
+	std::map<EntityCategories::CategoriesMask, int> m_entityCountsByCategory;
 };
 
