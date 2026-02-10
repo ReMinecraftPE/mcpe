@@ -6,7 +6,7 @@ set -e
 cd "$scriptroot"
 
 # TODO: powerpc
-targets='i386-apple-macos10.4 x86_64-apple-macos10.6 arm64-apple-macos11.0'
+targets='x86_64-apple-macos10.7 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
@@ -35,10 +35,10 @@ if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     (
     # for x86_64
     [ -d "$x86_64_sdk" ] && rm -rf "$x86_64_sdk"
-    rm -f MacOSX10.6.tar.bz2
-    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.6/MacOSX10.6.tar.bz2
-    tar -xjf MacOSX10.6.tar.bz2 2>/dev/null
-    mv MacOSX10.6.sdk "$x86_64_sdk"
+    rm -f MacOSX10.10.sdk.tar.xz
+    wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.10.sdk.tar.xz
+    tar -xjf MacOSX10.10.sdk.tar.xz 2>/dev/null
+    mv MacOSX10.10.sdk.tar.xz "$x86_64_sdk"
     ) &
     (
     # for old stuff
@@ -194,12 +194,7 @@ for target in $targets; do
 
     arch="${target%%-*}"
     case $arch in
-        (i386|x86_64*)
-            if [ "$arch" = 'i386' ]; then
-                export REMCPE_SDK="$old_sdk"
-            else
-                export REMCPE_SDK="$x86_64_sdk"
-            fi
+        (i386)
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit'
             platform='sdl1'
             sdl1ver=1
@@ -232,9 +227,17 @@ for target in $targets; do
             fi
             cflags="$cflags -I$PWD/sdl1/include -D__DARWIN_UNIX03=1"
         ;;
-        (arm64*)
-            export REMCPE_SDK="$arm64_sdk"
-            set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
+        (arm64*|x86_64*)
+            case $arch in
+                (arm64*)
+                    export REMCPE_SDK="$arm64_sdk"
+                    set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
+                ;;
+                (x86_64*)
+                    export REMCPE_SDK="$x86_64_sdk"
+                    set --
+                ;;
+            esac
             platform='sdl2'
         ;;
         (*)
