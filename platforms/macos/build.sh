@@ -48,10 +48,8 @@ if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)"
     tar -xJf MacOSX10.5.sdk.tar.xz
     mv MacOSX10.5.sdk "$old_sdk"
     # patch the sdk to fix a bug
-    sed -e 's/^#if !__LP64__$//' -e 's/^#ifndef __SCSI__$/#if !__LP64__\n#ifndef __SCSI__/' \
-        "$old_sdk/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/OSServices.h" \
-        > OSServices.h
-    mv OSServices.h "$old_sdk/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers"
+    cd "$old_sdk"
+    patch -p1 < "$platformdir/leopard-sdk-fix.patch"
     )
     wait
     rm ./*.tar.xz ./*.tar.bz2

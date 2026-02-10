@@ -1,0 +1,15 @@
+--- a/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/OSServices.h
++++ b/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/OSServices.h
+@@ -62,11 +62,11 @@
+ #endif
+ 
+ 
+-#if !__LP64__
+ #ifndef __POWER__
+ #include <OSServices/Power.h>
+ #endif
+ 
++#if !__LP64__
+ #ifndef __SCSI__
+ #include <OSServices/SCSI.h>
+ #endif
