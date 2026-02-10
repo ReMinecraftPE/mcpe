@@ -220,7 +220,7 @@ for target in $targets; do
                     CXX="$platformdir/macos-c++" \
                     CFLAGS="-O2 $cflags" \
                     CXXFLAGS="-O2 $cflags" \
-                    CPPFLAGS='-D__DARWIN_UNIX03=1' \
+                    CPPFLAGS='-DNDEBUG' \
                     AR="$ar" \
                     RANLIB="$ranlib"
                 make -j"$ncpus"
@@ -229,7 +229,7 @@ for target in $targets; do
                 printf '%s' "$sdl1ver" > sdl1/sdl1ver
                 rm -rf "SDL-1.2-$sdl1_commit"
             fi
-            cflags="$cflags -I$PWD/sdl1/include -D__DARWIN_UNIX03=1"
+            cflags="$cflags -I$PWD/sdl1/include"
         ;;
         (arm64*|x86_64*)
             case $arch in
