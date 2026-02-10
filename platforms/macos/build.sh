@@ -14,7 +14,7 @@ platformdir=$PWD
 
 workdir="$PWD/build/work"
 arm64_sdk="$workdir/arm64-mac-sdk"
-x86_sdk="$workdir/x86_64-mac-sdk"
+x86_sdk="$workdir/x86-mac-sdk"
 mkdir -p "$workdir"
 cd "$workdir"
 
