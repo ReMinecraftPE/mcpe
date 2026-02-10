@@ -282,11 +282,9 @@ void LocalPlayer::move(const Vec3& pos)
 
 		float posX = m_pos.x;
 		float posY = m_pos.y;
+		float posZ = m_pos.z;
 
 		Entity::move(pos);
-
-		//@BUG: backing up posZ too late
-		float posZ = m_pos.z;
 
 		if (m_nAutoJumpFrames <= 0)
 		{

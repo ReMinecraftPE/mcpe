@@ -291,6 +291,8 @@
 		848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848CBD0F2AFD847C007634F6 /* AVFoundation.framework */; };
 		848CCB4A2F3A974000031D1F /* FoodItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848CCB482F3A974000031D1F /* FoodItem.hpp */; };
 		848CCB4B2F3A974000031D1F /* FoodItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848CCB492F3A974000031D1F /* FoodItem.cpp */; };
+		848CCB462F3A38E800031D1F /* MobSpawner.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848CCB442F3A38E800031D1F /* MobSpawner.hpp */; };
+		848CCB472F3A38E800031D1F /* MobSpawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848CCB452F3A38E800031D1F /* MobSpawner.cpp */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */; };
 		8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */; };
@@ -2257,6 +2259,8 @@
 		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		848CCB482F3A974000031D1F /* FoodItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FoodItem.hpp; sourceTree = "<group>"; };
 		848CCB492F3A974000031D1F /* FoodItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FoodItem.cpp; sourceTree = "<group>"; };
+		848CCB442F3A38E800031D1F /* MobSpawner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MobSpawner.hpp; sourceTree = "<group>"; };
+		848CCB452F3A38E800031D1F /* MobSpawner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MobSpawner.cpp; sourceTree = "<group>"; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
 		8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeAppDelegate.h; sourceTree = "<group>"; };
@@ -3641,6 +3645,8 @@
 		840DD6572AC810620006A435 /* entity */ = {
 			isa = PBXGroup;
 			children = (
+				848CCB442F3A38E800031D1F /* MobSpawner.hpp */,
+				848CCB452F3A38E800031D1F /* MobSpawner.cpp */,
 				84AA8B582B32F3B5003F5B82 /* Animal.cpp */,
 				84AA8B592B32F3B5003F5B82 /* Animal.hpp */,
 				84B1E0312E04FD7900ED000A /* Arrow.cpp */,
@@ -5811,6 +5817,7 @@
 				84AA8B552B32F39A003F5B82 /* Path.hpp in Headers */,
 				84AA8B572B32F39A003F5B82 /* PathFinder.hpp in Headers */,
 				84E1C9DE2E7FDC26007D2F5D /* Web.hpp in Headers */,
+				848CCB462F3A38E800031D1F /* MobSpawner.hpp in Headers */,
 				84AA8B792B32F3B5003F5B82 /* Animal.hpp in Headers */,
 				84AA8B7B2B32F3B5003F5B82 /* Chicken.hpp in Headers */,
 				84AA8B7D2B32F3B5003F5B82 /* Cow.hpp in Headers */,
@@ -6817,6 +6824,7 @@
 				84BF632D2AF18631008A9995 /* LargeCaveFeature.cpp in Sources */,
 				84B1E03F2E04FD7900ED000A /* Zombie.cpp in Sources */,
 				84BF632E2AF18631008A9995 /* LargeFeature.cpp in Sources */,
+				848CCB472F3A38E800031D1F /* MobSpawner.cpp in Sources */,
 				84BF632F2AF18631008A9995 /* OreFeature.cpp in Sources */,
 				84BF63302AF18631008A9995 /* PineFeature.cpp in Sources */,
 				84BF63312AF18631008A9995 /* ReedsFeature.cpp in Sources */,
