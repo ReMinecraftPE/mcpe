@@ -643,6 +643,7 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleSettingsScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
+	</ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp">
       <Filter>Header Files\App</Filter>
     </ClInclude>
