@@ -27,10 +27,10 @@ if ! [ -d "$old_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$x86_64_sdk" ] || [ "
     (
     # for arm64
     [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk"
-    rm -f MacOSX11.0.sdk.tar.xz
-    wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.0.sdk.tar.xz
-    tar -xJf MacOSX11.0.sdk.tar.xz
-    mv MacOSX11.0.sdk "$arm64_sdk"
+    rm -f MacOSX11.3.tar.bz2
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/11.3/MacOSX11.3.tar.bz2
+    tar -xJf MacOSX11.3.tar.bz2
+    mv MacOSX11.3.sdk "$arm64_sdk"
     ) &
     (
     # for x86_64
