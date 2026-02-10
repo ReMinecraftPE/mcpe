@@ -24,7 +24,7 @@ EntityRenderDispatcher* EntityRenderDispatcher::instance;
 Vec3 EntityRenderDispatcher::off;
 
 EntityRenderDispatcher::EntityRenderDispatcher()
-	: m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f)
+	: m_HumanoidMobRenderer(new HumanoidModel, 0.5f)
 	, m_PigRenderer(new PigModel(0.0f), /*new PigModel(0.5f),*/ 0.7f)
 	, m_SheepRenderer(new SheepModel(false), new SheepModel(true), 0.7f)
 	, m_CowRenderer(new CowModel, 0.7f)

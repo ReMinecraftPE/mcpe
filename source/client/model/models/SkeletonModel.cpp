@@ -2,26 +2,26 @@
 
 SkeletonModel::SkeletonModel() : ZombieModel()
 {
-    m_pMaterial = &m_materials.entity_alphatest;
+    m_pMaterial = &Model::m_materials.entity_alphatest;
 
-    m_arm1.clear();
-    m_arm2.clear();
-    m_leg1.clear();
-    m_leg2.clear();
+    m_armRight.clear();
+    m_armLeft.clear();
+    m_legRight.clear();
+    m_legRight.clear();
 
-    m_arm1.addBox(-1.0f, -2.0f, -1.0f, 2, 12, 2, 0.0f);
-    m_arm1.setPos(-5.0f, 2.0f, 0.0f);
+    m_armRight.addBox(-1.0f, -2.0f, -1.0f, 2, 12, 2, 0.0f);
+    m_armRight.setPos(-5.0f, 2.0f, 0.0f);
 
-    m_arm2.m_bMirror = true;
-    m_arm2.addBox(-1.0f, -2.0f, -1.0f, 2, 12, 2, 0.0f);
-    m_arm2.setPos(5.0f, 2.0f, 0.0f);
+    m_armLeft.m_bMirror = true;
+    m_armLeft.addBox(-1.0f, -2.0f, -1.0f, 2, 12, 2, 0.0f);
+    m_armLeft.setPos(5.0f, 2.0f, 0.0f);
 
-    m_leg1.addBox(-1.0f, 0.0f, -1.0f, 2, 12, 2, 0.0f);
-    m_leg1.setPos(-2.0f, 12.0f, 0.0f);
+    m_legRight.addBox(-1.0f, 0.0f, -1.0f, 2, 12, 2, 0.0f);
+    m_legRight.setPos(-2.0f, 12.0f, 0.0f);
 
-    m_leg2.m_bMirror = true;
-    m_leg2.addBox(-1.0f, 0.0f, -1.0f, 2, 12, 2, 0.0f);
-    m_leg2.setPos(2.0f, 12.0f, 0.0f);
+    m_legLeft.m_bMirror = true;
+    m_legLeft.addBox(-1.0f, 0.0f, -1.0f, 2, 12, 2, 0.0f);
+    m_legLeft.setPos(2.0f, 12.0f, 0.0f);
 }
 
 SkeletonModel::~SkeletonModel()

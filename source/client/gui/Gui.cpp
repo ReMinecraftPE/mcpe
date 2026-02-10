@@ -453,11 +453,31 @@ void Gui::renderHearts(bool topLeft)
         heartYStart = m_height - 32;
     }
 
+	int hotbarWidth = 2 + getNumSlots() * 20;
+	int armorX = heartX + ((topLeft) ? (((C_MAX_MOB_HEALTH /* / 2 * 2 technically */) * 8) - 2) : (hotbarWidth - 9));
+
 	int playerHealth = player->m_health;
+	int armor = player->m_pInventory->getArmorValue();
 
 	for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
 	{
 		int heartY = heartYStart;
+
+		if (armor > 0) {
+			if (healthNo < armor) {
+				blit(armorX, heartY, 34, 9, 9, 9, 0, 0);
+			}
+
+			if (healthNo == armor) {
+				blit(armorX, heartY, 25, 9, 9, 9, 0, 0);
+			}
+
+			if (healthNo > armor) {
+				blit(armorX, heartY, 16, 9, 9, 9, 0, 0);
+			}
+		}
+
+		armorX -= 8;
 
 		if (playerHealth <= 4 && m_random.genrand_int32() % 2)
 			heartY++;
