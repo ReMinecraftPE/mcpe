@@ -178,7 +178,7 @@ void Player::aiStep()
 		m_jumpTriggerTime--;
 
     if (m_pLevel->m_difficulty == 0 &&
-        m_health < 20 &&
+        m_health < getMaxHealth() &&
         m_tickCount % 20 * 12 == 0)
     {
        heal(1);
