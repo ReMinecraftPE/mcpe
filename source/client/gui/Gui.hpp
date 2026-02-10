@@ -70,7 +70,7 @@ public:
 	void handleScrollWheel(bool down);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
-	void renderHearts(bool topLeft);
+	void renderHeartsAndArmor(bool topLeft);
 	void renderHunger(bool topLeft);
 	void renderBubbles(bool topLeft);
 	void renderProgressIndicator(int width, int height);

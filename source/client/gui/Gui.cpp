@@ -193,7 +193,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		t.begin(0);
 		t.voidBeginAndEndCalls(true);
 
-		renderHearts(isTouchscreen);
+		renderHeartsAndArmor(isTouchscreen);
 		renderBubbles(isTouchscreen);
         if (m_bRenderHunger)
             renderHunger(isTouchscreen);
@@ -420,10 +420,9 @@ void Gui::renderMessages(bool bShowAll)
 	}
 }
 
-void Gui::renderHearts(bool topLeft)
+void Gui::renderHeartsAndArmor(bool topLeft)
 {
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
-	topLeft = true;
 
 	int cenX = m_width / 2;
 
