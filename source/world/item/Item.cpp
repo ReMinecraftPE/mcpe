@@ -22,6 +22,8 @@
 #include "WeaponItem.hpp"
 #include "FoodItem.hpp"
 #include "ArmorItem.hpp"
+#include "HoeItem.hpp"
+#include "SeedItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
@@ -148,7 +150,7 @@ void Item::initItems()
 		->setDescriptionId("shovelWood")
 		->handEquipped();
 
-	Item::hoe_wood = NEW_ITEM(ITEM_HOE_WOOD)
+	Item::hoe_wood = NEW_X_ITEM(HoeItem, ITEM_HOE_WOOD, ToolItem::Tier::WOOD)
 		->setIcon(0, 8)
 		->setDescriptionId("hoeWood")
 		->handEquipped();
@@ -172,7 +174,7 @@ void Item::initItems()
 		->setDescriptionId("shovelStone")
 		->handEquipped();
 
-	Item::hoe_stone = NEW_ITEM(ITEM_HOE_STONE)
+	Item::hoe_stone = NEW_X_ITEM(HoeItem, ITEM_HOE_STONE, ToolItem::Tier::STONE)
 		->setIcon(1, 8)
 		->setDescriptionId("hoeStone")
 		->handEquipped();
@@ -196,7 +198,7 @@ void Item::initItems()
 		->setDescriptionId("shovelIron")
 		->handEquipped();
 
-	Item::hoe_iron= NEW_ITEM(ITEM_HOE_IRON)
+	Item::hoe_iron = NEW_X_ITEM(HoeItem, ITEM_HOE_IRON, ToolItem::Tier::IRON)
 		->setIcon(2, 8)
 		->setDescriptionId("hoeIron")
 		->handEquipped();
@@ -220,7 +222,7 @@ void Item::initItems()
 		->setDescriptionId("shovelGold")
 		->handEquipped();
 
-	Item::hoe_gold = NEW_ITEM(ITEM_HOE_GOLD)
+	Item::hoe_gold = NEW_X_ITEM(HoeItem, ITEM_HOE_GOLD, ToolItem::Tier::GOLD)
 		->setIcon(4, 8)
 		->setDescriptionId("hoeGold")
 		->handEquipped();
@@ -244,7 +246,7 @@ void Item::initItems()
 		->setDescriptionId("shovelDiamond")
 		->handEquipped();
 
-	Item::hoe_emerald = NEW_ITEM(ITEM_HOE_EMERALD)
+	Item::hoe_emerald = NEW_X_ITEM(HoeItem, ITEM_HOE_EMERALD, ToolItem::Tier::EMERALD)
 		->setIcon(3, 8)
 		->setDescriptionId("hoeDiamond")
 		->handEquipped();
@@ -378,7 +380,7 @@ void Item::initItems()
 		->setIcon(8, 2)
 		->setDescriptionId("sulphur");
 
-	Item::seeds = NEW_ITEM(ITEM_SEEDS)
+	Item::seeds = NEW_X_ITEM(SeedItem, ITEM_SEEDS, TILE_WHEAT)
 		->setIcon(9, 0)
 		->setDescriptionId("seeds");
 

@@ -25,4 +25,5 @@ public:
 	void tick(Level* level, const TilePos& pos, Random* random) override;
 
 	bool isNearWater(Level* level, const TilePos& pos);
+	bool isUnderCrops(Level* level, const TilePos& pos);
 };

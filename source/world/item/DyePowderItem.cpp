@@ -4,6 +4,7 @@
 #include "world/entity/Sheep.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/tile/Sapling.hpp"
+#include "world/tile/CropsTile.hpp"
 #include "world/tile/ClothTile.hpp"
 #include "world/entity/EntityType.hpp"
 #include "DyeColor.hpp"
@@ -44,13 +45,12 @@ bool DyePowderItem::useOn(ItemStack* item, Player* player, Level* level, const T
 			return true;
 		}
 		
-		// no crops yet
-		/*if (tile == Tile::crops->m_ID)
+		if (tile == Tile::crops->m_ID)
 		{
-			((CropTile*)Tile::crops)->growCropsToMax(level, pos);
+			static_cast<CropsTile*>(Tile::crops)->growCropsToMax(level, pos);
 			item->m_count--;
 			return true;
-		}*/
+		}
 	}
 	
 	return false;
