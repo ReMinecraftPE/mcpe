@@ -63,7 +63,7 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_sensitivity("ctrl_sensitivity", "options.sensitivity", 0.5f)
 	, m_invertMouse("ctrl_invertmouse", "options.invertMouse", false)
 	, m_viewDistance("gfx_viewdistance", "options.renderDistance", 1, ValuesBuilder().add("options.renderDistance.far").add("options.renderDistance.normal").add("options.renderDistance.short").add("options.renderDistance.tiny"))
-	, m_viewBobbing("gfx_bobview", "options.viewBobbing", false)
+	, m_viewBobbing("gfx_bobview", "options.viewBobbing", true)
 	, m_anaglyphs("gfx_3danaglyphs", "options.anaglyph", false)
 	, m_fancyGraphics("gfx_fancygraphics", "options.fancyGraphics", true)
 	, m_ambientOcclusion("gfx_smoothlighting", "options.ao", Minecraft::useAmbientOcclusion)

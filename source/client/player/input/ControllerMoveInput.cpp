@@ -35,6 +35,7 @@ void ControllerMoveInput::tick(Player* player)
 //LABEL_3:
     if (player->isInWater() && GameControllerManager::isTouched(1))
         m_bJumping = 1;
+    m_bFlyUp = m_bJumping;
     m_keys[INPUT_LEFT] = m_keys[INPUT_FORWARD] || m_keys[INPUT_BACKWARD];
     if (m_keys[INPUT_LEFT])
         m_vertInput = 0.0f;

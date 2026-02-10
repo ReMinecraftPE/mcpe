@@ -247,6 +247,7 @@
     <ClInclude Include="..\..\..\..\source\client\gui\screens\ConsoleSettingsScreen.hpp" />
     <ClInclude Include="..\..\..\..\source\client\gui\screens\PanelScreen.hpp" />
     <ClInclude Include="..\..\..\..\source\client\gui\VerticalLayout.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
