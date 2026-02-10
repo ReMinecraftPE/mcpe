@@ -277,6 +277,7 @@ else
     codesign -f -s - "$bin"
 fi
 
-mkdir -p ../ReMCPE
+rm -rf ../ReMCPE
+mkdir ../ReMCPE
 cp -a "$platformdir/../../game/assets" ../ReMCPE
 mv "$bin" ../ReMCPE
