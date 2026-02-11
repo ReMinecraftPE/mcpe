@@ -881,10 +881,10 @@ void Mob::checkDespawn(Mob* nearestMob)
 		if (remWhenFar && distSqr > 9216.0f)
 			remove();
 
-		if (m_noActionTime <= 600)
-            m_noActionTime = 0;
-		else if (m_random.nextInt(800) == 0 && remWhenFar && distSqr >= 1024.0f)
+		if (m_noActionTime > 600 && m_random.nextInt(800) == 0 && distSqr > 1024.0f && remWhenFar)
 			remove();
+		else if (distSqr < 1024.0f)
+			m_noActionTime = 0;
 	}
 }
 
