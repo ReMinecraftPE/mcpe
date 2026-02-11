@@ -167,7 +167,10 @@ fi
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$old_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+    if printf 'int main(void) {return 0;}' |
+        REMCPE_TARGET=i386-apple-macos10.4 \
+        REMCPE_SDK="$old_sdk" \
+        "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
         cflags='-flto'
     fi
     rm -f "$workdir/testout"
@@ -274,15 +277,42 @@ for target in $targets; do
     cd ..
 done
 
-lipo -create build-*/"$bin" -output "$bin"
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin"
+rm -rf ../ReMCPE
+mkdir -p ../ReMCPE/libexec
+
+REMCPE_TARGET='arm64-apple-macos11.0' \
+    REMCPE_SDK="$arm64_sdk" \
+    "$platformdir/macos-cc" \
+    "$platformdir/arch.c" -o arch-arm64
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+    "$strip" -no_code_signature_warning arch-arm64
 if command -v ldid >/dev/null; then
-    ldid -S "$bin"
+    ldid -S arch-arm64
 else
-    codesign -f -s - "$bin"
+    codesign -f -s - arch-arm64
 fi
 
-rm -rf ../ReMCPE
-mkdir ../ReMCPE
+REMCPE_TARGET='unknown-apple-macos10.4' \
+    REMCPE_SDK="$old_sdk" \
+    "$platformdir/macos-cc" \
+    -arch x86_64 -arch i386 \
+    "$platformdir/arch.c" -o arch-x86
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+    "$strip" -no_code_signature_warning arch-x86
+
+lipo -create arch-* -output arch
+mv arch ../ReMCPE/libexec/arch
+
 cp -a "$platformdir/../../game/assets" ../ReMCPE
-mv "$bin" ../ReMCPE
+cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
+
+for target in $targets; do
+    cp "build-$target/$bin" "../ReMCPE/libexec/$bin-${target%%-*}"
+    [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+        "$strip" -no_code_signature_warning "../ReMCPE/libexec/$bin-${target%%-*}"
+done
+if command -v ldid >/dev/null; then
+    ldid -S "../ReMCPE/libexec/$bin-arm64"*
+else
+    codesign -f -s - "../ReMCPE/libexec/$bin-arm64"*
+fi
