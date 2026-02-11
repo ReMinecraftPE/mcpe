@@ -29,8 +29,9 @@ GuiElement* VerticalLayout::getElement(ID index) const
 bool VerticalLayout::selectElement(ID id, bool sound)
 {
 	GuiElement* element = getElement(id);
-	if (element && selectElement(element))
+	if (element)
 	{
+		selectElement(element)
 		if (sound)
 			m_pScreen->_playSelectSound();
 		return true;
@@ -38,7 +39,7 @@ bool VerticalLayout::selectElement(ID id, bool sound)
 	return false;
 }
 
-bool VerticalLayout::selectElement(GuiElement* element)
+void VerticalLayout::selectElement(GuiElement* element)
 {
 	if (element != m_pSelectedElement)
 	{
@@ -47,9 +48,7 @@ bool VerticalLayout::selectElement(GuiElement* element)
 		m_pSelectedElement = element;
 		if (m_pSelectedElement)
 			m_pSelectedElement->setSelected(true);
-		return true;
 	}
-	return false;
 }
 
 void VerticalLayout::init(int x, int y, int w, int h, int spacing, bool cyclic)

@@ -14,7 +14,7 @@ public:
     bool isTopElement(GuiElement& element) const { return element.m_yPos == m_yPos; };
     bool isBottomElement(GuiElement& element) const { return element.m_yPos == m_bottom; };
     bool selectElement(ID, bool sound = true);
-    bool selectElement(GuiElement*);
+    void selectElement(GuiElement*);
 
     void init(int x, int y, int w, int h, int spacing = 8, bool cyclic = true);
     void organize();
