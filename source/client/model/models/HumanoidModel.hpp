@@ -22,9 +22,11 @@ public:
 	void setBrightness(float) override;
 
 public:
+	bool field_20;
 	ModelPart m_head, m_hat, m_body, m_armRight, m_armLeft, m_legRight, m_legLeft;
 	bool m_bHoldingLeftHand;
 	bool m_bHoldingRightHand;
 	bool m_bSneaking;
+	bool field_237;
 };
 

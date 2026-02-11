@@ -21,9 +21,11 @@ HumanoidModel::HumanoidModel(float modelSize, float yOffset) :
 	m_legRight(this, 0,  16),
 	m_legLeft(this, 0,  16)
 {
+	field_20 = false;
 	m_bHoldingLeftHand = false;
 	m_bHoldingRightHand = false;
 	m_bSneaking = false;
+	field_237 = false;
 
 	m_head.addBox(-4, -8, -4, 8, 8, 8, modelSize);
 	m_head.setPos(0, yOffset, 0);
