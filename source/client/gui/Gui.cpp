@@ -421,36 +421,6 @@ void Gui::renderMessages(bool bShowAll)
 	}
 }
 
-void Gui::renderArmor(bool topLeft)
-{
-	int armor = m_pMinecraft->m_pLocalPlayer->m_pInventory->getArmorValue();
-	if (armor <= 0)
-		return;
-
-	int cenX = m_width / 2;
-	
-	int hotbarWidth = (topLeft) ? 0 : (2 + getNumSlots() * 20);
-	int armorX = (topLeft) ? (m_width - 11) : cenX - 91 + (hotbarWidth - 9);
-	int armorY = (topLeft) ? 2 : (m_height - 32);
-
-	for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
-	{
-		if (armor > 0)
-		{
-			if (healthNo < armor)
-				blit(armorX, armorY, 34, 9, 9, 9, 0, 0);
-
-			if (healthNo == armor)
-				blit(armorX, armorY, 25, 9, 9, 9, 0, 0);
-
-			if (healthNo > armor)
-				blit(armorX, armorY, 16, 9, 9, 9, 0, 0);
-		}
-
-		armorX -= 8;
-	}
-}
-
 void Gui::renderHearts(bool topLeft)
 {
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
@@ -485,8 +455,9 @@ void Gui::renderHearts(bool topLeft)
     }
 
 	int playerHealth = player->m_health;
+	int maxHealth = m_pMinecraft->m_pLocalPlayer->getMaxHealth();
 
-	for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
+	for (int healthNo = 1; healthNo <= maxHealth; healthNo += 2)
 	{
 		int heartY = heartYStart;
 
@@ -509,6 +480,37 @@ void Gui::renderHearts(bool topLeft)
 			blit(heartX, heartY, 61, 0, 9, 9, 0, 0);
 
 		heartX += 8;
+	}
+}
+
+void Gui::renderArmor(bool topLeft)
+{
+	int armor = m_pMinecraft->m_pLocalPlayer->m_pInventory->getArmorValue();
+	if (armor <= 0)
+		return;
+
+	int cenX = m_width / 2;
+	
+	int hotbarWidth = (topLeft) ? 0 : (2 + getNumSlots() * 20);
+	int armorX = (topLeft) ? (m_width - 11) : cenX - 91 + (hotbarWidth - 9);
+	int armorY = (topLeft) ? 2 : (m_height - 32);
+
+	if (armor > 0)
+	{
+		int maxHealth = m_pMinecraft->m_pLocalPlayer->getMaxHealth();
+		for (int i = 1; i <= maxHealth; i += 2) // Armor tied to health at the moment
+		{
+			if (i < armor)
+				blit(armorX, armorY, 34, 9, 9, 9, 0, 0);
+
+			if (i == armor)
+				blit(armorX, armorY, 25, 9, 9, 9, 0, 0);
+
+			if (i > armor)
+				blit(armorX, armorY, 16, 9, 9, 9, 0, 0);
+
+			armorX -= 8;
+		}
 	}
 }
 
