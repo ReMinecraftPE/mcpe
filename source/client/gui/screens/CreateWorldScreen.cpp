@@ -151,10 +151,8 @@ void CreateWorldScreen::render(float f)
 	renderBackground();
 	Screen::render(f);
 
-	const GameType gameType = static_cast<GameType>(m_gameMode);
-
-	const std::string gameTypeStr = GameTypeConv::GameTypeDescriptionToNonLocString(gameType);
-	m_btnGameMode.setMessage("Game Mode: " + GameTypeConv::GameTypeToNonLocString(gameType));
+	const std::string gameTypeStr = GameTypeConv::GameTypeDescriptionToNonLocString(m_gameMode);
+	m_btnGameMode.setMessage("Game Mode: " + GameTypeConv::GameTypeToNonLocString(m_gameMode));
 
 	drawCenteredString(*m_pFont, "Create New World", m_width / 2, CRAMPED() ? 10 : 30, 0xFFFFFF);
 	drawString(*m_pFont, "World name",                    m_textName.m_xPos, m_textName.m_yPos - 10, 0xDDDDDD);
