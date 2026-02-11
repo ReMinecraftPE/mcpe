@@ -152,8 +152,6 @@ void ListButton::render(Minecraft* mc, const MenuPointer& pointer)
 		currentShaderColor.a *= 0.5f;
 	blitSprite(texs, isSelected() && !hasFocus() ? "gui/console/Graphics/ListButton_Over.png" : "gui/console/Graphics/ListButton_Norm.png", m_xPos, m_yPos, m_width, m_height, &m_materials.ui_textured_and_glcolor);
 
-	Font& font = *mc->m_pFont;
-
 	Color textColor;
 	if (isSelected())
 	{
