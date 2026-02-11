@@ -165,6 +165,7 @@ for target in $targets; do
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM=ios \
+        -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
