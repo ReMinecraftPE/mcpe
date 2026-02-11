@@ -97,7 +97,7 @@ void CreateWorldScreen::_buttonClicked(Button* pButton)
 
 void CreateWorldScreen::init()
 {
-	bool touchscreen = !m_pMinecraft->isTouchscreen();
+	bool touchscreen = m_pMinecraft->isTouchscreen();
 
 	m_textName.m_height = m_textSeed.m_height = 20;
 
