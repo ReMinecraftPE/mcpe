@@ -284,24 +284,17 @@ REMCPE_TARGET='arm64-apple-macos11.0' \
     REMCPE_SDK="$arm64_sdk" \
     "$platformdir/macos-cc" \
     "$platformdir/arch.c" -o arch-arm64
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    "$strip" -no_code_signature_warning arch-arm64
-if command -v ldid >/dev/null; then
-    ldid -S arch-arm64
-else
-    codesign -f -s - arch-arm64
-fi
 
 REMCPE_TARGET='unknown-apple-macos10.4' \
     REMCPE_SDK="$old_sdk" \
     "$platformdir/macos-cc" \
     -arch x86_64 -arch i386 \
     "$platformdir/arch.c" -o arch-x86
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    "$strip" -no_code_signature_warning arch-x86
 
 lipo -create arch-* -output arch
 mv arch ../ReMCPE/libexec/arch
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+    "$strip" -no_code_signature_warning ../ReMCPE/libexec/arch
 
 cp -a "$platformdir/../../game/assets" ../ReMCPE
 cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
@@ -312,7 +305,7 @@ for target in $targets; do
         "$strip" -no_code_signature_warning "../ReMCPE/libexec/$bin-${target%%-*}"
 done
 if command -v ldid >/dev/null; then
-    ldid -S "../ReMCPE/libexec/$bin-arm64"*
+    ldid -S ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
 else
-    codesign -f -s - "../ReMCPE/libexec/$bin-arm64"*
+    codesign -f -s - ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
 fi
