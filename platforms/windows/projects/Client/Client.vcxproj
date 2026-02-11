@@ -416,7 +416,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PlayGameScreen.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
