@@ -36,11 +36,11 @@ if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "
     (
     # for x86_64
     [ -d "$x86_64_sdk" ] && rm -rf "$x86_64_sdk" &
-    rm -f MacOSX10.9.tar.bz2
-    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.9/MacOSX10.9.tar.bz2
+    rm -f MacOSX10.7.tar.bz2
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.7/MacOSX10.7.tar.bz2
     wait
-    tar -xjf MacOSX10.9.tar.bz2 2>/dev/null
-    mv MacOSX10.9.sdk "$x86_64_sdk"
+    tar -xjf MacOSX10.7.tar.bz2 2>/dev/null
+    mv MacOSX10.7.sdk "$x86_64_sdk"
     ) &
     (
     # for old stuff
