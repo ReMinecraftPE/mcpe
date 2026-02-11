@@ -455,7 +455,7 @@ void Gui::renderHearts(bool topLeft)
     }
 
 	int playerHealth = player->m_health;
-	int maxHealth = m_pMinecraft->m_pLocalPlayer->getMaxHealth();
+	int maxHealth = player->getMaxHealth();
 
 	for (int healthNo = 1; healthNo <= maxHealth; healthNo += 2)
 	{
