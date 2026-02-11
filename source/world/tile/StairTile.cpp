@@ -162,26 +162,6 @@ void StairTile::onRemove(Level* level, const TilePos& pos)
 	m_pParent->onRemove(level, pos);
 }
 
-int StairTile::getResource(TileData data, Random* random) const
-{
-	return m_pParent->getResource(data, random);
-}
-
-int StairTile::getResourceCount(Random* random) const
-{
-	return m_pParent->getResourceCount(random);
-}
-
-void StairTile::spawnResources(Level* level, const TilePos& pos, TileData data)
-{
-	m_pParent->spawnResources(level, pos, data);
-}
-
-void StairTile::spawnResources(Level* level, const TilePos& pos, TileData data, float f)
-{
-	m_pParent->spawnResources(level, pos, data, f);
-}
-
 float StairTile::getExplosionResistance(Entity* entity) const
 {
 	return m_pParent->getExplosionResistance(entity);

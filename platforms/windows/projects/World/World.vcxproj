@@ -61,6 +61,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\DoorItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\Inventory.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\FoodItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\ItemStack.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DeadBush.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DirtTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DoorTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CropsTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FarmTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FenceTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FireTile.cpp" />
@@ -183,6 +185,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Creeper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\MobFactory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\MobSpawner.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\TilePos.cpp" />
@@ -214,6 +217,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyeColor.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\ToolItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\BedTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ArmorItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\HoeItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\SeedItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\CraftingMenu.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\Recipes.cpp" />
@@ -294,6 +300,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\DeadBush.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\DirtTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\DoorTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\CropsTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\FarmTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\FenceTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\FireTile.hpp" />

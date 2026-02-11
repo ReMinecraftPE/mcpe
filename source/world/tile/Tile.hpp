@@ -241,7 +241,8 @@ public: // static variables
 		* web,
 		* fence,
 		* bed,
-		* craftingTable;
+		* craftingTable,
+		* crops;
 
 public:
 	int m_TextureFrame;

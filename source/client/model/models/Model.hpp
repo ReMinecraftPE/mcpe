@@ -48,7 +48,7 @@ public:
 	static void copyModelPart(const ModelPart& a, ModelPart& b);
 
 public:
-	float field_4;
+	float m_attackTime;
 	bool m_bRiding;
 	bool m_bIsBaby;
 	int m_textureWidth;

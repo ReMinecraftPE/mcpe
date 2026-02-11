@@ -27,6 +27,12 @@ public:
 		BED_SLEEPING_NOT_POSSIBLE_NOW,
 		BED_SLEEPING_TOO_FAR_AWAY,
 		BED_SLEEPING_OTHER_PROBLEM
+  };
+
+	struct Abilities
+	{
+		bool bCanFly;
+		bool bInvulnerable;
 	};
 
 private:
@@ -52,7 +58,9 @@ public:
 	bool isShootable() const override { return true; }
 	bool isPlayer() const override { return true; }
 	bool isCreativeModeAllowed() const override { return true; }
+	bool isSlowedByLiquids() const override { return !m_bFlying; }
 	bool hurt(Entity*, int) override;
+	void actuallyHurt(int) override;
 	void awardKillScore(Entity* pKilled, int score) override;
 	void resetPos(bool respawn = false) override;
 	void die(Entity* pCulprit) override;
@@ -63,6 +71,8 @@ public:
 	void updateAi() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
+	void travel(const Vec2& pos) override;
+	void causeFallDamage(float level) override;
 
 	virtual void animateRespawn();
 	//virtual void drop(); // see definition
@@ -95,6 +105,7 @@ public:
 	void rideTick();
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
+	inline const Abilities& getAbilities() const { return m_abilities; }
 
 	// Sleeping
 	void updateSleepingPos(Facing::Name direction);
@@ -107,7 +118,7 @@ public:
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
-	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
+	virtual void setPlayerGameType(GameType playerGameType);
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 	ItemStack& getSelectedItem() const;
@@ -120,18 +131,25 @@ public:
 	void interact(Entity* pEnt);
 #pragma GCC diagnostic pop
 
+protected:
+	Abilities m_abilities;
+
 public:
 	//TODO
 	Inventory* m_pInventory;
 	InventoryMenu* m_pInventoryMenu;
 	ContainerMenu* m_pContainerMenu;
 	uint8_t field_B94;
+	int m_jumpTriggerTime;
 	int m_score;
-	float m_oBob; // field_B9C
+	float m_oBob;
 	float m_bob;
+	int m_dmgSpill;
 	std::string m_name;
 	int m_dimension;
 	RakNet::RakNetGUID m_guid;
+	bool m_bFlying;
+	//TODO
 	TilePos m_respawnPos;
 	bool m_bHasRespawnPos;
 	//TODO

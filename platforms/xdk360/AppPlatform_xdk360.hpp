@@ -13,8 +13,8 @@ public:
 	~AppPlatform_xdk360();
 
 protected:
-	void _getXContentData(XCONTENT_DATA& out, unsigned int playerId);
-	const XCONTENTDEVICEID& _getSaveDeviceId(unsigned int playerId);
+	void _getXContentData(XCONTENT_DATA& out, LocalPlayerID playerId);
+	const XCONTENTDEVICEID& _getSaveDeviceId(LocalPlayerID playerId);
 
 public:
 	void initSoundSystem() override;
@@ -30,15 +30,21 @@ public:
 	GameControllerHandler* getGameControllerHandler() override;
 
 	void updateFocused(bool focused) override;
+
+	void showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard) override;
+	void hideKeyboard(LocalPlayerID playerId) override;
+	void onHideKeyboard() override;
+	const std::string& getKeyboardText() const override;
+
 	bool hasFileSystemAccess() override;
 
 	std::string getAssetPath(const std::string& path) const override;
 	void makeNativePath(std::string& path) const override;
 
-	void beginProfileDataRead(unsigned int playerId) override;
-	void endProfileDataRead(unsigned int playerId) override;
-	void beginProfileDataWrite(unsigned int playerId) override;
-	void endProfileDataWrite(unsigned int playerId) override;
+	void beginProfileDataRead(LocalPlayerID playerId) override;
+	void endProfileDataRead(LocalPlayerID playerId) override;
+	void beginProfileDataWrite(LocalPlayerID playerId) override;
+	void endProfileDataWrite(LocalPlayerID playerId) override;
 
 	void setScreenSize(int width, int height);
 	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
@@ -60,5 +66,14 @@ private:
 
 	XCONTENTDEVICEID m_saveDeviceId[C_MAX_LOCAL_PLAYERS];
 	int m_currentSavingPlayerId;
+
+public: // accessed from main.cpp, that way we can pass it to App
+	bool m_bVirtualKeyboard;
+	XOVERLAPPED m_vkOverlapped;
+	std::wstring m_vkDefaultText;
+	std::wstring m_vkTitleText;
+	std::wstring m_vkDescriptionText;
+	std::wstring m_vkResultText;
+	std::string m_keyboardText;
 };
 

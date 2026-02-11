@@ -38,7 +38,7 @@ CowModel::CowModel() :
 	m_leg2.m_pos.x += 1.0f;
 	m_leg3.m_pos.x -= 1.0f;
 	m_leg4.m_pos.x += 1.0f;
-	field_290 += 2.0f;
+	m_babyHeadOffsetY += 2.0f;
 }
 
 CowModel::~CowModel()

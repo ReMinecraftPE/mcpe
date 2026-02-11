@@ -41,6 +41,7 @@ void Mob::_init()
 	m_bJumping = false;
 	field_B10 = 0;
 	m_runSpeed = 0.7f;
+	m_flyingFriction = 0.02f;
 	field_B48 = 0;
 	field_B4C = 0.0f;
 	field_B50 = 0.0f;
@@ -594,7 +595,7 @@ void Mob::travel(const Vec2& pos)
 
 	float x2, dragFactor;
 	float oldYPos = m_pos.y;
-	if (isInWater() || isInLava())
+	if (isSlowedByLiquids() && (isInWater() || isInLava()))
 	{
 		moveRelative(Vec3(pos.x, 0.02f, pos.y));
 		move(m_vel);
@@ -611,7 +612,7 @@ void Mob::travel(const Vec2& pos)
 
 	if (!m_bOnGround)
 	{
-		x2 = 0.02f;
+		x2 = m_flyingFriction;
 	}
 	else
 	{
@@ -880,12 +881,10 @@ void Mob::checkDespawn(Mob* nearestMob)
 		if (remWhenFar && distSqr > 9216.0f)
 			remove();
 
-		if (m_noActionTime <= 600)
-            m_noActionTime = 0;
-		else if (m_random.nextInt(800) == 0 && remWhenFar && distSqr >= 1024.0f)
+		if (m_noActionTime > 600 && m_random.nextInt(800) == 0 && distSqr > 1024.0f && remWhenFar)
 			remove();
-		else
-            m_noActionTime = 0;
+		else if (distSqr < 1024.0f)
+			m_noActionTime = 0;
 	}
 }
 

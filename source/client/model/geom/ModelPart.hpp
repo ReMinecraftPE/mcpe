@@ -61,10 +61,9 @@ public:
 	float m_textureHeight;
 	mce::MaterialPtr* m_pMaterial;
 	TextureOffset m_texOffs;
-	bool field_48;
-	bool field_49;
+	bool m_bVisible;
+	bool m_bNeverRender;
 	bool m_bCompiled;
-	int field_4C;
 	mce::Mesh m_mesh;
 	Model* m_pModel;
 };

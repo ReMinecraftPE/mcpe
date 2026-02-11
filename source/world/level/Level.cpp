@@ -17,6 +17,7 @@
 #include "network/packets/SetEntityDataPacket.hpp"
 #include "network/packets/ExplodePacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
+#include "world/entity/MobSpawner.hpp"
 #include "world/tile/BedTile.hpp"
 
 #include "Explosion.hpp"
@@ -64,6 +65,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& 
 	m_pDimension->init(this);
 
 	m_pPathFinder = new PathFinder();
+	m_pMobSpawner = new MobSpawner();
 
 	m_pChunkSource = createChunkSource();
 	updateSkyBrightness();
@@ -74,6 +76,7 @@ Level::~Level()
 	SAFE_DELETE(m_pChunkSource);
 	SAFE_DELETE(m_pDimension);
 	SAFE_DELETE(m_pPathFinder);
+	SAFE_DELETE(m_pMobSpawner);
 
 	const size_t size = m_entities.size();
 	for (size_t i = 0; i < size; i++)
@@ -315,6 +318,15 @@ Entity* Level::getEntity(Entity::ID id) const
 	}
 
 	return nullptr;
+}
+
+unsigned int Level::getEntityCount(const EntityCategories& category) const
+{
+	EntityCategories::CategoriesMask mask = category.getCategoryMask();
+	std::map<EntityCategories::CategoriesMask, int>::const_iterator it = m_entityCountsByCategory.find(mask);
+	if (it == m_entityCountsByCategory.end())
+		return 0;
+	return it->second;
 }
 
 const EntityVector* Level::getAllEntities() const
@@ -772,6 +784,15 @@ void Level::setTilesDirty(const TilePos& min, const TilePos& max)
 
 void Level::entityAdded(Entity* pEnt)
 {
+	// @TODO: change this check (and the matching entityRemoved check) to a BST at some point. this works for now
+	const EntityCategories& categories = pEnt->getDescriptor().getCategories();
+	for (unsigned int i = 0; i < EntityCategories::allCount; i++) 
+	{
+		EntityCategories::CategoriesMask category = EntityCategories::all[i];
+		if (categories.contains(category))
+			m_entityCountsByCategory[category]++;
+	}
+
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
@@ -781,6 +802,14 @@ void Level::entityAdded(Entity* pEnt)
 
 void Level::entityRemoved(Entity* pEnt)
 {
+	const EntityCategories& categories = pEnt->getDescriptor().getCategories();
+	for (unsigned int i = 0; i < EntityCategories::allCount; i++) 
+	{
+		EntityCategories::CategoriesMask category = EntityCategories::all[i];
+		if (categories.contains(category))
+			m_entityCountsByCategory[category]--;
+	}
+
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
@@ -1638,6 +1667,7 @@ int LASTTICKED = 0;
 
 void Level::tick()
 {
+	m_pMobSpawner->tick(*this, m_difficulty > 0, true);
 	m_pChunkSource->tick();
 
 #ifdef ENH_RUN_DAY_NIGHT_CYCLE

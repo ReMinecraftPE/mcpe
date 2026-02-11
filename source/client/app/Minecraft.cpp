@@ -728,6 +728,12 @@ void Minecraft::handlePointerPressedButtonRelease()
 		m_pScreen->handlePointerPressed(false);
 }
 
+void Minecraft::handleKeyboardClosed()
+{
+	if (m_pScreen)
+		m_pScreen->handleKeyboardClosed();
+}
+
 void Minecraft::resetInput()
 {
 	Keyboard::reset();
@@ -883,6 +889,8 @@ void Minecraft::update()
 	{
 		m_timer.advanceTime();
 	}
+
+	platform()->tick();
 
 	if (m_pRakNetInstance && m_pNetEventCallback)
 	{
@@ -1041,6 +1049,12 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);
+}
+
+void Minecraft::setTextboxText(const std::string& text)
+{
+	if (m_pScreen)
+		m_pScreen->setTextboxText(text);
 }
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)

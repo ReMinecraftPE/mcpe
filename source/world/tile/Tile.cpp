@@ -67,7 +67,7 @@
 #include "FenceTile.hpp"
 #include "BedTile.hpp"
 //#include "BedTile.hpp"
-//#include "CropsTile.hpp"
+#include "CropsTile.hpp"
 #include "Web.hpp"
 //#include "SnowTile.hpp"
 //#include "SignTile.hpp"
@@ -787,6 +787,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("workbench");
 
+	Tile::crops = (new CropsTile(TILE_WHEAT, TEXTURE_WHEAT_0))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_GRASS)
+		->setDescriptionId("crops");
+
 	// Great
 	Item::items[Tile::cloth->m_ID] = (new ClothItem(Tile::cloth->m_ID - C_MAX_TILES))
 		->setDescriptionId("cloth");
@@ -1280,4 +1286,5 @@ Tile
 	*Tile::web,
 	*Tile::fence,
 	*Tile::bed,
-	*Tile::craftingTable;
+	*Tile::craftingTable,
+	*Tile::crops;

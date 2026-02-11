@@ -16,21 +16,25 @@ QuadrupedModel::QuadrupedModel(int i, float f) :
 	m_leg1(this, 0, 16),
 	m_leg2(this, 0, 16),
 	m_leg3(this, 0, 16),
-	m_leg4(this, 0, 16)
+	m_leg4(this, 0, 16),
+	m_babyHeadOffsetY(8.0f),
+	m_babyHeadOffsetZ(4.0f)
 {
-	field_28C = 8.0f;
-	field_290 = 4.0f;
-
 	m_head.addBox(-4, -4, -8, 8, 8, 8, f);
 	m_head.setPos(0, 18 - float(i), -6);
+
 	m_body.addBox(-5, -10, -7, 10, 16, 8, f);
 	m_body.setPos(0, 17 - float(i), 2);
+
 	m_leg1.addBox(-2, 0, -2, 4, i, 4, f);
 	m_leg1.setPos(-3, 24 - float(i), 7);
+
 	m_leg2.addBox(-2, 0, -2, 4, i, 4, f);
 	m_leg2.setPos(3, 24 - float(i), 7);
+
 	m_leg3.addBox(-2, 0, -2, 4, i, 4, f);
 	m_leg3.setPos(-3, 24 - float(i), -5);
+	
 	m_leg4.addBox(-2, 0, -2, 4, i, 4, f);
 	m_leg4.setPos(3, 24 - float(i), -5);
 }
@@ -48,7 +52,7 @@ void QuadrupedModel::render(float a, float b, float c, float d, float e, float f
 	{
 		{
 			MatrixStack::Ref matrix = MatrixStack::World.push();
-			matrix->translate(Vec3(0.0f, f * field_28C, f * field_290));
+			matrix->translate(Vec3(0.0f, f * m_babyHeadOffsetY, f * m_babyHeadOffsetZ));
 
 			m_head.render(f);
 		}

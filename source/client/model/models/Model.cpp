@@ -26,7 +26,7 @@ Model::Materials::Materials()
 
 Model::Model(int width, int height)
 {
-	field_4 = 0.0f;
+	m_attackTime = 0.0f;
 	m_bRiding = false;
 	m_bIsBaby = true; // @HUH: Why is this true?
 	m_textureWidth  = width;

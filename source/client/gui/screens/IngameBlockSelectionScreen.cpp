@@ -218,7 +218,7 @@ void IngameBlockSelectionScreen::init()
 	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		ItemStack& item = m_items[i];
-		if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId())
+		if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId() && (item.isDamageableItem() || item.getAuxValue() == pInv->getSelectedItem().getAuxValue()))
 		{
 			m_selectedSlot = i;
 			break;
@@ -355,6 +355,18 @@ void IngameBlockSelectionScreen::pointerReleased(const MenuPointer& pointer, Mou
 void IngameBlockSelectionScreen::removed()
 {
 	m_pMinecraft->m_pGui->inventoryUpdated();
+}
+
+void IngameBlockSelectionScreen::keyPressed(int keyCode)
+{
+    if (!_useController() && m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
+    {
+        m_pMinecraft->handleBack(false);
+    }
+	else
+	{
+        Screen::keyPressed(keyCode);
+	}
 }
 
 void IngameBlockSelectionScreen::selectSlotAndClose()

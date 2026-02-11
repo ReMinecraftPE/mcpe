@@ -16,7 +16,9 @@ FixedPipelineStateDescription::FixedPipelineStateDescription()
 bool FixedPipelineStateDescription::operator==(const FixedPipelineStateDescription& other) const
 {
 	return enableAlphaTest == other.enableAlphaTest &&
-		enableTexture == other.enableTexture;
+		   alphaFunc == other.alphaFunc &&
+		   alphaRef == other.alphaRef &&
+		   enableTexture == other.enableTexture;
 }
 
 bool FixedPipelineStateDescription::operator!=(const FixedPipelineStateDescription& other) const

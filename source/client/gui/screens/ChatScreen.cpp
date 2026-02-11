@@ -13,7 +13,7 @@
 ChatScreen::ChatScreen(bool slash) : m_textChat(this, 1, 0, 0), m_btnSend(2, 0, 0, "Send")
 {
 	if (slash)
-		m_textChat.setText("/");
+		m_textChat.setTextboxText("/");
 }
 
 void ChatScreen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)

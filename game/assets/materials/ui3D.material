@@ -5,6 +5,8 @@
       "Blending",
 	  "EnableAlphaTest"
     ],
+	
+    "defines": [ "ALPHA_TEST" ],
 
     "polygonOffsetLevel": -0.6,
 

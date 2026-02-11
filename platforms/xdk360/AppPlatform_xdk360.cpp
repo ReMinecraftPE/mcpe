@@ -3,6 +3,7 @@
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
 #include "common/Utils.hpp"
+#include "common/Util.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
 // requiring drive has at least 0 bytes free
@@ -24,6 +25,9 @@ AppPlatform_xdk360::AppPlatform_xdk360()
 
 	memset(m_saveDeviceId, C_SAVEDEVICE_ID_NONE, C_MAX_LOCAL_PLAYERS);
 	m_currentSavingPlayerId = -1;
+
+	m_bVirtualKeyboard = false;
+	ZeroMemory(&m_vkOverlapped, sizeof(XOVERLAPPED));
 }
 
 AppPlatform_xdk360::~AppPlatform_xdk360()
@@ -31,7 +35,7 @@ AppPlatform_xdk360::~AppPlatform_xdk360()
 	SAFE_DELETE(m_pSoundSystem);
 }
 
-void AppPlatform_xdk360::_getXContentData(XCONTENT_DATA& contentData, unsigned int playerId)
+void AppPlatform_xdk360::_getXContentData(XCONTENT_DATA& contentData, LocalPlayerID playerId)
 {
 	ZeroMemory(&contentData, sizeof(XCONTENT_DATA));
 	lstrcpyW(contentData.szDisplayName, L"Profile Data");
@@ -40,7 +44,7 @@ void AppPlatform_xdk360::_getXContentData(XCONTENT_DATA& contentData, unsigned i
 	contentData.DeviceID = _getSaveDeviceId(playerId);
 }
 
-const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(unsigned int playerId)
+const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(LocalPlayerID playerId)
 {
 	XCONTENTDEVICEID& deviceId = m_saveDeviceId[playerId];
 
@@ -66,7 +70,7 @@ const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(unsigned int player
 	}
 
 	// Wait for the save-device handle
-	while (deviceId == C_SAVEDEVICE_ID_PENDING)
+	while (XHasOverlappedIoCompleted(&xov) == FALSE)
 	{
 		sleepMs(20);
 	}
@@ -139,7 +143,7 @@ void AppPlatform_xdk360::makeNativePath(std::string& path) const
 	toDosPath((char*)path.c_str());
 }
 
-void AppPlatform_xdk360::beginProfileDataRead(unsigned int playerId)
+void AppPlatform_xdk360::beginProfileDataRead(LocalPlayerID playerId)
 {
 	if (m_currentSavingPlayerId != -1)
 	{
@@ -179,7 +183,7 @@ void AppPlatform_xdk360::beginProfileDataRead(unsigned int playerId)
 	}
 }
 
-void AppPlatform_xdk360::endProfileDataRead(unsigned int playerId)
+void AppPlatform_xdk360::endProfileDataRead(LocalPlayerID playerId)
 {
 	if (m_currentSavingPlayerId == -1)
 	{
@@ -192,7 +196,7 @@ void AppPlatform_xdk360::endProfileDataRead(unsigned int playerId)
 	m_currentSavingPlayerId = -1;
 }
 
-void AppPlatform_xdk360::beginProfileDataWrite(unsigned int playerId)
+void AppPlatform_xdk360::beginProfileDataWrite(LocalPlayerID playerId)
 {
 	if (m_currentSavingPlayerId != -1)
 	{
@@ -222,7 +226,7 @@ void AppPlatform_xdk360::beginProfileDataWrite(unsigned int playerId)
 	}
 }
 
-void AppPlatform_xdk360::endProfileDataWrite(unsigned int playerId)
+void AppPlatform_xdk360::endProfileDataWrite(LocalPlayerID playerId)
 {
 	if (m_currentSavingPlayerId == -1)
 	{
@@ -247,6 +251,72 @@ void AppPlatform_xdk360::setScreenSize(int width, int height)
 void AppPlatform_xdk360::updateFocused(bool focused)
 {
 	m_bIsFocused = focused;
+}
+
+DWORD _getNativeVirtualKeyboardType(VirtualKeyboard::Type type)
+{
+	switch (type)
+	{
+	case VirtualKeyboard::EMAIL:             return VKBD_LATIN_EMAIL;
+	case VirtualKeyboard::PLATFORM_USERNAME: return VKBD_LATIN_GAMERTAG;
+	case VirtualKeyboard::PHONE_NUMBER:      return VKBD_LATIN_PHONE;
+	case VirtualKeyboard::IP_ADDRESS:        return VKBD_LATIN_IP_ADDRESS;
+	case VirtualKeyboard::NUMERIC:           return VKBD_LATIN_NUMERIC;
+	case VirtualKeyboard::ALPHABET:          return VKBD_LATIN_ALPHABET;
+	case VirtualKeyboard::PASSWORD:          return VKBD_LATIN_PASSWORD;
+	default:                                 return VKBD_LATIN_FULL; // we don't support non-English in TextBoxes
+	}
+
+}
+
+void AppPlatform_xdk360::showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard)
+{
+	if (m_bVirtualKeyboard)
+		return;
+
+	ZeroMemory(&m_vkOverlapped, sizeof(XOVERLAPPED));
+	m_vkResultText.clear(); // we can probably remove this later
+	m_vkResultText.reserve(keyboard.maxLength > 0 ? keyboard.maxLength : 255);
+	DWORD dwFlags = _getNativeVirtualKeyboardType(keyboard.type);
+	m_vkDefaultText = Util::toWideString(keyboard.defaultText);
+	m_vkTitleText = Util::toWideString(keyboard.titleText);
+	m_vkDescriptionText = Util::toWideString(keyboard.descriptionText);
+
+	DWORD result = XShowKeyboardUI(
+         playerId,
+         dwFlags,
+         m_vkDefaultText.c_str(),
+         m_vkTitleText.c_str(),
+         m_vkDescriptionText.c_str(),
+         (wchar_t*)m_vkResultText.data(),
+         m_vkResultText.capacity(),
+         &m_vkOverlapped
+	);
+
+	if (result != ERROR_IO_PENDING)
+	{
+		LOG_W("Failed to open virtual keyboard for player %d", playerId);
+		return;
+	}
+
+	m_bVirtualKeyboard = true;
+}
+
+void AppPlatform_xdk360::hideKeyboard(LocalPlayerID playerId)
+{
+	// there's nothing we can really do here
+}
+
+void AppPlatform_xdk360::onHideKeyboard()
+{
+	m_bVirtualKeyboard = false;
+	m_keyboardText = Util::toString(m_vkResultText.c_str());
+	m_vkResultText.clear();
+}
+
+const std::string& AppPlatform_xdk360::getKeyboardText() const
+{
+	return m_keyboardText;
 }
 
 bool AppPlatform_xdk360::initGraphics(unsigned int width, unsigned int height)
