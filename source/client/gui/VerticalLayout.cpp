@@ -31,7 +31,7 @@ bool VerticalLayout::selectElement(ID id, bool sound)
 	GuiElement* element = getElement(id);
 	if (element)
 	{
-		selectElement(element)
+		selectElement(element);
 		if (sound)
 			m_pScreen->_playSelectSound();
 		return true;
