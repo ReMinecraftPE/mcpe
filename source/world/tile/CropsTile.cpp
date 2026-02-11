@@ -125,6 +125,26 @@ void CropsTile::spawnResources(Level* level, const TilePos& pos, TileData data)
 	}
 }
 
+void CropsTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
+{
+	if (level->getTile(pos.below()) != Tile::farmland->m_ID)
+	{
+		level->setTile(pos, TILE_AIR);
+
+		float spread = 0.7f;
+		TilePos spreadPos(
+            level->m_random.nextFloat() * spread + (1.0f - spread) * 0.5f,
+            1.2f,
+            level->m_random.nextFloat() * spread + (1.0f - spread) * 0.5f
+        );
+
+        ItemEntity* itemEntity = new ItemEntity(level, pos.above() + spreadPos, ItemStack(Item::seeds));
+        itemEntity->m_throwTime = 10;
+
+        level->addEntity(itemEntity);
+	}
+}
+
 
 void CropsTile::updateShape(const LevelSource* level, const TilePos& pos)
 {

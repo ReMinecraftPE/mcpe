@@ -15,6 +15,7 @@ public:
 	int getTexture(Facing::Name face, TileData data) const override;
 	void updateShape(const LevelSource* level, const TilePos& pos) override;
 	void spawnResources(Level*, const TilePos& pos, TileData data) override;
+	void neighborChanged(Level* level, const TilePos& pos, TileID tile);
 
 public:
 	float getGrowthRate(Level* level, const TilePos& pos);
