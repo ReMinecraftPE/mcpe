@@ -17,7 +17,7 @@ bool HoeItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos
         return false;
 
     Tile* newTile = Tile::farmland;
-    level->playSound(pos + 0.5f, newTile->m_pSound->m_name, (newTile->m_pSound->volume + 1.0f) / 2.0f, newTile->m_pSound->pitch * 0.8f);
+    level->playSound(pos + 0.5f, "step." + newTile->m_pSound->m_name, (newTile->m_pSound->volume + 1.0f) / 2.0f, newTile->m_pSound->pitch * 0.8f);
 
     if (level->m_bIsClientSide)
         return true;
