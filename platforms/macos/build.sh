@@ -203,7 +203,7 @@ for target in $targets; do
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             platform='sdl1'
             sdl1ver=1
-            if ! [ -f sdl1/lib/libSDL.a ] || [ "$(cat sdl1/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
+            if ! [ -f sdl/lib/libSDL.a ] || [ "$(cat sdl/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
                 sdl1_commit=25712c1e9270035667e1ed68f2acc5b82b441461
                 rm -rf SDL-1.2-*
                 if ! [ -f ../sdl1src.tar.gz ] ||
@@ -219,7 +219,7 @@ for target in $targets; do
                 fi
                 ./configure \
                     --host="$arch-apple-darwin" \
-                    --prefix="${PWD%/*}/sdl1" \
+                    --prefix="${PWD%/*}/sdl" \
                     --disable-shared \
                     --disable-video-x11 \
                     CC="$platformdir/macos-cc" \
@@ -232,10 +232,10 @@ for target in $targets; do
                 make -j"$ncpus"
                 make install -j"$ncpus"
                 cd ..
-                printf '%s' "$sdl1ver" > sdl1/sdl1ver
+                printf '%s' "$sdl1ver" > sdl/sdl1ver
                 rm -rf "SDL-1.2-$sdl1_commit"
             fi
-            cflags="$cflags -I$PWD/sdl1/include"
+            cflags="$cflags -I$PWD/sdl/include"
         ;;
         (arm64*|x86_64*)
             case $arch in
@@ -260,13 +260,14 @@ for target in $targets; do
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM="$platform" \
+        -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
         -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
-        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl1" \
+        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
         -DCMAKE_SYSROOT="$REMCPE_SDK" \
         -DCMAKE_C_FLAGS="$cflags" \
         -DCMAKE_CXX_FLAGS="$cflags" \
