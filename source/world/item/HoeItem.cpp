@@ -22,6 +22,21 @@ bool HoeItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos
     if (level->m_bIsClientSide)
         return true;
 
+#ifndef FEATURE_PLANT_VEGGIES
+    if (tile == Tile::grass->m_ID && level->m_random.nextInt(8) == 0)
+    {
+        float spread = 0.7f;
+        TilePos spreadPos(
+            level->m_random.nextFloat() * spread + (1.0f - spread) * 0.5f,
+            1.2f,
+            level->m_random.nextFloat() * spread + (1.0f - spread) * 0.5f
+        );
+        ItemEntity* itemEntity = new ItemEntity(level, pos + spreadPos, ItemStack(Item::seeds));
+        itemEntity->m_throwTime = 10;
+        level->addEntity(itemEntity);
+    }
+#endif
+
     level->setTile(pos, newTile->m_ID);
     inst->hurtAndBreak(1, player);
     return true;
