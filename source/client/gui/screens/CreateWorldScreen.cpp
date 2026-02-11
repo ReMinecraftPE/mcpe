@@ -97,7 +97,7 @@ void CreateWorldScreen::_buttonClicked(Button* pButton)
 
 void CreateWorldScreen::init()
 {
-	bool touchscreen = m_pMinecraft->isTouchscreen();
+	bool touchscreen = !m_pMinecraft->isTouchscreen();
 
 	m_textName.m_height = m_textSeed.m_height = 20;
 
@@ -132,9 +132,9 @@ void CreateWorldScreen::init()
 	if (crampedMode)
 	{
 		// crush everything down as much as we can
-		m_textName.m_yPos = 40;
-		m_textSeed.m_yPos = 80;
-		m_btnGameMode.m_yPos = m_textSeed.m_yPos + 30;
+		m_textName.m_yPos = 34;
+		m_textSeed.m_yPos = 69;
+		m_btnGameMode.m_yPos = m_textSeed.m_yPos + 24;
 		m_btnCreate.m_width -= 50;
 		m_btnBack.m_width -= 50;
 	}
