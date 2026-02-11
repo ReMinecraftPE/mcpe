@@ -2,11 +2,18 @@
 #include "world/entity/Mob.hpp"
 #include "world/entity/Player.hpp"
 
-ToolItem::ToolItem(int id, Tool::Type toolType, Tier& tier) :
+ToolItem::Tier
+	ToolItem::Tier::WOOD   	(0, 59,   2.0f,  0),
+	ToolItem::Tier::STONE  	(1, 131,  4.0f,  1),
+	ToolItem::Tier::IRON   	(2, 250,  6.0f,  2),
+	ToolItem::Tier::EMERALD	(3, 1561, 8.0f,  3),
+	ToolItem::Tier::GOLD   	(0, 32,   12.0f, 0);
+
+ToolItem::ToolItem(int id, Tool::Type type, Tier& tier) :
 	Item(id),
 	m_speed(tier.m_speed),
 	m_tier(tier),
-	m_toolType(toolType)
+	m_toolType(type)
 {
 	m_maxStackSize = 1;
 	m_maxDamage = tier.m_uses;

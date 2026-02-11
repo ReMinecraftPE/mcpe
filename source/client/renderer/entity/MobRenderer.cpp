@@ -89,7 +89,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 	{
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 
-		m_pModel->field_4 = getAttackAnim(mob, a);
+		m_pModel->m_attackTime = getAttackAnim(mob, a);
 		m_pModel->m_bRiding = false;
 		m_pModel->m_bIsBaby = mob.isBaby();
 
@@ -97,6 +97,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 		{
 			m_pArmorModel->m_bRiding = m_pModel->m_bRiding;
 			m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
+			m_pArmorModel->m_attackTime = m_pModel->m_attackTime;
 		}
 
 		float aYaw = mob.m_oRot.x + (mob.m_rot.x - mob.m_oRot.x) * a;

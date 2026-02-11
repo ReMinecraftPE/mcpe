@@ -14,7 +14,7 @@ PigModel::PigModel(float f) :
 	m_pMaterial = &m_materials.entity_alphatest_cull;
 	m_head.texOffs(16, 16);
 	m_head.addBox(-2, 0, -9, 4, 3, 1, f);
-	field_28C = 4.0f;
+	m_babyHeadOffsetY = 4.0f;
 }
 
 PigModel::~PigModel()

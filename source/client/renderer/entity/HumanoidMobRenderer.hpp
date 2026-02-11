@@ -15,6 +15,7 @@ class HumanoidMobRenderer : public MobRenderer
 {
 public:
 	HumanoidMobRenderer(HumanoidModel*, float);
+	virtual int prepareArmor(const Mob& mob, int, float) override;
 	virtual void additionalRendering(const Mob& mob, float) override;
 	virtual void render(const Entity& entity, const Vec3&, float, float) override;
 	virtual void onGraphicsReset() override;
@@ -23,4 +24,6 @@ public:
 
 public:
 	HumanoidModel* m_pHumanoidModel;
+	HumanoidModel* m_armorMain;
+	HumanoidModel* m_armorLeggings;
 };

@@ -71,13 +71,18 @@ bool FarmTile::isNearWater(Level* level, const TilePos& pos)
 		{
 			for (waterPos.z = pos.z - 4; waterPos.z <= pos.z + 4; waterPos.z++)
 			{
-				if (level->getMaterial(pos) == Material::water)
+				if (level->getMaterial(waterPos) == Material::water)
 					return true;
 			}
 		}
 	}
 
 	return false;
+}
+
+bool FarmTile::isUnderCrops(Level* level, const TilePos& pos)
+{
+	return level->getTile(pos.above()) == Tile::crops->m_ID;
 }
 
 void FarmTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
@@ -94,23 +99,22 @@ void FarmTile::stepOn(Level* level, const TilePos& pos, Entity* pEnt)
 
 void FarmTile::tick(Level* level, const TilePos& pos, Random* random)
 {
-	int val = random->genrand_int32();
-
-	//@HUH: weird way of saying val % 5 == 0
-	if (val != 5 * (val / 5))
+	if (level->m_bIsClientSide)
 		return;
 
-	if (isNearWater(level, pos))
+	if (random->nextInt(5) != 0)
+		return;
+
+	if (isNearWater(level, pos)/* && !level->isRainingAt(pos.above())*/)
 	{
 		level->setData(pos, 7);
+		return;
 	}
-	else
-	{
-		TileData data = level->getData(pos);
 
-		if (data <= 0)
-			level->setTile(pos, Tile::dirt->m_ID);
-		else
-			level->setData(pos, data - 1);
-	}
+	TileData data = level->getData(pos);
+
+	if (data > 0)
+		level->setData(pos, data - 1);
+	else if (!isUnderCrops(level, pos))
+		level->setTile(pos, Tile::dirt->m_ID);
 }
