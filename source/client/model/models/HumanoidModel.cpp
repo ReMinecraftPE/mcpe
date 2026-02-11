@@ -21,8 +21,6 @@ HumanoidModel::HumanoidModel(float modelSize, float yOffset) :
 	m_legRight(this, 0,  16),
 	m_legLeft(this, 0,  16)
 {
-	m_pMaterial = &m_materials.entity_alphatest;
-
 	m_bHoldingLeftHand = false;
 	m_bHoldingRightHand = false;
 	m_bSneaking = false;

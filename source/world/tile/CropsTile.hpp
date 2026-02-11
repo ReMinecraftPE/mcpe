@@ -16,7 +16,6 @@ public:
 	void updateShape(const LevelSource* level, const TilePos& pos) override;
 	void spawnResources(Level*, const TilePos& pos, TileData data) override;
 
-
 public:
 	float getGrowthRate(Level* level, const TilePos& pos);
 	void growCropsToMax(Level* level, const TilePos& pos);

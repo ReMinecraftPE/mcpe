@@ -133,6 +133,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DeadBush.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DirtTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DoorTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CropsTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FarmTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FenceTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FireTile.cpp" />

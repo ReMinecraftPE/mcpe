@@ -890,13 +890,9 @@ bool TileRenderer::tesselateRowInWorld(Tile* tile, const TilePos& pos)
 {
 	Tesselator& t = Tesselator::instance;
 
-	int color = getTileColor(tile, pos);
-
-	float r = float(GET_RED  (color)) / 255.0f;
-	float g = float(GET_GREEN(color)) / 255.0f;
-	float b = float(GET_BLUE (color)) / 255.0f;
-
-	t.color(Color(r, g, b) * ((0.85f * tile->getBrightness(m_pTileSource, pos)) + 0.15f));
+	Color color = getTileColor(tile, pos);
+	color.a = 1.0f;
+	t.color(color * ((0.85f * tile->getBrightness(m_pTileSource, pos)) + 0.15f));
 
 	tesselateRowTexture(tile, m_pTileSource->getData(pos), pos);
 

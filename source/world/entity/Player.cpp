@@ -30,6 +30,7 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 	_init();
 	m_pDescriptor = &EntityTypeDescriptor::player;
 	m_pInventory = nullptr;
+	field_B94 = 0;
 	m_name = "";
 	m_bHasRespawnPos = false;
 

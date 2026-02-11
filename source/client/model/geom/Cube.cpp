@@ -22,6 +22,13 @@ Cube::Cube(ModelPart* a2, const TextureOffset& texOffs, float x, float y, float 
 	y2 += g;
 	z2 += g;
 
+	field_29C = x1;
+	field_2A0 = y1;
+	field_2A4 = z1;
+	field_2A8 = x2;
+	field_2AC = y2;
+	field_2B0 = z2;
+
 	if (a2->m_bMirror)
 		std::swap(x1, x2);
 

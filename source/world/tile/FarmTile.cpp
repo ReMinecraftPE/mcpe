@@ -99,7 +99,10 @@ void FarmTile::stepOn(Level* level, const TilePos& pos, Entity* pEnt)
 
 void FarmTile::tick(Level* level, const TilePos& pos, Random* random)
 {
-	if (level->m_bIsClientSide || random->nextInt(5) != 0)
+	if (level->m_bIsClientSide)
+		return;
+
+	if (random->nextInt(5) != 0)
 		return;
 
 	if (isNearWater(level, pos)/* && !level->isRainingAt(pos.above())*/)

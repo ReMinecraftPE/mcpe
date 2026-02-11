@@ -121,6 +121,7 @@ public:
 	Inventory* m_pInventory;
 	InventoryMenu* m_pInventoryMenu;
 	ContainerMenu* m_pContainerMenu;
+	uint8_t field_B94;
 	int m_jumpTriggerTime;
 	int m_score;
 	float m_oBob;

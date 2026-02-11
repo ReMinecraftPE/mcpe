@@ -25,5 +25,11 @@ public:
 	VertexPT m_verts[8];
 	PolygonQuad m_faces[6];
 	std::string m_id;
+	float field_29C;
+	float field_2A0;
+	float field_2A4;
+	float field_2A8;
+	float field_2AC;
+	float field_2B0;
 };
 

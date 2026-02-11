@@ -22,7 +22,6 @@ public:
 	void setBrightness(float) override;
 
 public:
-	Materials m_humanoidMaterials;
 	ModelPart m_head, m_hat, m_body, m_armRight, m_armLeft, m_legRight, m_legLeft;
 	bool m_bHoldingLeftHand;
 	bool m_bHoldingRightHand;

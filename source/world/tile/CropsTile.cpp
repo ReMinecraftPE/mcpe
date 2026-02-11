@@ -91,7 +91,8 @@ float CropsTile::getGrowthRate(Level* level, const TilePos& pos)
 	return rate;
 }
 
-void CropsTile::growCropsToMax(Level* level, const TilePos& pos) {
+void CropsTile::growCropsToMax(Level* level, const TilePos& pos)
+{
 	level->setData(pos, 7);
 }
 
