@@ -146,23 +146,26 @@ Textures::Textures() :
 
 	m_currBoundTex = -1;
 
-	addSprite("consolegui/Graphics/IconHolder.png", m_guiAtlas);
-	//addSprite("consolegui/Graphics/IconHolderRed.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Armour_Slot_Head.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Armour_Slot_Body.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Armour_Slot_Legs.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Armour_Slot_Feet.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Arrow_Off.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Arrow_Small_Off.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/MainMenuButton_Norm.png", m_filteredGuiAtlas);
-	addSprite("consolegui/Graphics/MainMenuButton_Over.png", m_filteredGuiAtlas);
-	addSprite("consolegui/Graphics/Tickbox_Norm.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Tickbox_Over.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Tick.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Slider_Track.png", m_guiAtlas);
-	addSprite("consolegui/Graphics/Slider_Button.png", m_guiAtlas);
-	addSprite("consolegui/scrollDown.png", m_guiAtlas);
-	addSprite("consolegui/scrollUp.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/IconHolder.png", m_guiAtlas);
+	//addSprite("gui/console/Graphics/IconHolderRed.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Head.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Body.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Legs.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Feet.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Arrow_Off.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Arrow_Small_Off.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/MainMenuButton_Norm.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/MainMenuButton_Over.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/ListButton_Norm.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/ListButton_Over.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/Tickbox_Norm.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Tickbox_Over.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Tick.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Slider_Track.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Slider_Button.png", m_guiAtlas);
+	addSprite("gui/console/scrollDown.png", m_guiAtlas);
+	addSprite("gui/console/scrollUp.png", m_guiAtlas);
+	addSprite("gui/loading_block.png", m_guiAtlas);
 	addSprite("gui/container/entity_slot.png", m_guiAtlas);
 	addSprite("gui/slider_highlight.png", m_guiAtlas);
 	//addSprite("gui/loading_bar.png", m_guiAtlas);
@@ -172,6 +175,7 @@ Textures::Textures() :
 	{
 		addSprite(ScreenRenderer::PANEL_SLICES[i], m_guiAtlas);
 		addSprite(ScreenRenderer::SMALL_PANEL_SLICES[i], m_guiAtlas);
+		addSprite(ScreenRenderer::PANEL_RECESS_SLICES[i], m_guiAtlas);
 		addSprite(ScreenRenderer::POINTER_TEXT_PANEL_SLICES[i], m_guiAtlas);
 	}
 

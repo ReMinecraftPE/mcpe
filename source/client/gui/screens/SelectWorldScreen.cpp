@@ -207,7 +207,7 @@ void SelectWorldScreen::_buttonClicked(Button* pButton)
 	if (pButton->getId() == m_btnCreateNew.getId())
 	{
 #ifndef ORIGINAL_CODE
-		m_pMinecraft->setScreen(new CreateWorldScreen);
+		m_pMinecraft->setScreen(new CreateWorldScreen(this));
 #else
 		m_pMinecraft->platform()->showDialog(AppPlatform::DLG_CREATE_WORLD);
 		m_pMinecraft->platform()->createUserInput();

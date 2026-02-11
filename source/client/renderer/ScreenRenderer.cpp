@@ -9,17 +9,21 @@
 #pragma warning (disable : 4244)
 #endif
 
-std::string ScreenRenderer::PANEL_SLICES[] = { "consolegui/Graphics/Panel_TL.png", "consolegui/Graphics/Panel_TM.png", "consolegui/Graphics/Panel_TR.png",
-                                               "consolegui/Graphics/Panel_ML.png", "consolegui/Graphics/Panel_MM.png", "consolegui/Graphics/Panel_MR.png",
-                                               "consolegui/Graphics/Panel_BL.png", "consolegui/Graphics/Panel_BM.png", "consolegui/Graphics/Panel_BR.png" };
+std::string ScreenRenderer::PANEL_SLICES[] = { "gui/console/Graphics/Panel_TL.png", "gui/console/Graphics/Panel_TM.png", "gui/console/Graphics/Panel_TR.png",
+                                               "gui/console/Graphics/Panel_ML.png", "gui/console/Graphics/Panel_MM.png", "gui/console/Graphics/Panel_MR.png",
+                                               "gui/console/Graphics/Panel_BL.png", "gui/console/Graphics/Panel_BM.png", "gui/console/Graphics/Panel_BR.png" };
 
-std::string ScreenRenderer::SMALL_PANEL_SLICES[] = { "consolegui/Panel_Top_L.png", "consolegui/Panel_Top_M.png", "consolegui/Panel_Top_R.png",
-                                                     "consolegui/Panel_Mid_L.png", "consolegui/Panel_Mid_M.png", "consolegui/Panel_Mid_R.png",
-                                                     "consolegui/Panel_Bot_L.png", "consolegui/Panel_Bot_M.png", "consolegui/Panel_Bot_R.png" };
+std::string ScreenRenderer::SMALL_PANEL_SLICES[] = { "gui/console/Panel_Top_L.png", "gui/console/Panel_Top_M.png", "gui/console/Panel_Top_R.png",
+                                                     "gui/console/Panel_Mid_L.png", "gui/console/Panel_Mid_M.png", "gui/console/Panel_Mid_R.png",
+                                                     "gui/console/Panel_Bot_L.png", "gui/console/Panel_Bot_M.png", "gui/console/Panel_Bot_R.png" };
 
-std::string ScreenRenderer::POINTER_TEXT_PANEL_SLICES[] = { "consolegui/Graphics/PointerTextPanel_TL.png", "consolegui/Graphics/PointerTextPanel_TM.png", "consolegui/Graphics/PointerTextPanel_TR.png",
-                                                            "consolegui/Graphics/PointerTextPanel_ML.png", "consolegui/Graphics/PointerTextPanel_MM.png", "consolegui/Graphics/PointerTextPanel_MR.png",
-                                                            "consolegui/Graphics/PointerTextPanel_BL.png", "consolegui/Graphics/PointerTextPanel_BM.png", "consolegui/Graphics/PointerTextPanel_BR.png" };
+std::string ScreenRenderer::PANEL_RECESS_SLICES[] = { "gui/console/Graphics/Panel_Recess_Top_L.png", "gui/console/Graphics/Panel_Recess_Top_M.png", "gui/console/Graphics/Panel_Recess_Top_R.png",
+                                                      "gui/console/Graphics/Panel_Recess_Mid_L.png", "gui/console/Graphics/Panel_Recess_Mid_M.png", "gui/console/Graphics/Panel_Recess_Mid_R.png",
+                                                      "gui/console/Graphics/Panel_Recess_Bot_L.png", "gui/console/Graphics/Panel_Recess_Bot_M.png", "gui/console/Graphics/Panel_Recess_Bot_R.png" };
+
+std::string ScreenRenderer::POINTER_TEXT_PANEL_SLICES[] = { "gui/console/Graphics/PointerTextPanel_TL.png", "gui/console/Graphics/PointerTextPanel_TM.png", "gui/console/Graphics/PointerTextPanel_TR.png",
+                                                            "gui/console/Graphics/PointerTextPanel_ML.png", "gui/console/Graphics/PointerTextPanel_MM.png", "gui/console/Graphics/PointerTextPanel_MR.png",
+                                                            "gui/console/Graphics/PointerTextPanel_BL.png", "gui/console/Graphics/PointerTextPanel_BM.png", "gui/console/Graphics/PointerTextPanel_BR.png" };
 
 ScreenRenderer::Materials::Materials()
 {

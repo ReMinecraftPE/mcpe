@@ -15,15 +15,12 @@ VerticalLayout::VerticalLayout(Screen* screen) :
 
 VerticalLayout::~VerticalLayout()
 {
-	for (GuiElementList::iterator it = m_elements.begin(); it != m_elements.end(); ++it)
-	{
-		delete (*it);
-	}
+	clear();
 }
 
 GuiElement* VerticalLayout::getElement(ID index) const
 {
-	if (index >= 0  && index < ID(m_elements.size()))
+	if (index >= 0 && index < ID(m_elements.size()))
 		return m_elements[index];
 
 	return nullptr;
@@ -32,6 +29,17 @@ GuiElement* VerticalLayout::getElement(ID index) const
 bool VerticalLayout::selectElement(ID id, bool sound)
 {
 	GuiElement* element = getElement(id);
+	if (element && selectElement(element))
+	{
+		if (sound)
+			m_pScreen->_playSelectSound();
+		return true;
+	}
+	return false;
+}
+
+bool VerticalLayout::selectElement(GuiElement* element)
+{
 	if (element != m_pSelectedElement)
 	{
 		if (m_pSelectedElement)
@@ -39,8 +47,6 @@ bool VerticalLayout::selectElement(ID id, bool sound)
 		m_pSelectedElement = element;
 		if (m_pSelectedElement)
 			m_pSelectedElement->setSelected(true);
-		if (sound)
-			m_pScreen->_playSelectSound();
 		return true;
 	}
 	return false;
@@ -58,9 +64,6 @@ void VerticalLayout::init(int x, int y, int w, int h, int spacing, bool cyclic)
 	m_pScreen->_addElement(*this, !m_elements.empty());
 
 	organize();
-
-	if (!m_pSelectedElement && m_pScreen->_useController())
-		selectElement(0, false);
 }
 
 void VerticalLayout::organize()
@@ -94,6 +97,22 @@ void VerticalLayout::organize()
 		++m_elementsOnScreen;
 
 		yDiff += element->m_height + m_spacing;
+	}
+
+	if (isSelected() && !m_pSelectedElement && m_pScreen->_useController())
+		selectElement(0, false);
+}
+
+void VerticalLayout::clear()
+{
+	if (m_elements.empty()) return;
+
+	m_pSelectedElement = nullptr;
+	m_pClickedElement = nullptr;
+
+	for (GuiElementList::iterator it = m_elements.begin(); it != m_elements.end(); it = m_elements.erase(it))
+	{
+		delete (*it);
 	}
 }
 
@@ -164,9 +183,20 @@ void VerticalLayout::areaNavigation(AreaNavigation::Direction dir)
 		selectElement(m_scrollAmount + id);
 }
 
+void VerticalLayout::setSelected(bool b)
+{
+	GuiElement::setSelected(b);
+
+	if (b && !m_pSelectedElement && m_pScreen->_useController())
+		selectElement(0, false);
+
+	if (!b)
+		selectElement(nullptr);
+}
+
 bool VerticalLayout::handleScroll(bool up)
 {
-	if (m_scrollAmount > 0 && up || m_bCanScrollDown && !up)
+	if ((m_scrollAmount > 0 && up) || (m_bCanScrollDown && !up))
 	{
 		updateScroll(m_scrollAmount + (up ? -1 : 1));
 		return true;

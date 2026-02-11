@@ -14,12 +14,15 @@ public:
     bool isTopElement(GuiElement& element) const { return element.m_yPos == m_yPos; };
     bool isBottomElement(GuiElement& element) const { return element.m_yPos == m_bottom; };
     bool selectElement(ID, bool sound = true);
+    bool selectElement(GuiElement*);
 
     void init(int x, int y, int w, int h, int spacing = 8, bool cyclic = true);
     void organize();
+    void clear();
 
     bool areaNavigation(Minecraft*, AreaNavigation::Direction) override;
     void areaNavigation(AreaNavigation::Direction);
+    void setSelected(bool);
     
     bool handleScroll(bool up);
     void handleScroll(float) override;

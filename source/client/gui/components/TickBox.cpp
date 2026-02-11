@@ -50,10 +50,10 @@ void TickBox::render(Minecraft* mc, const MenuPointer& pointer)
 			m_yPos + m_height / 2 - 9,
 			Color(204, 196, 13));
 
-	blitSprite(*mc->m_pTextures, isSelected() ? "consolegui/Graphics/Tickbox_Over.png" : "consolegui/Graphics/Tickbox_Norm.png", m_xPos, m_yPos + (m_height - C_TICKBOX_SIZE) / 2, C_TICKBOX_SIZE, C_TICKBOX_SIZE);
+	blitSprite(*mc->m_pTextures, isSelected() ? "gui/console/Graphics/Tickbox_Over.png" : "gui/console/Graphics/Tickbox_Norm.png", m_xPos, m_yPos + (m_height - C_TICKBOX_SIZE) / 2, C_TICKBOX_SIZE, C_TICKBOX_SIZE, &m_materials.ui_textured_and_glcolor);
 
 	if (getOption().get())
-		blitSprite(*mc->m_pTextures, "consolegui/Graphics/Tick.png", m_xPos, m_yPos + (m_height - C_TICKBOX_SIZE) / 2, 28, 24);
+		blitSprite(*mc->m_pTextures, "gui/console/Graphics/Tick.png", m_xPos, m_yPos + (m_height - C_TICKBOX_SIZE) / 2, 28, 24, &m_materials.ui_textured_and_glcolor);
 
 	currentShaderColor = Color::WHITE;
 }

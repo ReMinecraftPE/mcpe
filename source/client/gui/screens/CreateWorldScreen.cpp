@@ -7,18 +7,18 @@
  ********************************************************************/
 
 #include "CreateWorldScreen.hpp"
-#include "SelectWorldScreen.hpp"
-#include "ProgressScreen.hpp"
 #include "common/Util.hpp"
 
 static char g_CreateWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':' };
 
-CreateWorldScreen::CreateWorldScreen() :
+CreateWorldScreen::CreateWorldScreen(Screen* parent) :
+	m_pParent(parent),
 	m_textName(this, 0, 0, 0, 0, "", "Unnamed world"),
 	m_textSeed(this, 0, 0, 0, 0, ""),
 	m_btnBack("Cancel"),
 	m_btnCreate("Create New World")
 {
+	m_bDeletePrevious = false;
 }
 
 static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in)
@@ -143,7 +143,7 @@ bool CreateWorldScreen::handleBackEvent(bool b)
 {
 	if (!b)
 	{
-		m_pMinecraft->setScreen(new SelectWorldScreen);
+		m_pMinecraft->setScreen(m_pParent);
 	}
 
 	return true;

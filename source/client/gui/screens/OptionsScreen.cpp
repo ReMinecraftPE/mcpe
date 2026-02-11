@@ -145,11 +145,11 @@ void OptionsScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->getId() == m_videoButton.getId())
 		setCategory(OC_VIDEO);
-	if (pButton->getId() == m_controlsButton.getId())
+	else if (pButton->getId() == m_controlsButton.getId())
 		setCategory(OC_CONTROLS);
-	if (pButton->getId() == m_gameplayButton.getId())
+	else if (pButton->getId() == m_gameplayButton.getId())
 		setCategory(OC_GAMEPLAY);
-	if (pButton->getId() == m_miscButton.getId())
+	else if (pButton->getId() == m_miscButton.getId())
 		setCategory(OC_MISCELLANEOUS);
 	else if (pButton->getId() == m_backButton.getId())
 		handleBackEvent(false);

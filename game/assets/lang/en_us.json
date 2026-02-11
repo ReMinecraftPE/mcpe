@@ -106,5 +106,11 @@
     "settingsMenu.controls": "Controls",
     "settingsMenu.settings": "Settings",
     "settingsMenu.credits": "Credits",
-    "settingsMenu.resetToDefaults": "Reset To Defaults"
+    "settingsMenu.resetToDefaults": "Reset To Defaults",
+    "playGame.start": "Start Game",
+    "playGame.join": "Join Game",
+    "playGame.createNewWorld": "Create New World",
+    "playGame.tutorial": "Play Tutorial",
+    "playGame.joinButton": "%s's Game",
+    "playGame.noGamesFound": "No Games Found"
 }

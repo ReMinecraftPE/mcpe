@@ -27,7 +27,7 @@ void ContainerScreen::_renderSlot(Slot& slot)
         MatrixStack::Ref matrix = MatrixStack::World.push();
         float off = 3 * display.size / 50.0f;
         matrix->translate(Vec3(-off, -off, 0.0f));
-        blitSprite(*m_pMinecraft->m_pTextures, "consolegui/Graphics/IconHolder.png", display.x, display.y, display.size, display.size);
+        blitSprite(*m_pMinecraft->m_pTextures, "gui/console/Graphics/IconHolder.png", display.x, display.y, display.size, display.size);
     }
     MatrixStack::Ref matrix = MatrixStack::World.push();
     matrix->translate(Vec3(display.x, display.y, 0));

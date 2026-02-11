@@ -16,6 +16,7 @@
 #include "ProgressScreen.hpp"
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
+#include "PlayGameScreen.hpp"
 #include "CreditsScreen.hpp"
 #include "ConsoleSettingsScreen.hpp"
 
@@ -415,7 +416,13 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 #if defined(DEMO)
 		m_pMinecraft->selectLevel("_DemoLevel", "_DemoLevel", int(getEpochTimeS()));
 #else
-		m_pMinecraft->setScreen(new SelectWorldScreen);
+		if (m_uiTheme == UI_CONSOLE)
+		{
+			m_pMinecraft->locateMultiplayer();
+			m_pMinecraft->setScreen(new PlayGameScreen(m_pMinecraft, this));
+		}
+		else
+			m_pMinecraft->setScreen(new SelectWorldScreen);
 #endif
 	}
 	else if (pButton->getId() == m_joinButton.getId())

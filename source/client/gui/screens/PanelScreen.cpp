@@ -10,11 +10,6 @@ PanelScreen::PanelScreen(Screen* parent) :
 	m_bDeletePrevious = false;
 }
 
-PanelScreen::~PanelScreen()
-{
-	SAFE_DELETE(m_pParent);
-}
-
 void PanelScreen::init()
 {
 	m_panel.w = 354;
@@ -29,8 +24,13 @@ void PanelScreen::render(float f)
 	currentShaderColor = Color::WHITE;
 	renderBackground();
 	LogoRenderer::singleton().render(f);
-	blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::SMALL_PANEL_SLICES, m_panel.x, m_panel.y, m_panel.w, m_panel.h, 16);
+	renderPanel(f);
 	Screen::render(f);
+}
+
+void PanelScreen::renderPanel(float f)
+{
+	blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::SMALL_PANEL_SLICES, m_panel.x, m_panel.y, m_panel.w, m_panel.h, 16);
 }
 
 bool PanelScreen::handleBackEvent(bool b)

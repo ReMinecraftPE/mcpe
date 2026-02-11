@@ -4,7 +4,7 @@
 #include "world/inventory/ArmorSlot.hpp"
 //#include "stats/Achievement.hpp"
 
-std::string InventoryScreen::CONSOLE_ARMOR_SLOTS[] = { "consolegui/Graphics/Armour_Slot_Feet.png", "consolegui/Graphics/Armour_Slot_Legs.png", "consolegui/Graphics/Armour_Slot_Body.png", "consolegui/Graphics/Armour_Slot_Head.png" };
+std::string InventoryScreen::CONSOLE_ARMOR_SLOTS[] = { "gui/console/Graphics/Armour_Slot_Feet.png", "gui/console/Graphics/Armour_Slot_Legs.png", "gui/console/Graphics/Armour_Slot_Body.png", "gui/console/Graphics/Armour_Slot_Head.png" };
 
 InventoryScreen::InventoryScreen(Player* player) : ContainerScreen(player->m_pInventoryMenu)
 {
@@ -63,7 +63,7 @@ void InventoryScreen::_renderBg(float partialTick)
         {
             playerX -= 100;
             playerSlotX -= 100;
-            blitSprite(*m_pMinecraft->m_pTextures, "consolegui/Graphics/Arrow_Small_Off.png", m_leftPos + 309, m_topPos + 89, 32, 32);
+            blitSprite(*m_pMinecraft->m_pTextures, "gui/console/Graphics/Arrow_Small_Off.png", m_leftPos + 309, m_topPos + 89, 32, 32);
         }
 
         //For some reason, TU0 didn't had a texture for the player slot, but we do!

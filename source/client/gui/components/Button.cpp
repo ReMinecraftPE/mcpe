@@ -65,12 +65,12 @@ void Button::renderBg(Minecraft* pMinecraft, const MenuPointer& pointer)
 	{
 		if (!isEnabled())
 			currentShaderColor.a *= 0.5f;
-		blitSprite(texs, isSelected() && !hasFocus() ? "consolegui/Graphics/MainMenuButton_Over.png" : "consolegui/Graphics/MainMenuButton_Norm.png", m_xPos, m_yPos, m_width, m_height);
+		blitSprite(texs, isSelected() && !hasFocus() ? "gui/console/Graphics/MainMenuButton_Over.png" : "gui/console/Graphics/MainMenuButton_Norm.png", m_xPos, m_yPos, m_width, m_height, &m_materials.ui_textured_and_glcolor);
 		if (hasFocus())
 		{
 			float timer = (getTimeMs() % 1200) / 1200.0f;
 			currentShaderColor.a *= 0.5f + (timer >= 0.5f ? 1 - timer : timer);
-			blitSprite(texs, "consolegui/Graphics/MainMenuButton_Over.png", m_xPos, m_yPos, m_width, m_height);
+			blitSprite(texs, "gui/console/Graphics/MainMenuButton_Over.png", m_xPos, m_yPos, m_width, m_height, &m_materials.ui_textured_and_glcolor);
 			currentShaderColor = m_color;
 		}
 	}
@@ -104,14 +104,14 @@ void Button::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 		if (hasFocus())
 		{
 			float timer = (getTimeMs() % 1200) / 1200.0f;
-			textColor = Color(220, 220, Mth::round((0.5f - (timer >= 0.5f ? 1 - timer : timer)) * 220), m_color.a);
+			textColor = Color(220, 220, Mth::round((0.5f - (timer >= 0.5f ? 1 - timer : timer)) * 220), currentShaderColor.a);
 		}
 		else if (isSelected())
 		{
-			textColor = Color(220, 220, 0, m_color.a); // 0xDCDC00
+			textColor = Color(220, 220, 0, currentShaderColor.a); // 0xDCDC00
 		}
 		else
-			textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
+			textColor = Color(224, 224, 224, currentShaderColor.a); // 0xE0E0E0U
 		int textWidth = font.width(getMessage()) * 2;
 		font.drawScalableShadow(getMessage(), m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);
 	}

@@ -67,11 +67,11 @@ void SliderButton::renderBg(Minecraft* mc, const MenuPointer& pointer)
 	if (m_uiTheme == UI_CONSOLE)
 	{
 		Textures& texs = *mc->m_pTextures;
-		blitSprite(texs, "consolegui/Graphics/Slider_Track.png", m_xPos, m_yPos, m_width - 2, m_height, nullptr, 0.0f, 0.0f, m_width - 2);
-		blitSprite(texs, "consolegui/Graphics/Slider_Track.png", m_xPos + m_width - 2, m_yPos, 2, m_height, nullptr, 0.0f, 0.0f, 2.0f);
+		blitSprite(texs, "gui/console/Graphics/Slider_Track.png", m_xPos, m_yPos, m_width - 2, m_height, nullptr, 0.0f, 0.0f, m_width - 2);
+		blitSprite(texs, "gui/console/Graphics/Slider_Track.png", m_xPos + m_width - 2, m_yPos, 2, m_height, nullptr, 0.0f, 0.0f, 2.0f);
 		if (isSelected())
 			blitNineSlice(texs, "gui/slider_highlight.png", m_xPos - 3, m_yPos - 3, m_width + 6, m_height + 6, 5);
-		blitSprite(texs, "consolegui/Graphics/Slider_Button.png", m_xPos + int(m_value * float(m_width - 16)), m_yPos, 16, m_height);
+		blitSprite(texs, "gui/console/Graphics/Slider_Button.png", m_xPos + int(m_value * float(m_width - 16)), m_yPos, 16, m_height);
 	}
 	else
 	{

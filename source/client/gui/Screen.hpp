@@ -127,6 +127,7 @@ public:
 	virtual void renderMenuBackground(float f);
 	void renderConsolePanorama(bool isNight);
 	void renderConsolePanorama();
+	void renderConsoleLoading(int x, int y, int blockSize = 42, int blockDistance = 12);
 
 protected:
 	Materials m_screenMaterials;

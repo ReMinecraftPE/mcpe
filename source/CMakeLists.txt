@@ -110,6 +110,8 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/IngameBlockSelectionScreen.cpp
     client/gui/screens/PauseScreen.cpp
     client/gui/screens/DeathScreen.cpp
+    client/gui/screens/PanelScreen.cpp
+    client/gui/screens/PlayGameScreen.cpp
     client/gui/screens/ConsoleSettingsScreen.cpp
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp

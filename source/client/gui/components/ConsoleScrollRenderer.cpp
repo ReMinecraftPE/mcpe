@@ -1,7 +1,7 @@
 #include "ConsoleScrollRenderer.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-std::string ConsoleScrollRenderer::SCROLLS[] = { "consolegui/scrollUp.png", "consolegui/scrollDown.png", "consolegui/scrollLeft.png", "consolegui/scrollRight.png" };
+std::string ConsoleScrollRenderer::SCROLLS[] = { "gui/console/scrollUp.png", "gui/console/scrollDown.png", "gui/console/scrollLeft.png", "gui/console/scrollRight.png" };
 
 ConsoleScrollRenderer::ConsoleScrollRenderer() :
 	m_lastScrolled{}
@@ -31,7 +31,7 @@ void ConsoleScrollRenderer::renderScroll(AreaNavigation::Direction dir, Textures
     int l = m_lastScrolled[dir];
     if (l > 0)
         currentShaderColor = Color(1.0f, 1.0f, 1.0f, getAlpha(l));
-    blitSprite(texs, sprite, x, y, width, height);
+    blitSprite(texs, sprite, x, y, width, height, &m_materials.ui_textured_and_glcolor);
     if (l > 0)
         currentShaderColor = Color::WHITE;
 }

@@ -61,6 +61,7 @@ public:
 
 	static std::string PANEL_SLICES[];
 	static std::string SMALL_PANEL_SLICES[];
+	static std::string PANEL_RECESS_SLICES[];
 	static std::string POINTER_TEXT_PANEL_SLICES[];
 };
 

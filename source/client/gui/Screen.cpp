@@ -334,13 +334,31 @@ void Screen::renderMenuBackground(float f)
 void Screen::renderConsolePanorama(bool isNight)
 {
 	m_pMinecraft->m_pTextures->setSmoothing(true);
-	blitTexture(*m_pMinecraft->m_pTextures, isNight ? "consolegui/Panorama_Background_N.png" : "consolegui/Panorama_Background_S.png", 0, 0, getTimeS() * 1000 * m_height / 360 / 66.32f, 1, m_width, m_height + 2, m_height * 820 / 144, m_height + 2);
+	blitTexture(*m_pMinecraft->m_pTextures, isNight ? "gui/console/Panorama_Background_N.png" : "gui/console/Panorama_Background_S.png", 0, 0, getTimeS() * 1000 * m_height / 360 / 66.32f, 1, m_width, m_height + 2, m_height * 820 / 144, m_height + 2);
 	m_pMinecraft->m_pTextures->setSmoothing(false);
 }
 
 void Screen::renderConsolePanorama()
 {
 	renderConsolePanorama(m_pMinecraft->m_pLevel && !m_pMinecraft->m_pLevel->isDay());
+}
+
+void Screen::renderConsoleLoading(int x, int y, int blockSize, int blockDistance)
+{
+	int blockD = (blockSize + blockDistance);
+	for (int i = 0; i < 8; i++)
+	{
+		int v = (i + 1) * 100;
+		int n = (i + 3) * 100;
+		float l = (getTimeMs() % 1000) / 4.0f;
+		float alpha = l >= v - 100 ? (l <= v ? l / v : (n - l) / 200.0f) : 0;
+		if (alpha > 0)
+		{
+			currentShaderColor.a = alpha;
+			blitSprite(*m_pMinecraft->m_pTextures, "gui/loading_block.png", x + (i <= 2 ? i : i >= 4 ? i == 7 ? 0 : 6 - i : 2) * blockD, y + (i <= 2 ? 0 : i == 3 || i == 7 ? 1 : 2) * blockD, blockSize, blockSize);
+		}
+	}
+	currentShaderColor = Color::WHITE;
 }
 
 void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // d = clicked?

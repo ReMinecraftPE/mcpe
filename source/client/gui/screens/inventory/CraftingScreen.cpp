@@ -71,7 +71,7 @@ void ConsoleClassicCraftingScreen::_renderBg(float partialTick)
 {
     currentShaderColor = Color::WHITE;
     blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_SLICES, m_leftPos, m_topPos, m_imageWidth, m_imageHeight, 32);
-    blitSprite(*m_pMinecraft->m_pTextures, "consolegui/Graphics/Arrow_Off.png", m_leftPos + 206, m_topPos + 100, 72, 48);
+    blitSprite(*m_pMinecraft->m_pTextures, "gui/console/Graphics/Arrow_Off.png", m_leftPos + 206, m_topPos + 100, 72, 48);
 }
 
 SlotDisplay ConsoleClassicCraftingScreen::_createSlotDisplay(const Slot& slot)
