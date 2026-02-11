@@ -168,6 +168,9 @@ void ContainerScreen::render(float partialTicks)
 
     MatrixStack::Ref matrix = MatrixStack::World.push();
     matrix->translate(Vec3(m_leftPos, m_topPos, 0.0f));
+    
+    _renderLabels();
+
     currentShaderColor = Color::WHITE;
 
     Slot* hoveredSlot = nullptr;
@@ -201,7 +204,6 @@ void ContainerScreen::render(float partialTicks)
     }
 
     Lighting::turnOff();
-    _renderLabels();
 
     if (!inv->getCarried() && hoveredSlot && hoveredSlot->hasItem())
     {
@@ -284,7 +286,7 @@ void ContainerScreen::slotClicked(const MenuPointer& pointer, MouseButtonType bu
 
 void ContainerScreen::keyPressed(int keyCode)
 {
-    if (m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode) && !_useController())
+    if (!_useController() && m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
     {
         m_pMinecraft->handleBack(false);
     }

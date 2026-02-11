@@ -64,7 +64,7 @@ bool CraftingMenu::stillValid(Player* player) const
     if (m_pLevel->getTile(m_pos) != Tile::craftingTable->m_ID)
         return false;
     else
-        return !(player->distanceToSqr(Vec3(m_pos.x + 0.5f, m_pos.y + 0.5f, m_pos.z + 0.5)) > 64.0f);
+        return !(player->distanceToSqr(Vec3(m_pos.x + 0.5f, m_pos.y + 0.5f, m_pos.z + 0.5f)) > 64.0f);
 }
 
 ItemStack CraftingMenu::quickMoveStack(int index)

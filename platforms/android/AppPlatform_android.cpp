@@ -188,12 +188,12 @@ void AppPlatform_android::setShiftPressed(bool b)
 	m_bShiftPressed = b;
 }
 
-void AppPlatform_android::showKeyboard(int x, int y, int w, int h)
+void AppPlatform_android::showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard)
 {
 	changeKeyboardVisibility(true);
 }
 
-void AppPlatform_android::hideKeyboard()
+void AppPlatform_android::hideKeyboard(LocalPlayerID playerId)
 {
 	changeKeyboardVisibility(false);
 }
@@ -255,7 +255,7 @@ void AppPlatform_android::changeKeyboardVisibility(bool bShown)
 	pVM->DetachCurrentThread();
 }
 
-int AppPlatform_android::getKeyboardUpOffset()
+unsigned int AppPlatform_android::getKeyboardUpOffset() const
 {
 	// @TODO
 	// For now we'll just return 1/2 of the screen height. That ought to cover most cases.

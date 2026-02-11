@@ -39,36 +39,43 @@ TextBox::TextBox(Screen* parent, int x, int y, int width, int height, const std:
 
 TextBox::~TextBox()
 {
-	m_pParent->m_pMinecraft->platform()->hideKeyboard();
+	m_pParent->m_pMinecraft->platform()->hideKeyboard(0);
 }
 
 void TextBox::_onSelectedChanged()
 {
-	// For textbox, they are one in the same
-	setFocused(isSelected());
+	if (isSelected())
+	{
+		m_lastFlashed = getTimeMs();
+		m_bCursorOn = true;
+		m_insertHead = int(m_text.size());
+		recalculateScroll();
+	}
+	else if (hasFocus())
+	{
+		setFocused(false);
+	}
 }
 
 void TextBox::_onFocusChanged()
 {
 	if (hasFocus())
 	{
-		int x = (int)(((float)m_xPos) / Gui::InvGuiScale);
-		int y = (int)(((float)m_yPos) / Gui::InvGuiScale);
-		int w = (int)(((float)m_width) / Gui::InvGuiScale);
-		int h = (int)(((float)m_height) / Gui::InvGuiScale);
-		m_pParent->m_pMinecraft->platform()->showKeyboard(x, y, w, h);
+		VirtualKeyboard keyboard;
+		IntRectangle& rect = keyboard.rect;
+
+		rect.x = (int)(((float)m_xPos) / Gui::InvGuiScale);
+		rect.y = (int)(((float)m_yPos) / Gui::InvGuiScale);
+		rect.w = (int)(((float)m_width) / Gui::InvGuiScale);
+		rect.h = (int)(((float)m_height) / Gui::InvGuiScale);
+
+		keyboard.defaultText = m_text;
+
+		m_pParent->m_pMinecraft->platform()->showKeyboard(0, keyboard);
 	}
 	else
 	{
-		m_pParent->m_pMinecraft->platform()->hideKeyboard();
-	}
-
-	if (hasFocus())
-	{
-		m_lastFlashed = getTimeMs();
-		m_bCursorOn = true;
-		m_insertHead = int(m_text.size());
-		recalculateScroll();
+		m_pParent->m_pMinecraft->platform()->hideKeyboard(0);
 	}
 
 	// don't actually hide the keyboard when unfocusing
@@ -199,8 +206,12 @@ char TextBox::guessCharFromKey(int key) {
 
 void TextBox::handleButtonPress(Minecraft* pMinecraft, int key)
 {
+	Options& options = *pMinecraft->getOptions();
+
 	if (!hasFocus())
 	{
+		if (options.isKey(KM_MENU_OK, key))
+			setFocused(true);
 		return;
 	}
 
@@ -267,7 +278,7 @@ void TextBox::tick(Minecraft* pMinecraft)
 	if (!m_lastFlashed)
 		m_lastFlashed = getTimeMs();
 
-	if (hasFocus())
+	if (isSelected())
 	{
 		if (getTimeMs() > m_lastFlashed + 500)
 		{
@@ -400,6 +411,8 @@ std::string TextBox::getRenderedText(int scroll_pos, std::string text)
 	// Not the most efficient code.
 	// But it does not run often enough to matter.
 	std::string rendered_text = text.substr(scroll_pos);
+	if (!m_pFont)
+		return rendered_text;
 	int max_width = m_width - (PADDING * 2);
 	while (m_pFont->width(rendered_text) > max_width && !rendered_text.empty())
 	{
@@ -413,7 +426,11 @@ constexpr char CURSOR_CHAR = '_';
 
 void TextBox::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
-	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, 0xFFAAAAAA);
+	if (!m_pFont)
+		return;
+	// blue: 0xFFE9B3A9
+	// button-yellow: 0xFFA0FFFF
+	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, isSelected() ? 0xFFA0FFFF : 0xFFAAAAAA);
 	fill(m_xPos + 1, m_yPos + 1, m_xPos + m_width - 1, m_yPos + m_height - 1, 0xFF000000);
 
 	int text_color;
@@ -458,6 +475,8 @@ void TextBox::recalculateScroll()
 	{
 		return;
 	}
+	if (!m_pFont)
+		return;
 	// Ensure Cursor Is Visible
 	bool is_cursor_at_end = m_insertHead == int(m_text.length());
 	if (m_scrollPos >= m_insertHead && m_scrollPos > 0)
@@ -518,10 +537,14 @@ void TextBox::recalculateScroll()
 	}
 }
 
-void TextBox::setText(const std::string& text)
+void TextBox::setTextboxText(const std::string& text)
 {
 	m_text = text;
 	m_insertHead = int(m_text.size());
+
+	recalculateScroll();
+
+	m_pParent->onTextBoxUpdated(getId());
 }
 
 void TextBox::setMaxLength(int max_length)

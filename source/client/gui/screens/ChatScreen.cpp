@@ -13,7 +13,7 @@
 ChatScreen::ChatScreen(bool slash) : m_textChat(this, 0, 0), m_btnSend(0, 0, "Send")
 {
 	if (slash)
-		m_textChat.setText("/");
+		m_textChat.setTextboxText("/");
 }
 
 void ChatScreen::_buttonClicked(Button* pButton)

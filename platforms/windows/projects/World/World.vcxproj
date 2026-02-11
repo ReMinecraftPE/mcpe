@@ -61,6 +61,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\DoorItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\Inventory.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\FoodItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\ItemStack.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Creeper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\MobFactory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\MobSpawner.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\TilePos.cpp" />

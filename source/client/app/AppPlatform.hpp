@@ -16,6 +16,7 @@
 #include "client/renderer/texture/TextureData.hpp"
 #include "client/sound/SoundSystem.hpp"
 #include "AssetFile.hpp"
+#include "VirtualKeyboard.hpp"
 
 #include "GameMods.hpp"
 #include "compat/PlatformDefinitions.h"
@@ -36,6 +37,8 @@
 
 #define C_HOME_PATH "/games/com.mojang/"
 #define C_MAX_LOCAL_PLAYERS 4
+
+typedef unsigned int LocalPlayerID;
 
 class GameControllerHandler;
 class AppPlatformListener;
@@ -64,10 +67,8 @@ public:
 	AppPlatform();
 	virtual ~AppPlatform();
 
-private:
-	virtual void _tick();
-
 public:
+	virtual void tick();
 	virtual void buyGame();
 	virtual int checkLicense();
 	virtual void createUserInput();
@@ -98,15 +99,11 @@ public:
 	virtual bool controlPressed();
 	virtual bool shiftPressed();
 	// On-screen keyboard
-	virtual void showKeyboard(int x, int y, int w, int h);
-	virtual void showKeyboard();
-	virtual void showKeyboard(bool bShown); // @TODO: Why on earth is this here?
-	// virtual void showKeyboard(std::string const &currentText, int maxLength, bool limitInput);
-	virtual void hideKeyboard();
+	virtual void showKeyboard(LocalPlayerID playerId, const VirtualKeyboard& keyboard);
+	virtual void hideKeyboard(LocalPlayerID playerId);
 	virtual void onHideKeyboard(); // called by the runner, not the game
-  #ifdef USE_NATIVE_ANDROID
-	virtual int getKeyboardUpOffset();
-  #endif
+	virtual const std::string& getKeyboardText() const;
+	virtual unsigned int getKeyboardUpOffset() const;
 	virtual void vibrate(int milliSeconds);
     virtual bool getRecenterMouseEveryTick();
 	virtual std::string getClipboardText();
@@ -130,10 +127,10 @@ public:
 	virtual void makeNativePath(std::string& path) const;
 
 	// For getting a handle on the save device for consoles
-	virtual void beginProfileDataRead(unsigned int playerId);
-	virtual void endProfileDataRead(unsigned int playerId);
-	virtual void beginProfileDataWrite(unsigned int playerId);
-	virtual void endProfileDataWrite(unsigned int playerId);
+	virtual void beginProfileDataRead(LocalPlayerID playerId);
+	virtual void endProfileDataRead(LocalPlayerID playerId);
+	virtual void beginProfileDataWrite(LocalPlayerID playerId);
+	virtual void endProfileDataWrite(LocalPlayerID playerId);
 
 public:
 	ListenerMap m_listeners;

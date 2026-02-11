@@ -248,6 +248,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\VerticalLayout.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PlayGameScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -415,6 +416,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PlayGameScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

@@ -118,7 +118,7 @@ void Screen::_renderPointer()
 GuiElement* Screen::_getElement(GuiElement::ID id)
 {
 	GuiElementList& list = m_elements;
-	if (id >= list.size())
+	if (id >= int(list.size()))
 		return nullptr;
 
 	return list[id];
@@ -228,6 +228,25 @@ float Screen::getScale(int width, int height)
 float Screen::getConsoleScale(int height)
 {
 	return 1 / float(Mth::round((Mth::round(height / 180.0f) * 180) / 360.0f) / 2.0f);
+}
+
+void Screen::setTextboxText(const std::string& text)
+{
+	GuiElement* element = _getSelectedElement();
+	if (element && element->isEnabled())
+	{
+		element->setTextboxText(text);
+		element->setFocused(false);
+	}
+}
+
+void Screen::handleKeyboardClosed()
+{
+	GuiElement* element = _getSelectedElement();
+	if (element && element->isEnabled())
+	{
+		element->setFocused(false);
+	}
 }
 
 static const char* g_panoramaList[] =
@@ -401,7 +420,7 @@ void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // 
 			areAnyFocused = true;
 
 		if (!areAnyFocused)
-			m_pMinecraft->platform()->hideKeyboard();
+			m_pMinecraft->platform()->hideKeyboard(0);
 	}
 #endif
 #endif

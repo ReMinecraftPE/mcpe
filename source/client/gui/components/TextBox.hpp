@@ -45,7 +45,7 @@ public:
 	void handleClipboardPaste(const std::string& text) override;
 	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;
 	void tick(Minecraft* pMinecraft) override;
-	void setText(const std::string& text);
+	void setTextboxText(const std::string& text) override;
 	void setMaxLength(int max_length);
 
 	const std::string& getText() const { return m_text; }

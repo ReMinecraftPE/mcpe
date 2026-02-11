@@ -58,6 +58,7 @@ public:
 	virtual void setId(ID);
 	virtual void setNavigable(bool isNavigable);
 	virtual void setMessage(const std::string& message);
+	virtual void setTextboxText(const std::string& text);
 	virtual Type getType() const { return TYPE_UNKNOWN; }
 	virtual const std::string& getMessage() { return m_message; }
 	virtual ID getId() const { return m_ID; }

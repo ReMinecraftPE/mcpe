@@ -21,10 +21,10 @@ public:
 	bool handleBackEvent(bool b) override;
 	void _buttonClicked(Button* pButton) override;
 
-public:
-	Button m_btnBack;
-
 private:
 	Screen* m_pParent;
 	std::vector<std::string> m_credits;
+
+public:
+	Button m_btnBack;
 };

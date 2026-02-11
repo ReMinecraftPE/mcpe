@@ -122,6 +122,8 @@ public:
 	virtual void keyboardTextPaste(const std::string& text);
 	virtual float getScale(int width, int height);
 	static float getConsoleScale(int height);
+	virtual void setTextboxText(const std::string& text);
+	virtual void handleKeyboardClosed();
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);

@@ -64,6 +64,7 @@ public:
 	virtual void aiStep();
 	virtual void lookAt(Entity* pEnt, float, float);
 	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
+	virtual bool isSlowedByLiquids() const { return true; }
 	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }
 	virtual void beforeRemove() {}
 	virtual bool canSpawn();
@@ -127,6 +128,7 @@ public:
 	bool m_bJumping;
 	float field_B10;
 	float m_runSpeed;
+	float m_flyingFriction;
 	std::string m_texture;
 	std::string m_class;
 	int field_B48;
