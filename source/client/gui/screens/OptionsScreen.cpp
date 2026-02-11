@@ -19,9 +19,9 @@
 OptionsScreen::OptionsScreen() :
 	m_pList(nullptr),
 	m_currentCategory(OC_MIN),
-	m_gameplayButton(MIN_CATEGORY_BUTTON_ID, "Gameplay..."),
-	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls..."),
-	m_videoButton(MIN_CATEGORY_BUTTON_ID + 2, "Video..."),
+	m_gameplayButton(MIN_CATEGORY_BUTTON_ID, "Gameplay"),
+	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
+	m_videoButton(MIN_CATEGORY_BUTTON_ID + 2, "Video"),
 	m_backButton(BACK_BUTTON_ID, "Done")
 {
 	m_bRenderPointer = true;

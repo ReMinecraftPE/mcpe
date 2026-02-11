@@ -155,16 +155,14 @@ void OptionList::initGameplayMenu()
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 
-	HEADER(Util::EMPTY_STRING);
-
-	HEADER("Audio");
-	OPTION(m_musicVolume);
-	OPTION(m_masterVolume);
-
 	HEADER("Game");
 	OPTION(m_difficulty);
 	OPTION(m_thirdPerson);
 	OPTION(m_serverVisibleDefault);
+
+	HEADER("Audio");
+	OPTION(m_musicVolume);
+	OPTION(m_masterVolume);
 
 #ifndef FEATURE_NETWORKING
 	m_items[currentIndex]->setEnabled(false);
@@ -177,8 +175,6 @@ void OptionList::initControlsMenu()
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 	int idxSplit = -1, idxController = -1;
-
-	HEADER(Util::EMPTY_STRING);
 
 	HEADER("Controls");
 	OPTION(m_sensitivity);
@@ -205,8 +201,6 @@ void OptionList::initVideoMenu()
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 	int idxPano = -1;
-
-	HEADER(Util::EMPTY_STRING);
 
 	HEADER("Graphics");
 	//OPTION(m_brigtness);

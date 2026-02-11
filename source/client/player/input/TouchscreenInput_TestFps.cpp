@@ -344,36 +344,25 @@ void TouchscreenInput_TestFps::render(float f)
     currentShaderDarkColor = Color::WHITE;
 
 	bool flying = m_pOptions->m_flightHax.get() || m_pMinecraft->m_pLocalPlayer->m_bFlying;
-	int horizontalAlpha = (flying && (m_bFlyUp || m_bJumpBeingHeld)) ? 0x20 : 0x80;
+	int horizontalAlpha = (flying && (m_bFlyUp || m_bJumpBeingHeld || m_bSneaking)) ? 0x20 : 0x80;
     
 	Tesselator& t = Tesselator::instance;
 	t.begin(0);
 #ifdef ENH_NEW_TOUCH_CONTROLS
 	if (m_bForwardBeingHeld && !isButtonDown(100 + INPUT_JUMP)) 
 	{
-		t.color(isButtonDown(100 + INPUT_FORWARDLEFT) ? 0xFFFFFF : 0xFFFFFF, 0x80);
+		t.color(isButtonDown(100 + INPUT_FORWARDLEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaForwardLeft, 0, 132);
 		
-		t.color(isButtonDown(100 + INPUT_FORWARDRIGHT) ? 0xFFFFFF : 0xFFFFFF, 0x80);
+		t.color(isButtonDown(100 + INPUT_FORWARDRIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaForwardRight, 26, 132);
 	}
 
-	if (m_bForwardBeingHeld)
-	{
-		t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x20);
-		RenderTouchButton(&t, m_pAreaLeft, 26, 106);
-		
-		t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x20);
-		RenderTouchButton(&t, m_pAreaRight, 78, 106);
-	}
-	else
-	{
-		t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, horizontalAlpha);
-		RenderTouchButton(&t, m_pAreaLeft, 26, 106);
-		
-		t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, horizontalAlpha);
-		RenderTouchButton(&t, m_pAreaRight, 78, 106);
-	}
+	t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, horizontalAlpha);
+	RenderTouchButton(&t, m_pAreaLeft, 26, 106);
+
+	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, horizontalAlpha);
+	RenderTouchButton(&t, m_pAreaRight, 78, 106);
 
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 	(flying) ?
@@ -387,14 +376,6 @@ void TouchscreenInput_TestFps::render(float f)
 		t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaBackward, 78, 132);
 	}
-	else if (m_bForwardBeingHeld)
-	{
-		t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-		RenderTouchButton(&t, m_pAreaForward, 0, 106);
-
-		t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x20);
-		RenderTouchButton(&t, m_pAreaBackward, 52, 106);
-	}
 	else 
 	{
 		t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
@@ -403,18 +384,17 @@ void TouchscreenInput_TestFps::render(float f)
 		t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaBackward, 52, 106);
 	}
-
-	// @TODO: implement toggled sneak buttons
+	// @TODO: implement double tap sneak button
 	/*if (m_bSneaking)
 	{
 		// toggled on
-		t.color(m_bSneaking ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+		t.color(m_bSneaking ? 0xFFFFFF : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaSneak, 0, 0); // @TODO: Find sneaking button texture coords
 	}
 	else
 	{
 		// toggled off
-		t.color(m_bSneaking ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+		t.color(m_bSneaking ? 0xFFFFFF : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaSneak, 0, 0); // @TODO: Find sneaking button texture coords
 	}*/
 #else
