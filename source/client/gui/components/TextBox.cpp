@@ -94,7 +94,7 @@ bool TextBox::pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer)
 	if (result)
 	{
 		// scuffed as hell
-		pMinecraft->m_pScreen->selectElement(getId());
+		pMinecraft->m_pScreen->selectElementByID(getId());
 	}
 	return result;
 }

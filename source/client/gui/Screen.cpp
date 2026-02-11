@@ -502,7 +502,7 @@ bool Screen::onBack(bool b)
 	return result;
 }
 
-bool Screen::selectElement(AreaNavigation::ID id)
+bool Screen::selectElementByID(GuiElement::ID id)
 {
 	GuiElement* element = _getElement(id);
 
@@ -528,7 +528,7 @@ bool Screen::_areaNavigation(AreaNavigation::Direction dir)
 
 	if (m_pSelectedElement->areaNavigation(m_pMinecraft, dir)) return true;
 
-	if (selectElement(Navigation(this).navigateCyclic(dir, m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2, m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2)))
+	if (selectElementByID(Navigation(this).navigateCyclic(dir, m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2, m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2)))
 	{
 		_playSelectSound();
 		return true;
@@ -683,7 +683,7 @@ void Screen::_updateTabButtonSelection()
 
 	if (!m_pSelectedElement)
 	{
-		selectElement(Navigation(this).navigate(AreaNavigation::DOWN, m_width / 2, 0));
+		selectElementByID(Navigation(this).navigate(AreaNavigation::DOWN, m_width / 2, 0));
 	}
 
 	for (size_t i = 0; i < m_elements.size(); i++)

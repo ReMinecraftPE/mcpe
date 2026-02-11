@@ -69,7 +69,7 @@ public:
 	void setSize(int width, int height);
 	void onRender(float f);
 	bool onBack(bool b);
-	bool selectElement(AreaNavigation::ID id);
+	bool selectElementByID(GuiElement::ID id);
 	void selectElement(GuiElement*);
 	bool nextTab();
 	bool prevTab();

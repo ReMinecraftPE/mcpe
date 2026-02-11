@@ -26,7 +26,7 @@ GuiElement* VerticalLayout::getElement(ID index) const
 	return nullptr;
 }
 
-bool VerticalLayout::selectElement(ID id, bool sound)
+bool VerticalLayout::selectElementByID(ID id, bool sound)
 {
 	GuiElement* element = getElement(id);
 	if (element)
@@ -99,7 +99,7 @@ void VerticalLayout::organize()
 	}
 
 	if (isSelected() && !m_pSelectedElement && m_pScreen->_useController())
-		selectElement(0, false);
+		selectElementByID(0, false);
 }
 
 void VerticalLayout::clear()
@@ -130,7 +130,7 @@ bool VerticalLayout::areaNavigation(Minecraft* mc, AreaNavigation::Direction dir
 				updateScroll(0);
 				AreaNavigation::ID id = Navigation(this).navigate(dir, x, 0, true);
 				if (id >= 0)
-					selectElement(m_scrollAmount + id);
+					selectElementByID(m_scrollAmount + id);
 				return true;
 			}
 
@@ -153,7 +153,7 @@ bool VerticalLayout::areaNavigation(Minecraft* mc, AreaNavigation::Direction dir
 				}
 				AreaNavigation::ID id = Navigation(this).navigate(dir, x, 0, true);
 				if (id >= 0)
-					selectElement(m_scrollAmount + id);
+					selectElementByID(m_scrollAmount + id);
 				return true;
 			}
 
@@ -179,7 +179,7 @@ void VerticalLayout::areaNavigation(AreaNavigation::Direction dir)
 		id = Navigation(this).navigate(dir, element->m_xPos + element->m_width / 2, element->m_yPos + element->m_height / 2);
 
 	if (id >= 0)
-		selectElement(m_scrollAmount + id);
+		selectElementByID(m_scrollAmount + id);
 }
 
 void VerticalLayout::setSelected(bool b)
@@ -187,7 +187,7 @@ void VerticalLayout::setSelected(bool b)
 	GuiElement::setSelected(b);
 
 	if (b && !m_pSelectedElement && m_pScreen->_useController())
-		selectElement(0, false);
+		selectElementByID(0, false);
 
 	if (!b)
 		selectElement(nullptr);

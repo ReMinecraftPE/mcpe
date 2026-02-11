@@ -51,7 +51,7 @@ void PlayGameScreen::fillSaves(Minecraft* mc)
 	}
 
 	if (m_layout.m_elements.size() > 2)
-		m_layout.selectElement(2, false);
+		m_layout.selectElementByID(2, false);
 }
 
 void PlayGameScreen::fillServers()

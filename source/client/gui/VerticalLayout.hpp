@@ -13,7 +13,7 @@ public:
     GuiElement* getElement(ID) const;
     bool isTopElement(GuiElement& element) const { return element.m_yPos == m_yPos; };
     bool isBottomElement(GuiElement& element) const { return element.m_yPos == m_bottom; };
-    bool selectElement(ID, bool sound = true);
+    bool selectElementByID(ID, bool sound = true);
     void selectElement(GuiElement*);
 
     void init(int x, int y, int w, int h, int spacing = 8, bool cyclic = true);
