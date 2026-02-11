@@ -870,7 +870,6 @@ void Mob::updateAi()
 	}
 }
 
-#include <iostream>
 void Mob::checkDespawn(Mob* nearestMob)
 {
 	// if we need to remove ourselves when far away, and there's a player around
@@ -878,7 +877,6 @@ void Mob::checkDespawn(Mob* nearestMob)
 	if (nearestMob)
 	{
 		float distSqr = nearestMob->distanceToSqr_inline(m_pos);
-		std::cout << distSqr << "\n";
 		bool remWhenFar = removeWhenFarAway();
 		if (remWhenFar && distSqr > 9216.0f)
 			remove();
