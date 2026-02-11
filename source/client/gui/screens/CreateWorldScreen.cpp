@@ -161,12 +161,12 @@ void CreateWorldScreen::render(float f)
 	bool crampedMode = CRAMPED();
 
 	// Extra text not necessarily needed
-	if (!crampedMode)
-	{
-		drawString(*m_pFont, "Leave blank for a random seed", m_textSeed.m_xPos, m_textSeed.m_yPos + 22, 0x999999);
-		int textCenteredX = m_btnGameMode.m_xPos + (m_btnGameMode.m_width / 2) - (m_pFont->width(gameTypeStr.c_str()) / 2);
-		drawString(*m_pFont, gameTypeStr.c_str(), textCenteredX, m_btnGameMode.m_yPos + m_btnGameMode.m_height + 3, 0x999999);
-	}
+	if (crampedMode)
+		return;
+	
+	drawString(*m_pFont, "Leave blank for a random seed", m_textSeed.m_xPos, m_textSeed.m_yPos + 22, 0x999999);
+	int textCenteredX = m_btnGameMode.m_xPos + (m_btnGameMode.m_width / 2) - (m_pFont->width(gameTypeStr.c_str()) / 2);
+	drawString(*m_pFont, gameTypeStr.c_str(), textCenteredX, m_btnGameMode.m_yPos + m_btnGameMode.m_height + 3, 0x999999);
 }
 
 bool CreateWorldScreen::handleBackEvent(bool b)

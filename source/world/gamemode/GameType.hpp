@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "common/Util.hpp"
 
 enum GameType
 {
@@ -15,35 +16,42 @@ enum GameType
 class GameTypeConv
 {
 public:
-	static std::string GameTypeToNonLocString(GameType type)
+	static const std::string& GameTypeToNonLocString(GameType type)
 	{
+		static std::string survival = "Survival";
+		static std::string creative = "Creative";
+		static std::string adventure = "Adventure";
+		static std::string spectator = "Spectator";
 		switch (type)
 		{
 		case GAME_TYPE_SURVIVAL:
-			return "Survival";
+			return survival;
 		case GAME_TYPE_CREATIVE:
-			return "Creative";
+			return creative;
 		case GAME_TYPE_ADVENTURE:
-			return "Adventure";
+			return adventure;
 		case GAME_TYPE_SPECTATOR:
-			return "Spectator";
+			return spectator;
 		default:
-			return "Undefined";
+			return Util::EMPTY_STRING;
 		}
 	}
 
-	static std::string GameTypeDescriptionToNonLocString(GameType type)
+	static const std::string& GameTypeDescriptionToNonLocString(GameType type)
 	{
+		static std::string survival = "Mobs, health and gather resources";
+		static std::string creative = "Unlimited resources, flying";
+
 		switch (type)
 		{
 		case GAME_TYPE_SURVIVAL:
-			return "Mobs, health and gather resources";
+			return survival;
 		case GAME_TYPE_CREATIVE:
-			return "Unlimited resources, flying";
+			return creative;
 		case GAME_TYPE_ADVENTURE:
 		case GAME_TYPE_SPECTATOR:
 		default:
-			return "";
+			return Util::EMPTY_STRING;
 		}
 	}
 };
