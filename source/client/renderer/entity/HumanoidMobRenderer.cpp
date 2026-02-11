@@ -20,6 +20,8 @@ HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRe
 	m_pHumanoidModel = pModel;
 	m_armorMain = new HumanoidModel(1.0f);
 	m_armorLeggings = new HumanoidModel(0.5f);
+	m_armorMain->m_pMaterial = &m_armorMain->m_materials.entity_alphatest;
+	m_armorLeggings->m_pMaterial = &m_armorLeggings->m_materials.entity_alphatest;
 }
 
 int HumanoidMobRenderer::prepareArmor(const Mob& mob, int layer, float a)

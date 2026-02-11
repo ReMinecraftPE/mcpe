@@ -72,7 +72,7 @@ void HumanoidModel::render(float a, float b, float c, float d, float e, float f)
 	m_legLeft.render(f);
 	m_hat.m_rot.y = m_head.m_rot.y;
 	m_hat.m_rot.x = m_head.m_rot.x;
-	m_hat.render(f);
+	m_hat.render(f, &m_materials.entity_alphatest);
 }
 
 void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, float a7)
