@@ -5,8 +5,8 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
-# TODO: i386 and powerpc
-targets='x86_64-apple-macos10.7 arm64-apple-macos11.0'
+# TODO: powerpc
+targets='i386-apple-macos10.4 x86_64-apple-macos10.7 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
@@ -14,31 +14,48 @@ platformdir=$PWD
 
 workdir="$PWD/build/work"
 arm64_sdk="$workdir/arm64-mac-sdk"
-x86_sdk="$workdir/x86-mac-sdk"
+x86_64_sdk="$workdir/x86_64-mac-sdk"
+old_sdk="$workdir/old-mac-sdk"
 mkdir -p "$workdir"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
-sdkver=1
-if ! [ -d "$x86_sdk" ] || ! [ -d "$arm64_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
+sdkver=2
+if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
     # for arm64
-    [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk"
+    [ -d "$arm64_sdk" ] && rm -rf "$arm64_sdk" &
+    rm -f MacOSX11.3.tar.bz2
     wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/11.3/MacOSX11.3.tar.bz2
-    tar xf MacOSX11.3.tar.bz2
+    wait
+    tar -xjf MacOSX11.3.tar.bz2
     mv MacOSX11.3.sdk "$arm64_sdk"
     ) &
     (
-    # for x86
-    [ -d "$x86_sdk" ] && rm -rf "$x86_sdk"
-    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.9/MacOSX10.9.tar.bz2
-    tar xf MacOSX10.9.tar.bz2
-    mv MacOSX10.9.sdk "$x86_sdk"
+    # for x86_64
+    [ -d "$x86_64_sdk" ] && rm -rf "$x86_64_sdk" &
+    rm -f MacOSX10.7.tar.bz2
+    wget -q https://github.com/alexey-lysiuk/macos-sdk/releases/download/10.7/MacOSX10.7.tar.bz2
+    wait
+    tar -xjf MacOSX10.7.tar.bz2 2>/dev/null
+    mv MacOSX10.7.sdk "$x86_64_sdk"
+    ) &
+    (
+    # for old stuff
+    [ -d "$old_sdk" ] && rm -rf "$old_sdk" &
+    rm -f MacOSX10.5.sdk.tar.xz
+    wget -q https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.5.sdk.tar.xz
+    wait
+    tar -xJf MacOSX10.5.sdk.tar.xz
+    mv MacOSX10.5.sdk "$old_sdk"
+    # patch the sdk to fix a bug
+    cd "$old_sdk"
+    patch -p1 < "$platformdir/leopard-sdk-fix.patch"
     )
     wait
-    rm ./*.tar.bz2
+    rm ./*.tar.bz2 ./*.tar.xz
     printf '%s' "$sdkver" > sdkver
     outdated_sdk=1
 fi
@@ -92,10 +109,8 @@ else
 fi
 # ensure we use ccache for the toolchain build
 ccache="$(command -v ccache || true)"
-printf '#!/bin/sh\n
-        exec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
-printf '#!/bin/sh\n
-        exec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
+printf '#!/bin/sh\nexec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
+printf '#!/bin/sh\nexec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
 chmod +x bin/remcpe-clang bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
@@ -152,8 +167,11 @@ fi
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=i386-apple-macos10.4 REMCPE_SDK="$x86_sdk" "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
-        lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
+    if printf 'int main(void) {return 0;}' |
+        REMCPE_TARGET=i386-apple-macos10.4 \
+        REMCPE_SDK="$old_sdk" \
+        "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+        cflags='-flto'
     fi
     rm -f "$workdir/testout"
 fi
@@ -172,14 +190,65 @@ fi
 mv buildsettings lastbuildsettings
 
 for target in $targets; do
-    case ${target%%-*} in
-        (i386|x86_64*)
-            export REMCPE_SDK="$x86_sdk"
-            set --
+    printf '\nBuilding for %s\n\n' "$target"
+    export REMCPE_TARGET="$target"
+
+    mkdir -p "build-$target"
+    cd "build-$target"
+
+    arch="${target%%-*}"
+    case $arch in
+        (i386)
+            export REMCPE_SDK="$old_sdk"
+            set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
+            platform='sdl1'
+            sdl1ver=1
+            if ! [ -f sdl/lib/libSDL.a ] || [ "$(cat sdl/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
+                sdl1_commit=25712c1e9270035667e1ed68f2acc5b82b441461
+                rm -rf SDL-1.2-*
+                if ! [ -f ../sdl1src.tar.gz ] ||
+                    [ "$(sha256sum ../sdl1src.tar.gz | awk '{print $1}')" != 'd1753e9d8fc3d25cabd0198122546a3d53b5b1df0b208145cff5fc4b2d50d786' ]; then
+                    wget -O ../sdl1src.tar.gz "https://github.com/libsdl-org/SDL-1.2/archive/$sdl1_commit.tar.gz"
+                fi
+                tar -xzf ../sdl1src.tar.gz
+                cd "SDL-1.2-$sdl1_commit"
+                if [ -n "$DEBUG" ]; then
+                    opt='-O2'
+                else
+                    opt='-O0'
+                fi
+                ./configure \
+                    --host="$arch-apple-darwin" \
+                    --prefix="${PWD%/*}/sdl" \
+                    --disable-shared \
+                    --disable-video-x11 \
+                    CC="$platformdir/macos-cc" \
+                    CXX="$platformdir/macos-c++" \
+                    CFLAGS="$opt $cflags" \
+                    CXXFLAGS="$opt $cflags" \
+                    CPPFLAGS='-DNDEBUG' \
+                    AR="$ar" \
+                    RANLIB="$ranlib"
+                make -j"$ncpus"
+                make install -j"$ncpus"
+                cd ..
+                printf '%s' "$sdl1ver" > sdl/sdl1ver
+                rm -rf "SDL-1.2-$sdl1_commit"
+            fi
+            cflags="$cflags -I$PWD/sdl/include"
         ;;
-        (arm64*)
-            export REMCPE_SDK="$arm64_sdk"
-            set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
+        (arm64*|x86_64*)
+            case $arch in
+                (arm64*)
+                    export REMCPE_SDK="$arm64_sdk"
+                    set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
+                ;;
+                (x86_64*)
+                    export REMCPE_SDK="$x86_64_sdk"
+                    set --
+                ;;
+            esac
+            platform='sdl2'
         ;;
         (*)
             echo "Unknown target"
@@ -187,40 +256,57 @@ for target in $targets; do
         ;;
     esac
 
-    printf '\nBuilding for %s\n\n' "$target"
-    export REMCPE_TARGET="$target"
-
-    mkdir -p "build-$target"
-    cd "build-$target"
-
     cmake "$platformdir/../.." \
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
-        -DREMCPE_PLATFORM=sdl2 \
+        -DREMCPE_PLATFORM="$platform" \
+        -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
         -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
-        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
+        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
         -DCMAKE_SYSROOT="$REMCPE_SDK" \
+        -DCMAKE_C_FLAGS="$cflags" \
+        -DCMAKE_CXX_FLAGS="$cflags" \
         -DWERROR="${WERROR:-OFF}" \
-        "$@" \
-        $lto
+        "$@"
     make -j"$ncpus"
 
     cd ..
 done
 
-lipo -create build-*/"$bin" -output "$bin"
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin"
-if command -v ldid >/dev/null; then
-    ldid -S "$bin"
-else
-    codesign -f -s - "$bin"
-fi
+rm -rf ../ReMCPE
+mkdir -p ../ReMCPE/libexec
 
-mkdir -p ../ReMCPE
+REMCPE_TARGET='arm64-apple-macos11.0' \
+    REMCPE_SDK="$arm64_sdk" \
+    "$platformdir/macos-cc" \
+    "$platformdir/arch.c" -o arch-arm64
+
+REMCPE_TARGET='unknown-apple-macos10.4' \
+    REMCPE_SDK="$old_sdk" \
+    "$platformdir/macos-cc" \
+    -arch x86_64 -arch i386 \
+    "$platformdir/arch.c" -o arch-x86
+
+lipo -create arch-* -output arch
+mv arch ../ReMCPE/libexec/arch
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+    "$strip" -no_code_signature_warning ../ReMCPE/libexec/arch
+
 cp -a "$platformdir/../../game/assets" ../ReMCPE
-mv "$bin" ../ReMCPE
+cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
+
+for target in $targets; do
+    cp "build-$target/$bin" "../ReMCPE/libexec/$bin-${target%%-*}"
+    [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+        "$strip" -no_code_signature_warning "../ReMCPE/libexec/$bin-${target%%-*}"
+done
+if command -v ldid >/dev/null; then
+    ldid -S ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
+else
+    codesign -f -s - ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
+fi

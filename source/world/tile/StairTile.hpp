@@ -37,10 +37,6 @@ public:
 	void destroy(Level*, const TilePos& pos, TileData data) override;
 	void onPlace(Level*, const TilePos& pos) override;
 	void onRemove(Level*, const TilePos& pos) override;
-	int getResource(TileData, Random*) const override;
-	int getResourceCount(Random*) const override;
-	void spawnResources(Level*, const TilePos& pos, TileData data) override;
-	void spawnResources(Level*, const TilePos& pos, TileData data, float) override;
 	float getExplosionResistance(Entity*) const override;
 	void wasExploded(Level*, const TilePos& pos) override;
 	RenderLayer getRenderLayer() const override;

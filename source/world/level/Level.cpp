@@ -599,7 +599,7 @@ bool Level::isSkyLit(const TilePos& pos) const
 
 bool Level::setTileAndDataNoUpdate(const TilePos& pos, TileID tile, TileData data)
 {
-	return setTileAndData(pos, tile, data, TileChange::UPDATE_SILENT);
+	return setTileAndData(pos, tile, data, TileChange::UPDATE_LISTENERS);
 }
 
 int Level::getHeightmap(const TilePos& pos)

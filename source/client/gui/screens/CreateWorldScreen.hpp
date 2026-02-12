@@ -35,8 +35,10 @@ private:
 public:
 	TextBox m_textName;
 	TextBox m_textSeed;
+	Button m_btnGameMode;
 	Button m_btnBack;
 	Button m_btnCreate;
+	GameType m_gameMode;
 };
 
 #endif

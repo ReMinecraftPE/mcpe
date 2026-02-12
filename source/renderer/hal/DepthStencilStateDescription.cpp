@@ -19,7 +19,9 @@ DepthStencilStateDescription::DepthStencilStateDescription()
 
 bool DepthStencilStateDescription::operator==(const DepthStencilStateDescription& other) const
 {
-	return depthTestEnabled == other.depthTestEnabled &&
+	return depthFunc == other.depthFunc &&
+           depthTestEnabled == other.depthTestEnabled &&
+           stencilTestEnabled == other.stencilTestEnabled &&
            frontFace == other.frontFace &&
 		   backFace == other.backFace &&
 		   depthWriteMask == other.depthWriteMask &&

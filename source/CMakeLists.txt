@@ -371,6 +371,9 @@ add_library(reminecraftpe-core STATIC
     world/item/RocketItem.cpp
     world/item/Item.cpp
     world/item/FoodItem.cpp
+    world/item/SeedItem.cpp
+    world/item/ArmorItem.cpp
+    world/item/HoeItem.cpp
     world/item/DyePowderItem.cpp
     world/item/ToolItem.cpp
     world/item/WeaponItem.cpp
@@ -426,6 +429,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/ObsidianTile.cpp
     world/tile/FarmTile.cpp
     world/tile/DoorTile.cpp
+    world/tile/CropsTile.cpp
     world/tile/RocketLauncherTile.cpp
     world/tile/CactusTile.cpp
     world/tile/TallGrass.cpp

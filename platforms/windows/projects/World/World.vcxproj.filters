@@ -362,6 +362,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DoorTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CropsTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FarmTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
@@ -617,6 +620,15 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\ToolItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ArmorItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\HoeItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\SeedItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.cpp">
       <Filter>Source Files\Item\Crafting</Filter>
     </ClCompile>
@@ -842,6 +854,9 @@
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\DoorTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\CropsTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\FarmTile.hpp">
@@ -1109,6 +1124,15 @@
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\ToolItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ArmorItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\HoeItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\SeedItem.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\Tool.hpp">

@@ -197,6 +197,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		t.voidBeginAndEndCalls(true);
 
 		renderHearts(isPocket);
+		renderArmor(isPocket);
 		renderBubbles(isPocket);
         if (m_bRenderHunger)
             renderHunger(isPocket);
@@ -383,10 +384,7 @@ void Gui::handleKeyPressed(int keyCode)
 
 void Gui::renderMessages(bool bShowAll)
 {
-	//int width = Minecraft::width * GuiScale,
-	int height = int(ceilf(Minecraft::height * GuiScale));
-
-	int topEdge = height - 49;
+	int topEdge = GuiHeight - 49;
 	if (m_pMinecraft->isTouchscreen())
 		topEdge = 49;
 
@@ -454,25 +452,14 @@ void Gui::renderHearts(bool topLeft)
 	int armorX = heartX + 91 - 9;
 
 	int playerHealth = player->m_health;
-	const int armor = player->m_pInventory->getArmorValue();
+	int maxHealth = player->getMaxHealth();
 
-	for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
+	for (int healthNo = 1; healthNo <= maxHealth; healthNo += 2)
 	{
 		int heartY = heartYStart;
 
-		if (armor > 0) {
-			if (healthNo < armor)
-				blit(armorX, heartY, 34, 9, 9, 9, 0, 0);
-			else if (healthNo == armor)
-				blit(armorX, heartY, 25, 9, 9, 9, 0, 0);
-			else if (healthNo > armor)
-				blit(armorX, heartY, 16, 9, 9, 9, 0, 0);
-		}
-
-		armorX -= 8;
-
-		if (playerHealth <= 4)
-			heartY += m_random.nextInt(2);
+		if (playerHealth <= 4 && m_random.genrand_int32() % 2)
+			heartY++;
 
 		blit(heartX, heartY, 16 + b1 * 9, 0, 9, 9, 0, 0);
 
@@ -491,6 +478,37 @@ void Gui::renderHearts(bool topLeft)
 
 		heartX += 8;
 
+	}
+}
+
+void Gui::renderArmor(bool topLeft)
+{
+	int armor = m_pMinecraft->m_pLocalPlayer->m_pInventory->getArmorValue();
+	if (armor <= 0)
+		return;
+
+	int cenX = m_width / 2;
+	
+	int hotbarWidth = (topLeft) ? 0 : (2 + getNumSlots() * 20);
+	int armorX = (topLeft) ? (m_width - 11) : cenX - 91 + (hotbarWidth - 9);
+	int armorY = (topLeft) ? 2 : (m_height - 32);
+
+	if (armor > 0)
+	{
+		int maxHealth = m_pMinecraft->m_pLocalPlayer->getMaxHealth();
+		for (int i = 1; i <= maxHealth; i += 2) // Armor tied to health at the moment
+		{
+			if (i < armor)
+				blit(armorX, armorY, 34, 9, 9, 9, 0, 0);
+
+			if (i == armor)
+				blit(armorX, armorY, 25, 9, 9, 9, 0, 0);
+
+			if (i > armor)
+				blit(armorX, armorY, 16, 9, 9, 9, 0, 0);
+
+			armorX -= 8;
+		}
 	}
 }
 

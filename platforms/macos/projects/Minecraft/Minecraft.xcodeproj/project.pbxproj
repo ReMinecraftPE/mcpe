@@ -289,10 +289,10 @@
 		848AA3152F34E897007E9A3E /* DyePowderItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848AA3142F34E897007E9A3E /* DyePowderItem.cpp */; };
 		848AA3162F34E897007E9A3E /* DyePowderItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848AA3132F34E897007E9A3E /* DyePowderItem.hpp */; };
 		848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848CBD0F2AFD847C007634F6 /* AVFoundation.framework */; };
-		848CCB4A2F3A974000031D1F /* FoodItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848CCB482F3A974000031D1F /* FoodItem.hpp */; };
-		848CCB4B2F3A974000031D1F /* FoodItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848CCB492F3A974000031D1F /* FoodItem.cpp */; };
 		848CCB462F3A38E800031D1F /* MobSpawner.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848CCB442F3A38E800031D1F /* MobSpawner.hpp */; };
 		848CCB472F3A38E800031D1F /* MobSpawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848CCB452F3A38E800031D1F /* MobSpawner.cpp */; };
+		848CCB4A2F3A974000031D1F /* FoodItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848CCB482F3A974000031D1F /* FoodItem.hpp */; };
+		848CCB4B2F3A974000031D1F /* FoodItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848CCB492F3A974000031D1F /* FoodItem.cpp */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */; };
 		8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */; };
@@ -515,6 +515,14 @@
 		84B8AF872AF18A2C008DE93D /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E4BFAE2AE9854B0023E16A /* libCommon.a */; };
 		84B8AF882AF18A2C008DE93D /* libNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842610682AE988D30065905F /* libNetwork.a */; };
 		84B8AF8B2AF18ACF008DE93D /* libClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B8AEE72AF188D8008DE93D /* libClient.a */; };
+		84B9D89C2F3BE0A900FD67C4 /* ArmorItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84B9D8972F3BE0A900FD67C4 /* ArmorItem.cpp */; };
+		84B9D89D2F3BE0A900FD67C4 /* HoeItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84B9D8992F3BE0A900FD67C4 /* HoeItem.cpp */; };
+		84B9D89E2F3BE0A900FD67C4 /* SeedItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84B9D89B2F3BE0A900FD67C4 /* SeedItem.cpp */; };
+		84B9D89F2F3BE0A900FD67C4 /* ArmorItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84B9D8962F3BE0A900FD67C4 /* ArmorItem.hpp */; };
+		84B9D8A02F3BE0A900FD67C4 /* HoeItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84B9D8982F3BE0A900FD67C4 /* HoeItem.hpp */; };
+		84B9D8A12F3BE0A900FD67C4 /* SeedItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84B9D89A2F3BE0A900FD67C4 /* SeedItem.hpp */; };
+		84B9D8A42F3BE0B200FD67C4 /* CropsTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84B9D8A32F3BE0B200FD67C4 /* CropsTile.cpp */; };
+		84B9D8A52F3BE0B200FD67C4 /* CropsTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84B9D8A22F3BE0B200FD67C4 /* CropsTile.hpp */; };
 		84BF630C2AF18631008A9995 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6582AC810620006A435 /* Entity.cpp */; };
 		84BF630D2AF18631008A9995 /* FallingTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD65A2AC810620006A435 /* FallingTile.cpp */; };
 		84BF630E2AF18631008A9995 /* ItemEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD65C2AC810620006A435 /* ItemEntity.cpp */; };
@@ -2257,10 +2265,10 @@
 		848AA3132F34E897007E9A3E /* DyePowderItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DyePowderItem.hpp; sourceTree = "<group>"; };
 		848AA3142F34E897007E9A3E /* DyePowderItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DyePowderItem.cpp; sourceTree = "<group>"; };
 		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		848CCB482F3A974000031D1F /* FoodItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FoodItem.hpp; sourceTree = "<group>"; };
-		848CCB492F3A974000031D1F /* FoodItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FoodItem.cpp; sourceTree = "<group>"; };
 		848CCB442F3A38E800031D1F /* MobSpawner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MobSpawner.hpp; sourceTree = "<group>"; };
 		848CCB452F3A38E800031D1F /* MobSpawner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MobSpawner.cpp; sourceTree = "<group>"; };
+		848CCB482F3A974000031D1F /* FoodItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FoodItem.hpp; sourceTree = "<group>"; };
+		848CCB492F3A974000031D1F /* FoodItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FoodItem.cpp; sourceTree = "<group>"; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
 		8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeAppDelegate.h; sourceTree = "<group>"; };
@@ -2419,6 +2427,14 @@
 		84B1E0372E04FD7900ED000A /* Zombie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Zombie.cpp; sourceTree = "<group>"; };
 		84B1E0382E04FD7900ED000A /* Zombie.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Zombie.hpp; sourceTree = "<group>"; };
 		84B8AEE72AF188D8008DE93D /* libClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		84B9D8962F3BE0A900FD67C4 /* ArmorItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ArmorItem.hpp; sourceTree = "<group>"; };
+		84B9D8972F3BE0A900FD67C4 /* ArmorItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArmorItem.cpp; sourceTree = "<group>"; };
+		84B9D8982F3BE0A900FD67C4 /* HoeItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = HoeItem.hpp; sourceTree = "<group>"; };
+		84B9D8992F3BE0A900FD67C4 /* HoeItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HoeItem.cpp; sourceTree = "<group>"; };
+		84B9D89A2F3BE0A900FD67C4 /* SeedItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SeedItem.hpp; sourceTree = "<group>"; };
+		84B9D89B2F3BE0A900FD67C4 /* SeedItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SeedItem.cpp; sourceTree = "<group>"; };
+		84B9D8A22F3BE0B200FD67C4 /* CropsTile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CropsTile.hpp; sourceTree = "<group>"; };
+		84B9D8A32F3BE0B200FD67C4 /* CropsTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CropsTile.cpp; sourceTree = "<group>"; };
 		84BF630B2AF1859D008A9995 /* libWorld.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWorld.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C0D8002B159A0E007E1E76 /* GlobalSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = GlobalSettings.xcconfig; path = ../Configuration/GlobalSettings.xcconfig; sourceTree = "<group>"; };
 		84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions.h; sourceTree = "<group>"; };
@@ -3724,6 +3740,12 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
+				84B9D8962F3BE0A900FD67C4 /* ArmorItem.hpp */,
+				84B9D8972F3BE0A900FD67C4 /* ArmorItem.cpp */,
+				84B9D8982F3BE0A900FD67C4 /* HoeItem.hpp */,
+				84B9D8992F3BE0A900FD67C4 /* HoeItem.cpp */,
+				84B9D89A2F3BE0A900FD67C4 /* SeedItem.hpp */,
+				84B9D89B2F3BE0A900FD67C4 /* SeedItem.cpp */,
 				848CCB482F3A974000031D1F /* FoodItem.hpp */,
 				848CCB492F3A974000031D1F /* FoodItem.cpp */,
 				848AA3132F34E897007E9A3E /* DyePowderItem.hpp */,
@@ -3945,6 +3967,8 @@
 		840DD6E12AC810620006A435 /* tile */ = {
 			isa = PBXGroup;
 			children = (
+				84B9D8A22F3BE0B200FD67C4 /* CropsTile.hpp */,
+				84B9D8A32F3BE0B200FD67C4 /* CropsTile.cpp */,
 				840DD6E22AC810620006A435 /* BookshelfTile.cpp */,
 				840DD6E32AC810620006A435 /* BookshelfTile.hpp */,
 				840DD6E42AC810620006A435 /* Bush.cpp */,
@@ -5791,6 +5815,7 @@
 				84DED1B42F309611004001C5 /* SingleInputRecipe.hpp in Headers */,
 				84BF63C52AF186C9008A9995 /* OreTile.hpp in Headers */,
 				84BF63C62AF186C9008A9995 /* RedStoneOreTile.hpp in Headers */,
+				84B9D8A52F3BE0B200FD67C4 /* CropsTile.hpp in Headers */,
 				84BF63C72AF186C9008A9995 /* ReedTile.hpp in Headers */,
 				84BF63C82AF186C9008A9995 /* SandStoneTile.hpp in Headers */,
 				84BF63C92AF186C9008A9995 /* SandTile.hpp in Headers */,
@@ -5839,6 +5864,9 @@
 				84E1C9E82E7FDC72007D2F5D /* ClothItem.hpp in Headers */,
 				8470AF2B2BE9B60A00BCA54E /* EntityType.hpp in Headers */,
 				8445E7A42D769329008DC834 /* EntityTypeDescriptor.hpp in Headers */,
+				84B9D89F2F3BE0A900FD67C4 /* ArmorItem.hpp in Headers */,
+				84B9D8A02F3BE0A900FD67C4 /* HoeItem.hpp in Headers */,
+				84B9D8A12F3BE0A900FD67C4 /* SeedItem.hpp in Headers */,
 				8470AF2D2BE9B60A00BCA54E /* MobFactory.hpp in Headers */,
 				8470AF392BE9B6D100BCA54E /* GameType.hpp in Headers */,
 				8470AF3D2BE9B6FA00BCA54E /* FireworkParticle.hpp in Headers */,
@@ -6792,6 +6820,7 @@
 				84E1C9D52E7FDC26007D2F5D /* GlowstoneTile.cpp in Sources */,
 				84BF63182AF18631008A9995 /* DoorItem.cpp in Sources */,
 				84BF63192AF18631008A9995 /* Inventory.cpp in Sources */,
+				84B9D8A42F3BE0B200FD67C4 /* CropsTile.cpp in Sources */,
 				8445E7A22D769329008DC834 /* EntityType.cpp in Sources */,
 				84BF631A2AF18631008A9995 /* Item.cpp in Sources */,
 				84BF631C2AF18631008A9995 /* TileItem.cpp in Sources */,
@@ -6834,6 +6863,9 @@
 				84BF63352AF18631008A9995 /* ImprovedNoise.cpp in Sources */,
 				84BF63362AF18631008A9995 /* PerlinNoise.cpp in Sources */,
 				84BF63372AF18631008A9995 /* Synth.cpp in Sources */,
+				84B9D89C2F3BE0A900FD67C4 /* ArmorItem.cpp in Sources */,
+				84B9D89D2F3BE0A900FD67C4 /* HoeItem.cpp in Sources */,
+				84B9D89E2F3BE0A900FD67C4 /* SeedItem.cpp in Sources */,
 				84BF63382AF18631008A9995 /* LevelListener.cpp in Sources */,
 				84E7BF2F2F286A20002D3936 /* CompoundContainer.cpp in Sources */,
 				84BF63392AF18631008A9995 /* Material.cpp in Sources */,

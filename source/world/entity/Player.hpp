@@ -51,6 +51,7 @@ public:
 	bool isCreativeModeAllowed() const override { return true; }
 	bool isSlowedByLiquids() const override { return !m_bFlying; }
 	bool hurt(Entity*, int) override;
+	void actuallyHurt(int) override;
 	void awardKillScore(Entity* pKilled, int score) override;
 	void resetPos(bool respawn = false) override;
 	void die(Entity* pCulprit) override;
@@ -123,8 +124,9 @@ public:
 	uint8_t field_B94;
 	int m_jumpTriggerTime;
 	int m_score;
-	float m_oBob; // field_B9C
+	float m_oBob;
 	float m_bob;
+	int m_dmgSpill;
 	std::string m_name;
 	int m_dimension;
 	RakNet::RakNetGUID m_guid;

@@ -13,7 +13,7 @@
 class HumanoidModel : public Model
 {
 public:
-	HumanoidModel(float a, float b);
+	HumanoidModel(float modelSize = 0.0f, float yOffset = 0.0f);
 	// @TODO - No xrefs: void render(HumanoidModel* a, float f);
 
 	void onGraphicsReset() override;
@@ -23,7 +23,7 @@ public:
 
 public:
 	bool field_20;
-	ModelPart m_head, m_body, m_arm1, m_arm2, m_leg1, m_leg2;
+	ModelPart m_head, m_hat, m_body, m_armRight, m_armLeft, m_legRight, m_legLeft;
 	bool m_bHoldingLeftHand;
 	bool m_bHoldingRightHand;
 	bool m_bSneaking;

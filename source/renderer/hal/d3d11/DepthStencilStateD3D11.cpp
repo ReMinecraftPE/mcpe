@@ -81,14 +81,8 @@ void DepthStencilStateD3D11::createDepthState(RenderContext& context, const Dept
     if (!context.m_currentState.m_bBoundDepthStencilState)
     {
         bindDepthStencilState(context, true);
-        context.m_currentState.m_depthStencilStateDescription.depthTestEnabled = description.depthTestEnabled;
-        context.m_currentState.m_depthStencilStateDescription.frontFace.stencilDepthFailOp = description.frontFace.stencilDepthFailOp;
-        context.m_currentState.m_depthStencilStateDescription.backFace.stencilDepthFailOp = description.backFace.stencilDepthFailOp;
-        context.m_currentState.m_depthStencilStateDescription.stencilReadMask = description.stencilReadMask;
-        context.m_currentState.m_depthStencilStateDescription.stencilWriteMask = description.stencilWriteMask;
-        context.m_currentState.m_depthStencilStateDescription.stencilRef = description.stencilRef;
-        context.m_currentState.m_depthStencilStateDescription.overwroteStencilRef = description.overwroteStencilRef;
         context.m_currentState.m_bBoundDepthStencilState = true;
+        context.m_currentState.m_depthStencilStateDescription = description;
     }
 }
 
@@ -104,7 +98,7 @@ bool DepthStencilStateD3D11::bindDepthStencilState(RenderContext& context, bool 
     if (force || currentDesc != m_description)
     {
         D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
-        d3dDeviceContext->OMSetDepthStencilState(**m_depthStencilState,m_description.stencilRef);
+        d3dDeviceContext->OMSetDepthStencilState(**m_depthStencilState, m_description.stencilRef);
         currentDesc = m_description;
     }
 

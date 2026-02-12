@@ -21,8 +21,8 @@ public:
 public:
 	FILE* m_pFile;
 	std::string m_fileName;
-	int* field_20;
-	int* field_24;
-	std::map<int, bool> field_28;
+	int* m_offsets;
+	int* m_emptyChunk;
+	std::map<int, bool> m_sectorFree;
 };
 
