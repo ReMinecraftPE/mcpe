@@ -68,7 +68,7 @@ public:
 
     Color operator*(float f) const
     {
-        return Color(r * f, g * f, b * f, a * f);
+        return Color(r * f, g * f, b * f, a);
     }
 
     Color operator*(const Color& c) const
