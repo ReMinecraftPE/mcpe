@@ -891,7 +891,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 
 bool ClientSideNetworkHandler::areAllChunksLoaded()
 {
-	return m_chunksRequested > C_MAX_CHUNKS;
+	return m_chunksRequested >= C_MAX_CHUNKS;
 }
 
 bool ClientSideNetworkHandler::isChunkLoaded(const ChunkPos& cp)
