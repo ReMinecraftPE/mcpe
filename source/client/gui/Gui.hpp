@@ -53,9 +53,6 @@ private:
 public:
 	Gui(Minecraft* pMinecraft);
 
-private:
-	void _updateHudPositions();
-
 public:
 	void addMessage(const std::string& str);
 	void inventoryUpdated();
@@ -106,7 +103,5 @@ public:
 	bool field_A3C;
 	bool m_bRenderMessages;
     bool m_bRenderHunger;
-	int m_width;
-	int m_height;
 };
 

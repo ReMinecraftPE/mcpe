@@ -53,16 +53,8 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_A3C = true;
 	m_bRenderMessages = true;
     m_bRenderHunger = false;
-	m_width = 0;
-	m_height = 0;
 
 	m_pMinecraft = pMinecraft;
-}
-
-void Gui::_updateHudPositions()
-{
-	m_width  = int(ceilf(Minecraft::width  * GuiScale));
-	m_height = int(ceilf(Minecraft::height * GuiScale));
 }
 
 void Gui::addMessage(const std::string& s)
@@ -174,25 +166,23 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!mc.m_pLevel || !mc.m_pLocalPlayer)
 		return;
 
-	_updateHudPositions();
-
 	if (mc.getOptions()->m_fancyGraphics.get() && isVignetteAvailable() && !isConsole)
 	{
-		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
+		renderVignette(mc.m_pLocalPlayer->getBrightness(f), GuiWidth, GuiHeight);
 	}
 
 	ItemStack& headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(Item::SLOT_HEAD);
 
 	if (!mc.getOptions()->m_thirdPerson.get() && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
-		renderPumpkin(m_width, m_height);
+		renderPumpkin(GuiWidth, GuiHeight);
 
-	renderProgressIndicator(m_width, m_height);
+	renderProgressIndicator(GuiWidth, GuiHeight);
 
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 
 	MatrixStack::Ref matrix = MatrixStack::World.push();
-	matrix->translate(Vec3(m_width / 2, m_height, 0));
+	matrix->translate(Vec3(GuiWidth / 2, GuiHeight, 0));
 	if (isConsole)
 	{
 		matrix->translate(Vec3(0, -35, 0));
@@ -447,8 +437,8 @@ void Gui::renderHearts(bool topLeft)
 
 	if (topLeft)
 	{
-		heartX = -m_width / 2 + 2;
-		heartYStart = -m_height + 2;
+		heartX = -GuiWidth / 2 + 2;
+		heartYStart = -GuiHeight + 2;
 	}
 	else
 	{
@@ -524,8 +514,8 @@ void Gui::renderBubbles(bool topLeft)
         
         if (topLeft)
         {
-            bubbleX = -m_width / 2 + 2;
-            bubbleY = -m_height + 12;
+            bubbleX = -GuiWidth / 2 + 2;
+            bubbleY = -GuiHeight + 12;
         }
         else if (m_bRenderHunger)
         {
