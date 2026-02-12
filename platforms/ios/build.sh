@@ -27,8 +27,9 @@ if ! [ -d "$sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
     # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
     printf '\nDownloading iOS SDK...\n\n'
     [ -d "$sdk" ] && rm -rf "$sdk"
+    rm -f iPhoneOS8.0.sdk.tar.lzma
     wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
-    tar xf iPhoneOS8.0.sdk.tar.lzma
+    tar -x --lzma -f iPhoneOS8.0.sdk.tar.lzma
     mv iPhoneOS8.0.sdk "$sdk"
     rm iPhoneOS8.0.sdk.tar.lzma
     printf '%s' "$sdkver" > sdkver
@@ -135,7 +136,7 @@ fi
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
     if printf 'int main(void) {return 0;}' | REMCPE_TARGET=armv7-apple-ios3.1 "$platformdir/ios-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
-        lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
+        cflags='-flto'
     fi
     rm -f "$workdir/testout"
 fi
@@ -164,6 +165,7 @@ for target in $targets; do
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM=ios \
+        -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
@@ -171,8 +173,9 @@ for target in $targets; do
         -DCMAKE_C_COMPILER="$platformdir/ios-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/ios-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr" \
-        -DWERROR="${WERROR:-OFF}" \
-        $lto
+        -DCMAKE_C_FLAGS="$cflags" \
+        -DCMAKE_CXX_FLAGS="$cflags" \
+        -DWERROR="${WERROR:-OFF}"
     make -j"$ncpus"
 
     cd ..

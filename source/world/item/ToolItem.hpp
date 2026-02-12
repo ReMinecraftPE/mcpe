@@ -7,6 +7,27 @@
 class ToolItem : public Item
 {
 public:
+	class Tier
+	{
+	public:
+		int   m_level;
+		int   m_uses;
+		float m_speed;
+		int   m_damage;
+
+		Tier(int level, int uses, float speed, int damage) :
+			m_level(level),
+			m_uses(uses),
+			m_speed(speed),
+			m_damage(damage)
+		{
+		}
+
+		// Item tiers
+		static Tier WOOD, STONE, IRON, EMERALD, GOLD;
+	};
+
+public:
 	ToolItem(int id, Tool::Type toolType, Tier& tier);
 
 protected:

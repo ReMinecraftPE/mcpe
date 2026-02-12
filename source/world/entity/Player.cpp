@@ -15,6 +15,7 @@ void Player::_init()
 	m_score = 0;
 	m_oBob = 0.0f;
 	m_bob = 0.0f;
+	m_dmgSpill = 0;
 	m_dimension = 0;
 	m_bFlying = false;
 	m_jumpTriggerTime = 0;
@@ -123,6 +124,16 @@ bool Player::hurt(Entity* pEnt, int damage)
 	}
 
     return damage == 0 ? false : Mob::hurt(pEnt, damage);
+}
+
+void Player::actuallyHurt(int damage)
+{
+	int damageReduction = 25 - m_pInventory->getArmorValue();
+	int totalDamage = damage * damageReduction + m_dmgSpill;
+	m_pInventory->hurtArmor(damage);
+	damage = totalDamage / 25;
+	m_dmgSpill = totalDamage % 25;
+	Mob::actuallyHurt(damage);
 }
 
 void Player::awardKillScore(Entity* pKilled, int score)

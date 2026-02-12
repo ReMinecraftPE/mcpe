@@ -27,6 +27,6 @@ protected:
 	ModelPart m_leg2;
 	ModelPart m_leg3;
 	ModelPart m_leg4;
-	float field_28C;
-	float field_290;
+	float m_babyHeadOffsetY;
+	float m_babyHeadOffsetZ;
 };

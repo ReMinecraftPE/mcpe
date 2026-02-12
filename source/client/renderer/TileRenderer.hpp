@@ -49,12 +49,14 @@ public:
 	void renderFaceDown(Tile*, const Vec3& pos, int texture);
 	void renderFaceUp(Tile*, const Vec3& pos, int texture);
 	void tesselateCrossTexture(const FullTile& tile, const Vec3& pos, bool simple = false);
+	void tesselateRowTexture(Tile* tile, int data, const Vec3& pos);
 	void tesselateTorch(Tile*, const Vec3& pos, float a, float b);
 	
 	bool tesselateBlockInWorldWithAmbienceOcclusion(Tile*, const TilePos& pos, float r, float g, float b);
 	bool tesselateBlockInWorld(Tile*, const TilePos& pos, float r, float g, float b);
 	bool tesselateBlockInWorld(Tile*, const TilePos& pos);
 	bool tesselateCrossInWorld(Tile*, const TilePos& pos);
+	bool tesselateRowInWorld(Tile*, const TilePos& pos);
 	bool tesselateWaterInWorld(Tile*, const TilePos& pos);
 	bool tesselateStairsInWorld(Tile*, const TilePos& pos);
 	bool tesselateFenceInWorld(Tile*, const TilePos& pos);
