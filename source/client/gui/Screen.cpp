@@ -118,7 +118,7 @@ void Screen::_renderPointer()
 GuiElement* Screen::_getElement(GuiElement::ID id)
 {
 	GuiElementList& list = m_elements;
-	if (id >= int(list.size()))
+	if (id < 0 || id >= int(list.size()))
 		return nullptr;
 
 	return list[id];
