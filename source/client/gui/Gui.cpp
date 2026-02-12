@@ -449,8 +449,6 @@ void Gui::renderHearts(bool topLeft)
 		heartYStart = -32;
 	}
 
-	int armorX = heartX + 91 - 9;
-
 	int playerHealth = player->m_health;
 	int maxHealth = player->getMaxHealth();
 
