@@ -477,7 +477,6 @@ void Gui::renderHearts(bool topLeft)
 			blit(heartX, heartY, 61, 0, 9, 9, 0, 0);
 
 		heartX += 8;
-
 	}
 }
 
@@ -486,12 +485,10 @@ void Gui::renderArmor(bool topLeft)
 	int armor = m_pMinecraft->m_pLocalPlayer->m_pInventory->getArmorValue();
 	if (armor <= 0)
 		return;
-
-	int cenX = m_width / 2;
 	
 	int hotbarWidth = (topLeft) ? 0 : (2 + getNumSlots() * 20);
-	int armorX = (topLeft) ? (m_width - 11) : cenX - 91 + (hotbarWidth - 9);
-	int armorY = (topLeft) ? 2 : (m_height - 32);
+	int armorX = (topLeft) ? (GuiWidth / 2 - 11) : - 91 + (hotbarWidth - 9);
+	int armorY = (topLeft) ? 2 - GuiHeight : -32;
 
 	if (armor > 0)
 	{

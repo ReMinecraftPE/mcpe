@@ -11,12 +11,14 @@
 
 static char g_CreateWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':' };
 
-CreateWorldScreen::CreateWorldScreen() :
-	m_textName(this, 1, 0, 0, 0, 0, "", "Unnamed world"),
-	m_textSeed(this, 2, 0, 0, 0, 0, ""),
-	m_btnGameMode(5, "Game Mode"),
-	m_btnBack(3, "Cancel"),
-	m_btnCreate(4, "Create New World")
+CreateWorldScreen::CreateWorldScreen(Screen* parent) :
+	m_pParent(parent),
+	m_textName(this, 0, 0, 0, 0, "", "Unnamed world"),
+	m_textSeed(this, 0, 0, 0, 0, ""),
+	m_btnGameMode("Game Mode"),
+	m_btnBack("Cancel"),
+	m_btnCreate("Create New World"),
+	m_gameMode(GAME_TYPE_SURVIVAL)
 {
 	m_bDeletePrevious = false;
 }
@@ -139,8 +141,6 @@ void CreateWorldScreen::init()
 	// calculate after crush
 	m_btnGameMode.m_xPos = m_width / 2 - m_btnGameMode.m_width / 2;
 	m_btnCreate.m_xPos = m_width / 2 - m_btnCreate.m_width - 5;
-
-	m_gameMode = GAME_TYPE_SURVIVAL;
 }
 
 void CreateWorldScreen::render(float f)
