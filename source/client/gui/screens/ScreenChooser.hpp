@@ -1,7 +1,8 @@
 #pragma once
 
+#include "client/options/Options.hpp"
+
 struct TilePos;
-enum UITheme;
 class Player;
 class Minecraft;
 class Container;
@@ -12,6 +13,7 @@ class ScreenChooser
 {
 public:
     ScreenChooser(Minecraft*, UITheme uiTheme);
+    virtual ~ScreenChooser();
 
     virtual void pushStartScreen();
     virtual void pushPauseScreen();
@@ -35,6 +37,7 @@ class ConsoleScreenChooser : public ScreenChooser
 {
 public:
     ConsoleScreenChooser(Minecraft*);
+    ~ConsoleScreenChooser();
 
     void pushStartScreen() override;
     void pushPauseScreen() override;

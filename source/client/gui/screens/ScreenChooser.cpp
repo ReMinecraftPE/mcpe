@@ -20,6 +20,10 @@ ScreenChooser::ScreenChooser(Minecraft* mc, UITheme uiTheme) :
 {
 }
 
+ScreenChooser::~ScreenChooser()
+{
+}
+
 void ScreenChooser::pushStartScreen()
 {
 	m_pMinecraft->setScreen(new StartMenuScreen);
@@ -72,6 +76,10 @@ ScreenChooser* ScreenChooser::create(Minecraft* mc)
 }
 
 ConsoleScreenChooser::ConsoleScreenChooser(Minecraft* mc) : ScreenChooser(mc, UI_CONSOLE)
+{
+}
+
+ConsoleScreenChooser::~ConsoleScreenChooser()
 {
 }
 
