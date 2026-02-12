@@ -206,7 +206,7 @@ void OptionList::initVideoMenu()
 	//OPTION(m_brigtness);
 	OPTION(m_viewDistance);
 	//OPTION(m_antiAliasing);
-	OPTION(m_guiScale);
+	//OPTION(m_guiScale);
 	//OPTION(m_fov);
 	OPTION(m_ambientOcclusion);
 	OPTION(m_fancyGraphics);

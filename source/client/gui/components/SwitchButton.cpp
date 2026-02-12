@@ -23,11 +23,11 @@ void SwitchButton::render(Minecraft* mc, const MenuPointer& pointer)
 	if (!isVisible()) return;
 
 	drawString(
-		*mc->m_pFont,
-		getMessage(),
-		m_xPos + 6,
-		m_yPos + (m_height - 8) / 2,
-		isEnabled() ? 0xCCCCCC : 0x777777);
+        *mc->m_pFont,
+        getMessage(),
+        m_xPos + 6,
+        m_yPos + (m_height - 6) / 2,
+        isEnabled() ? 0xCCCCCC : 0x777777);
 
 	currentShaderColor = m_color;
 
