@@ -16,41 +16,53 @@ enum GameType
 class GameTypeConv
 {
 public:
-	static const std::string& GameTypeToNonLocString(GameType type)
+static const std::string& GameTypeToNonLocString(GameType type)
+{
+	switch (type)
 	{
-		switch (type)
-		{
-		case GAME_TYPE_SURVIVAL:
-			static const std::string survival = "Survival";
-			return survival;
-		case GAME_TYPE_CREATIVE:
-			static const std::string creative = "Creative";
-			return creative;
-		case GAME_TYPE_ADVENTURE:
-			static const std::string adventure = "Adventure";
-			return adventure;
-		case GAME_TYPE_SPECTATOR:
-			static const std::string spectator = "Spectator";
-			return spectator;
-		default:
-			return Util::EMPTY_STRING;
-		}
+	case GAME_TYPE_SURVIVAL:
+	{
+		static const std::string survival = "Survival";
+		return survival;
 	}
+	case GAME_TYPE_CREATIVE:
+	{
+		static const std::string creative = "Creative";
+		return creative;
+	}
+	case GAME_TYPE_ADVENTURE:
+	{
+		static const std::string adventure = "Adventure";
+		return adventure;
+	}
+	case GAME_TYPE_SPECTATOR:
+	{
+		static const std::string spectator = "Spectator";
+		return spectator;
+	}
+	default:
+		return Util::EMPTY_STRING;
+	}
+}
 
-	static const std::string& GameTypeDescriptionToNonLocString(GameType type)
+static const std::string& GameTypeDescriptionToNonLocString(GameType type)
+{
+	switch (type)
 	{
-		switch (type)
-		{
-		case GAME_TYPE_SURVIVAL:
-			static const std::string survival = "Mobs, health and gather resources";
-			return survival;
-		case GAME_TYPE_CREATIVE:
-			static const std::string creative = "Unlimited resources, flying";
-			return creative;
-		case GAME_TYPE_ADVENTURE:
-		case GAME_TYPE_SPECTATOR:
-		default:
-			return Util::EMPTY_STRING;
-		}
+	case GAME_TYPE_SURVIVAL:
+	{
+		static const std::string survival = "Mobs, health and gather resources";
+		return survival;
 	}
+	case GAME_TYPE_CREATIVE:
+	{
+		static const std::string creative = "Unlimited resources, flying";
+		return creative;
+	}
+	case GAME_TYPE_ADVENTURE:
+	case GAME_TYPE_SPECTATOR:
+	default:
+		return Util::EMPTY_STRING;
+	}
+}
 };
