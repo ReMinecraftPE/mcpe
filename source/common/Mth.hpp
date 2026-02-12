@@ -53,7 +53,7 @@ public:
 		return (T(0) < val) - (val < T(0));
 	}
     
-	static inline CONSTEXPR float Lerp(float a, float b, float progress)
+	static inline CONSTEXPR_FUNC float Lerp(float a, float b, float progress)
 	{
 		return a + progress * (b - a);
 	}

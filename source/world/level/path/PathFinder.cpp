@@ -13,7 +13,7 @@
 static int dword_1CD868;
 static int dword_1CD870;
 
-CONSTEXPR int MakeNodeHash(const TilePos& pos)
+CONSTEXPR_FUNC int MakeNodeHash(const TilePos& pos)
 {
 	// NOTE: Same as in Java Edition Beta 1.3_01
 	return (pos.y & 0xFF) | 
