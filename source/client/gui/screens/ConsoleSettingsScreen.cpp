@@ -1,38 +1,31 @@
 #include "ConsoleSettingsScreen.hpp"
-#include "CreditsScreen.hpp"
 #include "client/locale/Language.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
 ConsoleSettingsScreen::ConsoleSettingsScreen(Screen* screen) :
 	m_pParent(screen),
-	m_btnHTP(Language::get("settingsMenu.howToPlay")),
+	m_btnHowToPlay(Language::get("settingsMenu.howToPlay")),
 	m_btnControls(Language::get("settingsMenu.controls")),
 	m_btnSettings(Language::get("settingsMenu.settings")),
 	m_btnCredits(Language::get("settingsMenu.credits")),
 	m_btnResetToDefaults(Language::get("settingsMenu.resetToDefaults"))
 {
 	m_bDeletePrevious = false;
-	m_btnHTP.setEnabled(false);
+	m_btnHowToPlay.setEnabled(false);
 
 	m_uiTheme = UI_CONSOLE;
 }
 
 void ConsoleSettingsScreen::init()
 {
-	std::vector<Button*> layoutButtons;
-
-	layoutButtons.push_back(&m_btnHTP);
-	layoutButtons.push_back(&m_btnControls);
-	layoutButtons.push_back(&m_btnSettings);
-	layoutButtons.push_back(&m_btnCredits);
-	layoutButtons.push_back(&m_btnResetToDefaults);
+	Button* layoutButtons[] = {&m_btnHowToPlay, &m_btnControls, &m_btnSettings, &m_btnCredits, &m_btnResetToDefaults};
 
 	int buttonsWidth = 450;
 	int buttonsHeight = 40;
 	int y= m_height / 3 + 10;
 	int ySpacing = 50;
 
-	for (size_t i = 0; i < layoutButtons.size(); ++i)
+	for (size_t i = 0; i < 5; ++i)
 	{
 		Button* button = layoutButtons[i];
 		button->m_width = buttonsWidth;
@@ -64,14 +57,11 @@ void ConsoleSettingsScreen::_buttonClicked(Button* btn)
 {
 	if (btn->getId() == m_btnControls.getId())
 		m_pMinecraft->setScreen(new ControlsPanelScreen(this, m_pMinecraft));
-
-	if (btn->getId() == m_btnSettings.getId())
+	else if (btn->getId() == m_btnSettings.getId())
 		m_pMinecraft->setScreen(new SettingsPanelScreen(this, *m_pMinecraft->getOptions()));
-
-	if (btn->getId() == m_btnCredits.getId())
-		m_pMinecraft->setScreen(new CreditsScreen(this));
-
-	if (btn->getId() == m_btnResetToDefaults.getId())
+	else if (btn->getId() == m_btnCredits.getId())
+		m_pMinecraft->getScreenChooser()->pushCreditsScreen(this);
+	else if (btn->getId() == m_btnResetToDefaults.getId())
 	{
 		m_pMinecraft->getOptions()->reset();
 		//Certainly you wouldn't want to reset this option
@@ -125,6 +115,11 @@ SettingsPanelScreen::SettingsPanelScreen(Screen* parent, Options& options) : Pan
 	OPTION(m_biomeColors);
 	OPTION(m_hideGui);
 	OPTION(m_difficulty);
+
+	if (currentIndex)
+	{
+		//do nothing, just to bypass the annoying compiler
+	}
 }
 
 void SettingsPanelScreen::render(float f)

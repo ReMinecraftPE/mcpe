@@ -198,7 +198,7 @@ bool SelectWorldScreen::handleBackEvent(bool b)
 		return true;
 
 	// @TODO: m_pMinecraft->cancelLocateMultiplayer();
-	m_pMinecraft->setScreen(new StartMenuScreen);
+	m_pMinecraft->getScreenChooser()->pushStartScreen();
 	return true;
 }
 
@@ -207,7 +207,7 @@ void SelectWorldScreen::_buttonClicked(Button* pButton)
 	if (pButton->getId() == m_btnCreateNew.getId())
 	{
 #ifndef ORIGINAL_CODE
-		m_pMinecraft->setScreen(new CreateWorldScreen(this));
+		m_pMinecraft->getScreenChooser()->pushCreateWorldScreen(this);
 #else
 		m_pMinecraft->platform()->showDialog(AppPlatform::DLG_CREATE_WORLD);
 		m_pMinecraft->platform()->createUserInput();
@@ -224,7 +224,7 @@ void SelectWorldScreen::_buttonClicked(Button* pButton)
 	if (pButton->getId() == m_btnBack.getId())
 	{
 		// @TODO: m_pMinecraft->cancelLocateMultiplayer();
-		m_pMinecraft->setScreen(new StartMenuScreen);
+		m_pMinecraft->getScreenChooser()->pushStartScreen();
 	}
 
 	if (pButton->getId() == m_btnWorld.getId())

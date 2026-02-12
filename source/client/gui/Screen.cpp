@@ -117,11 +117,10 @@ void Screen::_renderPointer()
 
 GuiElement* Screen::_getElement(GuiElement::ID id)
 {
-	GuiElementList& list = m_elements;
-	if (id >= int(list.size()))
-		return nullptr;
+	if (id >= 0 && id < GuiElement::ID(m_elements.size()))
+		return m_elements[id];
 
-	return list[id];
+	return nullptr;
 }
 
 GuiElement* Screen::_getSelectedElement()
@@ -142,6 +141,7 @@ void Screen::init(Minecraft* pMinecraft, int width, int height)
 	setSize(width, height);
 	initMenuPointer();
 	_updateTabButtonSelection();
+	m_bLastPointerPressedState = false;
 }
 
 void Screen::keyPressed(int key)
@@ -222,12 +222,12 @@ void Screen::keyboardTextPaste(const std::string& text)
 
 float Screen::getScale(int width, int height)
 {
-	return m_uiTheme == UI_CONSOLE ? getConsoleScale(height) : 0.0f;
+	return m_uiTheme == UI_CONSOLE ? GetConsoleScale(height) : 0.0f;
 }
 
-float Screen::getConsoleScale(int height)
+float Screen::GetConsoleScale(int height)
 {
-	return 1 / float(Mth::round((Mth::round(height / 180.0f) * 180) / 360.0f) / 2.0f);
+	return 1.0f / float(Mth::round((Mth::round(height / 180.0f) * 180) / 360.0f) / 2.0f);
 }
 
 void Screen::setTextboxText(const std::string& text)
@@ -502,7 +502,7 @@ bool Screen::onBack(bool b)
 	return result;
 }
 
-bool Screen::selectElementByID(GuiElement::ID id)
+bool Screen::selectElementById(GuiElement::ID id)
 {
 	GuiElement* element = _getElement(id);
 
@@ -528,7 +528,7 @@ bool Screen::_areaNavigation(AreaNavigation::Direction dir)
 
 	if (m_pSelectedElement->areaNavigation(m_pMinecraft, dir)) return true;
 
-	if (selectElementByID(Navigation(this).navigateCyclic(dir, m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2, m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2)))
+	if (selectElementById(Navigation(this).navigateCyclic(dir, m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2, m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2)))
 	{
 		_playSelectSound();
 		return true;
@@ -570,7 +570,7 @@ int Screen::getYOffset()
 	GuiElement* element = _getSelectedElement();
 	if (element && element->getType() == GuiElement::TYPE_TEXTBOX)
 	{
-		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
+		int heightLeft = m_height - int(float(keybOffset) * Gui::GuiScale);
 
 		// we want to keep the center of the text box in the center of the screen
 		int textCenterY = element->m_yPos + element->m_height / 2;
@@ -683,7 +683,7 @@ void Screen::_updateTabButtonSelection()
 
 	if (!m_pSelectedElement)
 	{
-		selectElementByID(Navigation(this).navigate(AreaNavigation::DOWN, m_width / 2, 0));
+		selectElementById(Navigation(this).navigate(AreaNavigation::DOWN, m_width / 2, 0));
 	}
 
 	for (size_t i = 0; i < m_elements.size(); i++)
@@ -838,7 +838,7 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick,
 		Vec2 targetVelocity(snap * speed * moveSensitivity);
 		targetVelocity.x = stickAbs.x < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.x) : targetVelocity.x;
 		targetVelocity.y = stickAbs.y < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.y) : targetVelocity.y; // * speedY;
-		targetVelocity *= Gui::InvGuiScale;
+		targetVelocity *= Gui::GuiScale;
 
 		// Multiply by delta for smooth movement
 		Vec2 move = targetVelocity * C_POINTER_FRICTION * deltaTime;

@@ -305,6 +305,16 @@ public:
 	void apply() override;
 };
 
+class UIThemeOption : public ValuesOption
+{
+public:
+	UIThemeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
+	{
+	}
+
+	void apply() override;
+};
+
 class HUDSizeOption : public MinMaxOption
 {
 public:
@@ -359,7 +369,7 @@ public:
 	void reset();
 	void initResourceDependentOptions();
 
-	UITheme getUITheme() const;
+	UITheme getUiTheme() const;
 	LogoType getLogoType() const;
 
 private:
@@ -411,7 +421,7 @@ public:
 	BoolOption m_menuPanorama;
 	GuiScaleOption m_guiScale;
 	StringOption m_lang;
-	ValuesOption m_uiTheme;
+	UIThemeOption m_uiTheme;
 	LogoTypeOption m_logoType;
 	HUDSizeOption m_hudSize;
 	BoolOption m_classicCrafting;

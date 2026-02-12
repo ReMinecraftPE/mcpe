@@ -268,7 +268,7 @@ void OptionsScreen::updateTexts()
 }
 bool OptionsScreen::isCramped()
 {
-	return width < 150 * 2 + 20 || height < 200;
+	return m_width < 150 * 2 + 20 || m_height < 200;
 }
 
 void OptionsScreen::setWidthAllButtons(int width)
@@ -370,7 +370,7 @@ void OptionsScreen::render(int a, int b, float c)
 
 	if (m_pMinecraft->m_pPlatform->getUserInputStatus() >= 0)
 	{
-		m_pMinecraft->setScreen(new StartMenuScreen);
+		m_pMinecraft->getScreenChooser()->pushStartScreen();
 	}
 
 #ifndef ORIGINAL_CODE
@@ -400,7 +400,7 @@ void OptionsScreen::_buttonClicked(Button* pButton)
 			if (m_pMinecraft->isLevelGenerated())
 				m_pMinecraft->setScreen(new PauseScreen);
 			else
-				m_pMinecraft->setScreen(new StartMenuScreen);
+				m_pMinecraft->getScreenChooser()->pushStartScreen();
 			return;
 
 		case OB_AO:

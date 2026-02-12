@@ -1,7 +1,7 @@
 #include "ConsoleSettingsScreen.hpp"
 #include "client/locale/Language.hpp"
 #include "PlayGameScreen.hpp"
-#include "CreateWorldScreen.hpp"
+#include "ConsoleCreateWorldScreen.hpp"
 #include "ProgressScreen.hpp"
 #include "renderer/ShaderConstants.hpp"
 
@@ -23,8 +23,8 @@ void PlayGameScreen::init()
 	m_startPanel.h = 380;
 	m_joinPanel = m_startPanel;
 	m_joinPanel.x = m_panel.x + m_panel.w - m_joinPanel.w - 16;
-	m_layout.init(m_startPanel.x + 20, m_startPanel.y + 42, 460, 300, 0);
-	m_joinLayout.init(m_joinPanel.x + 20, m_joinPanel.y + 42, 460, 300, 0);
+	m_layout.init(IntRectangle(m_startPanel.x + 20, m_startPanel.y + 42, 460, 300), 0);
+	m_joinLayout.init(IntRectangle(m_joinPanel.x + 20, m_joinPanel.y + 42, 460, 300), 0);
 }
 
 void PlayGameScreen::fillSaves(Minecraft* mc)
@@ -51,7 +51,7 @@ void PlayGameScreen::fillSaves(Minecraft* mc)
 	}
 
 	if (m_layout.m_elements.size() > 2)
-		m_layout.selectElementByID(2, false);
+		m_layout.selectElementById(2, false);
 }
 
 void PlayGameScreen::fillServers()
@@ -129,13 +129,13 @@ void PlayGameScreen::renderPanel(float f)
 	currentShaderColor.a = 1.0f;
 
 	const std::string& startGame = Language::get("playGame.start");
-	m_pFont->drawScalable(startGame, m_startPanel.x + m_startPanel.w / 2 - m_pFont->width(startGame), m_startPanel.y + 14, Color::GREY_TEXT);
+	m_pFont->drawScalable(startGame, m_startPanel.x + m_startPanel.w / 2 - m_pFont->width(startGame), m_startPanel.y + 14, Color::TEXT_GREY);
 
 	const std::string& joinGame = Language::get("playGame.join");
-	m_pFont->drawScalable(joinGame, m_joinPanel.x + m_joinPanel.w / 2 - m_pFont->width(joinGame), m_joinPanel.y + 14, Color::GREY_TEXT);
+	m_pFont->drawScalable(joinGame, m_joinPanel.x + m_joinPanel.w / 2 - m_pFont->width(joinGame), m_joinPanel.y + 14, Color::TEXT_GREY);
 
 	if (m_servers.empty())
-		m_pFont->drawScalable(Language::get("playGame.noGamesFound"), m_joinPanel.x + 151, m_joinPanel.y + 192, Color::GREY_TEXT);
+		m_pFont->drawScalable(Language::get("playGame.noGamesFound"), m_joinPanel.x + 151, m_joinPanel.y + 192, Color::TEXT_GREY);
 }
 
 ListButton::ListButton(const std::string& text) : Button(0, 0, 460, 60, text)
@@ -175,13 +175,19 @@ CreateButton::CreateButton(const std::string& text) : ListButton(text)
 
 void CreateButton::pressed(Minecraft* mc)
 {
-	//@TODO: Change this with a Console UI themed Create World screen
-	mc->setScreen(new CreateWorldScreen(mc->m_pScreen));
+	mc->getScreenChooser()->pushCreateWorldScreen(mc->m_pScreen);
 }
 
 SaveButton::SaveButton(const LevelSummary& summary) : ListButton(summary.m_levelName),
 	m_summary(summary)
 {
+}
+
+void SaveButton::render(Minecraft* mc, const MenuPointer& pointer)
+{
+	ListButton::render(mc, pointer);
+
+	blitTexture(*mc->m_pTextures, "gui/default_world.png", m_xPos + 10, m_yPos + 10, 0, 0, 40, 40);
 }
 
 void SaveButton::pressed(Minecraft* mc)
@@ -203,5 +209,5 @@ void JoinButton::renderMessage(Font& font, const Color& textColor)
 void JoinButton::pressed(Minecraft* mc)
 {
 	mc->joinMultiplayer(m_server);
-	mc->setScreen(new ProgressScreen);
+	mc->getScreenChooser()->pushProgressScreen();
 }

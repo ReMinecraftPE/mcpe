@@ -47,6 +47,7 @@ public:
 	void tick(Minecraft* pMinecraft) override;
 	void setTextboxText(const std::string& text) override;
 	void setMaxLength(int max_length);
+	void setBordered(bool);
 
 	const std::string& getText() const { return m_text; }
 
@@ -66,6 +67,7 @@ public:
 	Screen* m_pParent;
 	int m_maxLength;
 	int m_scrollPos;
+	bool m_bBordered;
 };
 
 #endif

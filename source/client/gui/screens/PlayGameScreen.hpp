@@ -9,7 +9,7 @@ class ListButton : public Button
 public:
 	ListButton(const std::string&);
 
-	virtual void render(Minecraft*, const MenuPointer&) override;
+	void render(Minecraft*, const MenuPointer&) override;
 	virtual void renderMessage(Font&, const Color&);
 };
 
@@ -26,6 +26,7 @@ class SaveButton : public ListButton
 public:
 	SaveButton(const LevelSummary&);
 
+	void render(Minecraft*, const MenuPointer&) override;
 	void pressed(Minecraft*) override;
 
 public:

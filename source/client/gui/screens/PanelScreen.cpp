@@ -16,7 +16,7 @@ void PanelScreen::init()
 	m_panel.h = 325;
 	m_panel.x = (m_width - m_panel.w) / 2;
 	m_panel.y = (m_height - m_panel.h) / 2 - 22;
-	m_layout.init(m_panel.x + 15, m_panel.y + 14, 324, 296);
+	m_layout.init(IntRectangle(m_panel.x + 15, m_panel.y + 14, 324, 272));
 }
 
 void PanelScreen::render(float f)

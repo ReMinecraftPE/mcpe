@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Screen.hpp"
+#include "IntRectangle.hpp"
 #include "components/ConsoleScrollRenderer.hpp"
 
 //@TODO: create an abstraction for this, like GuiElementContainer
@@ -13,15 +14,15 @@ public:
     GuiElement* getElement(ID) const;
     bool isTopElement(GuiElement& element) const { return element.m_yPos == m_yPos; };
     bool isBottomElement(GuiElement& element) const { return element.m_yPos == m_bottom; };
-    bool selectElementByID(ID, bool sound = true);
+    bool selectElementById(ID, bool sound = true);
     void selectElement(GuiElement*);
 
-    void init(int x, int y, int w, int h, int spacing = 8, bool cyclic = true);
+    void init(const IntRectangle&, int spacing = 8, bool cyclic = true);
     void organize();
     void clear();
 
     bool areaNavigation(Minecraft*, AreaNavigation::Direction) override;
-    void areaNavigation(AreaNavigation::Direction);
+    void areaNavigation(AreaNavigation::Direction, bool cyclic = false);
     void setSelected(bool);
     
     bool handleScroll(bool up);

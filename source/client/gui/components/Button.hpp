@@ -17,6 +17,13 @@ class Button : public GuiElement
 {
 private:
 	void _init();
+
+protected:
+	void _renderBg(Minecraft*, const MenuPointer& pointer);
+	void _renderBgConsole(Minecraft*, const MenuPointer& pointer);
+	void _renderMessage(Font&);
+	void _renderMessageConsole(Font&);
+
 public:
 	Button(int x, int y, int width, int height, const std::string&);
 	Button(int x, int y, const std::string&);

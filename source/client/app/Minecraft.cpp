@@ -67,6 +67,7 @@ const char* Minecraft::progressMessages[] =
 Minecraft::Minecraft()
 {
 	m_pOptions = nullptr;
+	m_pScreenChooser = nullptr;
 	field_18 = false;
 	m_bIsGamePaused = false;
 	m_pResourceLoader = nullptr;
@@ -125,6 +126,7 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pGameMode);
 	SAFE_DELETE(m_pFont);
 	SAFE_DELETE(m_pTextures);
+	SAFE_DELETE(m_pScreenChooser);
     
 	if (m_pLevel)
 	{
@@ -298,8 +300,7 @@ void Minecraft::setScreen(Screen* pScreen)
 
 	if (pScreen)
 	{
-		// the ceil prevents under-drawing
-		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
+		pScreen->init(this, Gui::GuiWidth, Gui::GuiHeight);
 	}
 
 	float scale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
@@ -1017,17 +1018,21 @@ void Minecraft::prepareLevel(const std::string& unused)
 void Minecraft::sizeUpdate(int newWidth, int newHeight)
 {
 	// re-calculate the GUI scale.
-	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / getRenderScaleMultiplier();
+	Gui::GuiScale =  getBestScaleForThisScreenSize(newWidth, newHeight) / getRenderScaleMultiplier();
 
 	// The ceil gives an extra pixel to the screen's width and height, in case the GUI scale doesn't
 	// divide evenly into width or height, so that none of the game screen is uncovered.
+	Gui::GuiHeight = ceilf(Minecraft::height * Gui::GuiScale);
+	Gui::GuiScale = float(Gui::GuiHeight) / height;
+	Gui::GuiWidth = ceilf(Minecraft::width * Gui::GuiScale);
+
 	if (m_pScreen)
 		m_pScreen->setSize(
-			int(ceilf(Minecraft::width * Gui::InvGuiScale)),
-			int(ceilf(Minecraft::height * Gui::InvGuiScale))
+			Gui::GuiWidth,
+			Gui::GuiHeight
 		);
 
-	LogoRenderer::singleton().build(int(ceilf(Minecraft::width * Gui::InvGuiScale)));
+	LogoRenderer::singleton().build(Gui::GuiWidth);
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);
@@ -1047,8 +1052,8 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 		if (scale > 0)
 			return scale;
 	}
-	else if (m_pOptions->getUITheme() == UI_CONSOLE)
-		return Screen::getConsoleScale(height);
+	else if (m_pOptions->getUiTheme() == UI_CONSOLE)
+		return Screen::GetConsoleScale(height);
 
 #if MC_PLATFORM_XBOX
 #define USE_JAVA_SCREEN_SCALING
@@ -1058,7 +1063,7 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
 	{
 	}
-	return 1.0f / scale;
+	return scale;
 #endif
 
 	if (height > 1800)
@@ -1145,7 +1150,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	m_bPreparingLevel = false;
 
 	if (m_pRakNetInstance && m_pRakNetInstance->m_bIsHost)
-		m_pRakNetInstance->announceServer(m_pUser->field_0);
+		m_pRakNetInstance->announceServer(m_pUser->m_name);
 }
 
 void* Minecraft::prepareLevel_tspawn(void* ptr)
@@ -1167,7 +1172,7 @@ bool Minecraft::pauseGame()
 		m_bIsGamePaused = true;
 	}
 	m_pLevel->savePlayerData();
-	setScreen(new PauseScreen);
+	getScreenChooser()->pushPauseScreen();
 
 	return true;
 }
@@ -1242,7 +1247,7 @@ void Minecraft::selectLevel(const std::string& levelDir, const std::string& leve
 	field_D9C = 1;
     
     hostMultiplayer();
-    setScreen(new ProgressScreen);
+	getScreenChooser()->pushProgressScreen();
 }
 
 const char* Minecraft::getProgressMessage()
@@ -1272,6 +1277,21 @@ ItemStack& Minecraft::getSelectedItem()
 	return item;
 }
 
+ScreenChooser* Minecraft::getScreenChooser()
+{
+	if (!m_pScreenChooser || m_pScreenChooser->m_uiTheme != getOptions()->getUiTheme())
+	{
+		SAFE_DELETE(m_pScreenChooser);
+		m_pScreenChooser = ScreenChooser::create(this);
+	}
+	return m_pScreenChooser;
+}
+
+UITheme Minecraft::getUiTheme()
+{
+	return m_pScreen ? m_pScreen->m_uiTheme : getOptions()->getUiTheme();
+}
+
 void Minecraft::reloadFancy(bool isFancy)
 {
 }
@@ -1296,7 +1316,7 @@ void Minecraft::gotoMainMenu()
 #if MC_PLATFORM_CONSOLE
 	m_pSoundEngine->playMusic();
 #endif
-	setScreen(new StartMenuScreen);
+	getScreenChooser()->pushStartScreen();
 }
 
 void Minecraft::hostMultiplayer()
@@ -1305,7 +1325,7 @@ void Minecraft::hostMultiplayer()
 		return;
 
 #ifdef FEATURE_NETWORKING
-	m_pRakNetInstance->host(m_pUser->field_0, C_DEFAULT_PORT, C_MAX_CONNECTIONS);
+	m_pRakNetInstance->host(m_pUser->m_name, C_DEFAULT_PORT, C_MAX_CONNECTIONS);
 	m_pNetEventCallback = new ServerSideNetworkHandler(this, m_pRakNetInstance);
 #endif
 }

@@ -30,6 +30,8 @@ add_library(reminecraftpe-core STATIC
     client/resources/ResourcePackManager.cpp
     client/resources/ResourcePackManifest.cpp
     client/resources/ResourcePackRepository.cpp
+    client/resources/SplashManager.cpp
+    client/resources/LoadingTipManager.cpp
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
@@ -90,6 +92,7 @@ add_library(reminecraftpe-core STATIC
     client/sound/SoundRepository.cpp
     client/sound/SoundEngine.cpp
     client/gui/Screen.cpp
+    client/gui/screens/ScreenChooser.cpp
     client/gui/screens/CreditsScreen.cpp
     client/gui/screens/OptionsScreen.cpp
     client/gui/screens/StartMenuScreen.cpp
@@ -113,6 +116,10 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/PanelScreen.cpp
     client/gui/screens/PlayGameScreen.cpp
     client/gui/screens/ConsoleSettingsScreen.cpp
+    client/gui/screens/ConsoleCreateWorldScreen.cpp
+    client/gui/screens/ConsoleMainScreen.cpp
+    client/gui/screens/ConsolePauseScreen.cpp
+    client/gui/screens/ConsoleProgressScreen.cpp
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp
     client/gui/screens/inventory/CraftingScreen.cpp

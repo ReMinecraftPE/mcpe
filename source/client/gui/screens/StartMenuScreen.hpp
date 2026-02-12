@@ -32,8 +32,6 @@ public:
 
 	void drawSplash();
 
-	std::string getSplashString();
-
 	bool handleBackEvent(bool b) override;
 
 protected:
@@ -47,6 +45,6 @@ protected:
 	std::string m_versionText;
 	int m_versionTextX;
 
-	int m_chosenSplash;
+	std::string m_chosenSplash;
 };
 

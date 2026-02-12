@@ -27,6 +27,8 @@ public:
 	void render(float f) override;
 	bool handleBackEvent(bool b) override;
 
+	static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in);
+
 private:
 	Screen* m_pParent;
 

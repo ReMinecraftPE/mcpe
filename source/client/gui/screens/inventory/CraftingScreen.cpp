@@ -12,8 +12,8 @@ void CraftingScreen::_renderLabels()
 {
     CraftingMenu* craftingMenu = (CraftingMenu*)m_pMenu;
 
-    m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 28, 6, Color::GREY_TEXT);
-    m_pFont->draw(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 8, m_imageHeight - 96 + 2, Color::GREY_TEXT);
+    m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 28, 6, Color::TEXT_GREY);
+    m_pFont->draw(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 8, m_imageHeight - 96 + 2, Color::TEXT_GREY);
 }
 
 void CraftingScreen::_renderBg(float partialTick)
@@ -63,8 +63,8 @@ void ConsoleClassicCraftingScreen::_renderLabels()
 {
     CraftingMenu* craftingMenu = (CraftingMenu*)m_pMenu;
 
-    m_pFont->drawScalable(craftingMenu->m_pCraftSlots->getName(), m_imageWidth / 2 - m_pFont->width(craftingMenu->m_pCraftSlots->getName()), 17, Color::GREY_TEXT);
-    m_pFont->drawScalable(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 28, 213, Color::GREY_TEXT);
+    m_pFont->drawScalable(craftingMenu->m_pCraftSlots->getName(), m_imageWidth / 2 - m_pFont->width(craftingMenu->m_pCraftSlots->getName()), 17, Color::TEXT_GREY);
+    m_pFont->drawScalable(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 28, 213, Color::TEXT_GREY);
 }
 
 void ConsoleClassicCraftingScreen::_renderBg(float partialTick)

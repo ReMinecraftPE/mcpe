@@ -29,6 +29,7 @@
 #include "world/gamemode/GameMode.hpp"
 #include "world/gamemode/GameType.hpp"
 #include "world/particle/ParticleEngine.hpp"
+#include "client/gui/screens/ScreenChooser.hpp"
 
 class Screen; // in case we're included from Screen.hpp
 
@@ -110,6 +111,8 @@ public:
 	LevelStorageSource* getLevelSource();
 	ItemStack& getSelectedItem();
 	Options* getOptions() const { return m_pOptions; }
+	ScreenChooser* getScreenChooser();
+	UITheme getUiTheme();
 	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 
 private:
@@ -127,7 +130,8 @@ public:
 	static int customDebugId;
 
 protected:
-	Options *m_pOptions;
+	Options* m_pOptions;
+	ScreenChooser* m_pScreenChooser;
 
 public:
 	bool field_18;

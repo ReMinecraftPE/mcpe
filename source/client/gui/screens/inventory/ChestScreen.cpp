@@ -14,8 +14,8 @@ ChestScreen::ChestScreen(Container* inventory, Container* container) : Container
 
 void ChestScreen::_renderLabels()
 {
-    m_pFont->draw(m_pContainer->getName(), 8, 6, Color::GREY_TEXT);
-    m_pFont->draw(m_pInventory->getName(), 8, m_imageHeight - 96 + 2, Color::GREY_TEXT);
+    m_pFont->draw(m_pContainer->getName(), 8, 6, Color::TEXT_GREY);
+    m_pFont->draw(m_pInventory->getName(), 8, m_imageHeight - 96 + 2, Color::TEXT_GREY);
 }
 
 void ChestScreen::_renderBg(float partialTicks)

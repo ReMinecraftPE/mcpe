@@ -46,7 +46,7 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, Game
 	m_pMoveInput = nullptr;
 
 	m_pMinecraft = pMinecraft;
-	m_name = pUser->field_0;
+	m_name = pUser->m_name;
 
 	m_dimension = dimensionId;
 	_init();
@@ -131,15 +131,7 @@ void LocalPlayer::swing()
 
 void LocalPlayer::startCrafting(const TilePos& pos)
 {
-	switch (m_pMinecraft->getOptions()->getUITheme() )
-	{
-	case UI_CONSOLE:
-		m_pMinecraft->setScreen(new ConsoleClassicCraftingScreen(m_pInventory, pos, m_pLevel));
-		break;
-	default:
-		m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
-		break;
-	}
+	m_pMinecraft->getScreenChooser()->pushCraftingScreen(this, pos);
 }
 
 /*void LocalPlayer::openFurnace(FurnaceTileEntity* furnace)
@@ -151,7 +143,7 @@ void LocalPlayer::startCrafting(const TilePos& pos)
 void LocalPlayer::openContainer(Container* container)
 {
 	// PE 0.3.2 doesn't let you open chests in creative mode
-	m_pMinecraft->setScreen(new ChestScreen(m_pInventory, container));
+	m_pMinecraft->getScreenChooser()->pushChestScreen(this, container);
 }
 
 void LocalPlayer::closeContainer()

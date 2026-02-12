@@ -60,7 +60,7 @@ protected:
 	void _deselectCurrentElement();
 	void _playSelectSound();
 	void _renderPointer();
-	GuiElement* _getElement(GuiElement::ID id); // returns any element
+	GuiElement* _getElement(GuiElement::ID id);
 	GuiElement* _getSelectedElement();
 	bool _useController() const;
 
@@ -69,7 +69,7 @@ public:
 	void setSize(int width, int height);
 	void onRender(float f);
 	bool onBack(bool b);
-	bool selectElementByID(GuiElement::ID id);
+	bool selectElementById(GuiElement::ID id);
 	void selectElement(GuiElement*);
 	bool nextTab();
 	bool prevTab();
@@ -121,7 +121,7 @@ public:
 	virtual void handleTextChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
 	virtual float getScale(int width, int height);
-	static float getConsoleScale(int height);
+	static float GetConsoleScale(int height);
 	virtual void setTextboxText(const std::string& text);
 	virtual void handleKeyboardClosed();
 

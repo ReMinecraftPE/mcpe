@@ -74,9 +74,9 @@ void LogoRenderer::tick()
 void LogoRenderer::render(float f)
 {
 	if (m_pMinecraft->getOptions()->getLogoType() == LOGO_3D)
-		render3D(f);
+		render3d(f);
 	else
-		render2D();
+		render2d();
 }
 
 void LogoRenderer::_initTextures()
@@ -122,7 +122,7 @@ void LogoRenderer::_build2dTitleMesh()
 	if (!pTex)
 		return;
 
-	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->getUITheme();
+	UITheme uiTheme = m_pMinecraft->getUiTheme();
 	bool isConsole = uiTheme == UI_CONSOLE;
 
 	switch (m_pMinecraft->getOptions()->getLogoType())
@@ -192,8 +192,8 @@ void LogoRenderer::_build2dTitleMesh()
 		m_2dTitleMesh = t.end();
 		break;
 	}
-	case LOGO_XBOX360:
 	case LOGO_CONSOLE:
+	case LOGO_XBOX360:
 	{
 		yPos = 56;
 		width = 571;
@@ -222,16 +222,16 @@ void LogoRenderer::_build2dTitleMesh()
 	}
 }
 
-void LogoRenderer::render2D()
+void LogoRenderer::render2d()
 {
 	currentShaderColor = Color::WHITE;
 	m_pMinecraft->m_pTextures->loadAndBindTexture(m_p2dTitleTexPath);
 	m_2dTitleMesh.render(m_materials.ui_textured);
 }
 
-void LogoRenderer::render3D(float f)
+void LogoRenderer::render3d(float f)
 {
-	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->getUITheme();
+	UITheme uiTheme = m_pMinecraft->getUiTheme();
 	bool isConsole = uiTheme == UI_CONSOLE;
 
 	int Width = int(sizeof gLogoLine1 - 1);
@@ -246,10 +246,10 @@ void LogoRenderer::render3D(float f)
 				m_pTiles[y * Width + x] = new TitleTile(m_random, x, y);
 	}
 
-	int titleHeight = int(120 / Gui::InvGuiScale);
+	int titleHeight = int(120 / Gui::GuiScale);
 
 	if (m_width * 3 / 4 < 256) // cramped mode
-		titleHeight = int(80 / Gui::InvGuiScale);
+		titleHeight = int(80 / Gui::GuiScale);
 
 	if (isConsole)
 		titleHeight *= 2;

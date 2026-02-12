@@ -155,25 +155,25 @@ void ScreenRenderer::blitRaw(float x1, float x2, float y1, float y2, float z, fl
 
 void ScreenRenderer::blitNineSlice(Textures& textures, const std::string* slices, int x, int y, int width, int height, int border, mce::MaterialPtr* materialPtr)
 {
-    blitSprite(textures, slices[0], x, y, border, border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[1], x + border, y, width - 2 * border, border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[2], x + width - border, y, border, border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[3], x, y + border, border, height - 2 * border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[4], x + border, y + border, width - 2 * border, height - 2 * border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[5], x + width - border, y + border, border, height - 2 * border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[6], x, y + height - border, border, border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[7], x + border, y + height - border, width - 2 * border, border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, slices[8], x + width - border, y + height - border, border, border, materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[0], x,                  y,                   border,             border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[1], x + border,         y,                   width - 2 * border, border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[2], x + width - border, y,                   border,             border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[3], x,                  y + border,          border,             height - 2 * border, materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[4], x + border,         y + border,          width - 2 * border, height - 2 * border, materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[5], x + width - border, y + border,          border,             height - 2 * border, materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[6], x,                  y + height - border, border,             border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[7], x + border,         y + height - border, width - 2 * border, border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[8], x + width - border, y + height - border, border,             border,              materialPtr, 0, 0, border, border);
 }
 
 void ScreenRenderer::blitNineSlice(Textures& textures, const std::string& spriteName, int x, int y, int width, int height, int border, mce::MaterialPtr* materialPtr)
 {
     const TextureAtlasSprite* sprite = textures.getGuiSprite(spriteName);
-
     if (!sprite || !sprite->m_pAtlas) return;
 
-    int iw = sprite->width;
-    int ih = sprite->height;
+    int iw = sprite->w;
+    int ih = sprite->h;
+
     if (iw == width && ih == height)
     {
         blitSprite(textures, spriteName, x, y, width, height, materialPtr);
@@ -182,29 +182,29 @@ void ScreenRenderer::blitNineSlice(Textures& textures, const std::string& sprite
 
     if (iw == width)
     {
-        blitSprite(textures, sprite, x, y, width, border, materialPtr);
-        blitSprite(textures, sprite, x, y + border, width, height - border * 2, materialPtr, 0, border, width, border);
-        blitSprite(textures, sprite, x, y + height - border, width, border, materialPtr, 0, ih - border);
+        blitSprite(textures, sprite, x, y,                   width, border,              materialPtr);
+        blitSprite(textures, sprite, x, y + border,          width, height - border * 2, materialPtr, 0, border,      width, border);
+        blitSprite(textures, sprite, x, y + height - border, width, border,              materialPtr, 0, ih - border);
         return;
     }
 
     if (iw == height)
     {
-        blitSprite(textures, sprite, x, y, border, height, materialPtr);
-        blitSprite(textures, sprite, x + border, y, width - 2 * border, height, materialPtr, border, 0, border, height);
-        blitSprite(textures, sprite, x + width - border, y, border, height, materialPtr, iw - border);
+        blitSprite(textures, sprite, x,                  y, border,             height, materialPtr);
+        blitSprite(textures, sprite, x + border,         y, width - 2 * border, height, materialPtr, border,      0, border, height);
+        blitSprite(textures, sprite, x + width - border, y, border,             height, materialPtr, iw - border);
         return;
     }
 
-    blitSprite(textures, sprite, x, y, border, border, materialPtr, 0, 0, border, border);
-    blitSprite(textures, sprite, x + border, y, width - 2 * border, border, materialPtr, border, 0, border, border);
-    blitSprite(textures, sprite, x + width - border, y, border, border, materialPtr, iw - border, 0, border, border);
-    blitSprite(textures, sprite, x, y + border, border, height - 2 * border, materialPtr, 0, border, border, border);
-    blitSprite(textures, sprite, x + border, y + border, width - 2 * border, height - 2 * border, materialPtr, border, border, border, border);
-    blitSprite(textures, sprite, x + width - border, y + border, border, height - 2 * border, materialPtr, iw - border, border, border, border);
-    blitSprite(textures, sprite, x, y + height - border, border, border, materialPtr, 0, ih - border, border, border);
-    blitSprite(textures, sprite, x + border, y + height - border, width - 2 * border, border, materialPtr, border, ih - border, border, border);
-    blitSprite(textures, sprite, x + width - border, y + height - border, border, border, materialPtr, iw - border, ih - border, border, border);
+    blitSprite(textures, sprite, x,                  y,                   border,             border,              materialPtr, 0,           0,           border, border);
+    blitSprite(textures, sprite, x + border,         y,                   width - 2 * border, border,              materialPtr, border,      0,           border, border);
+    blitSprite(textures, sprite, x + width - border, y,                   border,             border,              materialPtr, iw - border, 0,           border, border);
+    blitSprite(textures, sprite, x,                  y + border,          border,             height - 2 * border, materialPtr, 0,           border,      border, border);
+    blitSprite(textures, sprite, x + border,         y + border,          width - 2 * border, height - 2 * border, materialPtr, border,      border,      border, border);
+    blitSprite(textures, sprite, x + width - border, y + border,          border,             height - 2 * border, materialPtr, iw - border, border,      border, border);
+    blitSprite(textures, sprite, x,                  y + height - border, border,             border,              materialPtr, 0,           ih - border, border, border);
+    blitSprite(textures, sprite, x + border,         y + height - border, width - 2 * border, border,              materialPtr, border,      ih - border, border, border);
+    blitSprite(textures, sprite, x + width - border, y + height - border, border,             border,              materialPtr, iw - border, ih - border, border, border);
 }
 
 void ScreenRenderer::drawCenteredString(Font& font, const std::string& str, int cx, int cy, const Color& color)

@@ -1,6 +1,6 @@
 #include <cfloat>
-#include "common/Utils.hpp"
 #include "AreaNavigation.hpp"
+#include "common/Utils.hpp"
 #include "common/Mth.hpp"
 
 AreaNavigation::ID AreaNavigation::navigate(Direction dir, int x, int y, bool cycle)

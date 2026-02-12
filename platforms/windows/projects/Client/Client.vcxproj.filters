@@ -60,9 +60,6 @@
     <Filter Include="Header Files\Sound">
       <UniqueIdentifier>{7ce8acc7-4fb7-440b-bace-76d8a3514038}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Sound">
-      <UniqueIdentifier>{dd9a353b-2a43-442d-a40f-56a04100b71b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\App">
       <UniqueIdentifier>{d7896ae3-f50c-4976-9897-336cbfb70dea}</UniqueIdentifier>
     </Filter>
@@ -128,6 +125,9 @@
     </Filter>
     <Filter Include="Source Files\Locale">
       <UniqueIdentifier>{8d211c71-2764-43ef-8587-7414109f4ff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources\Sound">
+      <UniqueIdentifier>{dd9a353b-2a43-442d-a40f-56a04100b71b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -643,11 +643,32 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleSettingsScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
-	  </ClInclude>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp">
       <Filter>Header Files\App</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PlayGameScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\SplashManager.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleMainScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ScreenChooser.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleCreateWorldScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsolePauseScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleProgressScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
   </ItemGroup>
@@ -851,22 +872,22 @@
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundPathRepository.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundStream.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp">
       <Filter>Source Files\App</Filter>
@@ -1148,6 +1169,27 @@
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PlayGameScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\SplashManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsoleMainScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ScreenChooser.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsoleCreateWorldScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsolePauseScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsoleProgressScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
   </ItemGroup>
