@@ -289,7 +289,7 @@ void IngameBlockSelectionScreen::render(float f)
 void IngameBlockSelectionScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->getId() == m_btnPause.getId())
-		m_pMinecraft->setScreen(new PauseScreen);
+		m_pMinecraft->getScreenChooser()->pushPauseScreen();
 
 	if (pButton->getId() == m_btnChat.getId())
         m_pMinecraft->setScreen(new ChatScreen(true));

@@ -185,7 +185,7 @@ void GameRenderer::_renderDebugOverlay(float a)
 	extern int g_nVertices; // Tesselator.cpp
 	debugText << "\nverts: " << g_nVertices;
 
-	_renderVertexGraph(g_nVertices, int(Minecraft::height * Gui::InvGuiScale));
+	_renderVertexGraph(g_nVertices, int(Minecraft::height * Gui::GuiScale));
 #endif
 
 	/*debugText << "\nGameControllerManager::stickValuesX[1]: " << GameControllerManager::stickValuesX[1];
@@ -389,11 +389,8 @@ void GameRenderer::saveMatrices()
 
 void GameRenderer::setupGuiScreen()
 {
-	float x = Gui::InvGuiScale * Minecraft::width;
-	float y = Gui::InvGuiScale * Minecraft::height;
-
 	Matrix& projMtx = MatrixStack::Projection.getTop();
-	projMtx.setOrtho(0, x, y, 0, 1000.0f, 3000.0f); // 1000 for the znear is accurate to the original b1.7.3, and causes less depth problems
+	projMtx.setOrtho(0, Gui::GuiWidth, Gui::GuiHeight, 0, 1000.0f, 3000.0f); // 1000 for the znear is accurate to the original b1.7.3, and causes less depth problems
 
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
@@ -651,8 +648,8 @@ void GameRenderer::render(const Timer& timer)
 		int pointerId = Multitouch::getFirstActivePointerIdExThisUpdate();
 		if (pointerId >= 0)
 		{
-			mouseX = int(float(Multitouch::getX(pointerId)) * Gui::InvGuiScale);
-			mouseY = int(float(Multitouch::getY(pointerId)) * Gui::InvGuiScale);
+			mouseX = int(float(Multitouch::getX(pointerId)) * Gui::GuiScale);
+			mouseY = int(float(Multitouch::getY(pointerId)) * Gui::GuiScale);
 			bMouseData = true;
 		}
 	}
@@ -665,8 +662,8 @@ void GameRenderer::render(const Timer& timer)
 	}
 	else
 	{
-		mouseX = int(Mouse::getX() * Gui::InvGuiScale);
-		mouseY = int(Mouse::getY() * Gui::InvGuiScale);
+		mouseX = int(Mouse::getX() * Gui::GuiScale);
+		mouseY = int(Mouse::getY() * Gui::GuiScale);
 		bMouseData = true;
 	}
 

@@ -952,11 +952,11 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 			{
 				if (m_chunks[i]->isEmpty())
 				{
-					m_chunks[i]->bVisible = false;
+					m_chunks[i]->m_bVisible = false;
 					continue;
 				}
 
-				if (!m_chunks[i]->bVisible)
+				if (!m_chunks[i]->m_bVisible)
 				{
 					m_chunks[i]->m_bOcclusionVisible = true;
 					continue;

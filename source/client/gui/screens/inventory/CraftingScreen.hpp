@@ -20,8 +20,8 @@ class ConsoleClassicCraftingScreen : public ContainerScreen
 public:
     ConsoleClassicCraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level);
 
-    virtual void init() override;
-    virtual void renderBackground() override;
+    void init() override;
+    void renderBackground() override;
 
 protected:
     void _renderLabels() override;

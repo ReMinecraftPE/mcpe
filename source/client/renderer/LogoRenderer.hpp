@@ -31,6 +31,10 @@ private:
 
 class LogoRenderer : public GuiComponent
 {
+private:
+    void _initTextures();
+    void _build2dTitleMesh();
+
 public:
     LogoRenderer();
     ~LogoRenderer();
@@ -44,8 +48,8 @@ public:
 
     void render(float f);
 
-    void render2D();
-    void render3D(float f);
+    void render2d();
+    void render3d(float f);
 
     static LogoRenderer& singleton()
     {
@@ -56,10 +60,6 @@ public:
 
         return *instance;
     }
-
-private:
-    void _initTextures();
-    void _build2dTitleMesh();
 
 private:
     class Materials

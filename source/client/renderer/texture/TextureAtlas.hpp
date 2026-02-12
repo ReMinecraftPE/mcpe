@@ -4,27 +4,21 @@
 #include <map>
 #include <stdint.h>
 #include "TextureData.hpp"
+#include "client/gui/IntRectangle.hpp"
 
 #define DEFAULT_ATLAS_SIZE (256)
 #define MAX_ATLAS_SIZE (16384)
 
 class TextureAtlas;
 
-struct TextureAtlasSprite
+struct TextureAtlasSprite : IntRectangle
 {
     std::string name;
-    int x;
-    int y;
-    int width;
-    int height;
     float minU, minV, maxU, maxV;
     TextureAtlas* m_pAtlas;
 
     TextureAtlasSprite() :
-        x(0),
-        y(0),
-        width(0),
-        height(0),
+        IntRectangle(0, 0, 0, 0),
         minU(0.0f),
         minV(0.0f),
         maxU(0.0f),
@@ -50,26 +44,19 @@ public:
     TextureAtlas(const std::string& name, bool enableFiltering = false);
     TextureAtlas(const std::string& name, int initialSize, bool enableFiltering = false);
 
+public:
     void addSprite(const std::string& name, uint8_t* data, int width, int height);
     void addSprite(const std::string& name, const TextureData&);
-
     bool build();
-
     const TextureAtlasSprite* getSprite(const std::string& name) const;
-
     int getWidth() const;
-
     int getHeight() const;
 
 private:
     void _init();
-
     bool pack();
-
     void blitSprite(uint8_t* src, int srcWidth, int srcHeight, int destX, int destY);
-
     bool grow();
-
 
 private:
     std::vector<PendingSprite> m_pendingSprites;

@@ -11,10 +11,10 @@ public:
 	PanelScreen(Screen*);
 
 public:
-	virtual void init() override;
-	virtual void render(float f) override;
+	void init() override;
+	void render(float f) override;
 	virtual void renderPanel(float f);
-	virtual bool handleBackEvent(bool b) override;
+	bool handleBackEvent(bool b) override;
 
 public:
 	Screen* m_pParent;

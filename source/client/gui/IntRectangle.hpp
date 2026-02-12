@@ -7,6 +7,15 @@ struct IntRectangle
 	int w;
 	int h;
 
+	IntRectangle(int x, int y, int width, int height) :
+		x(x),
+		y(y),
+		w(width),
+		h(height)
+	{
+
+	}
+
 	IntRectangle()
 	{
 		x = 0;

@@ -21,7 +21,7 @@ CreateWorldScreen::CreateWorldScreen(Screen* parent) :
 	m_bDeletePrevious = false;
 }
 
-static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in)
+std::string CreateWorldScreen::GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in)
 {
 	std::set<std::string> maps;
 
@@ -45,6 +45,13 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 		out += "-";
 	}
 
+	for (size_t i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
+	{
+		std::string str;
+		str.push_back(g_CreateWorldFilterArray[i]);
+		Util::stringReplace(out, str, "");
+	}
+
 	return out;
 }
 
@@ -61,16 +68,7 @@ void CreateWorldScreen::_buttonClicked(Button* pButton)
 		std::string seedStr = m_textSeed.getText();
 
 		std::string levelNickname = Util::stringTrim(nameStr);
-		std::string levelUniqueName = levelNickname;
-
-		for (size_t i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
-		{
-			std::string str;
-			str.push_back(g_CreateWorldFilterArray[i]);
-			Util::stringReplace(levelUniqueName, str, "");
-		}
-
-		levelUniqueName = GetUniqueLevelName(m_pMinecraft->m_pLevelStorageSource, levelUniqueName);
+		std::string levelUniqueName = GetUniqueLevelName(m_pMinecraft->m_pLevelStorageSource, levelNickname);
 
 		int seed = int(getEpochTimeS());
 

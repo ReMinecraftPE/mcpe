@@ -7,8 +7,6 @@
  ********************************************************************/
 
 #include "PauseScreen.hpp"
-#include "OptionsScreen.hpp"
-#include "ConsoleSettingsScreen.hpp"
 #include "server/ServerSideNetworkHandler.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
@@ -27,10 +25,6 @@ PauseScreen::PauseScreen() :
 
 void PauseScreen::init()
 {
-	m_uiTheme = m_pMinecraft->getOptions()->getUITheme() ;
-
-	bool consoleUI = m_uiTheme == UI_CONSOLE;
-
 	bool bAddVisibleButton = m_pMinecraft->m_pRakNetInstance && m_pMinecraft->m_pRakNetInstance->m_bIsHost;
 
 	std::vector<Button*> layoutButtons;
@@ -46,28 +40,13 @@ void PauseScreen::init()
 	}
 	layoutButtons.push_back(&m_btnQuit);
 
-	int buttonsWidth;
-	int buttonsHeight;
-	int y;
-	int ySpacing;
-
-	if (consoleUI)
-	{
-		buttonsWidth = 400;
-		buttonsHeight = 40;
-		y = m_height / 3 + 10;
-		ySpacing = 50;
-	}
-	else
-	{
-		buttonsWidth = 160;
-		buttonsHeight = 25;
-		y = 48;
-		ySpacing = 32;
-		bool cramped = m_height < y + ySpacing * int(layoutButtons.size()) + 10; // also add some padding
-		if (cramped)
-			ySpacing = 25;
-	}
+	int buttonsWidth = 160;
+	int buttonsHeight = 25;
+	int y = 48;
+	int ySpacing = 32;
+	bool cramped = m_height < y + ySpacing * int(layoutButtons.size()) + 10; // also add some padding
+	if (cramped)
+		ySpacing = 25;
 
 	for (size_t i = 0; i < layoutButtons.size(); ++i)
 	{
@@ -106,14 +85,7 @@ void PauseScreen::render(float f)
 {
 	renderBackground();
 
-	if (m_uiTheme == UI_CONSOLE)
-	{
-		LogoRenderer::singleton().render(f);
-	}
-	else
-	{
-		drawCenteredString(*m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
-	}
+	drawCenteredString(*m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
 
 	Screen::render(f);
 }
@@ -143,15 +115,7 @@ void PauseScreen::_buttonClicked(Button* pButton)
 #ifdef ENH_ADD_OPTIONS_PAUSE
 	if (pButton->getId() == m_btnOptions.getId())
 	{
-		switch (m_uiTheme)
-		{
-		case UI_CONSOLE:
-			m_pMinecraft->setScreen(new ConsoleSettingsScreen(this));
-			break;
-		default:
-			m_pMinecraft->setScreen(new OptionsScreen(this));
-			break;
-		}
+		m_pMinecraft->getScreenChooser()->pushOptionsScreen(this);
 	}
 #endif
 }

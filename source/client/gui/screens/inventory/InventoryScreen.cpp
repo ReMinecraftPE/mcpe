@@ -13,7 +13,7 @@ InventoryScreen::InventoryScreen(Player* player) : ContainerScreen(player->m_pIn
 
 void InventoryScreen::init()
 {
-    m_uiTheme = m_pMinecraft->getOptions()->getUITheme() ;
+    m_uiTheme = m_pMinecraft->getOptions()->getUiTheme() ;
     if (m_uiTheme == UI_CONSOLE)
     {
         m_imageWidth = 432;
@@ -36,11 +36,11 @@ void InventoryScreen::_renderLabels()
     if (m_uiTheme == UI_CONSOLE)
     {
         if (m_pMinecraft->getOptions()->m_classicCrafting.get())
-            m_pFont->drawScalable(craftingMenu->m_pCraftSlots->getName(), 220, 40, Color::GREY_TEXT);
-        m_pFont->drawScalable(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, Color::GREY_TEXT);
+            m_pFont->drawScalable(craftingMenu->m_pCraftSlots->getName(), 220, 40, Color::TEXT_GREY);
+        m_pFont->drawScalable(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, Color::TEXT_GREY);
     }
     else
-        m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, Color::GREY_TEXT);
+        m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, Color::TEXT_GREY);
 }
 
 void InventoryScreen::_renderBg(float partialTick)

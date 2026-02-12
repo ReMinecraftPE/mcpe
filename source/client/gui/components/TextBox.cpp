@@ -35,6 +35,7 @@ TextBox::TextBox(Screen* parent, int x, int y, int width, int height, const std:
 	m_pParent = parent;
 	m_maxLength = -1;
 	m_scrollPos = 0;
+	m_bBordered = true;
 }
 
 TextBox::~TextBox()
@@ -64,10 +65,10 @@ void TextBox::_onFocusChanged()
 		VirtualKeyboard keyboard;
 		IntRectangle& rect = keyboard.rect;
 
-		rect.x = (int)(((float)m_xPos) / Gui::InvGuiScale);
-		rect.y = (int)(((float)m_yPos) / Gui::InvGuiScale);
-		rect.w = (int)(((float)m_width) / Gui::InvGuiScale);
-		rect.h = (int)(((float)m_height) / Gui::InvGuiScale);
+		rect.x = (int)(((float)m_xPos) / Gui::GuiScale);
+		rect.y = (int)(((float)m_yPos) / Gui::GuiScale);
+		rect.w = (int)(((float)m_width) / Gui::GuiScale);
+		rect.h = (int)(((float)m_height) / Gui::GuiScale);
 
 		keyboard.defaultText = m_text;
 
@@ -94,7 +95,7 @@ bool TextBox::pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer)
 	if (result)
 	{
 		// scuffed as hell
-		pMinecraft->m_pScreen->selectElementByID(getId());
+		pMinecraft->m_pScreen->selectElementById(getId());
 	}
 	return result;
 }
@@ -428,30 +429,46 @@ void TextBox::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
 	if (!m_pFont)
 		return;
-	// blue: 0xFFE9B3A9
-	// button-yellow: 0xFFA0FFFF
-	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, isSelected() ? 0xFFA0FFFF : 0xFFAAAAAA);
-	fill(m_xPos + 1, m_yPos + 1, m_xPos + m_width - 1, m_yPos + m_height - 1, 0xFF000000);
+	if (m_bBordered)
+	{
+		if (m_uiTheme == UI_CONSOLE)
+		{
+			blitNineSlice(*pMinecraft->m_pTextures, isSelected() ? "gui/text_field_highlighted.png" : "gui/text_field.png", m_xPos, m_yPos, m_width, m_height, 3);
+		}
+		else
+		{
+			// blue: 0xFFE9B3A9
+			// button-yellow: 0xFFA0FFFF
+			fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, isSelected() ? 0xFFA0FFFF : 0xFFAAAAAA);
+			fill(m_xPos + 1, m_yPos + 1, m_xPos + m_width - 1, m_yPos + m_height - 1, 0xFF000000);
+		}
+	}
 
-	int text_color;
+	Color text_color;
 	int scroll_pos;
 	std::string rendered_text;
 	if (m_text.empty())
 	{
 		rendered_text = m_placeholder;
-		text_color = 0x404040;
+		text_color = Color::TEXT_GREY;
 		scroll_pos = 0;
 	}
 	else
 	{
 		rendered_text = m_text;
-		text_color = 0xffffff;
+		text_color = Color::WHITE;
 		scroll_pos = m_scrollPos;
 	}
 	rendered_text = getRenderedText(scroll_pos, rendered_text);
 
 	int textYPos = (m_height - 8) / 2;
-	drawString(*m_pFont, rendered_text, m_xPos + PADDING, m_yPos + textYPos, text_color);
+	if (m_uiTheme == UI_CONSOLE)
+	{
+		textYPos -= 4;
+		m_pFont->drawScalable(rendered_text, m_xPos + PADDING * 2, m_yPos + textYPos, text_color);
+	}
+	else
+		drawString(*m_pFont, rendered_text, m_xPos + PADDING, m_yPos + textYPos, text_color);
 
 	if (m_bCursorOn)
 	{
@@ -463,7 +480,10 @@ void TextBox::render(Minecraft* pMinecraft, const MenuPointer& pointer)
 
 			std::string str;
 			str += CURSOR_CHAR;
-			drawString(*m_pFont, str, m_xPos + xPos, m_yPos + textYPos + 2, 0xffffff);
+			if (m_uiTheme == UI_CONSOLE)
+				m_pFont->drawScalable(str, m_xPos + xPos * 2, m_yPos + textYPos + 2, Color::WHITE);
+			else
+				drawString(*m_pFont, str, m_xPos + xPos, m_yPos + textYPos + 2, Color::WHITE);
 		}
 	}
 }
@@ -550,6 +570,11 @@ void TextBox::setTextboxText(const std::string& text)
 void TextBox::setMaxLength(int max_length)
 {
 	m_maxLength = max_length;
+}
+
+void TextBox::setBordered(bool bordered)
+{
+	m_bBordered = bordered;
 }
 
 #endif

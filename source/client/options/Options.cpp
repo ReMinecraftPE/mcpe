@@ -42,11 +42,6 @@ void Options::_initDefaultValues()
 	field_240 = 1;
 	field_1C = "Default";
 	field_19 = 1;
-#if MC_PLATFORM_XBOX360
-	m_uiTheme.setDefault(UI_CONSOLE);
-	m_uiTheme.reset();
-#endif
-
 #ifdef ORIGINAL_CODE
 	m_viewDistance.set(2);
 	m_thirdPerson.set(0);
@@ -54,6 +49,15 @@ void Options::_initDefaultValues()
 #endif
 
 	loadControls();
+}
+
+static UITheme GetDefaultUiTheme(Minecraft* mc)
+{
+#if MC_PLATFORM_XBOX360
+	return UI_CONSOLE;
+#else
+	return mc->isTouchscreen() ? UI_POCKET : UI_JAVA;
+#endif
 }
 
 Options::Options(Minecraft* mc, const std::string& folderPath) :
@@ -84,7 +88,7 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_menuPanorama("misc_menupano", "options.menuPanorama", true)
 	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
 	, m_lang("gfx_lang", "options.lang", "en_us")
-	, m_uiTheme("gfx_uitheme", "options.uiTheme", m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA, ValuesBuilder().add("options.uiTheme.pocket").add("options.uiTheme.java").add("options.uiTheme.console"))
+	, m_uiTheme("gfx_uitheme", "options.uiTheme", GetDefaultUiTheme(m_pMinecraft), ValuesBuilder().add("options.uiTheme.pocket").add("options.uiTheme.java").add("options.uiTheme.console"))
 	, m_logoType("gfx_logotype", "options.logoType", LOGO_AUTO, ValuesBuilder().add("options.logoType.auto").add("options.logoType.pocket").add("options.logoType.java").add("options.logoType.console").add("options.logoType.xbox360").add("options.logoType.logo3d"))
 	, m_hudSize("gfx_hudsize", "options.hudSize", HUD_SIZE_2)
 	, m_classicCrafting("gfx_classiccrafting", "options.classicCrafting", true)
@@ -556,8 +560,10 @@ void Options::loadControls()
 		KM(KM_JUMP,          SDL_CONTROLLER_BUTTON_A);
 		KM(KM_MENU_UP,       SDL_CONTROLLER_BUTTON_DPAD_UP);
 		KM(KM_MENU_DOWN,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-		KM(KM_MENU_LEFT,     SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-		KM(KM_MENU_RIGHT,    SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+		KM(KM_MENU_LEFT,     SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+		KM(KM_MENU_RIGHT,    SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
+		KM(KM_MENU_TAB_LEFT, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		KM(KM_MENU_TAB_RIGHT, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 		KM(KM_MENU_OK,       SDL_CONTROLLER_BUTTON_A);
 		KM(KM_MENU_CANCEL,   SDL_CONTROLLER_BUTTON_B);
 		KM(KM_DROP,          SDL_CONTROLLER_BUTTON_B);
@@ -607,7 +613,7 @@ void Options::reset()
 	}
 }
 
-UITheme Options::getUITheme() const
+UITheme Options::getUiTheme() const
 {
 	return UITheme(m_uiTheme.get());
 }
@@ -763,4 +769,12 @@ void LogoTypeOption::apply()
 std::string HUDSizeOption::getDisplayValue() const
 {
 	return Options::saveInt(get() - 1);
+}
+
+void UIThemeOption::apply()
+{
+	if (m_pMinecraft->getOptions() && m_pMinecraft->getOptions()->m_logoType.get() == LOGO_AUTO)
+	{
+		m_pMinecraft->getOptions()->m_logoType.apply();
+	}
 }

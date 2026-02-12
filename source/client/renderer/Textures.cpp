@@ -168,6 +168,8 @@ Textures::Textures() :
 	addSprite("gui/loading_block.png", m_guiAtlas);
 	addSprite("gui/container/entity_slot.png", m_guiAtlas);
 	addSprite("gui/slider_highlight.png", m_guiAtlas);
+	addSprite("gui/text_field.png", m_guiAtlas);
+	addSprite("gui/text_field_highlighted.png", m_guiAtlas);
 	//addSprite("gui/loading_bar.png", m_guiAtlas);
 	//addSprite("gui/loading_background.png", m_guiAtlas);
 

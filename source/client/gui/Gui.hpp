@@ -81,7 +81,9 @@ public:
 	RectangleArea getRectangleArea(bool b);
 
 public:
-	static float InvGuiScale;
+	static float GuiScale;
+	static int GuiWidth;
+	static int GuiHeight;
 
 protected:
 	Materials m_guiMaterials;

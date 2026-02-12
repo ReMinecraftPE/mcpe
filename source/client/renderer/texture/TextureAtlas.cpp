@@ -165,11 +165,8 @@ int TextureAtlas::getHeight() const
 }
 
 TextureAtlasSprite::TextureAtlasSprite(const std::string& name, int x, int y, int width, int height, TextureAtlas* atlas) :
+    IntRectangle(x, y, width, height),
     name(name),
-    x(x),
-    y(y),
-    width(width),
-    height(height),
     m_pAtlas(atlas)
 {
     minU = float(x) / atlas->getWidth();

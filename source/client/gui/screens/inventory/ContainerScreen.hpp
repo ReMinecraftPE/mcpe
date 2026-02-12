@@ -5,13 +5,15 @@
 #include "world/inventory/ContainerMenu.hpp"
 #include "world/inventory/Slot.hpp"
 
-struct SlotDisplay : IntRectangle
+struct SlotDisplay
 {
-    int size, noItemIcon;
+    int x, y, size, noItemIcon;
     std::string noItemSprite;
     bool bVisible, bIconHolder;
 
     SlotDisplay() :
+        x(0),
+        y(0),
         size(0),
         noItemIcon(-1),
         noItemSprite(""),
@@ -21,16 +23,14 @@ struct SlotDisplay : IntRectangle
     }
 
     SlotDisplay(int x, int y, int size = 18, bool iconHolder = false, int noItemIcon = -1, const std::string& noItemSprite = "") :
+        x(x),
+        y(y),
         size(size),
         noItemIcon(noItemIcon),
         noItemSprite(noItemSprite),
         bVisible(true),
         bIconHolder(iconHolder)
     {
-        this->x = x;
-        this->y = y;
-        this->w = size;
-        this->h = size;
     }
 };
 

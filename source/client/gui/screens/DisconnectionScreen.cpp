@@ -17,7 +17,7 @@ DisconnectionScreen::DisconnectionScreen(const std::string& text) :
 
 void DisconnectionScreen::_buttonClicked(Button* pButton)
 {
-	m_pMinecraft->setScreen(new StartMenuScreen);
+	m_pMinecraft->getScreenChooser()->pushStartScreen();;
 }
 
 void DisconnectionScreen::init()

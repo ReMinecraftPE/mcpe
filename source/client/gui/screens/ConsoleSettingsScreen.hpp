@@ -31,7 +31,7 @@ public:
 
 private:
 	Screen* m_pParent;
-	Button m_btnHTP;
+	Button m_btnHowToPlay;
 	Button m_btnControls;
 	Button m_btnSettings;
 	Button m_btnCredits;

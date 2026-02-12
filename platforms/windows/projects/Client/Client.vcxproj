@@ -249,6 +249,13 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\VerticalLayout.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PlayGameScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleCreateWorldScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleMainScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsolePauseScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConsoleProgressScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ScreenChooser.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\SplashManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -416,6 +423,13 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PlayGameScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsoleCreateWorldScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsoleMainScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsolePauseScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConsoleProgressScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ScreenChooser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\SplashManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

@@ -102,6 +102,12 @@
     "options.difficulty.easy.desc": "In this mode, enemies spawn in the environment, but will do less damage to the player than in the Normal mode.",
     "options.difficulty.normal.desc": "In this mode, enemies spawn in the environment, and will do a standard amount of damage to the player.",
     "options.difficulty.hard.desc": "In this mode, enemies will spawn in the environment, and will do a great deal of damage to the player. Watch out for the Creepers too, since they are unlikely to cancel their exploding attack when you move away from them!",
+    "mainMenu.playGame": "Play Game",
+    "mainMenu.leaderboards": "Leaderboards",
+    "mainMenu.achievements": "Achievements",
+    "mainMenu.helpAndOptions": "Help & Options",
+    "mainMenu.download": "Download Content",
+    "mainMenu.exitGame": "Exit Game",
     "settingsMenu.howToPlay": "How To Play",
     "settingsMenu.controls": "Controls",
     "settingsMenu.settings": "Settings",
@@ -112,5 +118,9 @@
     "playGame.createNewWorld": "Create New World",
     "playGame.tutorial": "Play Tutorial",
     "playGame.joinButton": "%s's Game",
-    "playGame.noGamesFound": "No Games Found"
+    "playGame.noGamesFound": "No Games Found",
+    "playGame.online": "Online game",
+    "playGame.inviteOnly": "Invite only",
+    "pauseMenu.resume": "Resume Game",
+    "pauseMenu.saveGame": "Save Game"
 }
