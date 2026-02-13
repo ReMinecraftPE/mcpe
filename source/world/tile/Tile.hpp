@@ -139,6 +139,11 @@ public: // functions
 	bool containsY(const Vec3&);
 	bool containsZ(const Vec3&);
 
+	bool isSolid() const
+	{
+		return solid[m_ID];
+	}
+
 public: // static functions
 	static void initTiles();
 	static void teardownTiles();

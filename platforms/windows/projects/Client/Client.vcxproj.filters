@@ -623,6 +623,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp">
       <Filter>Header Files\App</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\VisibilityExtimator.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -1092,6 +1095,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.cpp">
       <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\VisibilityExtimator.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -659,6 +659,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyePowderItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\Facing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">

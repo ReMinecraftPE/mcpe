@@ -228,6 +228,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\BowItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\WeaponItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyePowderItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\Facing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
