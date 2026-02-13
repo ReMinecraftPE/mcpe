@@ -188,7 +188,7 @@ void WorldSelectionList::commit()
 		/*std::stringstream ss;
 		ss << item.m_levelName << "/preview.png";*/
 
-		m_previewImages.push_back("gui/default_world.png");
+		m_previewImages.push_back("pack.png");
 
 		std::vector<std::string> vs;
 		vs.push_back(item.m_levelName);

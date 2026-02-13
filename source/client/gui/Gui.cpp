@@ -307,7 +307,12 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 		return;
 
 	if (m_pMinecraft->isTouchscreen() && slot == getNumSlots() - 1)
-		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
+	{
+		if (m_pMinecraft->m_pGameMode->isSurvivalType())
+			m_pMinecraft->setScreen(new InventoryScreen(m_pMinecraft->m_pLocalPlayer));
+		else
+			m_pMinecraft->setScreen(new IngameBlockSelectionScreen());
+	}
 	else
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
 }
@@ -655,7 +660,17 @@ void Gui::renderToolBar(float f, float alpha)
 
 	// hotbar
 	int cenX = m_width / 2;
-	blit(cenX - hotbarWidth / 2, m_height - 22, 0, 0, hotbarWidth - 2, 22, 0, 0, material);
+	int mainWidth = std::min(hotbarWidth - 2, 180);
+	blit(cenX - hotbarWidth / 2, m_height - 22, 0, 0, mainWidth, 22, 0, 0, material);
+	
+	// if there is a tenth hotbar slot, it is given another slot area (for mobile devices)
+	if (hotbarWidth > 182)
+	{
+		int extraWidth = hotbarWidth - 182 + 2;
+		int textureUV = 182 - extraWidth;
+		blit(cenX - hotbarWidth / 2 + 180, m_height - 22, textureUV, 0, extraWidth, 22, 0, 0, material);
+	}
+	
 	blit(cenX + hotbarWidth / 2 - 2, m_height - 22, 180, 0, 2, 22, 0, 0, material);
 
 	Inventory* inventory = player->m_pInventory;
