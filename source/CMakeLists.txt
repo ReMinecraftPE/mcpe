@@ -12,6 +12,7 @@ add_library(reminecraftpe-core STATIC
     common/Random.cpp
     common/SmoothFloat.cpp
     common/Timer.cpp
+    common/Stopwatch.cpp
     common/Util.cpp
     common/utility/AlignmentHelper.cpp
     common/utility/JsonParser.cpp
@@ -55,6 +56,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/renderer/RenderMaterialGroup.cpp
     client/renderer/renderer/ShaderGroup.cpp
     client/renderer/renderer/Tesselator.cpp
+    client/renderer/renderer/VisibilityExtimator.cpp
     client/renderer/texture/ImageData.cpp
     client/renderer/texture/TextureData.cpp
     client/renderer/RenderList.cpp
@@ -424,6 +426,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/Web.cpp
     world/tile/FenceTile.cpp
     world/tile/CraftingTableTile.cpp
+    world/Facing.cpp
     renderer/GL/GL.cpp
     renderer/Attribute.cpp
     renderer/ConstantBufferMetaData.cpp
