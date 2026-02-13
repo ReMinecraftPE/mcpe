@@ -238,6 +238,9 @@ class Options
 public:
 	struct KeyBind;
 private:
+	static bool _hasResourcePack(const ResourcePack& pack, ResourcePackStack& packs);
+	static void _tryAddResourcePack(const std::string& name, ResourcePackStack& packs);
+
     // @TODO: Move these to a "PlainTextSerializer" class, since we probably want to use these
     // in PatchManager as well.
 	static bool readBool(const std::string& str);

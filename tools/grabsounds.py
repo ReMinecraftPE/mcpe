@@ -9,7 +9,7 @@ import os
 def main(file):
     # Output Directory
     out = os.path.dirname(os.path.abspath(__file__))
-    out = os.path.join(out, '..', 'game', 'assets', 'sound')
+    out = os.path.join(out, '..', 'game', 'assets', 'resource_packs', 'minecraft', 'sound')
     os.makedirs(out, exist_ok=True)
     # Extract Sound Data
     elf = lief.parse(file)
