@@ -183,6 +183,9 @@ void TorchTile::setPlacedOnFace(Level* level, const TilePos& pos, Facing::Name f
 			break;
 		case Facing::DOWN:
 			break;
+		default:
+			assert(false);
+			return;
 	}
 
 	level->setData(pos, data);
