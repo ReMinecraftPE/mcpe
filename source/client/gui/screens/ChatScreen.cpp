@@ -8,8 +8,6 @@
 
 #include "ChatScreen.hpp"
 
-// @NOTE: This is unused.
-
 ChatScreen::ChatScreen(bool slash) : m_textChat(this, 0, 0), m_btnSend(0, 0, "Send")
 {
 	if (slash)
@@ -35,7 +33,9 @@ void ChatScreen::init()
 	
 	// set focus directly on the chat text box
 	m_textChat.init(m_pFont);
+	m_textChat.setSelected(true);
 	m_textChat.setFocused(true);
+	m_pSelectedElement = &m_textChat;
 
 	_addElement(m_textChat);
 	_addElement(m_btnSend);
@@ -60,10 +60,21 @@ void ChatScreen::render(float f)
 
 void ChatScreen::keyPressed(int keyCode)
 {
-	if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, keyCode))
-		sendMessageAndExit();
+	if (!_useController())
+	{
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, keyCode))
+			sendMessageAndExit();
+	}
 
 	Screen::keyPressed(keyCode);
+}
+
+void ChatScreen::handleKeyboardClosed()
+{
+	if (_useController())
+		sendMessageAndExit();
+	else
+		Screen::handleKeyboardClosed();
 }
 
 void ChatScreen::sendMessageAndExit()

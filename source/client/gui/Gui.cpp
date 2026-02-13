@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include "Gui.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/gui/screens/ChatScreen.hpp"
@@ -651,27 +652,23 @@ void Gui::renderToolBar(float f, float alpha)
 	int nSlots = getNumSlots();
 	int hotbarWidth = 2 + nSlots * 20;
 
-	mce::MaterialPtr* material = &m_materials.ui_textured_and_glcolor;
-
 	// hotbar
-	int cenX = m_width / 2;
-	int mainWidth = std::min(hotbarWidth - 2, 180);
-	blit(cenX - hotbarWidth / 2, m_height - 22, 0, 0, mainWidth, 22, 0, 0, material);
+	blit(-hotbarWidth / 2, -22, 0, 0, hotbarWidth - 2, 22, 0, 0);
 	
 	// if there is a tenth hotbar slot, it is given another slot area (for mobile devices)
 	if (hotbarWidth > 182)
 	{
 		int extraWidth = hotbarWidth - 182 + 2;
 		int textureUV = 182 - extraWidth;
-		blit(cenX - hotbarWidth / 2 + 180, m_height - 22, textureUV, 0, extraWidth, 22, 0, 0, material);
+		blit(-hotbarWidth / 2 + 180, -22, textureUV, 0, extraWidth, 22, 0, 0);
 	}
 	
-	blit(cenX + hotbarWidth / 2 - 2, m_height - 22, 180, 0, 2, 22, 0, 0, material);
+	blit(hotbarWidth / 2 - 2, -22, 180, 0, 2, 22, 0, 0);
 
 	Inventory* inventory = player->m_pInventory;
 
 	// selection mark
-	blit(-1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, -23, 0, 22, 24, 22, 0, 0, material);
+	blit(-1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, -23, 0, 22, 24, 22, 0, 0);
 
 	textures->loadAndBindTexture(C_BLOCKS_NAME);
 
@@ -701,7 +698,7 @@ void Gui::renderToolBar(float f, float alpha)
 	if (mc->isTouchscreen())
 	{
 		textures->loadAndBindTexture(C_TERRAIN_NAME);
-		blit(hotbarWidth / 2 - 19, -19, 208, 208, 16, 16, 0, 0, material);
+		blit(hotbarWidth / 2 - 19, -19, 208, 208, 16, 16, 0, 0);
 	}
 }
 

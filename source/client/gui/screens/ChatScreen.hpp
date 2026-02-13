@@ -25,6 +25,7 @@ public:
 	void removed() override;
 	void render(float f) override;
 	void keyPressed(int keyCode) override;
+	void handleKeyboardClosed() override;
 
 	void sendMessageAndExit();
 
