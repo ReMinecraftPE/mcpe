@@ -10,7 +10,7 @@ SoundStreamDS::SoundStreamDS(LPDIRECTSOUND ds) :
     m_totalBufferSize(0),
     m_isPlaying(false)
 {
-    _createSource();
+    //_createSource();
     _createBuffers();
     _setVolume(getVolume());
 }
