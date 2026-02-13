@@ -1,10 +1,9 @@
 #pragma once
-#include <stdint.h>
 
 class Facing
 {
 public:
-	enum Name : uint8_t
+	enum Name
 	{
 		DOWN,  // -Y
 		UP,    // +Y

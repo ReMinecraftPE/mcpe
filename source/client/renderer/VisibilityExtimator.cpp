@@ -55,19 +55,19 @@ void VisibilityNode::connect(uint8_t A, uint8_t B)
 	}
 }
 
-VisibilityExtimator::TileState& VisibilityExtimator::_at(const ChunkTilePos& p)
+uint8_t& VisibilityExtimator::_at(const ChunkTilePos& p)
 {
 	size_t index = p.y + (p.x << 8) + (p.z << 4);
 	assert(index < TILES_SIZE);
 	return m_tiles[index];
 }
 
-VisibilityExtimator::TileState& VisibilityExtimator::_atWorld(const TilePos& t)
+uint8_t& VisibilityExtimator::_atWorld(const TilePos& t)
 {
 	return _at(t - m_origin);
 }
 
-VisibilityExtimator::TileState* VisibilityExtimator::_at(const ChunkTilePos& pos, ByteMask& set)
+uint8_t* VisibilityExtimator::_at(const ChunkTilePos& pos, ByteMask& set)
 {
 	if (pos.x > 128)
 	{
@@ -103,7 +103,7 @@ VisibilityExtimator::TileState* VisibilityExtimator::_at(const ChunkTilePos& pos
 
 void VisibilityExtimator::_visit(const ChunkTilePos& p, ByteMask& set)
 {
-	TileState* tileState = _at(p, set);
+	uint8_t* tileState = _at(p, set);
 	if (tileState && *tileState == TS_EMPTY)
 	{
 		m_floodQueue.push_back(p);
@@ -120,7 +120,7 @@ ByteMask VisibilityExtimator::_floodFill(const ChunkTilePos& startPos)
 	{
 		const ChunkTilePos& pos = m_floodQueue.front();
 
-		TileState& tileState = _at(pos);
+		uint8_t& tileState = _at(pos);
 		if (tileState == TS_EMPTY)
 		{
 			tileState = TS_EMPTY_MARKED;

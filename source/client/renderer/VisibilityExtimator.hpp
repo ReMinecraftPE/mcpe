@@ -35,7 +35,7 @@ protected:
 	static const int TILE_COUNT_EMPTY_THRESHOLD = 3840;
 
 protected:
-	enum TileState : int8_t
+	enum TileState
 	{
 		TS_EMPTY,
 		TS_OPAQUE,
@@ -53,7 +53,7 @@ public:
 protected:
 	TilePos m_origin;
 	int m_emptyTiles;
-	TileState m_tiles[TILES_SIZE];
+	uint8_t m_tiles[TILES_SIZE];
 	std::deque<ChunkTilePos> m_floodQueue;
 
 public:
@@ -76,9 +76,9 @@ public:
 	}
 	VisibilityNode finish();
 protected:
-	TileState* _at(const ChunkTilePos& pos, ByteMask& set);
-	TileState& _at(const ChunkTilePos& p);
-	TileState& _atWorld(const TilePos& t);
+	uint8_t* _at(const ChunkTilePos& pos, ByteMask& set);
+	uint8_t& _at(const ChunkTilePos& p);
+	uint8_t& _atWorld(const TilePos& t);
 	void _visit(const ChunkTilePos& p, ByteMask& set);
 	ByteMask _floodFill(const ChunkTilePos& startPos);
 };
