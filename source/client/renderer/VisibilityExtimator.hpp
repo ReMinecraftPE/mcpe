@@ -23,6 +23,7 @@ public:
 	void connect(uint8_t A, uint8_t B);
 	const ByteMask& from(uint8_t facing) const
 	{
+		assert(facing < Facing::MAX);
 		return m_visibility[facing];
 	}
 	bool compare(VisibilityNode& other) const;
