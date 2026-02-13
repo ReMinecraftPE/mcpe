@@ -56,7 +56,6 @@ add_library(reminecraftpe-core STATIC
     client/renderer/renderer/RenderMaterialGroup.cpp
     client/renderer/renderer/ShaderGroup.cpp
     client/renderer/renderer/Tesselator.cpp
-    client/renderer/renderer/VisibilityExtimator.cpp
     client/renderer/texture/ImageData.cpp
     client/renderer/texture/TextureData.cpp
     client/renderer/RenderList.cpp
@@ -83,6 +82,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/FireTexture.cpp
     client/renderer/FoliageColor.cpp
     client/renderer/GrassColor.cpp
+    client/renderer/VisibilityExtimator.cpp
     client/sound/SoundData.cpp
     client/sound/SoundPathRepository.cpp
     client/sound/SoundStream.cpp
