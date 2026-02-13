@@ -10,7 +10,7 @@
 #include "client/gui/components/Button.hpp"
 #include "client/options/Options.hpp"
 
-#define C_OPTION_ITEM_HEIGHT (20)
+#define C_OPTION_ITEM_HEIGHT (22)
 
 OptionList::OptionList(Minecraft* pMinecraft, int width, int height, int something, int something2) :
 	ScrolledSelectionList(pMinecraft, width, height, something, something2, C_OPTION_ITEM_HEIGHT)
@@ -147,55 +147,17 @@ void OptionList::initDefaultMenu()
 #define HEADER(text) do { m_items.push_back(new OptionHeader(text)); currentIndex++; } while (0)
 #define OPTION(name) do { pOptions->name.addGuiElement(m_items, UI_POCKET); currentIndex++; } while (0)
 
-void OptionList::initVideoMenu()
-{
-	Options* pOptions = m_pMinecraft->getOptions();
-	int currentIndex = 0;
-	(void)currentIndex;
-
-	OPTION(m_viewDistance);
-	OPTION(m_thirdPerson);
-	OPTION(m_ambientOcclusion);
-	OPTION(m_fancyGraphics);
-	OPTION(m_viewBobbing);
-	OPTION(m_anaglyphs);
-	OPTION(m_blockOutlines);
-	OPTION(m_fancyGrass);
-	OPTION(m_biomeColors);
-	OPTION(m_hideGui);
-	OPTION(m_dynamicHand);
-	OPTION(m_uiTheme);
-}
-
-void OptionList::initControlsMenu()
-{
-	Options* pOptions = m_pMinecraft->getOptions();
-	int currentIndex = -1;
-	int idxSplit = -1, idxController = -1;
-
-	OPTION(m_autoJump);
-	OPTION(m_invertMouse);
-	OPTION(m_splitControls); idxSplit = currentIndex;
-	OPTION(m_bUseController); idxController = currentIndex;
-	OPTION(m_flightHax);
-	OPTION(m_sensitivity);
-
-	if (!m_pMinecraft->isTouchscreen())
-		m_items[idxSplit]->setEnabled(false);
-	m_items[idxController]->setEnabled(false);
-}
-
 void OptionList::initGameplayMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 
+	HEADER("Game");
 	OPTION(m_difficulty);
+	OPTION(m_thirdPerson);
 	OPTION(m_serverVisibleDefault);
 
-	HEADER(Util::EMPTY_STRING);
-
-	HEADER("Music & Sounds");
+	HEADER("Audio");
 	OPTION(m_musicVolume);
 	OPTION(m_masterVolume);
 
@@ -205,14 +167,58 @@ void OptionList::initGameplayMenu()
 	(void)currentIndex; // compiler will warn about an unused variable sometimes if this isn't here
 }
 
-void OptionList::initMiscMenu()
+void OptionList::initControlsMenu()
+{
+	Options* pOptions = m_pMinecraft->getOptions();
+	int currentIndex = -1;
+	int idxSplit = -1, idxController = -1;
+
+	HEADER("Controls");
+	OPTION(m_sensitivity);
+	OPTION(m_invertMouse);
+	OPTION(m_splitControls); idxSplit = currentIndex;
+	//OPTION(m_swapJumpSneak);
+	//OPTION(m_buttonSize);
+	OPTION(m_autoJump);
+	OPTION(m_bUseController); idxController = currentIndex;
+
+	/*HEADER("Feedback");
+	OPTION(m_vibrate);*/
+
+	HEADER("Experimental");
+	OPTION(m_flightHax);
+
+	if (!m_pMinecraft->isTouchscreen())
+		m_items[idxSplit]->setEnabled(false);
+	m_items[idxController]->setEnabled(false);
+}
+
+void OptionList::initVideoMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 	int idxPano = -1;
 
-	OPTION(m_debugText);
+	HEADER("Graphics");
+	//OPTION(m_brightness);
+	OPTION(m_viewDistance);
+	//OPTION(m_antiAliasing);
+	//OPTION(m_guiScale);
+	//OPTION(m_fov);
+	OPTION(m_ambientOcclusion);
+	OPTION(m_fancyGraphics);
+	OPTION(m_viewBobbing);
+	OPTION(m_anaglyphs);
+	OPTION(m_blockOutlines);
+	OPTION(m_fancyGrass);
+	OPTION(m_biomeColors);
+	OPTION(m_dynamicHand);
+  OPTION(m_uiTheme);
 	OPTION(m_logoType);
+  
+	HEADER("Experimental");
+	OPTION(m_hideGui);
+	OPTION(m_debugText);
 #ifdef ENH_MENU_BACKGROUND
 	OPTION(m_menuPanorama); idxPano = currentIndex;
 #endif

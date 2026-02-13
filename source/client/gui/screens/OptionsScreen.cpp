@@ -16,10 +16,9 @@ OptionsScreen::OptionsScreen(Screen* parent) :
 	m_pParent(parent),
 	m_pList(nullptr),
 	m_currentCategory(OC_MIN),
+	m_gameplayButton("Gameplay"),
 	m_videoButton("Video"),
 	m_controlsButton("Controls"),
-	m_gameplayButton("Gameplay"),
-	m_miscButton("Misc"),
 	m_backButton("Done")
 {
 	m_bRenderPointer = true;
@@ -64,7 +63,7 @@ void OptionsScreen::init()
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
 	
-	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_gameplayButton, &m_miscButton };
+	Button* tabButtons[] = { &m_gameplayButton, &m_controlsButton, &m_videoButton};
 	constexpr int NUM_CATEGORY_BUTTONS = sizeof(tabButtons) / sizeof(tabButtons[0]);
 	int buttonWidth = 64;
 	int buttonHeight = 20;
@@ -124,17 +123,14 @@ void OptionsScreen::setCategory(OptionsCategory category)
 
 	switch (category)
 	{
-	case OC_VIDEO:
-		m_pList->initVideoMenu();
+	case OC_GAMEPLAY:
+		m_pList->initGameplayMenu();
 		break;
 	case OC_CONTROLS:
 		m_pList->initControlsMenu();
 		break;
-	case OC_GAMEPLAY:
-		m_pList->initGameplayMenu();
-		break;
-	case OC_MISCELLANEOUS:
-		m_pList->initMiscMenu();
+	case OC_VIDEO:
+		m_pList->initVideoMenu();
 		break;
 	default:
 		break;
@@ -143,14 +139,12 @@ void OptionsScreen::setCategory(OptionsCategory category)
 
 void OptionsScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->getId() == m_videoButton.getId())
-		setCategory(OC_VIDEO);
-	else if (pButton->getId() == m_controlsButton.getId())
-		setCategory(OC_CONTROLS);
-	else if (pButton->getId() == m_gameplayButton.getId())
+	if (pButton->getId() == m_gameplayButton.getId())
 		setCategory(OC_GAMEPLAY);
-	else if (pButton->getId() == m_miscButton.getId())
-		setCategory(OC_MISCELLANEOUS);
+  else if (pButton->getId() == m_controlsButton.getId())
+		setCategory(OC_CONTROLS);
+  else if (pButton->getId() == m_videoButton.getId())
+		setCategory(OC_VIDEO);
 	else if (pButton->getId() == m_backButton.getId())
 		handleBackEvent(false);
 }

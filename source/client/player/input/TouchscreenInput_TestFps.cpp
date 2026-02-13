@@ -132,9 +132,6 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	m_pAreaRight = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_RIGHT, m_pAreaRight);
 
-	// NOTE: We are not leaking memory! Since by default IArea's constructor sets
-	// m_vertices to true, TouchAreaModel owns the pointers, so when it's destroyed,
-	// so are these areas we allocated.
 #ifdef ENH_NEW_TOUCH_CONTROLS
 	TransformArray(4, x1, y1, x2, y2, middleX - widthM, middleY - heightM, 1.0f, 1.0f);
 	m_pAreaForwardLeft = new PolygonArea(4, x2, y2);
@@ -144,6 +141,9 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	m_pAreaForwardRight = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_FORWARDRIGHT, m_pAreaForwardRight);
 #endif
+	// NOTE: We are not leaking memory! Since by default IArea's constructor sets
+	// m_vertices to true, TouchAreaModel owns the pointers, so when it's destroyed,
+	// so are these areas we allocated.
 }
 
 void TouchscreenInput_TestFps::tick(Player* pPlayer)
@@ -241,14 +241,16 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 				break;
 
 			case 100 + INPUT_FORWARDLEFT:
-				if (m_bForwardBeingHeld) {
+				if (m_bForwardBeingHeld)
+				{
 					bForwardPressed = true;
 					m_vertInput += 1.0f;
 					m_horzInput += 1.0f;
 				}
 				break;
 			case 100 + INPUT_FORWARDRIGHT:
-				if (m_bForwardBeingHeld) {
+				if (m_bForwardBeingHeld)
+				{
 					bForwardPressed = true;
 					m_vertInput += 1.0f;
 					m_horzInput -= 1.0f;
@@ -338,17 +340,13 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 
 void TouchscreenInput_TestFps::render(float f)
 {
-	std::string gui = "gui/gui_touch.png";
-	if (!m_pMinecraft->m_pResourceLoader->hasTexture(gui))
-		gui = "gui/gui.png";
-
-	m_pMinecraft->m_pTextures->loadAndBindTexture(gui);
+	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui2.png");
 
     currentShaderColor = Color::WHITE;
     currentShaderDarkColor = Color::WHITE;
 
 	bool flying = m_pOptions->m_flightHax.get() || m_pMinecraft->m_pLocalPlayer->m_bFlying;
-	int horizontalAlpha = (flying && (m_bFlyUp || m_bSneaking)) ? 0x20 : 0x80;
+	int horizontalAlpha = (flying && (m_bFlyUp || m_bJumpBeingHeld || m_bSneaking)) ? 0x20 : 0x80;
     
 	Tesselator& t = Tesselator::instance;
 	t.begin(0);
@@ -388,12 +386,25 @@ void TouchscreenInput_TestFps::render(float f)
 		t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaBackward, 52, 106);
 	}
+	// @TODO: implement double tap sneak button
+	/*if (m_bSneaking)
+	{
+		// toggled on
+		t.color(m_bSneaking ? 0xFFFFFF : 0xFFFFFF, 0x80);
+		RenderTouchButton(&t, m_pAreaSneak, 0, 0); // @TODO: Find sneaking button texture coords
+	}
+	else
+	{
+		// toggled off
+		t.color(m_bSneaking ? 0xFFFFFF : 0xFFFFFF, 0x80);
+		RenderTouchButton(&t, m_pAreaSneak, 0, 0); // @TODO: Find sneaking button texture coords
+	}*/
 #else
-	// orginal touch controls
-	t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, horizontalAlpha);
+	// Original pocket edition buttons
+	t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 	RenderTouchButton(&t, m_pAreaLeft, 64, 112);
 
-	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, horizontalAlpha);
+	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 	RenderTouchButton(&t, m_pAreaRight, 192, 112);
 
 	t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
