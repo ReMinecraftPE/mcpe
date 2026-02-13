@@ -255,7 +255,7 @@ void ScrolledSelectionList::render(const MenuPointer& pointer, float f)
 				t.draw(m_materials.ui_fill_gradient);
 			}
 
-			renderItem(i, itemX, int(itemY), int(m_itemHeight - 4.0f), pointer, t);
+			renderItem(i, itemX, int(itemY), m_itemHeight - 4, pointer, t);
 		}
 	}
 
