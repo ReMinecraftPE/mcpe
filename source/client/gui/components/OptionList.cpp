@@ -203,7 +203,7 @@ void OptionList::initVideoMenu()
 	int idxPano = -1;
 
 	HEADER("Graphics");
-	//OPTION(m_brigtness);
+	//OPTION(m_brightness);
 	OPTION(m_viewDistance);
 	//OPTION(m_antiAliasing);
 	//OPTION(m_guiScale);
