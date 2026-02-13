@@ -47,6 +47,9 @@ void Options::_initDefaultValues()
 	field_19 = 0;
 #endif
 
+	// Force this on until we get a proper UI
+	_tryAddResourcePack(C_DEFAULT_RESOURCE_PACK, m_resourcePacks);
+
 	loadControls();
 }
 
@@ -152,6 +155,43 @@ const AsyncTask& Options::save()
 	return m_saveTask;
 }
 
+bool Options::_hasResourcePack(const ResourcePack& pack, ResourcePackStack& packs)
+{
+	for (size_t i = 0; i < packs.size(); i++)
+	{
+		if (packs[i] == pack)
+			return true;
+	}
+
+	return false;
+}
+
+void Options::_tryAddResourcePack(const std::string& name, ResourcePackStack& packs)
+{
+	ResourceLocation location(ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + name);
+
+	// Search internally (within assets) first
+	location.fileSystem = ResourceLocation::APP_PACKAGE;
+
+	std::string fullPath = location.getFullPath();
+	if (!isDirectory(fullPath.c_str()))
+	{
+		// Search externally (within user-writable external storage dir)
+		location.fileSystem = ResourceLocation::EXTERNAL_DIR;
+
+		fullPath = location.getFullPath();
+		if (!isDirectory(fullPath.c_str()))
+		{
+			LOG_W("Failed to find resource pack: %s", fullPath.c_str());
+			return;
+		}
+	}
+
+	ResourcePack resourcePack(name, location.fileSystem);
+	if (!_hasResourcePack(resourcePack, packs))
+		packs.push_back(resourcePack);
+}
+
 bool Options::readBool(const std::string& str)
 {
 	std::string trimmed = Util::stringTrim(str);
@@ -201,22 +241,7 @@ void Options::readPackArray(const std::string& str, ResourcePackStack& array)
 	ResourceLocation location;
 	for (size_t i = 0; i < fullarray.size(); ++i)
 	{
-		// Search internally (within assets) first
-		location.fileSystem = ResourceLocation::APP_PACKAGE;
-		location.path = ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + fullarray[i];
-		std::string fullPath = location.getFullPath();
-		if (!isDirectory(fullPath.c_str()))
-		{
-			// Search externally (within user-writable external storage dir)
-			location.fileSystem = ResourceLocation::EXTERNAL_DIR;
-			fullPath = location.getFullPath();
-			if (!isDirectory(fullPath.c_str()))
-			{
-				LOG_W("Failed to find resource pack: %s", fullPath.c_str());
-				continue;
-			}
-		}
-		array.push_back(ResourcePack(fullarray[i], location.fileSystem));
+		_tryAddResourcePack(fullarray[i], array);
 	}
 }
 

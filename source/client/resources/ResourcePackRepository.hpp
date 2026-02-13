@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#define C_DEFAULT_RESOURCE_PACK "minecraft"
+
 class ResourcePackRepository
 {
 public:
