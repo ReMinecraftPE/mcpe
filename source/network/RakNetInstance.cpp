@@ -16,6 +16,22 @@
 
 //#define LOG_PACKETS
 
+/* !! FOR XBOX 360 !!
+    To enable "unsecure" sockets on a copy of RakNet that supports the Xbox 360, do the following:
+	1. Enable sockpatch in DashLauncher
+	2. Add the following patch to RNS2_Berkley::SetSocketOptions():
+	```
+#if defined(_XBOX) || defined(_XBOX_720_WITH_XBOX_LIVE) || defined(X360)
+	// MCPE: Required to allow for "insecure" sockets on Xbox 360, which allows for cross-platform multiplayer
+	// https://discord.com/channels/436450658531672064/761636912485105684/1425512825237012532
+	#define SO_MARKINSECURE        0x5801
+	BOOL opt_true = TRUE;
+	setsockopt__( rns2Socket, SOL_SOCKET, SO_MARKINSECURE, (PCSTR) & opt_true, sizeof( BOOL ) );
+#endif
+    ```
+
+*/
+
 RakNetInstance::RakNetInstance()
 {
 	m_bIsHost = false;
@@ -31,6 +47,22 @@ RakNetInstance::~RakNetInstance()
 		RakNet::RakPeerInterface::DestroyInstance(m_pRakPeerInterface);
 		m_pRakPeerInterface = nullptr;
 	}
+}
+
+bool RakNetInstance::_startup(RakNet::SocketDescriptor& socketDesc, int maxConnections)
+{
+	return m_pRakPeerInterface->Startup(C_MAX_CONNECTIONS, &socketDesc, 1) != RakNet::RAKNET_STARTED;
+}
+
+bool RakNetInstance::_tryStartup()
+{
+	if (!m_pRakPeerInterface->IsActive())
+	{
+		RakNet::SocketDescriptor sd;
+		return _startup(sd);
+	}
+
+	return false;
 }
 
 void RakNetInstance::announceServer(const std::string& name)
@@ -59,7 +91,7 @@ bool RakNetInstance::connect(const char* host, int port)
 
 	disconnect();
 	
-	if (m_pRakPeerInterface->Startup(4, &sd, 1) != RakNet::RAKNET_STARTED)
+	if (_startup(sd))
 		return false;
     
     LOG_I("Connecting to %s", host);
@@ -95,7 +127,7 @@ bool RakNetInstance::host(const std::string& name, int port, int maxConnections)
 	RakNet::SocketDescriptor sd(port, nullptr);
 
 	m_pRakPeerInterface->SetMaximumIncomingConnections(maxConnections);
-	int result = m_pRakPeerInterface->Startup(maxConnections, &sd, 1);
+	int result = _startup(sd, maxConnections);
 	
 	m_bIsHost = true;
 	m_bPingingForHosts = false;
@@ -113,11 +145,7 @@ bool RakNetInstance::isMyLocalGuid(const RakNet::RakNetGUID& guid)
 
 void RakNetInstance::pingForHosts(int port)
 {
-	if (!m_pRakPeerInterface->IsActive())
-	{
-		RakNet::SocketDescriptor sd;
-		m_pRakPeerInterface->Startup(4, &sd, 1);
-	}
+	_tryStartup();
 
 	m_hostPingPort = port;
 	m_bPingingForHosts = true;
