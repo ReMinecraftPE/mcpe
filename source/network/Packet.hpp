@@ -153,9 +153,9 @@ enum MinecraftPacketIds
 
 #else
 
-/*#if RAKNET_PROTOCOL_VERSION != 5
+#if RAKNET_PROTOCOL_VERSION != 5
 #error RAKNET_PROTOCOL_VERSION must be 5
-#endif*/
+#endif
 
 	PACKET_LOGIN = ID_USER_PACKET_ENUM - 4, // really Mojang?
 	PACKET_LOGIN_STATUS,

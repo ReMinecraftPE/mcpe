@@ -19,7 +19,7 @@
 /* !! FOR XBOX 360 !!
     To enable "unsecure" sockets on a copy of RakNet that supports the Xbox 360, do the following:
 	1. Enable sockpatch in DashLauncher
-	2. Add the following patch to RNS2_Berkley::SetSocketOptions():
+	2. Add the following code to RNS2_Berkley::SetSocketOptions():
 	```
 #if defined(_XBOX) || defined(_XBOX_720_WITH_XBOX_LIVE) || defined(X360)
 	// MCPE: Required to allow for "insecure" sockets on Xbox 360, which allows for cross-platform multiplayer
@@ -29,7 +29,6 @@
 	setsockopt__( rns2Socket, SOL_SOCKET, SO_MARKINSECURE, (PCSTR) & opt_true, sizeof( BOOL ) );
 #endif
     ```
-
 */
 
 RakNetInstance::RakNetInstance()
