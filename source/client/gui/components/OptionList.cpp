@@ -10,7 +10,7 @@
 #include "client/gui/components/Button.hpp"
 #include "client/options/Options.hpp"
 
-#define C_OPTION_ITEM_HEIGHT (20)
+#define C_OPTION_ITEM_HEIGHT (22)
 
 #define C_SWITCH_VALUES_WIDTH (60)
 #define C_SWITCH_VALUES_HEIGHT (18)

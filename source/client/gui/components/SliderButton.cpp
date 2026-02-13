@@ -40,6 +40,6 @@ void SliderButton::renderBg(Minecraft* mc, const MenuPointer& pointer)
 	}
 
 	currentShaderColor = m_color;
-	blit(m_xPos + int(m_value * float(m_width - 8)), m_yPos, 0, 66, 4, m_height, 0, 0);
-	blit(m_xPos + int(m_value * float(m_width - 8)) + 4, m_yPos, 196, 66, 4, m_height, 0, 0);
+	blit(m_xPos + int(m_value * float(m_width - 8)), m_yPos, 0, 66, 4, m_height - 1, 0, 0);
+	blit(m_xPos + int(m_value * float(m_width - 8)) + 4, m_yPos, 196, 66, 4, m_height - 1, 0, 0);
 }
