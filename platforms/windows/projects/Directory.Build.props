@@ -10,7 +10,7 @@
   <PropertyGroup Label="UserMacros">
     <MC_GLOBAL_PROPS>whattimeisit?</MC_GLOBAL_PROPS>
     <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
-    <RAKNET_PATH>D:\RakNet\RakNet_All-4.083\Source\</RAKNET_PATH>
+    <RAKNET_PATH>$(MC_ROOT)thirdparty\raknet\</RAKNET_PATH>
 	<MC_GFX_API>OGL</MC_GFX_API>
   </PropertyGroup>
   <!--PropertyGroup Label="Configuration">
