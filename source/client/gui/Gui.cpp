@@ -6,7 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Gui.hpp"
+//#include "Gui.hpp" // apparently this breaks building on clang or something
+#include "client/app/Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/gui/screens/ChatScreen.hpp"
 #include "client/gui/screens/inventory/InventoryScreen.hpp"
