@@ -434,6 +434,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/entity/TileEntity.cpp
     world/tile/entity/TileEntityType.cpp
     world/tile/entity/ChestTileEntity.cpp
+    world/tile/entity/MusicTileEntity.cpp
     world/tile/entity/FurnaceTileEntity.cpp
     renderer/GL/GL.cpp
     renderer/Attribute.cpp

@@ -37,6 +37,7 @@ private:
 public:
 	static TileEntityType* furnace;
 	static TileEntityType* chest;
+	static TileEntityType* noteblock;
 
 	template <typename T>
 	static TileEntity* makeMe()

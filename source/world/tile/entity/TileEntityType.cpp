@@ -6,7 +6,7 @@
 // #include "MobSpawnerTileEntity.hpp"
 // #include "DispenserTileEntity.hpp"
 // #include "SignTileEntity.hpp"
-// #include "MusicTileEntity.hpp"
+#include "MusicTileEntity.hpp"
 // #include "RecordPlayerTileEntity.hpp"
 // #include "PistonMovingTileEntity.hpp"
 
@@ -15,6 +15,7 @@ std::vector<const TileEntityType*> TileEntityType::entityTypes;
 
 TileEntityType* TileEntityType::furnace;
 TileEntityType* TileEntityType::chest;
+TileEntityType* TileEntityType::noteblock;
 
 TileEntityType::TileEntityType(const std::string& name, FactoryFunction func) : m_name(name), m_function(func)
 {
@@ -54,6 +55,7 @@ void TileEntityType::initTileEntities()
 {
 	furnace = RegisterType<FurnaceTileEntity>("Furnace");
 	chest = RegisterType<ChestTileEntity>("Chest");
+    noteblock = RegisterType<MusicTileEntity>("Music");
 }
 
 void TileEntityType::teardownTileEntities()
