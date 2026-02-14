@@ -48,13 +48,13 @@ float Mth::invSqrt(float number)
 	// they just stole it from Quake.
 
 	float x2, y;
-	const float threehalfs = 1.5F;
+	const float threehalfs = 1.5f;
 	union {
 		float f;
 		int32_t i;
 	} un;
 
-	x2   = number * 0.5F;
+	x2   = number * 0.5f;
 	un.f = number;                               // evil floating point bit level hacking
 	un.i = 0x5f3759df - ( un.i >> 1 );           // what the fuck?
 	y    = un.f;
