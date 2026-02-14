@@ -17,8 +17,8 @@ OptionsScreen::OptionsScreen(Screen* parent) :
 	m_pList(nullptr),
 	m_currentCategory(OC_MIN),
 	m_gameplayButton("Gameplay"),
-	m_videoButton("Video"),
 	m_controlsButton("Controls"),
+	m_videoButton("Video"),
 	m_backButton("Done")
 {
 	m_bRenderPointer = true;
