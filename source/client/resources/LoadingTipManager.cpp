@@ -4,7 +4,7 @@
 #include "client/locale/Language.hpp"
 #include "thirdparty/rapidjson/document.h"
 
-LoadingTip LoadingTip::EMPTY(Util::EMPTY_STRING);
+LoadingTip LoadingTip::EMPTY(""); // can't use EMPTY_STRING here, race condition
 
 LoadingTipManager* LoadingTipManager::instance = nullptr;
 
