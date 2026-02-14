@@ -14,31 +14,59 @@ bool FurnaceTileEntity::_canBurn()
         return false;
 
     const ItemStack& result = FurnaceRecipes::singleton().getItemFor(this);
+
+    // Not a furnace recipe
     if (result.isEmpty())
         return false;
 
-    if (!getItem(2))
+    // Nothing has started burning yet
+    if (getItem(2).isEmpty())
         return true;
 
+    // Potential result/current result mismatch
     if (getItem(2) != result)
         return false;
 
+    // Check if there's enough item stack size for the item to continue burning
     if (getItem(2).m_count < getMaxStackSize() && getItem(2).m_count < getItem(2).getMaxStackSize())
         return true;
 
+    // Return if result slot is full
     return getItem(2).m_count < result.getMaxStackSize();
+}
+
+void FurnaceTileEntity::_burn()
+{
+    if (!_canBurn())
+        return;
+
+    const ItemStack& result = FurnaceRecipes::singleton().getItemFor(this);
+
+    // Either set the item in the result slot to the item, or add what's already there
+    if (getItem(2).isEmpty())
+        setItem(2, result);
+    else if (getItem(2) == result)
+        ++getItem(2).m_count;
+
+    // Decrement burning item
+    if (getItem(0).m_count > 0)
+        --getItem(0).m_count;
+
+    // No more burning item
+    if (getItem(0).m_count <= 0)
+        setItem(0, ItemStack::EMPTY);
 }
 
 void FurnaceTileEntity::tick()
 {
-    bool wasUnfinished = m_litTime > 0;
+    if (m_pLevel->m_bIsClientSide)
+        return;
+
+    bool wasBurning = m_litTime > 0;
     bool changed = false;
 
     if (m_litTime > 0)
         --m_litTime;
-
-    if (m_pLevel->m_bIsClientSide)
-        return;
 
     if (m_litTime == 0 && _canBurn())
     {
@@ -61,17 +89,18 @@ void FurnaceTileEntity::tick()
         if (m_tickCount == 200)
         {
             m_tickCount = 0;
-            burn();
+            _burn();
             changed = true;
         }
     }
     else
         m_tickCount = 0;
 
-    if (wasUnfinished != (m_litTime > 0))
+    bool isBurning = m_litTime > 0;
+    if (isBurning != wasBurning)
     {
         changed = true;
-        FurnaceTile::SetLit(m_litTime > 0, m_pLevel, m_pos);
+        FurnaceTile::SetLit(isBurning, m_pLevel, m_pos);
     }
 
     if (changed)
@@ -112,25 +141,6 @@ void FurnaceTileEntity::save(CompoundTag& tag) const
 std::string FurnaceTileEntity::getName() const
 {
     return "Furnace";
-}
-
-void FurnaceTileEntity::burn()
-{
-    if (!_canBurn())
-        return;
-
-    const ItemStack& result = FurnaceRecipes::singleton().getItemFor(this);
-
-    if (getItem(2).isEmpty())
-        setItem(2, result);
-    else if (getItem(2) == result)
-        ++getItem(2).m_count;
-
-    if (getItem(0).m_count > 0)
-        --getItem(0).m_count;
-
-    if (getItem(0).m_count <= 0)
-        setItem(0, ItemStack::EMPTY);
 }
 
 int FurnaceTileEntity::getBurnProgress(int height) 

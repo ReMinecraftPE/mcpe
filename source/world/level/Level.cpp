@@ -295,7 +295,7 @@ void Level::removeTileEntity(const TilePos& pos)
 {
 	TileEntity* old = getTileEntity(pos);
 
-	if (old && m_bUpdatingTileEntities)
+	if (old != nullptr && m_bUpdatingTileEntities)
 	{
 		old->setRemoved();
 		return;
@@ -1758,6 +1758,7 @@ void Level::tickEntities()
 		}
 	}
 
+	m_bUpdatingTileEntities = true;
 	for (size_t i = 0; i < m_tileEntityList.size(); i++)
 	{
 		TileEntity* tileEnt = m_tileEntityList[i];
@@ -1778,6 +1779,7 @@ void Level::tickEntities()
 			delete tileEnt;
 		}
 	}
+	m_bUpdatingTileEntities = false;
 }
 
 HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const

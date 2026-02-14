@@ -11,6 +11,7 @@ public:
 
 private:
     bool _canBurn();
+    void _burn();
 
 public:
     void tick() override;
@@ -21,7 +22,6 @@ public:
     std::string getName() const override;
 
 public:
-    void burn();
     int getBurnProgress(int height);
     int getLitProgress(int height);
     bool isLit();
