@@ -8,6 +8,7 @@
 
 #include "common/Logger.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/entity/TileEntity.hpp"
 #include "world/phys/AABB.hpp"
 
 bool LevelChunk::touchedSky = false;
@@ -681,6 +682,70 @@ bool LevelChunk::setTileAndData(const ChunkTilePos& pos, TileID tile, TileData d
 	m_updateMap[MakeHeightMapIndex(pos)] |= 1 << (pos.y >> 4);
 
 	return true;
+}
+
+TileEntity* LevelChunk::getTileEntity(const ChunkTilePos& pos)
+{
+	std::map<ChunkTilePos, TileEntity*>::iterator it = m_tileEntities.find(pos);
+    if (it == m_tileEntities.end())
+    {
+		int tileId = getTile(pos);
+		if (tileId <= 0 || !Tile::isEntityTile[tileId])
+			return nullptr;
+		TilePos tilePos(m_chunkPos, pos.y);
+		tilePos.x += pos.x;
+		tilePos.z += pos.z;
+		Tile* pTile = Tile::tiles[tileId];
+		pTile->onPlace(m_pLevel, tilePos);
+		return m_tileEntities[pos];
+	}
+
+	if (!it->second || it->second->isRemoved())
+	{
+		m_tileEntities.erase(it);
+		return nullptr;
+	}
+
+	return it->second;
+}
+
+void LevelChunk::addTileEntity(TileEntity* tileEntity)
+{
+	setTileEntity(tileEntity->m_pos, tileEntity);
+	if (m_bLoaded)
+		m_pLevel->m_tileEntityList.push_back(tileEntity);
+}
+
+void LevelChunk::setTileEntity(const ChunkTilePos& pos, TileEntity* tileEntity)
+{
+	tileEntity->m_pLevel = m_pLevel;
+	TileID tile = getTile(pos);
+	TilePos tilePos(m_chunkPos, pos.y);
+	tilePos.x += pos.x;
+	tilePos.z += pos.z;
+	tileEntity->m_pos = tilePos;
+	if (tile > 0 && Tile::isEntityTile[tile])
+	{
+		tileEntity->clearRemoved();
+		m_tileEntities[pos] = tileEntity;
+		return;
+	}
+	
+	LOG_I("Attempted to place a tile entity where there was no entity tile! %d", tile);
+}
+
+void LevelChunk::removeTileEntity(const ChunkTilePos& pos)
+{
+	if (!m_bLoaded)
+		return;
+
+	std::map<ChunkTilePos, TileEntity*>::iterator it = m_tileEntities.find(pos);
+	if (it != m_tileEntities.end())
+	{
+		if (it->second)
+			it->second->setRemoved();
+		m_tileEntities.erase(it);
+	}
 }
 
 TileData LevelChunk::getData(const ChunkTilePos& pos)

@@ -25,7 +25,7 @@ public:
 
 	virtual void clear();
 
-	virtual void load(CompoundTag& tag);
+	virtual void load(const CompoundTag& tag);
 	virtual void save(CompoundTag& tag);
 
 private:

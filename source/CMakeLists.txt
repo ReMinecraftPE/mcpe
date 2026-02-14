@@ -111,6 +111,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp
     client/gui/screens/inventory/CraftingScreen.cpp
+    client/gui/screens/inventory/FurnaceScreen.cpp
     client/gui/screens/inventory/ChestScreen.cpp
     client/gui/components/ScrolledSelectionList.cpp
     client/gui/components/AvailableGamesList.cpp
@@ -342,10 +343,12 @@ add_library(reminecraftpe-core STATIC
     world/inventory/ContainerMenu.cpp
     world/inventory/InventoryMenu.cpp
     world/inventory/CraftingMenu.cpp
+    world/inventory/FurnaceMenu.cpp
     world/inventory/ChestMenu.cpp
     world/inventory/Slot.cpp
     world/inventory/ResultSlot.cpp
     world/inventory/ArmorSlot.cpp
+    world/inventory/FurnaceResultSlot.cpp
     world/inventory/CraftingContainer.cpp
     world/inventory/ResultContainer.cpp
     world/inventory/SimpleContainer.cpp
@@ -424,6 +427,10 @@ add_library(reminecraftpe-core STATIC
     world/tile/Web.cpp
     world/tile/FenceTile.cpp
     world/tile/CraftingTableTile.cpp
+    world/tile/FurnaceTile.cpp
+    world/tile/entity/TileEntity.cpp
+    world/tile/entity/TileEntityType.cpp
+    world/tile/entity/FurnaceTileEntity.cpp
     renderer/GL/GL.cpp
     renderer/Attribute.cpp
     renderer/ConstantBufferMetaData.cpp

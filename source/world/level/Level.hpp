@@ -72,6 +72,9 @@ public:
 	LevelChunk* getChunkAt(const TilePos& pos) const;
 	int getRawBrightness(const TilePos& pos) const;
 	int getRawBrightness(const TilePos& pos, bool b) const;
+	TileEntity* getTileEntity(const TilePos& pos) const override;
+	void setTileEntity(const TilePos& pos, TileEntity* tileEntity);
+	void removeTileEntity(const TilePos& pos);
 	int getBrightness(const LightLayer&, const TilePos& pos) const;
 	void setBrightness(const LightLayer&, const TilePos& pos, int brightness);
 	int getSeaLevel() const { return 63; }
@@ -203,6 +206,7 @@ public:
 
 private:
 	LevelData* m_pLevelData;
+	bool m_bUpdatingTileEntities;
 
 protected:
 	int m_randValue;
@@ -237,5 +241,7 @@ public:
 	MobSpawner* m_pMobSpawner;
 
 	std::map<EntityCategories::CategoriesMask, int> m_entityCountsByCategory;
+	std::vector<TileEntity*> m_tileEntityList;
+	std::vector<TileEntity*> m_pendingTileEntities;
 };
 

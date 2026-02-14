@@ -13,6 +13,7 @@
 #include "network/packets/PlayerEquipmentPacket.hpp"
 #include "client/gui/screens/inventory/CraftingScreen.hpp"
 #include "client/gui/screens/inventory/ChestScreen.hpp"
+#include "client/gui/screens/inventory/FurnaceScreen.hpp"
 
 int dword_250ADC, dword_250AE0;
 
@@ -135,11 +136,11 @@ void LocalPlayer::startCrafting(const TilePos& pos)
 	m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
 }
 
-/*void LocalPlayer::openFurnace(FurnaceTileEntity* furnace)
+void LocalPlayer::openFurnace(FurnaceTileEntity* furnace)
 {
 	// PE 0.3.2 doesn't let you cook in creative mode
 	m_pMinecraft->setScreen(new FurnaceScreen(m_pInventory, furnace));
-}*/
+}
 
 void LocalPlayer::openContainer(Container* container)
 {

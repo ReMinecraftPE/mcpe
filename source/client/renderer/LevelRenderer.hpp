@@ -223,4 +223,5 @@ public:
 	mce::Mesh m_darkMesh;
 	//...
 	Textures* m_pTextures;
+	std::vector<TileEntity*> m_renderableTileEntities;
 };

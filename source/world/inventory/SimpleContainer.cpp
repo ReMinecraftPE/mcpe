@@ -64,7 +64,7 @@ bool SimpleContainer::stillValid(Player* player) const
     return true;
 }
 
-void SimpleContainer::load(CompoundTag& tag)
+void SimpleContainer::load(const CompoundTag& tag)
 {
     clear();
     const ListTag* list = tag.getList("Items");

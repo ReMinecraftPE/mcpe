@@ -540,6 +540,11 @@ void Player::startCrafting(const TilePos& pos)
 
 }
 
+void Player::openFurnace(FurnaceTileEntity* tileEntity)
+{
+	
+}
+
 void Player::startStonecutting(const TilePos& pos)
 {
 
