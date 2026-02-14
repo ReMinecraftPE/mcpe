@@ -368,6 +368,7 @@ add_library(reminecraftpe-core STATIC
     world/item/BowItem.cpp
     world/item/AuxTileItem.cpp
     world/item/ClothItem.cpp
+    world/item/CoalItem.cpp
     world/item/DyeColor.cpp
     world/item/SlabItem.cpp
     world/particle/RedDustParticle.cpp

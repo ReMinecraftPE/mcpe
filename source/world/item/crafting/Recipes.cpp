@@ -120,14 +120,14 @@ Recipes::Recipes()
     addOre(ItemStack(Item::dye_powder, 1, 4), Tile::lapisBlock);
 
     // StructureRecipes
-    //add(ShapedRecipeBuilder("###",
-    //                        "# #",
-    //                        "###", ItemStack(Tile::chest))
-    //    .add('#', Tile::wood));
-    //add(ShapedRecipeBuilder("###",
-    //                        "# #",
-    //                        "###", ItemStack(Tile::furnace))
-    //    .add('#', Tile::stoneBrick));
+    add(ShapedRecipeBuilder("###",
+                            "# #",
+                            "###", ItemStack(Tile::chest))
+        .add('#', Tile::wood));
+    add(ShapedRecipeBuilder("###",
+                            "# #",
+                            "###", ItemStack(Tile::furnace))
+        .add('#', Tile::stoneBrick));
 
     add(ShapedRecipeBuilder("##",
                             "##", ItemStack(Tile::craftingTable))

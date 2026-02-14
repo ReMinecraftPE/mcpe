@@ -2,6 +2,8 @@
 #include "world/item/crafting/FurnaceRecipes.hpp"
 #include "world/tile/FurnaceTile.hpp"
 
+#define C_BURN_TIME (200)
+
 FurnaceTileEntity::FurnaceTileEntity()
     : SimpleContainer(3, "gui.furnace"), m_litTime(0), m_litDuration(0), m_tickCount(0)
 {
@@ -24,10 +26,9 @@ bool FurnaceTileEntity::_canBurn()
         return true;
 
     // Potential result/current result mismatch
-    if (getItem(2) != result)
+    if (getItem(2).getItem()->m_itemID != result.getItem()->m_itemID)
         return false;
 
-    // Check if there's enough item stack size for the item to continue burning
     if (getItem(2).m_count < getMaxStackSize() && getItem(2).m_count < getItem(2).getMaxStackSize())
         return true;
 
@@ -45,7 +46,7 @@ void FurnaceTileEntity::_burn()
     // Either set the item in the result slot to the item, or add what's already there
     if (getItem(2).isEmpty())
         setItem(2, result);
-    else if (getItem(2) == result)
+    else if (getItem(2).getItem()->m_itemID == result.getItem()->m_itemID)
         ++getItem(2).m_count;
 
     // Decrement burning item
@@ -86,7 +87,7 @@ void FurnaceTileEntity::tick()
     if (isLit() && _canBurn())
     {
         ++m_tickCount;
-        if (m_tickCount == 200)
+        if (m_tickCount == C_BURN_TIME)
         {
             m_tickCount = 0;
             _burn();
@@ -145,13 +146,13 @@ std::string FurnaceTileEntity::getName() const
 
 int FurnaceTileEntity::getBurnProgress(int height) 
 {
-    return m_tickCount * height / 200;
+    return m_tickCount * height / C_BURN_TIME;
 }
 
 int FurnaceTileEntity::getLitProgress(int height)
 {
     if (m_litDuration == 0)
-        m_litDuration = 200;
+        m_litDuration = C_BURN_TIME;
 
     return m_litTime * height / m_litDuration;
 }

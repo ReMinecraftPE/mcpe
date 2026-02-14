@@ -9,22 +9,17 @@ class SimpleContainer : public Container
 public:
 	SimpleContainer(int size, const std::string& name);
 
-	virtual uint16_t getContainerSize() const override;
+public:
+	uint16_t getContainerSize() const override;
+	ItemStack& getItem(int index) override;
+	ItemStack removeItem(int index, int count) override;
+	void setItem(int index, const ItemStack& item) override;
+	std::string getName() const override;
+	void setChanged() override;
+	bool stillValid(Player* player) const override;
 
-	virtual ItemStack& getItem(int index) override;
-
-	virtual ItemStack removeItem(int index, int count) override;
-
-	virtual void setItem(int index, const ItemStack& item) override;
-
-	virtual std::string getName() const override;
-
-	virtual void setChanged() override;
-
-	virtual bool stillValid(Player* player) const override;
-
+public:
 	virtual void clear();
-
 	virtual void load(const CompoundTag& tag);
 	virtual void save(CompoundTag& tag) const;
 

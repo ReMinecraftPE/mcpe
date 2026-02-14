@@ -48,6 +48,12 @@ SOUND(ui, press)
 SOUND(ui, scroll)
 
 SOUND(fire, fire)
+SOUND(fire, ignite)
+SOUND_NUM(fire, fire_crackle, 1)
+SOUND_NUM(fire, fire_crackle, 2)
+SOUND_NUM(fire, fire_crackle, 3)
+SOUND_NUM(fire, fire_crackle, 4)
+SOUND_NUM(fire, fire_crackle, 5)
 
 SOUND_NUM(damage, fallbig, 1)
 SOUND_NUM(damage, fallbig, 2)

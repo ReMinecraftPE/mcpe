@@ -11,19 +11,20 @@
 #include "common/Logger.hpp"
 #include "common/Util.hpp"
 
-#include "CameraItem.hpp"
-#include "DoorItem.hpp"
-#include "TileItem.hpp"
-#include "TilePlanterItem.hpp"
-#include "RocketItem.hpp"
-#include "ToolItem.hpp"
-#include "BowItem.hpp"
-#include "DyePowderItem.hpp"
-#include "WeaponItem.hpp"
-#include "FoodItem.hpp"
 #include "ArmorItem.hpp"
+#include "BowItem.hpp"
+#include "CameraItem.hpp"
+#include "CoalItem.hpp"
+#include "DoorItem.hpp"
+#include "DyePowderItem.hpp"
+#include "FoodItem.hpp"
 #include "HoeItem.hpp"
+#include "RocketItem.hpp"
 #include "SeedItem.hpp"
+#include "TileItem.hpp"
+#include "ToolItem.hpp"
+#include "TilePlanterItem.hpp"
+#include "WeaponItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
@@ -339,7 +340,7 @@ void Item::initItems()
 		->setIcon(5, 2)
 		->setDescriptionId("arrow");
 
-	Item::coal = NEW_ITEM(ITEM_COAL)
+	Item::coal = NEW_X_ITEMN(CoalItem, ITEM_COAL)
 		->setIcon(7, 0)
 		->setDescriptionId("coal");
 

@@ -31,18 +31,21 @@ void FurnaceTile::animateTick(Level* level, const TilePos& pos, Random* random) 
 
     int data = level->getData(pos);
     Vec3 particlePos(pos.x + 0.5f, pos.y + 0.0f + random->nextFloat() * 6.0f / 16.0f, pos.z + 0.5f);
-    const float var10 = 0.52f;
-    float var11 = random->nextFloat() * 0.6f - 0.3f;
+    const float outward = 0.52f;
+    float randomOffset = random->nextFloat() * 0.6f - 0.3f;
+
+    if (random->nextFloat() < 0.1f)
+		level->playSound(Vec3(particlePos.x + 0.5f, particlePos.y + 0.5f, particlePos.z + 0.5f), "fire.fire_crackle", 1.0f, 1.0f);
 
     if (data == 4 || data == 5)
     {
-        particlePos.x += data == 4 ? -var10 : var10;
-        particlePos.z += var11;
+        particlePos.x += data == 4 ? -outward : outward;
+        particlePos.z += randomOffset;
     }
     else if (data == 2 || data == 3)
     {
-        particlePos.x += var11;
-        particlePos.z += data == 2 ? -var10 : var10;
+        particlePos.x += randomOffset;
+        particlePos.z += data == 2 ? -outward : outward;
     }
 
     level->addParticle("smoke", particlePos);
