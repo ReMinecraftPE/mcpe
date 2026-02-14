@@ -31,6 +31,7 @@ bool TilePlanterItem::useOn(ItemStack* instance, Player* player, Level* level, c
 		case Facing::SOUTH: tp.z++; break;
 		case Facing::WEST: tp.x--; break;
 		case Facing::EAST: tp.x++; break;
+		default: assert(false); return false; break;
 	}
 
 	if (!instance->m_count)

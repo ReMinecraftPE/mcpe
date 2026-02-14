@@ -43,6 +43,7 @@ bool TileItem::useOn(ItemStack* instance, Player* player, Level* level, const Ti
 		case Facing::SOUTH: tp.z++; break;
 		case Facing::WEST: tp.x--; break;
 		case Facing::EAST: tp.x++; break;
+		default: assert(false); return false; break;
 	}
 
 	if (instance->m_count == 0)

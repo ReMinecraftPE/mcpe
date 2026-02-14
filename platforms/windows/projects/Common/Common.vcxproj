@@ -95,6 +95,7 @@
     <ClCompile Include="$(MC_ROOT)\source\common\utility\JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\utility\Singleton.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\threading\AsyncTask.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\common\threading\CThread.hpp" />
@@ -115,6 +116,8 @@
     <ClInclude Include="$(MC_ROOT)\source\common\utility\JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\utility\Singleton.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\threading\AsyncTask.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\ByteMask.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Stopwatch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
