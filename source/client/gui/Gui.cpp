@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "Gui.hpp"
-#include "client/app/Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/gui/screens/ChatScreen.hpp"
 #include "client/gui/screens/inventory/InventoryScreen.hpp"
