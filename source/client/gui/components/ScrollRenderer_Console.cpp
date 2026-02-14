@@ -1,21 +1,21 @@
 #include <cstring>
 
-#include "ConsoleScrollRenderer.hpp"
+#include "ScrollRenderer_Console.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-std::string ConsoleScrollRenderer::SCROLLS[] = { "gui/console/scrollUp.png", "gui/console/scrollDown.png", "gui/console/scrollLeft.png", "gui/console/scrollRight.png" };
+std::string ScrollRenderer_Console::SCROLLS[] = { "gui/console/scrollUp.png", "gui/console/scrollDown.png", "gui/console/scrollLeft.png", "gui/console/scrollRight.png" };
 
-ConsoleScrollRenderer::ConsoleScrollRenderer()
+ScrollRenderer_Console::ScrollRenderer_Console()
 {
 	memset(m_lastScrolled, 0, sizeof(m_lastScrolled));
 }
 
-void ConsoleScrollRenderer::updateScroll(AreaNavigation::Direction dir)
+void ScrollRenderer_Console::updateScroll(AreaNavigation::Direction dir)
 {
 	m_lastScrolled[dir] = getTimeMs();
 }
 
-void ConsoleScrollRenderer::renderScroll(AreaNavigation::Direction dir, Textures& texs, int x, int y)
+void ScrollRenderer_Console::renderScroll(AreaNavigation::Direction dir, Textures& texs, int x, int y)
 {
     switch (dir)
     {
@@ -28,7 +28,7 @@ void ConsoleScrollRenderer::renderScroll(AreaNavigation::Direction dir, Textures
     }
 }
 
-void ConsoleScrollRenderer::renderScroll(AreaNavigation::Direction dir, Textures& texs, int x, int y, const std::string& sprite, int width, int height)
+void ScrollRenderer_Console::renderScroll(AreaNavigation::Direction dir, Textures& texs, int x, int y, const std::string& sprite, int width, int height)
 {
     int l = m_lastScrolled[dir];
     if (l > 0)

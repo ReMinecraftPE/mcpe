@@ -1,17 +1,14 @@
-#include "ConsoleSettingsScreen.hpp"
+#include "SelectWorldScreen_Console.hpp"
 #include "client/locale/Language.hpp"
-#include "PlayGameScreen.hpp"
-#include "ConsoleCreateWorldScreen.hpp"
-#include "ProgressScreen.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-PlayGameScreen::PlayGameScreen(Minecraft* mc, Screen* parent) : PanelScreen(parent),
+SelectWorldScreen_Console::SelectWorldScreen_Console(Minecraft* mc, Screen* parent) : PanelScreen(parent),
 	m_joinLayout(this)
 {
 	fillSaves(mc);
 }
 
-void PlayGameScreen::init()
+void SelectWorldScreen_Console::init()
 {
 	m_panel.w = 1040;
 	m_panel.h = 426;
@@ -27,7 +24,7 @@ void PlayGameScreen::init()
 	m_joinLayout.init(IntRectangle(m_joinPanel.x + 20, m_joinPanel.y + 42, 460, 300), 0);
 }
 
-void PlayGameScreen::fillSaves(Minecraft* mc)
+void SelectWorldScreen_Console::fillSaves(Minecraft* mc)
 {
 	m_layout.clear();
 
@@ -54,7 +51,7 @@ void PlayGameScreen::fillSaves(Minecraft* mc)
 		m_layout.selectElementById(2, false);
 }
 
-void PlayGameScreen::fillServers()
+void SelectWorldScreen_Console::fillServers()
 {
 	m_joinLayout.clear();
 
@@ -67,7 +64,7 @@ void PlayGameScreen::fillServers()
 	m_joinLayout.organize();
 }
 
-void PlayGameScreen::tick()
+void SelectWorldScreen_Console::tick()
 {
 	std::vector<PingedCompatibleServer>* serverList, serverListFiltered;
 	serverList = m_pMinecraft->m_pRakNetInstance->getServerList();
@@ -113,14 +110,14 @@ void PlayGameScreen::tick()
 	}
 }
 
-bool PlayGameScreen::handleBackEvent(bool b)
+bool SelectWorldScreen_Console::handleBackEvent(bool b)
 {
 	if (!b)
 		m_pMinecraft->cancelLocateMultiplayer();
 	return PanelScreen::handleBackEvent(b);
 }
 
-void PlayGameScreen::renderPanel(float f)
+void SelectWorldScreen_Console::renderPanel(float f)
 {
 	PanelScreen::renderPanel(f);
 	blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_RECESS_SLICES, m_startPanel.x, m_startPanel.y, m_startPanel.w, m_startPanel.h, 16);

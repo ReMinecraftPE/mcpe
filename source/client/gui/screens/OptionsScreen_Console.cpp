@@ -1,8 +1,8 @@
-#include "ConsoleSettingsScreen.hpp"
+#include "OptionsScreen_Console.hpp"
 #include "client/locale/Language.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
-ConsoleSettingsScreen::ConsoleSettingsScreen(Screen* screen) :
+OptionsScreen_Console::OptionsScreen_Console(Screen* screen) :
 	m_pParent(screen),
 	m_btnHowToPlay(Language::get("settingsMenu.howToPlay")),
 	m_btnControls(Language::get("settingsMenu.controls")),
@@ -16,7 +16,7 @@ ConsoleSettingsScreen::ConsoleSettingsScreen(Screen* screen) :
 	m_uiTheme = UI_CONSOLE;
 }
 
-void ConsoleSettingsScreen::init()
+void OptionsScreen_Console::init()
 {
 	Button* layoutButtons[] = {&m_btnHowToPlay, &m_btnControls, &m_btnSettings, &m_btnCredits, &m_btnResetToDefaults};
 
@@ -36,14 +36,14 @@ void ConsoleSettingsScreen::init()
 	}
 }
 
-void ConsoleSettingsScreen::render(float f)
+void OptionsScreen_Console::render(float f)
 {
 	renderBackground();
 	LogoRenderer::singleton().render(f);
 	Screen::render(f);
 }
 
-bool ConsoleSettingsScreen::handleBackEvent(bool b)
+bool OptionsScreen_Console::handleBackEvent(bool b)
 {
 	if (!b)
 	{
@@ -53,7 +53,7 @@ bool ConsoleSettingsScreen::handleBackEvent(bool b)
 	return true;
 }
 
-void ConsoleSettingsScreen::_buttonClicked(Button* btn)
+void OptionsScreen_Console::_buttonClicked(Button* btn)
 {
 	if (btn->getId() == m_btnControls.getId())
 		m_pMinecraft->setScreen(new ControlsPanelScreen(this, m_pMinecraft));

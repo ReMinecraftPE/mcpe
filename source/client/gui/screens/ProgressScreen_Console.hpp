@@ -2,7 +2,7 @@
 
 #include "../Screen.hpp"
 
-class ConsoleProgressScreen : public Screen
+class ProgressScreen_Console : public Screen
 {
 public:
 	void render(float f) override;

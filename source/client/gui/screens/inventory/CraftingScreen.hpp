@@ -13,18 +13,3 @@ protected:
     void _renderBg(float partialTick) override;
     SlotDisplay _createSlotDisplay(const Slot&);
 };
-
-class ConsoleClassicCraftingScreen : public ContainerScreen
-{
-
-public:
-    ConsoleClassicCraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level);
-
-    void init() override;
-    void renderBackground() override;
-
-protected:
-    void _renderLabels() override;
-    void _renderBg(float partialTick) override;
-    SlotDisplay _createSlotDisplay(const Slot&);
-};

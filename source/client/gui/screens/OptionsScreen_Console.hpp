@@ -20,10 +20,10 @@ public:
 	void removed() override;
 };
 
-class ConsoleSettingsScreen : public Screen
+class OptionsScreen_Console : public Screen
 {
 public:
-	ConsoleSettingsScreen(Screen*);
+	OptionsScreen_Console(Screen*);
 	void init() override;
 	void render(float) override;
 	bool handleBackEvent(bool) override;

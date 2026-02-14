@@ -26,7 +26,7 @@ void DeathScreen::_buttonClicked(Button* pButton)
 		m_pMinecraft->m_pLocalPlayer->respawn();
 		m_pMinecraft->setScreen(nullptr);
 	}
-	if (pButton->getId() == m_btnTitle.getId())
+	else if (pButton->getId() == m_btnTitle.getId())
 	{
 		m_pMinecraft->leaveGame(false);
 	}

@@ -1,15 +1,15 @@
-#include "ConsoleProgressScreen.hpp"
+#include "ProgressScreen_Console.hpp"
 #include "client/resources/LoadingTipManager.hpp"
 #include "client/locale/Language.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 
-bool ConsoleProgressScreen::isInGameScreen()
+bool ProgressScreen_Console::isInGameScreen()
 {
 	return false;
 }
 
-void ConsoleProgressScreen::init()
+void ProgressScreen_Console::init()
 {
 	m_uiTheme = UI_CONSOLE;
 	Screen::init();
@@ -17,7 +17,7 @@ void ConsoleProgressScreen::init()
 	m_header = Language::get("loading.initializing");
 }
 
-void ConsoleProgressScreen::render(float f)
+void ProgressScreen_Console::render(float f)
 {
 	renderMenuBackground(f);
 
@@ -64,7 +64,7 @@ void ConsoleProgressScreen::render(float f)
 	LogoRenderer::singleton().render(f);
 }
 
-void ConsoleProgressScreen::updateEvents()
+void ProgressScreen_Console::updateEvents()
 {
 	if (m_pMinecraft->isLevelGenerated())
 	{

@@ -14,6 +14,7 @@
 #include "common/Timer.hpp"
 #include "client/gui/Gui.hpp"
 #include "client/gui/Screen.hpp"
+#include "client/gui/ScreenChooser.hpp"
 #include "network/RakNetInstance.hpp"
 #include "network/NetEventCallback.hpp"
 #include "client/player/input/IInputHolder.hpp"
@@ -29,7 +30,6 @@
 #include "world/gamemode/GameMode.hpp"
 #include "world/gamemode/GameType.hpp"
 #include "world/particle/ParticleEngine.hpp"
-#include "client/gui/screens/ScreenChooser.hpp"
 
 class Screen; // in case we're included from Screen.hpp
 

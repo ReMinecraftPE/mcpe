@@ -3,20 +3,19 @@
 #include "PanelScreen.hpp"
 #include "client/gui/components/Button.hpp"
 
-class ConsoleMainScreen : public Screen
+class PauseScreen_Console : public Screen
 {
 public:
-	ConsoleMainScreen();
+	PauseScreen_Console();
 	void init() override;
 	void render(float) override;
 	void _buttonClicked(Button*) override;
 
 private:
-	Button m_btnPlayGame;
+	Button m_btnResume;
+	Button m_btnHelpAndOptions;
 	Button m_btnLeaderboards;
 	Button m_btnAchievements;
-	Button m_btnHelpAndOptions;
-	Button m_btnDownload;
+	Button m_btnSaveGame;
 	Button m_btnExitGame;
-	std::string m_splash;
 };

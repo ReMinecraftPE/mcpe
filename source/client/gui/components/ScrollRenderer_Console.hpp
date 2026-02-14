@@ -4,10 +4,10 @@
 #include "../GuiComponent.hpp"
 #include "common/Mth.hpp"
 
-class ConsoleScrollRenderer : public GuiComponent
+class ScrollRenderer_Console : public GuiComponent
 {
 public:
-    ConsoleScrollRenderer();
+    ScrollRenderer_Console();
 
 public:
     void updateScroll(AreaNavigation::Direction);

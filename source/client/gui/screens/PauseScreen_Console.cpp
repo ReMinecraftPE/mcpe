@@ -1,8 +1,8 @@
-#include "ConsolePauseScreen.hpp"
+#include "PauseScreen_Console.hpp"
 #include "client/locale/Language.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
-ConsolePauseScreen::ConsolePauseScreen() :
+PauseScreen_Console::PauseScreen_Console() :
 	m_btnResume(Language::get("pauseMenu.resume")),
 	m_btnHelpAndOptions(Language::get("mainMenu.helpAndOptions")),
 	m_btnLeaderboards(Language::get("mainMenu.leaderboards")),
@@ -17,7 +17,7 @@ ConsolePauseScreen::ConsolePauseScreen() :
 	m_uiTheme = UI_CONSOLE;
 }
 
-void ConsolePauseScreen::init()
+void PauseScreen_Console::init()
 {
 	Button* layoutButtons[] = { &m_btnResume, &m_btnLeaderboards, &m_btnAchievements, &m_btnHelpAndOptions, &m_btnSaveGame, &m_btnExitGame };
 
@@ -37,14 +37,14 @@ void ConsolePauseScreen::init()
 	}
 }
 
-void ConsolePauseScreen::render(float f)
+void PauseScreen_Console::render(float f)
 {
 	renderBackground();
 	LogoRenderer::singleton().render(f);
 	Screen::render(f);
 }
 
-void ConsolePauseScreen::_buttonClicked(Button* btn)
+void PauseScreen_Console::_buttonClicked(Button* btn)
 {
 	if (btn->getId() == m_btnResume.getId())
 		m_pMinecraft->resumeGame();

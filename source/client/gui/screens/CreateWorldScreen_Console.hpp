@@ -6,10 +6,10 @@
 #include "client/gui/components/SliderButton.hpp"
 #include "client/gui/components/TextBox.hpp"
 
-class ConsoleCreateWorldScreen : public PanelScreen
+class CreateWorldScreen_Console : public PanelScreen
 {
 public:
-	ConsoleCreateWorldScreen(Options&, Screen*);
+	CreateWorldScreen_Console(Options&, Screen*);
 
 protected:
 	void _buttonClicked(Button* pButton) override;

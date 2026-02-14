@@ -95,9 +95,12 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/ScreenChooser.cpp
     client/gui/screens/CreditsScreen.cpp
     client/gui/screens/OptionsScreen.cpp
+    client/gui/screens/OptionsScreen_Console.cpp
     client/gui/screens/StartMenuScreen.cpp
+    client/gui/screens/StartMenuScreen_Console.cpp
     client/gui/screens/ConvertWorldScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
+    client/gui/screens/CreateWorldScreen_Console.cpp
     client/gui/screens/DirectConnectScreen.cpp
     client/gui/screens/DisconnectionScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
@@ -109,17 +112,14 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/ChatScreen.cpp
     client/gui/screens/RenameMPLevelScreen.cpp
     client/gui/screens/ProgressScreen.cpp
+    client/gui/screens/ProgressScreen_Console.cpp
     client/gui/screens/JoinGameScreen.cpp
     client/gui/screens/IngameBlockSelectionScreen.cpp
     client/gui/screens/PauseScreen.cpp
+    client/gui/screens/PauseScreen_Console.cpp
     client/gui/screens/DeathScreen.cpp
     client/gui/screens/PanelScreen.cpp
     client/gui/screens/PlayGameScreen.cpp
-    client/gui/screens/ConsoleSettingsScreen.cpp
-    client/gui/screens/ConsoleCreateWorldScreen.cpp
-    client/gui/screens/ConsoleMainScreen.cpp
-    client/gui/screens/ConsolePauseScreen.cpp
-    client/gui/screens/ConsoleProgressScreen.cpp
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp
     client/gui/screens/inventory/CraftingScreen.cpp
@@ -136,7 +136,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/TickBox.cpp
     client/gui/components/WorldSelectionList.cpp
     client/gui/components/OptionList.cpp
-    client/gui/components/ConsoleScrollRenderer.cpp
+    client/gui/components/ScrollRenderer_Console.cpp
     client/locale/Language.cpp
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp

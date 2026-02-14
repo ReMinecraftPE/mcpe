@@ -45,10 +45,10 @@ public:
 	PingedCompatibleServer m_server;
 };
 
-class PlayGameScreen : public PanelScreen
+class SelectWorldScreen_Console : public PanelScreen
 {
 public:
-	PlayGameScreen(Minecraft*, Screen*);
+	SelectWorldScreen_Console(Minecraft*, Screen*);
 
 	void init() override;
 	void fillSaves(Minecraft*);

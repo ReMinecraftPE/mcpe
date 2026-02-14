@@ -1282,7 +1282,7 @@ ScreenChooser* Minecraft::getScreenChooser()
 	if (!m_pScreenChooser || m_pScreenChooser->m_uiTheme != getOptions()->getUiTheme())
 	{
 		SAFE_DELETE(m_pScreenChooser);
-		m_pScreenChooser = ScreenChooser::create(this);
+		m_pScreenChooser = ScreenChooser::Create(this);
 	}
 	return m_pScreenChooser;
 }

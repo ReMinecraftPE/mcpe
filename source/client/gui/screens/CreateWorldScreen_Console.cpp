@@ -1,9 +1,9 @@
-#include "ConsoleCreateWorldScreen.hpp"
+#include "CreateWorldScreen_Console.hpp"
 #include "common/Util.hpp"
 #include "client/locale/Language.hpp"
 #include "CreateWorldScreen.hpp"
 
-ConsoleCreateWorldScreen::ConsoleCreateWorldScreen(Options& options, Screen* parent) :
+CreateWorldScreen_Console::CreateWorldScreen_Console(Options& options, Screen* parent) :
 	PanelScreen(parent),
 	m_onlineGame(0, 0, true, Language::get("playGame.online")),
 	m_inviteOnly(0, 0, false, Language::get("playGame.inviteOnly")),
@@ -16,7 +16,7 @@ ConsoleCreateWorldScreen::ConsoleCreateWorldScreen(Options& options, Screen* par
 	m_inviteOnly.setEnabled(false);
 }
 
-void ConsoleCreateWorldScreen::_buttonClicked(Button* pButton)
+void CreateWorldScreen_Console::_buttonClicked(Button* pButton)
 {
 	if (pButton->getId() == m_btnCreate.getId())
 	{
@@ -43,7 +43,7 @@ void ConsoleCreateWorldScreen::_buttonClicked(Button* pButton)
 	}
 }
 
-void ConsoleCreateWorldScreen::init()
+void CreateWorldScreen_Console::init()
 {
 	m_panel.w = 450;
 	m_panel.h = 390;
@@ -79,7 +79,7 @@ void ConsoleCreateWorldScreen::init()
 	m_textSeed.init(m_pFont);
 }
 
-void ConsoleCreateWorldScreen::render(float f)
+void CreateWorldScreen_Console::render(float f)
 {
 	PanelScreen::render(f);
 
@@ -89,7 +89,7 @@ void ConsoleCreateWorldScreen::render(float f)
 	font.drawScalable(Language::get("selectWorld.seedInfo"), m_textSeed.m_xPos + 1, m_textSeed.m_yPos + 41, Color::TEXT_GREY);
 }
 
-void ConsoleCreateWorldScreen::renderPanel(float f)
+void CreateWorldScreen_Console::renderPanel(float f)
 {
 	blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_SLICES, m_panel.x, m_panel.y, m_panel.w, m_panel.h, 32);
 }

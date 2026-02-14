@@ -1,10 +1,10 @@
-#include "ConsoleMainScreen.hpp"
+#include "StartMenuScreen_Console.hpp"
 #include "client/locale/Language.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 #include "client/resources/SplashManager.hpp"
-#include "PlayGameScreen.hpp"
+#include "SelectWorldScreen_Console.hpp"
 
-ConsoleMainScreen::ConsoleMainScreen() :
+StartMenuScreen_Console::StartMenuScreen_Console() :
 	m_btnPlayGame(Language::get("mainMenu.playGame")),
 	m_btnLeaderboards(Language::get("mainMenu.leaderboards")),
 	m_btnAchievements(Language::get("mainMenu.achievements")),
@@ -22,7 +22,7 @@ ConsoleMainScreen::ConsoleMainScreen() :
 	m_splash = SplashManager::singleton().getSplash();
 }
 
-void ConsoleMainScreen::init()
+void StartMenuScreen_Console::init()
 {
 	Button* layoutButtons[] = { &m_btnPlayGame, &m_btnLeaderboards, &m_btnAchievements, &m_btnHelpAndOptions, &m_btnDownload, &m_btnExitGame };
 
@@ -42,7 +42,7 @@ void ConsoleMainScreen::init()
 	}
 }
 
-void ConsoleMainScreen::render(float f)
+void StartMenuScreen_Console::render(float f)
 {
 	renderBackground();
 	LogoRenderer::singleton().render(f);
@@ -61,12 +61,12 @@ void ConsoleMainScreen::render(float f)
 	Screen::render(f);
 }
 
-void ConsoleMainScreen::_buttonClicked(Button* btn)
+void StartMenuScreen_Console::_buttonClicked(Button* btn)
 {
 	if (btn->getId() == m_btnPlayGame.getId())
 	{
 		m_pMinecraft->locateMultiplayer();
-		m_pMinecraft->setScreen(new PlayGameScreen(m_pMinecraft, this));
+		m_pMinecraft->setScreen(new SelectWorldScreen_Console(m_pMinecraft, this));
 	}
 	else if (btn->getId() == m_btnHelpAndOptions.getId())
 		m_pMinecraft->getScreenChooser()->pushOptionsScreen(this);

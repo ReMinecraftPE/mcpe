@@ -2,7 +2,7 @@
 
 #include "Screen.hpp"
 #include "IntRectangle.hpp"
-#include "components/ConsoleScrollRenderer.hpp"
+#include "components/ScrollRenderer_Console.hpp"
 
 //@TODO: create an abstraction for this, like GuiElementContainer
 class VerticalLayout : public GuiElement
@@ -52,7 +52,7 @@ public:
     GuiElementList m_elements;
     GuiElement* m_pSelectedElement;
     GuiElement* m_pClickedElement;
-    ConsoleScrollRenderer m_scrollRenderer;
+    ScrollRenderer_Console m_scrollRenderer;
     int m_spacing;
     bool m_bCyclic;
     ID m_scrollAmount;
