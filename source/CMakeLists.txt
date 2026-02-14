@@ -92,7 +92,8 @@ add_library(reminecraftpe-core STATIC
     client/sound/SoundRepository.cpp
     client/sound/SoundEngine.cpp
     client/gui/Screen.cpp
-    client/gui/screens/ScreenChooser.cpp
+    client/gui/ScreenChooser.cpp
+    client/gui/ScreenChooser_Console.cpp
     client/gui/screens/CreditsScreen.cpp
     client/gui/screens/OptionsScreen.cpp
     client/gui/screens/OptionsScreen_Console.cpp
