@@ -352,6 +352,6 @@ void ScrolledSelectionList::setRenderHeader(bool b, int i)
 
 void ScrolledSelectionList::handleScrollWheel(float force)
 {
-	float diff = 5.0f * force;
+	float diff = 16.0f * force;
 	m_accumulatedScroll -= diff;
 }
