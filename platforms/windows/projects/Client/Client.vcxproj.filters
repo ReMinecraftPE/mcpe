@@ -629,7 +629,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\VerticalLayout.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\ScrollRenderer_Console.hpp">
@@ -641,7 +641,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp">
       <Filter>Header Files\App</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen_Console.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\resources\SplashManager.hpp">
@@ -1159,7 +1159,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\AreaNavigation.cpp">
@@ -1171,7 +1171,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TickBox.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen_Console.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\resources\SplashManager.cpp">

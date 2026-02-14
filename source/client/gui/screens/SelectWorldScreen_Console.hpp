@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PanelScreen.hpp"
+#include "PanelScreen_Console.hpp"
 #include "client/gui/components/Button.hpp"
 #include "network/PingedCompatibleServer.hpp"
 
@@ -45,7 +45,7 @@ public:
 	PingedCompatibleServer m_server;
 };
 
-class SelectWorldScreen_Console : public PanelScreen
+class SelectWorldScreen_Console : public PanelScreen_Console
 {
 public:
 	SelectWorldScreen_Console(Minecraft*, Screen*);

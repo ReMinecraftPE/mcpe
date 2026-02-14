@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PanelScreen.hpp"
+#include "../Screen.hpp"
 #include "client/gui/components/Button.hpp"
 
 class PauseScreen_Console : public Screen

@@ -864,8 +864,10 @@ void Screen::renderBackground(int vo)
 	}
 	else
 	{
-		if (m_uiTheme == UI_CONSOLE) renderConsolePanorama();
-		else renderDirtBackground(vo);
+		if (m_uiTheme == UI_CONSOLE)
+			renderConsolePanorama();
+		else
+			renderDirtBackground(vo);
 	}
 }
 

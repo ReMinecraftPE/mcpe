@@ -5,10 +5,10 @@
 
 #include "../VerticalLayout.hpp"
 
-class PanelScreen : public Screen
+class PanelScreen_Console : public Screen
 {
 public:
-	PanelScreen(Screen*);
+	PanelScreen_Console(Screen*);
 
 public:
 	void init() override;

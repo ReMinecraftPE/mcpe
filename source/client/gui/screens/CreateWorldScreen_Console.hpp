@@ -1,12 +1,12 @@
 #pragma once
 
-#include "PanelScreen.hpp"
+#include "PanelScreen_Console.hpp"
 #include "client/gui/components/Button.hpp"
 #include "client/gui/components/TickBox.hpp"
 #include "client/gui/components/SliderButton.hpp"
 #include "client/gui/components/TextBox.hpp"
 
-class CreateWorldScreen_Console : public PanelScreen
+class CreateWorldScreen_Console : public PanelScreen_Console
 {
 public:
 	CreateWorldScreen_Console(Options&, Screen*);

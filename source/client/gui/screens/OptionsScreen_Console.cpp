@@ -72,7 +72,7 @@ void OptionsScreen_Console::_buttonClicked(Button* btn)
 
 #define OPTION(name) do { options.name.addGuiElement(m_layout.m_elements, m_uiTheme); currentIndex++; } while (0)
 
-ControlsPanelScreen::ControlsPanelScreen(Screen* parent, Minecraft* mc) : PanelScreen(parent)
+ControlsPanelScreen::ControlsPanelScreen(Screen* parent, Minecraft* mc) : PanelScreen_Console(parent)
 {
 	Options& options = *mc->getOptions();
 	int currentIndex = -1;
@@ -94,7 +94,7 @@ void ControlsPanelScreen::removed()
 	m_pMinecraft->saveOptionsAsync();
 }
 
-SettingsPanelScreen::SettingsPanelScreen(Screen* parent, Options& options) : PanelScreen(parent)
+SettingsPanelScreen::SettingsPanelScreen(Screen* parent, Options& options) : PanelScreen_Console(parent)
 {
 	int currentIndex = 0;
 
@@ -124,7 +124,7 @@ SettingsPanelScreen::SettingsPanelScreen(Screen* parent, Options& options) : Pan
 
 void SettingsPanelScreen::render(float f)
 {
-	PanelScreen::render(f);
+	PanelScreen_Console::render(f);
 
 	constexpr int difficultyPanelWidth = 701;
 	constexpr int difficultyPanelHeight = 111;

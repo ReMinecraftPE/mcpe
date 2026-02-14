@@ -2,7 +2,7 @@
 #include "client/locale/Language.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-SelectWorldScreen_Console::SelectWorldScreen_Console(Minecraft* mc, Screen* parent) : PanelScreen(parent),
+SelectWorldScreen_Console::SelectWorldScreen_Console(Minecraft* mc, Screen* parent) : PanelScreen_Console(parent),
 	m_joinLayout(this)
 {
 	fillSaves(mc);
@@ -114,12 +114,12 @@ bool SelectWorldScreen_Console::handleBackEvent(bool b)
 {
 	if (!b)
 		m_pMinecraft->cancelLocateMultiplayer();
-	return PanelScreen::handleBackEvent(b);
+	return PanelScreen_Console::handleBackEvent(b);
 }
 
 void SelectWorldScreen_Console::renderPanel(float f)
 {
-	PanelScreen::renderPanel(f);
+	PanelScreen_Console::renderPanel(f);
 	blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_RECESS_SLICES, m_startPanel.x, m_startPanel.y, m_startPanel.w, m_startPanel.h, 16);
 	currentShaderColor.a = 0.5f;
 	blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_RECESS_SLICES, m_joinPanel.x, m_joinPanel.y, m_joinPanel.w, m_joinPanel.h, 16, &m_materials.ui_textured_and_glcolor);

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "PanelScreen.hpp"
+#include "PanelScreen_Console.hpp"
 #include "client/gui/components/Button.hpp"
 
-class ControlsPanelScreen : public PanelScreen
+class ControlsPanelScreen : public PanelScreen_Console
 {
 public:
 	ControlsPanelScreen(Screen*, Minecraft*);
@@ -11,7 +11,7 @@ public:
 	void removed() override;
 };
 
-class SettingsPanelScreen : public PanelScreen
+class SettingsPanelScreen : public PanelScreen_Console
 {
 public:
 	SettingsPanelScreen(Screen*, Options&);

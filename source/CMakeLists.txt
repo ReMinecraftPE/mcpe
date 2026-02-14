@@ -104,6 +104,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/DirectConnectScreen.cpp
     client/gui/screens/DisconnectionScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
+    client/gui/screens/SelectWorldScreen_Console.cpp
     client/gui/screens/SavingWorldScreen.cpp
     client/gui/screens/InvalidLicenseScreen.cpp
     client/gui/screens/ConfirmScreen.cpp
@@ -118,11 +119,11 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/PauseScreen.cpp
     client/gui/screens/PauseScreen_Console.cpp
     client/gui/screens/DeathScreen.cpp
-    client/gui/screens/PanelScreen.cpp
-    client/gui/screens/PlayGameScreen.cpp
+    client/gui/screens/PanelScreen_Console.cpp
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp
     client/gui/screens/inventory/CraftingScreen.cpp
+    client/gui/screens/inventory/ClassicCraftingScreen_Console.cpp
     client/gui/screens/inventory/ChestScreen.cpp
     client/gui/components/ScrolledSelectionList.cpp
     client/gui/components/AvailableGamesList.cpp

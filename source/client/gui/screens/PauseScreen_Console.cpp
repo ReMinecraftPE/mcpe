@@ -51,7 +51,7 @@ void PauseScreen_Console::_buttonClicked(Button* btn)
 	else if (btn->getId() == m_btnHelpAndOptions.getId())
 		m_pMinecraft->getScreenChooser()->pushOptionsScreen(this);
 	else if (btn->getId() == m_btnSaveGame.getId())
-		m_pMinecraft->m_pLevel->saveGame();
+		m_pMinecraft->m_pLevel->saveGame(); // Minecraft auto-saves automatically when we hit the pause screen
 	else if (btn->getId() == m_btnExitGame.getId())
 		m_pMinecraft->leaveGame(false);
 }

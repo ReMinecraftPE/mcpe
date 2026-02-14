@@ -4,7 +4,7 @@
 #include "CreateWorldScreen.hpp"
 
 CreateWorldScreen_Console::CreateWorldScreen_Console(Options& options, Screen* parent) :
-	PanelScreen(parent),
+	PanelScreen_Console(parent),
 	m_onlineGame(0, 0, true, Language::get("playGame.online")),
 	m_inviteOnly(0, 0, false, Language::get("playGame.inviteOnly")),
 	m_textName(this, 0, 0, 400, 38, "", "New World"),
@@ -81,7 +81,7 @@ void CreateWorldScreen_Console::init()
 
 void CreateWorldScreen_Console::render(float f)
 {
-	PanelScreen::render(f);
+	PanelScreen_Console::render(f);
 
 	Font& font = *m_pFont;
 	font.drawScalable(Language::get("selectWorld.enterName"), m_textName.m_xPos + 1, m_textName.m_yPos - 19, Color::TEXT_GREY);

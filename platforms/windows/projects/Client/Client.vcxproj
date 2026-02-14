@@ -247,9 +247,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\ScreenChooser_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen_Console.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\VerticalLayout.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen_Console.hpp" />
@@ -424,9 +424,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\ScreenChooser_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen_Console.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen_Console.cpp" />
