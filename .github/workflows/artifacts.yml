@@ -62,66 +62,66 @@ jobs:
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
-    linux32:
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                  - name: SDL 2 (OGL)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl2-dev:i386'
-                  - name: SDL 2 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
-                    packages: 'libsdl2-dev:i386'
-        name: Linux 32-bit (${{ matrix.name }})
-        runs-on: ubuntu-24.04
-        steps:
-          - name: Get Time
-            id: get-time
-            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
-          - uses: actions/cache@v5
-            with:
-              path: ~/ccache.tar.xz
-              key: linux32-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
-              restore-keys: linux32-artifact-${{ matrix.name }}-
-          - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
-          - name: Install Dependencies
-            run: |
-                sudo dpkg --add-architecture i386
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y \
-                    build-essential \
-                    cmake ninja-build \
-                    ccache \
-                    gcc-multilib g++-multilib \
-                    libopenal-dev:i386 \
-                    zlib1g-dev:i386 \
-                    ${{ matrix.packages }}
-          - name: Build
-            run: |
-                mkdir build
-                cd build
-                cmake .. -GNinja \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-                    -DCMAKE_C_FLAGS='-m32' \
-                    -DCMAKE_CXX_FLAGS='-m32' \
-                    ${{ matrix.flags }}
-                cmake --build .
-          - uses: actions/upload-artifact@v6
-            with:
-              name: Linux 32-bit (${{ matrix.name }})
-              path: |
-                build/reminecraftpe
-                build/assets
-          - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+    # linux32:
+    #     strategy:
+    #         fail-fast: false
+    #         matrix:
+    #             include:
+    #               - name: SDL 2 (OGL)
+    #                 flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+    #                 packages: 'libsdl2-dev:i386'
+    #               - name: SDL 2 (OGL + Shaders)
+    #                 flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
+    #                 packages: 'libsdl2-dev:i386'
+    #     name: Linux 32-bit (${{ matrix.name }})
+    #     runs-on: ubuntu-24.04
+    #     steps:
+    #       - name: Get Time
+    #         id: get-time
+    #         run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+    #       - uses: actions/cache@v5
+    #         with:
+    #           path: ~/ccache.tar.xz
+    #           key: linux32-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+    #           restore-keys: linux32-artifact-${{ matrix.name }}-
+    #       - name: Unpack cache
+    #         run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+    #       - name: Checkout Repository
+    #         uses: actions/checkout@v6
+    #         with:
+    #             submodules: true
+    #       - name: Install Dependencies
+    #         run: |
+    #             sudo dpkg --add-architecture i386
+    #             sudo apt-get update
+    #             sudo apt-get install --no-install-recommends -y \
+    #                 build-essential \
+    #                 cmake ninja-build \
+    #                 ccache \
+    #                 gcc-multilib g++-multilib \
+    #                 libopenal-dev:i386 \
+    #                 zlib1g-dev:i386 \
+    #                 ${{ matrix.packages }}
+    #       - name: Build
+    #         run: |
+    #             mkdir build
+    #             cd build
+    #             cmake .. -GNinja \
+    #                 -DCMAKE_BUILD_TYPE=Release \
+    #                 -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    #                 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    #                 -DCMAKE_C_FLAGS='-m32' \
+    #                 -DCMAKE_CXX_FLAGS='-m32' \
+    #                 ${{ matrix.flags }}
+    #             cmake --build .
+    #       - uses: actions/upload-artifact@v6
+    #         with:
+    #           name: Linux 32-bit (${{ matrix.name }})
+    #           path: |
+    #             build/reminecraftpe
+    #             build/assets
+    #       - name: Pack cache
+    #         run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     macos:
         strategy:

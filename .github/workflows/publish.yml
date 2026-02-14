@@ -50,54 +50,54 @@ jobs:
             with:
               asset_paths: '["ReMCPE-Linux-x86_64.tar.gz"]'
 
-    linux32:
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                  - name: SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl2-dev:i386'
-        name: Linux 32-bit (${{ matrix.name }})
-        runs-on: ubuntu-24.04
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
-          - name: Install Dependencies
-            run: |
-                sudo dpkg --add-architecture i386
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y \
-                    build-essential \
-                    cmake ninja-build \
-                    gcc-multilib g++-multilib \
-                    libopenal-dev:i386 \
-                    zlib1g-dev:i386 \
-                    ${{ matrix.packages }}
-          - name: Build
-            run: |
-                mkdir build
-                cd build
-                cmake .. -GNinja \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-                    -DCMAKE_C_FLAGS='-m32' \
-                    -DCMAKE_CXX_FLAGS='-m32' \
-                    ${{ matrix.flags }}
-                cmake --build .
-                strip reminecraftpe
-          - name: Pack release
-            run: |
-                mkdir ReMCPE
-                mv game/assets build/reminecraftpe ReMCPE
-                tar -czf ReMCPE-Linux-x86.tar.gz ReMCPE
-          - uses: alexellis/upload-assets@0.4.1
-            env:
-              GITHUB_TOKEN: ${{ github.token }}
-            with:
-              asset_paths: '["ReMCPE-Linux-x86.tar.gz"]'
+    # linux32:
+    #     strategy:
+    #         fail-fast: false
+    #         matrix:
+    #             include:
+    #               - name: SDL 2
+    #                 flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+    #                 packages: 'libsdl2-dev:i386'
+    #     name: Linux 32-bit (${{ matrix.name }})
+    #     runs-on: ubuntu-24.04
+    #     steps:
+    #       - name: Checkout Repository
+    #         uses: actions/checkout@v6
+    #         with:
+    #             submodules: true
+    #       - name: Install Dependencies
+    #         run: |
+    #             sudo dpkg --add-architecture i386
+    #             sudo apt-get update
+    #             sudo apt-get install --no-install-recommends -y \
+    #                 build-essential \
+    #                 cmake ninja-build \
+    #                 gcc-multilib g++-multilib \
+    #                 libopenal-dev:i386 \
+    #                 zlib1g-dev:i386 \
+    #                 ${{ matrix.packages }}
+    #       - name: Build
+    #         run: |
+    #             mkdir build
+    #             cd build
+    #             cmake .. -GNinja \
+    #                 -DCMAKE_BUILD_TYPE=Release \
+    #                 -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    #                 -DCMAKE_C_FLAGS='-m32' \
+    #                 -DCMAKE_CXX_FLAGS='-m32' \
+    #                 ${{ matrix.flags }}
+    #             cmake --build .
+    #             strip reminecraftpe
+    #       - name: Pack release
+    #         run: |
+    #             mkdir ReMCPE
+    #             mv game/assets build/reminecraftpe ReMCPE
+    #             tar -czf ReMCPE-Linux-x86.tar.gz ReMCPE
+    #       - uses: alexellis/upload-assets@0.4.1
+    #         env:
+    #           GITHUB_TOKEN: ${{ github.token }}
+    #         with:
+    #           asset_paths: '["ReMCPE-Linux-x86.tar.gz"]'
 
     macos:
         strategy:
