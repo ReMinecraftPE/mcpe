@@ -16,6 +16,7 @@
 #include "network/RakIO.hpp"
 #include "world/entity/EntityFactory.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/entity/TileEntity.hpp"
 #include "thirdparty/raknet/GetTime.h"
 
 #ifndef DEMO
@@ -335,6 +336,22 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 							level->addEntity(entity);
 					}
 				}
+
+				const ListTag* tileEntitiesTag = tag->getList("TileEntities");
+				if (tileEntitiesTag)
+				{
+					const std::vector<Tag*>& tileEntities = tileEntitiesTag->rawView();
+					for (std::vector<Tag*>::const_iterator it = tileEntities.begin(); it != tileEntities.end(); it++)
+					{
+						const Tag* betterTag = *it;
+						if (!betterTag || betterTag->getId() != Tag::TAG_TYPE_COMPOUND)
+							continue;
+
+						TileEntity* tileEntity = TileEntity::LoadTileEntity(*(CompoundTag*)betterTag);
+						if (tileEntity)
+							level->setTileEntity(tileEntity->m_pos, tileEntity);
+					}
+				}
 			}
             
             tag->deleteChildren();
@@ -395,8 +412,21 @@ void ExternalFileLevelStorage::saveEntities(Level* level, LevelChunk* chunk)
 		entitiesTag->add(tag);
 	}
 
+	ListTag* tileEntitiesTag = new ListTag();
+
+	const TileEntityVector* tileEntities = level->getAllTileEntities();
+	for (TileEntityVector::const_iterator it = tileEntities->begin(); it != tileEntities->end(); it++)
+	{
+		const TileEntity* tileEntity = *it;
+		CompoundTag* tag = new CompoundTag();
+
+		tileEntity->save(*tag);
+		tileEntitiesTag->add(tag);
+	}
+
 	CompoundTag tag = CompoundTag();
 	tag.put("Entities", entitiesTag);
+	tag.put("TileEntities", tileEntitiesTag);
 	RakNet::BitStream bs;
 	RakDataOutput dos = RakDataOutput(bs);
 	NbtIo::write(tag, dos);

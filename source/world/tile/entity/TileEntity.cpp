@@ -10,7 +10,7 @@ TileEntity::~TileEntity()
 {
 }
 
-TileEntity* TileEntity::loadStatic(const CompoundTag& tag)
+TileEntity* TileEntity::LoadTileEntity(const CompoundTag& tag)
 {
     if (!tag.contains("id"))
     {
@@ -39,7 +39,7 @@ void TileEntity::load(const CompoundTag& tag)
     m_pos.z = tag.getInt32("z");
 }
 
-void TileEntity::save(CompoundTag& tag)
+void TileEntity::save(CompoundTag& tag) const
 {
     tag.putString("id", getId());
     tag.putInt32("x", m_pos.x);

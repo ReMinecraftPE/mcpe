@@ -60,7 +60,7 @@
 #include "DeadBush.hpp"
 //#include "Fern.hpp"
 #include "CactusTile.hpp"
-//#include "ChestTile.hpp"
+#include "ChestTile.hpp"
 #include "PumpkinTile.hpp"
 #include "SoulSandTile.hpp"
 #include "GlowstoneTile.hpp"
@@ -809,6 +809,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("furnace");
 
+	Tile::chest = (new ChestTile(TILE_CHEST, TEXTURE_CHEST_ONE_SIDE))
+		->init()
+		->setDestroyTime(2.5f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("chest");
+
 	// Great
 	Item::items[Tile::cloth->m_ID] = (new ClothItem(Tile::cloth->m_ID - C_MAX_TILES))
 		->setDescriptionId("cloth");
@@ -1306,4 +1312,5 @@ Tile
 	*Tile::craftingTable,
 	*Tile::crops,
 	*Tile::furnace,
-	*Tile::furnaceLit;
+	*Tile::furnaceLit,
+	*Tile::chest;

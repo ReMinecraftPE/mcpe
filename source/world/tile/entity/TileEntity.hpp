@@ -20,7 +20,7 @@ protected:
 
 public:
     virtual void load(const CompoundTag& tag);
-    virtual void save(CompoundTag& tag);
+    virtual void save(CompoundTag& tag) const;
     virtual void tick();
     virtual Packet* getUpdatePacket();
     const TileEntityType* getType() const;
@@ -28,8 +28,9 @@ public:
     virtual Tile* getTile() const;
 
 public:
-    static TileEntity* loadStatic(const CompoundTag& tag);
+    static TileEntity* LoadTileEntity(const CompoundTag& tag);
 
+public:
     float distanceToSqr(const Vec3& vec) const;
     bool isRemoved() const;
     void setRemoved();

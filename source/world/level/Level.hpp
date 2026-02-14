@@ -38,6 +38,7 @@ class Packet;
 class MobSpawner;
 
 typedef std::vector<Entity*> EntityVector;
+typedef std::vector<TileEntity*> TileEntityVector;
 typedef std::vector<AABB> AABBVector;
 
 struct Brightness
@@ -73,6 +74,7 @@ public:
 	int getRawBrightness(const TilePos& pos) const;
 	int getRawBrightness(const TilePos& pos, bool b) const;
 	TileEntity* getTileEntity(const TilePos& pos) const override;
+	const TileEntityVector* getAllTileEntities() const;
 	void setTileEntity(const TilePos& pos, TileEntity* tileEntity);
 	void removeTileEntity(const TilePos& pos);
 	int getBrightness(const LightLayer&, const TilePos& pos) const;
@@ -241,7 +243,7 @@ public:
 	MobSpawner* m_pMobSpawner;
 
 	std::map<EntityCategories::CategoriesMask, int> m_entityCountsByCategory;
-	std::vector<TileEntity*> m_tileEntityList;
-	std::vector<TileEntity*> m_pendingTileEntities;
+	TileEntityVector m_tileEntityList;
+	TileEntityVector m_pendingTileEntities;
 };
 

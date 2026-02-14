@@ -17,7 +17,8 @@ public:
     bool stillValid(Player* player) const override;
     void setChanged() override;
     void load(const CompoundTag& tag) override;
-    void save(CompoundTag& tag) override;
+    void save(CompoundTag& tag) const override;
+    std::string getName() const override;
 
 public:
     void burn();

@@ -14,7 +14,6 @@ protected:
     void _renderBg(float a) override;
 
 private:
-    float ticker;
     Inventory* m_inventory;
     FurnaceTileEntity* m_furnace;
 };

@@ -101,11 +101,19 @@ void FurnaceTile::setPlacedBy(Level* level, const TilePos& pos, Mob* mob)
 	level->setData(pos, data);
 }
 
-void FurnaceTile::onRemove(Level* level, const TilePos& pos) {
+void FurnaceTile::onRemove(Level* level, const TilePos& pos)
+{
 	if (keepInventory)
         return;
 
-	FurnaceTileEntity* furnace = static_cast<FurnaceTileEntity*>(level->getTileEntity(pos));
+    TileEntity* tileEnt = level->getTileEntity(pos);
+    
+    if (!tileEnt)
+    {
+        return; // this has to be wrapped in a guard or the compiler screams, thanks -Wmisleading-indentation
+    }
+
+	FurnaceTileEntity* furnace = static_cast<FurnaceTileEntity*>(tileEnt);
 	for (int i = 0; i < furnace->getContainerSize(); ++i)
     {
 		ItemStack& item = furnace->getItem(i);

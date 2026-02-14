@@ -340,6 +340,7 @@ add_library(reminecraftpe-core STATIC
     world/item/crafting/ShapedRecipe.cpp
     world/item/crafting/ShapelessRecipe.cpp
     world/ContainerListener.cpp
+    world/Facing.cpp
     world/inventory/ContainerMenu.cpp
     world/inventory/InventoryMenu.cpp
     world/inventory/CraftingMenu.cpp
@@ -427,9 +428,11 @@ add_library(reminecraftpe-core STATIC
     world/tile/Web.cpp
     world/tile/FenceTile.cpp
     world/tile/CraftingTableTile.cpp
+    world/tile/ChestTile.cpp
     world/tile/FurnaceTile.cpp
     world/tile/entity/TileEntity.cpp
     world/tile/entity/TileEntityType.cpp
+    world/tile/entity/ChestTileEntity.cpp
     world/tile/entity/FurnaceTileEntity.cpp
     renderer/GL/GL.cpp
     renderer/Attribute.cpp

@@ -246,7 +246,8 @@ public: // static variables
 		* craftingTable,
 		* crops,
 		* furnace,
-		* furnaceLit;
+		* furnaceLit,
+		* chest;
 
 public:
 	int m_TextureFrame;

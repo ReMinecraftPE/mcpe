@@ -2,7 +2,7 @@
 
 #include "TileEntityType.hpp"
 #include "FurnaceTileEntity.hpp"
-// #include "ChestTileEntity.hpp"
+#include "ChestTileEntity.hpp"
 // #include "MobSpawnerTileEntity.hpp"
 // #include "DispenserTileEntity.hpp"
 // #include "SignTileEntity.hpp"
@@ -14,6 +14,7 @@ std::map<std::string, const TileEntityType*> TileEntityType::entityTypeNameMap;
 std::vector<const TileEntityType*> TileEntityType::entityTypes;
 
 TileEntityType* TileEntityType::furnace;
+TileEntityType* TileEntityType::chest;
 
 TileEntityType::TileEntityType(const std::string& name, FactoryFunction func) : m_name(name), m_function(func)
 {
@@ -52,7 +53,7 @@ const TileEntityType* TileEntityType::getByName(const std::string& name)
 void TileEntityType::initTileEntities()
 {
 	furnace = RegisterType<FurnaceTileEntity>("Furnace");
-	// chest = RegisterType<ChestTileEntity>("Chest");
+	chest = RegisterType<ChestTileEntity>("Chest");
 }
 
 void TileEntityType::teardownTileEntities()

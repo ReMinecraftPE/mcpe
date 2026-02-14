@@ -26,11 +26,9 @@ public:
 	virtual void clear();
 
 	virtual void load(const CompoundTag& tag);
-	virtual void save(CompoundTag& tag);
+	virtual void save(CompoundTag& tag) const;
 
 private:
 	std::vector<ItemStack> m_items;
 	std::string m_name;
 };
-
-

@@ -690,14 +690,18 @@ TileEntity* LevelChunk::getTileEntity(const ChunkTilePos& pos)
     if (it == m_tileEntities.end())
     {
 		int tileId = getTile(pos);
-		if (tileId <= 0 || !Tile::isEntityTile[tileId])
+		if (tileId <= TILE_AIR || !Tile::isEntityTile[tileId])
 			return nullptr;
+
 		TilePos tilePos(m_chunkPos, pos.y);
-		tilePos.x += pos.x;
-		tilePos.z += pos.z;
+		tilePos += TilePos(pos.x, 0, pos.z);
+
 		Tile* pTile = Tile::tiles[tileId];
 		pTile->onPlace(m_pLevel, tilePos);
-		return m_tileEntities[pos];
+		
+		// do a recheck to see if a tile entity was actually added.
+		it = m_tileEntities.find(pos);
+		return (it == m_tileEntities.end()) ? nullptr : it->second;
 	}
 
 	if (!it->second || it->second->isRemoved())

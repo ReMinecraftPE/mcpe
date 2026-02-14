@@ -101,12 +101,17 @@ void FurnaceTileEntity::load(const CompoundTag& tag)
     m_litDuration = FurnaceRecipes::singleton().getBurnDuration(getItem(1));
 }
 
-void FurnaceTileEntity::save(CompoundTag& tag) 
+void FurnaceTileEntity::save(CompoundTag& tag) const
 {
     TileEntity::save(tag);
     tag.putInt16("BurnTime", m_litTime);
     tag.putInt16("CookTime", m_tickCount);
     SimpleContainer::save(tag);
+}
+
+std::string FurnaceTileEntity::getName() const
+{
+    return "Furnace";
 }
 
 void FurnaceTileEntity::burn()

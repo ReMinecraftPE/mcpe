@@ -39,6 +39,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& 
 	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
+	m_tileEntityList = TileEntityVector();
 	m_bUpdatingTileEntities = false;
 	m_randValue = 42184323;
 	m_addend = 1013904223;
@@ -266,8 +267,14 @@ TileEntity* Level::getTileEntity(const TilePos& pos) const
 	return pChunk ? pChunk->getTileEntity(pos) : nullptr;
 }
 
+const TileEntityVector* Level::getAllTileEntities() const
+{
+	return &m_tileEntityList;
+}
+
 void Level::setTileEntity(const TilePos& pos, TileEntity* tileEntity)
 {
+
 	if (tileEntity->isRemoved())
 		return;
 

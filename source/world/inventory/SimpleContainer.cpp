@@ -78,14 +78,14 @@ void SimpleContainer::load(const CompoundTag& tag)
         {
             uint8_t slot = itemTag->getInt8("Slot") & 255;
             ItemStack item = ItemStack::fromTag(*itemTag);
-            if (itemTag->isEmpty() && slot >= 0 && slot < m_items.size())
+            if (!itemTag->isEmpty() && slot >= 0 && slot < m_items.size())
                 m_items[slot] = item;
         }
     }
     
 }
 
-void SimpleContainer::save(CompoundTag& tag)
+void SimpleContainer::save(CompoundTag& tag) const
 {
     ListTag* list = new ListTag;
 
