@@ -118,7 +118,7 @@ if [ -n "$outdated_toolchain" ]; then
     printf '\nBuilding ld64 and strip...\n\n'
 
     tapi_commit=640b4623929c923c0468143ff2a363a48665fa54
-    rm -rf cctools-port-*
+    rm -rf apple-libtapi-*
     wget -O- "https://github.com/tpoechtrager/apple-libtapi/archive/$tapi_commit.tar.gz" | tar -xz
 
     cd "apple-libtapi-$tapi_commit"
@@ -284,13 +284,13 @@ mkdir -p ../ReMCPE/libexec
 REMCPE_TARGET='arm64-apple-macos11.0' \
     REMCPE_SDK="$arm64_sdk" \
     "$platformdir/macos-cc" \
-    "$platformdir/arch.c" -o arch-arm64
+    "$platformdir/arch.c" -Os -o arch-arm64
 
 REMCPE_TARGET='unknown-apple-macos10.4' \
     REMCPE_SDK="$old_sdk" \
     "$platformdir/macos-cc" \
     -arch x86_64 -arch i386 \
-    "$platformdir/arch.c" -o arch-x86
+    "$platformdir/arch.c" -Os -o arch-x86
 
 lipo -create arch-* -output arch
 mv arch ../ReMCPE/libexec/arch
