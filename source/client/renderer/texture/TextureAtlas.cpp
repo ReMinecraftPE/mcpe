@@ -73,7 +73,7 @@ bool TextureAtlas::build()
 
 void TextureAtlas::_init()
 {
-    free(m_texture.m_imageData.m_data);
+    m_texture.m_imageData.release();
 
     int size = getWidth() * getHeight() * 4;
     uint8_t *mem = (uint8_t *)malloc(size);
