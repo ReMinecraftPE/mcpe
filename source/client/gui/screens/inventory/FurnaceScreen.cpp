@@ -5,6 +5,7 @@
 FurnaceScreen::FurnaceScreen(Inventory* inventory, FurnaceTileEntity* container)
     : ContainerScreen(new FurnaceMenu(inventory, container)), m_inventory(inventory), m_furnace(container)
 {
+    m_uiTheme = UI_JAVA;
 }
 
 void FurnaceScreen::tick()
@@ -35,4 +36,22 @@ void FurnaceScreen::_renderBg(float a)
 
     p = m_furnace->getBurnProgress(24);
     blit(m_leftPos + 79, m_topPos + 34, 176, 14, p + 1, 16, 0, 0);
+}
+
+SlotDisplay FurnaceScreen::_createSlotDisplay(const Slot& slot)
+{
+    constexpr int slotSize = 18;
+    switch (slot.m_group)
+    {
+    case Slot::INPUT:
+        return SlotDisplay(56, 17 + (slot.m_slot % 2) * (slotSize * 2));
+    case Slot::OUTPUT:
+        return SlotDisplay(116, 35);
+    case Slot::INVENTORY:
+        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 84 + ((slot.m_slot / 9) - 1) * slotSize, slotSize);
+    case Slot::HOTBAR:
+        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 142, slotSize);
+    default:
+        return SlotDisplay();
+    }
 }

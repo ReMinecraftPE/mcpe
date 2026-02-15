@@ -6,7 +6,7 @@
 class FurnaceResultSlot : public Slot
 {
 public:
-    FurnaceResultSlot(Player* player, Container* container, int slotIdx, int x, int y);
+    FurnaceResultSlot(Player* player, Container* container, int slotIdx);
 
     bool mayPlace(const ItemStack&) const override;
     void onTake(ItemStack&) override;

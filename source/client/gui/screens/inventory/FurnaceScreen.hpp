@@ -12,6 +12,7 @@ public:
 protected:
     void _renderLabels() override;
     void _renderBg(float a) override;
+    SlotDisplay _createSlotDisplay(const Slot&) override;
 
 private:
     Inventory* m_inventory;

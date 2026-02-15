@@ -6,21 +6,19 @@
 FurnaceMenu::FurnaceMenu(Inventory* inventory, FurnaceTileEntity* furnace)
     : ContainerMenu(Container::FURNACE), m_furnace(furnace), m_lastCookTime(0), m_lastBurnTime(0), m_lastLitDuration(0)
 {
-    addSlot(new Slot(m_furnace, 0, 56, 17));
-    addSlot(new Slot(m_furnace, 1, 56, 53));
-    addSlot(new FurnaceResultSlot(inventory->m_pPlayer, m_furnace, 2, 116, 35));
+    addSlot(new Slot(m_furnace, 0, Slot::INPUT));
+    addSlot(new Slot(m_furnace, 1, Slot::INPUT));
+    addSlot(new FurnaceResultSlot(inventory->m_pPlayer, m_furnace, 2));
 
     for (int y = 0; y < 3; ++y)
     {
         for (int x = 0; x < 9; ++x)
-        {
-            addSlot(new Slot(inventory, x + (y + 1) * 9, 8 + x * 18, 84 + y * 18));
-        }
+            addSlot(new Slot(inventory, x + (y + 1) * 9, Slot::INVENTORY));
     }
 
     for (int i = 0; i < 9; ++i)
     {
-        addSlot(new Slot(inventory, i, 8 + i * 18, 142));
+        addSlot(new Slot(inventory, i, Slot::HOTBAR));
     }
 }
 

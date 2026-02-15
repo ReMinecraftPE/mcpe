@@ -2,8 +2,8 @@
 #include "../item/Item.hpp"
 #include "world/entity/Player.hpp"
 
-FurnaceResultSlot::FurnaceResultSlot(Player* player, Container* container, int slotIndex, int x, int y)
-    : Slot(container, slotIndex, x, y), m_pPlayer(player)
+FurnaceResultSlot::FurnaceResultSlot(Player* player, Container* container, int slotIndex)
+    : Slot(container, slotIndex, OUTPUT), m_pPlayer(player)
 {
 }
 
