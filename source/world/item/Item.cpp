@@ -617,6 +617,11 @@ ItemStack* Item::use(ItemStack* instance, Level* level, Mob* user) const
 	return instance;
 }
 
+void Item::releaseUsing(ItemStack& item, Level& level, Mob& user, int durationLeft) const
+{
+
+}
+
 int Item::getMaxStackSize() const
 {
 	return m_maxStackSize;

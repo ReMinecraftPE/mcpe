@@ -10,8 +10,6 @@
 
 #include "Entity.hpp"
 
-#define C_MAX_MOB_HEALTH (20)
-
 class Mob : public Entity
 {
 private:

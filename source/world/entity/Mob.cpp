@@ -573,8 +573,8 @@ void Mob::heal(int health)
 		return;
 
 	m_health += health;
-	if (m_health > C_MAX_MOB_HEALTH)
-		m_health = C_MAX_MOB_HEALTH;
+	if (m_health > getMaxHealth())
+		m_health = getMaxHealth();
 
 	m_invulnerableTime = m_invulnerableDuration / 2;
 }

@@ -465,6 +465,29 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPac
 	pPlayer->swing();
 }
 
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerActionPacket* packet)
+{
+	puts_ignorable("PlayerActionPacket");
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity) return;
+	Player* pPlayer = (Player*)pEntity;
+
+	if (!pEntity->isPlayer())
+		return;
+
+	switch (packet->m_action)
+	{
+	case PlayerActionPacket::STOP_USING_ITEM:
+		pPlayer->releaseUsingItem();
+		break;
+	default:
+		LOG_W("Unsupported PlayerAction: %d", packet->m_action);
+		break;
+	}
+}
+
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket* packet)
 {
 	//puts_ignorable("RequestChunkPacket");

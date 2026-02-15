@@ -1338,6 +1338,8 @@
 		84FD19582F31E7E500BCD51F /* DropItemPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84FD19542F31E7E500BCD51F /* DropItemPacket.hpp */; };
 		84FD19592F31E7E500BCD51F /* SendInventoryPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84FD19552F31E7E500BCD51F /* SendInventoryPacket.cpp */; };
 		84FD195A2F31E7E500BCD51F /* SendInventoryPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84FD19562F31E7E500BCD51F /* SendInventoryPacket.hpp */; };
+		84FE1CA12F427D8C006C20DC /* PlayerActionPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84FE1C9F2F427D8C006C20DC /* PlayerActionPacket.cpp */; };
+		84FE1CA22F427D8C006C20DC /* PlayerActionPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84FE1CA02F427D8C006C20DC /* PlayerActionPacket.hpp */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
 		84FFBE962ACA3415005A8CCF /* Base64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73E2AC810620006A435 /* Base64Encoder.cpp */; };
 		84FFBE972ACA3415005A8CCF /* BitStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7402AC810620006A435 /* BitStream.cpp */; };
@@ -3087,6 +3089,8 @@
 		84FD19542F31E7E500BCD51F /* DropItemPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DropItemPacket.hpp; sourceTree = "<group>"; };
 		84FD19552F31E7E500BCD51F /* SendInventoryPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SendInventoryPacket.cpp; sourceTree = "<group>"; };
 		84FD19562F31E7E500BCD51F /* SendInventoryPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SendInventoryPacket.hpp; sourceTree = "<group>"; };
+		84FE1C9F2F427D8C006C20DC /* PlayerActionPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerActionPacket.cpp; sourceTree = "<group>"; };
+		84FE1CA02F427D8C006C20DC /* PlayerActionPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayerActionPacket.hpp; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CreditsScreen.hpp; sourceTree = "<group>"; };
 		9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CreditsScreen.cpp; sourceTree = "<group>"; };
@@ -3629,6 +3633,8 @@
 				84F77A232EA1C01C0045C907 /* MovePlayerPacket.hpp */,
 				840DD6462AC810620006A435 /* PlaceBlockPacket.cpp */,
 				84F77A242EA1C01C0045C907 /* PlaceBlockPacket.hpp */,
+				84FE1C9F2F427D8C006C20DC /* PlayerActionPacket.cpp */,
+				84FE1CA02F427D8C006C20DC /* PlayerActionPacket.hpp */,
 				840DD6472AC810620006A435 /* PlayerEquipmentPacket.cpp */,
 				84F77A252EA1C01C0045C907 /* PlayerEquipmentPacket.hpp */,
 				8470AF332BE9B63900BCA54E /* ReadyPacket.cpp */,
@@ -5596,6 +5602,7 @@
 				84FD19582F31E7E500BCD51F /* DropItemPacket.hpp in Headers */,
 				84F77A572EA1C01C0045C907 /* SetEntityDataPacket.hpp in Headers */,
 				84F77A5E2EA1C01C0045C907 /* UpdateBlockPacket.hpp in Headers */,
+				84FE1CA22F427D8C006C20DC /* PlayerActionPacket.hpp in Headers */,
 				84DAF5982F34650500D67310 /* SetEntityMotionPacket.hpp in Headers */,
 				84F77A602EA1C01C0045C907 /* UseItemPacket.hpp in Headers */,
 				84F77A452EA1C01C0045C907 /* LevelEventPacket.hpp in Headers */,
@@ -6659,6 +6666,7 @@
 				84DAF5892F34650500D67310 /* ContainerAckPacket.cpp in Sources */,
 				84F77A372EA1C01C0045C907 /* AddItemEntityPacket.cpp in Sources */,
 				842610722AE989720065905F /* ChunkDataPacket.cpp in Sources */,
+				84FE1CA12F427D8C006C20DC /* PlayerActionPacket.cpp in Sources */,
 				842610732AE989730065905F /* LevelDataPacket.cpp in Sources */,
 				84DAF5952F34650500D67310 /* ExplodePacket.cpp in Sources */,
 				842610742AE989730065905F /* LoginPacket.cpp in Sources */,

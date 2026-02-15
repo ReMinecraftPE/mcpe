@@ -373,6 +373,11 @@ ItemStack* ItemStack::use(Level* level, Mob* user)
 	return getItem()->use(this, level, user);
 }
 
+void ItemStack::releaseUsing(Level& level, Mob& user, int durationLeft)
+{
+	return getItem()->releaseUsing(*this, level, user, durationLeft);
+}
+
 bool ItemStack::useOn(Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
 	return getItem()->useOn(this, player, level, pos, face);

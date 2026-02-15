@@ -35,6 +35,7 @@
 #include "packets/PlayerEquipmentPacket.hpp"
 #include "packets/InteractPacket.hpp"
 #include "packets/UseItemPacket.hpp"
+#include "packets/PlayerActionPacket.hpp"
 #include "packets/SetEntityDataPacket.hpp"
 #include "packets/SetEntityMotionPacket.hpp"
 #include "packets/SetHealthPacket.hpp"

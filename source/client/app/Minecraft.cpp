@@ -799,7 +799,7 @@ void Minecraft::freeResources(bool bCopyMap)
 
 std::string Minecraft::getVersionString(const std::string& str) const
 {
-	return "v0.3.2" + str + " alpha";
+	return "v0.3.3" + str + " alpha";
 }
 
 void Minecraft::tick()
