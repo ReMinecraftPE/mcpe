@@ -16,6 +16,23 @@ OptionsScreen_Console::OptionsScreen_Console(Screen* screen) :
 	m_uiTheme = UI_CONSOLE;
 }
 
+void OptionsScreen_Console::_buttonClicked(Button* btn)
+{
+	if (btn->getId() == m_btnControls.getId())
+		m_pMinecraft->setScreen(new ControlsPanelScreen(this, m_pMinecraft));
+	else if (btn->getId() == m_btnSettings.getId())
+		m_pMinecraft->setScreen(new SettingsPanelScreen(this, *m_pMinecraft->getOptions()));
+	else if (btn->getId() == m_btnCredits.getId())
+		m_pMinecraft->getScreenChooser()->pushCreditsScreen(this);
+	else if (btn->getId() == m_btnResetToDefaults.getId())
+	{
+		m_pMinecraft->getOptions()->reset();
+		//Certainly you wouldn't want to reset this option
+		m_pMinecraft->getOptions()->m_uiTheme.set(m_uiTheme);
+		m_pMinecraft->saveOptionsAsync();
+	}
+}
+
 void OptionsScreen_Console::init()
 {
 	Button* layoutButtons[] = {&m_btnHowToPlay, &m_btnControls, &m_btnSettings, &m_btnCredits, &m_btnResetToDefaults};
@@ -53,23 +70,7 @@ bool OptionsScreen_Console::handleBackEvent(bool b)
 	return true;
 }
 
-void OptionsScreen_Console::_buttonClicked(Button* btn)
-{
-	if (btn->getId() == m_btnControls.getId())
-		m_pMinecraft->setScreen(new ControlsPanelScreen(this, m_pMinecraft));
-	else if (btn->getId() == m_btnSettings.getId())
-		m_pMinecraft->setScreen(new SettingsPanelScreen(this, *m_pMinecraft->getOptions()));
-	else if (btn->getId() == m_btnCredits.getId())
-		m_pMinecraft->getScreenChooser()->pushCreditsScreen(this);
-	else if (btn->getId() == m_btnResetToDefaults.getId())
-	{
-		m_pMinecraft->getOptions()->reset();
-		//Certainly you wouldn't want to reset this option
-		m_pMinecraft->getOptions()->m_uiTheme.set(m_uiTheme);
-		m_pMinecraft->saveOptionsAsync();
-	}
-}
-
+#define HEADER(text) do { m_layout.m_elements.push_back(new OptionHeader_Console(text)); currentIndex++; } while (0)
 #define OPTION(name) do { options.name.addGuiElement(m_layout.m_elements, m_uiTheme); currentIndex++; } while (0)
 
 ControlsPanelScreen::ControlsPanelScreen(Screen* parent, Minecraft* mc) : PanelScreen_Console(parent)
@@ -78,11 +79,9 @@ ControlsPanelScreen::ControlsPanelScreen(Screen* parent, Minecraft* mc) : PanelS
 	int currentIndex = -1;
 	int idxSplit = -1, idxController = -1;
 
-	OPTION(m_autoJump);
-	OPTION(m_invertMouse);
-	OPTION(m_splitControls); idxSplit = currentIndex;
-	OPTION(m_bUseController); idxController = currentIndex;
-	OPTION(m_flightHax);
+	OPTIONS_LIST_CONTROLS_CONTROLS;
+	OPTIONS_LIST_CONTROLS_FEEDBACK;
+	OPTIONS_LIST_CONTROLS_EXPERIMENTAL;
 
 	if (!mc->isTouchscreen())
 		m_layout.m_elements[idxSplit]->setEnabled(false);
@@ -96,30 +95,20 @@ void ControlsPanelScreen::removed()
 
 SettingsPanelScreen::SettingsPanelScreen(Screen* parent, Options& options) : PanelScreen_Console(parent)
 {
-	int currentIndex = 0;
+	int currentIndex = -1;
+	int idxPano = -1;
 
-	OPTION(m_musicVolume);
-	OPTION(m_masterVolume);
-	OPTION(m_sensitivity);
-	OPTION(m_hudSize);
-	OPTION(m_uiTheme);
-	OPTION(m_logoType);
-	OPTION(m_viewDistance);
-	OPTION(m_thirdPerson);
-	OPTION(m_ambientOcclusion);
-	OPTION(m_fancyGraphics);
-	OPTION(m_viewBobbing);
-	OPTION(m_anaglyphs);
-	OPTION(m_blockOutlines);
-	OPTION(m_fancyGrass);
-	OPTION(m_biomeColors);
-	OPTION(m_hideGui);
-	OPTION(m_difficulty);
+	OPTIONS_LIST_GAMEPLAY_GAME;
+	OPTIONS_LIST_GAMEPLAY_AUDIO;
+	OPTIONS_LIST_VIDEO_GRAPHICS;
+	OPTIONS_LIST_VIDEO_EXPERIMENTAL;
 
-	if (currentIndex)
-	{
-		//do nothing, just to bypass the annoying compiler
-	}
+#ifdef ENH_MENU_BACKGROUND
+	if (!Screen::isMenuPanoramaAvailable())
+		m_layout.m_elements[idxPano]->setEnabled(false);
+#endif
+
+	(void)currentIndex; // compiler will warn about an unused variable sometimes if this isn't here
 }
 
 void SettingsPanelScreen::render(float f)
@@ -139,4 +128,19 @@ void SettingsPanelScreen::render(float f)
 void SettingsPanelScreen::removed()
 {
 	m_pMinecraft->saveOptionsAsync();
+}
+
+OptionHeader_Console::OptionHeader_Console(const std::string& text)
+	: m_text(text)
+{
+	m_height = 22;
+}
+
+void OptionHeader_Console::render(Minecraft* pMinecraft, const MenuPointer& pointer)
+{
+	pMinecraft->m_pFont->drawScalable(
+		m_text,
+		m_xPos,
+		m_yPos + 8,
+		Color::TEXT_GREY);
 }

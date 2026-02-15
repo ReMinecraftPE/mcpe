@@ -152,14 +152,8 @@ void OptionList::initGameplayMenu()
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 
-	HEADER("Game");
-	OPTION(m_difficulty);
-	OPTION(m_thirdPerson);
-	OPTION(m_serverVisibleDefault);
-
-	HEADER("Audio");
-	OPTION(m_musicVolume);
-	OPTION(m_masterVolume);
+	OPTIONS_LIST_GAMEPLAY_GAME;
+	OPTIONS_LIST_GAMEPLAY_AUDIO;
 
 #ifndef FEATURE_NETWORKING
 	m_items[currentIndex]->setEnabled(false);
@@ -173,20 +167,9 @@ void OptionList::initControlsMenu()
 	int currentIndex = -1;
 	int idxSplit = -1, idxController = -1;
 
-	HEADER("Controls");
-	OPTION(m_sensitivity);
-	OPTION(m_invertMouse);
-	OPTION(m_splitControls); idxSplit = currentIndex;
-	//OPTION(m_swapJumpSneak);
-	//OPTION(m_buttonSize);
-	OPTION(m_autoJump);
-	OPTION(m_bUseController); idxController = currentIndex;
-
-	/*HEADER("Feedback");
-	OPTION(m_vibrate);*/
-
-	HEADER("Experimental");
-	OPTION(m_flightHax);
+	OPTIONS_LIST_CONTROLS_CONTROLS;
+	OPTIONS_LIST_CONTROLS_FEEDBACK;
+	OPTIONS_LIST_CONTROLS_EXPERIMENTAL;
 
 	if (!m_pMinecraft->isTouchscreen())
 		m_items[idxSplit]->setEnabled(false);
@@ -199,29 +182,8 @@ void OptionList::initVideoMenu()
 	int currentIndex = -1;
 	int idxPano = -1;
 
-	HEADER("Graphics");
-	//OPTION(m_brightness);
-	OPTION(m_viewDistance);
-	//OPTION(m_antiAliasing);
-	//OPTION(m_guiScale);
-	//OPTION(m_fov);
-	OPTION(m_ambientOcclusion);
-	OPTION(m_fancyGraphics);
-	OPTION(m_viewBobbing);
-	OPTION(m_anaglyphs);
-	OPTION(m_blockOutlines);
-	OPTION(m_fancyGrass);
-	OPTION(m_biomeColors);
-	OPTION(m_dynamicHand);
-  OPTION(m_uiTheme);
-	OPTION(m_logoType);
-  
-	HEADER("Experimental");
-	OPTION(m_hideGui);
-	OPTION(m_debugText);
-#ifdef ENH_MENU_BACKGROUND
-	OPTION(m_menuPanorama); idxPano = currentIndex;
-#endif
+	OPTIONS_LIST_VIDEO_GRAPHICS;
+	OPTIONS_LIST_VIDEO_EXPERIMENTAL;
 
 #ifdef ENH_MENU_BACKGROUND
 	if (!Screen::isMenuPanoramaAvailable())
@@ -230,8 +192,7 @@ void OptionList::initVideoMenu()
 }
 
 OptionHeader::OptionHeader(const std::string& text)
-	: GuiElement()
-	, m_text(text)
+	: m_text(text)
 {
 }
 

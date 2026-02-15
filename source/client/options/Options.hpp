@@ -431,3 +431,57 @@ public:
 	ResourcePackStack m_resourcePacks;
 };
 
+
+#define OPTIONS_LIST_GAMEPLAY_GAME         \
+	HEADER("Game");                        \
+	OPTION(m_difficulty);                  \
+	OPTION(m_thirdPerson);                 \
+	OPTION(m_serverVisibleDefault);        \
+
+#define OPTIONS_LIST_GAMEPLAY_AUDIO        \
+	HEADER("Audio");                       \
+	OPTION(m_musicVolume);                 \
+	OPTION(m_masterVolume);                \
+
+#define OPTIONS_LIST_CONTROLS_CONTROLS     \
+	HEADER("Controls");                    \
+	OPTION(m_sensitivity);                 \
+	OPTION(m_invertMouse);                 \
+	OPTION(m_splitControls); idxSplit = currentIndex; \
+	/*OPTION(m_swapJumpSneak);*/           \
+	/*OPTION(m_buttonSize);*/              \
+	OPTION(m_autoJump);                    \
+	OPTION(m_bUseController); idxController = currentIndex; \
+
+#define OPTIONS_LIST_CONTROLS_FEEDBACK     \
+	/*HEADER("Feedback");*/                \
+	/*OPTION(m_vibrate);*/                 \
+
+#define OPTIONS_LIST_CONTROLS_EXPERIMENTAL \
+	HEADER("Experimental");                \
+	OPTION(m_flightHax);                   \
+
+#define OPTIONS_LIST_VIDEO_GRAPHICS        \
+	HEADER("Graphics");                    \
+	/*OPTION(m_brightness);*/              \
+	OPTION(m_viewDistance);                \
+	/*OPTION(m_antiAliasing);*/            \
+	/*OPTION(m_guiScale);*/                \
+	/*OPTION(m_fov);*/                     \
+	OPTION(m_ambientOcclusion);            \
+	OPTION(m_fancyGraphics);               \
+	OPTION(m_viewBobbing);                 \
+	OPTION(m_anaglyphs);                   \
+	OPTION(m_blockOutlines);               \
+	OPTION(m_fancyGrass);                  \
+	OPTION(m_biomeColors);                 \
+	OPTION(m_dynamicHand);                 \
+	OPTION(m_uiTheme);                     \
+	OPTION(m_logoType);                    \
+
+#define OPTIONS_LIST_VIDEO_EXPERIMENTAL    \
+	HEADER("Experimental");                \
+	OPTION(m_hideGui);                     \
+	OPTION(m_debugText);                   \
+	OPTION(m_menuPanorama); idxPano = currentIndex; \
+

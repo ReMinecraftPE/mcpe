@@ -24,10 +24,14 @@ class OptionsScreen_Console : public Screen
 {
 public:
 	OptionsScreen_Console(Screen*);
+
+protected:
+	void _buttonClicked(Button*) override;
+
+public:
 	void init() override;
 	void render(float) override;
 	bool handleBackEvent(bool) override;
-	virtual void _buttonClicked(Button*) override;
 
 private:
 	Screen* m_pParent;
@@ -36,5 +40,17 @@ private:
 	Button m_btnSettings;
 	Button m_btnCredits;
 	Button m_btnResetToDefaults;
+};
+
+class OptionHeader_Console : public GuiElement
+{
+public:
+	OptionHeader_Console(const std::string& text);
+
+public:
+	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;
+
+private:
+	std::string m_text;
 };
 
