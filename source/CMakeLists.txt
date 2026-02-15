@@ -234,6 +234,7 @@ add_library(reminecraftpe-core STATIC
     network/packets/PlayerEquipmentPacket.cpp
     network/packets/InteractPacket.cpp
     network/packets/UseItemPacket.cpp
+    network/packets/PlayerActionPacket.cpp
     network/packets/SetEntityDataPacket.cpp
     network/packets/SetEntityMotionPacket.cpp
     network/packets/SetHealthPacket.cpp
