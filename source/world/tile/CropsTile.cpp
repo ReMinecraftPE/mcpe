@@ -85,7 +85,7 @@ float CropsTile::getGrowthRate(Level* level, const TilePos& pos)
 
 	if (diag || (hor && vert))
 	{
-		rate /= 2.0F;
+		rate /= 2.0f;
 	}
 
 	return rate;

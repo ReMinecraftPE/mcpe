@@ -11,6 +11,7 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
+#include <map>
 #include "common/Random.hpp"
 #include "common/Utils.hpp"
 #include "client/renderer/LightLayer.hpp"
@@ -21,6 +22,7 @@
 class Level;
 class AABB;
 class Entity;
+class TileEntity;
 
 class LevelChunk
 {
@@ -69,6 +71,10 @@ public:
 	virtual void setBlocks(uint8_t* pData, int y);
 	virtual int  getBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
 	virtual int  setBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
+	virtual TileEntity* getTileEntity(const ChunkTilePos& pos);
+	virtual void addTileEntity(TileEntity* tileEntity);
+	virtual void setTileEntity(const ChunkTilePos& pos, TileEntity* tileEntity);
+	virtual void removeTileEntity(const ChunkTilePos& pos);
 	virtual Random getRandom(int32_t l);
 	virtual void recalcHeight(const ChunkTilePos& pos);
 	virtual bool isEmpty();
@@ -96,4 +102,5 @@ public:
 	int field_23C;
 	TileID* m_pBlockData;
 	std::vector<Entity*> m_entities[128 / 16];
+	std::map<ChunkTilePos, TileEntity*> m_tileEntities;
 };

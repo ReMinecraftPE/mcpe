@@ -29,6 +29,7 @@ class Entity;
 class Mob;
 class Player;
 class LiquidTile;
+class TileEntity;
 
 class Tile
 {
@@ -76,6 +77,7 @@ public: // virtual functions
 	virtual bool isSolidRender() const;
 	virtual bool mayPick() const;
 	virtual bool mayPick(TileData, bool) const;
+	virtual bool hasTileEntity() const;
 	virtual bool mayPlace(const Level*, const TilePos& pos) const;
 	virtual int getTickDelay() const;
 	virtual void tick(Level*, const TilePos& pos, Random*);
@@ -121,6 +123,7 @@ public: // virtual functions
 	virtual Tile* setDestroyTime(float);
 	virtual Tile* setTicking(bool);
 	virtual int getSpawnResourcesAuxValue(int) const;
+	virtual TileEntity* newTileEntity();
 	Tile* setToolTypes(unsigned int toolMask);
 	Tile* setToolLevel(int toolLevel);
 	Tile* setToolTypesAndLevel(unsigned int toolMask, int toolLevel = 0);
@@ -241,7 +244,11 @@ public: // static variables
 		* web,
 		* fence,
 		* craftingTable,
-		* crops;
+		* crops,
+		* furnace,
+		* furnaceLit,
+		* musicBlock,
+		* chest;
 
 public:
 	int m_TextureFrame;

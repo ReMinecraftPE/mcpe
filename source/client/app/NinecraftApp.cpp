@@ -10,6 +10,7 @@
 #include "world/item/Item.hpp"
 #include "world/entity/MobCategory.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/tile/entity/TileEntityType.hpp"
 #include "client/player/input/GameControllerHandler.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
@@ -182,7 +183,7 @@ void NinecraftApp::_initAll()
 		Tile::initTiles();
 		Item::initItems();
 		Biome::initBiomes();
-		//TileEntity::initTileEntities();
+		TileEntityType::InitTileEntities();
 	}
 
 	_initOptions();
@@ -340,6 +341,7 @@ void NinecraftApp::onGraphicsReset()
 
 void NinecraftApp::teardown()
 {
+	TileEntityType::TeardownTileEntities();
 	teardownRenderer();
 	Resource::teardownLoaders();
 	// Stop our SoundSystem before we nuke our sound buffers and cause it to implode
