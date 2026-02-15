@@ -1,6 +1,8 @@
 #include "MultiplayerLocalPlayer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "network/RakNetInstance.hpp"
+#include "network/packets/AnimatePacket.hpp"
+#include "network/packets/MovePlayerPacket.hpp"
 #include "world/level/Level.hpp"
 
 MultiplayerLocalPlayer::MultiplayerLocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType gameType, int dimensionId)
@@ -127,6 +129,28 @@ void MultiplayerLocalPlayer::closeContainer()
 #endif
 
     LocalPlayer::closeContainer();
+}
+
+Player::BedSleepingProblem MultiplayerLocalPlayer::startSleepInBed(const TilePos& pos)
+{
+	// Client players receive sleep command from server via InteractionPacket
+	// Just apply the sleep state locally - position will be set by MovePlayerPacket
+	return Player::startSleepInBed(pos);
+}
+
+void MultiplayerLocalPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
+{
+	Player::stopSleepInBed(resetCounter, update, setSpawn);
+	
+	// Send wake notification to server
+	if (m_pLevel && m_pLevel->m_pRakNetInstance)
+	{
+		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE_UP));
+		
+		// Also send position update so server knows where we are after waking
+		m_pLevel->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID,
+            Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
+	}
 }
 
 void MultiplayerLocalPlayer::refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items)

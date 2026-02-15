@@ -12,6 +12,7 @@
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "world/tile/BedTile.hpp"
 #include "world/tile/FireTile.hpp"
 #include "world/tile/GrassTile.hpp"
 #include "world/tile/LiquidTile.hpp"
@@ -155,7 +156,7 @@ float TileRenderer::getWaterHeight(const TilePos& pos, const Material* pCheckMtl
 
 bool TileRenderer::canRender(int renderShape)
 {
-	return renderShape == SHAPE_SOLID || renderShape == SHAPE_STAIRS || renderShape == SHAPE_FENCE || renderShape == SHAPE_CACTUS;
+	return renderShape == SHAPE_SOLID || renderShape == SHAPE_STAIRS || renderShape == SHAPE_FENCE || renderShape == SHAPE_CACTUS || renderShape == SHAPE_BED;
 }
 
 // @NOTE: This sucks! Very badly! But it's how they did it.
@@ -1271,6 +1272,192 @@ bool TileRenderer::tesselateDoorInWorld(Tile* tile, const TilePos& pos)
 	return true;
 }
 
+bool TileRenderer::tesselateBedInWorld(Tile* tile, const TilePos& pos)
+{
+	static constexpr float C_RATIO = 1.0f / 256.0f;
+
+	Tesselator& t = Tesselator::instance;
+	TileData data = m_pTileSource->getData(pos);
+	
+	// Brightness factors for faces
+	float fBrightDown = 0.5f;
+	float fBrightUp = 1.0f;
+	float fBrightNS = 0.8f;
+	float fBrightEW = 0.6f;
+	
+	float fLightHere = tile->getBrightness(m_pTileSource, pos);
+
+	bool bDrewAnything = false;
+	
+	// Only render wood underside if not using texture override (for item rendering)
+	if (m_fixedTexture < 0) {
+		t.color(fBrightDown * fLightHere, fBrightDown * fLightHere, fBrightDown * fLightHere);
+		int woodTexture = Tile::wood->m_TextureFrame;
+		int woodTexX = (woodTexture & 15) << 4;
+		int woodTexY = woodTexture & 240;
+		float woodU1 = float(woodTexX) * C_RATIO;
+		float woodU2 = (float(woodTexX) + 16.0f - 0.01f) * C_RATIO;
+		float woodV1 = float(woodTexY) * C_RATIO;
+		float woodV2 = (float(woodTexY) + 16.0f - 0.01f) * C_RATIO;
+
+		float woodMinX = pos.x + tile->m_aabb.min.x;
+		float woodMaxX = pos.x + tile->m_aabb.max.x;
+		float woodY = pos.y + tile->m_aabb.min.y + 0.1875f;
+		float woodMinZ = pos.z + tile->m_aabb.min.z;
+		float woodMaxZ = pos.z + tile->m_aabb.max.z;
+
+		t.vertexUV(woodMinX, woodY, woodMaxZ, woodU1, woodV2);
+		t.vertexUV(woodMinX, woodY, woodMinZ, woodU1, woodV1);
+		t.vertexUV(woodMaxX, woodY, woodMinZ, woodU2, woodV1);
+		t.vertexUV(woodMaxX, woodY, woodMaxZ, woodU2, woodV2);
+		bDrewAnything = true;
+	}
+
+	Facing::Name direction = BedTile::getDirectionFromData(data);
+	Facing::Name flippedFace = Facing::WEST;
+	switch (direction) {
+		case Facing::SOUTH:
+			flippedFace = Facing::EAST;
+			break;
+		case Facing::WEST:
+			flippedFace = Facing::SOUTH;
+			break;
+		case Facing::NORTH:
+			flippedFace = Facing::WEST;
+			break;
+		case Facing::EAST:
+			flippedFace = Facing::NORTH;
+			break;
+		default:
+			flippedFace = Facing::WEST;
+			break;
+	}
+
+	float fBright;
+	int texture;
+
+	// Render UP face (top of bed) with rotation based on bed direction
+	if (m_bNoCulling || tile->shouldRenderFace(m_pTileSource, pos.above(), Facing::UP))
+	{
+		float fBrightAbove = tile->getBrightness(m_pTileSource, pos.above());
+		if (tile->m_aabb.max.y != 1.0f && !tile->m_pMaterial->isLiquid())
+			fBrightAbove = fLightHere;
+		
+		int upTexture = tile->getTexture(m_pTileSource, pos, Facing::UP);
+		if (m_fixedTexture >= 0)
+			upTexture = m_fixedTexture;
+		
+		int texX = (upTexture & 15) << 4;
+		int texY = upTexture & 240;
+		float u1 = float(texX) * C_RATIO;
+		float u2 = (float(texX) + 16.0f - 0.01f) * C_RATIO;
+		float v1 = float(texY) * C_RATIO;
+		float v2 = (float(texY) + 16.0f - 0.01f) * C_RATIO;
+		
+		float upY = pos.y + tile->m_aabb.max.y;
+		float minX = pos.x + tile->m_aabb.min.x;
+		float maxX = pos.x + tile->m_aabb.max.x;
+		float minZ = pos.z + tile->m_aabb.min.z;
+		float maxZ = pos.z + tile->m_aabb.max.z;
+		
+		t.color(fBrightUp * fBrightAbove, fBrightUp * fBrightAbove, fBrightUp * fBrightAbove);
+		
+		// Apply UV rotation based on upRot
+		// The bed top texture has: pillow at low V (top), blanket at high V (bottom)
+		// We rotate to align pillow with the head direction
+		switch (flippedFace) {
+			case Facing::NORTH:
+				t.vertexUV(maxX, upY, maxZ, u2, v1);
+				t.vertexUV(maxX, upY, minZ, u2, v2);
+				t.vertexUV(minX, upY, minZ, u1, v2);
+				t.vertexUV(minX, upY, maxZ, u1, v1);
+				break;
+			case Facing::EAST:
+				t.vertexUV(maxX, upY, maxZ, u2, v1);
+				t.vertexUV(maxX, upY, minZ, u1, v1);
+				t.vertexUV(minX, upY, minZ, u1, v2);
+				t.vertexUV(minX, upY, maxZ, u2, v2);
+				break;
+			case Facing::WEST:
+				t.vertexUV(maxX, upY, maxZ, u1, v1);
+				t.vertexUV(maxX, upY, minZ, u2, v1);
+				t.vertexUV(minX, upY, minZ, u2, v2);
+				t.vertexUV(minX, upY, maxZ, u1, v2);
+				break;
+			case Facing::SOUTH:
+				t.vertexUV(maxX, upY, maxZ, u1, v2);
+				t.vertexUV(maxX, upY, minZ, u1, v1);
+				t.vertexUV(minX, upY, minZ, u2, v1);
+				t.vertexUV(minX, upY, maxZ, u2, v2);
+				break;
+			default:
+				break;
+		}
+		bDrewAnything = true;
+	}
+
+	struct FaceData {
+		Facing::Name face;
+		TilePos adjPos;
+		float aabbCheck;
+		bool checkMin;
+		void (TileRenderer::*renderFunc)(Tile*, const Vec3&, int);
+	};
+	
+	FaceData faces[4];
+	faces[0].face = Facing::NORTH;
+	faces[0].adjPos = pos.north();
+	faces[0].aabbCheck = tile->m_aabb.min.z;
+	faces[0].checkMin = true;
+	faces[0].renderFunc = &TileRenderer::renderNorth;
+	
+	faces[1].face = Facing::SOUTH;
+	faces[1].adjPos = pos.south();
+	faces[1].aabbCheck = tile->m_aabb.max.z;
+	faces[1].checkMin = false;
+	faces[1].renderFunc = &TileRenderer::renderSouth;
+	
+	faces[2].face = Facing::WEST;
+	faces[2].adjPos = pos.west();
+	faces[2].aabbCheck = tile->m_aabb.min.x;
+	faces[2].checkMin = true;
+	faces[2].renderFunc = &TileRenderer::renderWest;
+	
+	faces[3].face = Facing::EAST;
+	faces[3].adjPos = pos.east();
+	faces[3].aabbCheck = tile->m_aabb.max.x;
+	faces[3].checkMin = false;
+	faces[3].renderFunc = &TileRenderer::renderEast;
+
+	// Determine which face to hide (the connecting face between head and foot)
+	int dirIndex = BedTile::getDirectionIndex(data);
+	Facing::Name hiddenFace = BedTile::hiddenFace[dirIndex];
+	if (BedTile::isHead(data)) {
+		hiddenFace = BedTile::hiddenFace[BedTile::hiddenFaceIndex[dirIndex]];
+	}
+	
+	for (int i = 0; i < 4; i++) {
+		FaceData& fd = faces[i];
+		if (hiddenFace == fd.face || (!m_bNoCulling && !tile->shouldRenderFace(m_pTileSource, fd.adjPos, fd.face))) {
+			continue;
+		}
+		fBright = tile->getBrightness(m_pTileSource, fd.adjPos);
+		if ((fd.checkMin && fd.aabbCheck > 0.0f) || (!fd.checkMin && fd.aabbCheck < 1.0f)) {
+			fBright = fLightHere;
+		}
+		float brightness = i < 2 ? fBrightNS : fBrightEW;
+		t.color(brightness * fBright, brightness * fBright, brightness * fBright);
+		texture = tile->getTexture(m_pTileSource, pos, fd.face);
+		if (flippedFace == fd.face) {
+			m_bXFlipTexture = true;
+		}
+		(this->*fd.renderFunc)(tile, pos, texture);
+		m_bXFlipTexture = false;
+	}
+
+	return bDrewAnything;
+}
+
 void TileRenderer::tesselateTorch(Tile* tile, const Vec3& pos, float a, float b)
 {
 	constexpr float C_RATIO = 1.0f / 256.0f;
@@ -1638,6 +1825,8 @@ bool TileRenderer::tesselateInWorld(Tile* tile, const TilePos& pos)
 			return tesselateFenceInWorld(tile, pos);
 		case SHAPE_CACTUS:
 			return tesselateBlockInWorld(tile, pos);
+		case SHAPE_BED:
+			return tesselateBedInWorld(tile, pos);
 	}
 
 	return false;

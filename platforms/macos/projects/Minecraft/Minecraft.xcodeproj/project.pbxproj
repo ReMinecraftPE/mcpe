@@ -571,6 +571,7 @@
 		84BF63162AF18631008A9995 /* SurvivalMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD66D2AC810620006A435 /* SurvivalMode.cpp */; };
 		84BF63172AF18631008A9995 /* CameraItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6702AC810620006A435 /* CameraItem.cpp */; };
 		84BF63182AF18631008A9995 /* DoorItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6722AC810620006A435 /* DoorItem.cpp */; };
+		59B35F78C33D4247A5F2FB80 /* BedItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 275AF7A1723F44EE9B9C0DA7 /* BedItem.cpp */; };
 		84BF63192AF18631008A9995 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6742AC810620006A435 /* Inventory.cpp */; };
 		84BF631A2AF18631008A9995 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6762AC810620006A435 /* Item.cpp */; };
 		84BF631C2AF18631008A9995 /* TileItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD67A2AC810620006A435 /* TileItem.cpp */; };
@@ -908,6 +909,7 @@
 		84E1C9D02E7FDC26007D2F5D /* CactusTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E1C9C02E7FDC26007D2F5D /* CactusTile.hpp */; };
 		84E1C9D12E7FDC26007D2F5D /* DeadBush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9C12E7FDC26007D2F5D /* DeadBush.cpp */; };
 		84E1C9D22E7FDC26007D2F5D /* DeadBush.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E1C9C22E7FDC26007D2F5D /* DeadBush.hpp */; };
+		D025F1B21908432AAB13CCAB /* BedTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D025F1B21908432AAB13CCAC /* BedTile.cpp */; };
 		84E1C9D32E7FDC26007D2F5D /* FenceTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9C32E7FDC26007D2F5D /* FenceTile.cpp */; };
 		84E1C9D42E7FDC26007D2F5D /* FenceTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E1C9C42E7FDC26007D2F5D /* FenceTile.hpp */; };
 		84E1C9D52E7FDC26007D2F5D /* GlowstoneTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9C52E7FDC26007D2F5D /* GlowstoneTile.cpp */; };
@@ -1291,6 +1293,8 @@
 		84F77A402EA1C01C0045C907 /* EntityEventPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */; };
 		84F77A412EA1C01C0045C907 /* InteractPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A172EA1C01C0045C907 /* InteractPacket.cpp */; };
 		84F77A422EA1C01C0045C907 /* InteractPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A182EA1C01C0045C907 /* InteractPacket.hpp */; };
+		84F77AA12EA1C01C0045C907 /* InteractionPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77AA32EA1C01C0045C907 /* InteractionPacket.cpp */; };
+		84F77AA22EA1C01C0045C907 /* InteractionPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77AA42EA1C01C0045C907 /* InteractionPacket.hpp */; };
 		84F77A432EA1C01C0045C907 /* LevelDataPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */; };
 		84F77A442EA1C01C0045C907 /* LevelEventPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */; };
 		84F77A452EA1C01C0045C907 /* LevelEventPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A1B2EA1C01C0045C907 /* LevelEventPacket.hpp */; };
@@ -1748,6 +1752,8 @@
 		840DD6712AC810620006A435 /* CameraItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CameraItem.hpp; sourceTree = "<group>"; };
 		840DD6722AC810620006A435 /* DoorItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DoorItem.cpp; sourceTree = "<group>"; };
 		840DD6732AC810620006A435 /* DoorItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DoorItem.hpp; sourceTree = "<group>"; };
+		275AF7A1723F44EE9B9C0DA7 /* BedItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BedItem.cpp; sourceTree = "<group>"; };
+		6CE4834EE148437C93D73250 /* BedItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BedItem.hpp; sourceTree = "<group>"; };
 		840DD6742AC810620006A435 /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		840DD6752AC810620006A435 /* Inventory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		840DD6762AC810620006A435 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
@@ -2658,6 +2664,8 @@
 		84E1C9C02E7FDC26007D2F5D /* CactusTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CactusTile.hpp; sourceTree = "<group>"; };
 		84E1C9C12E7FDC26007D2F5D /* DeadBush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeadBush.cpp; sourceTree = "<group>"; };
 		84E1C9C22E7FDC26007D2F5D /* DeadBush.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeadBush.hpp; sourceTree = "<group>"; };
+		D025F1B21908432AAB13CCAC /* BedTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BedTile.cpp; sourceTree = "<group>"; };
+		D025F1B21908432AAB13CCAD /* BedTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BedTile.hpp; sourceTree = "<group>"; };
 		84E1C9C32E7FDC26007D2F5D /* FenceTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FenceTile.cpp; sourceTree = "<group>"; };
 		84E1C9C42E7FDC26007D2F5D /* FenceTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FenceTile.hpp; sourceTree = "<group>"; };
 		84E1C9C52E7FDC26007D2F5D /* GlowstoneTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlowstoneTile.cpp; sourceTree = "<group>"; };
@@ -3040,6 +3048,8 @@
 		84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityEventPacket.hpp; sourceTree = "<group>"; };
 		84F77A172EA1C01C0045C907 /* InteractPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InteractPacket.cpp; sourceTree = "<group>"; };
 		84F77A182EA1C01C0045C907 /* InteractPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InteractPacket.hpp; sourceTree = "<group>"; };
+		84F77AA32EA1C01C0045C907 /* InteractionPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InteractionPacket.cpp; sourceTree = "<group>"; };
+		84F77AA42EA1C01C0045C907 /* InteractionPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InteractionPacket.hpp; sourceTree = "<group>"; };
 		84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelDataPacket.hpp; sourceTree = "<group>"; };
 		84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelEventPacket.cpp; sourceTree = "<group>"; };
 		84F77A1B2EA1C01C0045C907 /* LevelEventPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelEventPacket.hpp; sourceTree = "<group>"; };
@@ -3611,6 +3621,8 @@
 				84DAF5842F34650500D67310 /* ExplodePacket.hpp */,
 				84F77A172EA1C01C0045C907 /* InteractPacket.cpp */,
 				84F77A182EA1C01C0045C907 /* InteractPacket.hpp */,
+				84F77AA32EA1C01C0045C907 /* InteractionPacket.cpp */,
+				84F77AA42EA1C01C0045C907 /* InteractionPacket.hpp */,
 				840DD6422AC810620006A435 /* LevelDataPacket.cpp */,
 				84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */,
 				84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */,
@@ -3861,6 +3873,8 @@
 				84DED19E2F309611004001C5 /* crafting */,
 				840DD6722AC810620006A435 /* DoorItem.cpp */,
 				840DD6732AC810620006A435 /* DoorItem.hpp */,
+				275AF7A1723F44EE9B9C0DA7 /* BedItem.cpp */,
+				6CE4834EE148437C93D73250 /* BedItem.hpp */,
 				84E023022F2A0255003C8FFE /* DyeColor.cpp */,
 				84E023032F2A0255003C8FFE /* DyeColor.hpp */,
 				840DD6742AC810620006A435 /* Inventory.cpp */,
@@ -4087,6 +4101,8 @@
 				840DD6ED2AC810620006A435 /* DoorTile.hpp */,
 				840DD6EE2AC810620006A435 /* FarmTile.cpp */,
 				840DD6EF2AC810620006A435 /* FarmTile.hpp */,
+				D025F1B21908432AAB13CCAC /* BedTile.cpp */,
+				D025F1B21908432AAB13CCAD /* BedTile.hpp */,
 				84E1C9C32E7FDC26007D2F5D /* FenceTile.cpp */,
 				84E1C9C42E7FDC26007D2F5D /* FenceTile.hpp */,
 				840DD6F02AC810620006A435 /* FireTile.cpp */,
@@ -5607,6 +5623,7 @@
 				84F77A522EA1C01C0045C907 /* RemoveEntityPacket.hpp in Headers */,
 				84F77A5A2EA1C01C0045C907 /* SetTimePacket.hpp in Headers */,
 				84F77A422EA1C01C0045C907 /* InteractPacket.hpp in Headers */,
+				84F77AA22EA1C01C0045C907 /* InteractionPacket.hpp in Headers */,
 				84DAF5902F34650500D67310 /* ContainerSetContentPacket.hpp in Headers */,
 				84F77A472EA1C01C0045C907 /* LoginStatusPacket.hpp in Headers */,
 				84F77A502EA1C01C0045C907 /* ReadyPacket.hpp in Headers */,
@@ -6652,6 +6669,7 @@
 				84F77A392EA1C01C0045C907 /* AddMobPacket.cpp in Sources */,
 				84FD19572F31E7E500BCD51F /* DropItemPacket.cpp in Sources */,
 				84F77A412EA1C01C0045C907 /* InteractPacket.cpp in Sources */,
+				84F77AA12EA1C01C0045C907 /* InteractionPacket.cpp in Sources */,
 				842610702AE989720065905F /* NetEventCallback.cpp in Sources */,
 				84F77A562EA1C01C0045C907 /* SetEntityDataPacket.cpp in Sources */,
 				84DAF5992F34650500D67310 /* TileEventPacket.cpp in Sources */,
@@ -6963,6 +6981,7 @@
 				84E1C9E52E7FDC72007D2F5D /* AuxTileItem.cpp in Sources */,
 				84E1C9D52E7FDC26007D2F5D /* GlowstoneTile.cpp in Sources */,
 				84BF63182AF18631008A9995 /* DoorItem.cpp in Sources */,
+				59B35F78C33D4247A5F2FB80 /* BedItem.cpp in Sources */,
 				84BF63192AF18631008A9995 /* Inventory.cpp in Sources */,
 				84B9D8A42F3BE0B200FD67C4 /* CropsTile.cpp in Sources */,
 				8445E7A22D769329008DC834 /* EntityType.cpp in Sources */,
@@ -7026,6 +7045,7 @@
 				84BF633F2AF18631008A9995 /* LevelSource.cpp in Sources */,
 				84BF63402AF18631008A9995 /* LevelStorage.cpp in Sources */,
 				84BF63412AF18631008A9995 /* LevelStorageSource.cpp in Sources */,
+				D025F1B21908432AAB13CCAB /* BedTile.cpp in Sources */,
 				84E1C9D32E7FDC26007D2F5D /* FenceTile.cpp in Sources */,
 				8477B3BA2C4DC42E004E1AC5 /* Vec2.cpp in Sources */,
 				84BF63422AF18631008A9995 /* MemoryChunkStorage.cpp in Sources */,

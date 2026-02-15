@@ -13,6 +13,7 @@
 
 #include "CameraItem.hpp"
 #include "DoorItem.hpp"
+#include "BedItem.hpp"
 #include "TileItem.hpp"
 #include "TilePlanterItem.hpp"
 #include "RocketItem.hpp"
@@ -542,7 +543,7 @@ void Item::initItems()
 		->setMaxStackSize(1)
 		->setDescriptionId("cake");
 
-	Item::bed = NEW_ITEM(ITEM_BED)
+	Item::bed = NEW_X_ITEMN(BedItem, ITEM_BED)
 		->setIcon(13, 2)
 		->setDescriptionId("bed");
 

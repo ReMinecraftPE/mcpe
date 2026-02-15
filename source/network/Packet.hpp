@@ -198,8 +198,8 @@ enum MinecraftPacketIds
 	PACKET_CONTAINER_SET_CONTENT,
 	PACKET_CONTAINER_ACK, // Unused in 0.3.2
 
-	PACKET_LEVEL_DATA = 200
-
+	PACKET_LEVEL_DATA = 200,
+	PACKET_INTERACTION = 201 // temporary custom to keep this building before the packet is removed
 #endif
 };
 

@@ -77,6 +77,7 @@ public:
 	virtual int getDeathLoot() const { return 0; }
 	virtual void dropDeathLoot();
 	virtual bool isImmobile() const { return m_health <= 0; }
+	virtual bool isSleeping() const { return false; }
 	virtual void jumpFromGround();
 	virtual void updateAi();
 	virtual int getMaxHeadXRot() const { return 10; }

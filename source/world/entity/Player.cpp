@@ -8,6 +8,7 @@
 
 #include "Player.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/BedTile.hpp"
 #include "nbt/CompoundTag.hpp"
 
 void Player::_init()
@@ -20,6 +21,8 @@ void Player::_init()
 	m_bFlying = false;
 	m_jumpTriggerTime = 0;
 	m_destroyingBlock = false;
+	m_bSleeping = false;
+	m_sleepTimer = 0;
 
 	m_abilities.bCanFly = false;
 	m_abilities.bInvulnerable = false;
@@ -195,6 +198,33 @@ void Player::aiStep()
        heal(1);
     }
 
+	// Handle sleeping
+	if (m_bSleeping) {
+		++m_sleepTimer;
+		if (m_sleepTimer > 100) {
+			m_sleepTimer = 100;
+		}
+
+		if (!checkBed()) {
+			stopSleepInBed(true, true, false);
+		} 
+		else if (!m_pLevel->m_bIsClientSide && m_pLevel->isDay()) {
+			stopSleepInBed(false, true, false);
+		}
+		
+		// Check if all players are sleeping to skip time to morning
+		if (m_sleepTimer >= 100) {
+			m_pLevel->updateSleeping();
+		}
+
+		return;
+	} else if (m_sleepTimer > 0) {
+		++m_sleepTimer;
+		if (m_sleepTimer >= 110) {
+			m_sleepTimer = 0;
+		}
+	}
+
 #ifdef ENH_GUI_ITEM_POP
     m_pInventory->tick();
 #endif
@@ -284,15 +314,6 @@ void Player::addAdditionalSaveData(CompoundTag& tag) const
 
 	tag.putInt32("playerGameType", getPlayerGameType());
 	tag.putInt32("Dimension", m_dimension);
-
-	// Why would we save the player's sleep state? If they leave the game, just wake them up.
-	/*tag.putBoolean("Sleeping", m_bSleeping);
-	tag.putShort("SleepTimer", m_sleepTimer);
-	if (m_bSleeping)
-	{
-		setBedSleepPos(m_pos);
-		wake(true, true, false);
-	}*/
 
 	if (m_bHasRespawnPos)
 	{
@@ -488,6 +509,146 @@ void Player::setRespawnPos(const TilePos& pos)
 
 	m_bHasRespawnPos = true;
 	m_respawnPos = pos;
+}
+
+void Player::updateSleepingPos(Facing::Name direction)
+{
+	m_sleepingPos.x = 0.0f;
+	m_sleepingPos.y = 0.0f;
+	m_sleepingPos.z = 0.0f;
+	switch (direction) {
+		case Facing::SOUTH:  // +Z facing
+			m_sleepingPos.z = -1.8f;
+			break;
+		case Facing::WEST:  // -X facing
+			m_sleepingPos.x = 1.8f;
+			break;
+		case Facing::NORTH:  // -Z facing
+			m_sleepingPos.z = 1.8f;
+			break;
+		default:  // +X facing
+			m_sleepingPos.x = -1.8f;
+			break;
+	}
+}
+
+Player::BedSleepingProblem Player::startSleepInBed(const TilePos& pos)
+{
+	if (isSleeping() || !isAlive())
+		return BED_SLEEPING_OTHER_PROBLEM;
+
+	if (m_pLevel->m_pDimension->m_bFoggy)
+		return BED_SLEEPING_NOT_POSSIBLE_HERE;
+
+	if (m_pLevel->isDay())
+		return BED_SLEEPING_NOT_POSSIBLE_NOW;
+
+	if (Mth::abs(m_pos.x - pos.x) > 3.0f || Mth::abs(m_pos.y - pos.y) > 2.0f || Mth::abs(m_pos.z - pos.z) > 3.0f)
+		return BED_SLEEPING_TOO_FAR_AWAY;
+
+	// Check if bed is obstructed (has blocks on top)
+	TilePos aboveBed = pos.above();
+	if (!m_pLevel->isEmptyTile(aboveBed))
+		return BED_SLEEPING_OTHER_PROBLEM;
+
+	setSize(0.2f, 0.2f);
+	m_heightOffset = 0.2f;
+	
+	if (!m_pLevel->isEmptyTile(pos)) {
+		TileData data = m_pLevel->getData(pos);
+		Facing::Name dir = BedTile::getDirectionFromData(data);
+		float xOff = 0.5f;
+		float zOff = 0.5f;
+		switch (dir) {
+			case Facing::SOUTH:
+				zOff = 0.9f;
+				break;
+			case Facing::WEST:
+				xOff = 0.1f;
+				break;
+			case Facing::NORTH:
+				zOff = 0.1f;
+				break;
+			case Facing::EAST:
+				xOff = 0.9f;
+				break;
+			default:
+				break;
+		}
+		updateSleepingPos(dir);
+		setPos(Vec3(pos.x + xOff, pos.y + 1.1f, pos.z + zOff));
+	}
+	else {
+		setPos(Vec3(pos.x + 0.5f, pos.y + 1.1f, pos.z + 0.5f));
+	}
+
+	m_bSleeping = true;
+	m_sleepTimer = 0;
+	
+	setRespawnPos(pos);
+	m_vel = Vec3::ZERO;
+
+	m_pLevel->updateSleeping();
+
+	return BED_SLEEPING_OK;
+}
+
+void Player::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
+{
+	setSize(0.6f, 1.8f);
+	setDefaultHeadHeight();
+	
+	TilePos checkBedPos = m_respawnPos;
+	if (m_bHasRespawnPos && m_pLevel->getTile(checkBedPos) == Tile::bed->m_ID) {
+		BedTile::setBedOccupied(m_pLevel, checkBedPos, false);
+		checkBedPos = BedTile::getRespawnTilePos(m_pLevel, checkBedPos, 0);
+		if (checkBedPos == m_respawnPos)
+			checkBedPos = checkBedPos.above();
+
+		setPos(Vec3(checkBedPos.x + 0.5f, checkBedPos.y + m_heightOffset + 0.1f, checkBedPos.z + 0.5f));
+	}
+
+	m_bSleeping = false;
+	
+	if (!m_pLevel->m_bIsClientSide && update) {
+		m_pLevel->updateSleeping();
+	}
+	
+	if (resetCounter) {
+		m_sleepTimer = 0;
+	} else {
+		m_sleepTimer = 100;
+	}
+}
+
+float Player::getBedSleepRot() const
+{
+	if (!m_pLevel || !m_bHasRespawnPos)
+		return 0.0f;
+	
+	if (m_respawnPos.y < 0 || m_respawnPos.y >= 128)
+		return 0.0f;
+
+	TileData data = m_pLevel->getData(m_respawnPos);
+	Facing::Name dir = BedTile::getDirectionFromData(data);
+	
+	switch (dir) {
+		case Facing::SOUTH:
+			return 90.0f;
+		case Facing::WEST:
+			return 0.0f;
+		case Facing::NORTH:
+			return 270.0f;
+		case Facing::EAST:
+			return 180.0f;
+		default:
+			return 0.0f;
+	}
+}
+
+bool Player::checkBed() const
+{
+	return m_pLevel->getTile(m_respawnPos) == Tile::bed->m_ID;
 }
 
 /*void Player::drop()
