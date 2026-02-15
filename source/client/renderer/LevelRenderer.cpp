@@ -1421,6 +1421,11 @@ void LevelRenderer::addParticle(const std::string& name, const Vec3& pos, const 
 		pe->add(new SmokeParticle(m_pLevel, pos, dir, 1.0f));
 		return;
 	}
+	if (name == "note")
+	{
+		pe->add(new NoteParticle(m_pLevel, pos, dir));
+		return;
+	}
 	if (name == "explode")
 	{
 		pe->add(new ExplodeParticle(m_pLevel, pos, dir));

@@ -6,33 +6,30 @@
 
 class Level;
 class TileEntity;
+
 class TileEntityType
 {
 public:
-	typedef TileEntity* (*FactoryFunction)();
+	typedef TileEntity* (*CreateFunction)();
 
 public:
-	TileEntityType(const std::string& name, FactoryFunction func);
+	TileEntityType(const std::string& name, CreateFunction func);
 
 public:
-	const std::string& getName() const { return m_name; }
+	const std::string& getName() const;
 	TileEntity* newTileEntity() const;
-	bool operator==(const std::string& other) const;
-	bool operator!=(const std::string& other) const;
-	bool operator==(const TileEntityType& other) const;
-	bool operator!=(const TileEntityType& other) const;
 
 public:
-	static const TileEntityType* getByName(const std::string& name);
-	static void initTileEntities();
-	static void teardownTileEntities();
+	static void InitTileEntities();
+	static const TileEntityType* GetType(const std::string& name);
+	static void TeardownTileEntities();
 
 private:
-	std::string m_name;
-	FactoryFunction m_function;
+	static std::map<std::string, TileEntityType*> _types;
 
-	static std::map<std::string, const TileEntityType*> entityTypeNameMap;
-	static std::vector<const TileEntityType*> entityTypes;
+private:
+	std::string _name;
+	CreateFunction _function;
 
 public:
 	static TileEntityType* furnace;
@@ -40,18 +37,14 @@ public:
 	static TileEntityType* noteblock;
 
 	template <typename T>
-	static TileEntity* makeMe()
-	{
-		return new T();
-	}
+	static TileEntity* CreateType() { return new T(); }
 
 public:
 	template <typename T>
-	static TileEntityType* RegisterType(const std::string& name)
+	static TileEntityType* RegisterTileEntity(const std::string& name)
     {
-		TileEntityType* type = new TileEntityType(name, &TileEntityType::makeMe<T>);
-		entityTypeNameMap[type->m_name] = type;
-		entityTypes.push_back(type);
+		TileEntityType* type = new TileEntityType(name, &TileEntityType::CreateType<T>);
+		_types[type->_name] = type;
 		return type;
 	}
 };

@@ -247,6 +247,7 @@ public: // static variables
 		* crops,
 		* furnace,
 		* furnaceLit,
+		* musicBlock,
 		* chest;
 
 public:

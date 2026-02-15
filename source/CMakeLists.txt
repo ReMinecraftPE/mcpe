@@ -372,6 +372,7 @@ add_library(reminecraftpe-core STATIC
     world/item/DyeColor.cpp
     world/item/SlabItem.cpp
     world/particle/RedDustParticle.cpp
+    world/particle/NoteParticle.cpp
     world/particle/TerrainParticle.cpp
     world/particle/BubbleParticle.cpp
     world/particle/ExplodeParticle.cpp
@@ -429,6 +430,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/Web.cpp
     world/tile/FenceTile.cpp
     world/tile/CraftingTableTile.cpp
+    world/tile/MusicTile.cpp
     world/tile/ChestTile.cpp
     world/tile/FurnaceTile.cpp
     world/tile/entity/TileEntity.cpp

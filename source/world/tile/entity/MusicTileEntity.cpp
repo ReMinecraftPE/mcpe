@@ -3,7 +3,7 @@
 
 MusicTileEntity::MusicTileEntity() : TileEntity(), m_note(0), m_bOn(false)
 {
-    m_pType = TileEntityType::chest;
+    m_pType = TileEntityType::noteblock;
 }
 
 void MusicTileEntity::load(const CompoundTag& tag)
@@ -33,27 +33,6 @@ void MusicTileEntity::play(Level* pLevel, const TilePos& pos)
     int instrument = 0;
     Material* below = pLevel->getMaterial(TilePos(pos.x, pos.y - 1, pos.z));
 
-    /*
-    // WHY
-    switch (below)
-    {
-    case Material::stone:
-        instrument = 1;
-        break;
-    case Material::sand:
-        instrument = 2;
-        break;
-    case Material::glass:
-        instrument = 3;
-        break;
-    case Material::wood:
-        instrument = 4;
-        break;
-    default:
-        break;
-    }
-    */
-
     if (below == Material::stone)
         instrument = 1;
     else if (below == Material::sand)
@@ -63,5 +42,5 @@ void MusicTileEntity::play(Level* pLevel, const TilePos& pos)
     else if (below == Material::wood)
         instrument = 4;
 
-    level->tileEvent(pos, instrument, m_note);
+    pLevel->tileEvent(TileEvent(pos, instrument, m_note));
 }

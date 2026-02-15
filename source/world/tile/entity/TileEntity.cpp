@@ -14,22 +14,22 @@ TileEntity* TileEntity::LoadTileEntity(const CompoundTag& tag)
 {
     if (!tag.contains("id"))
     {
-        LOG_I("Skipping TileEntity with no id!");
+        LOG_W("Skipping TileEntity with no id!");
         return nullptr;
     }
 
     std::string id = tag.getString("id");
-    const TileEntityType* it = TileEntityType::getByName(id);
+    const TileEntityType* type = TileEntityType::GetType(id);
 
-    if (it)
+    if (!type)
     {
-        TileEntity* newEnt = it->newTileEntity();
-        newEnt->load(tag);
-        return newEnt;
+        LOG_I("Skipping TileEntity with id %s", id.c_str());
+        return nullptr;
     }
 
-    LOG_I("Skipping TileEntity with id %s", id.c_str());
-    return nullptr;
+    TileEntity* newEnt = type->newTileEntity();
+    newEnt->load(tag);
+    return newEnt;
 }
 
 void TileEntity::load(const CompoundTag& tag)

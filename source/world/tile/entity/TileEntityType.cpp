@@ -1,66 +1,51 @@
 #include "TileEntityType.hpp"
-
-#include "TileEntityType.hpp"
 #include "FurnaceTileEntity.hpp"
 #include "ChestTileEntity.hpp"
+#include "MusicTileEntity.hpp"
 // #include "MobSpawnerTileEntity.hpp"
 // #include "DispenserTileEntity.hpp"
 // #include "SignTileEntity.hpp"
-#include "MusicTileEntity.hpp"
 // #include "RecordPlayerTileEntity.hpp"
 // #include "PistonMovingTileEntity.hpp"
 
-std::map<std::string, const TileEntityType*> TileEntityType::entityTypeNameMap;
-std::vector<const TileEntityType*> TileEntityType::entityTypes;
+std::map<std::string, TileEntityType*> TileEntityType::_types;
 
 TileEntityType* TileEntityType::furnace;
 TileEntityType* TileEntityType::chest;
 TileEntityType* TileEntityType::noteblock;
 
-TileEntityType::TileEntityType(const std::string& name, FactoryFunction func) : m_name(name), m_function(func)
+TileEntityType::TileEntityType(const std::string& name, CreateFunction func) : _name(name), _function(func)
 {
+}
+
+const std::string& TileEntityType::getName() const
+{
+    return _name;
 }
 
 TileEntity* TileEntityType::newTileEntity() const
 {
-    return m_function();
+    return _function();
 }
 
-bool TileEntityType::operator==(const std::string& other) const
+void TileEntityType::InitTileEntities()
 {
-    return this->getName() == other;
+	furnace = RegisterTileEntity<FurnaceTileEntity>("Furnace");
+	chest = RegisterTileEntity<ChestTileEntity>("Chest");
+    noteblock = RegisterTileEntity<MusicTileEntity>("Music");
 }
 
-bool TileEntityType::operator!=(const std::string& other) const
+const TileEntityType* TileEntityType::GetType(const std::string& name)
 {
-    return this->getName() != other;
+    return _types[name];
 }
 
-bool TileEntityType::operator==(const TileEntityType& other) const
+void TileEntityType::TeardownTileEntities()
 {
-    return this->getName() == other.getName();
-}
-
-bool TileEntityType::operator!=(const TileEntityType& other) const
-{
-    return this->getName() != other.getName();
-}
-
-const TileEntityType* TileEntityType::getByName(const std::string& name)
-{
-    return entityTypeNameMap[name];
-}
-
-void TileEntityType::initTileEntities()
-{
-	furnace = RegisterType<FurnaceTileEntity>("Furnace");
-	chest = RegisterType<ChestTileEntity>("Chest");
-    noteblock = RegisterType<MusicTileEntity>("Music");
-}
-
-void TileEntityType::teardownTileEntities()
-{
-    // @TODO: just clearing but not freeing memory
-	entityTypeNameMap.clear();
-	entityTypes.clear();
+    // delete all heap allocated tile entity types (furnace, chest, etc.)
+    for (std::map<std::string, TileEntityType*>::const_iterator it = _types.begin(); it != _types.end(); ++it)
+    {
+        SAFE_DELETE(it->second);
+    }
+	_types.clear();
 }

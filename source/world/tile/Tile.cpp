@@ -79,7 +79,7 @@
 //#include "RedstoneTorchTile.hpp"
 //#include "CakeTile.hpp"
 //#include "DispenserTile.hpp"
-//#include "MusicTile.hpp"
+#include "MusicTile.hpp"
 //#include "RecordPlayerTile.hpp"
 //#include "TrapDoorTile.hpp"
 //#include "PortalTile.hpp"
@@ -796,6 +796,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_GRASS)
 		->setDescriptionId("crops");
 
+	Tile::musicBlock = (new MusicTile(TILE_NOTE_BLOCK, TEXTURE_JUKEBOX_SIDE))
+		->init()
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDestroyTime(0.8f)
+		->setDescriptionId("musicBlock");
+
 	Tile::furnace = (new FurnaceTile(TILE_FURNACE, false))
 		->init()
 		->setDestroyTime(3.5f)
@@ -1311,6 +1317,7 @@ Tile
 	*Tile::fence,
 	*Tile::craftingTable,
 	*Tile::crops,
+	*Tile::musicBlock,
 	*Tile::furnace,
 	*Tile::furnaceLit,
 	*Tile::chest;

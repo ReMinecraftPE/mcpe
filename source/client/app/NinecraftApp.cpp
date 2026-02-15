@@ -178,7 +178,7 @@ void NinecraftApp::_initAll()
 		Tile::initTiles();
 		Item::initItems();
 		Biome::initBiomes();
-		TileEntityType::initTileEntities();
+		TileEntityType::InitTileEntities();
 	}
 
 	_initOptions();
@@ -334,6 +334,7 @@ void NinecraftApp::onGraphicsReset()
 
 void NinecraftApp::teardown()
 {
+	TileEntityType::TeardownTileEntities();
 	teardownRenderer();
 	Resource::teardownLoaders();
 	// Stop our SoundSystem before we nuke our sound buffers and cause it to implode
