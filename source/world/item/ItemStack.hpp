@@ -86,6 +86,7 @@ public:
 	void snap(Player*);
 	std::string toString() const;
 	ItemStack* use(Level*, Mob*);
+	void releaseUsing(Level&, Mob&, int durationLeft);
 	bool useOn(Player*, Level*, const TilePos& pos, Facing::Name face);
 	void onCraftedBy(Player*, Level*);
 	void onCraftedBy(Player*, Level*, int amount);

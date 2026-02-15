@@ -55,6 +55,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, InteractPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, UseItemPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, PlayerActionPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetEntityMotionPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetHealthPacket*) {}
