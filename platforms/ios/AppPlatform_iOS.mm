@@ -80,7 +80,7 @@ void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
 	
 	data.m_width = CGImageGetWidth(image.CGImage);
 	data.m_height = CGImageGetHeight(image.CGImage);
-	data.m_data = (uint8_t*)new uint32_t[data.m_width * data.m_height];
+	data.m_data = (uint8_t*)malloc(sizeof(uint32_t) * (data.m_width * data.m_height));
 	
 	CGColorSpace *colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGContextRef context = CGBitmapContextCreate(data.m_data, data.m_width, data.m_height, 8u, sizeof(uint32_t) * data.m_width, colorSpace, 0x4001u);
