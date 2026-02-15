@@ -203,3 +203,9 @@ void HumanoidMobRenderer::renderHand(const Entity& entity, float a)
 	}
 #endif
 }
+
+void HumanoidMobRenderer::scale(const Mob &mob, Matrix &matrix, float a)
+{
+	// players are actually 15/16ths the size than any other bipedal mob
+	matrix.scale((mob.isPlayer()) ? (15.0f / 16.0f) : 1.0f);
+}

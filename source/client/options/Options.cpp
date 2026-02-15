@@ -41,11 +41,11 @@ void Options::_initDefaultValues()
 	field_16  = 0;
 	field_240 = 1;
 	field_1C = "Default";
-	field_19 = 1;
+	m_bUseMouseToBreak = true;
 #ifdef ORIGINAL_CODE
 	m_viewDistance.set(2);
 	m_thirdPerson.set(0);
-	field_19 = 0;
+	m_bUseMouseToBreak = false;
 #endif
 
 	// Force this on until we get a proper UI
@@ -59,7 +59,7 @@ static UITheme GetDefaultUiTheme(Minecraft* mc)
 #if MC_PLATFORM_XBOX360
 	return UI_CONSOLE;
 #else
-	return mc->isTouchscreen() ? UI_POCKET : UI_JAVA;
+	return (mc->useTouchscreen() || mc->isTouchscreen()) ? UI_POCKET : UI_JAVA;
 #endif
 }
 
@@ -126,6 +126,7 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	add(m_playerName);
 	add(m_debugText);
 	add(m_lang);
+	add(m_bUseController);
 	add(m_uiTheme);
 	add(m_logoType);
 	add(m_hudSize);
@@ -802,4 +803,13 @@ void UIThemeOption::apply()
 	{
 		m_pMinecraft->getOptions()->m_logoType.apply();
 	}
+}
+
+void ControllerOption::apply()
+{
+	// @TODO: This works but ultimately needs to be a multi-select (KBM, controller, touch) instead of a single option.
+	// Either that or figure out an automatic way to switch between them based on input like how Minecraft Bedrock does
+	// For now, I just wanted to be able to switch to controller input on mobile devices.
+	if (m_pMinecraft && m_pMinecraft->m_pInputHolder)
+		m_pMinecraft->reloadInput();
 }

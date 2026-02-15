@@ -25,7 +25,8 @@ int FurnaceTile::getTexture(const LevelSource* level, const TilePos& pos, Facing
 	}
 }
 
-void FurnaceTile::animateTick(Level* level, const TilePos& pos, Random* random) {
+void FurnaceTile::animateTick(Level* level, const TilePos& pos, Random* random)
+{
 	if (!m_active)
         return;
 
@@ -54,7 +55,8 @@ void FurnaceTile::animateTick(Level* level, const TilePos& pos, Random* random) 
 
 int FurnaceTile::getTexture(Facing::Name face) const
 {
-	switch (face) {
+	switch (face)
+    {
 	case Facing::UP:
     case Facing::DOWN:
         return m_TextureFrame + 17;
@@ -73,7 +75,7 @@ void FurnaceTile::onPlace(Level* level, const TilePos& pos)
 
 bool FurnaceTile::use(Level* level, const TilePos& pos, Player* player)
 {
-	if (player->isSneaking() && player->getSelectedItem())
+	if (player->isSneaking() && !player->getSelectedItem().isEmpty())
 		return false;
 
 	if (level->m_bIsClientSide)
@@ -85,20 +87,15 @@ bool FurnaceTile::use(Level* level, const TilePos& pos, Player* player)
 
 void FurnaceTile::setPlacedBy(Level* level, const TilePos& pos, Mob* mob)
 {
-	int rot = Mth::floor(0.5f + (mob->m_rot.y * 4.0f / 360.0f)) & 3;
+	int rot = Mth::floor(0.5f + (mob->m_rot.x * 4.0f / 360.0f)) & 3;
 	int data = 4;
 
 	switch (rot)
 	{
-	case 0:
-        data = 2;
-        break;
-	case 1:
-        data = 5;
-        break;
-	case 2:
-        data = 3;
-        break;
+	case 0: data = 2; break;
+	case 1: data = 5; break;
+	case 2: data = 3; break;
+	case 3: data = 4; break;
 	}
 
 	level->setData(pos, data);

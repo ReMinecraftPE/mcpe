@@ -318,7 +318,8 @@ void Player::readAdditionalSaveData(const CompoundTag& tag)
 	m_dimension = tag.getInt32("Dimension");
 	//m_sleepTimer = tag.getInt32("SleepTimer");
 
-	if (tag.contains("SpawnX") && tag.contains("SpawnY") && tag.contains("SpawnZ")) {
+	if (tag.contains("SpawnX") && tag.contains("SpawnY") && tag.contains("SpawnZ"))
+	{
 		setRespawnPos(TilePos(	static_cast<int>(tag.getInt32("SpawnX")),
 								static_cast<int>(tag.getInt32("SpawnY")),
 								static_cast<int>(tag.getInt32("SpawnZ"))));
@@ -383,7 +384,8 @@ void Player::attack(Entity* pEnt)
 	if (!item.isEmpty() && isMob)
 	{
 		item.hurtEnemy((Mob*)pEnt, this);
-		if (item.m_count <= 0) {
+		if (item.m_count <= 0)
+		{
 			item.snap(this);
 			removeSelectedItem();
 		}
@@ -575,9 +577,11 @@ void Player::interact(Entity* pEnt)
 		return;
 
 	ItemStack& item = getSelectedItem();
-	if (!item.isEmpty()) {
+	if (!item.isEmpty())
+	{
 		item.interactEnemy(static_cast<Mob*>(pEnt));
-		if (item.m_count <= 0) {
+		if (item.m_count <= 0)
+		{
 			item.snap(this);
 			removeSelectedItem();
 		} 

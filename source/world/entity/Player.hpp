@@ -45,7 +45,7 @@ protected:
 public:
 	void reset() override;
 	void remove() override;
-	float getHeadHeight() const override { return 0.12f; /*@HUH: what ?*/ }
+	float getHeadHeight() const override { return 0.12f; }
 	int getMaxHealth() const override { return 20; }
 	bool isShootable() const override { return true; }
 	bool isPlayer() const override { return true; }

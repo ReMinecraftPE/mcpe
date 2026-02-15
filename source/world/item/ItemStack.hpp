@@ -125,6 +125,7 @@ public:
 public:
 	int16_t m_count;
 	int m_popTime;
+
 private:
     int16_t m_auxValue;
 	CompoundTag* m_userData;

@@ -214,6 +214,14 @@ public:
 	void apply() override;
 };
 
+class ControllerOption : public BoolOption
+{
+public:
+	ControllerOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
 class FancyGraphicsOption : public GraphicsOption
 {
 public:
@@ -329,6 +337,7 @@ class Options
 {
 public:
 	struct KeyBind;
+
 private:
 	static bool _hasResourcePack(const ResourcePack& pack, ResourcePackStack& packs);
 	static void _tryAddResourcePack(const std::string& name, ResourcePackStack& packs);
@@ -358,6 +367,7 @@ private:
 	void _initDefaultValues();
 	void _load();
 	AsyncTask _saveAsync();
+
 public:
 	Options(Minecraft*, const std::string& folderPath = "");
 
@@ -399,7 +409,7 @@ public:
 	uint8_t field_16;
 	FancyGraphicsOption m_fancyGraphics;
 	AOOption m_ambientOcclusion;
-	uint8_t field_19; // use Mouse as input for breaking
+	bool m_bUseMouseToBreak;
 	std::string field_1C;
 	ValuesOption m_difficulty;
 	BoolOption m_hideGui;
@@ -419,7 +429,7 @@ public:
 	GraphicsOption m_fancyGrass;
 	GraphicsOption m_biomeColors;
 	BoolOption m_splitControls;
-	BoolOption m_bUseController;
+	ControllerOption m_bUseController;
 	BoolOption m_dynamicHand;
 	BoolOption m_menuPanorama;
 	GuiScaleOption m_guiScale;

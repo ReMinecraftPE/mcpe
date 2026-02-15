@@ -59,8 +59,10 @@ public:
 	bool field_54;
 	RenderChunk m_renderChunks[Tile::RENDER_LAYERS_COUNT];
 	Tesselator* m_pTesselator;
+
 private:
 	int m_lists;
+
 public:
 	bool m_bCompiled;
 	bool m_bDirty;

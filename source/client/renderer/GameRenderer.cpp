@@ -643,7 +643,7 @@ void GameRenderer::render(const Timer& timer)
 	int mouseY = -9999;
 	bool bMouseData = false;
 
-	if (m_pMinecraft->isTouchscreen())
+	if (m_pMinecraft->useTouchscreen())
 	{
 		int pointerId = Multitouch::getFirstActivePointerIdExThisUpdate();
 		if (pointerId >= 0)

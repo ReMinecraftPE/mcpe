@@ -1163,7 +1163,8 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 				if (--j <= 0)
 					continue;
 				
-				for (int k = j; --k != 0;) {
+				for (int k = j; --k != 0;)
+				{
 					pChunks[k - 1] = pChunks[k];
 				}
 

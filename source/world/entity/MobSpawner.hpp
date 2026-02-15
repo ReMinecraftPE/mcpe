@@ -24,7 +24,7 @@ private:
 public:
     TilePos getRandomPosWithin(Level& level, int chunkX, int chunkZ);
     void tick(Level& level, bool allowHostile, bool allowFriendly);
-private:
 
+private:
     std::set<ChunkPos> chunksToPoll;
 };

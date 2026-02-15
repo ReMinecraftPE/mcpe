@@ -6,6 +6,7 @@ class ChestTile : public Tile
 {
 public:
     ChestTile(int id, int texture);
+
 public:
     int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
     int getTexture(Facing::Name face) const override;
@@ -15,6 +16,7 @@ public:
     bool use(Level* level, const TilePos& pos, Player* var5) override;
     bool hasTileEntity() const override;
     TileEntity* newTileEntity() override;
+
 public:
     Random m_chestRandom;
 };

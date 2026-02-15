@@ -259,8 +259,6 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 
 		ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, item, x, y, true);
 	}
-
-    //ItemRenderer::renderGuiItemDecorations(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, item, x, y);
 }
 
 void Gui::renderSlotOverlay(int slot, int x, int y, float f)
@@ -311,7 +309,8 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 	if (slot == -1)
 		return;
 
-	if (m_pMinecraft->isTouchscreen() && slot == getNumSlots() - 1)
+	// Final slot on touch opens inventory
+	if (m_pMinecraft->useTouchscreen() && slot == getNumSlots() - 1)
 	{
 		if (m_pMinecraft->m_pGameMode->isSurvivalType())
 			m_pMinecraft->setScreen(new InventoryScreen(m_pMinecraft->m_pLocalPlayer));
@@ -360,7 +359,7 @@ void Gui::handleKeyPressed(int keyCode)
 	if (slotL || slotR)
 	{
 		int maxItems = getNumSlots() - 1;
-		if (m_pMinecraft->isTouchscreen())
+		if (m_pMinecraft->useTouchscreen())
 			maxItems--;
 		SlotID* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
 
@@ -672,7 +671,7 @@ void Gui::renderToolBar(float f, float alpha)
 
 	textures->loadAndBindTexture(C_BLOCKS_NAME);
 
-	int diff = mc->isTouchscreen();
+	int diff = mc->useTouchscreen();
 
 	int slotX = -hotbarWidth / 2 + 3;
 	for (int i = 0; i < nSlots - diff; i++)
@@ -694,8 +693,8 @@ void Gui::renderToolBar(float f, float alpha)
 
 	field_A3C = false;
 
-	// blit the "more items" button
-	if (mc->isTouchscreen())
+	// blit the "more items" button if using touch
+	if (mc->useTouchscreen())
 	{
 		textures->loadAndBindTexture(C_TERRAIN_NAME);
 		blit(hotbarWidth / 2 - 19, -19, 208, 208, 16, 16, 0, 0);
@@ -704,7 +703,7 @@ void Gui::renderToolBar(float f, float alpha)
 
 int Gui::getNumSlots()
 {
-	if (m_pMinecraft->isTouchscreen())
+	if (m_pMinecraft->useTouchscreen())
 		return 6;
 
 	return 9;
@@ -712,7 +711,7 @@ int Gui::getNumSlots()
 
 int Gui::getNumUsableSlots()
 {
-	return getNumSlots() - m_pMinecraft->isTouchscreen();
+	return getNumSlots() - m_pMinecraft->useTouchscreen();
 }
 
 RectangleArea Gui::getRectangleArea(bool b)

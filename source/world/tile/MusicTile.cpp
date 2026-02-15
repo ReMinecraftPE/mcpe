@@ -28,7 +28,7 @@ void MusicTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 
 bool MusicTile::use(Level* level, const TilePos& pos, Player* player)
 {
-	if (player->isSneaking() && player->getSelectedItem())
+	if (player->isSneaking() && !player->getSelectedItem().isEmpty())
 		return false;
 
     if (level->m_bIsClientSide)

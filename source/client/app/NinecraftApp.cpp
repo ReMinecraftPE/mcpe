@@ -105,7 +105,7 @@ void NinecraftApp::_initInput()
 	m_bIsTouchscreen = platform()->isTouchscreen();
 	getOptions()->m_bUseController.set(platform()->hasGamepad());
 	getOptions()->loadControls();
-	_reloadInput();
+	reloadInput();
 }
 
 void NinecraftApp::_updateStats()

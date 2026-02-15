@@ -10,9 +10,8 @@ ChestTile::ChestTile(int id, int texture) : Tile(id, texture, Material::wood)
 
 int ChestTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
-    if (face == Facing::UP || face == Facing::DOWN) {
+    if (face == Facing::UP || face == Facing::DOWN)
         return m_TextureFrame - 1;
-    }
 
     int id_north = level->getTile(pos.north());
     int id_south = level->getTile(pos.south());
@@ -22,7 +21,8 @@ int ChestTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
     bool isDoubleNS = (id_north == m_ID || id_south == m_ID);
     bool isDoubleWE = (id_west == m_ID || id_east == m_ID);
 
-    if (!isDoubleNS && !isDoubleWE) {
+    if (!isDoubleNS && !isDoubleWE)
+    {
         Facing::Name front = Facing::SOUTH;
 
         if (Tile::solid[id_north] && !Tile::solid[id_south])
@@ -40,7 +40,8 @@ int ChestTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
     bool left = false;
     Facing::Name front = Facing::SOUTH;
 
-    if (isDoubleWE) {
+    if (isDoubleWE)
+    {
         left = id_west == m_ID;
         TilePos side = left ? pos.west() : pos.east();
 
@@ -52,9 +53,12 @@ int ChestTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
         else if ((Tile::solid[id_south] || Tile::solid[id_infront]) && !Tile::solid[id_north] && !Tile::solid[id_behind])
             front = Facing::NORTH;
 
-        if (front == Facing::SOUTH) left = !left;
-        if (face == front) return m_TextureFrame + (left ? 15 : 16);
-        if (face == Facing::OPPOSITE[front]) return m_TextureFrame + (left ? 32 : 31);
+        if (front == Facing::SOUTH)
+            left = !left;
+        if (face == front)
+            return m_TextureFrame + (left ? 15 : 16);
+        if (face == Facing::OPPOSITE[front])
+            return m_TextureFrame + (left ? 32 : 31);
         return m_TextureFrame;
     }
 
@@ -67,10 +71,10 @@ int ChestTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
         int id_behind = level->getTile(side.west());
         int id_infront = level->getTile(side.east());
 
-        if ((Tile::solid[id_west] || Tile::solid[id_behind]) && !Tile::solid[id_east] && !Tile::solid[id_infront]) {
+        if ((Tile::solid[id_west] || Tile::solid[id_behind]) && !Tile::solid[id_east] && !Tile::solid[id_infront])
             front = Facing::EAST;
-        }
-        else if ((Tile::solid[id_east] || Tile::solid[id_infront]) && !Tile::solid[id_west] && !Tile::solid[id_behind]) {
+        else if ((Tile::solid[id_east] || Tile::solid[id_infront]) && !Tile::solid[id_west] && !Tile::solid[id_behind])
+        {
             front = Facing::WEST;
             left = !left;
         }
@@ -87,7 +91,8 @@ int ChestTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
 
 int ChestTile::getTexture(Facing::Name face) const
 {
-	switch (face) {
+	switch (face)
+    {
 	case Facing::UP:
     case Facing::DOWN:
         return m_TextureFrame - 1;
@@ -122,13 +127,12 @@ bool ChestTile::hasNeighbors(const Level* level, const TilePos& pos, int count) 
     return false;
 }
 
-void ChestTile::onRemove(Level* level, const TilePos& pos){
+void ChestTile::onRemove(Level* level, const TilePos& pos)
+{
     ChestTileEntity* ent = static_cast<ChestTileEntity*>(level->getTileEntity(pos));
 
     if (!ent)
-    {
         Tile::onRemove(level, pos);
-    }
 
     for (int slot = 0; slot < ent->getContainerSize(); ++slot)
     {
@@ -160,6 +164,9 @@ void ChestTile::onRemove(Level* level, const TilePos& pos){
 
 bool ChestTile::use(Level* level, const TilePos& pos, Player* player) 
 {
+	if (player->isSneaking() && !player->getSelectedItem().isEmpty())
+		return false;
+
     if (level->m_bIsClientSide)
         return true;
 
