@@ -17,18 +17,13 @@ class Timer
 public:
 	Timer();
 
-	void advanceTime();
+	void advanceTime(bool paused);
 
 public:
-#ifndef USE_ACCURATE_TIMER
-	float m_lastUpdateTime;
-	int m_lastSyncTime;
-	int m_unprocessedTime;
-#else
 	double m_lastUpdateTime;
 	double m_lastSyncTime;
 	double m_unprocessedTime;
-#endif
+	double m_deltaTime;
 	float m_tickAdjustment;
 	float m_ticksPerSecond;
 	int m_ticks;

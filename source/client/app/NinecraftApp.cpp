@@ -27,6 +27,9 @@
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/RenderMaterial.hpp"
+#include "client/resources/LoadingTipManager.hpp"
+#include "client/renderer/LogoRenderer.hpp"
+#include "client/resources/SplashManager.hpp"
 
 #ifdef DEMO
 #include "world/level/storage/MemoryLevelStorageSource.hpp"
@@ -84,6 +87,8 @@ void NinecraftApp::_initTextures()
 
 	if (GrassColor::isAvailable()) GrassColor::init();
 	if (FoliageColor::isAvailable()) FoliageColor::init();
+
+	LogoRenderer::singleton().init(this);
 }
 
 void NinecraftApp::_initRenderMaterials()
@@ -207,6 +212,8 @@ void NinecraftApp::_initAll()
 	m_pSoundEngine->init(getOptions());
 
 	Language::singleton().init(getOptions());
+	LoadingTipManager::singleton().init();
+	SplashManager::singleton().init(m_pUser->m_name);
 
 	field_D9C = 0;
 

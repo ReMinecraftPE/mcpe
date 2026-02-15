@@ -53,9 +53,6 @@ private:
 public:
 	Gui(Minecraft* pMinecraft);
 
-private:
-	void _updateHudPositions();
-
 public:
 	void addMessage(const std::string& str);
 	void inventoryUpdated();
@@ -82,7 +79,9 @@ public:
 	RectangleArea getRectangleArea(bool b);
 
 public:
-	static float InvGuiScale;
+	static float GuiScale;
+	static int GuiWidth;
+	static int GuiHeight;
 
 protected:
 	Materials m_guiMaterials;
@@ -96,7 +95,7 @@ public:
 	int field_2C;
 	Random m_random;
 	Minecraft* m_pMinecraft;
-	int field_9FC;
+	int m_ticks;
 	std::string field_A00;
 	int field_A18;
 	bool field_A1C;
@@ -105,7 +104,5 @@ public:
 	bool field_A3C;
 	bool m_bRenderMessages;
     bool m_bRenderHunger;
-	int m_width;
-	int m_height;
 };
 

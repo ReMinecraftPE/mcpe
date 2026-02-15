@@ -180,7 +180,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	bufferDesc.dwSize = sizeof(DSBUFFERDESC);
 
 	//Because directsound does not support DSBCAPS_CTRL3D on a sound with 2 channels we can only do it on sounds with 1 channel
-	if (sound.m_header.m_channels == 1)
+	if (sound.m_header.m_channels == 1 && !is2D)
 	{
 		bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRL3D;
 	}

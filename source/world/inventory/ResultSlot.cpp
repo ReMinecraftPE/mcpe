@@ -3,8 +3,8 @@
 #include "world/entity/Player.hpp"
 //#include "stats/Achievement.hpp"
 
-ResultSlot::ResultSlot(Player* player, Container* craftSlots, Container* resultSlots, int slotIndex, int x, int y) :
-	Slot(resultSlots, slotIndex, x, y),
+ResultSlot::ResultSlot(Player* player, Container* craftSlots, Container* resultSlots, int slotIndex) :
+	Slot(resultSlots, slotIndex, OUTPUT),
 	m_pPlayer(player),
 	m_pCraftSlots(craftSlots)
 {

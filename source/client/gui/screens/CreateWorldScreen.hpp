@@ -17,7 +17,7 @@
 class CreateWorldScreen : public Screen
 {
 public:
-	CreateWorldScreen();
+	CreateWorldScreen(Screen*);
 
 protected:
 	void _buttonClicked(Button* pButton) override;
@@ -26,6 +26,11 @@ public:
 	void init() override;
 	void render(float f) override;
 	bool handleBackEvent(bool b) override;
+
+	static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in);
+
+private:
+	Screen* m_pParent;
 
 public:
 	TextBox m_textName;

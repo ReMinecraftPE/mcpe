@@ -36,8 +36,11 @@ enum eKeyMappingIndex
 	KM_MENU_DOWN,
 	KM_MENU_LEFT,
 	KM_MENU_RIGHT,
+	KM_MENU_TAB_LEFT,
+	KM_MENU_TAB_RIGHT,
 	KM_MENU_OK,
 	KM_MENU_CANCEL, KM_BACK = KM_MENU_CANCEL,
+	KM_MENU_PAUSE,
 	KM_SLOT_1,
 	KM_SLOT_2,
 	KM_SLOT_3,
@@ -71,6 +74,32 @@ struct KeyMapping
 	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 };
 
+enum UITheme
+{
+	UI_POCKET,
+	UI_JAVA,
+	UI_CONSOLE
+};
+
+enum LogoType
+{
+	LOGO_AUTO,
+	LOGO_POCKET,
+	LOGO_JAVA,
+	LOGO_CONSOLE,
+	LOGO_XBOX360,
+	LOGO_3D
+};
+
+//@NOTE: Used only for the UI_CONSOLE UITheme for now
+enum HUDSize
+{
+	HUD_SIZE_1 = 2,
+	HUD_SIZE_2 = 3,
+	HUD_SIZE_3 = 4
+};
+
+class Minecraft;
 class GuiElement;
 class Minecraft;
 
@@ -80,14 +109,19 @@ public:
 	OptionEntry(const std::string& key, const std::string& name) : m_key(key), m_name(name), m_pMinecraft(nullptr) {}
 
 	virtual const std::string& getKey() const { return m_key; }
-	virtual const std::string& getName() const;
+	virtual const std::string& getName() const { return m_name; }
+	virtual const std::string& getDisplayName() const;
 	virtual std::string getDisplayValue() const;
 	virtual void save(std::stringstream&) const = 0;
 	virtual std::string getMessage() const;
 	virtual void load(const std::string& value) = 0;
-	virtual void toggle() = 0;
+	virtual void toggle() {}
+	virtual void addUnit(int mul) {}
+	virtual void fromFloat(float) {}
+	virtual float toFloat() const { return 0.0f; }
+	virtual void reset() {};
 
-	virtual void addGuiElement(std::vector<GuiElement*>&, const std::string&);
+	virtual void addGuiElement(std::vector<GuiElement*>&, UITheme uiTheme);
 
 private:
 	std::string m_key;
@@ -107,7 +141,6 @@ private:
 public:
 	OptionInstance(const std::string& key, const std::string& name, V initial) : OptionEntry(key, name), m_value(initial), m_defaultValue(initial) {}
 
-	virtual void toggle() {}
 	virtual void apply() {}
 
 	void set(const V& v)
@@ -118,8 +151,10 @@ public:
 			apply();
 	}
 
-	void reset() { set(m_defaultValue); }
+	void setDefault(const V& v) { m_defaultValue = v; }
+	void reset() override { set(m_defaultValue); }
 	const V& get() const { return m_value; }
+	const V& getDefault() const { return m_defaultValue; }
 };
 
 class BoolOption : public OptionInstance<bool>
@@ -131,24 +166,34 @@ public:
 	void save(std::stringstream& ss) const override;
 	void toggle() override { set(get() ^ 1); }
 	std::string getDisplayValue() const override;
-	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+	void addGuiElement(std::vector<GuiElement*>&, UITheme uiTheme) override;
 };
 
 class FloatOption : public OptionInstance<float>
 {
 public:
-	FloatOption(const std::string& key, const std::string& name, float initial = 0.0f) : OptionInstance(key, name, initial) {}
+	FloatOption(const std::string& key, const std::string& name, float initial = 0.0f, float unit = 0.01f) :
+		OptionInstance(key, name, initial),
+		m_unit(unit)
+	{
+	}
 
 	void load(const std::string& value) override;
 	void save(std::stringstream& ss) const override { ss << get(); }
+	void addUnit(int mul) override { set(Mth::clamp(get() + mul * m_unit, 0.0f, 1.0f)); }
+	void fromFloat(float v) override { set(v); }
+	float toFloat() const override { return get(); }
 	std::string getDisplayValue() const override;
-	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+	void addGuiElement(std::vector<GuiElement*>&, UITheme uiTheme) override;
+
+public:
+	float m_unit;
 };
 
 class SensitivityOption : public FloatOption
 {
 public:
-	SensitivityOption(const std::string& key, const std::string& name, float initial = 0.0f) : FloatOption(key, name, initial) {}
+	SensitivityOption(const std::string& key, const std::string& name, float initial = 0.0f) : FloatOption(key, name, initial, 0.005f) {}
 
 	std::string getDisplayValue() const override;
 };
@@ -208,16 +253,33 @@ public:
 	std::vector<std::string> m_values;
 };
 
-class ValuesOption : public IntOption
+class MinMaxOption : public IntOption
 {
 public:
-	ValuesOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : IntOption(key, name, initial), m_values(values.m_values)
+	MinMaxOption(const std::string& key, const std::string& name, int initial, int min, int max) : IntOption(key, name, initial), m_min(min), m_max(max)
 	{
 	}
 
-	void toggle() override { set((get() + 1) % m_values.size()); }
-	std::string getDisplayValue() const override { return m_values[Mth::Min(get(), int(m_values.size()))]; }
-	void addGuiElement(std::vector<GuiElement*>&, const std::string&) override;
+	void toggle() override { set(Mth::Max(m_min, (get() + 1) % m_max)); }
+	void addUnit(int mul) override { set(Mth::clamp(get() + mul, m_min, m_max - 1)); }
+	void fromFloat(float v) override { set(Mth::round(m_min + (m_max - 1 - m_min) * v)); }
+	float toFloat() const override { return (get() - m_min) / float(m_max - 1 - m_min); }
+	void addGuiElement(std::vector<GuiElement*>&, UITheme uiTheme) override;
+
+public:
+	int m_min, m_max;
+};
+
+
+class ValuesOption : public MinMaxOption
+{
+public:
+	ValuesOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : MinMaxOption(key, name, initial, 0, values.m_values.size()), m_values(values.m_values)
+	{
+	}
+
+	const std::string& getValue() const { return m_values[Mth::clamp(get(), m_min, m_max - 1)]; }
+	std::string getDisplayValue() const override;
 
 public:
 	std::vector<std::string> m_values;
@@ -231,6 +293,36 @@ public:
 	}
 
 	void apply() override;
+};
+
+class LogoTypeOption : public ValuesOption
+{
+public:
+	LogoTypeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
+	{
+	}
+
+	void apply() override;
+};
+
+class UIThemeOption : public ValuesOption
+{
+public:
+	UIThemeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
+	{
+	}
+
+	void apply() override;
+};
+
+class HUDSizeOption : public MinMaxOption
+{
+public:
+	HUDSizeOption(const std::string& key, const std::string& name, int initial) : MinMaxOption(key, name, initial, HUD_SIZE_1, HUD_SIZE_3 + 1)
+	{
+	}
+
+	std::string getDisplayValue() const override;
 };
 
 class Options
@@ -277,7 +369,11 @@ public:
 	bool isKey(eKeyMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
 
 	void loadControls();
+	void reset();
 	void initResourceDependentOptions();
+
+	UITheme getUiTheme() const;
+	LogoType getLogoType() const;
 
 private:
 	Minecraft* m_pMinecraft;
@@ -291,6 +387,7 @@ public:
 	friend class FloatOption;
 	friend class SensitivityOption;
 	friend class IntOption;
+	friend class HUDSizeOption;
 
 	FloatOption m_musicVolume;
 	FloatOption m_masterVolume;
@@ -324,10 +421,67 @@ public:
 	BoolOption m_splitControls;
 	BoolOption m_bUseController;
 	BoolOption m_dynamicHand;
-	BoolOption m_b2dTitleLogo;
 	BoolOption m_menuPanorama;
 	GuiScaleOption m_guiScale;
 	StringOption m_lang;
+	UIThemeOption m_uiTheme;
+	LogoTypeOption m_logoType;
+	HUDSizeOption m_hudSize;
+	BoolOption m_classicCrafting;
 	ResourcePackStack m_resourcePacks;
 };
+
+
+#define OPTIONS_LIST_GAMEPLAY_GAME         \
+	HEADER("Game");                        \
+	OPTION(m_difficulty);                  \
+	OPTION(m_thirdPerson);                 \
+	OPTION(m_serverVisibleDefault);        \
+
+#define OPTIONS_LIST_GAMEPLAY_AUDIO        \
+	HEADER("Audio");                       \
+	OPTION(m_musicVolume);                 \
+	OPTION(m_masterVolume);                \
+
+#define OPTIONS_LIST_CONTROLS_CONTROLS     \
+	HEADER("Controls");                    \
+	OPTION(m_sensitivity);                 \
+	OPTION(m_invertMouse);                 \
+	OPTION(m_splitControls); idxSplit = currentIndex; \
+	/*OPTION(m_swapJumpSneak);*/           \
+	/*OPTION(m_buttonSize);*/              \
+	OPTION(m_autoJump);                    \
+	OPTION(m_bUseController); idxController = currentIndex; \
+
+#define OPTIONS_LIST_CONTROLS_FEEDBACK     \
+	/*HEADER("Feedback");*/                \
+	/*OPTION(m_vibrate);*/                 \
+
+#define OPTIONS_LIST_CONTROLS_EXPERIMENTAL \
+	HEADER("Experimental");                \
+	OPTION(m_flightHax);                   \
+
+#define OPTIONS_LIST_VIDEO_GRAPHICS        \
+	HEADER("Graphics");                    \
+	/*OPTION(m_brightness);*/              \
+	OPTION(m_viewDistance);                \
+	/*OPTION(m_antiAliasing);*/            \
+	/*OPTION(m_guiScale);*/                \
+	/*OPTION(m_fov);*/                     \
+	OPTION(m_ambientOcclusion);            \
+	OPTION(m_fancyGraphics);               \
+	OPTION(m_viewBobbing);                 \
+	OPTION(m_anaglyphs);                   \
+	OPTION(m_blockOutlines);               \
+	OPTION(m_fancyGrass);                  \
+	OPTION(m_biomeColors);                 \
+	OPTION(m_dynamicHand);                 \
+	OPTION(m_uiTheme);                     \
+	OPTION(m_logoType);                    \
+
+#define OPTIONS_LIST_VIDEO_EXPERIMENTAL    \
+	HEADER("Experimental");                \
+	OPTION(m_hideGui);                     \
+	OPTION(m_debugText);                   \
+	OPTION(m_menuPanorama); idxPano = currentIndex; \
 

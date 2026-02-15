@@ -43,6 +43,7 @@
 #include "client/renderer/PatchManager.hpp"
 
 #include "renderer/RenderContextImmediate.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 float Minecraft::_renderScaleMultiplier = 1.0f;
 
@@ -66,6 +67,7 @@ const char* Minecraft::progressMessages[] =
 Minecraft::Minecraft()
 {
 	m_pOptions = nullptr;
+	m_pScreenChooser = nullptr;
 	field_18 = false;
 	m_bIsGamePaused = false;
 	m_pResourceLoader = nullptr;
@@ -124,6 +126,7 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pGameMode);
 	SAFE_DELETE(m_pFont);
 	SAFE_DELETE(m_pTextures);
+	SAFE_DELETE(m_pScreenChooser);
     
 	if (m_pLevel)
 	{
@@ -259,6 +262,7 @@ void Minecraft::recenterMouse()
 
 void Minecraft::setScreen(Screen* pScreen)
 {
+	float lastScale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
 #ifndef ORIGINAL_CODE
 	if (pScreen == nullptr && !isLevelGenerated())
 	{
@@ -283,7 +287,8 @@ void Minecraft::setScreen(Screen* pScreen)
 	if (m_pScreen)
 	{
 		m_pScreen->removed();
-		delete m_pScreen;
+		if (pScreen && pScreen->m_bDeletePrevious)
+			delete m_pScreen;
 	}
 
 	Mouse::reset();
@@ -292,16 +297,29 @@ void Minecraft::setScreen(Screen* pScreen)
 	Multitouch::resetThisUpdate();
 
 	m_pScreen = pScreen;
+
+	if (pScreen)
+	{
+		pScreen->init(this, Gui::GuiWidth, Gui::GuiHeight);
+	}
+
+	float scale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
+
+	if (scale != lastScale)
+	{
+		sizeUpdate(Minecraft::width, Minecraft::height);
+		if (pScreen)
+			pScreen->initMenuPointer();
+	}
+
 	if (pScreen)
 	{
 		releaseMouse();
-		// the ceil prevents under-drawing
-		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
 
 		if (pScreen->isPauseScreen())
 		{
 			if (m_pLevel && isLevelGenerated())
-				return m_pLevel->saveGame();
+				m_pLevel->saveGame();
 		}
 	}
 	else
@@ -506,7 +524,7 @@ void Minecraft::tickInput()
 {
 	if (m_pScreen)
 	{
-		if (!m_pScreen->field_10)
+		if (!m_pScreen->m_bPassEvents)
 		{
 			m_bUsingScreen = true;
 			m_pScreen->updateEvents();
@@ -570,7 +588,7 @@ void Minecraft::tickInput()
 			{
 				getOptions()->m_thirdPerson.toggle();
 			}
-			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
+			else if (getOptions()->isKey(KM_MENU_PAUSE, keyCode))
 			{
 				handleBack(false);
 			}
@@ -798,6 +816,8 @@ void Minecraft::tick()
 
 	m_pGui->tick();
 
+	LogoRenderer::singleton().tick();
+
 	// if the level has been prepared, delete the prep thread
 	if (!m_bPreparingLevel)
 	{
@@ -849,17 +869,7 @@ void Minecraft::tick()
 
 void Minecraft::update()
 {
-	if (isGamePaused() && m_pLevel)
-	{
-		// Don't advance renderTicks when we're paused
-		float x = m_timer.m_renderTicks;
-		m_timer.advanceTime();
-		m_timer.m_renderTicks = x;
-	}
-	else
-	{
-		m_timer.advanceTime();
-	}
+	m_timer.advanceTime(isGamePaused() && m_pLevel);
 
 	platform()->tick();
 
@@ -889,7 +899,7 @@ void Minecraft::update()
 
 	renderContext.beginRender();
 
-	m_pGameRenderer->render(m_timer.m_renderTicks);
+	m_pGameRenderer->render(m_timer);
 
 	// Added by iProgramInCpp
 	if (m_pGameMode)
@@ -1008,15 +1018,21 @@ void Minecraft::prepareLevel(const std::string& unused)
 void Minecraft::sizeUpdate(int newWidth, int newHeight)
 {
 	// re-calculate the GUI scale.
-	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / getRenderScaleMultiplier();
+	Gui::GuiScale =  getBestScaleForThisScreenSize(newWidth, newHeight) / getRenderScaleMultiplier();
 
 	// The ceil gives an extra pixel to the screen's width and height, in case the GUI scale doesn't
 	// divide evenly into width or height, so that none of the game screen is uncovered.
+	Gui::GuiHeight = ceilf(Minecraft::height * Gui::GuiScale);
+	Gui::GuiScale = float(Gui::GuiHeight) / height;
+	Gui::GuiWidth = ceilf(Minecraft::width * Gui::GuiScale);
+
 	if (m_pScreen)
 		m_pScreen->setSize(
-			int(ceilf(Minecraft::width * Gui::InvGuiScale)),
-			int(ceilf(Minecraft::height * Gui::InvGuiScale))
+			Gui::GuiWidth,
+			Gui::GuiHeight
 		);
+
+	LogoRenderer::singleton().build(Gui::GuiWidth);
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);
@@ -1030,6 +1046,15 @@ void Minecraft::setTextboxText(const std::string& text)
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
+	if (m_pScreen)
+	{
+		float scale = m_pScreen->getScale(width, height);
+		if (scale > 0)
+			return scale;
+	}
+	else if (m_pOptions->getUiTheme() == UI_CONSOLE)
+		return Screen::GetConsoleScale(height);
+
 #if MC_PLATFORM_XBOX
 #define USE_JAVA_SCREEN_SCALING
 #endif
@@ -1038,7 +1063,7 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
 	{
 	}
-	return 1.0f / scale;
+	return scale;
 #endif
 
 	if (height > 1800)
@@ -1125,7 +1150,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	m_bPreparingLevel = false;
 
 	if (m_pRakNetInstance && m_pRakNetInstance->m_bIsHost)
-		m_pRakNetInstance->announceServer(m_pUser->field_0);
+		m_pRakNetInstance->announceServer(m_pUser->m_name);
 }
 
 void* Minecraft::prepareLevel_tspawn(void* ptr)
@@ -1147,7 +1172,7 @@ bool Minecraft::pauseGame()
 		m_bIsGamePaused = true;
 	}
 	m_pLevel->savePlayerData();
-	setScreen(new PauseScreen);
+	getScreenChooser()->pushPauseScreen();
 
 	return true;
 }
@@ -1222,7 +1247,7 @@ void Minecraft::selectLevel(const std::string& levelDir, const std::string& leve
 	field_D9C = 1;
     
     hostMultiplayer();
-    setScreen(new ProgressScreen);
+	getScreenChooser()->pushProgressScreen();
 }
 
 const char* Minecraft::getProgressMessage()
@@ -1252,6 +1277,21 @@ ItemStack& Minecraft::getSelectedItem()
 	return item;
 }
 
+ScreenChooser* Minecraft::getScreenChooser()
+{
+	if (!m_pScreenChooser || m_pScreenChooser->m_uiTheme != getOptions()->getUiTheme())
+	{
+		SAFE_DELETE(m_pScreenChooser);
+		m_pScreenChooser = ScreenChooser::Create(this);
+	}
+	return m_pScreenChooser;
+}
+
+UITheme Minecraft::getUiTheme()
+{
+	return m_pScreen ? m_pScreen->m_uiTheme : getOptions()->getUiTheme();
+}
+
 void Minecraft::reloadFancy(bool isFancy)
 {
 }
@@ -1276,7 +1316,7 @@ void Minecraft::gotoMainMenu()
 #if MC_PLATFORM_CONSOLE
 	m_pSoundEngine->playMusic();
 #endif
-	setScreen(new StartMenuScreen);
+	getScreenChooser()->pushStartScreen();
 }
 
 void Minecraft::hostMultiplayer()
@@ -1285,7 +1325,7 @@ void Minecraft::hostMultiplayer()
 		return;
 
 #ifdef FEATURE_NETWORKING
-	m_pRakNetInstance->host(m_pUser->field_0, C_DEFAULT_PORT, C_MAX_CONNECTIONS);
+	m_pRakNetInstance->host(m_pUser->m_name, C_DEFAULT_PORT, C_MAX_CONNECTIONS);
 	m_pNetEventCallback = new ServerSideNetworkHandler(this, m_pRakNetInstance);
 #endif
 }

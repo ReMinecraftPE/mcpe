@@ -198,6 +198,42 @@
 		8435BB1A2DCD47F400D38282 /* SoundStreamOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */; };
 		8441F98F2DB4E911005977BD /* SoundSystemOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemOAL.cpp */; };
 		8441F9962DB4E911005977BD /* SoundSystemOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemOAL.cpp */; };
+		844336EB2F405D8E00EB3115 /* ScrollRenderer_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844336E92F405D8E00EB3115 /* ScrollRenderer_Console.cpp */; };
+		844336EC2F405D8E00EB3115 /* ScrollRenderer_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844336EA2F405D8E00EB3115 /* ScrollRenderer_Console.hpp */; };
+		844336F52F405DCA00EB3115 /* AreaNavigation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844336ED2F405DCA00EB3115 /* AreaNavigation.cpp */; };
+		844336F62F405DCA00EB3115 /* AreaNavigation.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844336EE2F405DCA00EB3115 /* AreaNavigation.hpp */; };
+		844336F72F405DCA00EB3115 /* ScreenChooser_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844336EF2F405DCA00EB3115 /* ScreenChooser_Console.cpp */; };
+		844336F82F405DCA00EB3115 /* ScreenChooser_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844336F02F405DCA00EB3115 /* ScreenChooser_Console.hpp */; };
+		844336F92F405DCA00EB3115 /* ScreenChooser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844336F12F405DCA00EB3115 /* ScreenChooser.cpp */; };
+		844336FA2F405DCA00EB3115 /* ScreenChooser.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844336F22F405DCA00EB3115 /* ScreenChooser.hpp */; };
+		844336FB2F405DCA00EB3115 /* VerticalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844336F32F405DCA00EB3115 /* VerticalLayout.cpp */; };
+		844336FC2F405DCA00EB3115 /* VerticalLayout.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844336F42F405DCA00EB3115 /* VerticalLayout.hpp */; };
+		8443370B2F405E0600EB3115 /* CreateWorldScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844336FD2F405E0600EB3115 /* CreateWorldScreen_Console.cpp */; };
+		8443370C2F405E0600EB3115 /* CreateWorldScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844336FE2F405E0600EB3115 /* CreateWorldScreen_Console.hpp */; };
+		8443370D2F405E0600EB3115 /* OptionsScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844336FF2F405E0600EB3115 /* OptionsScreen_Console.cpp */; };
+		8443370E2F405E0600EB3115 /* OptionsScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337002F405E0600EB3115 /* OptionsScreen_Console.hpp */; };
+		8443370F2F405E0600EB3115 /* PanelScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337012F405E0600EB3115 /* PanelScreen_Console.cpp */; };
+		844337102F405E0600EB3115 /* PanelScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337022F405E0600EB3115 /* PanelScreen_Console.hpp */; };
+		844337112F405E0600EB3115 /* PauseScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337032F405E0600EB3115 /* PauseScreen_Console.cpp */; };
+		844337122F405E0600EB3115 /* PauseScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337042F405E0600EB3115 /* PauseScreen_Console.hpp */; };
+		844337132F405E0600EB3115 /* ProgressScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337052F405E0600EB3115 /* ProgressScreen_Console.cpp */; };
+		844337142F405E0600EB3115 /* ProgressScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337062F405E0600EB3115 /* ProgressScreen_Console.hpp */; };
+		844337152F405E0600EB3115 /* SelectWorldScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337072F405E0600EB3115 /* SelectWorldScreen_Console.cpp */; };
+		844337162F405E0600EB3115 /* SelectWorldScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337082F405E0600EB3115 /* SelectWorldScreen_Console.hpp */; };
+		844337172F405E0600EB3115 /* StartMenuScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337092F405E0600EB3115 /* StartMenuScreen_Console.cpp */; };
+		844337182F405E0600EB3115 /* StartMenuScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8443370A2F405E0600EB3115 /* StartMenuScreen_Console.hpp */; };
+		8443371B2F405E1C00EB3115 /* ClassicCraftingScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337192F405E1C00EB3115 /* ClassicCraftingScreen_Console.cpp */; };
+		8443371C2F405E1C00EB3115 /* ClassicCraftingScreen_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8443371A2F405E1C00EB3115 /* ClassicCraftingScreen_Console.hpp */; };
+		844337272F405E5500EB3115 /* LogoRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443371D2F405E5500EB3115 /* LogoRenderer.cpp */; };
+		844337282F405E5500EB3115 /* LogoRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8443371E2F405E5500EB3115 /* LogoRenderer.hpp */; };
+		844337322F405E7500EB3115 /* TextureAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337302F405E7500EB3115 /* TextureAtlas.cpp */; };
+		844337332F405E7500EB3115 /* TextureAtlas.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337312F405E7500EB3115 /* TextureAtlas.hpp */; };
+		844337382F405E9400EB3115 /* LoadingTipManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337342F405E9400EB3115 /* LoadingTipManager.cpp */; };
+		844337392F405E9400EB3115 /* LoadingTipManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337352F405E9400EB3115 /* LoadingTipManager.hpp */; };
+		8443373A2F405E9400EB3115 /* SplashManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844337362F405E9400EB3115 /* SplashManager.cpp */; };
+		8443373B2F405E9400EB3115 /* SplashManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 844337372F405E9400EB3115 /* SplashManager.hpp */; };
+		8443373E2F4060AD00EB3115 /* TickBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443373C2F4060AD00EB3115 /* TickBox.cpp */; };
+		8443373F2F4060AD00EB3115 /* TickBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8443373D2F4060AD00EB3115 /* TickBox.hpp */; };
 		8443B6EA2A98675F0086730C /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8443B6E92A98675F0086730C /* libSDL2.a */; };
 		844496882E7668B0008CF2E0 /* libClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B8AEE72AF188D8008DE93D /* libClient.a */; };
 		844496892E7668B0008CF2E0 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
@@ -2198,6 +2234,42 @@
 		8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundStreamOAL.cpp; sourceTree = "<group>"; };
 		8441F9852DB4E911005977BD /* CustomSoundSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CustomSoundSystem.hpp; sourceTree = "<group>"; };
 		8441F9862DB4E911005977BD /* SoundSystemOAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemOAL.cpp; sourceTree = "<group>"; };
+		844336E92F405D8E00EB3115 /* ScrollRenderer_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollRenderer_Console.cpp; sourceTree = "<group>"; };
+		844336EA2F405D8E00EB3115 /* ScrollRenderer_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScrollRenderer_Console.hpp; sourceTree = "<group>"; };
+		844336ED2F405DCA00EB3115 /* AreaNavigation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AreaNavigation.cpp; sourceTree = "<group>"; };
+		844336EE2F405DCA00EB3115 /* AreaNavigation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AreaNavigation.hpp; sourceTree = "<group>"; };
+		844336EF2F405DCA00EB3115 /* ScreenChooser_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenChooser_Console.cpp; sourceTree = "<group>"; };
+		844336F02F405DCA00EB3115 /* ScreenChooser_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScreenChooser_Console.hpp; sourceTree = "<group>"; };
+		844336F12F405DCA00EB3115 /* ScreenChooser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenChooser.cpp; sourceTree = "<group>"; };
+		844336F22F405DCA00EB3115 /* ScreenChooser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScreenChooser.hpp; sourceTree = "<group>"; };
+		844336F32F405DCA00EB3115 /* VerticalLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VerticalLayout.cpp; sourceTree = "<group>"; };
+		844336F42F405DCA00EB3115 /* VerticalLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VerticalLayout.hpp; sourceTree = "<group>"; };
+		844336FD2F405E0600EB3115 /* CreateWorldScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreateWorldScreen_Console.cpp; sourceTree = "<group>"; };
+		844336FE2F405E0600EB3115 /* CreateWorldScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreateWorldScreen_Console.hpp; sourceTree = "<group>"; };
+		844336FF2F405E0600EB3115 /* OptionsScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptionsScreen_Console.cpp; sourceTree = "<group>"; };
+		844337002F405E0600EB3115 /* OptionsScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OptionsScreen_Console.hpp; sourceTree = "<group>"; };
+		844337012F405E0600EB3115 /* PanelScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PanelScreen_Console.cpp; sourceTree = "<group>"; };
+		844337022F405E0600EB3115 /* PanelScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PanelScreen_Console.hpp; sourceTree = "<group>"; };
+		844337032F405E0600EB3115 /* PauseScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PauseScreen_Console.cpp; sourceTree = "<group>"; };
+		844337042F405E0600EB3115 /* PauseScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PauseScreen_Console.hpp; sourceTree = "<group>"; };
+		844337052F405E0600EB3115 /* ProgressScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgressScreen_Console.cpp; sourceTree = "<group>"; };
+		844337062F405E0600EB3115 /* ProgressScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ProgressScreen_Console.hpp; sourceTree = "<group>"; };
+		844337072F405E0600EB3115 /* SelectWorldScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SelectWorldScreen_Console.cpp; sourceTree = "<group>"; };
+		844337082F405E0600EB3115 /* SelectWorldScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SelectWorldScreen_Console.hpp; sourceTree = "<group>"; };
+		844337092F405E0600EB3115 /* StartMenuScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StartMenuScreen_Console.cpp; sourceTree = "<group>"; };
+		8443370A2F405E0600EB3115 /* StartMenuScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StartMenuScreen_Console.hpp; sourceTree = "<group>"; };
+		844337192F405E1C00EB3115 /* ClassicCraftingScreen_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClassicCraftingScreen_Console.cpp; sourceTree = "<group>"; };
+		8443371A2F405E1C00EB3115 /* ClassicCraftingScreen_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ClassicCraftingScreen_Console.hpp; sourceTree = "<group>"; };
+		8443371D2F405E5500EB3115 /* LogoRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogoRenderer.cpp; sourceTree = "<group>"; };
+		8443371E2F405E5500EB3115 /* LogoRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LogoRenderer.hpp; sourceTree = "<group>"; };
+		844337302F405E7500EB3115 /* TextureAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureAtlas.cpp; sourceTree = "<group>"; };
+		844337312F405E7500EB3115 /* TextureAtlas.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureAtlas.hpp; sourceTree = "<group>"; };
+		844337342F405E9400EB3115 /* LoadingTipManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadingTipManager.cpp; sourceTree = "<group>"; };
+		844337352F405E9400EB3115 /* LoadingTipManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LoadingTipManager.hpp; sourceTree = "<group>"; };
+		844337362F405E9400EB3115 /* SplashManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplashManager.cpp; sourceTree = "<group>"; };
+		844337372F405E9400EB3115 /* SplashManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SplashManager.hpp; sourceTree = "<group>"; };
+		8443373C2F4060AD00EB3115 /* TickBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TickBox.cpp; sourceTree = "<group>"; };
+		8443373D2F4060AD00EB3115 /* TickBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TickBox.hpp; sourceTree = "<group>"; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
 		844496762E76685C008CF2E0 /* MinecraftClient.SDL1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftClient.SDL1; sourceTree = BUILT_PRODUCTS_DIR; };
 		8444968C2E7668E5008CF2E0 /* libSDL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL.a; path = ../../../../../../../../../opt/local/libexec/libsdl12/lib/libSDL.a; sourceTree = "<group>"; };
@@ -3221,6 +3293,8 @@
 		840DD5862AC810620006A435 /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				844336ED2F405DCA00EB3115 /* AreaNavigation.cpp */,
+				844336EE2F405DCA00EB3115 /* AreaNavigation.hpp */,
 				840DD5872AC810620006A435 /* components */,
 				840DD5962AC810620006A435 /* Gui.cpp */,
 				840DD5972AC810620006A435 /* Gui.hpp */,
@@ -3233,7 +3307,13 @@
 				84E022F62F2A021E003C8FFE /* MenuPointer.hpp */,
 				840DD59A2AC810620006A435 /* Screen.cpp */,
 				840DD59B2AC810620006A435 /* Screen.hpp */,
+				844336F12F405DCA00EB3115 /* ScreenChooser.cpp */,
+				844336F22F405DCA00EB3115 /* ScreenChooser.hpp */,
+				844336EF2F405DCA00EB3115 /* ScreenChooser_Console.cpp */,
+				844336F02F405DCA00EB3115 /* ScreenChooser_Console.hpp */,
 				840DD59C2AC810620006A435 /* screens */,
+				844336F32F405DCA00EB3115 /* VerticalLayout.cpp */,
+				844336F42F405DCA00EB3115 /* VerticalLayout.hpp */,
 			);
 			path = gui;
 			sourceTree = "<group>";
@@ -3251,6 +3331,8 @@
 				840DD58D2AC810620006A435 /* RolledSelectionList.hpp */,
 				840DD58E2AC810620006A435 /* ScrolledSelectionList.cpp */,
 				840DD58F2AC810620006A435 /* ScrolledSelectionList.hpp */,
+				844336E92F405D8E00EB3115 /* ScrollRenderer_Console.cpp */,
+				844336EA2F405D8E00EB3115 /* ScrollRenderer_Console.hpp */,
 				84EE49E92F387DBD00677881 /* SliderButton.cpp */,
 				84EE49EA2F387DBD00677881 /* SliderButton.hpp */,
 				840DD5902AC810620006A435 /* SmallButton.cpp */,
@@ -3261,6 +3343,8 @@
 				84EE49EE2F387DBD00677881 /* SwitchValuesButton.hpp */,
 				840DD5922AC810620006A435 /* TextBox.cpp */,
 				840DD5932AC810620006A435 /* TextBox.hpp */,
+				8443373C2F4060AD00EB3115 /* TickBox.cpp */,
+				8443373D2F4060AD00EB3115 /* TickBox.hpp */,
 				840DD5942AC810620006A435 /* WorldSelectionList.cpp */,
 				840DD5952AC810620006A435 /* WorldSelectionList.hpp */,
 			);
@@ -3278,6 +3362,8 @@
 				84CED51E2E672826006BC585 /* ConvertWorldScreen.hpp */,
 				840DD5A12AC810620006A435 /* CreateWorldScreen.cpp */,
 				840DD5A22AC810620006A435 /* CreateWorldScreen.hpp */,
+				844336FD2F405E0600EB3115 /* CreateWorldScreen_Console.cpp */,
+				844336FE2F405E0600EB3115 /* CreateWorldScreen_Console.hpp */,
 				9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */,
 				9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */,
 				840DD5A32AC810620006A435 /* DeathScreen.cpp */,
@@ -3297,18 +3383,30 @@
 				840DD5AE2AC810620006A435 /* JoinGameScreen.hpp */,
 				840DD5AF2AC810620006A435 /* OptionsScreen.cpp */,
 				840DD5B02AC810620006A435 /* OptionsScreen.hpp */,
+				844336FF2F405E0600EB3115 /* OptionsScreen_Console.cpp */,
+				844337002F405E0600EB3115 /* OptionsScreen_Console.hpp */,
+				844337012F405E0600EB3115 /* PanelScreen_Console.cpp */,
+				844337022F405E0600EB3115 /* PanelScreen_Console.hpp */,
 				840DD5B12AC810620006A435 /* PauseScreen.cpp */,
 				840DD5B22AC810620006A435 /* PauseScreen.hpp */,
+				844337032F405E0600EB3115 /* PauseScreen_Console.cpp */,
+				844337042F405E0600EB3115 /* PauseScreen_Console.hpp */,
 				840DD5B32AC810620006A435 /* ProgressScreen.cpp */,
 				840DD5B42AC810620006A435 /* ProgressScreen.hpp */,
+				844337052F405E0600EB3115 /* ProgressScreen_Console.cpp */,
+				844337062F405E0600EB3115 /* ProgressScreen_Console.hpp */,
 				840DD5B52AC810620006A435 /* RenameMPLevelScreen.cpp */,
 				840DD5B62AC810620006A435 /* RenameMPLevelScreen.hpp */,
 				840DD5B72AC810620006A435 /* SavingWorldScreen.cpp */,
 				840DD5B82AC810620006A435 /* SavingWorldScreen.hpp */,
 				840DD5B92AC810620006A435 /* SelectWorldScreen.cpp */,
 				840DD5BA2AC810620006A435 /* SelectWorldScreen.hpp */,
+				844337072F405E0600EB3115 /* SelectWorldScreen_Console.cpp */,
+				844337082F405E0600EB3115 /* SelectWorldScreen_Console.hpp */,
 				840DD5BB2AC810620006A435 /* StartMenuScreen.cpp */,
 				840DD5BC2AC810620006A435 /* StartMenuScreen.hpp */,
+				844337092F405E0600EB3115 /* StartMenuScreen_Console.cpp */,
+				8443370A2F405E0600EB3115 /* StartMenuScreen_Console.hpp */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -4658,6 +4756,8 @@
 				84AA8BD82B32F3F3003F5B82 /* LightLayer.hpp */,
 				84AA8BD92B32F3F3003F5B82 /* LightUpdate.cpp */,
 				84AA8BDA2B32F3F3003F5B82 /* LightUpdate.hpp */,
+				8443371D2F405E5500EB3115 /* LogoRenderer.cpp */,
+				8443371E2F405E5500EB3115 /* LogoRenderer.hpp */,
 				84AA8BDB2B32F3F3003F5B82 /* PatchManager.cpp */,
 				84AA8BDC2B32F3F3003F5B82 /* PatchManager.hpp */,
 				84AA8BDD2B32F3F3003F5B82 /* RenderChunk.cpp */,
@@ -4839,6 +4939,8 @@
 			children = (
 				84E022E92F2A0211003C8FFE /* ChestScreen.cpp */,
 				84E022EA2F2A0211003C8FFE /* ChestScreen.hpp */,
+				844337192F405E1C00EB3115 /* ClassicCraftingScreen_Console.cpp */,
+				8443371A2F405E1C00EB3115 /* ClassicCraftingScreen_Console.hpp */,
 				84E022EB2F2A0211003C8FFE /* ContainerScreen.cpp */,
 				84E022EC2F2A0211003C8FFE /* ContainerScreen.hpp */,
 				84DED1962F3095B8004001C5 /* CraftingScreen.cpp */,
@@ -4993,6 +5095,8 @@
 				84EB09EA2EE2CCA8008FB007 /* ColorSpace.hpp */,
 				84EB09EB2EE2CCA8008FB007 /* ImageData.cpp */,
 				84EB09EC2EE2CCA8008FB007 /* ImageData.hpp */,
+				844337302F405E7500EB3115 /* TextureAtlas.cpp */,
+				844337312F405E7500EB3115 /* TextureAtlas.hpp */,
 				84EB09ED2EE2CCA8008FB007 /* TextureData.cpp */,
 				84EB09EE2EE2CCA8008FB007 /* TextureData.hpp */,
 			);
@@ -5303,6 +5407,8 @@
 			children = (
 				9DA5C63C2F2845F80039B697 /* AppResourceLoader.cpp */,
 				9DA5C63B2F2845F80039B697 /* AppResourceLoader.hpp */,
+				844337342F405E9400EB3115 /* LoadingTipManager.cpp */,
+				844337352F405E9400EB3115 /* LoadingTipManager.hpp */,
 				9DA5C63E2F2845F80039B697 /* Resource.cpp */,
 				9DA5C63D2F2845F80039B697 /* Resource.hpp */,
 				9DA5C6402F2845F80039B697 /* ResourceLoader.cpp */,
@@ -5317,6 +5423,8 @@
 				84F948222F2F5CB700217B16 /* ResourcePackManifest.hpp */,
 				84F948232F2F5CB700217B16 /* ResourcePackRepository.cpp */,
 				84F948242F2F5CB700217B16 /* ResourcePackRepository.hpp */,
+				844337362F405E9400EB3115 /* SplashManager.cpp */,
+				844337372F405E9400EB3115 /* SplashManager.hpp */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -5534,12 +5642,15 @@
 				84F77A692EA1C0A10045C907 /* MultiPlayerLevel.hpp in Headers */,
 				84B8AF372AF189D8008DE93D /* AppPlatform.hpp in Headers */,
 				84B8AF382AF189D8008DE93D /* Minecraft.hpp in Headers */,
+				8443370E2F405E0600EB3115 /* OptionsScreen_Console.hpp in Headers */,
 				84B8AF392AF189D8008DE93D /* NinecraftApp.hpp in Headers */,
+				844337282F405E5500EB3115 /* LogoRenderer.hpp in Headers */,
 				84E022F02F2A0211003C8FFE /* ChestScreen.hpp in Headers */,
 				84B8AF3A2AF189D8008DE93D /* AvailableGamesList.hpp in Headers */,
 				84B8AF3B2AF189D8008DE93D /* Button.hpp in Headers */,
 				8477B3A52C4DC374004E1AC5 /* ControllerMoveInput.hpp in Headers */,
 				84B8AF3C2AF189D8008DE93D /* RolledSelectionList.hpp in Headers */,
+				8443373F2F4060AD00EB3115 /* TickBox.hpp in Headers */,
 				84B8AF3D2AF189D8008DE93D /* ScrolledSelectionList.hpp in Headers */,
 				84B8AF3E2AF189D8008DE93D /* SmallButton.hpp in Headers */,
 				84B8AF3F2AF189D8008DE93D /* TextBox.hpp in Headers */,
@@ -5571,10 +5682,12 @@
 				84B8AF522AF189D8008DE93D /* SelectWorldScreen.hpp in Headers */,
 				84B8AF532AF189D8008DE93D /* StartMenuScreen.hpp in Headers */,
 				84EB099C2EE2CC3B008FB007 /* GuiElement.hpp in Headers */,
+				844337142F405E0600EB3115 /* ProgressScreen_Console.hpp in Headers */,
 				84DED1992F3095B8004001C5 /* CraftingScreen.hpp in Headers */,
 				84EB09D52EE2CC86008FB007 /* QuadrupedModel.hpp in Headers */,
 				84EB09F42EE2CCA8008FB007 /* RenderMaterialGroup.hpp in Headers */,
 				84B8AF582AF189D8008DE93D /* ClientSideNetworkHandler.hpp in Headers */,
+				844337122F405E0600EB3115 /* PauseScreen_Console.hpp in Headers */,
 				84EE49F02F387DBD00677881 /* SliderButton.hpp in Headers */,
 				84B8AF592AF189D8008DE93D /* Options.hpp in Headers */,
 				84F77A6F2EA1C27B0045C907 /* LocalPlayer.hpp in Headers */,
@@ -5593,6 +5706,7 @@
 				84F66DE82F18C9DA00DE508E /* GameController.hpp in Headers */,
 				84B8AF7F2AF189D8008DE93D /* SoundDefs.hpp in Headers */,
 				84EB09D32EE2CC86008FB007 /* PigModel.hpp in Headers */,
+				844336EC2F405D8E00EB3115 /* ScrollRenderer_Console.hpp in Headers */,
 				84B8AF802AF189D8008DE93D /* SoundEngine.hpp in Headers */,
 				84B8AF812AF189D8008DE93D /* SoundRepository.hpp in Headers */,
 				84B8AF822AF189D8008DE93D /* SoundSystem.hpp in Headers */,
@@ -5600,6 +5714,8 @@
 				84E0011D2AF39E84009B9555 /* CustomInputHolder.hpp in Headers */,
 				84E0011E2AF39E84009B9555 /* IArea.hpp in Headers */,
 				84E001202AF39E84009B9555 /* IBuildInput.hpp in Headers */,
+				844336F82F405DCA00EB3115 /* ScreenChooser_Console.hpp in Headers */,
+				844337392F405E9400EB3115 /* LoadingTipManager.hpp in Headers */,
 				84E001222AF39E84009B9555 /* IInputHolder.hpp in Headers */,
 				84E001242AF39E84009B9555 /* IMoveInput.hpp in Headers */,
 				84E001262AF39E84009B9555 /* IncludeExcludeArea.hpp in Headers */,
@@ -5609,9 +5725,11 @@
 				84E0012E2AF39E84009B9555 /* Multitouch.hpp in Headers */,
 				84E001302AF39E84009B9555 /* PolygonArea.hpp in Headers */,
 				84EB09DF2EE2CC86008FB007 /* ZombieModel.hpp in Headers */,
+				844336FC2F405DCA00EB3115 /* VerticalLayout.hpp in Headers */,
 				84EE49F42F387DBD00677881 /* SwitchValuesButton.hpp in Headers */,
 				84E001322AF39E84009B9555 /* RectangleArea.hpp in Headers */,
 				84E001342AF39E84009B9555 /* TouchAreaModel.hpp in Headers */,
+				8443371C2F405E1C00EB3115 /* ClassicCraftingScreen_Console.hpp in Headers */,
 				84E001362AF39E84009B9555 /* TouchInputHolder.hpp in Headers */,
 				84E001382AF39E84009B9555 /* TouchscreenInput_TestFps.hpp in Headers */,
 				84EE49F22F387DBD00677881 /* SwitchButton.hpp in Headers */,
@@ -5627,6 +5745,7 @@
 				9DA5C6472F2845F80039B697 /* Resource.hpp in Headers */,
 				9DA5C6482F2845F80039B697 /* ResourceLoader.hpp in Headers */,
 				9DA5C6492F2845F80039B697 /* AppResourceLoader.hpp in Headers */,
+				844337182F405E0600EB3115 /* StartMenuScreen_Console.hpp in Headers */,
 				9DA5C64A2F2845F80039B697 /* ResourceLocation.hpp in Headers */,
 				84AA8BF02B32F3F3003F5B82 /* DynamicTexture.hpp in Headers */,
 				84AA8BF22B32F3F3003F5B82 /* ChickenRenderer.hpp in Headers */,
@@ -5642,9 +5761,11 @@
 				84E022F42F2A0211003C8FFE /* InventoryScreen.hpp in Headers */,
 				84AA8BFE2B32F3F3003F5B82 /* HumanoidMobRenderer.hpp in Headers */,
 				84AA8C002B32F3F3003F5B82 /* ItemRenderer.hpp in Headers */,
+				844337102F405E0600EB3115 /* PanelScreen_Console.hpp in Headers */,
 				84AA8C022B32F3F3003F5B82 /* ItemSpriteRenderer.hpp in Headers */,
 				84AA8C042B32F3F3003F5B82 /* MobRenderer.hpp in Headers */,
 				84EB09D92EE2CC86008FB007 /* SheepModel.hpp in Headers */,
+				844336F62F405DCA00EB3115 /* AreaNavigation.hpp in Headers */,
 				84AA8C062B32F3F3003F5B82 /* PigRenderer.hpp in Headers */,
 				84AA8C082B32F3F3003F5B82 /* SheepFurRenderer.hpp in Headers */,
 				84F9482A2F2F5CB700217B16 /* ResourcePackRepository.hpp in Headers */,
@@ -5666,6 +5787,7 @@
 				84AA8C232B32F3F3003F5B82 /* ItemInHandRenderer.hpp in Headers */,
 				84AA8C272B32F3F3003F5B82 /* LevelRenderer.hpp in Headers */,
 				84AA8C292B32F3F3003F5B82 /* LightLayer.hpp in Headers */,
+				844337162F405E0600EB3115 /* SelectWorldScreen_Console.hpp in Headers */,
 				84EB09DB2EE2CC86008FB007 /* SkeletonModel.hpp in Headers */,
 				84A2FF182DB61D440090CE3E /* SoundPathRepository.hpp in Headers */,
 				84EB09FB2EE2CCA8008FB007 /* TextureData.hpp in Headers */,
@@ -5673,12 +5795,15 @@
 				84AA8C2B2B32F3F3003F5B82 /* LightUpdate.hpp in Headers */,
 				84AA8C2D2B32F3F3003F5B82 /* PatchManager.hpp in Headers */,
 				84AA8C2F2B32F3F3003F5B82 /* RenderChunk.hpp in Headers */,
+				844337332F405E7500EB3115 /* TextureAtlas.hpp in Headers */,
+				844336FA2F405DCA00EB3115 /* ScreenChooser.hpp in Headers */,
 				84CED5202E672826006BC585 /* ConvertWorldScreen.hpp in Headers */,
 				84F66DEC2F18C9DA00DE508E /* GameControllerManager.hpp in Headers */,
 				84A2FF162DB5B7B70090CE3E /* AssetFile.hpp in Headers */,
 				84AA8C312B32F3F3003F5B82 /* RenderList.hpp in Headers */,
 				84AA8C332B32F3F3003F5B82 /* Tesselator.hpp in Headers */,
 				84AA8C342B32F3F3003F5B82 /* Texture.hpp in Headers */,
+				8443373B2F405E9400EB3115 /* SplashManager.hpp in Headers */,
 				84AA8C362B32F3F3003F5B82 /* Textures.hpp in Headers */,
 				84AA8C382B32F3F3003F5B82 /* TileRenderer.hpp in Headers */,
 				84AA8C392B32F3F3003F5B82 /* VertexPT.hpp in Headers */,
@@ -5687,6 +5812,7 @@
 				84EB099D2EE2CC3B008FB007 /* IntRectangle.hpp in Headers */,
 				84EB09972EE2CC25008FB007 /* AppPlatformListener.hpp in Headers */,
 				8477B3A72C4DC374004E1AC5 /* MouseBuildInput.hpp in Headers */,
+				8443370C2F405E0600EB3115 /* CreateWorldScreen_Console.hpp in Headers */,
 				84E78C802B58B5CC00D515EF /* RocketRenderer.hpp in Headers */,
 				84F948262F2F5CB700217B16 /* ResourcePack.hpp in Headers */,
 				8470AF412BE9B80900BCA54E /* DisconnectionScreen.hpp in Headers */,
@@ -6642,13 +6768,17 @@
 				84B1E0632E05194A00ED000A /* stb_vorbis.c in Sources */,
 				84B8AEFD2AF1896F008DE93D /* InvalidLicenseScreen.cpp in Sources */,
 				84B8AEFE2AF1896F008DE93D /* JoinGameScreen.cpp in Sources */,
+				844336FB2F405DCA00EB3115 /* VerticalLayout.cpp in Sources */,
 				84B8AEFF2AF1896F008DE93D /* OptionsScreen.cpp in Sources */,
 				84B8AF002AF1896F008DE93D /* PauseScreen.cpp in Sources */,
 				84B8AF012AF1896F008DE93D /* ProgressScreen.cpp in Sources */,
+				8443370B2F405E0600EB3115 /* CreateWorldScreen_Console.cpp in Sources */,
 				84B8AF022AF1896F008DE93D /* RenameMPLevelScreen.cpp in Sources */,
+				844337272F405E5500EB3115 /* LogoRenderer.cpp in Sources */,
 				84F66DE72F18C9DA00DE508E /* GameController.cpp in Sources */,
 				84B8AF032AF1896F008DE93D /* SavingWorldScreen.cpp in Sources */,
 				84B8AF042AF1896F008DE93D /* SelectWorldScreen.cpp in Sources */,
+				8443373E2F4060AD00EB3115 /* TickBox.cpp in Sources */,
 				84F66DE92F18C9DA00DE508E /* GameControllerHandler.cpp in Sources */,
 				84B8AF052AF1896F008DE93D /* StartMenuScreen.cpp in Sources */,
 				8477B3A22C4DC374004E1AC5 /* ControllerBuildInput.cpp in Sources */,
@@ -6662,6 +6792,7 @@
 				84B8AF102AF1896F008DE93D /* KeyboardInput.cpp in Sources */,
 				84E022F12F2A0211003C8FFE /* ContainerScreen.cpp in Sources */,
 				84F948272F2F5CB700217B16 /* ResourcePackManifest.cpp in Sources */,
+				8443373A2F405E9400EB3115 /* SplashManager.cpp in Sources */,
 				84B8AF112AF1896F008DE93D /* Mouse.cpp in Sources */,
 				84B8AF122AF1896F008DE93D /* MouseTurnInput.cpp in Sources */,
 				84B8AF322AF1896F008DE93D /* SoundData.cpp in Sources */,
@@ -6684,6 +6815,7 @@
 				84B8AEEF2AF1890A008DE93D /* ScrolledSelectionList.cpp in Sources */,
 				84B8AEF02AF1890A008DE93D /* SmallButton.cpp in Sources */,
 				84B8AEF12AF1890A008DE93D /* TextBox.cpp in Sources */,
+				844336F72F405DCA00EB3115 /* ScreenChooser_Console.cpp in Sources */,
 				84EB09F12EE2CCA8008FB007 /* EntityShaderManager.cpp in Sources */,
 				84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */,
 				84B8AEF22AF1890A008DE93D /* WorldSelectionList.cpp in Sources */,
@@ -6696,6 +6828,7 @@
 				84EB09D02EE2CC86008FB007 /* Model.cpp in Sources */,
 				84B8AEF72AF1890A008DE93D /* ConfirmScreen.cpp in Sources */,
 				84E022EF2F2A0211003C8FFE /* ChestScreen.cpp in Sources */,
+				844337322F405E7500EB3115 /* TextureAtlas.cpp in Sources */,
 				84EE49F12F387DBD00677881 /* SwitchButton.cpp in Sources */,
 				84F948292F2F5CB700217B16 /* ResourcePackRepository.cpp in Sources */,
 				84B8AEF82AF1890A008DE93D /* CreateWorldScreen.cpp in Sources */,
@@ -6710,6 +6843,7 @@
 				84EB09DA2EE2CC86008FB007 /* SkeletonModel.cpp in Sources */,
 				84E001272AF39E84009B9555 /* ITouchScreenModel.cpp in Sources */,
 				84E001292AF39E84009B9555 /* MouseDevice.cpp in Sources */,
+				8443370D2F405E0600EB3115 /* OptionsScreen_Console.cpp in Sources */,
 				84E0012B2AF39E84009B9555 /* MouseHandler.cpp in Sources */,
 				84E0012D2AF39E84009B9555 /* Multitouch.cpp in Sources */,
 				84E0012F2AF39E84009B9555 /* PolygonArea.cpp in Sources */,
@@ -6725,16 +6859,20 @@
 				84AA8BED2B32F3F3003F5B82 /* Culler.cpp in Sources */,
 				9DA5C64B2F2845F80039B697 /* ResourceLocation.cpp in Sources */,
 				9DA5C64C2F2845F80039B697 /* AppResourceLoader.cpp in Sources */,
+				844337382F405E9400EB3115 /* LoadingTipManager.cpp in Sources */,
 				9DA5C64D2F2845F80039B697 /* Resource.cpp in Sources */,
 				9DA5C64E2F2845F80039B697 /* ResourceLoader.cpp in Sources */,
 				9DA5C64F2F2845F80039B697 /* ResourcePackManager.cpp in Sources */,
+				844336EB2F405D8E00EB3115 /* ScrollRenderer_Console.cpp in Sources */,
 				84AA8BEF2B32F3F3003F5B82 /* DynamicTexture.cpp in Sources */,
 				84EE49EF2F387DBD00677881 /* SliderButton.cpp in Sources */,
 				84AA8BF12B32F3F3003F5B82 /* ChickenRenderer.cpp in Sources */,
 				84AA8BF32B32F3F3003F5B82 /* CowRenderer.cpp in Sources */,
 				84EB09CA2EE2CC86008FB007 /* CowModel.cpp in Sources */,
 				84AA8BF52B32F3F3003F5B82 /* CreeperRenderer.cpp in Sources */,
+				844337112F405E0600EB3115 /* PauseScreen_Console.cpp in Sources */,
 				84AA8BF72B32F3F3003F5B82 /* EntityRenderDispatcher.cpp in Sources */,
+				844336F52F405DCA00EB3115 /* AreaNavigation.cpp in Sources */,
 				8477B3A42C4DC374004E1AC5 /* ControllerMoveInput.cpp in Sources */,
 				84EB09EF2EE2CCA8008FB007 /* Fog.cpp in Sources */,
 				84AA8BF92B32F3F3003F5B82 /* EntityRenderer.cpp in Sources */,
@@ -6750,13 +6888,17 @@
 				84EB09962EE2CC25008FB007 /* AppPlatformListener.cpp in Sources */,
 				84AA8C052B32F3F3003F5B82 /* PigRenderer.cpp in Sources */,
 				84AA8C072B32F3F3003F5B82 /* SheepFurRenderer.cpp in Sources */,
+				8443371B2F405E1C00EB3115 /* ClassicCraftingScreen_Console.cpp in Sources */,
 				84AA8C092B32F3F3003F5B82 /* SheepRenderer.cpp in Sources */,
 				9D3996292F10E9C6002945D3 /* CreditsScreen.cpp in Sources */,
 				84AA8C0D2B32F3F3003F5B82 /* SpiderRenderer.cpp in Sources */,
+				844337132F405E0600EB3115 /* ProgressScreen_Console.cpp in Sources */,
+				8443370F2F405E0600EB3115 /* PanelScreen_Console.cpp in Sources */,
 				84AA8C0F2B32F3F3003F5B82 /* TntRenderer.cpp in Sources */,
 				84AA8C112B32F3F3003F5B82 /* TripodCameraRenderer.cpp in Sources */,
 				84EB09D42EE2CC86008FB007 /* QuadrupedModel.cpp in Sources */,
 				84F77A6E2EA1C27B0045C907 /* LocalPlayer.cpp in Sources */,
+				844336F92F405DCA00EB3115 /* ScreenChooser.cpp in Sources */,
 				84F77A6A2EA1C0A10045C907 /* MultiplayerLocalPlayer.cpp in Sources */,
 				84AA8C152B32F3F3003F5B82 /* FireTexture.cpp in Sources */,
 				84AA8C162B32F3F3003F5B82 /* FoliageColor.cpp in Sources */,
@@ -6765,6 +6907,7 @@
 				84AA8C1C2B32F3F3003F5B82 /* FrustumCuller.cpp in Sources */,
 				84A2FF1A2DB61D720090CE3E /* SoundPathRepository.cpp in Sources */,
 				84DFC1E52F285ECA00F5434F /* ShaderGroup.cpp in Sources */,
+				844337172F405E0600EB3115 /* StartMenuScreen_Console.cpp in Sources */,
 				84AA8C1E2B32F3F3003F5B82 /* GameRenderer.cpp in Sources */,
 				84EB09F52EE2CCA8008FB007 /* ScreenRenderer.cpp in Sources */,
 				84AA8C202B32F3F3003F5B82 /* GrassColor.cpp in Sources */,
@@ -6787,6 +6930,7 @@
 				84A2FF1E2DB61F6C0090CE3E /* SoundStream.cpp in Sources */,
 				84AA8C372B32F3F3003F5B82 /* TileRenderer.cpp in Sources */,
 				84AA8C3A2B32F3F3003F5B82 /* WaterSideTexture.cpp in Sources */,
+				844337152F405E0600EB3115 /* SelectWorldScreen_Console.cpp in Sources */,
 				84AA8C3B2B32F3F3003F5B82 /* WaterTexture.cpp in Sources */,
 				84EB09DC2EE2CC86008FB007 /* SpiderModel.cpp in Sources */,
 				84EB09F82EE2CCA8008FB007 /* ImageData.cpp in Sources */,

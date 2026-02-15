@@ -5,7 +5,7 @@
 #define C_ON_OFF_SWITCH_WIDTH (38)
 #define C_ON_OFF_SWITCH_HEIGHT (19)
 
-SwitchButton::SwitchButton(int id, int x, int y, BoolOption* option, const std::string& message) : Button(id, x, y, 150, 20, message),
+SwitchButton::SwitchButton(int x, int y, BoolOption* option, const std::string& message) : Button(x, y, 150, 20, message),
 	m_pOption(option)
 {
 }
@@ -14,8 +14,14 @@ void SwitchButton::pressed(Minecraft* mc, const MenuPointer& pointer)
 {
 	if (pointer.x >= m_xPos + m_width - C_ON_OFF_SWITCH_WIDTH - 6 && pointer.x < m_xPos + m_width - 6)
 	{
-		getOption().toggle();
+		pressed(mc);
 	}
+}
+
+void SwitchButton::pressed(Minecraft* mc)
+{
+	if (!isEnabled()) return;
+	getOption().toggle();
 }
 
 void SwitchButton::render(Minecraft* mc, const MenuPointer& pointer)

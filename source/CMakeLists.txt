@@ -30,6 +30,8 @@ add_library(reminecraftpe-core STATIC
     client/resources/ResourcePackManager.cpp
     client/resources/ResourcePackManifest.cpp
     client/resources/ResourcePackRepository.cpp
+    client/resources/SplashManager.cpp
+    client/resources/LoadingTipManager.cpp
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
@@ -57,6 +59,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/renderer/Tesselator.cpp
     client/renderer/texture/ImageData.cpp
     client/renderer/texture/TextureData.cpp
+    client/renderer/texture/TextureAtlas.cpp
     client/renderer/RenderList.cpp
     client/renderer/ScreenRenderer.cpp
     client/renderer/Chunk.cpp
@@ -81,6 +84,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/FireTexture.cpp
     client/renderer/FoliageColor.cpp
     client/renderer/GrassColor.cpp
+    client/renderer/LogoRenderer.cpp
     client/sound/SoundData.cpp
     client/sound/SoundPathRepository.cpp
     client/sound/SoundStream.cpp
@@ -88,14 +92,20 @@ add_library(reminecraftpe-core STATIC
     client/sound/SoundRepository.cpp
     client/sound/SoundEngine.cpp
     client/gui/Screen.cpp
+    client/gui/ScreenChooser.cpp
+    client/gui/ScreenChooser_Console.cpp
     client/gui/screens/CreditsScreen.cpp
     client/gui/screens/OptionsScreen.cpp
+    client/gui/screens/OptionsScreen_Console.cpp
     client/gui/screens/StartMenuScreen.cpp
+    client/gui/screens/StartMenuScreen_Console.cpp
     client/gui/screens/ConvertWorldScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
+    client/gui/screens/CreateWorldScreen_Console.cpp
     client/gui/screens/DirectConnectScreen.cpp
     client/gui/screens/DisconnectionScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
+    client/gui/screens/SelectWorldScreen_Console.cpp
     client/gui/screens/SavingWorldScreen.cpp
     client/gui/screens/InvalidLicenseScreen.cpp
     client/gui/screens/ConfirmScreen.cpp
@@ -104,13 +114,17 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/ChatScreen.cpp
     client/gui/screens/RenameMPLevelScreen.cpp
     client/gui/screens/ProgressScreen.cpp
+    client/gui/screens/ProgressScreen_Console.cpp
     client/gui/screens/JoinGameScreen.cpp
     client/gui/screens/IngameBlockSelectionScreen.cpp
     client/gui/screens/PauseScreen.cpp
+    client/gui/screens/PauseScreen_Console.cpp
     client/gui/screens/DeathScreen.cpp
+    client/gui/screens/PanelScreen_Console.cpp
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp
     client/gui/screens/inventory/CraftingScreen.cpp
+    client/gui/screens/inventory/ClassicCraftingScreen_Console.cpp
     client/gui/screens/inventory/ChestScreen.cpp
     client/gui/components/ScrolledSelectionList.cpp
     client/gui/components/AvailableGamesList.cpp
@@ -121,13 +135,17 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/SliderButton.cpp
     client/gui/components/SwitchButton.cpp
     client/gui/components/SwitchValuesButton.cpp
+    client/gui/components/TickBox.cpp
     client/gui/components/WorldSelectionList.cpp
     client/gui/components/OptionList.cpp
+    client/gui/components/ScrollRenderer_Console.cpp
     client/locale/Language.cpp
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
     client/gui/GuiElement.cpp
     client/gui/MenuPointer.cpp
+    client/gui/VerticalLayout.cpp
+    client/gui/AreaNavigation.cpp
     client/model/geom/PolygonQuad.cpp
     client/model/geom/Cube.cpp
     client/model/geom/ModelPart.cpp

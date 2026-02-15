@@ -5,9 +5,10 @@
 class SwitchButton : public Button
 {
 public:
-	SwitchButton(int id, int x, int y, BoolOption*, const std::string&);
+	SwitchButton(int x, int y, BoolOption*, const std::string&);
 
 	void pressed(Minecraft*, const MenuPointer& pointer) override;
+	void pressed(Minecraft*) override;
 	void render(Minecraft*, const MenuPointer& pointer) override;
 
 	BoolOption& getOption() { return *m_pOption; };

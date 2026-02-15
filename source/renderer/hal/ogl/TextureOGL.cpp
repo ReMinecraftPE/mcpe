@@ -155,32 +155,31 @@ void TextureOGL::createTexture(RenderContext& context, const TextureDescription&
     ErrorHandlerOGL::checkForErrors();
     createMipMap(context, nullptr, description.width, description.height, 0);
 
-    switch (description.filteringLevel)
+
+    if (description.bWrap)
     {
-    case TEXTURE_FILTERING_BILINEAR:
+        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+    else
+    {
         // @NOTE: Need GL 1.2 for GL_CLAMP_TO_EDGE
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    }
+
+    switch (description.filteringLevel)
+    {
+    case TEXTURE_FILTERING_BILINEAR:
+
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         break;
     case TEXTURE_FILTERING_POINT:
-        if (description.bWrap)
-        {
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        }
-        else
-        {
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        }
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         break;
     case TEXTURE_FILTERING_MIPMAP_BILINEAR:
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         break;

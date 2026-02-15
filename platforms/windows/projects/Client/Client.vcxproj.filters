@@ -60,9 +60,6 @@
     <Filter Include="Header Files\Sound">
       <UniqueIdentifier>{7ce8acc7-4fb7-440b-bace-76d8a3514038}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Sound">
-      <UniqueIdentifier>{dd9a353b-2a43-442d-a40f-56a04100b71b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\App">
       <UniqueIdentifier>{d7896ae3-f50c-4976-9897-336cbfb70dea}</UniqueIdentifier>
     </Filter>
@@ -128,6 +125,9 @@
     </Filter>
     <Filter Include="Source Files\Locale">
       <UniqueIdentifier>{8d211c71-2764-43ef-8587-7414109f4ff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources\Sound">
+      <UniqueIdentifier>{dd9a353b-2a43-442d-a40f-56a04100b71b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -599,6 +599,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp">
       <Filter>Header Files\Locale</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\TextureAtlas.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LogoRenderer.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
@@ -620,8 +626,56 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\VerticalLayout.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\ScrollRenderer_Console.hpp">
+      <Filter>Header Files\GUI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TickBox.hpp">
+      <Filter>Header Files\GUI\Components</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp">
       <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\SplashManager.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\ScreenChooser.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\AreaNavigation.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\ScreenChooser_Console.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.hpp">
+      <Filter>Header Files\GUI\Screens\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -824,22 +878,22 @@
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundPathRepository.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundStream.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp">
-      <Filter>Source Files\Sound</Filter>
+      <Filter>Header Files\Resources\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp">
       <Filter>Source Files\App</Filter>
@@ -1069,8 +1123,17 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ChestScreen.cpp">
       <Filter>Source Files\GUI\Screens\Inventory</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp">
       <Filter>Source Files\Locale</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureAtlas.cpp">
+      <Filter>Source Files\Renderer\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LogoRenderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePack.cpp">
       <Filter>Source Files\Resources</Filter>
@@ -1092,6 +1155,54 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.cpp">
       <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\AreaNavigation.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\ScrollRenderer_Console.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TickBox.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\SplashManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\ScreenChooser.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\ScreenChooser_Console.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

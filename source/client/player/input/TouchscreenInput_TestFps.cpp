@@ -266,6 +266,8 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 				m_horzInput -= 1.0f;
 				break;
 		}
+
+		IMoveInput::tick(pPlayer);
 	}
 
 	m_bForwardBeingHeld = bForwardPressed;
@@ -327,8 +329,8 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 	for (int i = 0; i < pArea->m_count; i++)
 	{
 		t->vertexUV(
-			Gui::InvGuiScale * pArea->m_xPos[i],
-			Gui::InvGuiScale * pArea->m_yPos[i],
+			Gui::GuiScale * pArea->m_xPos[i],
+			Gui::GuiScale * pArea->m_yPos[i],
 			0.0f,
 			tc[(2 * i) % 8],
 			tc[(2 * i + 1) % 8]

@@ -17,7 +17,7 @@ DeleteWorldScreen::DeleteWorldScreen(const LevelSummary& level) :
 	m_level(level)
 {
 	// highlight the cancel button so the user will have to do 1 extra action to delete their world
-	m_elementIndex = 1;
+	m_pSelectedElement = &m_btnCancel;
 }
 
 void DeleteWorldScreen::postResult(bool b)

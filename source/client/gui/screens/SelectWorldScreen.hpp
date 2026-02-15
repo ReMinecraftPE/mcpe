@@ -19,7 +19,7 @@ public:
     ~SelectWorldScreen();
 
 protected:
-	void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState) override;
+	bool _areaNavigation(AreaNavigation::Direction) override;
 
 public:
 	void init() override;

@@ -18,7 +18,6 @@ public:
 	ChatScreen(bool slash = false);
 
 protected:
-	void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState) override;
 	void _buttonClicked(Button*) override;
 
 public:
@@ -26,6 +25,7 @@ public:
 	void removed() override;
 	void render(float f) override;
 	void keyPressed(int keyCode) override;
+	void handleKeyboardClosed() override;
 
 	void sendMessageAndExit();
 
