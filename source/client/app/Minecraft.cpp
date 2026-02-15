@@ -1227,7 +1227,7 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 
 void Minecraft::selectLevel(const LevelSummary& ls, bool forceConversion)
 {
-    if (ls.m_storageVersion != LEVEL_STORAGE_VERSION_DEFAULT && !forceConversion)
+    if (ls.m_storageVersion < LEVEL_STORAGE_VERSION_DEFAULT && !forceConversion)
     {
         setScreen(new ConvertWorldScreen(ls));
         return;
