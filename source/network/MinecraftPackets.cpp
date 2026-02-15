@@ -27,6 +27,8 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_ADD_ITEM_ENTITY:       return new AddItemEntityPacket;
 		case PACKET_TAKE_ITEM_ENTITY:      return new TakeItemEntityPacket;
 		case PACKET_MOVE_ENTITY:           return new MoveEntityPacket;
+		case PACKET_MOVE_ENTITY_POS:       return nullptr;
+		case PACKET_MOVE_ENTITY_ROT:       return nullptr;
 		case PACKET_MOVE_ENTITY_POS_ROT:   return new MoveEntityPacket_PosRot;
 		case PACKET_MOVE_PLAYER:           return new MovePlayerPacket;
 		case PACKET_PLACE_BLOCK:           return new PlaceBlockPacket;
