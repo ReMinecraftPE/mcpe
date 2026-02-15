@@ -66,7 +66,7 @@ void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // s
 	m_serverGUID = rakGuid;
 
 	clearChunksLoaded();
-	LoginPacket* pLoginPkt = new LoginPacket(m_pMinecraft->m_pUser->field_0, NETWORK_PROTOCOL_VERSION);
+	LoginPacket* pLoginPkt = new LoginPacket(m_pMinecraft->m_pUser->m_name, NETWORK_PROTOCOL_VERSION);
 	m_pRakNetInstance->send(pLoginPkt);
 }
 

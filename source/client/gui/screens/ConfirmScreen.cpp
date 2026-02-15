@@ -13,8 +13,8 @@ ConfirmScreen::ConfirmScreen(Screen* pScreen, const std::string& line1, const st
 	field_40(x),
 	m_textLine1(line1),
 	m_textLine2(line2),
-	m_btnOK    (0, 0, 0, "Ok"),
-	m_btnCancel(1, 0, 0, "Cancel")
+	m_btnOK    (0, 0, "Ok"),
+	m_btnCancel(0, 0, "Cancel")
 {
 }
 
@@ -23,8 +23,8 @@ ConfirmScreen::ConfirmScreen(Screen* pScreen, const std::string& line1, const st
 	field_40(x),
 	m_textLine1(line1),
 	m_textLine2(line2),
-	m_btnOK    (0, 0, 0, ok),
-	m_btnCancel(1, 0, 0, cancel)
+	m_btnOK    (0, 0, ok),
+	m_btnCancel(0, 0, cancel)
 {
 }
 

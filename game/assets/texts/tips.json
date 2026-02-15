@@ -1,0 +1,212 @@
+[
+    {
+        "translate": "loadingTip.hoe"
+    },
+    {
+        "translate": "loadingTip.spawnPoint"
+    },
+    {
+        "translate": "loadingTip.famousNotch"
+    },
+    {
+        "translate": "loadingTip.netherPortal"
+    },
+    {
+        "translate": "loadingTip.cookedPorkchop"
+    },
+    {
+        "translate": "loadingTip.bugs"
+    },
+    {
+        "translate": "loadingTip.torches"
+    },
+    {
+        "translate": "loadingTip.woolFire"
+    },
+    {
+        "translate": "loadingTip.swedishCuriosity"
+    },
+    {
+        "translate": "loadingTip.neutralSpiders"
+    },
+    {
+        "translate": "loadingTip.diggingDown"
+    },
+    {
+        "translate": "loadingTip.minecraftWiki"
+    },
+    {
+        "translate": "loadingTip.noteBlockInstrument"
+    },
+    {
+        "translate": "loadingTip.ohCreeper"
+    },
+    {
+        "translate": "loadingTip.removedHerobrine"
+    },
+    {
+        "translate": "loadingTip.sleepingBed"
+    },
+    {
+        "translate": "loadingTip.diggingSoil"
+    },
+    {
+        "translate": "loadingTip.whoNotch"
+    },
+    {
+        "translate": "loadingTip.saplingGrow"
+    },
+    {
+        "translate": "loadingTip.emptyBucket"
+    },
+    {
+        "translate": "loadingTip.minecraftRecords"
+    },
+    {
+        "translate": "loadingTip.ghastCobblestone"
+    },
+    {
+        "translate": "loadingTip.minecart"
+    },
+    {
+        "translate": "loadingTip.ghastFireball"
+    },
+    {
+        "translate": "loadingTip.charcoal"
+    },
+    {
+        "translate": "loadingTip.minecraftFamous"
+    },
+    {
+        "translate": "loadingTip.rightTool"
+    },
+    {
+        "translate": "loadingTip.gamma"
+    },
+    {
+        "translate": "loadingTip.auMinecon"
+    },
+    {
+        "translate": "loadingTip.bonemeal"
+    },
+    {
+        "translate": "loadingTip.porkchop"
+    },
+    {
+        "translate": "loadingTip.creeperBorn"
+    },
+    {
+        "translate": "loadingTip.largeChest"
+    },
+    {
+        "translate": "loadingTip.legacyInfo"
+    },
+    {
+        "translate": "loadingTip.chickenDuck"
+    },
+    {
+        "translate": "loadingTip.cactus"
+    },
+    {
+        "translate": "loadingTip.digObsidian"
+    },
+    {
+        "translate": "loadingTip.junkboysFace"
+    },
+    {
+        "translate": "loadingTip.chickenEgg"
+    },
+    {
+        "translate": "loadingTip.cowArmor"
+    },
+    {
+        "translate": "loadingTip.deadmau5"
+    },
+    {
+        "translate": "loadingTip.lightMelt"
+    },
+    {
+        "translate": "loadingTip.neutralPigman"
+    },
+    {
+        "translate": "loadingTip.gameUpdate"
+    },
+    {
+        "translate": "loadingTip.wolfTame"
+    },
+    {
+        "translate": "loadingTip.peaceful"
+    },
+    {
+        "translate": "loadingTip.mojangAwards"
+    },
+    {
+        "translate": "loadingTip.creeperPowder"
+    },
+    {
+        "translate": "loadingTip.wolfCreeper"
+    },
+    {
+        "translate": "loadingTip.mineconParis"
+    },
+    {
+        "translate": "loadingTip.createObsidian"
+    },
+    {
+        "translate": "loadingTip.wolfTail"
+    },
+    {
+        "translate": "loadingTip.mojangOffice"
+    },
+    {
+        "translate": "loadingTip.neutralMobs"
+    },
+    {
+        "translate": "loadingTip.slowLava"
+    },
+    {
+        "translate": "loadingTip.party"
+    },
+    {
+        "translate": "loadingTip.lavaSmelt"
+    },
+    {
+        "translate": "loadingTip.undeadMobs"
+    },
+    {
+        "translate": "loadingTip.mineconLasVegas"
+    },
+    {
+        "translate": "loadingTip.minecraftForum"
+    },
+    {
+        "translate": "loadingTip.stackableFences"
+    },
+    {
+        "translate": "loadingTip.unknownMinecon"
+    },
+    {
+        "translate": "loadingTip.rumors"
+    },
+    {
+        "translate": "loadingTip.updateInfo"
+    },
+    {
+        "translate": "loadingTip.animalFollow"
+    },
+    {
+        "translate": "loadingTip.mineconLondon"
+    },
+    {
+        "tip": {
+            "translate": "loadingTip.coop"
+        },
+        "time": 0
+    },
+    {
+        "translate": "loadingTip.mineconCalifornia"
+    },
+    {
+        "translate": "loadingTip.C418"
+    }
+]

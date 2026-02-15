@@ -11,6 +11,7 @@
 #include "common/Utils.hpp"
 #include "client/resources/Resource.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "ScreenRenderer.hpp"
 
 #define MIP_TAG "_mip"
 #define MIP_TAG_SIZE 4
@@ -136,12 +137,52 @@ void Textures::clear()
 	m_currBoundTex = -1;
 }
 
-Textures::Textures()
+Textures::Textures() :
+	m_guiAtlas("gui_atlas"),
+	m_filteredGuiAtlas("filtered_gui_atlas", true)
 {
 	m_bClamp = false;
 	m_bBlur = false;
 
 	m_currBoundTex = -1;
+
+	addSprite("gui/console/Graphics/IconHolder.png", m_guiAtlas);
+	//addSprite("gui/console/Graphics/IconHolderRed.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Head.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Body.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Legs.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Armour_Slot_Feet.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Arrow_Off.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Arrow_Small_Off.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/MainMenuButton_Norm.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/MainMenuButton_Over.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/ListButton_Norm.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/ListButton_Over.png", m_filteredGuiAtlas);
+	addSprite("gui/console/Graphics/Tickbox_Norm.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Tickbox_Over.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Tick.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Slider_Track.png", m_guiAtlas);
+	addSprite("gui/console/Graphics/Slider_Button.png", m_guiAtlas);
+	addSprite("gui/console/scrollDown.png", m_guiAtlas);
+	addSprite("gui/console/scrollUp.png", m_guiAtlas);
+	addSprite("gui/loading_block.png", m_guiAtlas);
+	addSprite("gui/container/entity_slot.png", m_guiAtlas);
+	addSprite("gui/slider_highlight.png", m_guiAtlas);
+	addSprite("gui/text_field.png", m_guiAtlas);
+	addSprite("gui/text_field_highlighted.png", m_guiAtlas);
+	//addSprite("gui/loading_bar.png", m_guiAtlas);
+	//addSprite("gui/loading_background.png", m_guiAtlas);
+
+	for (int i = 0; i < 9; ++i)
+	{
+		addSprite(ScreenRenderer::PANEL_SLICES[i], m_guiAtlas);
+		addSprite(ScreenRenderer::SMALL_PANEL_SLICES[i], m_guiAtlas);
+		addSprite(ScreenRenderer::PANEL_RECESS_SLICES[i], m_guiAtlas);
+		addSprite(ScreenRenderer::POINTER_TEXT_PANEL_SLICES[i], m_guiAtlas);
+	}
+
+	setupAtlas(m_guiAtlas);
+	setupAtlas(m_filteredGuiAtlas);
 }
 
 Textures::~Textures()
@@ -219,4 +260,21 @@ void Textures::addDynamicTexture(DynamicTexture* pTexture)
 {
 	m_dynamicTextures.push_back(pTexture);
 	pTexture->tick();
+}
+
+void Textures::addSprite(const std::string& name, TextureAtlas& atlas)
+{
+	atlas.addSprite(name, Resource::loadTexture(name));
+}
+
+void Textures::setupAtlas(TextureAtlas& atlas)
+{
+	atlas.build();
+	uploadTexture(atlas.m_name, atlas.m_texture);
+}
+
+const TextureAtlasSprite* Textures::getGuiSprite(const std::string& spriteTexture)
+{
+	const TextureAtlasSprite* sprite = m_guiAtlas.getSprite(spriteTexture);
+	return sprite ? sprite : m_filteredGuiAtlas.getSprite(spriteTexture);
 }

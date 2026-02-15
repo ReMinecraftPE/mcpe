@@ -1,10 +1,9 @@
 #include "Slot.hpp"
 
-Slot::Slot(Container* container, int slot, int x, int y) :
+Slot::Slot(Container* container, int slot, Group group) :
     m_pContainer(container),
     m_slot(slot),
-    m_x(x),
-    m_y(y)
+    m_group(group)
 {
 }
 

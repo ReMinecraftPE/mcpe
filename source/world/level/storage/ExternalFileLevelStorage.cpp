@@ -478,7 +478,7 @@ bool ExternalFileLevelStorage::readLevelData(const std::string& path, LevelData&
 	{
 		levelData.v1_read(bs, version);
 	}
-	else if (version == 2)
+	else if (version >= 2)
 	{
 		levelData.read(bs, version);
 	}

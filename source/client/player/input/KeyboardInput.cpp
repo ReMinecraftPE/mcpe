@@ -60,9 +60,5 @@ void KeyboardInput::tick(Player* pPlayer)
 	m_bFlyUp = m_bJumping;
 	m_bSneaking = m_keys[INPUT_SNEAK];
 
-	if (m_keys[INPUT_SNEAK] && (!pPlayer->isCreative() || !pPlayer->m_bFlying))
-	{
-		m_horzInput = m_horzInput * 0.3f;
-		m_vertInput = m_vertInput * 0.3f;
-	}
+	IMoveInput::tick(pPlayer);
 }

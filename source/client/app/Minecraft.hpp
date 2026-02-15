@@ -14,6 +14,7 @@
 #include "common/Timer.hpp"
 #include "client/gui/Gui.hpp"
 #include "client/gui/Screen.hpp"
+#include "client/gui/ScreenChooser.hpp"
 #include "network/RakNetInstance.hpp"
 #include "network/NetEventCallback.hpp"
 #include "client/player/input/IInputHolder.hpp"
@@ -110,6 +111,8 @@ public:
 	LevelStorageSource* getLevelSource();
 	ItemStack& getSelectedItem();
 	Options* getOptions() const { return m_pOptions; }
+	ScreenChooser* getScreenChooser();
+	UITheme getUiTheme();
 	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 
 private:
@@ -127,7 +130,8 @@ public:
 	static int customDebugId;
 
 protected:
-	Options *m_pOptions;
+	Options* m_pOptions;
+	ScreenChooser* m_pScreenChooser;
 
 public:
 	bool field_18;

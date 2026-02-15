@@ -7,22 +7,23 @@
  ********************************************************************/
 
 #include "CreateWorldScreen.hpp"
-#include "SelectWorldScreen.hpp"
-#include "ProgressScreen.hpp"
 #include "common/Util.hpp"
 
 static char g_CreateWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':' };
 
-CreateWorldScreen::CreateWorldScreen() :
-	m_textName(this, 1, 0, 0, 0, 0, "", "Unnamed world"),
-	m_textSeed(this, 2, 0, 0, 0, 0, ""),
-	m_btnGameMode(5, "Game Mode"),
-	m_btnBack(3, "Cancel"),
-	m_btnCreate(4, "Create New World")
+CreateWorldScreen::CreateWorldScreen(Screen* parent) :
+	m_pParent(parent),
+	m_textName(this, 0, 0, 0, 0, "", "Unnamed world"),
+	m_textSeed(this, 0, 0, 0, 0, ""),
+	m_btnGameMode("Game Mode"),
+	m_btnBack("Cancel"),
+	m_btnCreate("Create New World"),
+	m_gameMode(GAME_TYPE_SURVIVAL)
 {
+	m_bDeletePrevious = false;
 }
 
-static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in)
+std::string CreateWorldScreen::GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in)
 {
 	std::set<std::string> maps;
 
@@ -46,6 +47,13 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 		out += "-";
 	}
 
+	for (size_t i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
+	{
+		std::string str;
+		str.push_back(g_CreateWorldFilterArray[i]);
+		Util::stringReplace(out, str, "");
+	}
+
 	return out;
 }
 
@@ -62,16 +70,7 @@ void CreateWorldScreen::_buttonClicked(Button* pButton)
 		std::string seedStr = m_textSeed.getText();
 
 		std::string levelNickname = Util::stringTrim(nameStr);
-		std::string levelUniqueName = levelNickname;
-
-		for (size_t i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
-		{
-			std::string str;
-			str.push_back(g_CreateWorldFilterArray[i]);
-			Util::stringReplace(levelUniqueName, str, "");
-		}
-
-		levelUniqueName = GetUniqueLevelName(m_pMinecraft->m_pLevelStorageSource, levelUniqueName);
+		std::string levelUniqueName = GetUniqueLevelName(m_pMinecraft->m_pLevelStorageSource, levelNickname);
 
 		int seed = int(getEpochTimeS());
 
@@ -142,8 +141,6 @@ void CreateWorldScreen::init()
 	// calculate after crush
 	m_btnGameMode.m_xPos = m_width / 2 - m_btnGameMode.m_width / 2;
 	m_btnCreate.m_xPos = m_width / 2 - m_btnCreate.m_width - 5;
-
-	m_gameMode = GAME_TYPE_SURVIVAL;
 }
 
 void CreateWorldScreen::render(float f)
@@ -173,7 +170,7 @@ bool CreateWorldScreen::handleBackEvent(bool b)
 {
 	if (!b)
 	{
-		m_pMinecraft->setScreen(new SelectWorldScreen);
+		m_pMinecraft->setScreen(m_pParent);
 	}
 
 	return true;

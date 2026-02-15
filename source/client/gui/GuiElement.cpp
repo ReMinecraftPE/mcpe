@@ -1,8 +1,9 @@
 #include "GuiElement.hpp"
 
-GuiElement::GuiElement(GuiElement::ID id)
+GuiElement::GuiElement()
 {
-	m_ID = id;
+	m_ID = -1;
+	m_uiTheme = UI_POCKET;
 	m_width = 0;
 	m_height = 0;
 	m_xPos = 0;
@@ -11,6 +12,7 @@ GuiElement::GuiElement(GuiElement::ID id)
 	m_bVisible = true;
 	m_bSelected = false;
 	m_bHasFocus = false;
+	m_bNavigable = true;
 }
 
 void GuiElement::setBackground(const Color& color)
@@ -26,7 +28,7 @@ void GuiElement::_onFocusChanged()
 {
 }
 
-bool GuiElement::_clicked(const MenuPointer& pointer)
+bool GuiElement::_isHovered(const MenuPointer& pointer)
 {
 	if (!isEnabled()) return false;
 
@@ -56,6 +58,11 @@ bool GuiElement::pointerReleased(Minecraft* pMinecraft, const MenuPointer& point
 	return false;
 }
 
+bool GuiElement::areaNavigation(Minecraft* pMinecraft, AreaNavigation::Direction)
+{
+	return false;
+}
+
 void GuiElement::handleButtonPress(Minecraft* pMinecraft, int key)
 {
 }
@@ -66,6 +73,29 @@ void GuiElement::handleTextChar(Minecraft* pMinecraft, int chr)
 
 void GuiElement::handleClipboardPaste(const std::string& content)
 {
+}
+
+void GuiElement::handleScroll(float force)
+{
+}
+
+bool GuiElement::isHovered(Minecraft* pMinecraft, const MenuPointer& pointer)
+{
+	return _isHovered(pointer);
+}
+
+void GuiElement::pressed(Minecraft* pMinecraft)
+{
+}
+
+void GuiElement::pressed(Minecraft* pMinecraft, const MenuPointer& pointer)
+{
+	pressed(pMinecraft);
+}
+
+void GuiElement::released(const MenuPointer& pointer)
+{
+
 }
 
 void GuiElement::render(Minecraft* pMinecraft, const MenuPointer& pointer)
@@ -96,6 +126,16 @@ void GuiElement::setFocused(bool value)
 	m_bHasFocus = value;
 	if (prev != value)
 		_onFocusChanged();
+}
+
+void GuiElement::setId(ID id)
+{
+	m_ID = id;
+}
+
+void GuiElement::setNavigable(bool isNavigable)
+{
+	m_bNavigable = isNavigable;
 }
 
 void GuiElement::setMessage(const std::string& message)

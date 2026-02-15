@@ -20,7 +20,7 @@
 #define C_POINTER_FAST_MOVE_SPEED 0.09f
 #define C_POINTER_MINIMUM_SPEED 0.04f
 #define C_POINTER_DIAGONAL_SPEED 0.4f
-#define C_POINTER_FRICTION 15.0f
+#define C_POINTER_FRICTION 1500.0f
 #define C_ANGLE8 (45.0f * MTH_DEG_TO_RAD)
 #define C_ANGLE16 (22.5f * MTH_DEG_TO_RAD)
 
@@ -35,165 +35,48 @@ bool Screen::_isPanoramaAvailable = false;
 Screen::Screen()
 {
 	m_bLastPointerPressedState = false;
-	m_currentUpdateTime = 0.0;
-	m_lastUpdateTime = 0.0;
 	m_width = 1;
 	m_height = 1;
-	field_10 = false;
+	m_bPassEvents = false;
+	m_bDeletePrevious = true;
 	m_pMinecraft = nullptr;
-	m_elementListIndex = 0;
-	m_elementIndex = 0;
-	m_bTabWrap = true;
+	m_pSelectedElement = nullptr;
 	m_pFont = nullptr;
-	m_pClickedButton = 0;
+	m_pClickedElement = 0;
 	m_yOffset = -1;
 	m_bRenderPointer = false;
 	m_lastTimeMoved = 0;
 	m_cursorTick = 0;
-
-	_addElementList();
+	m_uiTheme = UI_POCKET;
 }
 
 Screen::~Screen()
 {
-	m_pClickedButton = nullptr;
+	m_pClickedElement = nullptr;
 	m_elements.clear();
 }
 
-void Screen::_controllerEvent(GameController::ID controllerId)
+void Screen::controllerEvent(GameController::StickID stickID, double deltaTime)
 {
 	// @TODO: this probably shouldn't be here
 	GameController::StickEvent event;
-	event.id = controllerId;
-	event.state = GameControllerManager::getDirection(controllerId);
+	event.id = stickID;
+	event.state = GameControllerManager::getDirection(stickID);
 	if (event.state != GameController::STICK_STATE_NONE)
 	{
-		event.x = GameControllerManager::getX(controllerId);
-		event.y = GameControllerManager::getY(controllerId);
-		handleControllerStickEvent(event);
+		event.x = GameControllerManager::getX(stickID);
+		event.y = GameControllerManager::getY(stickID);
+		handleControllerStickEvent(event, deltaTime);
 	}
 }
 
-bool Screen::_nextElement()
+void Screen::_addElement(GuiElement& element, bool navigable)
 {
-	if (!doElementTabbing())
-		return false;
-
-	if (_getElementList().empty())
-		return false;
-
-	if (!m_bTabWrap && (m_elementIndex + 1) == _getElementList().size())
-		return false;
-
-	_deselectCurrentElement();
-
-	m_elementIndex++;
-	
-	if (m_bTabWrap && m_elementIndex == _getElementList().size())
-	{
-		m_elementIndex = 0;
-	}
-
-	_selectCurrentElement();
-
-	return true;
-}
-
-bool Screen::_prevElement()
-{
-	if (!doElementTabbing())
-		return false;
-
-	if (_getElementList().empty())
-		return false;
-
-	if (!m_bTabWrap && m_elementIndex == 0)
-		return false;
-
-	_deselectCurrentElement();
-
-	if (m_bTabWrap && m_elementIndex == 0)
-	{
-		m_elementIndex = _getElementList().size() - 1;
-	}
-	else
-	{
-		m_elementIndex--;
-	}
-
-	_selectCurrentElement();
-
-	return true;
-}
-
-void Screen::_addElement(GuiElement& element, bool isTabbable)
-{
-	_addElementToList(m_elementListIndex, element, isTabbable);
-}
-
-void Screen::_addElementToList(unsigned int index, GuiElement& element, bool isTabbable)
-{
+	element.setId(m_elements.size());
+	element.setNavigable(navigable);
 	m_elements.push_back(&element);
-	m_elementsById[element.getId()] = &element;
 
-	if (isTabbable)
-		_getElementList(index).push_back(&element);
-}
-
-bool Screen::_nextElementList()
-{
-	if (m_elementTabLists.size() == 1)
-		return false;
-
-	if (!m_bTabWrap && (m_elementListIndex + 1) == m_elementTabLists.size())
-		return false;
-
-	_deselectCurrentElement();
-
-	m_elementListIndex++;
-
-	if (m_bTabWrap && m_elementListIndex == m_elementTabLists.size())
-	{
-		m_elementListIndex = 0;
-	}
-
-	m_elementIndex = 0;
-
-	_selectCurrentElement();
-
-	return true;
-}
-
-bool Screen::_prevElementList()
-{
-	if (m_elementTabLists.size() == 1)
-		return false;
-
-	if (!m_bTabWrap && m_elementListIndex == 0)
-		return false;
-
-	_deselectCurrentElement();
-
-	if (m_bTabWrap && m_elementListIndex == 0)
-	{
-		m_elementListIndex = m_elementTabLists.size() - 1;
-	}
-	else
-	{
-		m_elementListIndex--;
-	}
-
-	m_elementIndex = 0;
-
-	_selectCurrentElement();
-
-
-	return true;
-}
-
-void Screen::_addElementList()
-{
-	m_elementTabLists.push_back(GuiElementList());
+	element.m_uiTheme = m_uiTheme;
 }
 
 void Screen::_selectCurrentElement()
@@ -207,7 +90,10 @@ void Screen::_deselectCurrentElement()
 {
 	GuiElement* element = _getSelectedElement();
 	if (element)
+	{
 		element->setSelected(false);
+		element->setFocused(false);
+	}
 }
 
 void Screen::_playSelectSound()
@@ -218,7 +104,7 @@ void Screen::_playSelectSound()
 	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_FOCUS, 1.0f, pitch);
 }
 
-void Screen::_centerMenuPointer()
+void Screen::initMenuPointer()
 {
 	handlePointerLocation(m_width / 2, m_height / 2);
 }
@@ -226,54 +112,20 @@ void Screen::_centerMenuPointer()
 void Screen::_renderPointer()
 {
 	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
-
-	double deltaTime = m_pMinecraft->m_fDeltaTime;
-	m_menuPointer.x = Mth::Lerp(m_menuPointer.x, m_targetMenuPointer.x, deltaTime * C_POINTER_FRICTION);
-	m_menuPointer.y = Mth::Lerp(m_menuPointer.y, m_targetMenuPointer.y, deltaTime * C_POINTER_FRICTION);
-
 	gameRenderer.renderPointer(m_menuPointer);
 }
 
-GuiElement* Screen::_getInternalElement(unsigned int index)
+GuiElement* Screen::_getElement(GuiElement::ID id)
 {
-	GuiElementList& list = m_elements;
-	if (index >= list.size())
-		return nullptr;
-
-	return list[index];
-}
-
-GuiElement* Screen::_getElementByIndex(unsigned int index)
-{
-	GuiElementList& list = _getElementList();
-	if (index >= list.size())
-		return nullptr;
-
-	return list[index];
-}
-
-GuiElement* Screen::_getElementById(GuiElement::ID id)
-{
-	GuiElementMap::const_iterator it = m_elementsById.find(id);
-	if (it != m_elementsById.end())
-		return it->second;
+	if (id >= 0 && id < GuiElement::ID(m_elements.size()))
+		return m_elements[id];
 
 	return nullptr;
 }
 
 GuiElement* Screen::_getSelectedElement()
 {
-	return _getElementByIndex(m_elementIndex);
-}
-
-GuiElementList& Screen::_getElementList(unsigned int index)
-{
-	return m_elementTabLists[index];
-}
-
-GuiElementList& Screen::_getElementList()
-{
-	return _getElementList(m_elementListIndex);
+	return m_pSelectedElement;
 }
 
 bool Screen::_useController() const
@@ -281,17 +133,15 @@ bool Screen::_useController() const
 	return m_pMinecraft->useController();
 }
 
-void Screen::init(Minecraft* pMinecraft, int a3, int a4)
+void Screen::init(Minecraft* pMinecraft, int width, int height)
 {
-	m_width  = a3;
-	m_height = a4;
 	m_pMinecraft = pMinecraft;
 	m_pFont = pMinecraft->m_pFont;
 
-	_centerMenuPointer();
-
-	init();
+	setSize(width, height);
+	initMenuPointer();
 	_updateTabButtonSelection();
+	m_bLastPointerPressedState = false;
 }
 
 void Screen::keyPressed(int key)
@@ -304,11 +154,11 @@ void Screen::keyPressed(int key)
 		m_pMinecraft->handleBack(false);
 	}
 
-	if (options.isKey(KM_MENU_LEFT, key))
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_TAB_LEFT, key))
 	{
 		prevTab();
 	}
-	if (options.isKey(KM_MENU_RIGHT, key))
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_TAB_RIGHT, key))
 	{
 		nextTab();
 	}
@@ -317,28 +167,28 @@ void Screen::keyPressed(int key)
 	{
 		if (options.isKey(KM_MENU_DOWN, key))
 		{
-			nextElement();
+			_areaNavigation(AreaNavigation::DOWN);
 		}
-		if (options.isKey(KM_MENU_UP, key))
+		else if (options.isKey(KM_MENU_UP, key))
 		{
-			prevElement();
+			_areaNavigation(AreaNavigation::UP);
 		}
-		if (options.isKey(KM_MENU_OK, key))
+		else if (options.isKey(KM_MENU_RIGHT, key))
+		{
+			_areaNavigation(AreaNavigation::RIGHT);
+		}
+		else if (options.isKey(KM_MENU_LEFT, key))
+		{
+			_areaNavigation(AreaNavigation::LEFT);
+		}
+		else if (options.isKey(KM_MENU_OK, key))
 		{
 			if (element && element->isEnabled())
 			{
-				switch (element->getType())
-				{
-				case GuiElement::TYPE_BUTTON:
-				{
-					Button* button = (Button*)element;
-					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
-					button->pressed(m_pMinecraft, MenuPointer(button->m_xPos, button->m_yPos));
-					_buttonClicked(button);
-					break;
-				}
-				default: break;
-				}
+				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
+				element->pressed(m_pMinecraft);
+				if (element->getType() == GuiElement::TYPE_BUTTON)
+					_buttonClicked((Button*)element);
 			}
 		}
 
@@ -368,6 +218,16 @@ void Screen::keyboardTextPaste(const std::string& text)
 	{
 		element->handleClipboardPaste(text);
 	}
+}
+
+float Screen::getScale(int width, int height)
+{
+	return m_uiTheme == UI_CONSOLE ? GetConsoleScale(height) : 0.0f;
+}
+
+float Screen::GetConsoleScale(int height)
+{
+	return 1.0f / float(Mth::round((Mth::round(height / 180.0f) * 180) / 360.0f) / 2.0f);
 }
 
 void Screen::setTextboxText(const std::string& text)
@@ -403,6 +263,12 @@ static float g_panoramaAngle = 0.0f;
 
 void Screen::renderMenuBackground(float f)
 {
+	if (m_uiTheme == UI_CONSOLE)
+	{
+		renderConsolePanorama();
+		return;
+	}
+
 	if (!m_pMinecraft->getOptions()->m_menuPanorama.get())
 	{
 		renderDirtBackground(0);
@@ -414,7 +280,7 @@ void Screen::renderMenuBackground(float f)
 	g_panoramaAngle += float(30.0 * m_pMinecraft->m_fDeltaTime);
 
 	float aspectRatio = 1.0f;
-	//aspectRatio = float(m_width) / float(m_height);
+	//aspectRatio = float(width) / float(height);
 
 	// @HAL: this should be using ui_cubemap, but for whatever reason we need to disable culling
 	mce::MaterialPtr& materialPtr = m_screenMaterials.ui_background;
@@ -484,22 +350,48 @@ void Screen::renderMenuBackground(float f)
 	fillGradient(0, 0, m_width, m_height, Color(0, 0, 0, 137), Color(255, 255, 255, 137));
 }
 
+void Screen::renderConsolePanorama(bool isNight)
+{
+	m_pMinecraft->m_pTextures->setSmoothing(true);
+	blitTexture(*m_pMinecraft->m_pTextures, isNight ? "gui/console/Panorama_Background_N.png" : "gui/console/Panorama_Background_S.png", 0, 0, getTimeS() * 1000 * m_height / 360 / 66.32f, 1, m_width, m_height + 2, m_height * 820 / 144, m_height + 2);
+	m_pMinecraft->m_pTextures->setSmoothing(false);
+}
+
+void Screen::renderConsolePanorama()
+{
+	renderConsolePanorama(m_pMinecraft->m_pLevel && !m_pMinecraft->m_pLevel->isDay());
+}
+
+void Screen::renderConsoleLoading(int x, int y, int blockSize, int blockDistance)
+{
+	int blockD = (blockSize + blockDistance);
+	for (int i = 0; i < 8; i++)
+	{
+		int v = (i + 1) * 100;
+		int n = (i + 3) * 100;
+		float l = (getTimeMs() % 1000) / 4.0f;
+		float alpha = l >= v - 100 ? (l <= v ? l / v : (n - l) / 200.0f) : 0;
+		if (alpha > 0)
+		{
+			currentShaderColor.a = alpha;
+			blitSprite(*m_pMinecraft->m_pTextures, "gui/loading_block.png", x + (i <= 2 ? i : i >= 4 ? i == 7 ? 0 : 6 - i : 2) * blockD, y + (i <= 2 ? 0 : i == 3 || i == 7 ? 1 : 2) * blockD, blockSize, blockSize);
+		}
+	}
+	currentShaderColor = Color::WHITE;
+}
+
 void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // d = clicked?
 {
 	if (btn == MOUSE_BUTTON_NONE) return;
 	
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
-		GuiElement* element = _getInternalElement((unsigned int)i);
+		GuiElement* element = _getElement((unsigned int)i);
 		element->pointerPressed(m_pMinecraft, pointer);
 
-		if (element->getType() != GuiElement::TYPE_BUTTON)
-			continue;
-
-		Button* button = (Button*)element;
-		if (button->clicked(m_pMinecraft, pointer))
+		if (element->isHovered(m_pMinecraft, pointer))
 		{
-			m_pClickedButton = button;
+			m_pClickedElement = element;
 
 			if (!m_pMinecraft->isTouchscreen())
 			{
@@ -507,8 +399,9 @@ void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // 
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
 				else
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_CLICK);
-				button->pressed(m_pMinecraft, pointer);
-				_buttonClicked(button);
+				element->pressed(m_pMinecraft, pointer);
+				if (m_pClickedElement->getType() == GuiElement::TYPE_BUTTON)
+					_buttonClicked((Button*)m_pClickedElement);
 			}
 		}
 	}
@@ -539,16 +432,17 @@ void Screen::pointerReleased(const MenuPointer& pointer, MouseButtonType btn)
 	
 	// @TODO: call GuiElement::pointerReleased(m_pMinecraft, pointer);
 
-	if (m_pClickedButton)
+	if (m_pClickedElement)
 	{
-		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, pointer))
+		if (m_pMinecraft->isTouchscreen() && m_pClickedElement->isHovered(m_pMinecraft, pointer))
 		{
 			m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_RELEASE);
-			m_pClickedButton->pressed(m_pMinecraft, pointer);
-			_buttonClicked(m_pClickedButton);
+			m_pClickedElement->pressed(m_pMinecraft, pointer);
+			if (m_pClickedElement->getType() == GuiElement::TYPE_BUTTON)
+				_buttonClicked((Button*)m_pClickedElement);
 		}
-		m_pClickedButton->released(pointer);
-		m_pClickedButton = nullptr;
+		m_pClickedElement->released(pointer);
+		m_pClickedElement = nullptr;
 	}
 }
 
@@ -556,7 +450,7 @@ void Screen::render(float a)
 {
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
-		GuiElement* element = _getInternalElement(i);
+		GuiElement* element = _getElement(i);
 		if (!element) continue;
 
 		element->tick(m_pMinecraft);
@@ -571,13 +465,14 @@ void Screen::tick()
 
 void Screen::setSize(int width, int height)
 {
+	if (width != m_width || height != m_height)
+		handlePointerLocation(m_menuPointer.x * width / m_width, m_menuPointer.y * height / m_height);
+
 	m_width = width;
 	m_height = height;
 
 	// not original code. Will need to re-init again
 	m_elements.clear();
-	m_elementTabLists.clear();
-	_addElementList();
 	init();
 }
 
@@ -607,22 +502,36 @@ bool Screen::onBack(bool b)
 	return result;
 }
 
-bool Screen::selectElement(GuiElement::ID id)
+bool Screen::selectElementById(GuiElement::ID id)
 {
-	// @TODO: this is pretty inefficient and should be redone
-	// we are doing a bruteforce search for an element with a matching ID
-	for (size_t i = 0; i < m_elementTabLists.size(); i++)
+	GuiElement* element = _getElement(id);
+
+	if (element)
 	{
-		GuiElementList& list = _getElementList(i);
-		for (size_t j = 0; j < list.size(); j++)
-		{
-			if (_getElementByIndex(j)->getId() == id)
-			{
-				m_elementListIndex = (unsigned int)i;
-				m_elementIndex = (unsigned int)j;
-				return true;
-			}
-		}
+		selectElement(element);
+		return true;
+	}
+
+	return false;
+}
+
+void Screen::selectElement(GuiElement* element)
+{
+	_deselectCurrentElement();
+	m_pSelectedElement = element;
+	_selectCurrentElement();
+}
+
+bool Screen::_areaNavigation(AreaNavigation::Direction dir)
+{
+	if (!m_pSelectedElement) return false;
+
+	if (m_pSelectedElement->areaNavigation(m_pMinecraft, dir)) return true;
+
+	if (selectElementById(Navigation(this).navigateCyclic(dir, m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2, m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2)))
+	{
+		_playSelectSound();
+		return true;
 	}
 
 	return false;
@@ -631,38 +540,6 @@ bool Screen::selectElement(GuiElement::ID id)
 void Screen::onClose()
 {
 	m_pMinecraft->setScreen(nullptr);
-}
-
-bool Screen::nextElement()
-{
-	bool result = _nextElement();
-	if (result)
-		_playSelectSound();
-	return result;
-}
-
-bool Screen::prevElement()
-{
-	bool result = _prevElement();
-	if (result)
-		_playSelectSound();
-	return result;
-}
-
-bool Screen::nextElementList()
-{
-	bool result = _nextElementList();
-	if (result)
-		_playSelectSound();
-	return result;
-}
-
-bool Screen::prevElementList()
-{
-	bool result = _prevElementList();
-	if (result)
-		_playSelectSound();
-	return result;
 }
 
 bool Screen::nextTab()
@@ -693,7 +570,7 @@ int Screen::getYOffset()
 	GuiElement* element = _getSelectedElement();
 	if (element && element->getType() == GuiElement::TYPE_TEXTBOX)
 	{
-		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
+		int heightLeft = m_height - int(float(keybOffset) * Gui::GuiScale);
 
 		// we want to keep the center of the text box in the center of the screen
 		int textCenterY = element->m_yPos + element->m_height / 2;
@@ -772,10 +649,16 @@ void Screen::_controllerDirectionHeld(GameController::StickID stickId, GameContr
 		switch (stickState)
 		{
 		case GameController::STICK_STATE_UP:
-			prevElement();
+			_areaNavigation(AreaNavigation::UP);
 			break;
 		case GameController::STICK_STATE_DOWN:
-			nextElement();
+			_areaNavigation(AreaNavigation::DOWN);
+			break;
+		case GameController::STICK_STATE_LEFT:
+			_areaNavigation(AreaNavigation::LEFT);
+			break;
+		case GameController::STICK_STATE_RIGHT:
+			_areaNavigation(AreaNavigation::RIGHT);
 			break;
 		default:
 			break;
@@ -798,9 +681,16 @@ void Screen::_updateTabButtonSelection()
 	if (!_useController() || m_bRenderPointer)
 		return;
 
-	for (size_t i = 0; i < _getElementList().size(); i++)
+	if (!m_pSelectedElement)
 	{
-		_getElementByIndex(i)->setSelected(m_elementIndex == i);
+		selectElementById(Navigation(this).navigate(AreaNavigation::DOWN, m_width / 2, 0));
+	}
+
+	for (size_t i = 0; i < m_elements.size(); i++)
+	{
+		GuiElement* element = m_elements[i];
+		element->setFocused(element == m_pSelectedElement);
+		element->setSelected(element == m_pSelectedElement);
 	}
 }
 
@@ -816,12 +706,7 @@ bool Screen::_prevTab()
 
 void Screen::updateEvents()
 {
-	if (field_10) return;
-
-	m_currentUpdateTime = getTimeS();
-
-	if (m_lastUpdateTime == 0.0)
-		m_lastUpdateTime = m_currentUpdateTime;
+	if (m_bPassEvents) return;
 
 	while (Mouse::next())
 		mouseEvent();
@@ -834,8 +719,6 @@ void Screen::updateEvents()
 		checkForPointerEvent(MOUSE_BUTTON_LEFT);
 		controllerEvent();
 	}
-
-	m_lastUpdateTime = m_currentUpdateTime;
 }
 
 void Screen::mouseEvent()
@@ -877,8 +760,7 @@ void Screen::controllerEvent()
 	_processControllerDirection(1);
 	_processControllerDirection(2);
 
-	_controllerEvent(1);
-	_controllerEvent(2);
+	controllerEvent(2);
 }
 
 void Screen::checkForPointerEvent(MouseButtonType button)
@@ -897,9 +779,8 @@ bool Screen::handleBackEvent(bool b)
 
 void Screen::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)
 {
-	m_menuPointer.x = Mth::clamp(x, 0.0f, m_width);
-	m_menuPointer.y = Mth::clamp(y, 0.0f, m_height);
-	m_targetMenuPointer = m_menuPointer;
+	m_menuPointer.x = Mth::clamp(x, 0.0f, float(m_width));
+	m_menuPointer.y = Mth::clamp(y, 0.0f, float(m_height));
 }
 
 void Screen::handlePointerPressed(bool isPressed)
@@ -923,9 +804,13 @@ void Screen::handlePointerAction(const MenuPointer& pointer, MouseButtonType but
 
 void Screen::handleScrollWheel(float force)
 {
+	for (size_t i = 0; i < m_elements.size(); i++)
+	{
+		m_elements[i]->handleScroll(force);
+	}
 }
 
-void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
+void Screen::handleControllerStickEvent(const GameController::StickEvent& stick, double deltaTime)
 {
 	if (m_bRenderPointer && stick.id == 1)
 	{
@@ -933,6 +818,7 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 		float baseSensitivity = m_pMinecraft->getOptions()->m_sensitivity.get();
 		float sensitivity = baseSensitivity * 2.0f;
 		float moveSensitivity = baseSensitivity * 2.0f;
+
 		//float affectY = Mth::clamp((sensitivity - 0.4f) * 1.67f, 0, 1);
 
 		Vec2 stickPos(stick.x, stick.y);
@@ -952,19 +838,12 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 		Vec2 targetVelocity(snap * speed * moveSensitivity);
 		targetVelocity.x = stickAbs.x < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.x) : targetVelocity.x;
 		targetVelocity.y = stickAbs.y < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.y) : targetVelocity.y; // * speedY;
+		targetVelocity *= Gui::GuiScale;
 
 		// Multiply by delta for smooth movement
-		double deltaTime = m_currentUpdateTime - m_lastUpdateTime;
-		if (deltaTime > 0.1f) deltaTime = 0.1f;
-		m_pointerVelocity.x = Mth::Lerp(m_pointerVelocity.x, targetVelocity.x, deltaTime * C_POINTER_FRICTION);
-		m_pointerVelocity.y = Mth::Lerp(m_pointerVelocity.y, targetVelocity.y, deltaTime * C_POINTER_FRICTION);
-		Vec2 move = m_pointerVelocity * deltaTime;
+		Vec2 move = targetVelocity * C_POINTER_FRICTION * deltaTime;
 
-		// Scale to our GUI
-		move *= m_height / Gui::InvGuiScale;
-
-		m_targetMenuPointer.x = Mth::clamp(m_menuPointer.x + move.x, 0.0f, m_width);
-		m_targetMenuPointer.y = Mth::clamp(m_menuPointer.y - move.y, 0.0f, m_height);
+		handlePointerLocation(m_menuPointer.x + move.x, m_menuPointer.y - move.y);
 	}
 	else if (stick.id == 2)
 	{
@@ -985,7 +864,10 @@ void Screen::renderBackground(int vo)
 	}
 	else
 	{
-		renderDirtBackground(vo);
+		if (m_uiTheme == UI_CONSOLE)
+			renderConsolePanorama();
+		else
+			renderDirtBackground(vo);
 	}
 }
 
@@ -1009,4 +891,32 @@ void Screen::renderDirtBackground(int vo)
 	t.vertexUV(0.0f,           0,               0, 0,                      float(vo) + 0.0f);
 	//t.setOffset(0, 0, 0);
 	t.draw(m_materials.ui_texture_and_color);
+}
+
+Screen::Navigation::Navigation(Screen* screen) : m_pScreen(screen)
+{
+	m_area.w = screen->m_width;
+	m_area.h = screen->m_height;
+}
+
+bool Screen::Navigation::next(int& x, int& y, bool cycle)
+{
+	while (++m_index < int(m_pScreen->m_elements.size()))
+	{
+		GuiElement* element = m_pScreen->m_elements[m_index];
+
+		if (!element->isVisible() || !element->isNavigable() || !(cycle || isValid(m_index))) continue;
+
+		x = element->m_xPos + element->m_width / 2;
+		y = element->m_yPos + element->m_height / 2;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool Screen::Navigation::isValid(ID id)
+{
+	return !m_pScreen->m_pSelectedElement || m_pScreen->m_pSelectedElement->getId() != id;
 }

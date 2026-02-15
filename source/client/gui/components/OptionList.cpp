@@ -12,9 +12,6 @@
 
 #define C_OPTION_ITEM_HEIGHT (22)
 
-#define C_SWITCH_VALUES_WIDTH (60)
-#define C_SWITCH_VALUES_HEIGHT (18)
-
 OptionList::OptionList(Minecraft* pMinecraft, int width, int height, int something, int something2) :
 	ScrolledSelectionList(pMinecraft, width, height, something, something2, C_OPTION_ITEM_HEIGHT)
 {
@@ -124,7 +121,7 @@ void OptionList::onClickItem(int index, const MenuPointer& pointer, int relMouse
 		
 		Button* button = ((Button*)pItem);
 
-		if (!button->clicked(m_pMinecraft, pointer)) return;
+		if (!button->isHovered(m_pMinecraft, pointer)) return;
 
 		button->pressed(m_pMinecraft, pointer);
 	}
@@ -147,22 +144,16 @@ void OptionList::initDefaultMenu()
 	initVideoMenu();
 }
 
-#define HEADER(text) do { m_items.push_back(new OptionHeader(0, text)); currentIndex++; } while (0)
-#define OPTION(name) do { pOptions->name.addGuiElement(m_items, pOptions->name.getName()); currentIndex++; } while (0)
+#define HEADER(text) do { m_items.push_back(new OptionHeader(text)); currentIndex++; } while (0)
+#define OPTION(name) do { pOptions->name.addGuiElement(m_items, UI_POCKET); currentIndex++; } while (0)
 
 void OptionList::initGameplayMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
 
-	HEADER("Game");
-	OPTION(m_difficulty);
-	OPTION(m_thirdPerson);
-	OPTION(m_serverVisibleDefault);
-
-	HEADER("Audio");
-	OPTION(m_musicVolume);
-	OPTION(m_masterVolume);
+	OPTIONS_LIST_GAMEPLAY_GAME;
+	OPTIONS_LIST_GAMEPLAY_AUDIO;
 
 #ifndef FEATURE_NETWORKING
 	m_items[currentIndex]->setEnabled(false);
@@ -176,20 +167,9 @@ void OptionList::initControlsMenu()
 	int currentIndex = -1;
 	int idxSplit = -1, idxController = -1;
 
-	HEADER("Controls");
-	OPTION(m_sensitivity);
-	OPTION(m_invertMouse);
-	OPTION(m_splitControls); idxSplit = currentIndex;
-	//OPTION(m_swapJumpSneak);
-	//OPTION(m_buttonSize);
-	OPTION(m_autoJump);
-	OPTION(m_bUseController); idxController = currentIndex;
-
-	/*HEADER("Feedback");
-	OPTION(m_vibrate);*/
-
-	HEADER("Experimental");
-	OPTION(m_flightHax);
+	OPTIONS_LIST_CONTROLS_CONTROLS;
+	OPTIONS_LIST_CONTROLS_FEEDBACK;
+	OPTIONS_LIST_CONTROLS_EXPERIMENTAL;
 
 	if (!m_pMinecraft->isTouchscreen())
 		m_items[idxSplit]->setEnabled(false);
@@ -202,28 +182,8 @@ void OptionList::initVideoMenu()
 	int currentIndex = -1;
 	int idxPano = -1;
 
-	HEADER("Graphics");
-	//OPTION(m_brightness);
-	OPTION(m_viewDistance);
-	//OPTION(m_antiAliasing);
-	//OPTION(m_guiScale);
-	//OPTION(m_fov);
-	OPTION(m_ambientOcclusion);
-	OPTION(m_fancyGraphics);
-	OPTION(m_viewBobbing);
-	OPTION(m_anaglyphs);
-	OPTION(m_blockOutlines);
-	OPTION(m_fancyGrass);
-	OPTION(m_biomeColors);
-	OPTION(m_dynamicHand);
-
-	HEADER("Experimental");
-	OPTION(m_hideGui);
-	OPTION(m_debugText);
-	OPTION(m_b2dTitleLogo);
-#ifdef ENH_MENU_BACKGROUND
-	OPTION(m_menuPanorama); idxPano = currentIndex;
-#endif
+	OPTIONS_LIST_VIDEO_GRAPHICS;
+	OPTIONS_LIST_VIDEO_EXPERIMENTAL;
 
 #ifdef ENH_MENU_BACKGROUND
 	if (!Screen::isMenuPanoramaAvailable())
@@ -231,9 +191,8 @@ void OptionList::initVideoMenu()
 #endif
 }
 
-OptionHeader::OptionHeader(GuiElement::ID id, const std::string& text)
-	: GuiElement(id)
-	, m_text(text)
+OptionHeader::OptionHeader(const std::string& text)
+	: m_text(text)
 {
 }
 

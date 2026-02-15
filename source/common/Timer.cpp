@@ -38,7 +38,7 @@ double getAccurateTimeMs()
 }
 #endif
 
-void Timer::advanceTime()
+void Timer::advanceTime(bool paused)
 {
 	double timeS = getTimeS();
 	double timeMs = timeS * 1000.0;// = getAccurateTimeMs();
@@ -57,17 +57,18 @@ void Timer::advanceTime()
 		m_tickAdjustment += ((diff1 / diff2) - m_tickAdjustment) * 0.2f;
 	}
 
-	double diff = timeS - m_lastUpdateTime;
+	m_deltaTime = timeS - m_lastUpdateTime;
 	m_lastUpdateTime = timeS;
 
-	float x1 = diff * m_tickAdjustment;
+	float x1 = m_deltaTime * m_tickAdjustment;
 	if (x1 > 1) x1 = 1;
 	if (x1 < 0) x1 = 0;
 
 	float x2 = m_partialTicks + x1 * m_timerSpeed * m_ticksPerSecond;
 	m_ticks = int(x2);
 	m_partialTicks = x2 - m_ticks;
-	m_renderTicks = x2 - m_ticks;
+	if (!paused)
+		m_renderTicks = m_partialTicks;
 	if (m_ticks > 10)
 		m_ticks = 10;
 }
@@ -77,6 +78,7 @@ Timer::Timer()
 	m_lastUpdateTime = 0;
 	m_lastSyncTime = 0;
 	m_unprocessedTime = 0;
+	m_deltaTime = 0;
 	m_tickAdjustment = 1.0f;
 	m_ticksPerSecond = 20.0f;
 	m_ticks = 0;
