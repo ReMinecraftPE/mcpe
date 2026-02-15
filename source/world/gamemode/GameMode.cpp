@@ -178,10 +178,12 @@ bool GameMode::useItemOn(Player* player, Level* level, ItemStack& item, const Ti
 
 void GameMode::releaseUsingItem(Player* player)
 {
+#if NETWORK_PROTOCOL_VERSION >= 6
 	if (m_pMinecraft->isOnlineClient())
 	{
 		m_pMinecraft->m_pRakNetInstance->send(new PlayerActionPacket(player->m_EntityID, PlayerActionPacket::STOP_USING_ITEM));
 	}
+#endif
 
 	player->releaseUsingItem();
 }
