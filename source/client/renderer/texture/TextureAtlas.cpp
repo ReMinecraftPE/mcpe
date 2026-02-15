@@ -73,10 +73,13 @@ bool TextureAtlas::build()
 
 void TextureAtlas::_init()
 {
-    SAFE_DELETE_ARRAY(m_texture.m_imageData.m_data);
+    free(m_texture.m_imageData.m_data);
 
     int size = getWidth() * getHeight() * 4;
-    m_texture.m_imageData.m_data = new uint8_t[size];
+    uint8_t *mem = (uint8_t *)malloc(size);
+    if (!mem)
+        throw std::bad_alloc();
+    m_texture.m_imageData.m_data = mem;
     memset(m_texture.m_imageData.m_data, 0, size);
 }
 

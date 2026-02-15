@@ -836,7 +836,7 @@ void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum us
 
 	GLVoid* mem = (GLvoid*)malloc(size);
 	if (!mem)
-		throw std::bad_alloc("Failed to allocate memory in xglBufferData");
+		throw std::bad_alloc();
 	pBuf->m_pBufferData = mem;
 
 	memcpy(pBuf->m_pBufferData, data, size);
