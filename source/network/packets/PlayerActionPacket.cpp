@@ -3,10 +3,10 @@
 #include "network/NetEventCallback.hpp"
 
 PlayerActionPacket::PlayerActionPacket(int32_t entityId, Type action, const TilePos& tilePos, Facing::Name tileFace)
-	: m_entityId(entityId)
-	, m_tilePos(tilePos)
+	: m_tilePos(tilePos)
 	, m_tileFace(tileFace)
 	, m_action(action)
+	, m_entityId(entityId)
 {
 }
 
