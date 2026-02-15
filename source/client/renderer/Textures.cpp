@@ -31,7 +31,9 @@ TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 			t.m_imageData.m_colorSpace = COLOR_SPACE_RGBA;
 			t.m_imageData.m_width = 2;
 			t.m_imageData.m_height = 2;
-			uint32_t* placeholder = new uint32_t[4];
+			uint32_t* placeholder = (uint32_t *)malloc(sizeof(uint32_t) * 4);
+			if (!placeholder)
+				throw std::bad_alloc();
 			placeholder[0] = 0xfff800f8;
 			placeholder[1] = 0xff000000;
 			placeholder[3] = 0xfff800f8;
