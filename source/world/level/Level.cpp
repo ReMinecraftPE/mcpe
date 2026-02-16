@@ -293,20 +293,27 @@ void Level::setTileEntity(const TilePos& pos, TileEntity* tileEntity)
 
 void Level::removeTileEntity(const TilePos& pos)
 {
-	TileEntity* old = getTileEntity(pos);
+	TileEntity* tileEntity = getTileEntity(pos);
 
-	if (old != nullptr && m_bUpdatingTileEntities)
+	if (tileEntity == nullptr)
 	{
-		old->setRemoved();
+		LOG_W("Tried to remove a tile entity at %d, %d, %d, but there was no tile entity there!", pos.x, pos.y, pos.z);
 		return;
 	}
 
-	if (old)
-		Util::remove(m_tileEntityList, old);
+	// During a tile entity update, just mark it for potential removal
+	if (m_bUpdatingTileEntities)
+	{
+		tileEntity->setRemoved();
+		return;
+	}
 
-	LevelChunk* pChunk = getChunk(pos);
-	if (pChunk)
+	Util::remove(m_tileEntityList, tileEntity);
+
+	if (LevelChunk* pChunk = getChunk(pos))
+	{
 		pChunk->removeTileEntity(pos);
+	}
 }
 
 void Level::swap(const TilePos& pos1, const TilePos& pos2)

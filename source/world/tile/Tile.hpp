@@ -123,7 +123,6 @@ public: // virtual functions
 	virtual Tile* setDestroyTime(float);
 	virtual Tile* setTicking(bool);
 	virtual int getSpawnResourcesAuxValue(int) const;
-	virtual TileEntity* newTileEntity();
 	Tile* setToolTypes(unsigned int toolMask);
 	Tile* setToolLevel(int toolLevel);
 	Tile* setToolTypesAndLevel(unsigned int toolMask, int toolLevel = 0);

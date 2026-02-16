@@ -3,7 +3,7 @@
 #include "world/CompoundContainer.hpp"
 #include "world/tile/entity/ChestTileEntity.hpp"
 
-ChestTile::ChestTile(int id, int texture) : Tile(id, texture, Material::wood)
+ChestTile::ChestTile(int id, int texture) : EntityTile(id, texture, Material::wood)
 {
     setTicking(true);
 }
@@ -132,7 +132,7 @@ void ChestTile::onRemove(Level* level, const TilePos& pos)
     ChestTileEntity* ent = static_cast<ChestTileEntity*>(level->getTileEntity(pos));
 
     if (!ent)
-        Tile::onRemove(level, pos);
+        EntityTile::onRemove(level, pos);
 
     for (int slot = 0; slot < ent->getContainerSize(); ++slot)
     {
@@ -159,7 +159,7 @@ void ChestTile::onRemove(Level* level, const TilePos& pos)
         }
     }
 
-    Tile::onRemove(level, pos);
+    EntityTile::onRemove(level, pos);
 }
 
 bool ChestTile::use(Level* level, const TilePos& pos, Player* player) 

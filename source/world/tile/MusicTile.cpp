@@ -2,7 +2,7 @@
 #include "world/level/Level.hpp"
 #include "entity/MusicTileEntity.hpp"
 
-MusicTile::MusicTile(TileID id, int texture) : Tile(id, texture, Material::wood)
+MusicTile::MusicTile(TileID id, int texture) : EntityTile(id, texture, Material::wood)
 {
 }
 

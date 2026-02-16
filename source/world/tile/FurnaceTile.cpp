@@ -4,7 +4,7 @@
 
 bool FurnaceTile::keepInventory = false;
 
-FurnaceTile::FurnaceTile(int id, bool active) : Tile(id, TEXTURE_FURNACE_SIDE, Material::stone)
+FurnaceTile::FurnaceTile(int id, bool active) : EntityTile(id, TEXTURE_FURNACE_SIDE, Material::stone)
 {
     setTicking(true);
 	m_active = active;
@@ -69,7 +69,7 @@ int FurnaceTile::getTexture(Facing::Name face) const
 
 void FurnaceTile::onPlace(Level* level, const TilePos& pos)
 {
-	Tile::onPlace(level, pos);
+	EntityTile::onPlace(level, pos);
 	RecalculateLookDirection(level, pos);
 }
 
@@ -110,6 +110,7 @@ void FurnaceTile::onRemove(Level* level, const TilePos& pos)
     
     if (!tileEnt)
     {
+        EntityTile::onRemove(level, pos);
         return; // this has to be wrapped in a guard or the compiler screams, thanks -Wmisleading-indentation
     }
 
@@ -139,11 +140,16 @@ void FurnaceTile::onRemove(Level* level, const TilePos& pos)
             level->addEntity(itemEnt);
         }
 	}
+
+    EntityTile::onRemove(level, pos);
 }
 
 void FurnaceTile::SetLit(bool lit, Level* level, const TilePos& pos)
 {
     TileEntity* tileEntity = level->getTileEntity(pos);
+    if (!tileEntity)
+        return;
+
 	int data = level->getData(pos);
 
 	keepInventory = true;

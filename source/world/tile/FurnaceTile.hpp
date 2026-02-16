@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Tile.hpp"
+#include "EntityTile.hpp"
 
-class FurnaceTile : public Tile
+class FurnaceTile : public EntityTile
 {
 public:
 	FurnaceTile(int id, bool active);

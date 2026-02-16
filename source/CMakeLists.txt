@@ -426,6 +426,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/OreTile.cpp
     world/tile/StairTile.cpp
     world/tile/SandStoneTile.cpp
+    world/tile/EntityTile.cpp
     world/tile/ChestTile.cpp
     world/tile/FurnaceTile.cpp
     world/tile/MusicTile.cpp

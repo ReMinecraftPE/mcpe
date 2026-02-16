@@ -589,7 +589,7 @@ bool LevelChunk::setTile(const ChunkTilePos& pos, TileID tile)
 	tilePos.x += pos.x;
 	tilePos.z += pos.z;
 	m_pBlockData[index] = tile;
-	if (oldTile)
+	if (oldTile && Tile::tiles[oldTile])
 	{
 		Tile::tiles[oldTile]->onRemove(m_pLevel, tilePos);
 	}
@@ -722,20 +722,24 @@ void LevelChunk::addTileEntity(TileEntity* tileEntity)
 
 void LevelChunk::setTileEntity(const ChunkTilePos& pos, TileEntity* tileEntity)
 {
-	tileEntity->m_pLevel = m_pLevel;
-	TileID tile = getTile(pos);
 	TilePos tilePos(m_chunkPos, pos.y);
-	tilePos.x += pos.x;
-	tilePos.z += pos.z;
-	tileEntity->m_pos = tilePos;
-	if (tile > 0 && Tile::isEntityTile[tile])
+	
+	if (tileEntity)
 	{
-		tileEntity->clearRemoved();
-		m_tileEntities[pos] = tileEntity;
-		return;
+		tileEntity->m_pLevel = m_pLevel;
+		TileID tile = getTile(pos);
+		tilePos.x += pos.x;
+		tilePos.z += pos.z;
+		tileEntity->m_pos = tilePos;
+		if (tile > 0 && Tile::isEntityTile[tile])
+		{
+			tileEntity->clearRemoved();
+			m_tileEntities[pos] = tileEntity;
+			return;
+		}
 	}
 	
-	LOG_I("Attempted to place a tile entity where there was no entity tile! %d", tile);
+	LOG_W("Attempted to place a tile entity at %d, %d, %d where there was no entity tile!", tilePos.x, tilePos.y, tilePos.z);
 }
 
 void LevelChunk::removeTileEntity(const ChunkTilePos& pos)

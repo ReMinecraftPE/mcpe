@@ -283,11 +283,6 @@ int Tile::getSpawnResourcesAuxValue(int x) const
 	return 0;
 }
 
-TileEntity* Tile::newTileEntity()
-{
-	return nullptr;
-}
-
 Tile* Tile::setToolTypes(unsigned int toolMask)
 {
 	m_toolMask |= toolMask;
@@ -998,14 +993,10 @@ void Tile::neighborChanged(Level* pLevel, const TilePos& pos, TileID tile)
 
 void Tile::onPlace(Level* pLevel, const TilePos& pos)
 {
-	if (hasTileEntity())
-		pLevel->setTileEntity(pos, newTileEntity());
 }
 
 void Tile::onRemove(Level* pLevel, const TilePos& pos)
 {
-	if (hasTileEntity())
-		pLevel->removeTileEntity(pos);
 }
 
 bool Tile::containsX(const Vec3& v)

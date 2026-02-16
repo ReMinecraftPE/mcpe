@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Tile.hpp"
+#include "EntityTile.hpp"
 
-class MusicTile : public Tile
+class MusicTile : public EntityTile
 {
 public:
     MusicTile(TileID id, int textureID);
