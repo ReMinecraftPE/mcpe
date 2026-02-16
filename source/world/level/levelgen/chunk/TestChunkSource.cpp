@@ -59,7 +59,8 @@ LevelChunk* TestChunkSource::generateChunk(const ChunkPos& pos)
 					*p = TILE_BEDROCK;
 				//else if (j == 0 || k == 0)
 				//	*p = TILE_AIR;
-				else if (i == 65) {
+				else if (i == 65)
+				{
 					/*if (rand() % 10 == 0)
 						*p = TILE_ROSE;
 					else if (rand() % 10 == 0)
@@ -69,7 +70,8 @@ LevelChunk* TestChunkSource::generateChunk(const ChunkPos& pos)
 				}
 				else if (i > 64)
 					*p = TILE_AIR;
-				else if (i == 64) {
+				else if (i == 64)
+				{
 					//if ((j + k) % 2 == 0)
 					*p = TILE_GRASS;
 				}

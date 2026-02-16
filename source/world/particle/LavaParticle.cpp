@@ -17,9 +17,9 @@ LavaParticle::LavaParticle(Level* level, const Vec3& pos) :
 	m_vel *= 0.8f;
 	m_vel.y = sharedRandom.nextFloat() * 0.4f + 0.05f;
 	m_rCol = m_gCol = m_bCol = 1.0f;
-	field_104 = field_F0 = field_F0 * (0.2f + 2 * sharedRandom.nextFloat());
-	field_DC = PTI_LAVA;
-	field_EC = int(16.0f / (0.2f + 0.8f * Mth::random()));
+	field_104 = m_size = m_size * (0.2f + 2 * sharedRandom.nextFloat());
+	m_tex = PTI_LAVA;
+	m_lifetime = int(16.0f / (0.2f + 0.8f * Mth::random()));
 }
 
 float LavaParticle::getBrightness(float unused) const
@@ -31,11 +31,11 @@ void LavaParticle::tick()
 {
 	m_oPos = m_pos;
 
-	field_E8++;
-	if (field_E8 > field_EC)
+	m_timer++;
+	if (m_timer > m_lifetime)
 		remove();
 
-	float a = float(field_E8) / float(field_EC);
+	float a = float(m_timer) / float(m_lifetime);
 	float b = sharedRandom.nextFloat();
 	if (a < b)
 	{
@@ -55,7 +55,7 @@ void LavaParticle::tick()
 
 void LavaParticle::render(Tesselator& t, float f, float a, float b, float c, float d, float e)
 {
-	float mult = float(field_E8 + f) / float(field_EC);
-	field_F0 = field_104 * (1.0f - mult * mult);
+	float mult = float(m_timer + f) / float(m_lifetime);
+	m_size = field_104 * (1.0f - mult * mult);
 	Particle::render(t, f, a, b, c, d, e);
 }

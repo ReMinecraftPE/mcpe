@@ -111,6 +111,11 @@ BiomeSource* Region::getBiomeSource() const
 	return m_pLevel->getBiomeSource();
 }
 
+TileEntity* Region::getTileEntity(const TilePos& pos) const
+{
+	return m_pLevel->getTileEntity(pos);
+}
+
 Region::~Region()
 {
 	delete[] field_C;

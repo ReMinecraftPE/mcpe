@@ -21,6 +21,7 @@ public:
 	virtual void onGraphicsReset() override;
 
 	void renderHand(const Entity& entity, float a);
+	void scale(const Mob& mob, Matrix& matrix, float a);
 
 public:
 	HumanoidModel* m_pHumanoidModel;

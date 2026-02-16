@@ -15,11 +15,10 @@ Logger* Logger::singleton()
 void Logger::setSingleton(Logger* logger)
 {
     // Stick with the first output handle we get
-    if (!m_singleton) {
+    if (!m_singleton)
         m_singleton = logger;
-    } else {
+    else
         m_singleton->print(LOG_ERR, "Logging already setup!");
-    }
 }
 
 Logger::~Logger()

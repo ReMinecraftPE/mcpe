@@ -1168,7 +1168,8 @@ bool TileRenderer::tesselateFenceInWorld(Tile* tile, const TilePos& pos)
 	bool connectsHorizontally = tileWest || tileEast;
 	bool connectsVertically = tileNorth || tileSouth;
 
-	if (!connectsHorizontally && !connectsVertically) {
+	if (!connectsHorizontally && !connectsVertically)
+	{
 		connectsHorizontally = true;
 	}
 
@@ -2793,7 +2794,8 @@ void TileRenderer::renderTile(const FullTile& tile, const mce::MaterialPtr& mate
 			float v6 = v5 * 2.0f;
 			for (int i = 0; i < 4; i++)
 			{
-				switch (i) {
+				switch (i)
+				{
 				case 0: tileType->setShape(0.5f - v6, 0.0f, 0.0f, 0.5f + v6, 1.0f, v6 * 2.0f); break;
 				case 1: tileType->setShape(0.5f - v6, 0.0f, 1.0f - (v6 * 2.0f), 0.5f + v6, 1.0f, 1.0f); break;
 				case 2: tileType->setShape(0.5f - v5, 1.0f - v5 * 3.0f, -v5 * 2.0f, 0.5f + v5, 1.0f - v5, 1.0f + v5 * 2.0f); break;

@@ -320,11 +320,13 @@ void RandomLevelSource::buildSurfaces(const ChunkPos& pos, TileID* tiles, Biome*
 					{
 						byte1 = pBiome->field_20;
 						byte2 = pBiome->field_21;
-						if (flag1) {
+						if (flag1)
+						{
 							byte1 = 0;
 							byte2 = Tile::gravel->m_ID;
 						}
-						if (flag) {
+						if (flag)
+						{
 							byte1 = Tile::sand->m_ID;
 							byte2 = Tile::sand->m_ID;
 						}

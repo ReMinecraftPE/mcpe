@@ -44,9 +44,6 @@ private:
 	void _resetPlayer(Player* player);
 	GameMode* _createGameMode(GameType gameType, Level& level);
 
-protected:
-	void _reloadInput();
-
 public:
 	int getLicenseId();
 	void setScreen(Screen * pScreen);
@@ -79,11 +76,13 @@ public:
 	void handlePointerPressedButtonRelease();
 	void handleKeyboardClosed();
 	void resetInput();
+	void reloadInput();
 	void sendMessage(const std::string& message);
 	void respawnPlayer();
 	void freeResources(bool bCopyMap);
 	std::string getVersionString(const std::string& str = Util::EMPTY_STRING) const;
 	bool isTouchscreen() const;
+	bool useTouchscreen() const;
 	bool useSplitControls() const;
 	bool useController() const;
 
@@ -118,6 +117,7 @@ public:
 private:
     // Value provided by the OS
     static float _renderScaleMultiplier;
+
 public:
     static float getRenderScaleMultiplier() { return _renderScaleMultiplier; }
     static void setRenderScaleMultiplier(float value) { _renderScaleMultiplier = value; }

@@ -338,17 +338,21 @@ void ContainerMenu::setAll(const std::vector<ItemStack>& items)
     }
 }
 
-void ContainerMenu::setData(int id, int value) {
+void ContainerMenu::setData(int id, int value)
+{
 }
 
-uint16_t ContainerMenu::backup(Inventory*) {
+uint16_t ContainerMenu::backup(Inventory*)
+{
     return ++m_changeUid;
 }
 
-void ContainerMenu::deleteBackup(uint16_t) {
+void ContainerMenu::deleteBackup(uint16_t)
+{
 }
 
-void ContainerMenu::rollbackToBackup(uint16_t) {
+void ContainerMenu::rollbackToBackup(uint16_t)
+{
 }
 
 bool ContainerMenu::isSynched(Player* player) const

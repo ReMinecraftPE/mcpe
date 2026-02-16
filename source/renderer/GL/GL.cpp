@@ -157,25 +157,29 @@ int glhInvertMatrixf2(float* m, float* out)
     r2[3] -= m2 * s;
     r3[3] -= m3 * s;
     s = r0[4];
-    if (s != 0.0f) {
+    if (s != 0.0f)
+    {
         r1[4] -= m1 * s;
         r2[4] -= m2 * s;
         r3[4] -= m3 * s;
     }
     s = r0[5];
-    if (s != 0.0f) {
+    if (s != 0.0f)
+    {
         r1[5] -= m1 * s;
         r2[5] -= m2 * s;
         r3[5] -= m3 * s;
     }
     s = r0[6];
-    if (s != 0.0f) {
+    if (s != 0.0f)
+    {
         r1[6] -= m1 * s;
         r2[6] -= m2 * s;
         r3[6] -= m3 * s;
     }
     s = r0[7];
-    if (s != 0.0f) {
+    if (s != 0.0f)
+    {
         r1[7] -= m1 * s;
         r2[7] -= m2 * s;
         r3[7] -= m3 * s;
@@ -195,22 +199,26 @@ int glhInvertMatrixf2(float* m, float* out)
     r2[3] -= m2 * r1[3];
     r3[3] -= m3 * r1[3];
     s = r1[4];
-    if (0.0f != s) {
+    if (0.0f != s)
+    {
         r2[4] -= m2 * s;
         r3[4] -= m3 * s;
     }
     s = r1[5];
-    if (0.0f != s) {
+    if (0.0f != s)
+    {
         r2[5] -= m2 * s;
         r3[5] -= m3 * s;
     }
     s = r1[6];
-    if (0.0f != s) {
+    if (0.0f != s)
+    {
         r2[6] -= m2 * s;
         r3[6] -= m3 * s;
     }
     s = r1[7];
-    if (0.0f != s) {
+    if (0.0f != s)
+    {
         r2[7] -= m2 * s;
         r3[7] -= m3 * s;
     }

@@ -18,6 +18,7 @@
 #include "network/packets/ExplodePacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "world/entity/MobSpawner.hpp"
+#include "world/tile/entity/TileEntity.hpp"
 
 #include "Explosion.hpp"
 #include "Region.hpp"
@@ -38,6 +39,8 @@ Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& 
 	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
+	m_tileEntityList = TileEntityVector();
+	m_bUpdatingTileEntities = false;
 	m_randValue = 42184323;
 	m_addend = 1013904223;
 	m_bUpdateLights = true;
@@ -256,6 +259,54 @@ int Level::getRawBrightness(const TilePos& pos, bool b) const
 
 	LevelChunk* pChunk = getChunk(pos);
 	return pChunk->getRawBrightness(pos, m_skyDarken);
+}
+
+TileEntity* Level::getTileEntity(const TilePos& pos) const
+{
+	LevelChunk* pChunk = getChunk(pos);
+	return pChunk ? pChunk->getTileEntity(pos) : nullptr;
+}
+
+const TileEntityVector* Level::getAllTileEntities() const
+{
+	return &m_tileEntityList;
+}
+
+void Level::setTileEntity(const TilePos& pos, TileEntity* tileEntity)
+{
+
+	if (tileEntity->isRemoved())
+		return;
+
+	if (m_bUpdatingTileEntities)
+	{
+		tileEntity->m_pos = pos;
+		m_pendingTileEntities.push_back(tileEntity);
+		return;
+	}
+
+	m_tileEntityList.push_back(tileEntity);
+	LevelChunk* pChunk = getChunk(pos);
+	if (pChunk)
+		pChunk->setTileEntity(pos, tileEntity);
+}
+
+void Level::removeTileEntity(const TilePos& pos)
+{
+	TileEntity* old = getTileEntity(pos);
+
+	if (old != nullptr && m_bUpdatingTileEntities)
+	{
+		old->setRemoved();
+		return;
+	}
+
+	if (old)
+		Util::remove(m_tileEntityList, old);
+
+	LevelChunk* pChunk = getChunk(pos);
+	if (pChunk)
+		pChunk->removeTileEntity(pos);
 }
 
 void Level::swap(const TilePos& pos1, const TilePos& pos2)
@@ -1706,6 +1757,29 @@ void Level::tickEntities()
 			delete pEnt;
 		}
 	}
+
+	m_bUpdatingTileEntities = true;
+	for (size_t i = 0; i < m_tileEntityList.size(); i++)
+	{
+		TileEntity* tileEnt = m_tileEntityList[i];
+
+		if (!tileEnt->isRemoved())
+		{
+			tileEnt->tick();
+		}
+		else
+		{
+			LevelChunk* ch = getChunk(tileEnt->m_pos);
+			if (ch)
+				ch->removeTileEntity(tileEnt->m_pos);
+
+			m_entities.erase(m_entities.begin() + i);
+			i--;
+
+			delete tileEnt;
+		}
+	}
+	m_bUpdatingTileEntities = false;
 }
 
 HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const

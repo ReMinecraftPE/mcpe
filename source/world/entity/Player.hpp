@@ -16,6 +16,7 @@
 #include "world/inventory/InventoryMenu.hpp"
 
 class Inventory; // in case we're included from Inventory.hpp
+class FurnaceTileEntity;
 
 class Player : public Mob
 {
@@ -44,7 +45,7 @@ protected:
 public:
 	void reset() override;
 	void remove() override;
-	float getHeadHeight() const override { return 0.12f; /*@HUH: what ?*/ }
+	float getHeadHeight() const override { return 0.12f; }
 	int getMaxHealth() const override { return 20; }
 	bool isShootable() const override { return true; }
 	bool isPlayer() const override { return true; }
@@ -72,7 +73,7 @@ public:
 	virtual void startStonecutting(const TilePos& pos);
 	virtual void startDestroying();
 	virtual void stopDestroying();
-	//virtual void openFurnace(FurnaceTileEntity* tileEntity);
+	virtual void openFurnace(FurnaceTileEntity* tileEntity);
 	virtual void openContainer(Container* container) {}
 	virtual void closeContainer() {}
 	//virtual void openTrap(DispenserTileEntity* tileEntity);

@@ -138,7 +138,8 @@ void Font::drawOutlinedString(const std::string& str, int x, int y, const Color&
 		for (int yi = 0; yi < 3; ++yi)
 		{
 			int t1 = translations[yi];
-			if (t != 0 || t1 != 0) {
+			if (t != 0 || t1 != 0)
+			{
 				MatrixStack::Ref matrix = MatrixStack::World.push();
 				matrix->translate(Vec3(t, t1, 0));
 				drawScalable(str, x, y, outlineColor, scale, false);
@@ -290,7 +291,8 @@ std::vector<std::string> Font::split(const std::string& text, int maxWidth)
 		std::istringstream iss(paragraph);
 		std::string word;
 
-		while (iss >> word) {
+		while (iss >> word)
+		{
 			std::string testLine = currentLine.empty() ? word : currentLine + " " + word;
 
 			if (width(testLine) <= maxWidth)

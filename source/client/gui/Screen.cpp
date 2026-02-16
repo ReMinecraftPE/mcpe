@@ -393,7 +393,7 @@ void Screen::pointerPressed(const MenuPointer& pointer, MouseButtonType btn) // 
 		{
 			m_pClickedElement = element;
 
-			if (!m_pMinecraft->isTouchscreen())
+			if (!m_pMinecraft->useTouchscreen())
 			{
 				if (_useController())
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);

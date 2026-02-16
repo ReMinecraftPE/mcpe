@@ -39,7 +39,7 @@ public:
 	void setPlayerGameType(GameType gameType) override;
 	void swing() override;
 	void startCrafting(const TilePos&) override;
-	//void openFurnace(FurnaceTileEntity* furnace) override;
+	void openFurnace(FurnaceTileEntity* furnace) override;
 	void openContainer(Container* container) override;
 	void closeContainer() override;
 	//void openTrap(DispenserTileEntity* tileEntity) override;

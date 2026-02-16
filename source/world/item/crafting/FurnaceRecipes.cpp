@@ -1,6 +1,8 @@
 #include "FurnaceRecipes.hpp"
 #include "common/Logger.hpp"
 
+FurnaceRecipes* FurnaceRecipes::instance;
+
 FurnaceRecipes::FurnaceRecipes()
 {
 	addFurnaceRecipe(Tile::ironOre,		 ItemStack(Item::ironIngot));

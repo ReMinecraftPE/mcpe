@@ -23,7 +23,8 @@ enum eParticleTextureIndex
 {
 	PTI_BUBBLE = 32,
 	PTI_FLAME = 48,
-	PTI_LAVA
+	PTI_LAVA,
+	PTI_NOTE = 64
 };
 
 class Particle : public Entity
@@ -45,12 +46,12 @@ public:
 	Particle* setPower(float);
 
 public:
-	int field_DC;
+	int m_tex;
 	float field_E0;
 	float field_E4;
-	int field_E8;
-	int field_EC;
-	float field_F0;
+	int m_timer;
+	int m_lifetime;
+	float m_size;
 	float field_F4;
 	float m_rCol;
 	float m_gCol;
@@ -137,4 +138,15 @@ public:
 
 public:
 	float field_104;
+};
+
+class NoteParticle : public Particle
+{
+public:
+	NoteParticle(Level*, const Vec3& pos, const Vec3& dir, float scale = 2.0f);
+	void tick() override;
+	void render(Tesselator&, float, float, float, float, float, float) override;
+
+public:
+	float m_oSize;
 };

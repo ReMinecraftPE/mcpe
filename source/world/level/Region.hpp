@@ -21,6 +21,7 @@ public:
 	Material* getMaterial(const TilePos& pos) const override;
 	bool isSolidTile(const TilePos& pos) const override;
 	BiomeSource* getBiomeSource() const override;
+	TileEntity* getTileEntity(const TilePos& pos) const override;
 
 	virtual ~Region();
 	Region(const Level* level, const TilePos& min, const TilePos& max);

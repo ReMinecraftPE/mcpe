@@ -33,7 +33,7 @@ bool SoundRepository::get(const std::string& name, SoundDesc& sd)
 	std::map<std::string, std::vector<SoundDesc> >::iterator iter = m_repo.find(name);
 	if (iter == m_repo.end())
 	{
-		LOG_E("Couldn't find a sound with id: %s", name.c_str());
+		LOG_W("Couldn't find a sound with id: %s", name.c_str());
 		return false;
 	}
 

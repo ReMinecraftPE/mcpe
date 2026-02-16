@@ -42,6 +42,7 @@ protected:
 
 private:
 	static bool _isVignetteAvailable;
+
 public:
 	static bool isVignetteAvailable() { return _isVignetteAvailable; }
 	static void setIsVignetteAvailable(bool value) { _isVignetteAvailable = value; }

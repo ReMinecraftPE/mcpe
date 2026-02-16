@@ -234,14 +234,14 @@ void ContainerScreen::render(float partialTicks)
 void ContainerScreen::pointerPressed(const MenuPointer& pointer, MouseButtonType button)
 {
     Screen::pointerPressed(pointer, button);
-    if (m_pMinecraft->isTouchscreen()) return;
+    if (m_pMinecraft->useTouchscreen()) return;
     slotClicked(pointer, button);
 }
 
 void ContainerScreen::pointerReleased(const MenuPointer& pointer, MouseButtonType button)
 {
     Screen::pointerReleased(pointer, button);
-    if (m_pMinecraft->isTouchscreen() && m_timeSlotDragged < 5)
+    if (m_pMinecraft->useTouchscreen() && m_timeSlotDragged < 5)
         slotClicked(pointer, button);
     m_timeSlotDragged = 0;
 }
@@ -253,7 +253,7 @@ void ContainerScreen::handlePointerPressed(bool isPressed)
         m_timeSlotDragged++;
     else m_timeSlotDragged = 0;
 
-    if (m_pMinecraft->isTouchscreen() && m_timeSlotDragged % 5 == 0)
+    if (m_pMinecraft->useTouchscreen() && m_timeSlotDragged % 5 == 0)
     {
         slotClicked(m_menuPointer, MOUSE_BUTTON_RIGHT);
     }

@@ -24,7 +24,8 @@ bool CraftingTableTile::use(Level* level, const TilePos& pos, Player* player)
 
 int CraftingTableTile::getTexture(Facing::Name face) const
 {
-	switch (face) {
+	switch (face)
+	{
 	case Facing::UP: return m_TextureFrame - 16;
 	case Facing::DOWN: return Tile::wood->getTexture(face);
 	case Facing::NORTH: case Facing::SOUTH: return m_TextureFrame + 1;

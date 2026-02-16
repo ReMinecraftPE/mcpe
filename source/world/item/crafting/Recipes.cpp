@@ -120,14 +120,14 @@ Recipes::Recipes()
     addOre(ItemStack(Item::dye_powder, 1, 4), Tile::lapisBlock);
 
     // StructureRecipes
-    //add(ShapedRecipeBuilder("###",
-    //                        "# #",
-    //                        "###", ItemStack(Tile::chest))
-    //    .add('#', Tile::wood));
-    //add(ShapedRecipeBuilder("###",
-    //                        "# #",
-    //                        "###", ItemStack(Tile::furnace))
-    //    .add('#', Tile::stoneBrick));
+    add(ShapedRecipeBuilder("###",
+                            "# #",
+                            "###", ItemStack(Tile::chest))
+        .add('#', Tile::wood));
+    add(ShapedRecipeBuilder("###",
+                            "# #",
+                            "###", ItemStack(Tile::furnace))
+        .add('#', Tile::stoneBrick));
 
     add(ShapedRecipeBuilder("##",
                             "##", ItemStack(Tile::craftingTable))
@@ -169,11 +169,11 @@ Recipes::Recipes()
     //    .add('#', Tile::wood)
     //    .add('X', Item::emerald));
 
-    //add(ShapedRecipeBuilder("###",
-    //                        "#X#",
-    //                        "###", ItemStack(Tile::musicBlock, 1))
-    //    .add('#', Tile::wood)
-    //    .add('X', Item::redStone));
+    add(ShapedRecipeBuilder("###",
+                            "#X#",
+                            "###", ItemStack(Tile::musicBlock, 1))
+        .add('#', Tile::wood)
+        .add('X', Item::redStone));
 
     add(ShapedRecipeBuilder("###",
                             "XXX",

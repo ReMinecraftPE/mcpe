@@ -15,7 +15,7 @@ int SheepRenderer::prepareArmor(const Mob& mob, int layer, float a)
     const Sheep& sheep = (const Sheep&)mob;
     if (layer == 0 && !sheep.isSheared())
     {
-        bindTexture("/mob/sheep_fur.png");
+        bindTexture("mob/sheep_fur.png");
         float brightness = sheep.getBrightness(a);
         int color = sheep.getColor();
         currentShaderColor = Sheep::COLOR[color];

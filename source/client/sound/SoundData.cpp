@@ -81,11 +81,13 @@ bool SoundDesc::_load(const char* category, const char *name)
     }
     location.path = "sound/" + std::string(name) + ".pcm";
     ret = _loadPcm(location);
-    if (!ret) {
+    if (!ret)
+    {
         m_codecType = AudioCodec::NONE;
         LOG_W("Failed to load sound \"%s\"!", name);
         return false;
-    } else
+    }
+    else
         return true;
 }
 
