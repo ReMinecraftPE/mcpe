@@ -148,7 +148,9 @@ void FurnaceTile::SetLit(bool lit, Level* level, const TilePos& pos)
 {
     TileEntity* tileEntity = level->getTileEntity(pos);
     if (!tileEntity)
+    {
         return;
+    }
 
 	int data = level->getData(pos);
 

@@ -90,7 +90,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 
 		m_pModel->m_attackTime = getAttackAnim(mob, a);
-		m_pModel->m_bRiding = false;
+		m_pModel->m_bRiding = mob.isRiding();
 		m_pModel->m_bIsBaby = mob.isBaby();
 
 		if (m_pArmorModel != nullptr)

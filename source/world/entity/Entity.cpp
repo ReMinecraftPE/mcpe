@@ -28,6 +28,9 @@ void Entity::_init()
 	field_28 = 0;
 	field_30 = 1.0f;
 	m_dimensionId = DIMENSION_OVERWORLD;
+	m_riderId = 0;
+	m_ridingId = 0;
+	m_bRiding = false;
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
 	m_tintColor = Color::WHITE;
@@ -469,6 +472,14 @@ void Entity::tick()
 void Entity::baseTick()
 {
 	//@TODO: untangle the gotos
+	if (const Entity* riding = getRiding())
+	{
+		if ((!riding && m_riderId > 0) || riding->m_bRemoved)
+		{
+			m_riderId = 0;
+			setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+		}
+	}
 
 	field_90 = m_walkDist;
 	m_oPos = m_pos;
@@ -937,6 +948,46 @@ AABB* Entity::getCollideAgainstBox(Entity* ent) const
 	return nullptr;
 }
 
+void Entity::rideTick()
+{
+	Entity* riding = getRiding();
+	if (!riding || riding->m_bRemoved)
+	{
+		m_riderId = 0;
+		setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+	}
+
+	// we don't move
+	m_vel = Vec3::ZERO;
+
+	tick();
+
+	riding->positionRider();
+	m_rideRot.x += riding->m_rot.x - riding->m_oRot.x;
+	m_rideRot.y += riding->m_rot.y - riding->m_oRot.y;
+	while (m_rideRot.y >= 180.0f)
+		m_rideRot.y -= 360.0f;
+	while (m_rideRot.y < -180.0f)
+		m_rideRot.y += 360.0f;
+	while (m_rideRot.x >= 180.0f)
+		m_rideRot.x -= 360.0f;
+	while (m_rideRot.x < -180.0f)
+		m_rideRot.x += 360.0f;
+	
+	float rotX = m_rideRot.x * 0.5f;
+	float rotY = m_rideRot.y * 0.5f;
+
+	float lookLimiter = 10.0f;
+	rotX = Mth::clamp(rotX, -lookLimiter, lookLimiter);
+	rotY = Mth::clamp(rotY, -lookLimiter, lookLimiter);
+
+	m_rideRot.x -= rotX;
+	m_rideRot.y -= rotY;
+
+	m_rot.x += rotX;
+	m_rot.y += rotY;
+}
+
 void Entity::handleInsidePortal()
 {
 }
@@ -944,6 +995,94 @@ void Entity::handleInsidePortal()
 void Entity::handleEntityEvent(EventType::ID eventId)
 {
 	LOG_W("Unknown EntityEvent ID: %d, EntityType: %s", eventId, getDescriptor().getEntityType().getName().c_str());
+}
+
+void Entity::positionRider()
+{
+	Entity* rider = getRider();
+	if (!rider)
+		return;
+
+	rider->setPos(Vec3(m_pos.x, m_pos.y + getRideHeight() + rider->getRidingHeight(), m_pos.z));
+}
+
+void Entity::ride(Entity* newRiding)
+{
+	m_rideRot = Vec2::ZERO;
+	Entity* oldRiding = getRiding();
+
+	// Dismount current ride if nullptr is fed in
+	if (newRiding == nullptr)
+	{
+		if (oldRiding)
+		{
+			moveTo(oldRiding->m_pos);
+			setRot(oldRiding->m_rot);
+			oldRiding->m_riderId = 0; // Let them know you dismounted them
+		}
+
+		// Let yourself know you aren't riding anything
+		m_ridingId = 0;
+		setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+
+		return;
+	}
+
+	// Dismount if the same entity is fed in
+	if (oldRiding && oldRiding == newRiding)
+	{
+		oldRiding->m_riderId = 0;
+
+		m_ridingId = 0;
+		setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+
+		moveTo(oldRiding->m_pos);
+		setRot(oldRiding->m_rot);
+		return;
+	}
+
+	// if (this.riding != null) this.riding.rider = null;
+	if (oldRiding)
+	{
+		oldRiding->m_riderId = 0;
+	}
+
+	// if (newRiding.rider != null) newRiding.rider.riding = null;
+	// i hate this name but it's literally what it is
+	if (Entity* newRidesOldRider = newRiding->getRider())
+	{
+		newRidesOldRider->m_ridingId = 0;
+		newRidesOldRider->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+	}
+
+	// Tell yourself that you're riding the new ride
+	m_ridingId = newRiding->m_EntityID;
+	setSharedFlag(C_ENTITY_FLAG_RIDING, true);
+
+	// Tell the new ride that it's being ridden by you
+	newRiding->m_riderId = m_EntityID;
+}
+
+Entity* Entity::getRiding() const
+{
+	if (m_ridingId <= 0)
+		return nullptr;
+
+	if (Entity* riding = m_pLevel->getEntity(m_ridingId))
+		return riding;
+
+	return nullptr;
+}
+
+Entity* Entity::getRider() const
+{
+    if (m_riderId <= 0)
+		return nullptr;
+
+	if (Entity* rider = m_pLevel->getEntity(m_riderId))
+		return rider;
+
+	return nullptr;
 }
 
 /*void Entity::thunderHit(LightningBolt* bolt)

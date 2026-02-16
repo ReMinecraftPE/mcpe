@@ -472,7 +472,9 @@ void Player::respawn()
 
 void Player::rideTick()
 {
-
+	Mob::rideTick();
+	m_oBob = m_bob;
+	m_bob = 0.0f;
 }
 
 void Player::setDefaultHeadHeight()

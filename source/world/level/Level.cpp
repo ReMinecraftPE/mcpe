@@ -1253,6 +1253,17 @@ void Level::removeAllPendingEntityRemovals()
 	for (EntityVector::iterator it = m_pendingEntityRemovals.begin(); it != m_pendingEntityRemovals.end(); it++)
 	{
 		Entity* ent = *it;
+		if (Entity* riding = ent->getRiding())
+		{
+			if (riding->m_bRemoved || riding->getRider() != ent)
+			{
+				riding->m_riderId = 0;
+				ent->m_ridingId = 0;
+				ent->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+			}
+			else
+				continue;
+		}
 		ent->removed();
 
 		LevelChunk* chunk = getChunk(ent->m_chunkPos);
@@ -1273,6 +1284,14 @@ void Level::removeEntities(const EntityVector& vec)
 
 bool Level::removeEntity(Entity* pEnt)
 {
+	// kick off rider before disappearing
+	if (Entity* rider = pEnt->getRider())
+		rider->ride(nullptr);
+
+	// kick self off mount before disappearing
+	if (Entity* mount = pEnt->getRiding())
+		mount->ride(nullptr);
+
 	pEnt->remove();
 
 	if (pEnt->isPlayer())
@@ -1678,7 +1697,12 @@ void Level::tick(Entity* pEnt, bool shouldTick)
 		pEnt->m_oRot = pEnt->m_rot;
 
 		if (pEnt->m_bInAChunk)
-			pEnt->tick();
+		{
+			if (pEnt->getRiding())
+				pEnt->rideTick();
+			else
+				pEnt->tick();
+		}
 	}
 	else
 	{
@@ -1710,6 +1734,24 @@ void Level::tick(Entity* pEnt, bool shouldTick)
 		if (pEnt->m_chunkPosY != ChunkPos::ToChunkCoordinate(pEnt->m_pos.y))
 		{
 			getChunk(cp)->updateEntity(pEnt);
+		}
+	}
+	if (shouldTick && pEnt->m_bInAChunk)
+	{
+		Entity* rider = pEnt->getRider();
+		if (rider)
+		{
+			if (rider->m_bRemoved || rider->getRiding() != pEnt)
+			{
+				rider->m_riderId = 0;
+
+				pEnt->m_ridingId = 0;
+				pEnt->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+			}
+			else
+			{
+				tick(rider);
+			}
 		}
 	}
 }
@@ -1747,6 +1789,18 @@ void Level::tickEntities()
 	for (size_t i = 0; i < m_entities.size(); i++)
 	{
 		Entity* pEnt = m_entities[i];
+
+		if (Entity* riding = pEnt->getRiding())
+		{
+			if (riding->m_bRemoved || riding->getRider() != pEnt)
+			{
+				riding->m_riderId = 0;
+				pEnt->m_ridingId = 0;
+				pEnt->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+			}
+			else
+				continue;
+		}
 
 		if (!pEnt->m_bRemoved)
 		{

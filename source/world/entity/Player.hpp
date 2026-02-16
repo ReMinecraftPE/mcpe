@@ -94,7 +94,8 @@ public:
 	Dimension* getDimension() const;
 	void prepareCustomTextures();
 	void respawn();
-	void rideTick();
+	void rideTick() override;
+	float getRidingHeight() const override { return m_heightOffset - 0.5f; }
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
 	inline const Abilities& getAbilities() const { return m_abilities; }

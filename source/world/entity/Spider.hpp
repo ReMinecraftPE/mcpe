@@ -11,7 +11,7 @@ public:
 	std::string getDeathSound() const override { return "mob.spiderdeath"; }
 	std::string getHurtSound() const override { return "mob.spider"; }
 	int getDeathLoot() const override { return ITEM_STRING; }
-	float getRideHeight() const { return m_bbHeight * 0.75f - 0.5f; }
+	float getRideHeight() const override { return m_bbHeight * 0.75f - 0.5f; }
 
 	Entity* findAttackTarget() override;
 	void checkHurtTarget(Entity* ent, float var2) override;

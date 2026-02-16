@@ -63,9 +63,9 @@ public:
 	virtual void updateWalkAnim();
 	virtual void aiStep();
 	virtual void lookAt(Entity* pEnt, float, float);
-	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
+	virtual bool isLookingAtAnEntity() { return m_entLookedAtId > 0; }
 	virtual bool isSlowedByLiquids() const { return true; }
-	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }
+	virtual Entity* getLookingAt() const;
 	virtual void beforeRemove() {}
 	virtual bool canSpawn();
 	virtual float getAttackAnim(float f) const;
@@ -145,7 +145,7 @@ public:
 	Vec3 m_lPos;
 	Vec2 m_lRot;
 	int m_lastHurt;
-	Entity* m_pEntLookedAt;
+	Entity::ID m_entLookedAtId;
 
 	float v020_field_104;
 
