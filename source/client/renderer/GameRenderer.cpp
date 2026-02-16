@@ -308,6 +308,35 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 	float posZ = Mth::Lerp(pMob->m_oPos.z, pMob->m_pos.z, f);
 
 	matrix.rotate(field_5C + f * (field_58 - field_5C), Vec3::UNIT_Z);
+	
+	// Adjust camera for sleeping player
+	if (pMob->isPlayer())
+	{
+		Player* player = (Player*)pMob;
+		if (player->isSleeping())
+		{
+			if (!m_pMinecraft->getOptions()->field_241)
+			{
+				// Get bed direction for camera orientation
+				float bedRot = 0.0f;
+				if (player->m_bHasRespawnPos)
+				{
+					TileID bedTile = m_pMinecraft->m_pLevel->getTile(player->m_respawnPos);
+					if (bedTile == Tile::bed->m_ID)
+					{
+						int data = m_pMinecraft->m_pLevel->getData(player->m_respawnPos);
+						int direction = data & 3;
+						bedRot = direction * 90.0f;
+					}
+				}
+				
+				// Position camera at bed height looking up
+				matrix.translate(Vec3(0.0f, 0.2f, 0.0f));
+				matrix.rotate(bedRot, Vec3::UNIT_Y);
+			}
+			return;
+		}
+	}
 
 	if (m_pMinecraft->getOptions()->m_thirdPerson.get())
 	{
@@ -579,7 +608,7 @@ void GameRenderer::render(const Timer& timer)
 {
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
-		Minecraft *pMC = m_pMinecraft;
+		Minecraft* pMC = m_pMinecraft;
 		pMC->m_mouseHandler.poll();
 
 		float multPitch = -1.0f;
@@ -634,7 +663,7 @@ void GameRenderer::render(const Timer& timer)
 		}
 
 		Vec2 rot(m_turnDelta.x * diff_field_84,
-			     m_turnDelta.y * diff_field_84 * multPitch);
+			m_turnDelta.y * diff_field_84 * multPitch);
 		m_pItemInHandRenderer->turn(rot);
 		pMC->m_pLocalPlayer->turn(rot);
 	}

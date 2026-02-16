@@ -54,6 +54,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, ChunkDataPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
 	void handle(const RakNet::RakNetGUID&, InteractPacket*) override;
+	void handle(const RakNet::RakNetGUID&, InteractionPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetEntityMotionPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetHealthPacket*) override;
@@ -73,6 +74,10 @@ public:
 	void requestNextChunk();
 	void flushAllBufferedUpdates(); // inlined
 	void handleBlockUpdate(const BlockUpdate& u);
+
+protected:
+	// Helper function to get entity, with fallback to local player if not in entity list
+	Entity* _getEntityOrLocalPlayer(int entityId);
 
 private:
 	Minecraft* m_pMinecraft;

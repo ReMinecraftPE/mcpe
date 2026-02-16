@@ -76,6 +76,8 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 			return new SetHealthPacket;
 		case PACKET_ANIMATE:
 			return new AnimatePacket;
+		case PACKET_INTERACTION:
+			return new InteractionPacket;
 		case PACKET_RESPAWN:
 			return new RespawnPacket;
 		case PACKET_SEND_INVENTORY:

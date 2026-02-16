@@ -432,6 +432,14 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, InteractPa
 	redistributePacket(packet, guid);
 }
 
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, InteractionPacket* packet)
+{
+	// InteractionPacket is broadcast-only, used to synchronize actions like sleeping
+	// The actual action is triggered via UseItemPacket on the server
+	// We just redistribute it to other clients
+	redistributePacket(packet, guid);
+}
+
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPacket* packet)
 {
 	//puts_ignorable("UseItemPacket");
@@ -516,6 +524,12 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, AnimatePac
 		case AnimatePacket::HURT:
 		{
 			pPlayer->animateHurt();
+			break;
+		}
+		case AnimatePacket::WAKE_UP:
+		{
+			// Client is waking up - call wake on server player
+			pPlayer->stopSleepInBed(false, true, true);
 			break;
 		}
 		default:

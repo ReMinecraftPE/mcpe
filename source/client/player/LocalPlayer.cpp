@@ -11,6 +11,7 @@
 #include "nbt/CompoundTag.hpp"
 #include "network/packets/MovePlayerPacket.hpp"
 #include "network/packets/PlayerEquipmentPacket.hpp"
+#include "network/packets/AnimatePacket.hpp"
 #include "client/gui/screens/inventory/CraftingScreen.hpp"
 #include "client/gui/screens/inventory/ChestScreen.hpp"
 
@@ -381,5 +382,34 @@ void LocalPlayer::sendPosition()
 		m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
 		m_lastSentPos = m_pos;
 		m_lastSentRot = m_rot;
+	}
+}
+
+Player::BedSleepingProblem LocalPlayer::startSleepInBed(const TilePos& pos)
+{
+	Player::BedSleepingProblem result = Player::startSleepInBed(pos);
+	
+	// Broadcast sleep state to all clients if in multiplayer (hosting)
+	if (result == BED_SLEEPING_OK && m_pLevel && m_pLevel->m_pRakNetInstance && m_pLevel->m_pRakNetInstance->m_bIsHost)
+	{
+		// Send sleep interaction with the bed tile position
+		// Remote clients will handle positioning based on this
+		m_pLevel->m_pRakNetInstance->send(new InteractionPacket(m_EntityID, 0, pos));
+		
+		// Then send actual player position after startSleepInBed positioned them
+		m_pLevel->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, m_pos, m_rot));
+	}
+	
+	return result;
+}
+
+void LocalPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
+{
+	Player::stopSleepInBed(resetCounter, update, setSpawn);
+	
+	// Broadcast wake animation to all clients if in multiplayer (hosting)
+	if (m_pLevel && m_pLevel->m_pRakNetInstance && m_pLevel->m_pRakNetInstance->m_bIsHost)
+	{
+		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE_UP));
 	}
 }

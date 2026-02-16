@@ -38,6 +38,8 @@ public:
 	bool interpolateOnly() const override { return false; }
 	void setPlayerGameType(GameType gameType) override;
 	void swing() override;
+	BedSleepingProblem startSleepInBed(const TilePos& pos) override;
+	void stopSleepInBed(bool resetCounter, bool update, bool setSpawn) override;
 	void startCrafting(const TilePos&) override;
 	//void openFurnace(FurnaceTileEntity* furnace) override;
 	void openContainer(Container* container) override;
