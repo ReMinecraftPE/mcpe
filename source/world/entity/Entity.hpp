@@ -66,6 +66,7 @@ protected:
 	typedef int8_t SharedFlag;
 public:
 	typedef int32_t ID;
+	typedef int32_t AuxValue;
 public:
 	class EventType
 	{
@@ -149,6 +150,8 @@ public:
 	virtual Vec3 getPos(float f) const;
 	virtual Vec2 getRot(float f) const;
 	virtual Vec3 getViewVector(float f) const;
+	virtual AuxValue getAuxValue() const;
+	virtual void setAuxValue(AuxValue value);
 	virtual float distanceTo(const Entity*) const;
 	virtual float distanceToSqr(const Vec3& pos) const;
 	virtual float distanceTo(const Vec3& pos) const;

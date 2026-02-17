@@ -511,7 +511,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 	if (bInteract && action.isInteract() && canInteract)
 	{
 		ItemStack& item = getSelectedItem();
-		if (!item.isEmpty() && player->isUsingItem())
+		if (!item.isEmpty())
 		{
 			m_lastInteractTime = getTimeMs();
 			if (m_pGameMode->useItem(player, m_pLevel, item))
@@ -799,7 +799,7 @@ void Minecraft::freeResources(bool bCopyMap)
 
 std::string Minecraft::getVersionString(const std::string& str) const
 {
-	return "v0.3.2" + str + " alpha";
+	return "v0.3.3" + str + " alpha";
 }
 
 void Minecraft::tick()

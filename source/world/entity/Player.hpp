@@ -15,6 +15,8 @@
 #include "world/gamemode/GameType.hpp"
 #include "world/inventory/InventoryMenu.hpp"
 
+#define C_PLAYER_FLAG_USING_ITEM (4)
+
 class Inventory; // in case we're included from Inventory.hpp
 
 class Player : public Mob
@@ -38,8 +40,6 @@ public:
 
 protected:
 	virtual void reallyDrop(ItemEntity* pEnt);
-	bool getSharedFlag(SharedFlag flag) const override { return false; }
-	void setSharedFlag(SharedFlag flag, bool value) override {}
 
 public:
 	void reset() override;
@@ -84,6 +84,8 @@ public:
 	void animateRespawn(Player*, Level*);
 	void attack(Entity* pEnt);
 	void useItem(ItemStack& item) const;
+	void releaseUsingItem();
+	void stopUsingItem();
 	bool canDestroy(const Tile*) const;
 	void displayClientMessage(const std::string& msg);
 	float getDestroySpeed(const Tile* tile) const;
@@ -105,7 +107,8 @@ public:
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 	ItemStack& getSelectedItem() const;
 	void removeSelectedItem();
-	bool isUsingItem() const { return !getSelectedItem().isEmpty(); }
+	// whether or not they're holding right-click, like drawing back a bow or eating
+	bool isUsingItem() const { return getSharedFlag(C_PLAYER_FLAG_USING_ITEM); }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push
@@ -115,6 +118,8 @@ public:
 
 protected:
 	Abilities m_abilities;
+	ItemStack m_itemInUse;
+	int32_t m_itemInUseDuration;
 
 public:
 	//TODO

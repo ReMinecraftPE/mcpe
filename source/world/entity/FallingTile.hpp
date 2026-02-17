@@ -12,20 +12,28 @@
 
 class FallingTile : public Entity
 {
+private:
+	void _init(Level*, const Vec3& pos, int id);
+
 public:
 	FallingTile(Level*);
 	FallingTile(Level*, const Vec3& pos, int id);
 
+private:
+	void _defineEntityData();
+
+public:
 	float getShadowHeightOffs() const override;
 	bool isPickable() const override;
 	void tick() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 
+	int getTile() const;
+	void setTile(int id);
 	Level* getLevel() { return m_pLevel; }
 
 public:
-	int m_id;
 	int field_E0;
 };
 
