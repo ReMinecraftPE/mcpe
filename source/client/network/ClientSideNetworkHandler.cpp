@@ -15,6 +15,8 @@
 #include "client/multiplayer/MultiplayerLocalPlayer.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/entity/EntityFactory.hpp"
+#include "world/entity/PrimedTnt.hpp"
 #include "world/level/Explosion.hpp"
 #include "world/inventory/SimpleContainer.hpp"
 
@@ -225,6 +227,50 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobP
 	entity->moveTo(pAddMobPkt->m_pos, pAddMobPkt->m_rot);
 	entity->getEntityData().assignValues(pAddMobPkt->getUnpackedData());
 	m_pLevel->addEntity(entity);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddEntityPacket* packet)
+{
+	puts_ignorable("AddEntityPacket");
+
+	if (!m_pLevel)
+	{
+		LOG_W("Trying to add an entity with no level!");
+		return;
+	}
+
+	EntityType::ID entityTypeId = (EntityType::ID)packet->m_entityTypeId;
+	if (entityTypeId == EntityType::UNKNOWN)
+	{
+		LOG_E("Trying to add an entity without a type id");
+		return;
+	}
+
+	Entity* entity = EntityFactory::CreateEntity(entityTypeId, m_pLevel);
+	if (!entity)
+	{
+		LOG_E("Server tried to add an unknown entity type! :%d", entityTypeId);
+		return;
+	}
+
+	entity->m_EntityID = packet->m_entityId;
+	entity->setPos(packet->m_pos);
+	
+	if (packet->m_auxValue > 0)
+	{
+		entity->setAuxValue(packet->m_auxValue);
+
+		entity->m_vel = packet->m_vel;
+	}
+
+	// @HACK 0.3.3 did this
+	if (entity->getDescriptor().isType(EntityType::PRIMED_TNT))
+	{
+		PrimedTnt& tnt = (PrimedTnt&)*entity;
+		tnt.m_fuseTimer = 1000;
+	}
+
+	m_pLevel->putEntity(packet->m_entityId, entity);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveEntityPacket* pRemoveEntityPkt)

@@ -12,8 +12,10 @@
 
 void PrimedTnt::_init()
 {
-	m_fuseTimer = 0;
 	m_renderType = RENDER_TNT;
+	m_pDescriptor = &EntityTypeDescriptor::primedTnt;
+
+	m_fuseTimer = 0;
     m_bBlocksBuilding = true;
 	setSize(0.98f, 0.98f);
 	m_heightOffset = m_bbHeight * 0.5f;

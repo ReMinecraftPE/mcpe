@@ -1,5 +1,6 @@
 #include "SetEntityMotionPacket.hpp"
 #include "network/NetEventCallback.hpp"
+#include "../PacketUtil.hpp"
 
 SetEntityMotionPacket::SetEntityMotionPacket(int32_t id, const Vec3& vel)
 	: m_entityId(id)
@@ -14,27 +15,24 @@ void SetEntityMotionPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallb
 
 void SetEntityMotionPacket::write(RakNet::BitStream& bs)
 {
-	int16_t x = Mth::clamp(m_vel.x, -3.9f, 3.9f) * 8000.0f;
-	int16_t y = Mth::clamp(m_vel.y, -3.9f, 3.9f) * 8000.0f;
-	int16_t z = Mth::clamp(m_vel.z, -3.9f, 3.9f) * 8000.0f;
+	int16_t motion[3];
+	PacketUtil::PackMotion(m_vel, motion);
 
 	bs.Write((unsigned char)PACKET_SET_ENTITY_MOTION);
 	bs.Write(m_entityId);
-	bs.Write(x);
-	bs.Write(y);
-	bs.Write(z);
+	bs.Write(motion[0]);
+	bs.Write(motion[1]);
+	bs.Write(motion[2]);
 }
 
 void SetEntityMotionPacket::read(RakNet::BitStream& bs)
 {
 	bs.Read(m_entityId);
 
-	int16_t x, y, z;
-	bs.Read(x);
-	bs.Read(y);
-	bs.Read(z);
+	int16_t motion[3];
+	bs.Read(motion[0]);
+	bs.Read(motion[1]);
+	bs.Read(motion[2]);
 
-	m_vel.x = (float)x / 8000.0f;
-	m_vel.y = (float)y / 8000.0f;
-	m_vel.z = (float)z / 8000.0f;
+	PacketUtil::UnpackMotion(motion, m_vel);
 }

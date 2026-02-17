@@ -511,7 +511,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 	if (bInteract && action.isInteract() && canInteract)
 	{
 		ItemStack& item = getSelectedItem();
-		if (!item.isEmpty() && player->isUsingItem())
+		if (!item.isEmpty())
 		{
 			m_lastInteractTime = getTimeMs();
 			if (m_pGameMode->useItem(player, m_pLevel, item))

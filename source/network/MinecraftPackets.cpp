@@ -23,6 +23,7 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_ADD_PLAYER:            return new AddPlayerPacket;
 		// We never implemented this, but actual PE sends this instead of RemoveEntity
 		case PACKET_REMOVE_PLAYER:         return nullptr;
+		case PACKET_ADD_ENTITY:            return new AddEntityPacket;
 		case PACKET_REMOVE_ENTITY:         return new RemoveEntityPacket;
 		case PACKET_ADD_ITEM_ENTITY:       return new AddItemEntityPacket;
 		case PACKET_TAKE_ITEM_ENTITY:      return new TakeItemEntityPacket;

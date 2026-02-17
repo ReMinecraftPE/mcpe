@@ -17,6 +17,7 @@
 #include "packets/StartGamePacket.hpp"
 #include "packets/AddMobPacket.hpp"
 #include "packets/AddPlayerPacket.hpp"
+#include "packets/AddEntityPacket.hpp"
 #include "packets/RemoveEntityPacket.hpp"
 #include "packets/AddItemEntityPacket.hpp"
 #include "packets/TakeItemEntityPacket.hpp"
