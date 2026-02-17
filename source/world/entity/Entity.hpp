@@ -204,8 +204,6 @@ public:
 	virtual float getRidingHeight() const { return m_heightOffset; }
 	Entity* getRiding() const;
 	Entity* getRider() const;
-	// void setRiding(Entity* newRiding);
-	// void setRider(Entity* newRider);
 	void load(const CompoundTag& tag);
 	bool save(CompoundTag& tag) const;
 	void saveWithoutId(CompoundTag& tag) const;

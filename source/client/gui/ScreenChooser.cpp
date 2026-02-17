@@ -5,6 +5,7 @@
 #include "screens/PauseScreen.hpp"
 #include "screens/inventory/CraftingScreen.hpp"
 #include "screens/inventory/ChestScreen.hpp"
+#include "screens/inventory/FurnaceScreen.hpp"
 #include "screens/OptionsScreen.hpp"
 #include "screens/OptionsScreen_Console.hpp"
 #include "screens/CreateWorldScreen.hpp"
@@ -51,6 +52,11 @@ void ScreenChooser::pushProgressScreen()
 void ScreenChooser::pushCraftingScreen(Player* player, const TilePos& pos)
 {
 	m_pMinecraft->setScreen(new CraftingScreen(player->m_pInventory, pos, player->m_pLevel));
+}
+
+void ScreenChooser::pushFurnaceScreen(Player* player, FurnaceTileEntity* furnace)
+{
+	m_pMinecraft->setScreen(new FurnaceScreen(player->m_pInventory, furnace));
 }
 
 void ScreenChooser::pushChestScreen(Player* player, Container* container)

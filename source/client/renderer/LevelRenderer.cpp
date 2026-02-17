@@ -1584,12 +1584,12 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 
 	EntityRenderDispatcher::off = camera->m_posPrev + (camera->m_pos - camera->m_posPrev) * f;
 
-	const EntityVector* pVec = m_pLevel->getAllEntities();
+	const EntityMap* pVec = m_pLevel->getAllEntities();
 	m_totalEntities = int(pVec->size());
 
-	for (int i = 0; i < m_totalEntities; i++)
-	{
-		const Entity* entity = (*pVec)[i];
+	for (EntityMap::const_iterator it = pVec->begin(); it != pVec->end(); ++it)
+    {
+		const Entity* entity = it->second;
 		if (!entity->shouldRender(pos))
 			continue;
 

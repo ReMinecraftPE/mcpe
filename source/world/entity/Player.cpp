@@ -541,17 +541,14 @@ void Player::drop(const ItemStack& item, bool randomly)
 
 void Player::startCrafting(const TilePos& pos)
 {
-
 }
 
 void Player::openFurnace(FurnaceTileEntity* tileEntity)
 {
-	
 }
 
 void Player::startStonecutting(const TilePos& pos)
 {
-
 }
 
 void Player::startDestroying()

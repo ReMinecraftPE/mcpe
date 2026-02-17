@@ -13,7 +13,7 @@ void MultiPlayerLevel::tick()
     for (size_t i = 0; i < 10 && i < m_reEntries.size(); i++)
     {
         Entity* pEntity = m_reEntries[i];
-        if (std::find(m_entities.begin(), m_entities.end(), pEntity) != m_entities.end())
+        if (m_entitiesById.find(pEntity->hashCode()) == m_entitiesById.end())
         {
             addEntity(pEntity);
         }

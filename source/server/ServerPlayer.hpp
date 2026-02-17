@@ -14,6 +14,7 @@ public:
 	void startCrafting(const TilePos& pos) override;
 	void openContainer(Container* container) override;
 	void closeContainer() override;
+	void openFurnace(FurnaceTileEntity* tileEntity);
 	void take(Entity* pEnt, int count) override;
 
 	void refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items) override;

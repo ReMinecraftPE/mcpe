@@ -9,8 +9,10 @@
 #include "network/packets/ContainerSetContentPacket.hpp"
 #include "network/RakNetInstance.hpp"
 #include "world/inventory/CraftingMenu.hpp"
+#include "world/inventory/FurnaceMenu.hpp"
 #include "world/inventory/ChestMenu.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/entity/FurnaceTileEntity.hpp"
 
 ServerPlayer::ServerPlayer(Level* pLevel, GameType playerGameType)
 	: Player(pLevel, playerGameType)
@@ -58,7 +60,7 @@ void ServerPlayer::openContainer(Container* container)
 #if NETWORK_PROTOCOL_VERSION >= 5
 	m_pLevel->m_pRakNetInstance->send(
 		new ContainerOpenPacket(
-			m_pContainerMenu->m_containerId, Container::CONTAINER,
+			m_containerId, Container::CONTAINER,
 			container->getName(), container->getContainerSize()
 		)
 	);
@@ -74,6 +76,22 @@ void ServerPlayer::closeContainer()
 #endif
 
 	doCloseContainer();
+}
+
+void ServerPlayer::openFurnace(FurnaceTileEntity* furnace)
+{
+	_nextContainerCounter();
+
+#if NETWORK_PROTOCOL_VERSION >= 5
+	m_pLevel->m_pRakNetInstance->send(
+		new ContainerOpenPacket(
+			m_containerId, Container::FURNACE,
+			furnace->getName(), furnace->getContainerSize()
+		)
+	);
+#endif
+
+	setContainerMenu(new FurnaceMenu(m_pInventory, furnace));
 }
 
 void ServerPlayer::take(Entity* pEnt, int count)

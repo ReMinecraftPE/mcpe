@@ -20,10 +20,9 @@ Pig::Pig(Level* pLevel) : Animal(pLevel)
 }
 int Pig::getDeathLoot() const
 {
-	if (isOnFire())
-		return Item::porkChop_cooked->m_itemID;
-	else
-		return Item::porkChop_raw->m_itemID;
+	return (isOnFire()) ? 
+		Item::porkChop_cooked->m_itemID :
+		Item::porkChop_raw->m_itemID;
 }
 
 bool Pig::interact(Player* pPlayer)

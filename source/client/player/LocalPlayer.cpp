@@ -138,7 +138,7 @@ void LocalPlayer::startCrafting(const TilePos& pos)
 void LocalPlayer::openFurnace(FurnaceTileEntity* furnace)
 {
 	// PE 0.3.2 doesn't let you cook in creative mode
-	m_pMinecraft->setScreen(new FurnaceScreen(m_pInventory, furnace));
+	m_pMinecraft->getScreenChooser()->pushFurnaceScreen(this, furnace);
 }
 
 void LocalPlayer::openContainer(Container* container)

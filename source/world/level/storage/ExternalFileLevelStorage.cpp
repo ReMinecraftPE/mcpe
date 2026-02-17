@@ -400,10 +400,10 @@ void ExternalFileLevelStorage::saveEntities(Level* level, LevelChunk* chunk)
 	//getTimeS();
 	ListTag* entitiesTag = new ListTag();
 
-	const EntityVector* entities = level->getAllEntities();
-	for (EntityVector::const_iterator it = entities->begin(); it != entities->end(); it++)
+	const EntityMap* entities = level->getAllEntities();
+	for (EntityMap::const_iterator it = entities->begin(); it != entities->end(); it++)
 	{
-		const Entity* entity = *it;
+		const Entity* entity = it->second;
 		CompoundTag* tag = new CompoundTag();
 
 		if (!entity->save(*tag))

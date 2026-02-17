@@ -17,6 +17,7 @@
 #include "world/entity/MobFactory.hpp"
 #include "world/level/Explosion.hpp"
 #include "world/inventory/SimpleContainer.hpp"
+#include "world/tile/entity/FurnaceTileEntity.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT
@@ -683,7 +684,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerO
 		pLocalPlayer->openContainer(new SimpleContainer(packet->m_size, packet->m_title.C_String()));
 		break;
 	case Container::FURNACE:
-		//pLocalPlayer->openFurnace(new FurnaceTileEntity());
+		pLocalPlayer->openFurnace(new FurnaceTileEntity);
 		break;
 	case Container::DISPENSER:
 		//pLocalPlayer->openTrap(new DispenserTileEntity());

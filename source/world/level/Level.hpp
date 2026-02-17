@@ -14,6 +14,7 @@
 #define _USE_MATH_DEFINES
 #endif
 #include <math.h>
+#include <map>
 
 #include "client/renderer/LightUpdate.hpp"
 #include "world/tile/Tile.hpp"
@@ -38,6 +39,7 @@ class Packet;
 class MobSpawner;
 
 typedef std::vector<Entity*> EntityVector;
+typedef std::map<Entity::ID, Entity*> EntityMap;
 typedef std::vector<TileEntity*> TileEntityVector;
 typedef std::vector<AABB> AABBVector;
 
@@ -183,7 +185,7 @@ public:
 	HitResult clip(Vec3 a, Vec3 b, bool c) const;
 	Entity* getEntity(Entity::ID id) const;
 	unsigned int getEntityCount(const EntityCategories&) const;
-	const EntityVector* getAllEntities() const;
+	const EntityMap* getAllEntities() const;
 	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
 	BiomeSource* getBiomeSource() const override;
 	LevelStorage* getLevelStorage() const { return m_pLevelStorage; }
@@ -219,7 +221,7 @@ public:
 	bool m_bInstantTicking;
 	bool m_bIsClientSide; // if the level is controlled externally by a server.
 	bool m_bPostProcessing;
-	EntityVector m_entities;
+	EntityMap m_entities;
 	std::vector<Player*> m_players;
 	int m_skyDarken;
 	uint8_t field_30;
