@@ -929,6 +929,8 @@
 		84E1C9EE2E7FDC89007D2F5D /* CactusFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9EB2E7FDC89007D2F5D /* CactusFeature.cpp */; };
 		84E1C9EF2E7FDC89007D2F5D /* PumpkinFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9EC2E7FDC89007D2F5D /* PumpkinFeature.cpp */; };
 		84E1C9F02E7FDC89007D2F5D /* VegetationFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9ED2E7FDC89007D2F5D /* VegetationFeature.cpp */; };
+		84E26C952F440CD600E38DF2 /* AddEntityPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E26C932F440CD600E38DF2 /* AddEntityPacket.cpp */; };
+		84E26C962F440CD600E38DF2 /* AddEntityPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E26C942F440CD600E38DF2 /* AddEntityPacket.hpp */; };
 		84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6282AC810620006A435 /* Logger.cpp */; };
 		84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62D2AC810620006A435 /* Mth.cpp */; };
 		84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62F2AC810620006A435 /* Random.cpp */; };
@@ -2681,6 +2683,8 @@
 		84E1C9EB2E7FDC89007D2F5D /* CactusFeature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CactusFeature.cpp; sourceTree = "<group>"; };
 		84E1C9EC2E7FDC89007D2F5D /* PumpkinFeature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PumpkinFeature.cpp; sourceTree = "<group>"; };
 		84E1C9ED2E7FDC89007D2F5D /* VegetationFeature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VegetationFeature.cpp; sourceTree = "<group>"; };
+		84E26C932F440CD600E38DF2 /* AddEntityPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddEntityPacket.cpp; sourceTree = "<group>"; };
+		84E26C942F440CD600E38DF2 /* AddEntityPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AddEntityPacket.hpp; sourceTree = "<group>"; };
 		84E4BFAE2AE9854B0023E16A /* libCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E78C792B58B3E000D515EF /* Rocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rocket.cpp; sourceTree = "<group>"; };
 		84E78C7A2B58B3E000D515EF /* Rocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rocket.hpp; sourceTree = "<group>"; };
@@ -3585,6 +3589,8 @@
 		840DD63F2AC810620006A435 /* packets */ = {
 			isa = PBXGroup;
 			children = (
+				84E26C932F440CD600E38DF2 /* AddEntityPacket.cpp */,
+				84E26C942F440CD600E38DF2 /* AddEntityPacket.hpp */,
 				84F77A0D2EA1C01B0045C907 /* AddItemEntityPacket.cpp */,
 				84F77A0E2EA1C01B0045C907 /* AddItemEntityPacket.hpp */,
 				84F77A0F2EA1C01B0045C907 /* AddMobPacket.cpp */,
@@ -5618,6 +5624,7 @@
 				84F77A472EA1C01C0045C907 /* LoginStatusPacket.hpp in Headers */,
 				84F77A502EA1C01C0045C907 /* ReadyPacket.hpp in Headers */,
 				84F77A512EA1C01C0045C907 /* RemoveBlockPacket.hpp in Headers */,
+				84E26C962F440CD600E38DF2 /* AddEntityPacket.hpp in Headers */,
 				8470AF312BE9B62600BCA54E /* PacketUtil.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6688,6 +6695,7 @@
 				84F77A492EA1C01C0045C907 /* MoveEntityPacket_PosRot.cpp in Sources */,
 				8470AF302BE9B62600BCA54E /* PacketUtil.cpp in Sources */,
 				84CCBC972E61886800E251AF /* RakIO.cpp in Sources */,
+				84E26C952F440CD600E38DF2 /* AddEntityPacket.cpp in Sources */,
 				84DAF58F2F34650500D67310 /* ContainerSetContentPacket.cpp in Sources */,
 				8470AF352BE9B63900BCA54E /* LoginStatusPacket.cpp in Sources */,
 				8470AF362BE9B63900BCA54E /* ReadyPacket.cpp in Sources */,
