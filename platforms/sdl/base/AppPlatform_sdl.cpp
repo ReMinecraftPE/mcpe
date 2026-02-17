@@ -149,6 +149,13 @@ void AppPlatform_sdl::_setDefaultIcon()
 	_setIcon(data);
 }
 
+void AppPlatform_sdl::setVSyncEnabled(bool enabled)
+{
+#if MCE_GFX_API_OGL
+	SDL_GL_SetSwapInterval(enabled ? 1 : 0);
+#endif
+}
+
 void AppPlatform_sdl::initSoundSystem()
 {
 	if (m_pSoundSystem)

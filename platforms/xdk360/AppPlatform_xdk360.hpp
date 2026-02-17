@@ -52,6 +52,7 @@ public:
 	bool initGraphics(unsigned int width, unsigned int height);
 	void createWindowSizeDependentResources(unsigned int width, unsigned int height);
 	void swapBuffers();
+	void setVSyncEnabled(bool enabled) override;
 
 private:
 	int m_ScreenWidth;

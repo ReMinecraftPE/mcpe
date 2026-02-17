@@ -107,6 +107,8 @@ public:
 	virtual void vibrate(int milliSeconds);
     virtual bool getRecenterMouseEveryTick();
 	virtual std::string getClipboardText();
+	// Graphics settings
+	virtual void setVSyncEnabled(bool enabled);
 	
 	void _fireLowMemory();
 	void _fireAppSuspended();

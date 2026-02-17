@@ -1137,7 +1137,7 @@ void LevelRenderer::tick()
 typedef std::vector<Chunk*> ChunkVector;
 typedef ChunkVector::iterator ChunkVectorIterator;
 
-bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
+bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool force)
 {
 	constexpr int C_MAX = 3;
 	DirtyChunkSorter dcs(camera);
@@ -1148,7 +1148,7 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	for (size_t i = 0; i < pendingChunkSize; i++)
 	{
 		Chunk* pChunk = m_dirtyChunks[i];
-		if (!b)
+		if (!force)
 		{
 			if (pChunk->distanceToSqr(camera) > 1024.0f)
 			{

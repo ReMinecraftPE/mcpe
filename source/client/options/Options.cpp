@@ -98,7 +98,7 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	//, m_limitFramerate("gfx_fpslimit", "options.framerateLimit", 0, ValuesBuilder().add(performance.max").add("performance.balanced").add("performance.powersaver"))
 	//, m_bMipmaps("gfx_mipmaps", "options.mipmaps")
 	//, m_moreWorldOptions("misc_moreworldoptions", "options.moreWorldOptions", true)
-	//, m_vSync("enableVsync", "options.enableVsync")
+	, m_vSync("enableVsync", "options.enableVsync")
 {
 	add(m_musicVolume);
 	add(m_masterVolume);
@@ -127,10 +127,11 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	add(m_debugText);
 	add(m_lang);
 	add(m_bUseController);
+	add(m_hudSize);
 	add(m_uiTheme);
 	add(m_logoType);
-	add(m_hudSize);
 	add(m_classicCrafting);
+	add(m_vSync);
 	_initDefaultValues();
 	if (folderPath.empty()) return;
 	m_filePath = folderPath + "/options.txt";
@@ -812,4 +813,9 @@ void ControllerOption::apply()
 	// For now, I just wanted to be able to switch to controller input on mobile devices.
 	if (m_pMinecraft && m_pMinecraft->m_pInputHolder)
 		m_pMinecraft->reloadInput();
+}
+
+void VsyncOption::apply()
+{
+	m_pMinecraft->platform()->setVSyncEnabled(get());
 }

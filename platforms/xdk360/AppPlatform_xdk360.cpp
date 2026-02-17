@@ -319,6 +319,12 @@ const std::string& AppPlatform_xdk360::getKeyboardText() const
 	return m_keyboardText;
 }
 
+void AppPlatform_xdk360::setVSyncEnabled(bool enabled)
+{
+	// XDK360 V-Sync control would go here
+	// For Xbox 360, this is typically handled by the D3D device settings
+}
+
 bool AppPlatform_xdk360::initGraphics(unsigned int width, unsigned int height)
 {
 	m_bHasGraphics = true;

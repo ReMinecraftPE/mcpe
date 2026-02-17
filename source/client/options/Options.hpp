@@ -222,6 +222,14 @@ public:
 	void apply() override;
 };
 
+class VsyncOption : public BoolOption
+{
+public:
+	VsyncOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
 class FancyGraphicsOption : public GraphicsOption
 {
 public:
@@ -326,7 +334,7 @@ public:
 class HUDSizeOption : public MinMaxOption
 {
 public:
-	HUDSizeOption(const std::string& key, const std::string& name, int initial) : MinMaxOption(key, name, initial, HUD_SIZE_1, HUD_SIZE_3 + 1)
+	HUDSizeOption(const std::string& key, const std::string& name, int initial) : MinMaxOption(key, name, initial, HUD_SIZE_1, HUD_SIZE_MAX + 1)
 	{
 	}
 
@@ -438,6 +446,7 @@ public:
 	LogoTypeOption m_logoType;
 	HUDSizeOption m_hudSize;
 	BoolOption m_classicCrafting;
+	VsyncOption m_vSync;
 	ResourcePackStack m_resourcePacks;
 };
 
@@ -483,6 +492,7 @@ public:
 	OPTION(m_viewBobbing);                 \
 	OPTION(m_anaglyphs);                   \
 	OPTION(m_blockOutlines);               \
+	OPTION(m_vSync);               	       \
 	OPTION(m_fancyGrass);                  \
 	OPTION(m_biomeColors);                 \
 	OPTION(m_dynamicHand);                 \
