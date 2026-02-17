@@ -334,7 +334,7 @@ public:
 class HUDSizeOption : public MinMaxOption
 {
 public:
-	HUDSizeOption(const std::string& key, const std::string& name, int initial) : MinMaxOption(key, name, initial, HUD_SIZE_1, HUD_SIZE_MAX + 1)
+	HUDSizeOption(const std::string& key, const std::string& name, int initial) : MinMaxOption(key, name, initial, HUD_SIZE_1, HUD_SIZE_3 + 1)
 	{
 	}
 
