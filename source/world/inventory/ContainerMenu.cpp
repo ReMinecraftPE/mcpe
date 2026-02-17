@@ -332,7 +332,8 @@ void ContainerMenu::setItem(int index, ItemStack item)
 
 void ContainerMenu::setAll(const std::vector<ItemStack>& items)
 {
-    for (size_t i = 0; i < items.size(); ++i)
+    size_t n = std::min(items.size(), m_slots.size());
+    for (size_t i = 0; i < n; ++i)
     {
         m_slots[i]->set(items[i]);
     }
