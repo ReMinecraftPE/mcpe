@@ -7,8 +7,6 @@
  ********************************************************************/
 
 #include "IngameBlockSelectionScreen.hpp"
-#include "PauseScreen.hpp"
-#include "ChatScreen.hpp"
 //#include "CraftingScreen.hpp"
 //#include "ArmorScreen.hpp"
 #include "client/app/Minecraft.hpp"
@@ -18,8 +16,6 @@
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
 IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
-	m_btnPause("\xF0"), // 3 lined bars
-	m_btnChat("\x01\x27"), // face and comma
 	m_btnCraft("Craft"),
 	m_btnArmor("Armor")
 {
@@ -101,6 +97,7 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::stoneSlabHalf->m_ID, 3);
 	addCreativeItem(Tile::treeTrunk->m_ID, 1);
 	addCreativeItem(Tile::treeTrunk->m_ID, 2);
+	addCreativeItem(Tile::fence->m_ID);
 	addCreativeItem(Tile::cactus->m_ID);
 	addCreativeItem(Tile::tallGrass->m_ID);
 	addCreativeItem(Tile::deadBush->m_ID);
@@ -109,7 +106,17 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::netherrack->m_ID);
 	addCreativeItem(Tile::soulSand->m_ID);
 	addCreativeItem(Tile::glowstone->m_ID);
+
 	addCreativeItem(Tile::web->m_ID);
+	addCreativeItem(Tile::ice->m_ID);
+	addCreativeItem(Tile::topSnow->m_ID);
+	addCreativeItem(Item::shovel_iron->m_itemID);
+	addCreativeItem(Item::pickAxe_iron->m_itemID);
+	addCreativeItem(Item::hatchet_iron->m_itemID);
+	addCreativeItem(Item::sword_iron->m_itemID);
+	addCreativeItem(Item::hoe_iron->m_itemID);
+	addCreativeItem(Item::bow->m_itemID);
+
 
 	// test
 	//addCreativeItem(Tile::info_updateGame1->m_ID);
@@ -187,31 +194,21 @@ bool IngameBlockSelectionScreen::isInsideSelectionArea(int x, int y)
 
 void IngameBlockSelectionScreen::init()
 {
-	m_btnPause.m_width = 25;
-	m_btnPause.m_xPos = m_width - m_btnPause.m_width / 1.05;
-	m_btnPause.m_yPos = 0;
-	if (m_pMinecraft->isTouchscreen())
-	{
-		_addElement(m_btnPause);
-	}
-
-	m_btnChat.m_width = 25;
-	m_btnChat.m_xPos = 0;
-	m_btnChat.m_yPos = 0;
-	if (m_pMinecraft->isTouchscreen())
-	{
-		_addElement(m_btnChat);
-	}
-	
-	/*m_btnCraft.m_width = 40;
+	m_btnCraft.m_width = 40;
 	m_btnCraft.m_xPos = 0;
 	m_btnCraft.m_yPos = 0;
-	_addElement(m_btnCraft);*/
+	/*if (m_pMinecraft->isTouchscreen())
+	{
+		_addElement(m_btnCraft);
+	}*/
 
-	/*m_btnArmor.m_width = 40;
+	m_btnArmor.m_width = 40;
 	m_btnArmor.m_xPos = m_btnCraft.m_width;
 	m_btnArmor.m_yPos = 0;
-	_addElement(m_btnArmor);*/
+	/*if (m_pMinecraft->isTouchscreen())
+	{
+		_addElement(m_btnArmor);
+	}*/
 
 	Inventory* pInv = getInventory();
 
@@ -288,13 +285,7 @@ void IngameBlockSelectionScreen::render(float f)
 
 void IngameBlockSelectionScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->getId() == m_btnPause.getId())
-		m_pMinecraft->getScreenChooser()->pushPauseScreen();
-
-	if (pButton->getId() == m_btnChat.getId())
-        m_pMinecraft->setScreen(new ChatScreen(true));
-
-		/*if (pButton->getId() == m_btnCraft.getId())
+	/*if (pButton->getId() == m_btnCraft.getId())
 		m_pMinecraft->setScreen(new CraftingScreen(m_pMinecraft->m_pLocalPlayer));*/
 
 	/*if (pButton->getId() == m_btnArmor.getId())
