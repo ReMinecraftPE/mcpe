@@ -180,7 +180,7 @@ void NinecraftApp::_initAll()
 		EntityTypeDescriptor::initDescriptors(); // custom
 		MobCategory::initMobCategories();
 		MobFactory::initMobLists();
-		TileEntityFactory::InitTileEntities();
+		TileEntityFactory::initTileEntities();
 		Tile::initTiles();
 		Item::initItems();
 		Biome::initBiomes();
@@ -341,7 +341,7 @@ void NinecraftApp::onGraphicsReset()
 
 void NinecraftApp::teardown()
 {
-	TileEntityFactory::TeardownTileEntities();
+	TileEntityFactory::teardownTileEntities();
 	teardownRenderer();
 	Resource::teardownLoaders();
 	// Stop our SoundSystem before we nuke our sound buffers and cause it to implode

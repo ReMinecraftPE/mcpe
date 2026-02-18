@@ -79,7 +79,7 @@ void FallingTile::tick()
 	{
 		if (field_E0 > 100 && !m_pLevel->m_bIsClientSide)
 		{
-			spawnAtLocation(m_id, 1);
+			spawnAtLocation(getTile(), 1);
 			remove();
 		}
 
@@ -96,7 +96,7 @@ void FallingTile::tick()
 	}
 	else
 	{
-		spawnAtLocation(getTile());
+		spawnAtLocation(getTile(), 1);
 	}
 }
 

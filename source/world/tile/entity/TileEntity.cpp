@@ -19,7 +19,7 @@ TileEntity* TileEntity::LoadTileEntity(const CompoundTag& tag)
     }
 
     std::string id = tag.getString("id");
-    const TileEntityType* type = TileEntityFactory::GetType(id);
+    const TileEntityType* type = TileEntityFactory::getType(id);
 
     if (!type)
     {
