@@ -11,6 +11,9 @@ public:
 	static void Rot_entityToChar(const Entity* entity, char& yawChar, char& pitchChar);
 	static void Rot_charToEntity(Entity* entity, char yawChar, char pitchChar);
 
+	static void PackMotion(const Vec3& in, int16_t* out);
+	static void UnpackMotion(int16_t* in, Vec3& out);
+
 	static void WriteUserData(const ItemStack& item, RakNet::BitStream& bs, bool minData);
 	static void ReadUserData(ItemStack& item, RakNet::BitStream& bs);
 	static void WriteItemStack(const ItemStack& item, RakNet::BitStream& bs, bool doUserData, bool minUserData = false);

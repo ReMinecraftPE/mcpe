@@ -10,27 +10,39 @@
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
 
-FallingTile::FallingTile(Level* level) : Entity(level),
-	m_id(TILE_AIR), // Uninitialized by Mojang
-	field_E0(0)
-{
-}
+#define DATA_TILE_ID (20)
 
-FallingTile::FallingTile(Level* level, const Vec3& pos, int id) : Entity(level),
-	field_E0(0)
+void FallingTile::_init(Level*, const Vec3& pos, int id)
 {
-	m_id = id;
-    m_bBlocksBuilding = false;
+	m_renderType = RENDER_FALLING_TILE;
+	m_pDescriptor = &EntityTypeDescriptor::fallingTile;
+
+	_defineEntityData();
+
+	setTile(id);
+	field_E0 = 0;
+	m_bBlocksBuilding = false;
 	setSize(0.98f, 0.98f);
 	m_heightOffset = m_bbHeight * 0.5f;
 	setPos(pos);
 	m_oPos = pos;
 	m_bMakeStepSound = false;
 	m_vel = Vec3::ZERO;
+}
 
-#if defined(ENH_ALLOW_SAND_GRAVITY)
-	m_renderType = RENDER_FALLING_TILE;
-#endif
+FallingTile::FallingTile(Level* level) : Entity(level)
+{
+	_init(level, Vec3::ZERO, TILE_AIR);
+}
+
+FallingTile::FallingTile(Level* level, const Vec3& pos, int id) : Entity(level)
+{
+	_init(level, pos, id);
+}
+
+void FallingTile::_defineEntityData()
+{
+	m_entityData.define<int32_t>(DATA_TILE_ID, TILE_AIR);
 }
 
 float FallingTile::getShadowHeightOffs() const
@@ -45,7 +57,7 @@ bool FallingTile::isPickable() const
 
 void FallingTile::tick()
 {
-	if (!m_id)
+	if (getTile() == TILE_AIR)
 		remove();
 
 	m_oPos = m_pos;
@@ -60,7 +72,7 @@ void FallingTile::tick()
 
 	// if we're inside one of our own tiles, clear it.
 	// Assumes we started there
-	if (m_pLevel->getTile(tilePos) == m_id)
+	if (m_pLevel->getTile(tilePos) == getTile())
 		m_pLevel->setTile(tilePos, TILE_AIR);
 
 	if (!m_bOnGround)
@@ -78,7 +90,7 @@ void FallingTile::tick()
 	m_vel.z *= 0.7f;
 	m_vel.y *= -0.5f;
 	remove();
-	if (m_pLevel->mayPlace(m_id, tilePos, true))
+	if (m_pLevel->mayPlace(getTile(), tilePos, true))
 	{
 		m_pLevel->setTile(tilePos, getTile());
 	}
@@ -90,10 +102,20 @@ void FallingTile::tick()
 
 void FallingTile::addAdditionalSaveData(CompoundTag& tag) const
 {
-	tag.putInt8("Tile", m_id);
+	tag.putInt8("Tile", getTile());
 }
 
 void FallingTile::readAdditionalSaveData(const CompoundTag& tag)
 {
-	m_id = tag.getInt8("Tile");
+	setTile(tag.getInt8("Tile"));
+}
+
+int FallingTile::getTile() const
+{
+	return m_entityData.get<int32_t>(DATA_TILE_ID);
+}
+
+void FallingTile::setTile(int id)
+{
+	m_entityData.set<int32_t>(DATA_TILE_ID, id);
 }

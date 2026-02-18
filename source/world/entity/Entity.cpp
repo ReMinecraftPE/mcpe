@@ -709,6 +709,16 @@ Vec3 Entity::getViewVector(float f) const
 	return Vec3(x4 * x6, Mth::sin(x5), x3 * x6);
 }
 
+Entity::AuxValue Entity::getAuxValue() const
+{
+	return 0;
+}
+
+void Entity::setAuxValue(AuxValue value)
+{
+
+}
+
 float Entity::distanceTo(const Entity* pEnt) const
 {
 	return distanceTo(pEnt->m_pos);

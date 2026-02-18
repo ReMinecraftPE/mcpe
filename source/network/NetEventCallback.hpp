@@ -38,6 +38,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, StartGamePacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, AddMobPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, AddPlayerPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, AddEntityPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, AddItemEntityPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, TakeItemEntityPacket*) {}
@@ -55,6 +56,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, InteractPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, UseItemPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, PlayerActionPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetEntityMotionPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetHealthPacket*) {}

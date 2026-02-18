@@ -12,6 +12,8 @@
 
 void Player::_init()
 {
+	m_itemInUseDuration = 0;
+
 	m_score = 0;
 	m_oBob = 0.0f;
 	m_bob = 0.0f;
@@ -404,6 +406,26 @@ void Player::useItem(ItemStack& item) const
 {
 	if (!isCreative())
 		item.shrink(1);
+}
+
+void Player::releaseUsingItem()
+{
+	if (!m_itemInUse.isEmpty())
+		m_itemInUse.releaseUsing(*m_pLevel, *this, m_itemInUseDuration);
+
+	stopUsingItem();
+}
+
+void Player::stopUsingItem()
+{
+	m_itemInUse.setEmpty();
+	m_itemInUseDuration = 0;
+
+	if (!m_pLevel->m_bIsClientSide)
+	{
+		if (isUsingItem())
+			setSharedFlag(C_PLAYER_FLAG_USING_ITEM, false);
+	}
 }
 
 bool Player::canDestroy(const Tile* pTile) const

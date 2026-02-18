@@ -274,3 +274,15 @@ void Arrow::readAdditionalSaveData(const CompoundTag& tag)
     m_bInGround = tag.getBoolean("inGround");
     m_bIsPlayerOwned = tag.getBoolean("player");
 }
+
+Entity::AuxValue Arrow::getAuxValue() const
+{
+    return m_owner ? m_owner->m_EntityID : 0;
+}
+
+void Arrow::setAuxValue(Entity::AuxValue value)
+{
+    Entity* pOwner = m_pLevel->getEntity(value);
+    if (pOwner && pOwner->isMob())
+        m_owner = (Mob*)pOwner;
+}

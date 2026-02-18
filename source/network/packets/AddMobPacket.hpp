@@ -13,6 +13,8 @@ public:
 		m_entityTypeId = 0;
 	}
 	AddMobPacket(const Mob& mob);
+
+public:
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
 	void write(RakNet::BitStream&) override;
 	void read(RakNet::BitStream&) override;

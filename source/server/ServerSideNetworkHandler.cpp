@@ -465,6 +465,29 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPac
 	pPlayer->swing();
 }
 
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerActionPacket* packet)
+{
+	puts_ignorable("PlayerActionPacket");
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity) return;
+	Player* pPlayer = (Player*)pEntity;
+
+	if (!pEntity->isPlayer())
+		return;
+
+	switch (packet->m_action)
+	{
+	case PlayerActionPacket::STOP_USING_ITEM:
+		pPlayer->releaseUsingItem();
+		break;
+	default:
+		LOG_W("Unsupported PlayerAction: %d", packet->m_action);
+		break;
+	}
+}
+
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket* packet)
 {
 	//puts_ignorable("RequestChunkPacket");
@@ -652,17 +675,26 @@ void ServerSideNetworkHandler::timeChanged(uint32_t time)
 
 void ServerSideNetworkHandler::entityAdded(Entity* entity)
 {
+	if (!canReplicateEntity(entity))
+		return;
+
 	if (entity->getDescriptor().isType(EntityType::ITEM))
 	{
+#if NETWORK_PROTOCOL_VERSION >= 2
 		m_pRakNetInstance->send(new AddItemEntityPacket(*(ItemEntity*)entity));
+#endif
+	}
+	else if (entity->isMob())
+	{
+		AddMobPacket packet(*((Mob*)entity));
+		//LOG_I("add mob packet!");
+		redistributePacket(&packet, m_pRakNetInstance->m_guid);
 	}
 	else
 	{
-		if (!canReplicateEntity(entity))
-			return;
-
-		AddMobPacket packet(*((Mob*)entity));
-		redistributePacket(&packet, m_pRakNetInstance->m_guid);
+#if NETWORK_PROTOCOL_VERSION >= 6
+		m_pRakNetInstance->send(new AddEntityPacket(*entity));
+#endif
 	}
 }
 
@@ -772,7 +804,15 @@ Player* ServerSideNetworkHandler::getPendingPlayerByGUID(const RakNet::RakNetGUI
 
 bool ServerSideNetworkHandler::canReplicateEntity(const Entity* pEntity) const
 {
-	if (!pEntity || !pEntity->isMob() || pEntity->isPlayer())
+	if (!pEntity || pEntity->isPlayer())
+		return false;
+
+#if NETWORK_PROTOCOL_VERSION <= 5
+	if (!pEntity->isMob() && !pEntity->getDescriptor().isType(EntityType::ITEM))
+		return false;
+#endif
+
+	if (pEntity->getDescriptor().isType(EntityType::FALLING_TILE))
 		return false;
 
 	// All clients on V3 will just crash if an unknown 

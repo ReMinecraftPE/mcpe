@@ -39,6 +39,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, StartGamePacket*) override;
 	void handle(const RakNet::RakNetGUID&, AddPlayerPacket*) override;
 	void handle(const RakNet::RakNetGUID&, AddMobPacket*) override;
+	void handle(const RakNet::RakNetGUID&, AddEntityPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*) override;
 	void handle(const RakNet::RakNetGUID&, AddItemEntityPacket*) override;
 	void handle(const RakNet::RakNetGUID&, TakeItemEntityPacket*) override;
