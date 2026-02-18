@@ -199,6 +199,7 @@ for target in $targets; do
     arch="${target%%-*}"
     case $arch in
         (i386)
+            cflags="$cflags -march=pentium-m"
             export REMCPE_SDK="$old_sdk"
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             platform='sdl1'
