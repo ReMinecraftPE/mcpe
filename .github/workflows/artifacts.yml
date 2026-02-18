@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'mac-artifact-pentium-m' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
