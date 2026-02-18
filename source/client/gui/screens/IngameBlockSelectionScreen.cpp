@@ -7,8 +7,6 @@
  ********************************************************************/
 
 #include "IngameBlockSelectionScreen.hpp"
-#include "PauseScreen.hpp"
-#include "ChatScreen.hpp"
 //#include "CraftingScreen.hpp"
 //#include "ArmorScreen.hpp"
 #include "client/app/Minecraft.hpp"
@@ -18,8 +16,6 @@
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
 IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
-	m_btnPause("\xF0"), // 3 lined bars
-	m_btnChat("\x01\x27"), // face and comma
 	m_btnCraft("Craft"),
 	m_btnArmor("Armor")
 {
@@ -187,31 +183,21 @@ bool IngameBlockSelectionScreen::isInsideSelectionArea(int x, int y)
 
 void IngameBlockSelectionScreen::init()
 {
-	m_btnPause.m_width = 25;
-	m_btnPause.m_xPos = m_width - m_btnPause.m_width / 1.05;
-	m_btnPause.m_yPos = 0;
-	if (m_pMinecraft->isTouchscreen())
-	{
-		_addElement(m_btnPause);
-	}
-
-	m_btnChat.m_width = 25;
-	m_btnChat.m_xPos = 0;
-	m_btnChat.m_yPos = 0;
-	if (m_pMinecraft->isTouchscreen())
-	{
-		_addElement(m_btnChat);
-	}
-	
 	/*m_btnCraft.m_width = 40;
 	m_btnCraft.m_xPos = 0;
 	m_btnCraft.m_yPos = 0;
-	_addElement(m_btnCraft);*/
+	if (m_pMinecraft->isTouchscreen())
+	{
+		_addElement(m_btnCraft);
+	}*/
 
 	/*m_btnArmor.m_width = 40;
 	m_btnArmor.m_xPos = m_btnCraft.m_width;
 	m_btnArmor.m_yPos = 0;
-	_addElement(m_btnArmor);*/
+	if (m_pMinecraft->isTouchscreen())
+	{
+		_addElement(m_btnArmor);
+	}*/
 
 	Inventory* pInv = getInventory();
 
@@ -288,13 +274,7 @@ void IngameBlockSelectionScreen::render(float f)
 
 void IngameBlockSelectionScreen::_buttonClicked(Button* pButton)
 {
-	if (pButton->getId() == m_btnPause.getId())
-		m_pMinecraft->getScreenChooser()->pushPauseScreen();
-
-	if (pButton->getId() == m_btnChat.getId())
-        m_pMinecraft->setScreen(new ChatScreen(true));
-
-		/*if (pButton->getId() == m_btnCraft.getId())
+	/*if (pButton->getId() == m_btnCraft.getId())
 		m_pMinecraft->setScreen(new CraftingScreen(m_pMinecraft->m_pLocalPlayer));*/
 
 	/*if (pButton->getId() == m_btnArmor.getId())

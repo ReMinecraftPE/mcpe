@@ -10,6 +10,7 @@
 #include "client/app/Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/gui/screens/ChatScreen.hpp"
+#include "client/gui/screens/PauseScreen.hpp"
 #include "client/gui/screens/inventory/InventoryScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
@@ -306,6 +307,29 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 {
 	if (clickID != 1)
 		return;
+
+	// @TODO: add InGamePlayScreen at some point
+	if (m_pMinecraft->isTouchscreen())
+    {
+		int cenX = GuiWidth / 2;
+        int scaledMouseX = int(mouseX * GuiScale);
+        int scaledMouseY = int(mouseY * GuiScale);
+
+		if (scaledMouseY >= 1 && scaledMouseY < 19 && scaledMouseX >= cenX - 19 && scaledMouseX < cenX - 1)
+		{
+			m_pMinecraft->setScreen(new ChatScreen(false));
+			return;
+		}
+
+		if (scaledMouseY >= 1 && scaledMouseY < 19 && scaledMouseX >= cenX && scaledMouseX < cenX + 18)
+		{
+            if (m_pMinecraft->isGamePaused())
+                m_pMinecraft->resumeGame();
+            else
+                m_pMinecraft->pauseGame();
+            return;
+		}
+	}
 
 	int slot = getSlotIdAt(mouseX, mouseY);
 	if (slot == -1)
@@ -646,9 +670,6 @@ void Gui::renderToolBar(float f, float alpha)
 
 	m_blitOffset = -90.0f;
 
-	// chat
-	//blit(width - 18, 0, 200, 82, 18, 18, 18, 18);
-
 	int nSlots = getNumSlots();
 	int hotbarWidth = 2 + nSlots * 20;
 
@@ -669,6 +690,19 @@ void Gui::renderToolBar(float f, float alpha)
 
 	// selection mark
 	blit(-1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, -23, 0, 22, 24, 22, 0, 0);
+
+	// chat and pause button for mobile devices
+	if (mc->isTouchscreen())
+	{
+		textures->loadAndBindTexture("gui/gui2.png");
+		
+		currentShaderColor.a = 0.5f;
+
+		blit(-19, -GuiHeight + 1, 200, 82, 18, 18, 0, 0); // chat
+		blit(0, -GuiHeight + 1, 200, 64, 18, 18, 0, 0); // pause
+
+		currentShaderColor.a = alpha;
+	}
 
 	textures->loadAndBindTexture(C_BLOCKS_NAME);
 
@@ -704,7 +738,8 @@ void Gui::renderToolBar(float f, float alpha)
 
 int Gui::getNumSlots()
 {
-	if (m_pMinecraft->isTouchscreen())
+    Minecraft& mc = *m_pMinecraft;
+    if (mc.getOptions()->getUiTheme() == UI_POCKET)
 		return 6;
 
 	return 9;
