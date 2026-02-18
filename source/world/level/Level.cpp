@@ -1260,9 +1260,8 @@ void Level::removeAllPendingEntityRemovals()
 		{
 			if (riding->m_bRemoved || riding->getRider() != ent)
 			{
-				riding->m_riderId = 0;
-				ent->m_ridingId = 0;
-				ent->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+				riding->setRider(nullptr);
+				ent->setRiding(nullptr);
 			}
 			else
 				continue;
@@ -1742,14 +1741,13 @@ void Level::tick(Entity* pEnt, bool shouldTick)
 	if (shouldTick && pEnt->m_bInAChunk)
 	{
 		Entity* rider = pEnt->getRider();
+		// someone is riding this entity
 		if (rider)
 		{
 			if (rider->m_bRemoved || rider->getRiding() != pEnt)
 			{
-				rider->m_riderId = 0;
-
-				pEnt->m_ridingId = 0;
-				pEnt->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+				rider->setRiding(nullptr);
+				pEnt->setRider(nullptr);
 			}
 			else
 			{
@@ -1797,9 +1795,8 @@ void Level::tickEntities()
 		{
 			if (riding->m_bRemoved || riding->getRider() != pEnt)
 			{
-				riding->m_riderId = 0;
-				pEnt->m_ridingId = 0;
-				pEnt->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+				riding->setRider(nullptr);
+				pEnt->setRiding(nullptr);
 			}
 			else
 			{

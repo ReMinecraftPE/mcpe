@@ -28,8 +28,8 @@ void Entity::_init()
 	field_28 = 0;
 	field_30 = 1.0f;
 	m_dimensionId = DIMENSION_OVERWORLD;
-	m_riderId = 0;
-	m_ridingId = 0;
+	_riderId = 0;
+	_ridingId = 0;
 	m_bRiding = false;
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
@@ -474,10 +474,10 @@ void Entity::baseTick()
 	//@TODO: untangle the gotos
 	if (const Entity* riding = getRiding())
 	{
-		if ((!riding && m_riderId > 0) || riding->m_bRemoved)
+		// if you were riding an entity and they no longer exist, stop
+		if ((!riding && _ridingId > 0) || riding->m_bRemoved)
 		{
-			m_riderId = 0;
-			setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+			setRiding(nullptr);
 		}
 	}
 
@@ -756,6 +756,9 @@ void Entity::playerTouch(Player* player)
 
 void Entity::push(Entity* bud)
 {
+	if (bud == getRider() || bud == getRiding())
+		return;
+
 	float diffX = bud->m_pos.x - m_pos.x;
 	float diffZ = bud->m_pos.z - m_pos.z;
 	float maxDiff = Mth::absMax(diffX, diffZ);
@@ -963,8 +966,8 @@ void Entity::rideTick()
 	Entity* riding = getRiding();
 	if (!riding || riding->m_bRemoved)
 	{
-		m_riderId = 0;
-		setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+		setRiding(nullptr);
+		return;
 	}
 
 	// we don't move
@@ -1028,12 +1031,11 @@ void Entity::ride(Entity* newRiding)
 		{
 			moveTo(oldRiding->m_pos);
 			setRot(oldRiding->m_rot);
-			oldRiding->m_riderId = 0; // Let them know you dismounted them
+			oldRiding->setRider(nullptr);
 		}
 
 		// Let yourself know you aren't riding anything
-		m_ridingId = 0;
-		setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+		setRiding(nullptr);
 
 		return;
 	}
@@ -1041,10 +1043,9 @@ void Entity::ride(Entity* newRiding)
 	// Dismount if the same entity is fed in
 	if (oldRiding && oldRiding == newRiding)
 	{
-		oldRiding->m_riderId = 0;
+		oldRiding->setRider(nullptr);
 
-		m_ridingId = 0;
-		setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+		setRiding(nullptr);
 
 		moveTo(oldRiding->m_pos);
 		setRot(oldRiding->m_rot);
@@ -1054,31 +1055,27 @@ void Entity::ride(Entity* newRiding)
 	// if (this.riding != null) this.riding.rider = null;
 	if (oldRiding)
 	{
-		oldRiding->m_riderId = 0;
+		oldRiding->setRider(nullptr);
 	}
 
 	// if (newRiding.rider != null) newRiding.rider.riding = null;
 	// i hate this name but it's literally what it is
 	if (Entity* newRidesOldRider = newRiding->getRider())
 	{
-		newRidesOldRider->m_ridingId = 0;
-		newRidesOldRider->setSharedFlag(C_ENTITY_FLAG_RIDING, false);
+		setRiding(nullptr);
+		newRidesOldRider->setRider(nullptr);
 	}
 
-	// Tell yourself that you're riding the new ride
-	m_ridingId = newRiding->m_EntityID;
-	setSharedFlag(C_ENTITY_FLAG_RIDING, true);
-
-	// Tell the new ride that it's being ridden by you
-	newRiding->m_riderId = m_EntityID;
+	setRiding(newRiding);
+	newRiding->setRider(this);
 }
 
 Entity* Entity::getRiding() const
 {
-	if (m_ridingId <= 0)
+	if (_ridingId <= 0)
 		return nullptr;
 
-	if (Entity* riding = m_pLevel->getEntity(m_ridingId))
+	if (Entity* riding = m_pLevel->getEntity(_ridingId))
 		return riding;
 
 	return nullptr;
@@ -1086,13 +1083,24 @@ Entity* Entity::getRiding() const
 
 Entity* Entity::getRider() const
 {
-    if (m_riderId <= 0)
+    if (_riderId <= 0)
 		return nullptr;
 
-	if (Entity* rider = m_pLevel->getEntity(m_riderId))
+	if (Entity* rider = m_pLevel->getEntity(_riderId))
 		return rider;
 
 	return nullptr;
+}
+
+void Entity::setRider(Entity* rider)
+{
+	_riderId = (rider) ? rider->m_EntityID : 0;
+}
+
+void Entity::setRiding(Entity* riding)
+{
+	_ridingId = (riding) ? riding->m_EntityID : 0;
+	setSharedFlag(C_ENTITY_FLAG_RIDING, riding);
 }
 
 /*void Entity::thunderHit(LightningBolt* bolt)

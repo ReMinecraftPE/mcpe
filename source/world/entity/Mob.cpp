@@ -758,7 +758,7 @@ void Mob::aiStep()
 	{
 		Entity* pEnt = *it;
 		if (pEnt->isPushable())
- 			pEnt->push(this);
+			pEnt->push(this);
 	}
 }
 

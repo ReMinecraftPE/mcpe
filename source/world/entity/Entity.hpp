@@ -207,6 +207,8 @@ public:
 	virtual float getRidingHeight() const { return m_heightOffset; }
 	Entity* getRiding() const;
 	Entity* getRider() const;
+	void setRiding(Entity* ent);
+	void setRider(Entity* ent);
 	void load(const CompoundTag& tag);
 	bool save(CompoundTag& tag) const;
 	void saveWithoutId(CompoundTag& tag) const;
@@ -231,6 +233,10 @@ public:
 			(m_pos.z - pos.z) * (m_pos.z - pos.z);
 	}
 
+private:
+	Entity::ID _ridingId;
+	Entity::ID _riderId;
+
 protected:
 	SynchedEntityData m_entityData;
 	bool m_bMakeStepSound;
@@ -248,8 +254,6 @@ public:
 	float field_30;
 	//TileSource* m_pTileSource;
 	DimensionId m_dimensionId;
-	Entity::ID m_ridingId;
-	Entity::ID m_riderId;
 	bool m_bRiding;
 	bool m_bBlocksBuilding;
 	Level* m_pLevel;
