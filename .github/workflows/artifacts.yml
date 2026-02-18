@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'android-build-update' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
