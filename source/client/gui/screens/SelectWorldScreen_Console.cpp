@@ -184,7 +184,7 @@ void SaveButton::render(Minecraft* mc, const MenuPointer& pointer)
 {
 	ListButton::render(mc, pointer);
 
-	blitTexture(*mc->m_pTextures, "gui/default_world.png", m_xPos + 10, m_yPos + 10, 0, 0, 40, 40);
+	blitTexture(*mc->m_pTextures, "pack.png", m_xPos + 10, m_yPos + 10, 0, 0, 40, 40);
 }
 
 void SaveButton::pressed(Minecraft* mc)
