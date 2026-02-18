@@ -80,11 +80,11 @@ void FallingTile::tick()
 	remove();
 	if (m_pLevel->mayPlace(m_id, tilePos, true))
 	{
-		m_pLevel->setTile(tilePos, static_cast<TileID>(m_id));
+		m_pLevel->setTile(tilePos, getTile());
 	}
 	else
 	{
-		spawnAtLocation(static_cast<TileID>(m_id), 1);
+		spawnAtLocation(getTile());
 	}
 }
 
