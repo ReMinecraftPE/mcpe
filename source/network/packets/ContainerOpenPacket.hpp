@@ -2,7 +2,7 @@
 
 #include <string>
 #include "../Packet.hpp"
-#include "world/Container.hpp"
+#include "world/inventory/Container.hpp"
 
 class ContainerOpenPacket : public Packet
 {

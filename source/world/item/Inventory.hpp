@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "world/Container.hpp"
 #include "GameMods.hpp"
+#include "world/inventory/Container.hpp"
 #include "world/item/ItemStack.hpp"
 #include "world/entity/Player.hpp"
 #include "world/gamemode/GameType.hpp"
@@ -80,9 +80,9 @@ public:
 		return "Inventory";
 	}
 
-	void setChanged() override { }
+	void setContainerChanged(SlotID slot) override { }
 
-	bool stillValid(Player* player) const override { return true;	}
+	bool stillValid(Player* player) const override { return true; }
 	
 private:
 	GameType _getGameMode() const;

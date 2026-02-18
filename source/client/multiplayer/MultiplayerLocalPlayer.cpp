@@ -15,6 +15,14 @@ void MultiplayerLocalPlayer::reallyDrop(ItemEntity* itemEntity)
 {
 }
 
+void MultiplayerLocalPlayer::_handleOpenedContainerMenu()
+{
+    if (m_pContainerMenu)
+        m_pContainerMenu->addSlotListener(this);
+    else
+        LOG_W("Tried to add MultiplayerLocalPlayer as ContainerListener for NULL container!");
+}
+
 bool MultiplayerLocalPlayer::hurt(Entity* pAttacker, int damage)
 {
     // Java returns false
@@ -135,5 +143,7 @@ void MultiplayerLocalPlayer::refreshContainer(ContainerMenu* menu, const std::ve
 
 void MultiplayerLocalPlayer::slotChanged(ContainerMenu* menu, int index, ItemStack& item, bool isResultSlot)
 {
-    // @TODO: Replicate ContainerSetSlotPacket
+#if NETWORK_PROTOCOL_VERSION >= 5
+    m_pMinecraft->m_pRakNetInstance->send(new ContainerSetSlotPacket(m_pContainerMenu->m_containerId, index, item));
+#endif
 }

@@ -1,4 +1,5 @@
 #include "PacketUtil.hpp"
+#include "Packet.hpp"
 #include "nbt/NbtIo.hpp"
 
 char PacketUtil::Rot_degreesToChar(float degrees)
@@ -146,12 +147,14 @@ void PacketUtil::WriteItemStack(const ItemStack& item, RakNet::BitStream& bs, bo
     int16_t itemId = item.getId();
     int8_t count = item.m_count;
     int16_t auxValue = item.getAuxValue();
+#if NETWORK_PROTOCOL_VERSION >= 29
     if (itemId <= 0)
     {
         itemId = -1;
         bs.Write(itemId);
         return;
     }
+#endif
 
     bs.Write(itemId);
     bs.Write(count);
@@ -166,8 +169,10 @@ ItemStack PacketUtil::ReadItemStack(RakNet::BitStream& bs, bool doUserData)
     if (!bs.Read(itemId))
         return ItemStack();
 
+#if NETWORK_PROTOCOL_VERSION >= 29
     if (itemId == ItemStack::EMPTY.getId())
         return ItemStack();
+#endif
 
     uint8_t count;
     int16_t auxValue;

@@ -777,7 +777,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 	if (pContainerMenu->m_containerId != packet->m_containerId)
 		return;
 	
+	pContainerMenu->m_bBroadcastChanges = false;
 	pContainerMenu->setItem(packet->m_slot, packet->m_item);
+	pContainerMenu->m_bBroadcastChanges = true;
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetDataPacket* packet)
@@ -798,7 +800,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 	if (pContainerMenu->m_containerId != packet->m_containerId)
 		return;
 
+	pContainerMenu->m_bBroadcastChanges = false;
 	pContainerMenu->setData(packet->m_slot, packet->m_value);
+	pContainerMenu->m_bBroadcastChanges = true;
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetContentPacket* packet)
@@ -819,7 +823,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 	if (pContainerMenu->m_containerId != packet->m_containerId)
 		return;
 
+	pContainerMenu->m_bBroadcastChanges = false;
 	pContainerMenu->setAll(packet->m_items);
+	pContainerMenu->m_bBroadcastChanges = true;
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)

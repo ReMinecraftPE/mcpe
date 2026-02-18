@@ -41,6 +41,7 @@ public:
 
 protected:
 	virtual void reallyDrop(ItemEntity* pEnt);
+	virtual void _handleOpenedContainerMenu();
 
 public:
 	void reset() override;
@@ -74,8 +75,8 @@ public:
 	virtual void startDestroying();
 	virtual void stopDestroying();
 	virtual void openFurnace(FurnaceTileEntity* tileEntity);
-	virtual void openContainer(Container* container) {}
-	virtual void closeContainer() {}
+	virtual void openContainer(Container* container);
+	virtual void closeContainer();
 	//virtual void openTrap(DispenserTileEntity* tileEntity);
 	//virtual void openTextEdit(SignTileEntity* tileEntity);
 	virtual bool isLocalPlayer() const { return false; }

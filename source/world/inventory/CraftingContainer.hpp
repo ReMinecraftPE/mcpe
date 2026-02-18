@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "world/Container.hpp"
 #include "world/item/ItemStack.hpp"
+#include "Container.hpp"
 #include "ContainerMenu.hpp"
 
 class ContainerMenu;
@@ -25,7 +25,7 @@ public:
     ItemStack removeItem(int index, int amount) override;
     void setItem(int index, const ItemStack& item) override;
 
-    void setChanged() override;
+    void setContainerChanged(SlotID slot) override;
     bool stillValid(Player* player) const override;
 
 private:

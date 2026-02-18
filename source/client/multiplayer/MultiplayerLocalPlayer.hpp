@@ -1,7 +1,7 @@
 #pragma once
 
 #include "client/player/LocalPlayer.hpp"
-#include "world/ContainerListener.hpp"
+#include "world/inventory/ContainerListener.hpp"
 
 class MultiplayerLocalPlayer : public LocalPlayer, public ContainerListener
 {
@@ -10,6 +10,7 @@ public:
 
 protected:
 	void reallyDrop(ItemEntity* itemEntity) override;
+	void _handleOpenedContainerMenu() override;
 
 public:
 	bool hurt(Entity*, int) override;

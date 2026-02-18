@@ -63,13 +63,17 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 Player::~Player()
 {
-	delete m_pInventory;
 	delete m_pInventoryMenu;
+	delete m_pInventory;
 }
 
 void Player::reallyDrop(ItemEntity* pEnt)
 {
 	m_pLevel->addEntity(pEnt);
+}
+
+void Player::_handleOpenedContainerMenu()
+{
 }
 
 void Player::reset()
@@ -563,14 +567,12 @@ void Player::drop(const ItemStack& item, bool randomly)
 
 void Player::startCrafting(const TilePos& pos)
 {
-}
-
-void Player::openFurnace(FurnaceTileEntity* tileEntity)
-{
+	_handleOpenedContainerMenu();
 }
 
 void Player::startStonecutting(const TilePos& pos)
 {
+	_handleOpenedContainerMenu();
 }
 
 void Player::startDestroying()
@@ -581,6 +583,20 @@ void Player::startDestroying()
 void Player::stopDestroying()
 {
 	m_destroyingBlock = false;
+}
+
+void Player::openFurnace(FurnaceTileEntity* tileEntity)
+{
+	_handleOpenedContainerMenu();
+}
+
+void Player::openContainer(Container* container)
+{
+	_handleOpenedContainerMenu();
+}
+
+void Player::closeContainer()
+{
 }
 
 void Player::touch(Entity* pEnt)

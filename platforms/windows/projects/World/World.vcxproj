@@ -202,7 +202,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Zombie.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityFactory.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\world\ContainerListener.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerListener.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\Slot.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ArmorSlot.cpp" />
@@ -210,7 +210,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\InventoryMenu.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ResultContainer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ResultSlot.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\world\CompoundContainer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\CompoundContainer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ChestMenu.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyeColor.cpp" />
@@ -242,6 +242,8 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\TileEntityType.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FurnaceTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\MusicTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerContentChangeListener.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerSizeChangeListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -385,8 +387,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\world\Container.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\world\ContainerListener.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\Container.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerListener.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\Slot.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ArmorSlot.hpp" />
@@ -394,7 +396,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\InventoryMenu.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ResultContainer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ResultSlot.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\world\CompoundContainer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\CompoundContainer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ChestMenu.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\DyeColor.hpp" />
@@ -423,6 +425,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\TileEntityType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\FurnaceTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\MusicTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerContentChangeListener.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerSizeChangeListener.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

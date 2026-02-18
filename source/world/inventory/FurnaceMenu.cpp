@@ -1,7 +1,7 @@
 #include "FurnaceMenu.hpp"
 #include "Slot.hpp"
 #include "FurnaceResultSlot.hpp"
-#include "world/ContainerListener.hpp"
+#include "ContainerListener.hpp"
 
 FurnaceMenu::FurnaceMenu(Inventory* inventory, FurnaceTileEntity* furnace)
     : ContainerMenu(Container::FURNACE), m_furnace(furnace), m_lastCookTime(0), m_lastBurnTime(0), m_lastLitDuration(0)
@@ -39,7 +39,7 @@ void FurnaceMenu::broadcastChanges()
 {
     ContainerMenu::broadcastChanges();
 
-    for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
+    for (ContainerListeners::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
     {
         ContainerListener* listener = *it;
         

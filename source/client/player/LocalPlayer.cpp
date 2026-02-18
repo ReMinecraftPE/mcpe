@@ -133,18 +133,24 @@ void LocalPlayer::swing()
 void LocalPlayer::startCrafting(const TilePos& pos)
 {
 	m_pMinecraft->getScreenChooser()->pushCraftingScreen(this, pos);
+
+	Player::startCrafting(pos);
 }
 
 void LocalPlayer::openFurnace(FurnaceTileEntity* furnace)
 {
 	// PE 0.3.2 doesn't let you cook in creative mode
 	m_pMinecraft->getScreenChooser()->pushFurnaceScreen(this, furnace);
+
+	Player::openFurnace(furnace);
 }
 
 void LocalPlayer::openContainer(Container* container)
 {
 	// PE 0.3.2 doesn't let you open chests in creative mode
 	m_pMinecraft->getScreenChooser()->pushChestScreen(this, container);
+
+	Player::openContainer(container);
 }
 
 void LocalPlayer::closeContainer()
@@ -157,11 +163,15 @@ void LocalPlayer::closeContainer()
 /*void LocalPlayer::openTrap(DispenserTileEntity* tileEntity)
 {
 	m_pMinecraft->setScreen(new TrapScreen(m_pInventory, tileEntity));
+
+	Player::openTrap(tileEntity);
 }*/
 
 /*void LocalPlayer::openTextEdit(SignTileEntity* tileEntity)
 {
 	m_pMinecraft->setScreen(new TextEditScreen(tileEntity));
+
+	Player::openTextEdit(tileEntity);
 }*/
 
 void LocalPlayer::reset()

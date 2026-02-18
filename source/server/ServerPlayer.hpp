@@ -1,10 +1,11 @@
 #include "world/entity/Player.hpp"
-#include "world/ContainerListener.hpp"
+#include "world/inventory/ContainerListener.hpp"
 
 class ServerPlayer : public Player, public ContainerListener
 {
 public:
 	ServerPlayer(Level* pLevel, GameType playerGameType);
+	~ServerPlayer();
 
 protected:
 	void _nextContainerCounter();

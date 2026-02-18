@@ -25,7 +25,7 @@ public:
 
     int getMaxStackSize() override;
 
-    void setChanged() override;
+    void setContainerChanged(SlotID slot) override;
 
     bool stillValid(Player* player) const override;
 };

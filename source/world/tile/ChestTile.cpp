@@ -1,6 +1,6 @@
 #include "ChestTile.hpp"
 #include "world/level/Level.hpp"
-#include "world/CompoundContainer.hpp"
+#include "world/inventory/CompoundContainer.hpp"
 #include "world/tile/entity/ChestTileEntity.hpp"
 
 ChestTile::ChestTile(int id, int texture) : EntityTile(id, texture, Material::wood)

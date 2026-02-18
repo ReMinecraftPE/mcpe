@@ -25,7 +25,7 @@ bool ChestTileEntity::stillValid(Player* player) const
     return player->distanceToSqr(m_pos + 0.5f) <= 64.0f;
 }
 
-void ChestTileEntity::setChanged()
+void ChestTileEntity::setContainerChanged(SlotID slot)
 {
     TileEntity::setChanged();
 }

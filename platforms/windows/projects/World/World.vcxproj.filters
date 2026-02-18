@@ -587,9 +587,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp">
       <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\ContainerListener.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.cpp">
       <Filter>Source Files\Inventory</Filter>
     </ClCompile>
@@ -613,9 +610,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.cpp">
       <Filter>Source Files\Inventory</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\CompoundContainer.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ChestMenu.cpp">
       <Filter>Source Files\Inventory</Filter>
@@ -706,6 +700,18 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\TileEntityType.cpp">
       <Filter>Source Files\Tile\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\CompoundContainer.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerListener.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerContentChangeListener.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerSizeChangeListener.cpp">
+      <Filter>Source Files\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1132,12 +1138,6 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\Container.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\ContainerListener.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.hpp">
       <Filter>Header Files\Inventory</Filter>
     </ClInclude>
@@ -1158,9 +1158,6 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ArmorSlot.hpp">
       <Filter>Header Files\Inventory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\CompoundContainer.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.hpp">
       <Filter>Header Files\Inventory</Filter>
@@ -1245,6 +1242,21 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\MusicTile.hpp">
       <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerListener.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\CompoundContainer.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\Container.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerContentChangeListener.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerSizeChangeListener.hpp">
+      <Filter>Header Files\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

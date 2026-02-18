@@ -1,6 +1,6 @@
 #pragma once
 
-#include "world/Container.hpp"
+#include "world/inventory/Container.hpp"
 
 class Recipe
 {

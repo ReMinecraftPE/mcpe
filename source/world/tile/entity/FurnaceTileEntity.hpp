@@ -16,7 +16,7 @@ private:
 public:
     void tick() override;
     bool stillValid(Player* player) const override;
-    void setChanged() override;
+    void setContainerChanged(SlotID slot) override;
     void load(const CompoundTag& tag) override;
     void save(CompoundTag& tag) const override;
     std::string getName() const override;

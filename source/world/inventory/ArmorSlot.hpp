@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Slot.hpp"
-#include "world/Container.hpp"
+#include "Container.hpp"
 
 class ArmorSlot : public Slot
 {

@@ -44,10 +44,10 @@ int CompoundContainer::getMaxStackSize()
     return m_pLeftContainer->getMaxStackSize();
 }
 
-void CompoundContainer::setChanged()
+void CompoundContainer::setContainerChanged(SlotID slot)
 {
-    m_pLeftContainer->setChanged();
-    m_pRightContainer->setChanged();
+    m_pLeftContainer->setContainerChanged(slot);
+    m_pRightContainer->setContainerChanged(slot);
 }
 
 bool CompoundContainer::stillValid(Player* player) const

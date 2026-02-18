@@ -30,7 +30,7 @@ void ContainerSetContentPacket::read(RakNet::BitStream& bs)
 	bs.Read(m_containerId);
 	int16_t size = 0;
 	bs.Read(size);
-	m_items.resize(size);
+	m_items.reserve(size);
 
 	for (uint16_t i = 0; i < size; i++)
 	{

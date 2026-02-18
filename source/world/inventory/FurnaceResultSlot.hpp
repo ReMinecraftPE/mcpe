@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Slot.hpp"
-#include "source/world/Container.hpp"
+#include "Container.hpp"
 
 class FurnaceResultSlot : public Slot
 {

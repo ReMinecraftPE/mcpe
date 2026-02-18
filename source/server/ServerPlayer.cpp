@@ -24,6 +24,11 @@ ServerPlayer::ServerPlayer(Level* pLevel, GameType playerGameType)
 	m_pInventoryMenu->addSlotListener(this);
 }
 
+ServerPlayer::~ServerPlayer()
+{
+	doCloseContainer();
+}
+
 void ServerPlayer::_nextContainerCounter()
 {
 	m_containerId++;
@@ -156,5 +161,6 @@ void ServerPlayer::setContainerMenu(ContainerMenu* menu)
 	{
 		m_pContainerMenu->m_containerId = m_containerId;
 		m_pContainerMenu->addSlotListener(this);
+		refreshContainer(m_pContainerMenu, m_pContainerMenu->cloneItems());
 	}
 }
