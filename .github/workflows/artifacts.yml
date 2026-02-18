@@ -227,6 +227,8 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 cache: gradle
+          - name: Install Dependencies
+            run: apt-get install --no-install-recommends -y ccache
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
