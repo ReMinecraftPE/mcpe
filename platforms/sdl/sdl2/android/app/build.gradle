@@ -19,7 +19,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     applicationVariants.configureEach { variant ->
@@ -34,11 +34,11 @@ android {
     externalNativeBuild {
         cmake {
             path '../../../../../CMakeLists.txt'
-            version '3.22.1'
+            version = '3.22.1'
         }
     }
     lint {
-        abortOnError false
+        abortOnError = false
     }
-    namespace 'io.github.reminecraftpe'
+    namespace = 'io.github.reminecraftpe'
 }
