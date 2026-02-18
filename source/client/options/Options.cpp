@@ -59,7 +59,7 @@ static UITheme GetDefaultUiTheme(Minecraft* mc)
 #if MC_PLATFORM_XBOX360
 	return UI_CONSOLE;
 #else
-	return mc->isTouchscreen() ? UI_POCKET : UI_JAVA;
+	return mc->platform()->isTouchscreen() ? UI_POCKET : UI_JAVA;
 #endif
 }
 
