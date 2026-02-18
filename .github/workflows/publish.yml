@@ -190,7 +190,7 @@ jobs:
               keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
               alias: remcpe
             env:
-              BUILD_TOOLS_VERSION: 33.0.1
+              BUILD_TOOLS_VERSION: 36.1.0
           - name: Rename APK
             run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE.apk
           - uses: alexellis/upload-assets@0.4.1

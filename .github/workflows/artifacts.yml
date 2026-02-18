@@ -228,13 +228,12 @@ jobs:
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
-                ls /usr/local/lib/android/sdk/build-tools
                 ./gradlew assembleRelease
           - uses: upup-company/apksigner-android@v1
             id: sign_apk
             env:
               ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-              BUILD_TOOLS_VERSION: 33.0.1
+              BUILD_TOOLS_VERSION: 36.1.0
             if: ${{ env.ANDROID_KEYSTORE }}
             with:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
