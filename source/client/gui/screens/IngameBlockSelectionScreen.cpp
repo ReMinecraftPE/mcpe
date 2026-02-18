@@ -97,7 +97,6 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::stoneSlabHalf->m_ID, 3);
 	addCreativeItem(Tile::treeTrunk->m_ID, 1);
 	addCreativeItem(Tile::treeTrunk->m_ID, 2);
-	addCreativeItem(Tile::fence->m_ID);
 	addCreativeItem(Tile::cactus->m_ID);
 	addCreativeItem(Tile::tallGrass->m_ID);
 	addCreativeItem(Tile::deadBush->m_ID);
@@ -106,17 +105,7 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::netherrack->m_ID);
 	addCreativeItem(Tile::soulSand->m_ID);
 	addCreativeItem(Tile::glowstone->m_ID);
-
 	addCreativeItem(Tile::web->m_ID);
-	addCreativeItem(Tile::ice->m_ID);
-	addCreativeItem(Tile::topSnow->m_ID);
-	addCreativeItem(Item::shovel_iron->m_itemID);
-	addCreativeItem(Item::pickAxe_iron->m_itemID);
-	addCreativeItem(Item::hatchet_iron->m_itemID);
-	addCreativeItem(Item::sword_iron->m_itemID);
-	addCreativeItem(Item::hoe_iron->m_itemID);
-	addCreativeItem(Item::bow->m_itemID);
-
 
 	// test
 	//addCreativeItem(Tile::info_updateGame1->m_ID);
@@ -194,18 +183,18 @@ bool IngameBlockSelectionScreen::isInsideSelectionArea(int x, int y)
 
 void IngameBlockSelectionScreen::init()
 {
-	m_btnCraft.m_width = 40;
+	/*m_btnCraft.m_width = 40;
 	m_btnCraft.m_xPos = 0;
 	m_btnCraft.m_yPos = 0;
-	/*if (m_pMinecraft->isTouchscreen())
+	if (m_pMinecraft->isTouchscreen())
 	{
 		_addElement(m_btnCraft);
 	}*/
 
-	m_btnArmor.m_width = 40;
+	/*m_btnArmor.m_width = 40;
 	m_btnArmor.m_xPos = m_btnCraft.m_width;
 	m_btnArmor.m_yPos = 0;
-	/*if (m_pMinecraft->isTouchscreen())
+	if (m_pMinecraft->isTouchscreen())
 	{
 		_addElement(m_btnArmor);
 	}*/
