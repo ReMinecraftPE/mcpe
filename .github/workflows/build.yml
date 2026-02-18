@@ -177,6 +177,16 @@ jobs:
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: ios-${{ steps.get-time.outputs.time }}
+              restore-keys: ios-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
