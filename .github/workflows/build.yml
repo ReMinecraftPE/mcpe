@@ -65,8 +65,8 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: linux-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
-              restore-keys: linux-${{ matrix.name }}-
+              key: wasm-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+              restore-keys: wasm-${{ matrix.name }}-
           - name: Unpack cache
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
