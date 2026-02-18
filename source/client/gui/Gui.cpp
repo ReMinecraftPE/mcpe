@@ -308,6 +308,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 	if (clickID != 1)
 		return;
 
+	// @TODO: add InGamePlayScreen at some point
 	if (m_pMinecraft->isTouchscreen())
     {
 		int cenX = GuiWidth / 2;
