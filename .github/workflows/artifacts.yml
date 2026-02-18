@@ -50,6 +50,7 @@ jobs:
                 cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     ${{ matrix.flags }}
                 cmake --build .
@@ -109,6 +110,7 @@ jobs:
     #             cmake .. -GNinja \
     #                 -DCMAKE_BUILD_TYPE=Release \
     #                 -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    #                 -DCMAKE_C_COMPILER_LAUNCHER=ccache \
     #                 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     #                 -DCMAKE_C_FLAGS='-m32' \
     #                 -DCMAKE_CXX_FLAGS='-m32' \
@@ -229,6 +231,8 @@ jobs:
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleRelease
+            env:
+                USE_CCACHE: 1
           - uses: upup-company/apksigner-android@v1
             id: sign_apk
             env:
@@ -300,6 +304,7 @@ jobs:
                 cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     ${{ matrix.flags }}
                 cmake --build .
@@ -341,6 +346,7 @@ jobs:
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
                 mv platforms/sdl/sdl2/reminecraftpe.nro .

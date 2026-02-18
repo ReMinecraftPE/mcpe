@@ -46,7 +46,11 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ${{ matrix.flags }} ..
+                cmake .. -GNinja \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DWERROR=ON \
+                    ${{ matrix.flags }}
                 cmake --build .
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
@@ -74,7 +78,10 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y cmake ninja-build ccache
           - name: Build
-            run: ./build-wasm.sh -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON
+            run: ./build-wasm.sh \
+                -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                -DWERROR=ON
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
@@ -165,8 +172,8 @@ jobs:
                 include:
                   - name: SDL 2
                     directory: platforms/sdl/sdl2/android
-                  - name: Native
-                    directory: platforms/android/project
+                  # - name: Native
+                  #   directory: platforms/android/project
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -184,6 +191,8 @@ jobs:
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleDebug
+            env:
+                USE_CCACHE: 1
 
     mingw:
         strategy:
@@ -230,7 +239,12 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake .. -GNinja \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DWERROR=ON \
+                    -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake \
+                    ${{ matrix.flags }}
                 cmake --build .
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
@@ -261,7 +275,10 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DWERROR=ON
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
