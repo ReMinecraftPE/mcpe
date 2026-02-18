@@ -199,6 +199,7 @@ for target in $targets; do
     arch="${target%%-*}"
     case $arch in
         (i386)
+            target_cflags="$cflags -march=pentium-m"
             export REMCPE_SDK="$old_sdk"
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             platform='sdl1'
@@ -213,9 +214,9 @@ for target in $targets; do
                 tar -xzf ../sdl1src.tar.gz
                 cd "SDL-1.2-$sdl1_commit"
                 if [ -n "$DEBUG" ]; then
-                    opt='-O2'
-                else
                     opt='-O0'
+                else
+                    opt='-O2'
                 fi
                 ./configure \
                     --host="$arch-apple-darwin" \
@@ -235,9 +236,10 @@ for target in $targets; do
                 printf '%s' "$sdl1ver" > sdl/sdl1ver
                 rm -rf "SDL-1.2-$sdl1_commit"
             fi
-            cflags="$cflags -I$PWD/sdl/include"
+            target_cflags="$target_cflags -I$PWD/sdl/include"
         ;;
         (arm64*|x86_64*)
+            target_cflags="$cflags"
             case $arch in
                 (arm64*)
                     export REMCPE_SDK="$arm64_sdk"
@@ -269,8 +271,8 @@ for target in $targets; do
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
         -DCMAKE_SYSROOT="$REMCPE_SDK" \
-        -DCMAKE_C_FLAGS="$cflags" \
-        -DCMAKE_CXX_FLAGS="$cflags" \
+        -DCMAKE_C_FLAGS="$target_cflags" \
+        -DCMAKE_CXX_FLAGS="$target_cflags" \
         -DWERROR="${WERROR:-OFF}" \
         "$@"
     make -j"$ncpus"
