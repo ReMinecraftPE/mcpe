@@ -242,9 +242,10 @@ jobs:
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
-                CCACHE_COMPILERCHECK="%compiler% -v" ./gradlew assembleRelease
+                ./gradlew assembleRelease
             env:
                 USE_CCACHE: 1
+                CCACHE_COMPILERCHECK: "%compiler% -v"
           - uses: upup-company/apksigner-android@v1
             id: sign_apk
             env:
