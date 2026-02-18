@@ -133,8 +133,8 @@ void Chunk::rebuild()
 
 	LevelChunk::touchedSky = false;
 
-	std::set<TileEntity*> tmpSet(m_renderableTileEntities.begin(), m_renderableTileEntities.end());
-	m_renderableTileEntities.clear();
+	std::set<TileEntity*> tmpSet(m_tileEntities.begin(), m_tileEntities.end());
+	m_tileEntities.clear();
 
 	for (int i = Tile::RENDER_LAYERS_MIN; i <= Tile::RENDER_LAYERS_MAX; i++)
 	{
@@ -178,7 +178,7 @@ void Chunk::rebuild()
 						// @TODO: ADD TILE ENTITY RENDER DISPATCHER
 						TileEntity* et = region.getTileEntity(tp);
 						if (TileEntityRenderDispatcher::getInstance()->hasRenderer(et))
-							m_renderableTileEntities.push_back(et);
+							m_tileEntities.push_back(et);
 						*/
 					}
 
@@ -214,8 +214,8 @@ void Chunk::rebuild()
 			break;
 	}
 
-	std::set<TileEntity*> newSet(m_renderableTileEntities.begin(), m_renderableTileEntities.end());
-	std::vector<TileEntity*> toAdd, toRemove;
+	std::set<TileEntity*> newSet(m_tileEntities.begin(), m_tileEntities.end());
+	TileEntityVector toAdd, toRemove;
 
 	std::set_difference(
 		newSet.begin(), newSet.end(),
@@ -230,29 +230,29 @@ void Chunk::rebuild()
 	);
 
 	// Add
-	for (std::vector<TileEntity*>::iterator it = toAdd.begin(); it != toAdd.end(); ++it)
+	for (TileEntityVector::iterator it = toAdd.begin(); it != toAdd.end(); ++it)
 	{
-		m_globalRenderableTileEntities.push_back(*it);
+		m_globalTileEntities.push_back(*it);
 	}
 
 	// Remove
-	for (std::vector<TileEntity*>::iterator it = toRemove.begin(); it != toRemove.end(); ++it)
+	for (TileEntityVector::iterator it = toRemove.begin(); it != toRemove.end(); ++it)
 	{
-		std::vector<TileEntity*>::iterator f =
-			std::find(m_globalRenderableTileEntities.begin(),
-					m_globalRenderableTileEntities.end(),
+		TileEntityVector::iterator f =
+			std::find(m_globalTileEntities.begin(),
+					m_globalTileEntities.end(),
 					*it);
 
-		if (f != m_globalRenderableTileEntities.end())
-			m_globalRenderableTileEntities.erase(f);
+		if (f != m_globalTileEntities.end())
+			m_globalTileEntities.erase(f);
 	}
 
 	field_54 = LevelChunk::touchedSky;
 	m_bCompiled = true;
 }
 
-Chunk::Chunk(Level* level, std::vector<TileEntity*>& renderableTileEntities, const TilePos& pos, int size, int lists)
-	: m_globalRenderableTileEntities(renderableTileEntities)
+Chunk::Chunk(Level* level, TileEntityVector& tileEntities, const TilePos& pos, int size, int lists)
+	: m_globalTileEntities(tileEntities)
 {
 	m_bOcclusionVisible = true;
 	m_bOcclusionQuerying = false;

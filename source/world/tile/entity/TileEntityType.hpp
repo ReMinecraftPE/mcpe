@@ -14,13 +14,13 @@ private:
 	static std::map<std::string, TileEntityType*> _types;
 
 public:
-	static void InitTileEntities();
-	static void TeardownTileEntities();
-	static const TileEntityType* GetType(const std::string& name);
+	static void initTileEntities();
+	static void teardownTileEntities();
+	static const TileEntityType* getType(const std::string& name);
 
 public:
 	template <typename T>
-	static TileEntityType* RegisterTileEntity(const std::string& name);
+	static TileEntityType* registerTileEntity(const std::string& name);
 };
 
 class TileEntityType
@@ -50,7 +50,7 @@ private:
 };
 
 template <typename T>
-TileEntityType* TileEntityFactory::RegisterTileEntity(const std::string& name)
+TileEntityType* TileEntityFactory::registerTileEntity(const std::string& name)
 {
 	TileEntityType* type = new TileEntityType(name, &TileEntityType::CreateType<T>);
 	_types[type->_name] = type;

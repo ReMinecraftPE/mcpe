@@ -1608,7 +1608,7 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 
 	/*
 	// @TODO: TileEntityRenderDispatcher
-	for (std::vector<TileEntity*>::const_iterator it = m_renderableTileEntities.begin();
+	for (TileEntityVector::const_iterator it = m_renderableTileEntities.begin();
 		it != m_renderableTileEntities.end(); ++it)
 	{
 		TileEntity* tileEntity = *it;
