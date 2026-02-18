@@ -202,7 +202,7 @@ jobs:
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
-                ./gradlew assembleDebug
+                CCACHE_COMPILERCHECK="%compiler% -v" ./gradlew assembleDebug
             env:
                 USE_CCACHE: 1
           - name: Pack cache
