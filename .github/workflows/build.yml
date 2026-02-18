@@ -79,7 +79,6 @@ jobs:
                 sudo apt-get install --no-install-recommends -y cmake ninja-build ccache
           - name: Build
             run: ./build-wasm.sh \
-                -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                 -DWERROR=ON
           - name: Pack cache
