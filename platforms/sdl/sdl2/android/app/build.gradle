@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 34
+    compileSdk 36
     defaultConfig {
         applicationId 'io.github.reminecraftpe'
         minSdkVersion 21
         //noinspection EditedTargetSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 1
         versionName '1.0'
         externalNativeBuild {
