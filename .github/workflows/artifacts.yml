@@ -224,7 +224,7 @@ jobs:
             with:
               path: ~/ccache.tar.xz
               key: android-artifact-${{ steps.get-time.outputs.time }}
-              restore-keys: ios-artifact-
+              restore-keys: android-artifact-
           - name: Unpack cache
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
