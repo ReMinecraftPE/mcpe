@@ -194,6 +194,34 @@
 		8426107D2AE989730065905F /* UpdateBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64C2AC810620006A435 /* UpdateBlockPacket.cpp */; };
 		8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
 		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
+		84358AFE2F4550B30077EA44 /* TileEntityType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358AFC2F4550B30077EA44 /* TileEntityType.cpp */; };
+		84358AFF2F4550B30077EA44 /* ChestTileEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358AF42F4550B30077EA44 /* ChestTileEntity.cpp */; };
+		84358B002F4550B30077EA44 /* FurnaceTileEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358AF62F4550B30077EA44 /* FurnaceTileEntity.cpp */; };
+		84358B012F4550B30077EA44 /* TileEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358AFA2F4550B30077EA44 /* TileEntity.cpp */; };
+		84358B022F4550B30077EA44 /* MusicTileEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358AF82F4550B30077EA44 /* MusicTileEntity.cpp */; };
+		84358B032F4550B30077EA44 /* TileEntity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358AF92F4550B30077EA44 /* TileEntity.hpp */; };
+		84358B042F4550B30077EA44 /* FurnaceTileEntity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358AF52F4550B30077EA44 /* FurnaceTileEntity.hpp */; };
+		84358B052F4550B30077EA44 /* ChestTileEntity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358AF32F4550B30077EA44 /* ChestTileEntity.hpp */; };
+		84358B062F4550B30077EA44 /* MusicTileEntity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358AF72F4550B30077EA44 /* MusicTileEntity.hpp */; };
+		84358B072F4550B30077EA44 /* TileEntityType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358AFB2F4550B30077EA44 /* TileEntityType.hpp */; };
+		84358B102F4550CC0077EA44 /* FurnaceTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B0D2F4550CC0077EA44 /* FurnaceTile.cpp */; };
+		84358B112F4550CC0077EA44 /* EntityTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B0B2F4550CC0077EA44 /* EntityTile.cpp */; };
+		84358B122F4550CC0077EA44 /* ChestTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B092F4550CC0077EA44 /* ChestTile.cpp */; };
+		84358B132F4550CC0077EA44 /* MusicTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B0F2F4550CC0077EA44 /* MusicTile.cpp */; };
+		84358B142F4550CC0077EA44 /* ChestTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B082F4550CC0077EA44 /* ChestTile.hpp */; };
+		84358B152F4550CC0077EA44 /* FurnaceTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B0C2F4550CC0077EA44 /* FurnaceTile.hpp */; };
+		84358B162F4550CC0077EA44 /* EntityTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B0A2F4550CC0077EA44 /* EntityTile.hpp */; };
+		84358B172F4550CC0077EA44 /* MusicTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B0E2F4550CC0077EA44 /* MusicTile.hpp */; };
+		84358B192F45511C0077EA44 /* NoteParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B182F45511C0077EA44 /* NoteParticle.cpp */; };
+		84358B1B2F4551290077EA44 /* Facing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B1A2F4551290077EA44 /* Facing.cpp */; };
+		84358B1E2F4551500077EA44 /* CoalItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B1D2F4551500077EA44 /* CoalItem.cpp */; };
+		84358B1F2F4551500077EA44 /* CoalItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B1C2F4551500077EA44 /* CoalItem.hpp */; };
+		84358B242F4551730077EA44 /* FurnaceResultSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B232F4551730077EA44 /* FurnaceResultSlot.cpp */; };
+		84358B252F4551730077EA44 /* FurnaceMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B212F4551730077EA44 /* FurnaceMenu.cpp */; };
+		84358B262F4551730077EA44 /* FurnaceMenu.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B202F4551730077EA44 /* FurnaceMenu.hpp */; };
+		84358B272F4551730077EA44 /* FurnaceResultSlot.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B222F4551730077EA44 /* FurnaceResultSlot.hpp */; };
+		84358B2A2F45519B0077EA44 /* FurnaceScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84358B282F45519B0077EA44 /* FurnaceScreen.hpp */; };
+		84358B2B2F45519B0077EA44 /* FurnaceScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84358B292F45519B0077EA44 /* FurnaceScreen.cpp */; };
 		8435BB192DCD47F400D38282 /* SoundStreamOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */; };
 		8435BB1A2DCD47F400D38282 /* SoundStreamOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */; };
 		8441F98F2DB4E911005977BD /* SoundSystemOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemOAL.cpp */; };
@@ -2234,6 +2262,34 @@
 		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = ../Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
 		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = ../Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
 		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = ../Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
+		84358AF32F4550B30077EA44 /* ChestTileEntity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ChestTileEntity.hpp; sourceTree = "<group>"; };
+		84358AF42F4550B30077EA44 /* ChestTileEntity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChestTileEntity.cpp; sourceTree = "<group>"; };
+		84358AF52F4550B30077EA44 /* FurnaceTileEntity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FurnaceTileEntity.hpp; sourceTree = "<group>"; };
+		84358AF62F4550B30077EA44 /* FurnaceTileEntity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FurnaceTileEntity.cpp; sourceTree = "<group>"; };
+		84358AF72F4550B30077EA44 /* MusicTileEntity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MusicTileEntity.hpp; sourceTree = "<group>"; };
+		84358AF82F4550B30077EA44 /* MusicTileEntity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MusicTileEntity.cpp; sourceTree = "<group>"; };
+		84358AF92F4550B30077EA44 /* TileEntity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TileEntity.hpp; sourceTree = "<group>"; };
+		84358AFA2F4550B30077EA44 /* TileEntity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TileEntity.cpp; sourceTree = "<group>"; };
+		84358AFB2F4550B30077EA44 /* TileEntityType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TileEntityType.hpp; sourceTree = "<group>"; };
+		84358AFC2F4550B30077EA44 /* TileEntityType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TileEntityType.cpp; sourceTree = "<group>"; };
+		84358B082F4550CC0077EA44 /* ChestTile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ChestTile.hpp; sourceTree = "<group>"; };
+		84358B092F4550CC0077EA44 /* ChestTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChestTile.cpp; sourceTree = "<group>"; };
+		84358B0A2F4550CC0077EA44 /* EntityTile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EntityTile.hpp; sourceTree = "<group>"; };
+		84358B0B2F4550CC0077EA44 /* EntityTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EntityTile.cpp; sourceTree = "<group>"; };
+		84358B0C2F4550CC0077EA44 /* FurnaceTile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FurnaceTile.hpp; sourceTree = "<group>"; };
+		84358B0D2F4550CC0077EA44 /* FurnaceTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FurnaceTile.cpp; sourceTree = "<group>"; };
+		84358B0E2F4550CC0077EA44 /* MusicTile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MusicTile.hpp; sourceTree = "<group>"; };
+		84358B0F2F4550CC0077EA44 /* MusicTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MusicTile.cpp; sourceTree = "<group>"; };
+		84358B182F45511C0077EA44 /* NoteParticle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NoteParticle.cpp; sourceTree = "<group>"; };
+		84358B1A2F4551290077EA44 /* Facing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Facing.cpp; sourceTree = "<group>"; };
+		84358B1C2F4551500077EA44 /* CoalItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CoalItem.hpp; sourceTree = "<group>"; };
+		84358B1D2F4551500077EA44 /* CoalItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoalItem.cpp; sourceTree = "<group>"; };
+		84358B202F4551730077EA44 /* FurnaceMenu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FurnaceMenu.hpp; sourceTree = "<group>"; };
+		84358B212F4551730077EA44 /* FurnaceMenu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FurnaceMenu.cpp; sourceTree = "<group>"; };
+		84358B222F4551730077EA44 /* FurnaceResultSlot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FurnaceResultSlot.hpp; sourceTree = "<group>"; };
+		84358B232F4551730077EA44 /* FurnaceResultSlot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FurnaceResultSlot.cpp; sourceTree = "<group>"; };
+		84358B282F45519B0077EA44 /* FurnaceScreen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FurnaceScreen.hpp; sourceTree = "<group>"; };
+		84358B292F45519B0077EA44 /* FurnaceScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FurnaceScreen.cpp; sourceTree = "<group>"; };
 		8435BB172DCD47F400D38282 /* SoundStreamOAL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundStreamOAL.hpp; sourceTree = "<group>"; };
 		8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundStreamOAL.cpp; sourceTree = "<group>"; };
 		8441F9852DB4E911005977BD /* CustomSoundSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CustomSoundSystem.hpp; sourceTree = "<group>"; };
@@ -3756,6 +3812,7 @@
 				84E7BF2D2F286A20002D3936 /* ContainerListener.cpp */,
 				84E7BF2E2F286A20002D3936 /* ContainerListener.hpp */,
 				840DD6572AC810620006A435 /* entity */,
+				84358B1A2F4551290077EA44 /* Facing.cpp */,
 				8477B3A82C4DC3B3004E1AC5 /* Facing.hpp */,
 				840DD6682AC810620006A435 /* gamemode */,
 				84E7BF092F286A08002D3936 /* inventory */,
@@ -3852,6 +3909,8 @@
 			children = (
 				84B9D8962F3BE0A900FD67C4 /* ArmorItem.hpp */,
 				84B9D8972F3BE0A900FD67C4 /* ArmorItem.cpp */,
+				84358B1C2F4551500077EA44 /* CoalItem.hpp */,
+				84358B1D2F4551500077EA44 /* CoalItem.cpp */,
 				84B9D8982F3BE0A900FD67C4 /* HoeItem.hpp */,
 				84B9D8992F3BE0A900FD67C4 /* HoeItem.cpp */,
 				84B9D89A2F3BE0A900FD67C4 /* SeedItem.hpp */,
@@ -4042,6 +4101,7 @@
 		840DD6CE2AC810620006A435 /* particle */ = {
 			isa = PBXGroup;
 			children = (
+				84358B182F45511C0077EA44 /* NoteParticle.cpp */,
 				840DD6CF2AC810620006A435 /* BubbleParticle.cpp */,
 				840DD6D02AC810620006A435 /* ExplodeParticle.cpp */,
 				8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */,
@@ -4077,104 +4137,113 @@
 		840DD6E12AC810620006A435 /* tile */ = {
 			isa = PBXGroup;
 			children = (
+				84358AFD2F4550B30077EA44 /* entity */,
+				840DD6E32AC810620006A435 /* BookshelfTile.hpp */,
+				840DD6E22AC810620006A435 /* BookshelfTile.cpp */,
+				840DD6E52AC810620006A435 /* Bush.hpp */,
+				840DD6E42AC810620006A435 /* Bush.cpp */,
+				84E1C9C02E7FDC26007D2F5D /* CactusTile.hpp */,
+				84E1C9BF2E7FDC26007D2F5D /* CactusTile.cpp */,
+				84358B082F4550CC0077EA44 /* ChestTile.hpp */,
+				84358B092F4550CC0077EA44 /* ChestTile.cpp */,
+				840DD6E72AC810620006A435 /* ClayTile.hpp */,
+				840DD6E62AC810620006A435 /* ClayTile.cpp */,
+				840DD6E92AC810620006A435 /* ClothTile.hpp */,
+				840DD6E82AC810620006A435 /* ClothTile.cpp */,
+				84DED1B62F30970A004001C5 /* CraftingTableTile.hpp */,
+				84DED1B52F30970A004001C5 /* CraftingTableTile.cpp */,
 				84B9D8A22F3BE0B200FD67C4 /* CropsTile.hpp */,
 				84B9D8A32F3BE0B200FD67C4 /* CropsTile.cpp */,
-				840DD6E22AC810620006A435 /* BookshelfTile.cpp */,
-				840DD6E32AC810620006A435 /* BookshelfTile.hpp */,
-				840DD6E42AC810620006A435 /* Bush.cpp */,
-				840DD6E52AC810620006A435 /* Bush.hpp */,
-				84E1C9BF2E7FDC26007D2F5D /* CactusTile.cpp */,
-				84E1C9C02E7FDC26007D2F5D /* CactusTile.hpp */,
-				840DD6E62AC810620006A435 /* ClayTile.cpp */,
-				840DD6E72AC810620006A435 /* ClayTile.hpp */,
-				840DD6E82AC810620006A435 /* ClothTile.cpp */,
-				840DD6E92AC810620006A435 /* ClothTile.hpp */,
-				84DED1B52F30970A004001C5 /* CraftingTableTile.cpp */,
-				84DED1B62F30970A004001C5 /* CraftingTableTile.hpp */,
-				84E1C9C12E7FDC26007D2F5D /* DeadBush.cpp */,
 				84E1C9C22E7FDC26007D2F5D /* DeadBush.hpp */,
-				840DD6EA2AC810620006A435 /* DirtTile.cpp */,
+				84E1C9C12E7FDC26007D2F5D /* DeadBush.cpp */,
 				840DD6EB2AC810620006A435 /* DirtTile.hpp */,
-				840DD6EC2AC810620006A435 /* DoorTile.cpp */,
+				840DD6EA2AC810620006A435 /* DirtTile.cpp */,
 				840DD6ED2AC810620006A435 /* DoorTile.hpp */,
-				840DD6EE2AC810620006A435 /* FarmTile.cpp */,
+				840DD6EC2AC810620006A435 /* DoorTile.cpp */,
+				84358B0A2F4550CC0077EA44 /* EntityTile.hpp */,
+				84358B0B2F4550CC0077EA44 /* EntityTile.cpp */,
 				840DD6EF2AC810620006A435 /* FarmTile.hpp */,
-				84E1C9C32E7FDC26007D2F5D /* FenceTile.cpp */,
+				840DD6EE2AC810620006A435 /* FarmTile.cpp */,
 				84E1C9C42E7FDC26007D2F5D /* FenceTile.hpp */,
-				840DD6F02AC810620006A435 /* FireTile.cpp */,
+				84E1C9C32E7FDC26007D2F5D /* FenceTile.cpp */,
 				840DD6F12AC810620006A435 /* FireTile.hpp */,
-				840DD6F22AC810620006A435 /* GlassTile.cpp */,
+				840DD6F02AC810620006A435 /* FireTile.cpp */,
+				84358B0C2F4550CC0077EA44 /* FurnaceTile.hpp */,
+				84358B0D2F4550CC0077EA44 /* FurnaceTile.cpp */,
 				840DD6F32AC810620006A435 /* GlassTile.hpp */,
-				84E1C9C52E7FDC26007D2F5D /* GlowstoneTile.cpp */,
+				840DD6F22AC810620006A435 /* GlassTile.cpp */,
 				84E1C9C62E7FDC26007D2F5D /* GlowstoneTile.hpp */,
-				840DD6F42AC810620006A435 /* GrassTile.cpp */,
+				84E1C9C52E7FDC26007D2F5D /* GlowstoneTile.cpp */,
 				840DD6F52AC810620006A435 /* GrassTile.hpp */,
-				840DD6F62AC810620006A435 /* GravelTile.cpp */,
+				840DD6F42AC810620006A435 /* GrassTile.cpp */,
 				840DD6F72AC810620006A435 /* GravelTile.hpp */,
-				840DD6F82AC810620006A435 /* HalfTransparentTile.cpp */,
+				840DD6F62AC810620006A435 /* GravelTile.cpp */,
 				840DD6F92AC810620006A435 /* HalfTransparentTile.hpp */,
-				840DD6FA2AC810620006A435 /* IceTile.cpp */,
+				840DD6F82AC810620006A435 /* HalfTransparentTile.cpp */,
 				840DD6FB2AC810620006A435 /* IceTile.hpp */,
-				840DD6FC2AC810620006A435 /* InvisibleTile.cpp */,
+				840DD6FA2AC810620006A435 /* IceTile.cpp */,
 				840DD6FD2AC810620006A435 /* InvisibleTile.hpp */,
-				840DD6FE2AC810620006A435 /* LadderTile.cpp */,
+				840DD6FC2AC810620006A435 /* InvisibleTile.cpp */,
 				840DD6FF2AC810620006A435 /* LadderTile.hpp */,
-				840DD7002AC810620006A435 /* LeafTile.cpp */,
+				840DD6FE2AC810620006A435 /* LadderTile.cpp */,
 				840DD7012AC810620006A435 /* LeafTile.hpp */,
-				840DD7022AC810620006A435 /* LiquidTile.cpp */,
+				840DD7002AC810620006A435 /* LeafTile.cpp */,
 				840DD7032AC810620006A435 /* LiquidTile.hpp */,
-				840DD7042AC810620006A435 /* LiquidTileDynamic.cpp */,
+				840DD7022AC810620006A435 /* LiquidTile.cpp */,
 				840DD7052AC810620006A435 /* LiquidTileDynamic.hpp */,
-				840DD7062AC810620006A435 /* LiquidTileStatic.cpp */,
+				840DD7042AC810620006A435 /* LiquidTileDynamic.cpp */,
 				840DD7072AC810620006A435 /* LiquidTileStatic.hpp */,
-				840DD7082AC810620006A435 /* MetalTile.cpp */,
+				840DD7062AC810620006A435 /* LiquidTileStatic.cpp */,
 				840DD7092AC810620006A435 /* MetalTile.hpp */,
-				840DD70A2AC810620006A435 /* ObsidianTile.cpp */,
+				840DD7082AC810620006A435 /* MetalTile.cpp */,
+				84358B0E2F4550CC0077EA44 /* MusicTile.hpp */,
+				84358B0F2F4550CC0077EA44 /* MusicTile.cpp */,
 				840DD70B2AC810620006A435 /* ObsidianTile.hpp */,
-				840DD70C2AC810620006A435 /* OreTile.cpp */,
+				840DD70A2AC810620006A435 /* ObsidianTile.cpp */,
 				840DD70D2AC810620006A435 /* OreTile.hpp */,
-				84E1C9C72E7FDC26007D2F5D /* PumpkinTile.cpp */,
+				840DD70C2AC810620006A435 /* OreTile.cpp */,
 				84E1C9C82E7FDC26007D2F5D /* PumpkinTile.hpp */,
-				840DD70E2AC810620006A435 /* RedStoneOreTile.cpp */,
+				84E1C9C72E7FDC26007D2F5D /* PumpkinTile.cpp */,
 				840DD70F2AC810620006A435 /* RedStoneOreTile.hpp */,
-				840DD7102AC810620006A435 /* ReedTile.cpp */,
+				840DD70E2AC810620006A435 /* RedStoneOreTile.cpp */,
 				840DD7112AC810620006A435 /* ReedTile.hpp */,
-				84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */,
+				840DD7102AC810620006A435 /* ReedTile.cpp */,
 				84E78C862B58B66B00D515EF /* RocketLauncherTile.hpp */,
-				840DD7122AC810620006A435 /* SandStoneTile.cpp */,
+				84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */,
 				840DD7132AC810620006A435 /* SandStoneTile.hpp */,
-				840DD7142AC810620006A435 /* SandTile.cpp */,
+				840DD7122AC810620006A435 /* SandStoneTile.cpp */,
 				840DD7152AC810620006A435 /* SandTile.hpp */,
-				840DD7162AC810620006A435 /* Sapling.cpp */,
+				840DD7142AC810620006A435 /* SandTile.cpp */,
 				840DD7172AC810620006A435 /* Sapling.hpp */,
-				84E1C9C92E7FDC26007D2F5D /* SoulSandTile.cpp */,
+				840DD7162AC810620006A435 /* Sapling.cpp */,
 				84E1C9CA2E7FDC26007D2F5D /* SoulSandTile.hpp */,
-				840DD7182AC810620006A435 /* SpongeTile.cpp */,
+				84E1C9C92E7FDC26007D2F5D /* SoulSandTile.cpp */,
 				840DD7192AC810620006A435 /* SpongeTile.hpp */,
-				840DD71A2AC810620006A435 /* StairTile.cpp */,
+				840DD7182AC810620006A435 /* SpongeTile.cpp */,
 				840DD71B2AC810620006A435 /* StairTile.hpp */,
-				840DD71C2AC810620006A435 /* StoneSlabTile.cpp */,
+				840DD71A2AC810620006A435 /* StairTile.cpp */,
 				840DD71D2AC810620006A435 /* StoneSlabTile.hpp */,
-				840DD71E2AC810620006A435 /* StoneTile.cpp */,
+				840DD71C2AC810620006A435 /* StoneSlabTile.cpp */,
 				840DD71F2AC810620006A435 /* StoneTile.hpp */,
-				84E1C9CB2E7FDC26007D2F5D /* TallGrass.cpp */,
+				840DD71E2AC810620006A435 /* StoneTile.cpp */,
 				84E1C9CC2E7FDC26007D2F5D /* TallGrass.hpp */,
-				840DD7202AC810620006A435 /* Tile.cpp */,
+				84E1C9CB2E7FDC26007D2F5D /* TallGrass.cpp */,
 				840DD7212AC810620006A435 /* Tile.hpp */,
-				840DD7222AC810620006A435 /* TntTile.cpp */,
+				840DD7202AC810620006A435 /* Tile.cpp */,
 				840DD7232AC810620006A435 /* TntTile.hpp */,
-				840DD7242AC810620006A435 /* TopSnowTile.cpp */,
+				840DD7222AC810620006A435 /* TntTile.cpp */,
 				840DD7252AC810620006A435 /* TopSnowTile.hpp */,
-				840DD7262AC810620006A435 /* TorchTile.cpp */,
+				840DD7242AC810620006A435 /* TopSnowTile.cpp */,
 				840DD7272AC810620006A435 /* TorchTile.hpp */,
-				840DD7282AC810620006A435 /* TransparentTile.cpp */,
+				840DD7262AC810620006A435 /* TorchTile.cpp */,
 				840DD7292AC810620006A435 /* TransparentTile.hpp */,
-				840DD72A2AC810620006A435 /* TreeTile.cpp */,
+				840DD7282AC810620006A435 /* TransparentTile.cpp */,
 				840DD72B2AC810620006A435 /* TreeTile.hpp */,
-				84E1C9CD2E7FDC26007D2F5D /* Web.cpp */,
+				840DD72A2AC810620006A435 /* TreeTile.cpp */,
 				84E1C9CE2E7FDC26007D2F5D /* Web.hpp */,
-				840DD72C2AC810620006A435 /* WireTile.cpp */,
+				84E1C9CD2E7FDC26007D2F5D /* Web.cpp */,
 				840DD72D2AC810620006A435 /* WireTile.hpp */,
+				840DD72C2AC810620006A435 /* WireTile.cpp */,
 			);
 			path = tile;
 			sourceTree = "<group>";
@@ -4566,6 +4635,23 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		84358AFD2F4550B30077EA44 /* entity */ = {
+			isa = PBXGroup;
+			children = (
+				84358AF32F4550B30077EA44 /* ChestTileEntity.hpp */,
+				84358AF42F4550B30077EA44 /* ChestTileEntity.cpp */,
+				84358AF52F4550B30077EA44 /* FurnaceTileEntity.hpp */,
+				84358AF62F4550B30077EA44 /* FurnaceTileEntity.cpp */,
+				84358AF72F4550B30077EA44 /* MusicTileEntity.hpp */,
+				84358AF82F4550B30077EA44 /* MusicTileEntity.cpp */,
+				84358AF92F4550B30077EA44 /* TileEntity.hpp */,
+				84358AFA2F4550B30077EA44 /* TileEntity.cpp */,
+				84358AFB2F4550B30077EA44 /* TileEntityType.hpp */,
+				84358AFC2F4550B30077EA44 /* TileEntityType.cpp */,
+			);
+			path = entity;
+			sourceTree = "<group>";
+		};
 		8441F9872DB4E911005977BD /* openal */ = {
 			isa = PBXGroup;
 			children = (
@@ -4949,6 +5035,8 @@
 		84E022E82F2A0211003C8FFE /* inventory */ = {
 			isa = PBXGroup;
 			children = (
+				84358B282F45519B0077EA44 /* FurnaceScreen.hpp */,
+				84358B292F45519B0077EA44 /* FurnaceScreen.cpp */,
 				84E022E92F2A0211003C8FFE /* ChestScreen.cpp */,
 				84E022EA2F2A0211003C8FFE /* ChestScreen.hpp */,
 				844337192F405E1C00EB3115 /* ClassicCraftingScreen_Console.cpp */,
@@ -5006,6 +5094,10 @@
 				84E7BF0F2F286A08002D3936 /* CraftingContainer.hpp */,
 				84DED19A2F3095FD004001C5 /* CraftingMenu.cpp */,
 				84DED19B2F3095FD004001C5 /* CraftingMenu.hpp */,
+				84358B202F4551730077EA44 /* FurnaceMenu.hpp */,
+				84358B212F4551730077EA44 /* FurnaceMenu.cpp */,
+				84358B222F4551730077EA44 /* FurnaceResultSlot.hpp */,
+				84358B232F4551730077EA44 /* FurnaceResultSlot.cpp */,
 				84E7BF102F286A08002D3936 /* InventoryMenu.cpp */,
 				84E7BF112F286A08002D3936 /* InventoryMenu.hpp */,
 				84E7BF122F286A08002D3936 /* ResultContainer.cpp */,
@@ -5806,6 +5898,7 @@
 				84A2FF182DB61D440090CE3E /* SoundPathRepository.hpp in Headers */,
 				84EB09FB2EE2CCA8008FB007 /* TextureData.hpp in Headers */,
 				84B1E0302E04FD4500ED000A /* ArrowRenderer.hpp in Headers */,
+				84358B2A2F45519B0077EA44 /* FurnaceScreen.hpp in Headers */,
 				84AA8C2B2B32F3F3003F5B82 /* LightUpdate.hpp in Headers */,
 				84AA8C2D2B32F3F3003F5B82 /* PatchManager.hpp in Headers */,
 				84AA8C2F2B32F3F3003F5B82 /* RenderChunk.hpp in Headers */,
@@ -5845,6 +5938,10 @@
 				84E1C9D42E7FDC26007D2F5D /* FenceTile.hpp in Headers */,
 				84BF637B2AF186C8008A9995 /* ItemEntity.hpp in Headers */,
 				84BF637D2AF186C8008A9995 /* Mob.hpp in Headers */,
+				84358B142F4550CC0077EA44 /* ChestTile.hpp in Headers */,
+				84358B152F4550CC0077EA44 /* FurnaceTile.hpp in Headers */,
+				84358B162F4550CC0077EA44 /* EntityTile.hpp in Headers */,
+				84358B172F4550CC0077EA44 /* MusicTile.hpp in Headers */,
 				84BF637E2AF186C8008A9995 /* Player.hpp in Headers */,
 				8477B3A92C4DC3B3004E1AC5 /* Facing.hpp in Headers */,
 				84BF637F2AF186C8008A9995 /* PrimedTnt.hpp in Headers */,
@@ -5915,6 +6012,8 @@
 				84BF63A92AF186C8008A9995 /* RegionFile.hpp in Headers */,
 				84BF63AA2AF186C8008A9995 /* TickNextTickData.hpp in Headers */,
 				84BF63AB2AF186C8008A9995 /* Particle.hpp in Headers */,
+				84358B262F4551730077EA44 /* FurnaceMenu.hpp in Headers */,
+				84358B272F4551730077EA44 /* FurnaceResultSlot.hpp in Headers */,
 				84E7BF232F286A08002D3936 /* ResultContainer.hpp in Headers */,
 				84E1C9E62E7FDC72007D2F5D /* AuxTileItem.hpp in Headers */,
 				84E7BF272F286A08002D3936 /* SimpleContainer.hpp in Headers */,
@@ -6001,6 +6100,7 @@
 				84E78C842B58B5FB00D515EF /* RocketItem.hpp in Headers */,
 				84E78C882B58B66B00D515EF /* RocketLauncherTile.hpp in Headers */,
 				8477B3B72C4DC414004E1AC5 /* EmptyLevelChunk.hpp in Headers */,
+				84358B1F2F4551500077EA44 /* CoalItem.hpp in Headers */,
 				84E1C9E82E7FDC72007D2F5D /* ClothItem.hpp in Headers */,
 				8470AF2B2BE9B60A00BCA54E /* EntityType.hpp in Headers */,
 				8445E7A42D769329008DC834 /* EntityTypeDescriptor.hpp in Headers */,
@@ -6009,6 +6109,11 @@
 				84B9D8A12F3BE0A900FD67C4 /* SeedItem.hpp in Headers */,
 				8470AF2D2BE9B60A00BCA54E /* MobFactory.hpp in Headers */,
 				8470AF392BE9B6D100BCA54E /* GameType.hpp in Headers */,
+				84358B032F4550B30077EA44 /* TileEntity.hpp in Headers */,
+				84358B042F4550B30077EA44 /* FurnaceTileEntity.hpp in Headers */,
+				84358B052F4550B30077EA44 /* ChestTileEntity.hpp in Headers */,
+				84358B062F4550B30077EA44 /* MusicTileEntity.hpp in Headers */,
+				84358B072F4550B30077EA44 /* TileEntityType.hpp in Headers */,
 				8470AF3D2BE9B6FA00BCA54E /* FireworkParticle.hpp in Headers */,
 				84E7BF302F286A20002D3936 /* CompoundContainer.hpp in Headers */,
 			);
@@ -6785,6 +6890,7 @@
 				84B8AEFD2AF1896F008DE93D /* InvalidLicenseScreen.cpp in Sources */,
 				84B8AEFE2AF1896F008DE93D /* JoinGameScreen.cpp in Sources */,
 				844336FB2F405DCA00EB3115 /* VerticalLayout.cpp in Sources */,
+				84358B2B2F45519B0077EA44 /* FurnaceScreen.cpp in Sources */,
 				84B8AEFF2AF1896F008DE93D /* OptionsScreen.cpp in Sources */,
 				84B8AF002AF1896F008DE93D /* PauseScreen.cpp in Sources */,
 				84B8AF012AF1896F008DE93D /* ProgressScreen.cpp in Sources */,
@@ -6976,6 +7082,11 @@
 				84BF63162AF18631008A9995 /* SurvivalMode.cpp in Sources */,
 				84BF63172AF18631008A9995 /* CameraItem.cpp in Sources */,
 				84DED1AF2F309611004001C5 /* ShapedRecipe.cpp in Sources */,
+				84358AFE2F4550B30077EA44 /* TileEntityType.cpp in Sources */,
+				84358AFF2F4550B30077EA44 /* ChestTileEntity.cpp in Sources */,
+				84358B002F4550B30077EA44 /* FurnaceTileEntity.cpp in Sources */,
+				84358B012F4550B30077EA44 /* TileEntity.cpp in Sources */,
+				84358B022F4550B30077EA44 /* MusicTileEntity.cpp in Sources */,
 				84E1C9E52E7FDC72007D2F5D /* AuxTileItem.cpp in Sources */,
 				84E1C9D52E7FDC26007D2F5D /* GlowstoneTile.cpp in Sources */,
 				84BF63182AF18631008A9995 /* DoorItem.cpp in Sources */,
@@ -6983,6 +7094,7 @@
 				84B9D8A42F3BE0B200FD67C4 /* CropsTile.cpp in Sources */,
 				8445E7A22D769329008DC834 /* EntityType.cpp in Sources */,
 				84BF631A2AF18631008A9995 /* Item.cpp in Sources */,
+				84358B1B2F4551290077EA44 /* Facing.cpp in Sources */,
 				84BF631C2AF18631008A9995 /* TileItem.cpp in Sources */,
 				84E1C9F02E7FDC89007D2F5D /* VegetationFeature.cpp in Sources */,
 				84BF631D2AF18631008A9995 /* TilePlanterItem.cpp in Sources */,
@@ -6995,8 +7107,11 @@
 				84BF63222AF18631008A9995 /* BiomeSource.cpp in Sources */,
 				84BF63232AF18631008A9995 /* ChunkCache.cpp in Sources */,
 				84E1C9CF2E7FDC26007D2F5D /* CactusTile.cpp in Sources */,
+				84358B242F4551730077EA44 /* FurnaceResultSlot.cpp in Sources */,
+				84358B252F4551730077EA44 /* FurnaceMenu.cpp in Sources */,
 				84E7BF1A2F286A08002D3936 /* ArmorSlot.cpp in Sources */,
 				84BF63242AF18631008A9995 /* ChunkSource.cpp in Sources */,
+				84358B192F45511C0077EA44 /* NoteParticle.cpp in Sources */,
 				84BF63252AF18631008A9995 /* LevelChunk.cpp in Sources */,
 				84BF63262AF18631008A9995 /* PerformanceTestChunkSource.cpp in Sources */,
 				84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */,
@@ -7026,6 +7141,10 @@
 				84B9D89C2F3BE0A900FD67C4 /* ArmorItem.cpp in Sources */,
 				84B9D89D2F3BE0A900FD67C4 /* HoeItem.cpp in Sources */,
 				84B9D89E2F3BE0A900FD67C4 /* SeedItem.cpp in Sources */,
+				84358B102F4550CC0077EA44 /* FurnaceTile.cpp in Sources */,
+				84358B112F4550CC0077EA44 /* EntityTile.cpp in Sources */,
+				84358B122F4550CC0077EA44 /* ChestTile.cpp in Sources */,
+				84358B132F4550CC0077EA44 /* MusicTile.cpp in Sources */,
 				84BF63382AF18631008A9995 /* LevelListener.cpp in Sources */,
 				84E7BF2F2F286A20002D3936 /* CompoundContainer.cpp in Sources */,
 				84BF63392AF18631008A9995 /* Material.cpp in Sources */,
@@ -7097,6 +7216,7 @@
 				84BF63662AF18631008A9995 /* MetalTile.cpp in Sources */,
 				84BF63672AF18631008A9995 /* ObsidianTile.cpp in Sources */,
 				84CCBC932E61880600E251AF /* EntityFactory.cpp in Sources */,
+				84358B1E2F4551500077EA44 /* CoalItem.cpp in Sources */,
 				84BF63682AF18631008A9995 /* OreTile.cpp in Sources */,
 				84B1E0392E04FD7900ED000A /* Arrow.cpp in Sources */,
 				84BF63692AF18631008A9995 /* RedStoneOreTile.cpp in Sources */,
