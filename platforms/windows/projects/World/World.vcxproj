@@ -228,6 +228,20 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\BowItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\WeaponItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyePowderItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\Facing.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\FurnaceMenu.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\FurnaceResultSlot.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\CoalItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\NoteParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ChestTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\EntityTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\ChestTileEntity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\FurnaceTileEntity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\MusicTileEntity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\TileEntity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\TileEntityType.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FurnaceTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\MusicTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -397,6 +411,18 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\BowItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\WeaponItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\DyePowderItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\FurnaceMenu.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\FurnaceResultSlot.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\CoalItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ChestTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\EntityTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\ChestTileEntity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\FurnaceTileEntity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\MusicTileEntity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\TileEntity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\TileEntityType.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FurnaceTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\MusicTile.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

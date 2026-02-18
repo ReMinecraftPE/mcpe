@@ -105,6 +105,12 @@
     <Filter Include="Header Files\Item\Crafting">
       <UniqueIdentifier>{3a97a5e5-77e6-43eb-9890-3fa79b287cd1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tile\Entity">
+      <UniqueIdentifier>{53363441-c079-4adf-a246-481be4b68199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tile\Entity">
+      <UniqueIdentifier>{9dca9e2a-e126-4598-a852-105be172d198}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp">
@@ -659,6 +665,48 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyePowderItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\FurnaceMenu.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\FurnaceResultSlot.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\CoalItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\NoteParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\Facing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ChestTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\EntityTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FurnaceTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\MusicTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\ChestTileEntity.cpp">
+      <Filter>Source Files\Tile\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\FurnaceTileEntity.cpp">
+      <Filter>Source Files\Tile\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\MusicTileEntity.cpp">
+      <Filter>Source Files\Tile\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\TileEntity.cpp">
+      <Filter>Source Files\Tile\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\entity\TileEntityType.cpp">
+      <Filter>Source Files\Tile\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -1126,15 +1174,6 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\ToolItem.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\item\ArmorItem.hpp">
-      <Filter>Header Files\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\item\HoeItem.hpp">
-      <Filter>Header Files\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\item\SeedItem.hpp">
-      <Filter>Header Files\Item</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\Tool.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
@@ -1170,6 +1209,42 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\DyePowderItem.hpp">
       <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\FurnaceMenu.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\FurnaceResultSlot.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\CoalItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\ChestTileEntity.hpp">
+      <Filter>Header Files\Tile\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\FurnaceTileEntity.hpp">
+      <Filter>Header Files\Tile\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\MusicTileEntity.hpp">
+      <Filter>Header Files\Tile\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\TileEntity.hpp">
+      <Filter>Header Files\Tile\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\entity\TileEntityType.hpp">
+      <Filter>Header Files\Tile\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ChestTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\EntityTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FurnaceTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\MusicTile.hpp">
+      <Filter>Header Files\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

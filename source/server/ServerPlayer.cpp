@@ -1,4 +1,5 @@
 #include "ServerPlayer.hpp"
+#include "common/Logger.hpp"
 #include "network/packets/SetHealthPacket.hpp"
 #include "network/packets/TakeItemEntityPacket.hpp"
 #include "network/packets/SendInventoryPacket.hpp"
@@ -55,6 +56,8 @@ void ServerPlayer::startCrafting(const TilePos& pos)
 
 void ServerPlayer::openContainer(Container* container)
 {
+	LOG_I("Client is opening a container");
+
 	_nextContainerCounter();
 
 #if NETWORK_PROTOCOL_VERSION >= 5
@@ -71,6 +74,8 @@ void ServerPlayer::openContainer(Container* container)
 
 void ServerPlayer::closeContainer()
 {
+	LOG_I("Client is closing a container");
+
 #if NETWORK_PROTOCOL_VERSION >= 5
 	m_pLevel->m_pRakNetInstance->send(new ContainerClosePacket(m_pContainerMenu->m_containerId));
 #endif
@@ -80,6 +85,8 @@ void ServerPlayer::closeContainer()
 
 void ServerPlayer::openFurnace(FurnaceTileEntity* furnace)
 {
+	LOG_I("Client is opening a furnace");
+
 	_nextContainerCounter();
 
 #if NETWORK_PROTOCOL_VERSION >= 5
@@ -131,6 +138,9 @@ void ServerPlayer::doCloseContainer()
 {
 	if (m_pContainerMenu)
 		m_pContainerMenu->removed(this);
+	else
+		LOG_W("Container is missing @ doCloseContainer!");
+
 	setContainerMenu(nullptr); // m_pInventoryMenu on Java, nullptr on Pocket
 }
 
