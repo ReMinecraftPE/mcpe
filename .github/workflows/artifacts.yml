@@ -228,6 +228,7 @@ jobs:
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
+                ls /usr/local/lib/android/sdk/build-tools
                 ./gradlew assembleRelease
           - uses: upup-company/apksigner-android@v1
             id: sign_apk
