@@ -325,6 +325,11 @@ void AppPlatform_xdk360::setVSyncEnabled(bool enabled)
 	// @TODO: Someone with a windows machine or xbox please do and test this.
 }
 
+bool AppPlatform_xdk360::isVsyncSwitchable() const
+{
+	return false;
+}
+
 bool AppPlatform_xdk360::initGraphics(unsigned int width, unsigned int height)
 {
 	m_bHasGraphics = true;

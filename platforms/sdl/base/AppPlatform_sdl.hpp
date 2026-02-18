@@ -39,6 +39,7 @@ public:
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
 	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
 	void setVSyncEnabled(bool enabled) override;
+	bool isVsyncSwitchable() const override;
 
 	// Also add these to allow proper turning within the game.
 	void setMouseGrabbed(bool b) override;

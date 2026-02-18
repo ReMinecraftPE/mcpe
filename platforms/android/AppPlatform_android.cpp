@@ -150,6 +150,11 @@ void AppPlatform_android::setVSyncEnabled(bool enabled)
 	glSwapInterval(display, enabled ? 1 : 0);
 }
 
+bool AppPlatform_android::isVsyncSwitchable() const
+{
+	return eglGetCurrentDisplay() != EGL_NO_DISPLAY;
+}
+
 void AppPlatform_android::initAndroidApp(android_app* ptr)
 {
 	m_app = ptr;

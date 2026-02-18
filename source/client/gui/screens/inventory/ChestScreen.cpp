@@ -31,15 +31,14 @@ SlotDisplay ChestScreen::_createSlotDisplay(const Slot& slot)
 {
     constexpr int slotSize = 18;
     int rows = m_pContainer->getContainerSize() / 9;
-    int verticalOffset = (rows - 4) * slotSize;
     switch (slot.m_group)
     {
     case Slot::CONTAINER:
-        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 18 + verticalOffset + ((slot.m_slot / 9) - 1) * slotSize, slotSize);
+        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 18 + (slot.m_slot / 9) * slotSize, slotSize);
     case Slot::INVENTORY:
-        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 103 + verticalOffset + ((slot.m_slot / 9) - 1) * slotSize, slotSize);
+        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, (rows * 18) + 13 + (slot.m_slot / 9) * slotSize, slotSize);
     case Slot::HOTBAR:
-        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 142, slotSize);
+        return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 89 + rows * slotSize, slotSize);
     default:
         return SlotDisplay();
     }

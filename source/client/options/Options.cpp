@@ -98,7 +98,7 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	//, m_limitFramerate("gfx_fpslimit", "options.framerateLimit", 0, ValuesBuilder().add(performance.max").add("performance.balanced").add("performance.powersaver"))
 	//, m_bMipmaps("gfx_mipmaps", "options.mipmaps")
 	//, m_moreWorldOptions("misc_moreworldoptions", "options.moreWorldOptions", true)
-	, m_vSync("enableVsync", "options.enableVsync")
+	, m_vSync("enableVsync", "options.enableVsync", true)
 {
 	add(m_musicVolume);
 	add(m_masterVolume);
@@ -676,6 +676,9 @@ void Options::initResourceDependentOptions()
 
 	if (!Screen::isMenuPanoramaAvailable())
 		m_menuPanorama.set(false);
+
+	if (!m_pMinecraft->platform()->isVsyncSwitchable())
+		m_vSync.set(false);
 }
 
 const std::string& OptionEntry::getDisplayName() const

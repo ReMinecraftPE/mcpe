@@ -53,6 +53,7 @@ public:
 	void createWindowSizeDependentResources(unsigned int width, unsigned int height);
 	void swapBuffers();
 	void setVSyncEnabled(bool enabled) override;
+	bool isVsyncSwitchable() const override;
 
 private:
 	int m_ScreenWidth;
