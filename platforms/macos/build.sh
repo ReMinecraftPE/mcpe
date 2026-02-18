@@ -214,9 +214,9 @@ for target in $targets; do
                 tar -xzf ../sdl1src.tar.gz
                 cd "SDL-1.2-$sdl1_commit"
                 if [ -n "$DEBUG" ]; then
-                    opt='-O2'
-                else
                     opt='-O0'
+                else
+                    opt='-O2'
                 fi
                 ./configure \
                     --host="$arch-apple-darwin" \
