@@ -260,6 +260,8 @@ jobs:
             with:
               name: Android (${{ matrix.name }})
               path: ReMCPE.apk
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     mingw:
         strategy:
