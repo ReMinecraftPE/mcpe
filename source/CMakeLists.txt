@@ -360,7 +360,10 @@ add_library(reminecraftpe-core STATIC
     world/item/crafting/SingleInputRecipe.cpp
     world/item/crafting/ShapedRecipe.cpp
     world/item/crafting/ShapelessRecipe.cpp
-    world/ContainerListener.cpp
+    world/inventory/ContainerListener.cpp
+    world/inventory/CompoundContainer.cpp
+    world/inventory/ContainerContentChangeListener.cpp
+    world/inventory/ContainerSizeChangeListener.cpp
     world/inventory/ContainerMenu.cpp
     world/inventory/InventoryMenu.cpp
     world/inventory/CraftingMenu.cpp
@@ -373,7 +376,6 @@ add_library(reminecraftpe-core STATIC
     world/inventory/CraftingContainer.cpp
     world/inventory/ResultContainer.cpp
     world/inventory/SimpleContainer.cpp
-    world/CompoundContainer.cpp
     world/item/DoorItem.cpp
     world/item/ItemStack.cpp
     world/item/RocketItem.cpp
