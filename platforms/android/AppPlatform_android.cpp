@@ -147,7 +147,7 @@ void AppPlatform_android::setVSyncEnabled(bool enabled)
 	if (display == EGL_NO_DISPLAY)
 		return;
 
-	glSwapInterval(display, enabled ? 1 : 0);
+	eglSwapInterval(display, enabled ? 1 : 0);
 }
 
 bool AppPlatform_android::isVsyncSwitchable() const
