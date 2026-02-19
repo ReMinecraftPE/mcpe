@@ -14,7 +14,7 @@ android {
     sourceSets.main {
         res.srcDirs = [
                 'src/main/res',
-                '../../../../game/assets/app/icons'
+                '../../../../game/assets/app/mipmap'
         ]
     }
 
