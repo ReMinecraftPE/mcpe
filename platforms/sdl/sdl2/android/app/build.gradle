@@ -30,6 +30,10 @@ android {
     sourceSets.main {
         java.srcDir '../../../../../thirdparty/SDL2/src/android-project/app/src/main/java'
         assets.srcDir '../../../../../game'
+        res.srcDirs = [
+                'src/main/res',
+                '../../../../../game/assets/app/icons'
+        ]
     }
     externalNativeBuild {
         cmake {

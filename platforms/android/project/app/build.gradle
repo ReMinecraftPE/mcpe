@@ -11,6 +11,12 @@ android {
         from '../../../../game/assets'
         into 'src/main/assets'
     }
+    sourceSets.main {
+        res.srcDirs = [
+                'src/main/res',
+                '../../../../game/assets/app/icons'
+        ]
+    }
 
     applicationVariants.all { variant ->
         // Ensure the custom task is executed before building the APK
