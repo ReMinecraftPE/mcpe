@@ -915,7 +915,6 @@ void Minecraft::update()
 void Minecraft::init()
 {
 	m_pRakNetInstance = new RakNetInstance;
-	m_bIsTouchscreen = platform()->isTouchscreen();
 }
 
 void Minecraft::prepareLevel(const std::string& unused)
