@@ -4,6 +4,7 @@
 #include "common/Logger.hpp"
 #include "nbt/CompoundTag.hpp"
 #include "network/Packet.hpp"
+#include "world/inventory/ContainerContentChangeListener.hpp"
 
 #include "Item.hpp"
 
@@ -626,4 +627,23 @@ void Inventory::load(const ListTag& tag)
 GameType Inventory::_getGameMode() const
 {
 	return m_pPlayer->getPlayerGameType();
+}
+
+void Inventory::setContainerChanged(SlotID slot)
+{
+	for (ContentChangeListeners::iterator it = m_contentChangeListeners.begin(); it != m_contentChangeListeners.end(); ++it)
+	{
+		ContainerContentChangeListener* listener = *it;
+		listener->containerContentChanged(this, slot);
+	}
+}
+
+void Inventory::addContentChangeListener(ContainerContentChangeListener* listener)
+{
+	m_contentChangeListeners.insert(listener);
+}
+
+void Inventory::removeContentChangeListener(ContainerContentChangeListener* listener)
+{
+	m_contentChangeListeners.erase(listener);
 }

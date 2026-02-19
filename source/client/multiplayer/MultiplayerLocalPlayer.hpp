@@ -22,7 +22,7 @@ public:
 	void closeContainer() override;
 
 	void refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items) override;
-	void slotChanged(ContainerMenu* menu, int index, ItemStack& item, bool isResultSlot) override;
+	void slotChanged(ContainerMenu* menu, int index, Slot* slot, ItemStack& item, bool isResultSlot) override;
 
 private:
 	bool m_flashOnSetHealth;

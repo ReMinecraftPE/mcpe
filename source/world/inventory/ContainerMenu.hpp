@@ -59,7 +59,7 @@ public:
     virtual bool isPauseScreen() const { return false; }
 
 public:
-    void containerContentChanged(SlotID slot) override;
+    void containerContentChanged(Container* container, SlotID slot) override;
 
 protected:
     std::vector<ItemStack> m_lastSlots;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <vector>
 #include "GameMods.hpp"
 #include "world/inventory/Container.hpp"
@@ -19,6 +20,8 @@ class Player; // in case we're included from Player.hpp
 
 class Inventory : public Container
 {
+private:
+	typedef std::set<ContainerContentChangeListener*> ContentChangeListeners;
 public:
 	Inventory(Player*);
 	virtual ~Inventory();
@@ -80,7 +83,9 @@ public:
 		return "Inventory";
 	}
 
-	void setContainerChanged(SlotID slot) override { }
+	void setContainerChanged(SlotID slot) override;
+	void addContentChangeListener(ContainerContentChangeListener* listener) override;
+	void removeContentChangeListener(ContainerContentChangeListener* listener) override;
 
 	bool stillValid(Player* player) const override { return true; }
 	
@@ -100,4 +105,5 @@ private:
 
 	std::vector<ItemStack> m_items;
 	std::vector<ItemStack> m_armor;
+	ContentChangeListeners m_contentChangeListeners;
 };

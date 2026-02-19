@@ -62,7 +62,7 @@ void SimpleContainer::setContainerChanged(SlotID slot)
     for (ContentChangeListeners::iterator it = m_contentChangeListeners.begin(); it != m_contentChangeListeners.end(); it++)
     {
         ContainerContentChangeListener* pListener = *it;
-        pListener->containerContentChanged(slot);
+        pListener->containerContentChanged(this, slot);
     }
 }
 

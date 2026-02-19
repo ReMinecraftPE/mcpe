@@ -1,8 +1,45 @@
 #include "CompoundContainer.hpp"
 
-CompoundContainer::CompoundContainer(const std::string& name, Container* c1, Container* c2) :
-    m_name(name), m_pLeftContainer(c1), m_pRightContainer(c2)
+class CompoundContainer::ChildListener : public ContainerContentChangeListener
 {
+public:
+    ChildListener(CompoundContainer* owner, int offset)
+        : m_pOwner(owner), m_offset(offset)
+    {
+    }
+
+    void containerContentChanged(Container* container, SlotID slot) override
+    {
+        if (m_pOwner)
+            m_pOwner->setContainerChanged(slot + m_offset);
+    }
+
+private:
+    CompoundContainer* m_pOwner;
+    int m_offset;
+};
+
+CompoundContainer::CompoundContainer(const std::string& name, Container* c1, Container* c2) :
+    m_name(name), m_pLeftContainer(c1), m_pRightContainer(c2), m_pLeftListener(nullptr), m_pRightListener(nullptr)
+{
+    m_pLeftListener = new ChildListener(this, 0);
+    m_pRightListener = new ChildListener(this, m_pLeftContainer->getContainerSize());
+
+    if (m_pLeftContainer)
+        m_pLeftContainer->addContentChangeListener(m_pLeftListener);
+    if (m_pRightContainer)
+        m_pRightContainer->addContentChangeListener(m_pRightListener);
+}
+
+CompoundContainer::~CompoundContainer()
+{
+    if (m_pLeftContainer && m_pLeftListener)
+        m_pLeftContainer->removeContentChangeListener(m_pLeftListener);
+    if (m_pRightContainer && m_pRightListener)
+        m_pRightContainer->removeContentChangeListener(m_pRightListener);
+
+    delete m_pLeftListener;
+    delete m_pRightListener;
 }
 
 uint16_t CompoundContainer::getContainerSize() const
@@ -46,12 +83,25 @@ int CompoundContainer::getMaxStackSize()
 
 void CompoundContainer::setContainerChanged(SlotID slot)
 {
-    m_pLeftContainer->setContainerChanged(slot);
-    m_pRightContainer->setContainerChanged(slot);
+    for (ContentChangeListeners::iterator it = m_contentChangeListeners.begin(); it != m_contentChangeListeners.end(); ++it)
+    {
+        ContainerContentChangeListener* listener = *it;
+        listener->containerContentChanged(this, slot);
+    }
 }
 
 bool CompoundContainer::stillValid(Player* player) const
 {
     return m_pLeftContainer->stillValid(player) && m_pRightContainer->stillValid(player);
+}
+
+void CompoundContainer::addContentChangeListener(ContainerContentChangeListener* listener)
+{
+    m_contentChangeListeners.insert(listener);
+}
+
+void CompoundContainer::removeContentChangeListener(ContainerContentChangeListener* listener)
+{
+    m_contentChangeListeners.erase(listener);
 }
 

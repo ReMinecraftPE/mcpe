@@ -8,5 +8,5 @@ public:
 	virtual ~ContainerContentChangeListener() {}
 
 public:
-	virtual void containerContentChanged(SlotID slot) = 0;
+	virtual void containerContentChanged(Container* container, SlotID slot) = 0;
 };

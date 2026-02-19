@@ -27,5 +27,6 @@ bool ChestTileEntity::stillValid(Player* player) const
 
 void ChestTileEntity::setContainerChanged(SlotID slot)
 {
+    SimpleContainer::setContainerChanged(slot);
     TileEntity::setChanged();
 }
