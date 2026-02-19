@@ -1064,11 +1064,15 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 #define USE_JAVA_SCREEN_SCALING
 #endif
 #ifdef USE_JAVA_SCREEN_SCALING
-	int scale;
-	for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
+	// @HACK: the scaling code for Java/Pocket Screens when using the Console theme is pretty broken
+	if (m_pOptions->getUiTheme() != UI_CONSOLE)
 	{
+		int scale;
+		for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
+		{
+		}
+		return scale;
 	}
-	return scale;
 #endif
 
 	if (height > 1800)
