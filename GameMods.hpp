@@ -17,12 +17,15 @@
 
 // Tests
 //#define TEST_SURVIVAL_MODE      	 // Test survival mode.
-//#define TEST_CAVES      	         // Generates caves around the world.
 
 // Features (major changes)
-//#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass, and dead bushes around the world.
 //#define FEATURE_GFX_SHADERS 	           // Loads and uses Shaders from the assets folder for rendering.
 #define FEATURE_NETWORKING                 // Enables multi-player through RakNet
+
+// TODO: Make these an option in CreateWorldScreen
+//#define FEATURE_CAVES 	               // Generates caves around the world.
+//#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass and dead bushes around the world.
+//#define FEATURE_FANCY_TREES 	           // Generates larger and more unique trees around the world.
 
 // Enhancements (minor changes)
 //#define ENH_ENTITY_SHADING      	       // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
@@ -46,7 +49,7 @@
 //#define ENH_FACED_TERRAIN_PARTICLES 	   // Sets the TerrainParticle's texture depending on the face the block is being hit from. This is something Notch never did for whatever reason.
 #define ENH_NEW_LADDER_BEHAVIOR 	       // Use Java Beta 1.5 ladder behavior
 //#define ENH_GFX_COMPACT_UVS              // Use two unsigned 16-bit integers for UVs instead of a float Vec2
-//#define ENH_RENDER_HAND_ARMOR            // Render the right arm of the chestplate you are wearing on top the first-person hand.
+#define ENH_RENDER_HAND_ARMOR            // Render the right arm of the chestplate you are wearing on top the first-person hand.
 
 // TODO: Implement this permanently?
 #define ENH_IMPROVED_SAVING     	 // Improve world saving. The original Minecraft doesn't always really save for some reason
