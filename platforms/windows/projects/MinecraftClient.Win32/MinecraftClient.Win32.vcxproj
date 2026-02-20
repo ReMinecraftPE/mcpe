@@ -80,7 +80,7 @@
     <ResourceCompile Include="$(MC_ROOT)\platforms\windows\MinecraftClient.Win32.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="$(MC_ROOT)\game\assets\icon.ico" />
+    <Image Include="$(MC_ROOT)\game\assets\app\icons\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
