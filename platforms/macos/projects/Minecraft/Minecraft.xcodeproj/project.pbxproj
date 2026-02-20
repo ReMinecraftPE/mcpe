@@ -2359,7 +2359,7 @@
 		849371362EE51E6700081C5A /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../../game/assets/app/launch/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		849371372EE51E6700081C5A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../../game/assets/app/launch/Default.png; sourceTree = "<group>"; };
 		849371382EE51E6700081C5A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../../game/assets/app/launch/Default@2x.png"; sourceTree = "<group>"; };
-		8493713D2EE51F2A00081C5A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../game/assets/icon.png; sourceTree = "<group>"; };
+		8493713D2EE51F2A00081C5A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../game/assets/app/icons/icon.png; sourceTree = "<group>"; };
 		849488342C9284DA006DB706 /* Lighting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lighting.cpp; sourceTree = "<group>"; };
 		849488352C9284DA006DB706 /* Lighting.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Lighting.hpp; sourceTree = "<group>"; };
 		8495E4872AF0905B00A06901 /* AppPlatform_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPlatform_iOS.h; sourceTree = "<group>"; };
