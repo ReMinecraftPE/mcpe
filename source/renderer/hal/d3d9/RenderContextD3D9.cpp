@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "RenderContextD3D9.hpp"
+#include "compat/PlatformDefinitions.h"
 #include "common/Logger.hpp"
 #include "renderer/hal/d3d9/helpers/ErrorHandlerD3D9.hpp"
 
@@ -117,7 +118,8 @@ void RenderContextD3D9::beginRender()
 #if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
     m_d3dDevice->GpuOwn(D3DTAG_VERTEXSHADERCONSTANTS);
     m_d3dDevice->GpuOwn(D3DTAG_PIXELSHADERCONSTANTS);
-#else
+#endif
+#if !MC_PLATFORM_XBOX360
     m_d3dDevice->BeginScene();
 #endif
 }
@@ -126,8 +128,23 @@ void RenderContextD3D9::endRender()
 {
 #if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
     m_d3dDevice->GpuDisownAll();
-#else
+#endif
+#if !MC_PLATFORM_XBOX360
     m_d3dDevice->EndScene();
+#endif
+}
+
+void RenderContextD3D9::suspend()
+{
+#if MC_PLATFORM_XBOX360
+	m_d3dDevice->Suspend();
+#endif
+}
+
+void RenderContextD3D9::resume()
+{
+#if MC_PLATFORM_XBOX360
+	m_d3dDevice->Resume();
 #endif
 }
 
