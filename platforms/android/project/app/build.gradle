@@ -14,7 +14,7 @@ android {
     sourceSets.main {
         // Another hack to automatically get our icons
         assets.srcDir '../../../../game/assets/app'
-        def iconDir = file('../../../../game/assets/app/mipmap')
+        def iconDir = file('../../../../game/assets/app/icon/mipmap')
         def resDir = file('src/main/res')
         def densityMap = [
                 'icon_48x48.png'  : 'mipmap-mdpi',
