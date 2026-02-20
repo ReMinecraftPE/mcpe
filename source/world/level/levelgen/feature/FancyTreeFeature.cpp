@@ -62,8 +62,8 @@ void FancyTreeFeature::generateBranchesAndTrunk()
 
         for (int i = 0; i < branchCount; ++i)
         {
-            double length = m_widthScale * spread * (m_rnd.nextFloat() + 0.328);
-            double angle = m_rnd.nextFloat() * 2.0 * M_PI;
+            float length = m_widthScale * spread * (m_rnd.nextFloat() + 0.328);
+            float angle = m_rnd.nextFloat() * 2.0 * M_PI;
 
             int dx = (int)Mth::floor((float)(length * Mth::sin(angle) + m_origin.x) + 0.5f);
             int dz = (int)Mth::floor((float)(length * Mth::cos(angle) + m_origin.z) + 0.5f);
@@ -72,10 +72,10 @@ void FancyTreeFeature::generateBranchesAndTrunk()
 
             if (checkLine(branchPos, branchTop) == -1)
             {
-                double dxDiff = (double)(m_origin.x - dx);
-                double dzDiff = (double)(m_origin.z - dz);
-                double dist = Mth::sqrt((dxDiff > 0.0 ? dxDiff : -dxDiff) * (dxDiff > 0.0 ? dxDiff : -dxDiff) + (dzDiff > 0.0 ? dzDiff : -dzDiff) * (dzDiff > 0.0 ? dzDiff : -dzDiff));
-                double dy = dist * m_branchSlope;
+                float dxDiff = (float)(m_origin.x - dx);
+                float dzDiff = (float)(m_origin.z - dz);
+                float dist = Mth::sqrt((dxDiff > 0.0 ? dxDiff : -dxDiff) * (dxDiff > 0.0 ? dxDiff : -dxDiff) + (dzDiff > 0.0 ? dzDiff : -dzDiff) * (dzDiff > 0.0 ? dzDiff : -dzDiff));
+                float dy = dist * m_branchSlope;
                 TilePos base(m_origin.x, (branchPos.y - dy > trunkTopY) ? trunkTopY : (int)(branchPos.y - dy), m_origin.z);
 
                 if (checkLine(base, branchPos) == -1)
@@ -115,7 +115,7 @@ void FancyTreeFeature::generateBranchesAndTrunk()
 
 void FancyTreeFeature::crossection(int x, int y, int z, float radius, uint8_t majorAxis, int blockId)
 {
-    int radiusRounded = (int)((double)radius + 0.618);
+    int radiusRounded = (int)((float)radius + 0.618);
     uint8_t axis2 = axisConversionArray[majorAxis];
     uint8_t axis3 = axisConversionArray[majorAxis + 3];
     TilePos center = TilePos(x, y, z);
@@ -131,8 +131,8 @@ void FancyTreeFeature::crossection(int x, int y, int z, float radius, uint8_t ma
 
         while (dz <= radiusRounded)
         {
-            double distance = Mth::sqrt(((double)Mth::abs(dx) + 0.5) * ((double)Mth::abs(dx) + 0.5) + ((double)Mth::abs(dz) + 0.5) * ((double)Mth::abs(dz) + 0.5));
-            if (distance > (double)radius)
+            float distance = Mth::sqrt(((float)Mth::abs(dx) + 0.5) * ((float)Mth::abs(dx) + 0.5) + ((float)Mth::abs(dz) + 0.5) * ((float)Mth::abs(dz) + 0.5));
+            if (distance > (float)radius)
             {
                 ++dz;
             }
@@ -156,7 +156,7 @@ void FancyTreeFeature::crossection(int x, int y, int z, float radius, uint8_t ma
 
 float FancyTreeFeature::treeShape(int offset)
 {
-    if ((double)offset < (double)((float)m_height) * 0.3) 
+    if ((float)offset < (float)((float)m_height) * 0.3) 
     {
         return -1.618f;
     }
@@ -175,7 +175,7 @@ float FancyTreeFeature::treeShape(int offset)
         }
         else
         {
-            width = (float)Mth::sqrt((double)Mth::abs(halfHeight) * (double)Mth::abs(halfHeight) - (double)Mth::abs(offsetFromCenter) * (double)Mth::abs(offsetFromCenter));
+            width = (float)Mth::sqrt((float)Mth::abs(halfHeight) * (float)Mth::abs(halfHeight) - (float)Mth::abs(offsetFromCenter) * (float)Mth::abs(offsetFromCenter));
         }
         return width / 2;
     }
@@ -214,8 +214,8 @@ void FancyTreeFeature::limb(const TilePos& start, const TilePos& end, int blockI
         uint8_t axis3 = axisConversionArray[majorAxis + 3];
         int step = (getAxisCoord(delta, majorAxis) > 0) ? 1 : -1;
 
-        double ratio1 = (double)getAxisCoord(delta, axis2) / (double)getAxisCoord(delta, majorAxis);
-        double ratio2 = (double)getAxisCoord(delta, axis3) / (double)getAxisCoord(delta, majorAxis);
+        float ratio1 = (float)getAxisCoord(delta, axis2) / (float)getAxisCoord(delta, majorAxis);
+        float ratio2 = (float)getAxisCoord(delta, axis3) / (float)getAxisCoord(delta, majorAxis);
         TilePos currentPos;
         int counter = 0;
         int endCounter = getAxisCoord(delta, majorAxis) + step;
@@ -232,7 +232,7 @@ void FancyTreeFeature::limb(const TilePos& start, const TilePos& end, int blockI
 
 bool FancyTreeFeature::trimBranches(int heightOffset)
 {
-    return (double)heightOffset >= (double)m_height * 0.2;
+    return (float)heightOffset >= (float)m_height * 0.2;
 }
 
 void FancyTreeFeature::makeTrunk()
@@ -273,8 +273,8 @@ int FancyTreeFeature::checkLine(TilePos& startPos, TilePos& endPos)
         uint8_t axis3 = axisConversionArray[majorAxisIdx + 3];
         int step = (getAxisCoord(delta, majorAxisIdx) > 0) ? 1 : -1;
 
-        double ratio1 = (double)getAxisCoord(delta, axis2) / (double)getAxisCoord(delta, majorAxisIdx);
-        double ratio2 = (double)getAxisCoord(delta, axis3) / (double)getAxisCoord(delta, majorAxisIdx);
+        float ratio1 = (float)getAxisCoord(delta, axis2) / (float)getAxisCoord(delta, majorAxisIdx);
+        float ratio2 = (float)getAxisCoord(delta, axis3) / (float)getAxisCoord(delta, majorAxisIdx);
         TilePos currentPos;
         int counter = 0;
         int endCounter = getAxisCoord(delta, majorAxisIdx) + step;
@@ -282,8 +282,8 @@ int FancyTreeFeature::checkLine(TilePos& startPos, TilePos& endPos)
         while (counter != endCounter)
         {
             getAxisCoord(currentPos, majorAxisIdx) = getAxisCoord(startPos, majorAxisIdx) + counter;
-            getAxisCoord(currentPos, axis2) = Mth::floor((double)getAxisCoord(startPos, axis2) + (double)counter * ratio1);
-            getAxisCoord(currentPos, axis3) = Mth::floor((double)getAxisCoord(startPos, axis3) + (double)counter * ratio2);
+            getAxisCoord(currentPos, axis2) = Mth::floor((float)getAxisCoord(startPos, axis2) + (float)counter * ratio1);
+            getAxisCoord(currentPos, axis3) = Mth::floor((float)getAxisCoord(startPos, axis3) + (float)counter * ratio2);
             int tileId = m_pLevel->getTile(currentPos);
             if (tileId != TILE_AIR && tileId != TILE_LEAVES)
             {

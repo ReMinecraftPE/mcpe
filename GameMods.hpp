@@ -22,7 +22,7 @@
 //#define FEATURE_GFX_SHADERS 	           // Loads and uses Shaders from the assets folder for rendering.
 #define FEATURE_NETWORKING                 // Enables multi-player through RakNet
 
-// TODO: Make these an option in CreateWorldScreen
+// TODO: Add to the LevelSettings struct
 //#define FEATURE_CAVES 	               // Generates caves around the world.
 //#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass and dead bushes around the world.
 //#define FEATURE_FANCY_TREES              // Generates larger and more unique trees around the world.
