@@ -52,9 +52,9 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 #ifdef __GNUC__
-IDI_ICON               ICON                    "assets/app/icon/icon.ico"
+IDI_ICON               ICON                    "assets/app/icons/icon.ico"
 #else
-IDI_ICON               ICON                    "..\\..\\game\\assets\\app\\icon\\icon.ico"
+IDI_ICON               ICON                    "..\\..\\game\\assets\\app\\icons\\icon.ico"
 #endif
 
 #endif    // English (United States) resources

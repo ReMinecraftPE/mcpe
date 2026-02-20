@@ -31,7 +31,7 @@ android {
         java.srcDir '../../../../../thirdparty/SDL2/src/android-project/app/src/main/java'
         assets.srcDir '../../../../../game'
         // Automatically get our icons
-        def iconDir = file('../../../../../game/assets/app/icon/mipmap')
+        def iconDir = file('../../../../../game/assets/app/icons/mipmap')
         def resDir = file('src/main/res')
         def densityMap = [
                 'icon_48x48.png': 'mipmap-mdpi',
