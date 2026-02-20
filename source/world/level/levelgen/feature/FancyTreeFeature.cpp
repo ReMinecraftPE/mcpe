@@ -16,7 +16,6 @@ FancyTreeFeature::FancyTreeFeature() :
     m_height(0),
     m_trunkHeight(0),
     m_trunkHeightScale(0.618f),
-    m_branchDensity(1.0f),
     m_branchSlope(0.381f),
     m_widthScale(1.0f),
     m_foliageDensity(1.0f),

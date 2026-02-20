@@ -77,7 +77,6 @@ private:
 	int m_height;
 	int m_trunkHeight;
 	float m_trunkHeightScale;
-	float m_branchDensity;
 	float m_branchSlope;
 	float m_widthScale;
 	float m_foliageDensity;
