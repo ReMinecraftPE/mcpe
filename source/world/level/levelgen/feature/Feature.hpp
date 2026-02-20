@@ -12,7 +12,6 @@
 #include "common/Utils.hpp"
 #include "world/level/TilePos.hpp"
 #include <vector>
-#include <memory>
 
 class Level;
 
@@ -65,41 +64,23 @@ public:
 	bool checkLocation();
 	void init(float density, float widthScale, float foliageDensity) override;
 	bool place(Level*, Random*, const TilePos& pos) override;
+	static const constexpr uint8_t axisConversionArray[] = {2, 0, 0, 1, 2, 1};
 	
 	// Helper methods for axis-based coordinate access
-	static inline int& getAxisCoord(TilePos& pos, uint8_t axis)
-	{
-		switch (axis)
-		{
-			case 0: return pos.x;
-			case 1: return pos.y;
-			case 2: return pos.z;
-			default: return pos.x;
-		}
-	}
-	
-	static inline int getAxisCoord(const TilePos& pos, uint8_t axis)
-	{
-		switch (axis)
-		{
-			case 0: return pos.x;
-			case 1: return pos.y;
-			case 2: return pos.z;
-			default: return pos.x;
-		}
-	}
+	static int& getAxisCoord(TilePos& pos, uint8_t axis);
+	static int getAxisCoord(const TilePos& pos, uint8_t axis);
+
 private:
-	static const uint8_t axisConversionArray[6];
 	Random m_rnd;
 	Level* m_pLevel;
 	TilePos m_origin;
 	int m_height;
 	int m_trunkHeight;
-	double m_trunkHeightScale;
-	double m_branchDensity;
-	double m_branchSlope;
-	double m_widthScale;
-	double m_foliageDensity;
+	float m_trunkHeightScale;
+	float m_branchDensity;
+	float m_branchSlope;
+	float m_widthScale;
+	float m_foliageDensity;
 	int m_trunkWidth;
 	int m_heightVariance;
 	int m_foliageHeight;
@@ -176,5 +157,3 @@ class PumpkinFeature : public Feature
 public:
 	bool place(Level*, Random*, const TilePos& pos) override;
 };
-
-

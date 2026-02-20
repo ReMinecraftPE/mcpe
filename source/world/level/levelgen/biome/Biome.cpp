@@ -116,7 +116,12 @@ Biome::~Biome()
 
 Feature* Biome::getTreeFeature(Random* pRandom)
 {
+#ifdef FEATURE_FANCY_TREES
+	if (pRandom->nextInt(10) == 0) return new FancyTreeFeature;
+#else
 	pRandom->nextInt(10); // unused result
+#endif
+
 
 	return new TreeFeature;
 }
@@ -207,7 +212,7 @@ Feature* RainforestBiome::getTreeFeature(Random* pRandom)
 #ifdef FEATURE_FANCY_TREES
 	if (pRandom->nextInt(3) == 0) return new FancyTreeFeature;
 #else
-	if (pRandom->nextInt(3) == 0) return new FancyTreeFeature;
+	pRandom->nextInt(3); // unused result
 #endif
 
 	return new TreeFeature;
@@ -223,7 +228,7 @@ Feature* ForestBiome::getTreeFeature(Random* pRandom)
 #ifdef FEATURE_FANCY_TREES
 	if (pRandom->nextInt(3) == 0) return new FancyTreeFeature;
 #else
-	if (pRandom->nextInt(3) == 0) return new FancyTreeFeature;
+	pRandom->nextInt(3); // unused result
 #endif
 
 	return new TreeFeature;
