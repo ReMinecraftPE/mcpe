@@ -7,6 +7,9 @@ struct FoliageCoord
     int x, y, z, branchY;
 };
 
+// Static array definition for axis conversion
+const uint8_t FancyTreeFeature::axisConversionArray[] = {2, 0, 0, 1, 2, 1};
+
 FancyTreeFeature::FancyTreeFeature() :
     m_pLevel(NULL),
     m_origin(),

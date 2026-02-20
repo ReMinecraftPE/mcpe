@@ -64,13 +64,13 @@ public:
 	bool checkLocation();
 	void init(float density, float widthScale, float foliageDensity) override;
 	bool place(Level*, Random*, const TilePos& pos) override;
-	static const constexpr uint8_t axisConversionArray[] = {2, 0, 0, 1, 2, 1};
 	
 	// Helper methods for axis-based coordinate access
 	static int& getAxisCoord(TilePos& pos, uint8_t axis);
 	static int getAxisCoord(const TilePos& pos, uint8_t axis);
 
 private:
+	static const uint8_t axisConversionArray[6];
 	Random m_rnd;
 	Level* m_pLevel;
 	TilePos m_origin;
