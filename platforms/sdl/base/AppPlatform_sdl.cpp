@@ -145,7 +145,7 @@ void AppPlatform_sdl::_setIcon(ImageData& image)
 void AppPlatform_sdl::_setDefaultIcon()
 {
 	ImageData data;
-	loadImage(data, "assets/icon.png");
+	loadImage(data, "assets/app/icon/icon.png");
 	_setIcon(data);
 }
 

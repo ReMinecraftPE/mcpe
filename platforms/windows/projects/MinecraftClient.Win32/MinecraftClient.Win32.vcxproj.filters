@@ -42,7 +42,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="$(MC_ROOT)\game\assets\icon.ico">
+    <Image Include="$(MC_ROOT)\game\assets\app\icon\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
