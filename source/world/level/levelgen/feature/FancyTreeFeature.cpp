@@ -2,10 +2,31 @@
 #include "world/level/Level.hpp"
 
 using std::vector;
-using std::array;
+struct FoliageCoord
+{
+    int x, y, z, branchY;
+};
 
 // Static array definition for axis conversion
 const uint8_t FancyTreeFeature::axisConversionArray[] = {2, 0, 0, 1, 2, 1};
+
+FancyTreeFeature::FancyTreeFeature() :
+    m_origin(),
+    m_height(0),
+    m_trunkHeightScale(0.618),
+    m_branchDensity(1.0),
+    m_branchSlope(0.381),
+    m_widthScale(1.0),
+    m_foliageDensity(1.0),
+    m_trunkWidth(1),
+    m_heightVariance(12),
+    m_foliageHeight(4)
+{
+}
+
+FancyTreeFeature::~FancyTreeFeature()
+{
+}
 
 void FancyTreeFeature::generateBranchesAndTrunk()
 {
@@ -14,17 +35,17 @@ void FancyTreeFeature::generateBranchesAndTrunk()
     int branchCount = Mth::Max((int)(1.382 + ((m_foliageDensity * m_height / 13.0) * (m_foliageDensity * m_height / 13.0))), 1);
     int maxBranches = branchCount * m_height;
 
-    vector<array<int, 4> > foliageCoords;
+    vector<FoliageCoord> foliageCoords;
 
     int topY = m_origin.y + m_height - m_foliageHeight;
     int trunkTopY = m_origin.y + m_trunkHeight;
     int offset = topY - m_origin.y;
 
-    array<int, 4> initialBranch;
-    initialBranch[0] = m_origin.x;
-    initialBranch[1] = topY;
-    initialBranch[2] = m_origin.z;
-    initialBranch[3] = trunkTopY;
+    FoliageCoord initialBranch;
+    initialBranch.x = m_origin.x;
+    initialBranch.y = topY;
+    initialBranch.z = m_origin.z;
+    initialBranch.branchY = trunkTopY;
     foliageCoords.push_back(initialBranch);
 
     --topY;
@@ -59,11 +80,11 @@ void FancyTreeFeature::generateBranchesAndTrunk()
 
                 if (checkLine(base, branchPos) == -1)
                 {
-                    array<int, 4> branchCoord;
-                    branchCoord[0] = dx;
-                    branchCoord[1] = topY;
-                    branchCoord[2] = dz;
-                    branchCoord[3] = base.y;
+                    FoliageCoord branchCoord;
+                    branchCoord.x = dx;
+                    branchCoord.y = topY;
+                    branchCoord.z = dz;
+                    branchCoord.branchY = base.y;
                     foliageCoords.push_back(branchCoord);
                 }
             }
@@ -74,19 +95,19 @@ void FancyTreeFeature::generateBranchesAndTrunk()
 
     for (size_t branchIdx = 0; branchIdx < foliageCoords.size(); ++branchIdx)
     {
-        const array<int, 4>& branch = foliageCoords[branchIdx];
-        foliageCluster(branch[0], branch[1], branch[2]);
+        const FoliageCoord& branch = foliageCoords[branchIdx];
+        foliageCluster(branch.x, branch.y, branch.z);
     }
 
     makeTrunk();
 
     for (size_t branchIdx = 0; branchIdx < foliageCoords.size(); ++branchIdx)
     {
-        const array<int, 4>& branch = foliageCoords[branchIdx];
-        TilePos base(m_origin.x, branch[3], m_origin.z);
+        const FoliageCoord& branch = foliageCoords[branchIdx];
+        TilePos base(m_origin.x, branch.branchY, m_origin.z);
         if (trimBranches(base.y - m_origin.y))
         {
-            limb(base, TilePos(branch[0], branch[1], branch[2]), Tile::treeTrunk->m_ID);
+            limb(base, TilePos(branch.x, branch.y, branch.z), Tile::treeTrunk->m_ID);
         }
     }
     foliageCoords.clear();
