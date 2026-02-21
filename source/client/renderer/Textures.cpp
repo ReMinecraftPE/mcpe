@@ -61,8 +61,11 @@ size_t _mipTagStart(const std::string& path)
 	constexpr size_t mipSuffixLength = MIP_TAG_SIZE + 2;
 
 	std::string extension = Util::getExtension(path);
+	size_t len = path.length() - extension.length();
+	if (len <= mipSuffixLength)
+		return 0;
 
-	return path.length() - mipSuffixLength - extension.length();
+	return len - mipSuffixLength;
 }
 
 bool _isMipmap(const std::string& path)
