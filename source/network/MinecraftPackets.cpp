@@ -58,6 +58,7 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_CONTAINER_SET_DATA:    return new ContainerSetDataPacket;
 		case PACKET_CONTAINER_SET_CONTENT: return new ContainerSetContentPacket;
 		case PACKET_CONTAINER_ACK:         return new ContainerAckPacket;
+		case PACKET_CHAT:                  return nullptr;
 
 		case PACKET_LEVEL_DATA: return new LevelDataPacket;
 	}
