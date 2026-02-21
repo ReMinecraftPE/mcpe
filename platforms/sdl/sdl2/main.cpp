@@ -431,7 +431,8 @@ int main(int argc, char *argv[])
 			fputs("HOME not set!\n", stderr);
 			exit(1);
 		}
-		storagePath = (std::string)xdg_data + "/.local/share";
+		storagePath = xdg_data;
+		storagePath += "/.local/share";
 	}
 #endif
 	storagePath += "/.reminecraftpe";

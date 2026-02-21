@@ -103,7 +103,8 @@ static std::string getStoragePath()
             fputs("HOME not set!\n", stderr);
             exit(1);
         }
-        pathBase = (std::string)xdg_data + "/.local/share";
+        pathBase = xdg_data;
+        pathBase += "/.local/share";
     }
 #endif
 
