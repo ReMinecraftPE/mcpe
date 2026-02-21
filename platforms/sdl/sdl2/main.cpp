@@ -432,7 +432,7 @@ int main(int argc, char *argv[])
 			storagePath = "."; // current working directory
 		}
 		else
-			storagePath = xdg_data + "/.local/share";
+			storagePath = (std::string)xdg_data + "/.local/share";
 	}
 #endif
 	storagePath += "/.reminecraftpe";
