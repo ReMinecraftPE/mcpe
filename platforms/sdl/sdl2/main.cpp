@@ -426,7 +426,8 @@ int main(int argc, char *argv[])
 	else
 	{
 		xdg_data = getenv("HOME");
-		if (!xdg_data) {
+		if (!xdg_data)
+		{
 			fputs("HOME not set!\n", stderr);
 			exit(1);
 		}
