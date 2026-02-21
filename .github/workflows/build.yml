@@ -46,7 +46,11 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ${{ matrix.flags }} ..
+                cmake .. -GNinja \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DWERROR=ON \
+                    ${{ matrix.flags }}
                 cmake --build .
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
@@ -61,8 +65,8 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: linux-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
-              restore-keys: linux-${{ matrix.name }}-
+              key: wasm-${{ steps.get-time.outputs.time }}
+              restore-keys: wasm-
           - name: Unpack cache
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
@@ -74,7 +78,11 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y cmake ninja-build ccache
           - name: Build
-            run: ./build-wasm.sh -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON
+            run: |
+                ./build-wasm.sh \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DWERROR=ON
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
@@ -165,11 +173,21 @@ jobs:
                 include:
                   - name: SDL 2
                     directory: platforms/sdl/sdl2/android
-                  - name: Native
-                    directory: platforms/android/project
+                  # - name: Native
+                  #   directory: platforms/android/project
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: android-${{ steps.get-time.outputs.time }}
+              restore-keys: android-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -180,10 +198,17 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 cache: gradle
+          - name: Install Dependencies
+            run: sudo apt-get install --no-install-recommends -y ccache
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleDebug
+            env:
+                USE_CCACHE: 1
+                CCACHE_COMPILERCHECK: "%compiler% -v"
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     mingw:
         strategy:
@@ -230,7 +255,12 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake .. -GNinja \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DWERROR=ON \
+                    -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake \
+                    ${{ matrix.flags }}
                 cmake --build .
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
@@ -261,7 +291,10 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DWERROR=ON
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
