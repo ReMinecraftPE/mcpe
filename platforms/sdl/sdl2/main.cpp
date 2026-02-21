@@ -420,7 +420,20 @@ int main(int argc, char *argv[])
 #elif defined(ANDROID)
 	storagePath = SDL_AndroidGetExternalStoragePath();
 #else
-	storagePath = getenv("HOME");
+	const char *xdg_data = getenv("XDG_DATA_HOME");
+	if (xdg_data)
+		storagePath = xdg_data;
+	else
+	{
+		xdg_data = getenv("HOME");
+		if (!xdg_data)
+		{
+			LOG_E("HOME not set");
+			storagePath = "."; // current working directory
+		}
+		else
+			storagePath = (std::string)xdg_data + "/.local/share";
+	}
 #endif
 	storagePath += "/.reminecraftpe";
 	

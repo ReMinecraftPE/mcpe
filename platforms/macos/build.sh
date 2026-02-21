@@ -109,8 +109,8 @@ else
 fi
 # ensure we use ccache for the toolchain build
 ccache="$(command -v ccache || true)"
-printf '#!/bin/sh\nexec %sclang "$@"\n' "$ccache " > bin/remcpe-clang
-printf '#!/bin/sh\nexec %sclang++ "$@"\n' "$ccache " > bin/remcpe-clang++
+printf '#!/bin/sh\nexec %s clang "$@"\n' "$ccache" > bin/remcpe-clang
+printf '#!/bin/sh\nexec %s clang++ "$@"\n' "$ccache" > bin/remcpe-clang++
 chmod +x bin/remcpe-clang bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
