@@ -6,11 +6,6 @@ ClassicCraftingScreen_Console::ClassicCraftingScreen_Console(Inventory* inventor
     ContainerScreen(new CraftingMenu(inventory, tilePos, level))
 {
     m_uiTheme = UI_CONSOLE;
-}
-
-void ClassicCraftingScreen_Console::init()
-{
-    ContainerScreen::init();
     m_imageWidth = 428;
     m_imageHeight = 450;
 }
