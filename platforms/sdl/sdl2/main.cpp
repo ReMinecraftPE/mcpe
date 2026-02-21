@@ -428,11 +428,11 @@ int main(int argc, char *argv[])
 		xdg_data = getenv("HOME");
 		if (!xdg_data)
 		{
-			fputs("HOME not set!\n", stderr);
-			exit(1);
+			LOG_E("HOME not set");
+			storagePath = "."; // current working directory
 		}
-		storagePath = xdg_data;
-		storagePath += "/.local/share";
+		else
+			storagePath = xdg_data + "/.local/share";
 	}
 #endif
 	storagePath += "/.reminecraftpe";

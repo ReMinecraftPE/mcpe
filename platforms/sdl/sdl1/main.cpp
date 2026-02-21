@@ -100,15 +100,19 @@ static std::string getStoragePath()
         xdg_data = getenv("HOME");
         if (!xdg_data)
         {
-            fputs("HOME not set!\n", stderr);
-            exit(1);
+            LOG_E("HOME not set");
+            pathBase = ""; // current working directory
         }
-        pathBase = xdg_data;
-        pathBase += "/.local/share";
+        else
+        {
+            std::string tmp(xdg_data);
+            tmp += "/.local/share";
+            pathBase = tmp.c_str();
+        }
     }
 #endif
 
-    if (pathBase == nullptr || pathBase[0] == '\0')
+    if (!pathBase)
         pathBase = ""; // just use the current working directory
 
     std::string path(pathBase);
