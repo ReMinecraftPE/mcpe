@@ -104,7 +104,7 @@ static std::string getStoragePath()
             pathBase = ""; // current working directory
         }
         else
-            pathBase = ((std::string)xdg_data + "/.local/share").c_str()
+            pathBase = ((std::string)xdg_data + "/.local/share").c_str();
     }
 #endif
 
