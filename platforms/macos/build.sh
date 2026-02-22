@@ -141,7 +141,11 @@ if [ -n "$outdated_toolchain" ]; then
     INSTALLPREFIX="$workdir/toolchain" CC=remcpe-clang CXX=remcpe-clang++ ./build.sh && ./install.sh
     cd ..
     rm -rf "apple-libtapi-$tapi_commit"
-    strip "$(realpath toolchain/lib/libtapi.so)"
+    if [ "$(uname -s)" = "Darwin" ]; then
+        strip toolchain/lib/libtapi.dylib
+    else
+        strip "$(realpath toolchain/lib/libtapi.so)"
+    fi
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
     rm -rf cctools-port-*
