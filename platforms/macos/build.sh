@@ -13,16 +13,16 @@ bin='reminecraftpe'
 platformdir=$PWD
 
 workdir="$PWD/build/work"
-arm64_sdk="$workdir/arm64-mac-sdk"
-x86_64_sdk="$workdir/x86_64-mac-sdk"
-old_sdk="$workdir/old-mac-sdk"
-mkdir -p "$workdir"
+arm64_sdk="$workdir/sdks/arm64-mac-sdk"
+x86_64_sdk="$workdir/sdks/x86_64-mac-sdk"
+old_sdk="$workdir/sdks/old-mac-sdk"
+mkdir -p "$workdir/sdks"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
 sdkver=2
-if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "$(cat sdkver 2>/dev/null)" != "$sdkver" ]; then
+if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "$(cat sdks/sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
     # for arm64
@@ -58,7 +58,7 @@ if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "
     )
     wait
     rm ./*.tar.bz2 ./*.tar.xz
-    printf '%s' "$sdkver" > sdkver
+    printf '%s' "$sdkver" > sdks/sdkver
     outdated_sdk=1
 fi
 
