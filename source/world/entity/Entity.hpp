@@ -82,6 +82,7 @@ public:
 			STOP_ATTACKING
 		};
 	};
+	// Was called EntityRendererId in PE
 	enum RenderType
 	{
 		RENDER_NONE,
