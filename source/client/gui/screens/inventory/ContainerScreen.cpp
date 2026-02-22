@@ -13,6 +13,7 @@ ContainerScreen::ContainerScreen(ContainerMenu* menu) :
     m_topPos(0),
     m_timeSlotDragged(0)
 {
+    m_uiTheme = UI_UNIVERSAL;
     m_bRenderPointer = true;
 }
 
