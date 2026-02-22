@@ -67,27 +67,43 @@ for dep in "${CLANG:-clang}" make cmake; do
     fi
 done
 
+if [ -z "$LLVM_CONFIG" ]; then
+    if command -v llvm-config >/dev/null; then
+        export LLVM_CONFIG=llvm-config
+    else
+        export LLVM_CONFIG=false
+    fi
+fi
+
 # Increase this if we ever make a change to the toolchain, for example
 # using a newer cctools-port version, and we need to invalidate the cache.
 toolchainver=1
-if [ "$(cat bin/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
-    rm -rf bin
+if [ "$(cat toolchain/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
+    rm -rf toolchain
     outdated_toolchain=1
 fi
 
-mkdir -p bin
-export PATH="$PWD/bin:$PATH"
+# invalidate toolchain cache if settings change
+"$LLVM_CONFIG" --version > toolchainsettings
+if ! cmp -s toolchainsettings toolchain/lasttoolchainsettings; then
+    rm -rf toolchain
+    outdated_toolchain=1
+fi
+
+mkdir -p toolchain/bin
+mv toolchainsettings toolchain/lasttoolchainsettings
+export PATH="$PWD/toolchain/bin:$PATH"
 
 if [ -n "$CLANG" ]; then
-    ln -sf "$(command -v "$CLANG")" bin/clang && ln -sf clang bin/clang++
+    ln -sf "$(command -v "$CLANG")" toolchain/bin/clang && ln -sf clang toolchain/bin/clang++
 else
-    rm -f bin/clang bin/clang++
+    rm -f toolchain/bin/clang toolchain/bin/clang++
 fi
 # ensure we use ccache for the toolchain build
 ccache="$(command -v ccache || true)"
-printf '#!/bin/sh\nexec %s clang "$@"\n' "$ccache" > bin/remcpe-clang
-printf '#!/bin/sh\nexec %s clang++ "$@"\n' "$ccache" > bin/remcpe-clang++
-chmod +x bin/remcpe-clang bin/remcpe-clang++
+printf '#!/bin/sh\nexec %s clang "$@"\n' "$ccache" > toolchain/bin/remcpe-clang
+printf '#!/bin/sh\nexec %s clang++ "$@"\n' "$ccache" > toolchain/bin/remcpe-clang++
+chmod +x toolchain/bin/remcpe-clang toolchain/bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
     # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
@@ -98,19 +114,18 @@ if [ -n "$outdated_toolchain" ]; then
     wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
-    if [ -n "$LLVM_CONFIG" ]; then
-        set -- --with-llvm-config="$LLVM_CONFIG"
-    else
-        set --
-    fi
-    ./configure --enable-silent-rules CC=remcpe-clang CXX=remcpe-clang++ "$@"
+    ./configure \
+        --enable-silent-rules \
+        --with-llvm-config="$LLVM_CONFIG" \
+        CC=remcpe-clang \
+        CXX=remcpe-clang++
     make -C ld64 -j"$ncpus"
-    mv ld64/src/ld/ld ../../bin/ld64.ld64
+    mv ld64/src/ld/ld ../../toolchain/bin/ld64.ld64
     make -C libmacho -j"$ncpus"
     make -C libstuff -j"$ncpus"
     make -C misc strip lipo
-    cp misc/strip ../../bin/cctools-strip
-    cp misc/lipo ../../bin/lipo
+    cp misc/strip ../../toolchain/bin/cctools-strip
+    cp misc/lipo ../../toolchain/bin/lipo
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
@@ -123,11 +138,11 @@ if [ -n "$outdated_toolchain" ]; then
 
         cd "ldid-$ldid_commit"
         make CXX=remcpe-clang++
-        mv ldid ../bin
+        mv ldid ../toolchain/bin
         cd ..
         rm -rf "ldid-$ldid_commit"
     fi
-    printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
+    printf '%s' "$toolchainver" > toolchain/toolchainver
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
@@ -146,7 +161,8 @@ else
 fi
 
 # Delete old build files if build settings change or if the SDK changes.
-printf '%s\n%s\n' "$DEBUG" "$CLANG" > buildsettings
+printf '%s\n' "$DEBUG" > buildsettings
+clang -v >> buildsettings 2>&1
 if [ -n "$outdated_sdk" ] || ! cmp -s buildsettings lastbuildsettings; then
     rm -rf build-*
 fi
