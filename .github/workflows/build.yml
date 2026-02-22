@@ -112,7 +112,6 @@ jobs:
                 xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
                 -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
                 -sdk macosx \
-                -arch arm64 \
                 -configuration "Release [${{ matrix.backend_name }}] (Default)" \
                 -destination generic/platform=macOS \
                 GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
@@ -198,7 +197,7 @@ jobs:
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
-                ./gradlew assembleDebug -Pandroid.injected.ndk.abiFilters=arm64-v8a
+                ./gradlew assembleDebug -Pandroid.injected.build.abi=arm64-v8a
             env:
                 USE_CCACHE: 1
                 CCACHE_COMPILERCHECK: "%compiler% -v"
