@@ -27,6 +27,14 @@ void Button::_renderBg(Minecraft* mc, const MenuPointer& pointer)
 	blit(m_xPos + m_width / 2, m_yPos, 200 - m_width / 2, iYPos, m_width / 2, m_height, 0, 20, &m_materials.ui_textured_and_glcolor);
 }
 
+void Button::_renderBgPocket(Minecraft* mc, const MenuPointer& pointer)
+{
+	int iXPos = isSelected() ? 66 : 0;
+	currentShaderColor = isEnabled() ? Color::WHITE : Color::GREY;
+	mc->m_pTextures->loadAndBindTexture("gui/touchgui.png");
+	blit(m_xPos, m_yPos, iXPos, 0, m_width, m_height, 66, 26, &m_materials.ui_textured_and_glcolor);
+}
+
 void Button::_renderBgConsole(Minecraft* mc, const MenuPointer& pointer)
 {
 	Textures& texs = *mc->m_pTextures;
@@ -113,10 +121,18 @@ int Button::getYImage(bool bHovered)
 
 void Button::renderBg(Minecraft* pMinecraft, const MenuPointer& pointer)
 {
-	if (m_uiTheme == UI_CONSOLE)
+	switch (m_uiTheme)
+	{
+	case UI_POCKET:
+		_renderBgPocket(pMinecraft, pointer);
+		break;
+	case UI_CONSOLE:
 		_renderBgConsole(pMinecraft, pointer);
-	else
+		break;
+	default:
 		_renderBg(pMinecraft, pointer);
+		break;
+	}
 }
 
 void Button::render(Minecraft* pMinecraft, const MenuPointer& pointer)

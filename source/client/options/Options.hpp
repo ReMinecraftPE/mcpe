@@ -78,7 +78,9 @@ enum UITheme
 {
 	UI_POCKET,
 	UI_JAVA,
-	UI_CONSOLE
+	UI_CONSOLE,
+
+	UI_UNIVERSAL
 };
 
 enum LogoType

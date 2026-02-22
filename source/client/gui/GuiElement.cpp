@@ -3,7 +3,7 @@
 GuiElement::GuiElement()
 {
 	m_ID = -1;
-	m_uiTheme = UI_POCKET;
+	m_uiTheme = UI_JAVA;
 	m_width = 0;
 	m_height = 0;
 	m_xPos = 0;

@@ -20,6 +20,7 @@ private:
 
 protected:
 	void _renderBg(Minecraft*, const MenuPointer& pointer);
+	void _renderBgPocket(Minecraft*, const MenuPointer& pointer);
 	void _renderBgConsole(Minecraft*, const MenuPointer& pointer);
 	void _renderMessage(Font&);
 	void _renderMessageConsole(Font&);
