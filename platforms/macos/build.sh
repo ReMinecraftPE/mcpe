@@ -108,7 +108,7 @@ if [ "$(cat toolchain/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
 fi
 
 # invalidate toolchain cache if settings change
-"$LLVM_CONFIG" --version > toolchainsettings
+"$LLVM_CONFIG" --version > toolchainsettings || true
 if ! cmp -s toolchainsettings toolchain/lasttoolchainsettings; then
     rm -rf toolchain
     outdated_toolchain=1
