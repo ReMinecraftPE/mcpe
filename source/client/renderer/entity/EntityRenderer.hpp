@@ -45,6 +45,9 @@ private:
 
 public:
 	EntityRenderer();
+	virtual ~EntityRenderer();
+
+public:
 	bool bindTexture(const std::string& file, bool isRequired = true);
 	Font* getFont();
 	void init(EntityRenderDispatcher* d);
