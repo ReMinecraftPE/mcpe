@@ -41,8 +41,6 @@ if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "
     wait
     tar -xjf MacOSX10.7.tar.bz2 2>/dev/null
     mv MacOSX10.7.sdk "$x86_64_sdk"
-    rm -f ._MacOSX10.7.sdk
-    find "$x86_64_sdk" -type f -name "._*" -delete
     ) &
     (
     # for old stuff
