@@ -483,23 +483,6 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 					player->swing();
 
 					m_lastInteractTime = getTimeMs();
-
-					if (isOnline())
-					{
-						if (item.isEmpty() || !item.getTile())
-							return;
-
-						TilePos tp(m_hitResult.m_tilePos);
-
-						Facing::Name hitSide = m_hitResult.m_hitSide;
-
-						if (m_pLevel->getTile(m_hitResult.m_tilePos) == Tile::topSnow->m_ID)
-						{
-							hitSide = Facing::DOWN;
-						}
-
-						m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), (TileID)item.getId(), hitSide, item.getAuxValue()));
-					}
 				}
 			}
 			break;

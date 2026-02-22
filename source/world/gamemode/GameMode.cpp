@@ -144,8 +144,14 @@ void GameMode::handleCloseInventory(int a, Player* player)
 bool GameMode::useItem(Player* player, Level* level, ItemStack& item)
 {
 	int oldCount = item.m_count;
+	ItemStack* result = item.use(level, player);
 
-	if (&item == item.use(level, player))
+	if (level->m_bIsClientSide)
+	{
+		_level.m_pRakNetInstance->send(new UseItemPacket(TilePos::ZERO, 255, player->m_EntityID, item));
+	}
+
+	if (&item == result)
 		return item.m_count != oldCount;
 
 	return true;
@@ -153,6 +159,12 @@ bool GameMode::useItem(Player* player, Level* level, ItemStack& item)
 
 bool GameMode::useItemOn(Player* player, Level* level, ItemStack& item, const TilePos& pos, Facing::Name face)
 {
+	// Sending this packet regardless is intentional. PE does this, Java does this.
+	if (level->m_bIsClientSide)
+	{
+		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, item));
+	}
+
 	TileID tile = level->getTile(pos);
 	if (tile == Tile::invisible_bedrock->m_ID)
 		return false;
@@ -166,11 +178,6 @@ bool GameMode::useItemOn(Player* player, Level* level, ItemStack& item, const Ti
 	else if (!item.isEmpty())
 	{
 		success = item.useOn(player, level, pos, face);
-	}
-
-	if (success)
-	{
-		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, item));
 	}
 
 	return success;

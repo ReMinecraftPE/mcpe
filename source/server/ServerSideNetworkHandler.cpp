@@ -306,18 +306,19 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 	if (!m_pLevel)
 		return;
 
+	TilePos pos = packet->m_pos;
+
+	printf_ignorable("PlaceBlockPacket @ %d, %d, %d", pos.x, pos.y, pos.z);
+
 	Mob* pMob = (Mob*)m_pLevel->getEntity(packet->m_entityId);
 	if (!pMob || !pMob->isPlayer())
 		return;
 
 	pMob->swing();
 
-	TileID tileId = packet->m_tileTypeId;
+	TileID tileId = Tile::TransformToValidBlockId(packet->m_tileTypeId);
 	Facing::Name face = (Facing::Name)packet->m_face;
-	TilePos pos = packet->m_pos;
 	TileData data = packet->m_data;
-
-	printf_ignorable("PlaceBlockPacket: %d", tileId);
 
 	if (!m_pLevel->mayPlace(tileId, pos, true))
 		return;
@@ -434,8 +435,9 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, InteractPa
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPacket* packet)
 {
-	//puts_ignorable("UseItemPacket");
 	if (!m_pLevel) return;
+
+	//puts_ignorable("UseItemPacket");
 
 	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
 	if (!pEntity) return;
@@ -444,24 +446,37 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPac
 	if (!pEntity->isPlayer())
 		return;
 
-	Tile* pTile = Tile::tiles[m_pLevel->getTile(packet->m_tilePos)];
-	if (pTile)
-	{
-		if (pTile == Tile::invisible_bedrock)
-			return;
+	bool onTile = packet->m_tileFace != 255;
 
-		// Interface with tile instead of using item
-		if (pTile->use(m_pLevel, packet->m_tilePos, pPlayer))
+	if (onTile)
+	{
+		Tile* pTile = Tile::tiles[m_pLevel->getTile(packet->m_tilePos)];
+		if (pTile)
 		{
-			pPlayer->swing();
-			return;
+			if (pTile == Tile::invisible_bedrock)
+				return;
+
+			// Interface with tile instead of using item
+			if (pTile->use(m_pLevel, packet->m_tilePos, pPlayer))
+			{
+				pPlayer->swing();
+				return;
+			}
 		}
 	}
 
 	if (packet->m_item.isEmpty())
 		return;
 
-	packet->m_item.useOn(pPlayer, m_pLevel, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
+	if (onTile)
+	{
+		packet->m_item.useOn(pPlayer, m_pLevel, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
+	}
+	else
+	{
+		packet->m_item.use(m_pLevel, pPlayer);
+	}
+
 	pPlayer->swing();
 }
 
