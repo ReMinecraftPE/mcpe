@@ -172,7 +172,7 @@ bool createFolderIfNotExists(const char* pDir)
 	}
 	delete[] path;
 	if (XPL_ACCESS(pDir, 0))
-		if (XPL_MKDIR(path, 0755) != 0)
+		if (XPL_MKDIR(pDir, 0755) != 0)
 			return false;
 	return true;
 }
