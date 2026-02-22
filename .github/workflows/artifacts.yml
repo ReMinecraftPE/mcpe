@@ -144,11 +144,18 @@ jobs:
               key: macos-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: macos-artifact-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
             run: brew install llvm@21 ccache
           - name: Build
-            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+            run: |
+              [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
+              LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+              tar cf workspacecache.tar platforms/macos/build/work/toolchain
+              mv workspacecache.tar ~
             env:
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
@@ -156,7 +163,7 @@ jobs:
               name: macOS
               path: platforms/macos/build/ReMCPE
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache ${{ github.workspace }}/platforms/macos/build/work/toolchain
+            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache workspacecache.tar
 
     ios:
         strategy:
@@ -177,7 +184,10 @@ jobs:
               key: ios-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: ios-artifact-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
             run: |
                 wget https://apt.llvm.org/llvm.sh
@@ -191,7 +201,11 @@ jobs:
                     libplist-dev \
                     libssl-dev
           - name: Build
-            run: ./platforms/ios/build.sh
+            run: |
+              [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
+              ./platforms/ios/build.sh
+              tar cf workspacecache.tar platforms/ios/build/work/toolchain
+              mv workspacecache.tar ~
             env:
               CLANG: clang-21
               AR: llvm-ar-21
@@ -203,7 +217,7 @@ jobs:
               name: iOS
               path: platforms/ios/build/ReMCPE.ipa
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache ${{ github.workspace }}/platforms/ios/build/work/toolchain
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache workspacecache.tar
 
     android:
         strategy:

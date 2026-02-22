@@ -120,6 +120,8 @@ jobs:
                 clean archive
 
     ios:
+        strategy:
+            fail-fast: false
         name: iOS
         runs-on: ubuntu-24.04
         steps:
@@ -136,7 +138,10 @@ jobs:
               key: ios-${{ steps.get-time.outputs.time }}
               restore-keys: ios-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
             run: |
                 wget https://apt.llvm.org/llvm.sh
@@ -150,7 +155,11 @@ jobs:
                     libplist-dev \
                     libssl-dev
           - name: Build
-            run: ./platforms/ios/build.sh
+            run: |
+              [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
+              ./platforms/ios/build.sh
+              tar cf workspacecache.tar platforms/ios/build/work/toolchain
+              mv workspacecache.tar ~
             env:
               CLANG: clang-21
               AR: llvm-ar-21
@@ -159,7 +168,7 @@ jobs:
               REMCPE_NO_IPA: 1
               WERROR: ON
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache ${{ github.workspace }}/platforms/ios/build/work/toolchain
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache workspacecache.tar
 
     android:
         strategy:
