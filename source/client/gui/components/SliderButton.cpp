@@ -64,9 +64,10 @@ void SliderButton::renderBg(Minecraft* mc, const MenuPointer& pointer)
 
 	currentShaderColor = m_color;
 
+	Textures& texs = *mc->m_pTextures;
+
 	if (m_uiTheme == UI_CONSOLE)
 	{
-		Textures& texs = *mc->m_pTextures;
 		blitSprite(texs, "gui/console/Graphics/Slider_Track.png", m_xPos, m_yPos, m_width - 2, m_height, nullptr, 0.0f, 0.0f, m_width - 2);
 		blitSprite(texs, "gui/console/Graphics/Slider_Track.png", m_xPos + m_width - 2, m_yPos, 2, m_height, nullptr, 0.0f, 0.0f, 2.0f);
 		if (isSelected())
@@ -75,6 +76,7 @@ void SliderButton::renderBg(Minecraft* mc, const MenuPointer& pointer)
 	}
 	else
 	{
+		texs.loadAndBindTexture("gui/gui.png");
 		blit(m_xPos + int(m_value * float(m_width - 8)), m_yPos, 0, 66, 4, m_height, 0, 20);
 		blit(m_xPos + int(m_value * float(m_width - 8)) + 4, m_yPos, 196, 66, 4, m_height, 0, 20);
 	}

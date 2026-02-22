@@ -13,7 +13,6 @@ InventoryScreen::InventoryScreen(Player* player) : ContainerScreen(player->m_pIn
 
 void InventoryScreen::init()
 {
-    m_uiTheme = m_pMinecraft->getOptions()->getUiTheme() ;
     if (m_uiTheme == UI_CONSOLE)
     {
         m_imageWidth = 432;

@@ -47,7 +47,7 @@ Screen::Screen()
 	m_bRenderPointer = false;
 	m_lastTimeMoved = 0;
 	m_cursorTick = 0;
-	m_uiTheme = UI_POCKET;
+	m_uiTheme = UI_UNIVERSAL;
 }
 
 Screen::~Screen()
@@ -137,6 +137,12 @@ void Screen::init(Minecraft* pMinecraft, int width, int height)
 {
 	m_pMinecraft = pMinecraft;
 	m_pFont = pMinecraft->m_pFont;
+
+	// Apply UI theme to current Screen based on user preference
+	UITheme userTheme = m_pMinecraft->getOptions()->getUiTheme();
+	// We don't bother applying the console theme automatically because this completely fucks scaling
+	if (m_uiTheme == UI_UNIVERSAL && userTheme != UI_CONSOLE)
+		m_uiTheme = m_pMinecraft->getOptions()->getUiTheme();
 
 	setSize(width, height);
 	initMenuPointer();
