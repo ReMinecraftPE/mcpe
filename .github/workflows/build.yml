@@ -115,6 +115,7 @@ jobs:
                 -configuration "Release [${{ matrix.backend_name }}] (Default)" \
                 -destination generic/platform=macOS \
                 GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
+                ARCHS=arm64 \
                 -quiet \
                 clean archive
 
