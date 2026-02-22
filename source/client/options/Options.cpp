@@ -80,7 +80,7 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_flightHax("misc_flycheat", "options.flightHax", false)
 	, m_playerName("mp_username", "options.username", "Steve")
 	, m_serverVisibleDefault("mp_server_visible_default", "options.serverVisibleDefault", true)
-	, m_autoJump("ctrl_autojump", "options.autoJump", false)
+	, m_autoJump("ctrl_autojump", "options.autoJump", mc->platform()->isTouchscreen())
 	, m_debugText("info_debugtext", "options.debugText", false)
 	, m_blockOutlines("gfx_blockoutlines", "options.blockOutlines", false)
 	, m_fancyGrass("gfx_fancygrass", "options.fancyGrass", true)

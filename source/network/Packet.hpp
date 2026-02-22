@@ -13,12 +13,13 @@
 #include "BitStream.h"
 #include "MessageIdentifiers.h"
 
-#define NETWORK_PROTOCOL_VERSION_MIN 6 // the packet IDs changed completely between 2, 3, 4, 5, and 6
+#define NETWORK_PROTOCOL_VERSION_MIN 6 // the packet IDs changed completely between 2 thru 6
 //#define NETWORK_PROTOCOL_VERSION 2   // 0.1.0 (actual client crashes with unrecognized tiles)
 //#define NETWORK_PROTOCOL_VERSION 3   // 0.2.0 (actual client crashes with unrecognized entities)
 //#define NETWORK_PROTOCOL_VERSION 4   // 0.3.0
 //#define NETWORK_PROTOCOL_VERSION 5   // 0.3.2
 #define NETWORK_PROTOCOL_VERSION 6	   // 0.3.3
+//#define NETWORK_PROTOCOL_VERSION 7   // 0.4.0
 //#define NETWORK_PROTOCOL_VERSION 29  // 0.12.1
 
 class NetEventCallback;
@@ -263,6 +264,7 @@ enum MinecraftPacketIds
 	PACKET_CONTAINER_SET_DATA,
 	PACKET_CONTAINER_SET_CONTENT,
 	PACKET_CONTAINER_ACK, // Unused in PE
+	PACKET_CHAT,
 
 	PACKET_LEVEL_DATA = 200
 

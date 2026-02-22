@@ -1,25 +1,31 @@
 apply plugin: 'com.android.application'
 
+def useCcache = System.getenv("USE_CCACHE") == "1"
+
 android {
-    compileSdk 34
+    compileSdk 36
     defaultConfig {
         applicationId 'io.github.reminecraftpe'
         minSdkVersion 21
         //noinspection EditedTargetSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 1
         versionName '1.0'
         externalNativeBuild {
             cmake {
-                arguments '-DANDROID_PLATFORM=android-21', '-DANDROID_STL=c++_static'
+                arguments '-DANDROID_PLATFORM=android-21', '-DANDROID_STL=c++_static', '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
                 abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+                if (useCcache) {
+                    arguments += '-DCMAKE_C_COMPILER_LAUNCHER=ccache'
+                    arguments += '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
+                }
             }
         }
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     applicationVariants.configureEach { variant ->
@@ -30,15 +36,37 @@ android {
     sourceSets.main {
         java.srcDir '../../../../../thirdparty/SDL2/src/android-project/app/src/main/java'
         assets.srcDir '../../../../../game'
+        // Automatically get our icons
+        def iconDir = file('../../../../../game/assets/app/icons/mipmap')
+        def resDir = file('src/main/res')
+        def densityMap = [
+                'icon_48x48.png': 'mipmap-mdpi',
+                'icon_72x72.png': 'mipmap-hdpi',
+                'icon_96x96.png': 'mipmap-xhdpi',
+                'icon_144x144.png': 'mipmap-xxhdpi',
+                'icon_192x192.png': 'mipmap-xxxhdpi'
+        ]
+
+        densityMap.each { fileName, folderName ->
+            def sourceFile = new File(iconDir, fileName)
+            def targetDir = new File(resDir, folderName)
+            if (sourceFile.exists()) {
+                targetDir.mkdirs()
+                // Copies and renames it to just "icon.png" so AndroidManifest.xml is happy
+                new File(targetDir, 'icon.png').bytes = sourceFile.bytes
+            } else {
+                println "Warning: Could not find ${fileName} in ${iconDir}"
+            }
+        }
     }
     externalNativeBuild {
         cmake {
             path '../../../../../CMakeLists.txt'
-            version '3.22.1'
+            version = '3.22.1'
         }
     }
     lint {
-        abortOnError false
+        abortOnError = false
     }
-    namespace 'io.github.reminecraftpe'
+    namespace = 'io.github.reminecraftpe'
 }

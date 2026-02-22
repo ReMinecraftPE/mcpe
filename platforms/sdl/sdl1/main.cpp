@@ -92,10 +92,23 @@ static std::string getStoragePath()
 #ifdef _WIN32
     pathBase = getenv("APPDATA");
 #else
-    pathBase = getenv("HOME");
+    const char *xdg_data = getenv("XDG_DATA_HOME");
+    if (xdg_data)
+        pathBase = xdg_data;
+    else
+    {
+        xdg_data = getenv("HOME");
+        if (!xdg_data)
+        {
+            LOG_E("HOME not set");
+            pathBase = ""; // current working directory
+        }
+        else
+            pathBase = ((std::string)xdg_data + "/.local/share").c_str();
+    }
 #endif
 
-    if (pathBase == nullptr || pathBase[0] == '\0')
+    if (!pathBase)
         pathBase = ""; // just use the current working directory
 
     std::string path(pathBase);

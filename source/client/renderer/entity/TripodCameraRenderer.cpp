@@ -86,8 +86,46 @@ void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float r
 	float time = getFlashTime(camera, a);
 	if (time >= 0.0f)
 	{
+		// pulse effect
 		currentShaderColor = Color::WHITE;
-		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, sinf(float(M_PI) * 2.0f * time));
+		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, sinf(float(M_PI) * 1.0f * time));
+		
+		// restore camera flash texture
+		MatrixStack::Ref flashMatrix = MatrixStack::World.push();
+		
+		const float radToDeg = 1.0f / MTH_DEG_TO_RAD;
+		
+		float yaw = m_modelPart.m_rot.y;
+		float pitch = m_modelPart.m_rot.x;
+		float forwardX = -sinf(yaw) * cosf(pitch);
+		float forwardY = sinf(pitch);
+		float forwardZ = -cosf(yaw) * cosf(pitch);
+		
+		flashMatrix->translate(Vec3(forwardX * 0.4f, forwardY * 0.4f + 0.7f, forwardZ * 0.4f));
+		flashMatrix->rotate(yaw * radToDeg, Vec3::UNIT_Y);
+		flashMatrix->rotate(pitch * radToDeg, Vec3::UNIT_X);
+		flashMatrix->rotate(90.0f, Vec3::UNIT_X);
+		
+		t.begin(8);
+		t.normal(Vec3::UNIT_Y);
+		
+		static constexpr float U_RATIO = 1.0f / 64.0f;
+		static constexpr float V_RATIO = 1.0f / 32.0f;
+
+		// calculate U and V coordinates
+		float texU_l = 48.0f * U_RATIO;
+		float texU_r = (48.0f + 15.99f) * U_RATIO;
+		float texV_u = 0.0f * V_RATIO;
+		float texV_d = (0.0f + 15.99f) * V_RATIO;
+		float x1 = -0.5f, x2 = 0.5f;
+		float z1 = -0.5f, z2 = 0.5f;
+		float y  = 0.0f;
+		
+		t.vertexUV(x1, y, z2, texU_l, texV_u);
+		t.vertexUV(x1, y, z1, texU_r, texV_u);
+		t.vertexUV(x2, y, z1, texU_r, texV_d);
+		t.vertexUV(x2, y, z2, texU_l, texV_d);
+		t.draw(m_shaderMaterials.entity_alphatest);
 	}
 
 	if (&entity == pHREntity)

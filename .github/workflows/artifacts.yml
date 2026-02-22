@@ -50,6 +50,7 @@ jobs:
                 cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     ${{ matrix.flags }}
                 cmake --build .
@@ -109,6 +110,7 @@ jobs:
     #             cmake .. -GNinja \
     #                 -DCMAKE_BUILD_TYPE=Release \
     #                 -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    #                 -DCMAKE_C_COMPILER_LAUNCHER=ccache \
     #                 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     #                 -DCMAKE_C_FLAGS='-m32' \
     #                 -DCMAKE_CXX_FLAGS='-m32' \
@@ -215,6 +217,16 @@ jobs:
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: android-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: android-artifact-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -225,15 +237,20 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 cache: gradle
+          - name: Install Dependencies
+            run: sudo apt-get install --no-install-recommends -y ccache
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleRelease
+            env:
+                USE_CCACHE: 1
+                CCACHE_COMPILERCHECK: "%compiler% -v"
           - uses: upup-company/apksigner-android@v1
             id: sign_apk
             env:
               ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-              BUILD_TOOLS_VERSION: 33.0.1
+              BUILD_TOOLS_VERSION: 36.1.0
             if: ${{ env.ANDROID_KEYSTORE }}
             with:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
@@ -254,6 +271,8 @@ jobs:
             with:
               name: Android (${{ matrix.name }})
               path: ReMCPE.apk
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     mingw:
         strategy:
@@ -300,6 +319,7 @@ jobs:
                 cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     ${{ matrix.flags }}
                 cmake --build .
@@ -341,6 +361,7 @@ jobs:
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
                 mv platforms/sdl/sdl2/reminecraftpe.nro .
