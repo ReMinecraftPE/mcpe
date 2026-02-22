@@ -142,7 +142,7 @@ if [ -n "$outdated_toolchain" ]; then
     cd ..
     rm -rf "apple-libtapi-$tapi_commit"
     if [ "$(uname -s)" = "Darwin" ]; then
-        strip toolchain/lib/libtapi.dylib
+        strip -x toolchain/lib/libtapi.dylib
     else
         strip "$(realpath toolchain/lib/libtapi.so)"
     fi
