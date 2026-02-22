@@ -156,7 +156,7 @@ jobs:
               name: macOS
               path: platforms/macos/build/ReMCPE
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache
+            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache ${{ github.workspace }}/platforms/macos/build/work/toolchain
 
     ios:
         strategy:
@@ -203,7 +203,7 @@ jobs:
               name: iOS
               path: platforms/ios/build/ReMCPE.ipa
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache ${{ github.workspace }}/platforms/ios/build/work/toolchain
 
     android:
         strategy:

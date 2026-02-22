@@ -159,7 +159,7 @@ jobs:
               REMCPE_NO_IPA: 1
               WERROR: ON
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache ${{ github.workspace }}/platforms/ios/build/work/toolchain
 
     android:
         strategy:
