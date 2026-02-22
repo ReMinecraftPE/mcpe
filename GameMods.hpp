@@ -17,12 +17,15 @@
 
 // Tests
 //#define TEST_SURVIVAL_MODE      	 // Test survival mode.
-//#define TEST_CAVES      	         // Generates caves around the world.
 
 // Features (major changes)
-//#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass, and dead bushes around the world.
 //#define FEATURE_GFX_SHADERS 	           // Loads and uses Shaders from the assets folder for rendering.
 #define FEATURE_NETWORKING                 // Enables multi-player through RakNet
+
+// TODO: Add to the LevelSettings struct
+//#define FEATURE_CAVES 	               // Generates caves around the world.
+//#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass and dead bushes around the world.
+//#define FEATURE_FANCY_TREES              // Generates larger and more unique trees around the world.
 
 // Enhancements (minor changes)
 //#define ENH_ENTITY_SHADING      	       // Allows shading of entities -- Currently we are abandoning this. Want to add normal support

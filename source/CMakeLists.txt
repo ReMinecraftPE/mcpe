@@ -323,6 +323,7 @@ add_library(reminecraftpe-core STATIC
     world/level/path/BinaryHeap.cpp
     world/level/levelgen/feature/BirchFeature.cpp
     world/level/levelgen/feature/LargeFeature.cpp
+    world/level/levelgen/feature/FancyTreeFeature.cpp
     world/level/levelgen/feature/Feature.cpp
     world/level/levelgen/feature/LargeCaveFeature.cpp
     world/level/levelgen/feature/SpringFeature.cpp
