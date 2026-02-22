@@ -3,30 +3,38 @@
 #include <vector>
 #include <set>
 #include "world/item/ItemStack.hpp"
-#include "world/Container.hpp"
 #include "client/player/input/MouseDevice.hpp"
+#include "Container.hpp"
+#include "ContainerContentChangeListener.hpp"
 
 class Player;
 class Inventory;
 class Slot;
 class ContainerListener;
 
-class ContainerMenu
+class ContainerMenu : public ContainerContentChangeListener
 {
+protected:
+    typedef std::set<ContainerListener*> ContainerListeners;
+
 public:
     ContainerMenu(Container::Type containerType);
     virtual ~ContainerMenu();
+
+protected:
+    void _clearSlots();
 
 public:
     void addSlot(Slot* slot);
     virtual void addSlotListener(ContainerListener* listener);
     void sendData(int id, int value);
+    virtual void broadcastChanges(SlotID slot);
     virtual void broadcastChanges();
     virtual void removed(Player* player);
     virtual void slotsChanged(Container* container);
 
     // Called getItems in PE and Java
-    std::vector<ItemStack> copyItems();
+    std::vector<ItemStack> cloneItems();
     Slot* getSlotFor(Container* container, int index);
     Slot* getSlot(int index);
     virtual ItemStack clicked(int slotIndex, MouseButtonType mouseButton, bool quickMove, Player* player);
@@ -50,14 +58,18 @@ public:
     //Unused
     virtual bool isPauseScreen() const { return false; }
 
+public:
+    void containerContentChanged(Container* container, SlotID slot) override;
+
 protected:
     std::vector<ItemStack> m_lastSlots;
     uint16_t m_changeUid;
-    std::vector<ContainerListener*> m_listeners;
-    std::set<Player*> unsynchedPlayers;
+    ContainerListeners m_listeners;
+    std::set<Player*> m_unsynchedPlayers;
 
 public:
     int m_containerId;
     Container::Type m_containerType;
     std::vector<Slot*> m_slots;
+    bool m_bBroadcastChanges;
 };

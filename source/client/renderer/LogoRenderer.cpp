@@ -414,8 +414,10 @@ Tile* TitleTile::getRandomTile(Tile* except1, Tile* except2)
 	for (;;)
 	{
 		id = _random.nextInt(256);
-		for (int i = 0; i < _tileBlockListSize; i++) {
-			if (_tileBlockList[i] == id) {
+		for (int i = 0; i < _tileBlockListSize; i++)
+		{
+			if (_tileBlockList[i] == id)
+			{
 				// N.B. Air does not have a tile
 				id = TILE_AIR;
 				break;

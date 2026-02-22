@@ -12,10 +12,10 @@
 void TerrainParticle::_init(Tile* tile)
 {
 	m_pTile = tile;
-	field_DC = tile->m_TextureFrame;
+	m_tex = tile->m_TextureFrame;
 	field_F4 = tile->field_28;
 	m_rCol = m_gCol = m_bCol = 0.6f;
-	field_F0 *= 0.5f;
+	m_size *= 0.5f;
 }
 
 TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, Tile* tile) :
@@ -36,7 +36,7 @@ TerrainParticle* TerrainParticle::init(const TilePos& tilePos, Facing::Name face
 	face = Facing::DOWN;
 #endif
 
-	field_DC = m_pTile->getTexture(m_pLevel, tilePos, face);
+	m_tex = m_pTile->getTexture(m_pLevel, tilePos, face);
 
 	if (m_pTile == Tile::grass && face != Facing::UP)
 		return this;
@@ -58,7 +58,7 @@ void TerrainParticle::render(Tesselator& t, float f, float a4, float a5, float a
 {
 	constexpr float C_MAGIC_1 = 0.015609f; // @BUG: Slightly bigger than 1/64.0f
 
-	int texture = field_DC;
+	int texture = m_tex;
 	int texX = texture % 16;
 	if (texture < 0)
 		texture += 15;
@@ -71,11 +71,11 @@ void TerrainParticle::render(Tesselator& t, float f, float a4, float a5, float a
 	float posZ = Mth::Lerp(m_oPos.z, m_pos.z, f) - zOff;
 	float fBright = getBrightness(f);
 
-	float sizeX = a4 * field_F0 * 0.1f;
-	float sizeY = a5 * field_F0 * 0.1f;
-	float sizeZ = a6 * field_F0 * 0.1f;
-	float siz2X = a7 * field_F0 * 0.1f;
-	float siz2Z = a8 * field_F0 * 0.1f;
+	float sizeX = a4 * m_size * 0.1f;
+	float sizeY = a5 * m_size * 0.1f;
+	float sizeZ = a6 * m_size * 0.1f;
+	float siz2X = a7 * m_size * 0.1f;
+	float siz2Z = a8 * m_size * 0.1f;
 
 	t.color(m_rCol * fBright, m_gCol * fBright, m_bCol * fBright);
 	t.vertexUV(posX - sizeX - siz2X, posY - sizeY, posZ - sizeZ - siz2Z, texU_1 + C_MAGIC_1, texV_1 + C_MAGIC_1);

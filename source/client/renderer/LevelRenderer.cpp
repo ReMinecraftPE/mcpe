@@ -617,7 +617,7 @@ void LevelRenderer::allChanged()
 	m_zMinChunk = 0;
 
 	m_dirtyChunks.clear();
-	//m_renderableTileEntities.clear();
+	m_renderableTileEntities.clear();
 
 	m_xMaxChunk = m_xChunks;
 	m_yMaxChunk = m_yChunks;
@@ -638,7 +638,7 @@ void LevelRenderer::allChanged()
 			{
 				int index = (cp.z * m_yChunks + cp.y) * m_xChunks + cp.x;
 
-				Chunk* pChunk = new Chunk(m_pLevel, cp * 16, 16, id + m_chunkLists);
+				Chunk* pChunk = new Chunk(m_pLevel, m_renderableTileEntities, cp * 16, 16, id + m_chunkLists);
 
 				if (m_bOcclusionCheck)
 					pChunk->m_occlusionId = 0; // m_occlusionCheckIds.get(count)
@@ -1137,7 +1137,7 @@ void LevelRenderer::tick()
 typedef std::vector<Chunk*> ChunkVector;
 typedef ChunkVector::iterator ChunkVectorIterator;
 
-bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
+bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool force)
 {
 	constexpr int C_MAX = 3;
 	DirtyChunkSorter dcs(camera);
@@ -1148,7 +1148,7 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	for (size_t i = 0; i < pendingChunkSize; i++)
 	{
 		Chunk* pChunk = m_dirtyChunks[i];
-		if (!b)
+		if (!force)
 		{
 			if (pChunk->distanceToSqr(camera) > 1024.0f)
 			{
@@ -1163,7 +1163,8 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 				if (--j <= 0)
 					continue;
 				
-				for (int k = j; --k != 0;) {
+				for (int k = j; --k != 0;)
+				{
 					pChunks[k - 1] = pChunks[k];
 				}
 
@@ -1421,6 +1422,11 @@ void LevelRenderer::addParticle(const std::string& name, const Vec3& pos, const 
 		pe->add(new SmokeParticle(m_pLevel, pos, dir, 1.0f));
 		return;
 	}
+	if (name == "note")
+	{
+		pe->add(new NoteParticle(m_pLevel, pos, dir));
+		return;
+	}
 	if (name == "explode")
 	{
 		pe->add(new ExplodeParticle(m_pLevel, pos, dir));
@@ -1578,12 +1584,12 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 
 	EntityRenderDispatcher::off = camera->m_posPrev + (camera->m_pos - camera->m_posPrev) * f;
 
-	const EntityVector* pVec = m_pLevel->getAllEntities();
+	const EntityMap* pVec = m_pLevel->getAllEntities();
 	m_totalEntities = int(pVec->size());
 
-	for (int i = 0; i < m_totalEntities; i++)
-	{
-		const Entity* entity = (*pVec)[i];
+	for (EntityMap::const_iterator it = pVec->begin(); it != pVec->end(); ++it)
+    {
+		const Entity* entity = it->second;
 		if (!entity->shouldRender(pos))
 			continue;
 
@@ -1599,6 +1605,16 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 			EntityRenderDispatcher::getInstance()->render(*entity, f);
 		}
 	}
+
+	/*
+	// @TODO: TileEntityRenderDispatcher
+	for (TileEntityVector::const_iterator it = m_renderableTileEntities.begin();
+		it != m_renderableTileEntities.end(); ++it)
+	{
+		TileEntity* tileEntity = *it;
+		TileEntityRenderDispatcher::getInstance()->render(tileEntity, f);
+	}
+	*/
 }
 
 void LevelRenderer::renderShadow(const Entity& entity, const Vec3& pos, float r, float pow, float a)

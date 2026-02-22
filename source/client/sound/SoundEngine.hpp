@@ -43,6 +43,7 @@ public:
 
 public:
     SoundSystem* m_pSoundSystem;
+
 private:
     SoundRepository m_sounds;
     SoundPathRepository m_songs;

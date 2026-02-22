@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ContainerMenu.hpp"
-#include "world/Container.hpp"
+#include "Container.hpp"
 #include "world/entity/Player.hpp"
 
 class ChestMenu : public ContainerMenu

@@ -141,6 +141,20 @@ void AppPlatform_android::setScreenSize(int width, int height)
 	m_ScreenHeight = height;
 }
 
+void AppPlatform_android::setVSyncEnabled(bool enabled)
+{
+	EGLDisplay display = eglGetCurrentDisplay();
+	if (display == EGL_NO_DISPLAY)
+		return;
+
+	eglSwapInterval(display, enabled ? 1 : 0);
+}
+
+bool AppPlatform_android::isVsyncSwitchable() const
+{
+	return eglGetCurrentDisplay() != EGL_NO_DISPLAY;
+}
+
 void AppPlatform_android::initAndroidApp(android_app* ptr)
 {
 	m_app = ptr;

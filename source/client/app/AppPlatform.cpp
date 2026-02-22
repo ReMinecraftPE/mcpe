@@ -320,6 +320,15 @@ std::string AppPlatform::getExternalStoragePath(const std::string& path) const
 	return m_externalStorageDir + C_HOME_PATH + path;
 }
 
+void AppPlatform::setVSyncEnabled(bool enabled)
+{
+}
+
+bool AppPlatform::isVsyncSwitchable() const
+{
+    return false;
+}
+
 bool AppPlatform::hasAssetFile(const std::string& path) const
 {
 	return isRegularFile(path.c_str());

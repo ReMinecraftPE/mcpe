@@ -677,6 +677,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.hpp">
       <Filter>Header Files\GUI\Screens\Inventory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\FurnaceScreen.hpp">
+      <Filter>Header Files\GUI\Screens\Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -1202,6 +1205,9 @@
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\FurnaceScreen.cpp">
       <Filter>Source Files\GUI\Screens\Inventory</Filter>
     </ClCompile>
   </ItemGroup>

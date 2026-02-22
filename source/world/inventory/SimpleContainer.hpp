@@ -1,36 +1,36 @@
 #pragma once
 
-#include "world/Container.hpp"
-#include "nbt/CompoundTag.hpp"
 #include <vector>
+
+#include "Container.hpp"
+#include "nbt/CompoundTag.hpp"
 
 class SimpleContainer : public Container
 {
 public:
 	SimpleContainer(int size, const std::string& name);
 
-	virtual uint16_t getContainerSize() const override;
+public:
+	uint16_t getContainerSize() const override;
+	ItemStack& getItem(int index) override;
+	ItemStack removeItem(int index, int count) override;
+	void setItem(int index, const ItemStack& item) override;
+	std::string getName() const override;
+	void setContainerChanged(SlotID slot) override;
+	bool stillValid(Player* player) const override;
+	void addContentChangeListener(ContainerContentChangeListener* listener) override;
+	void addSizeChangeListener(ContainerSizeChangeListener* listener) override;
+	void removeContentChangeListener(ContainerContentChangeListener* listener) override;
+	void removeSizeChangeListener(ContainerSizeChangeListener* listener) override;
 
-	virtual ItemStack& getItem(int index) override;
-
-	virtual ItemStack removeItem(int index, int count) override;
-
-	virtual void setItem(int index, const ItemStack& item) override;
-
-	virtual std::string getName() const override;
-
-	virtual void setChanged() override;
-
-	virtual bool stillValid(Player* player) const override;
-
+public:
 	virtual void clear();
+	virtual void load(const CompoundTag& tag);
+	virtual void save(CompoundTag& tag) const;
 
-	virtual void load(CompoundTag& tag);
-	virtual void save(CompoundTag& tag);
-
-private:
+protected:
+	ContentChangeListeners m_contentChangeListeners;
+	SizeChangeListeners m_sizeChangeListeners;
 	std::vector<ItemStack> m_items;
 	std::string m_name;
 };
-
-

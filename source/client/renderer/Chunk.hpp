@@ -15,11 +15,12 @@
 
 class Level;
 class Entity;
+class TileEntity;
 
 class Chunk
 {
 public:
-	Chunk(Level*, const TilePos& pos, int, int);
+	Chunk(Level*, std::vector<TileEntity*>& tileEntities, const TilePos& pos, int, int);
 
 public:
 	float distanceToSqr(const Entity& entity) const;
@@ -42,6 +43,8 @@ public:
 
 public:
 	Level* m_pLevel;
+	std::vector<TileEntity*>& m_globalTileEntities;
+	std::vector<TileEntity*> m_tileEntities;
 	TilePos m_pos;
 	TilePos m_posS;
 	bool m_empty[Tile::RENDER_LAYERS_COUNT];
@@ -56,8 +59,10 @@ public:
 	bool field_54;
 	RenderChunk m_renderChunks[Tile::RENDER_LAYERS_COUNT];
 	Tesselator* m_pTesselator;
+
 private:
 	int m_lists;
+
 public:
 	bool m_bCompiled;
 	bool m_bDirty;

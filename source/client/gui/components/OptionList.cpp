@@ -173,7 +173,8 @@ void OptionList::initControlsMenu()
 
 	if (!m_pMinecraft->isTouchscreen())
 		m_items[idxSplit]->setEnabled(false);
-	m_items[idxController]->setEnabled(false);
+	if (!m_pMinecraft->m_pPlatform->hasGamepad())
+		m_items[idxController]->setEnabled(false);
 }
 
 void OptionList::initVideoMenu()

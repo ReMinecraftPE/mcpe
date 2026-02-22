@@ -55,6 +55,8 @@ public:
 	void setExternalStoragePath(const std::string& path);
 
 	AssetFile readAssetFile(const std::string&, bool) const override;
+	void setVSyncEnabled(bool enabled) override;
+	bool isVsyncSwitchable() const override;
 
 private:
 	void changeKeyboardVisibility(bool bShown);

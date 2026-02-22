@@ -19,6 +19,7 @@
 #include "world/entity/PrimedTnt.hpp"
 #include "world/level/Explosion.hpp"
 #include "world/inventory/SimpleContainer.hpp"
+#include "world/tile/entity/FurnaceTileEntity.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT
@@ -729,7 +730,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerO
 		pLocalPlayer->openContainer(new SimpleContainer(packet->m_size, packet->m_title.C_String()));
 		break;
 	case Container::FURNACE:
-		//pLocalPlayer->openFurnace(new FurnaceTileEntity());
+		pLocalPlayer->openFurnace(new FurnaceTileEntity);
 		break;
 	case Container::DISPENSER:
 		//pLocalPlayer->openTrap(new DispenserTileEntity());
@@ -776,7 +777,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 	if (pContainerMenu->m_containerId != packet->m_containerId)
 		return;
 	
+	pContainerMenu->m_bBroadcastChanges = false;
 	pContainerMenu->setItem(packet->m_slot, packet->m_item);
+	pContainerMenu->m_bBroadcastChanges = true;
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetDataPacket* packet)
@@ -797,7 +800,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 	if (pContainerMenu->m_containerId != packet->m_containerId)
 		return;
 
+	pContainerMenu->m_bBroadcastChanges = false;
 	pContainerMenu->setData(packet->m_slot, packet->m_value);
+	pContainerMenu->m_bBroadcastChanges = true;
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetContentPacket* packet)
@@ -818,7 +823,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 	if (pContainerMenu->m_containerId != packet->m_containerId)
 		return;
 
+	pContainerMenu->m_bBroadcastChanges = false;
 	pContainerMenu->setAll(packet->m_items);
+	pContainerMenu->m_bBroadcastChanges = true;
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)

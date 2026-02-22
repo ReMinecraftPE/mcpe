@@ -73,7 +73,7 @@ void CraftingContainer::setItem(int index, const ItemStack& item)
     }
 }
 
-void CraftingContainer::setChanged()
+void CraftingContainer::setContainerChanged(SlotID slot)
 {
 }
 

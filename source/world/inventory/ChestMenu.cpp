@@ -7,16 +7,18 @@ ChestMenu::ChestMenu(Container* inventory, Container* container)
 {
     int rows = m_pContainer->getContainerSize() / 9;
 
+    // Chest slots
     for (int row = 0; row < rows; ++row)
     {
         for (int col = 0; col < 9; ++col)
-            addSlot(new Slot(m_pContainer, col + row * 9));
+            addSlot(new Slot(m_pContainer, col + row * 9, Slot::CONTAINER));
     }
 
+    // Inventory slots
     for (int row = 0; row < 3; ++row)
     {
         for (int col = 0; col < 9; ++col)
-            addSlot(new Slot(inventory, col + row * 9 + 9));
+            addSlot(new Slot(inventory, col + row * 9 + 9, Slot::INVENTORY));
     }
 
     for (int col = 0; col < 9; ++col)

@@ -35,7 +35,8 @@ void Random::setSeed(int32_t seed)
 void Random::init_genrand(uint32_t s)
 {
 	mt[0] = s & 0xffffffffUL;
-	for (mti = 1; mti < N; mti++) {
+	for (mti = 1; mti < N; mti++)
+	{
 		mt[mti] =
 			(1812433253UL * (mt[mti - 1] ^ (mt[mti - 1] >> 30)) + mti);
 		/* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
@@ -65,11 +66,13 @@ uint32_t Random::genrand_int32()
 		if (mti == N+1)   /* if init_genrand() has not been called, */
 			init_genrand(5489UL); /* a default initial seed is used */
 
-		for (kk=0;kk<N-M;kk++) {
+		for (kk=0;kk<N-M;kk++)
+		{
 			y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
 			mt[kk] = mt[kk+M] ^ (y >> 1) ^ mag01[y & 0x1UL];
 		}
-		for (;kk<N-1;kk++) {
+		for (;kk<N-1;kk++)
+		{
 			y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
 			mt[kk] = mt[kk+(M-N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
 		}

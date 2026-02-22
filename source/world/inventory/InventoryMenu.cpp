@@ -42,6 +42,9 @@ InventoryMenu::InventoryMenu(Inventory* inventory, bool active)
 
 InventoryMenu::~InventoryMenu()
 {
+    _clearSlots();
+
+    // clearSlots must be called before these are deleted
     delete m_pCraftSlots;
     delete m_pResultSlots;
 }

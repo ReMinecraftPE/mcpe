@@ -36,6 +36,9 @@ CraftingMenu::CraftingMenu(Inventory* inventory, const TilePos& tilePos, Level* 
 
 CraftingMenu::~CraftingMenu()
 {
+    _clearSlots();
+
+    // clearSlots must be called before these are deleted
     delete m_pCraftSlots;
     delete m_pResultSlots;
 }

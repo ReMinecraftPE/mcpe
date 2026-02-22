@@ -204,7 +204,7 @@ void TileRenderer::renderEast(Tile* tile, const Vec3& pos, int texture)
 		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	if (m_ambientOcclusion)
 	{
@@ -281,7 +281,7 @@ void TileRenderer::renderWest(Tile* tile, const Vec3& pos, int texture)
 		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	if (m_ambientOcclusion)
 	{
@@ -358,7 +358,7 @@ void TileRenderer::renderSouth(Tile* tile, const Vec3& pos, int texture)
 		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	if (m_ambientOcclusion)
 	{
@@ -435,7 +435,7 @@ void TileRenderer::renderNorth(Tile* tile, const Vec3& pos, int texture)
 		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	if (m_ambientOcclusion)
 	{
@@ -506,7 +506,7 @@ void TileRenderer::renderFaceDown(Tile* tile, const Vec3& pos, int texture)
 		texV_2 = C_RATIO * (texY + 15.99f);
 	}
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	if (m_ambientOcclusion)
 	{
@@ -577,7 +577,7 @@ void TileRenderer::renderFaceUp(Tile* tile, const Vec3& pos, int texture)
 		texV_2 = C_RATIO * (texY + 15.99f);
 	}
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	if (m_ambientOcclusion)
 	{
@@ -641,7 +641,7 @@ void TileRenderer::tesselateCrossTexture(const FullTile& tile, const Vec3& pos, 
 	float x1 = cenX - 0.45f, x2 = cenX + 0.45f;
 	float z1 = cenZ - 0.45f, z2 = cenZ + 0.45f;
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 	// face 1
 	t.vertexUV(x1, newY + 1, z1, texU_l, texV_u);
 	t.vertexUV(x1, newY + 0, z1, texU_l, texV_d);
@@ -693,7 +693,7 @@ void TileRenderer::tesselateRowTexture(Tile* tile, int data, const Vec3& pos)
 	float x0 = pos.x + 0.25f, x1 = pos.x + 0.75f;
 	float z0 = pos.z, z1 = pos.z + 1.0f;
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 	t.vertexUV(x0, pos.y + 1.0, z0, u0, v0);
 	t.vertexUV(x0, pos.y + 0.0, z0, u0, v1);
 	t.vertexUV(x0, pos.y + 0.0, z1, u1, v1);
@@ -739,7 +739,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 	if (tile == Tile::grass)
 		r = g = b = 1.0f;
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	float fLightHere = tile->getBrightness(m_pTileSource, pos);
 	bool bDrewAnything = false;
@@ -871,7 +871,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos)
 
 bool TileRenderer::tesselateCrossInWorld(Tile* tile, const TilePos& pos)
 {
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	float bright = tile->getBrightness(m_pTileSource, pos);
 	int color = getTileColor(tile, pos);
@@ -888,7 +888,7 @@ bool TileRenderer::tesselateCrossInWorld(Tile* tile, const TilePos& pos)
 
 bool TileRenderer::tesselateRowInWorld(Tile* tile, const TilePos& pos)
 {
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	Color color = getTileColor(tile, pos);
 	color.a = 1.0f;
@@ -906,7 +906,7 @@ bool TileRenderer::tesselateWaterInWorld(Tile* tile1, const TilePos& pos)
 	LiquidTile* tile = (LiquidTile*)tile1;
 	bool bRenderFaceDown, bRenderFaceUp, bRenderSides[4];
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	bRenderFaceDown = tile->shouldRenderFace(m_pTileSource, pos.above(), Facing::UP);
 	bRenderFaceUp   = tile->shouldRenderFace(m_pTileSource, pos.below(), Facing::DOWN);
@@ -1168,7 +1168,8 @@ bool TileRenderer::tesselateFenceInWorld(Tile* tile, const TilePos& pos)
 	bool connectsHorizontally = tileWest || tileEast;
 	bool connectsVertically = tileNorth || tileSouth;
 
-	if (!connectsHorizontally && !connectsVertically) {
+	if (!connectsHorizontally && !connectsVertically)
+	{
 		connectsHorizontally = true;
 	}
 
@@ -1216,7 +1217,7 @@ bool TileRenderer::tesselateFenceInWorld(Tile* tile, const TilePos& pos)
 
 bool TileRenderer::tesselateDoorInWorld(Tile* tile, const TilePos& pos)
 {
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 	float fBrightHere = tile->getBrightness(m_pTileSource, pos), fBright;
 	int texture;
 
@@ -1297,7 +1298,7 @@ void TileRenderer::tesselateTorch(Tile* tile, const Vec3& pos, float a, float b)
 	float x2 = x1 + (float)(a * C_TOP_SKEW_RATIO);
 	float z2 = z1 + (float)(b * C_TOP_SKEW_RATIO);
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 	
 	// Top side (flame)
 	float x_1 = x2 - C_ONE_PIXEL; 
@@ -1370,7 +1371,7 @@ bool TileRenderer::tesselateTorchInWorld(Tile* tile, const TilePos& pos)
 	if (Tile::lightEmission[tile->m_ID] > 0)
 		bright = 1.0f;
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 	t.color(bright, bright, bright);
 
 	switch (data)
@@ -1399,7 +1400,7 @@ bool TileRenderer::tesselateLadderInWorld(Tile* tile, const TilePos& pos)
 {
 	constexpr float C_RATIO = 1.0f / 256.0f;
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	int texture = tile->getTexture(Facing::DOWN);
 
@@ -1452,7 +1453,7 @@ bool TileRenderer::tesselateFireInWorld(Tile* tile, const TilePos& pos)
 {
 	constexpr float C_RATIO = 1.0f / 256.0f;
 
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 
 	int texture = tile->getTexture(Facing::DOWN);
 	float bright = tile->getBrightness(m_pTileSource, pos);
@@ -2690,7 +2691,7 @@ LABEL_102:
 
 void TileRenderer::renderTile(const FullTile& tile, const mce::MaterialPtr& material, float bright, bool preshade)
 {
-	Tesselator& t = Tesselator::instance;
+	Tesselator& t = m_tessellator;
 	Tile* tileType = tile.getType();
 
 #ifndef ENH_SHADE_HELD_TILES
@@ -2793,7 +2794,8 @@ void TileRenderer::renderTile(const FullTile& tile, const mce::MaterialPtr& mate
 			float v6 = v5 * 2.0f;
 			for (int i = 0; i < 4; i++)
 			{
-				switch (i) {
+				switch (i)
+				{
 				case 0: tileType->setShape(0.5f - v6, 0.0f, 0.0f, 0.5f + v6, 1.0f, v6 * 2.0f); break;
 				case 1: tileType->setShape(0.5f - v6, 0.0f, 1.0f - (v6 * 2.0f), 0.5f + v6, 1.0f, 1.0f); break;
 				case 2: tileType->setShape(0.5f - v5, 1.0f - v5 * 3.0f, -v5 * 2.0f, 0.5f + v5, 1.0f - v5, 1.0f + v5 * 2.0f); break;
@@ -2924,7 +2926,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 	if (tile == Tile::grass)
 		r = g = b = 1.0f;
 
-	//Tesselator& t = Tesselator::instance;
+	//Tesselator& t = m_tessellator;
 
 	//float fLightHere = tile->getBrightness(m_pTileSource, pos);
 

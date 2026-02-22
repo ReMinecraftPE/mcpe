@@ -57,7 +57,8 @@ SpiderModel::~SpiderModel()
 {
 }
 
-void SpiderModel::render(float time, float r, float bob, float yRot, float xRot, float scale) {
+void SpiderModel::render(float time, float r, float bob, float yRot, float xRot, float scale)
+{
     setupAnim(time, r, bob, yRot, xRot, scale);
     m_head.render(scale);
 
@@ -74,7 +75,8 @@ void SpiderModel::render(float time, float r, float bob, float yRot, float xRot,
     m_leg7.render(scale);
 }
 
-void SpiderModel::setupAnim(float time, float r, float bob, float yRot, float xRot, float scale) {
+void SpiderModel::setupAnim(float time, float r, float bob, float yRot, float xRot, float scale)
+{
     m_head.m_rot.y = yRot / 57.295776f;
     m_head.m_rot.x = xRot / 57.295776f;
 

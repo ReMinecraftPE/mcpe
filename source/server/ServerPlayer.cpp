@@ -1,4 +1,5 @@
 #include "ServerPlayer.hpp"
+#include "common/Logger.hpp"
 #include "network/packets/SetHealthPacket.hpp"
 #include "network/packets/TakeItemEntityPacket.hpp"
 #include "network/packets/SendInventoryPacket.hpp"
@@ -9,8 +10,11 @@
 #include "network/packets/ContainerSetContentPacket.hpp"
 #include "network/RakNetInstance.hpp"
 #include "world/inventory/CraftingMenu.hpp"
+#include "world/inventory/FurnaceMenu.hpp"
 #include "world/inventory/ChestMenu.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/entity/FurnaceTileEntity.hpp"
+#include "world/inventory/Slot.hpp"
 
 ServerPlayer::ServerPlayer(Level* pLevel, GameType playerGameType)
 	: Player(pLevel, playerGameType)
@@ -19,6 +23,11 @@ ServerPlayer::ServerPlayer(Level* pLevel, GameType playerGameType)
 	m_containerId = 0;
 
 	m_pInventoryMenu->addSlotListener(this);
+}
+
+ServerPlayer::~ServerPlayer()
+{
+	doCloseContainer();
 }
 
 void ServerPlayer::_nextContainerCounter()
@@ -53,12 +62,14 @@ void ServerPlayer::startCrafting(const TilePos& pos)
 
 void ServerPlayer::openContainer(Container* container)
 {
+	LOG_I("Client is opening a container");
+
 	_nextContainerCounter();
 
 #if NETWORK_PROTOCOL_VERSION >= 5
 	m_pLevel->m_pRakNetInstance->send(
 		new ContainerOpenPacket(
-			m_pContainerMenu->m_containerId, Container::CONTAINER,
+			m_containerId, Container::CONTAINER,
 			container->getName(), container->getContainerSize()
 		)
 	);
@@ -69,11 +80,31 @@ void ServerPlayer::openContainer(Container* container)
 
 void ServerPlayer::closeContainer()
 {
+	LOG_I("Client is closing a container");
+
 #if NETWORK_PROTOCOL_VERSION >= 5
 	m_pLevel->m_pRakNetInstance->send(new ContainerClosePacket(m_pContainerMenu->m_containerId));
 #endif
 
 	doCloseContainer();
+}
+
+void ServerPlayer::openFurnace(FurnaceTileEntity* furnace)
+{
+	LOG_I("Client is opening a furnace");
+
+	_nextContainerCounter();
+
+#if NETWORK_PROTOCOL_VERSION >= 5
+	m_pLevel->m_pRakNetInstance->send(
+		new ContainerOpenPacket(
+			m_containerId, Container::FURNACE,
+			furnace->getName(), furnace->getContainerSize()
+		)
+	);
+#endif
+
+	setContainerMenu(new FurnaceMenu(m_pInventory, furnace));
 }
 
 void ServerPlayer::take(Entity* pEnt, int count)
@@ -92,13 +123,13 @@ void ServerPlayer::refreshContainer(ContainerMenu* menu, const std::vector<ItemS
 #endif
 }
 
-void ServerPlayer::slotChanged(ContainerMenu* menu, int index, ItemStack& item, bool isResultSlot)
+void ServerPlayer::slotChanged(ContainerMenu* menu, int index, Slot* slot, ItemStack& item, bool isResultSlot)
 {
 #if NETWORK_PROTOCOL_VERSION >= 5
-	if (!isResultSlot)
-	{
+	// @TODO: See my gripes in ContainerMenu::slotChanged
+	// But ultimately this is a bandaid for the fact that the client has authority over the inventory in PE
+	if (!isResultSlot && slot->m_group != Slot::INVENTORY && slot->m_group != Slot::HOTBAR)
 		m_pLevel->m_pRakNetInstance->send(new ContainerSetSlotPacket(menu->m_containerId, index, item));
-	}
 #endif
 }
 
@@ -113,6 +144,9 @@ void ServerPlayer::doCloseContainer()
 {
 	if (m_pContainerMenu)
 		m_pContainerMenu->removed(this);
+	else
+		LOG_W("Container is missing @ doCloseContainer!");
+
 	setContainerMenu(nullptr); // m_pInventoryMenu on Java, nullptr on Pocket
 }
 
@@ -128,5 +162,7 @@ void ServerPlayer::setContainerMenu(ContainerMenu* menu)
 	{
 		m_pContainerMenu->m_containerId = m_containerId;
 		m_pContainerMenu->addSlotListener(this);
+		refreshContainer(m_pContainerMenu, m_pContainerMenu->cloneItems());
+		m_pContainerMenu->broadcastChanges();
 	}
 }

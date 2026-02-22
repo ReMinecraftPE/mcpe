@@ -258,6 +258,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\ScreenChooser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\SplashManager.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\FurnaceScreen.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -434,6 +435,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\ScreenChooser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\SplashManager.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\FurnaceScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

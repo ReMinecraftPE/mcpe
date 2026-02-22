@@ -218,9 +218,9 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ReadyPacke
 
 #if NETWORK_PROTOCOL_VERSION >= 3
 	// send the connecting player info about all entities in the world
-	for (size_t i = 0; i < m_pLevel->m_entities.size(); i++)
+	for (EntityMap::iterator it = m_pLevel->m_entities.begin(); it != m_pLevel->m_entities.end(); ++it)
 	{
-		Entity* entity = m_pLevel->m_entities[i];
+		Entity* entity = it->second;
 		if (canReplicateEntity(entity))
 		{
 			AddMobPacket packet(*((Mob*)entity));
@@ -655,6 +655,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 		switch (pContainerMenu->m_containerType)
 		{
 		case Container::FURNACE:
+		case Container::CONTAINER:
 			pContainerMenu->setItem(packet->m_slot, packet->m_item);
 			break;
 		default:

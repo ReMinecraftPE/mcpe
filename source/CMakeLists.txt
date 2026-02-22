@@ -124,8 +124,9 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/inventory/ContainerScreen.cpp
     client/gui/screens/inventory/InventoryScreen.cpp
     client/gui/screens/inventory/CraftingScreen.cpp
-    client/gui/screens/inventory/ClassicCraftingScreen_Console.cpp
+    client/gui/screens/inventory/FurnaceScreen.cpp
     client/gui/screens/inventory/ChestScreen.cpp
+    client/gui/screens/inventory/ClassicCraftingScreen_Console.cpp
     client/gui/components/ScrolledSelectionList.cpp
     client/gui/components/AvailableGamesList.cpp
     client/gui/components/RolledSelectionList.cpp
@@ -353,24 +354,29 @@ add_library(reminecraftpe-core STATIC
     world/item/TilePlanterItem.cpp
     world/item/CameraItem.cpp
     world/item/TileItem.cpp
+    world/item/CoalItem.cpp
     world/item/Inventory.cpp
     world/item/crafting/Recipes.cpp
     world/item/crafting/FurnaceRecipes.cpp
     world/item/crafting/SingleInputRecipe.cpp
     world/item/crafting/ShapedRecipe.cpp
     world/item/crafting/ShapelessRecipe.cpp
-    world/ContainerListener.cpp
+    world/inventory/ContainerListener.cpp
+    world/inventory/CompoundContainer.cpp
+    world/inventory/ContainerContentChangeListener.cpp
+    world/inventory/ContainerSizeChangeListener.cpp
     world/inventory/ContainerMenu.cpp
     world/inventory/InventoryMenu.cpp
     world/inventory/CraftingMenu.cpp
+    world/inventory/FurnaceMenu.cpp
     world/inventory/ChestMenu.cpp
     world/inventory/Slot.cpp
     world/inventory/ResultSlot.cpp
     world/inventory/ArmorSlot.cpp
+    world/inventory/FurnaceResultSlot.cpp
     world/inventory/CraftingContainer.cpp
     world/inventory/ResultContainer.cpp
     world/inventory/SimpleContainer.cpp
-    world/CompoundContainer.cpp
     world/item/DoorItem.cpp
     world/item/ItemStack.cpp
     world/item/RocketItem.cpp
@@ -389,6 +395,7 @@ add_library(reminecraftpe-core STATIC
     world/item/SlabItem.cpp
     world/particle/RedDustParticle.cpp
     world/particle/TerrainParticle.cpp
+    world/particle/NoteParticle.cpp
     world/particle/BubbleParticle.cpp
     world/particle/ExplodeParticle.cpp
     world/particle/ParticleEngine.cpp
@@ -424,6 +431,10 @@ add_library(reminecraftpe-core STATIC
     world/tile/OreTile.cpp
     world/tile/StairTile.cpp
     world/tile/SandStoneTile.cpp
+    world/tile/EntityTile.cpp
+    world/tile/ChestTile.cpp
+    world/tile/FurnaceTile.cpp
+    world/tile/MusicTile.cpp
     world/tile/FireTile.cpp
     world/tile/StoneSlabTile.cpp
     world/tile/LiquidTile.cpp
@@ -445,6 +456,12 @@ add_library(reminecraftpe-core STATIC
     world/tile/Web.cpp
     world/tile/FenceTile.cpp
     world/tile/CraftingTableTile.cpp
+    world/tile/entity/TileEntity.cpp
+    world/tile/entity/TileEntityType.cpp
+    world/tile/entity/ChestTileEntity.cpp
+    world/tile/entity/FurnaceTileEntity.cpp
+    world/tile/entity/MusicTileEntity.cpp
+    world/Facing.cpp
     renderer/GL/GL.cpp
     renderer/Attribute.cpp
     renderer/ConstantBufferMetaData.cpp

@@ -78,7 +78,10 @@ void FallingTile::tick()
 	if (!m_bOnGround)
 	{
 		if (field_E0 > 100 && !m_pLevel->m_bIsClientSide)
+		{
+			spawnAtLocation(getTile(), 1);
 			remove();
+		}
 
 		return;
 	}
@@ -93,7 +96,7 @@ void FallingTile::tick()
 	}
 	else
 	{
-		// @TODO: spawn resources?
+		spawnAtLocation(getTile(), 1);
 	}
 }
 

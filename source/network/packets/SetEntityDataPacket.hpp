@@ -17,9 +17,11 @@ public:
 	void write(RakNet::BitStream&) override;
 	void read(RakNet::BitStream&) override;
 	const SynchedEntityData::ItemsArray& getUnpackedData() const { return m_packedItems; }
+
 public:
 	int32_t m_entityId;
 	bool m_bIsIncoming;
+
 private:
 	SynchedEntityData::ItemsArray m_packedItems;
 };

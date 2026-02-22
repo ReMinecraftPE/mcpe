@@ -484,6 +484,22 @@ bool AppPlatform_win32::initGraphics(int width, int height)
 	return true;
 }
 
+void AppPlatform_win32::setVSyncEnabled(bool enabled)
+{
+#if MCE_GFX_API_OGL
+	xglSwapIntervalEXT(enabled ? 1 : 0);
+#endif
+}
+
+bool AppPlatform_win32::isVsyncSwitchable() const
+{
+#if MCE_GFX_API_OGL
+	return true;
+#else
+	return false;
+#endif
+}
+
 void AppPlatform_win32::createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale)
 {
 #if MCE_GFX_API_D3D9

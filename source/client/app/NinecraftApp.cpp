@@ -10,6 +10,7 @@
 #include "world/item/Item.hpp"
 #include "world/entity/MobCategory.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/tile/entity/TileEntityType.hpp"
 #include "client/player/input/GameControllerHandler.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
@@ -104,7 +105,7 @@ void NinecraftApp::_initInput()
 	m_bIsTouchscreen = platform()->isTouchscreen();
 	getOptions()->m_bUseController.set(platform()->hasGamepad());
 	getOptions()->loadControls();
-	_reloadInput();
+	reloadInput();
 }
 
 void NinecraftApp::_updateStats()
@@ -179,10 +180,10 @@ void NinecraftApp::_initAll()
 		EntityTypeDescriptor::initDescriptors(); // custom
 		MobCategory::initMobCategories();
 		MobFactory::initMobLists();
+		TileEntityFactory::initTileEntities();
 		Tile::initTiles();
 		Item::initItems();
 		Biome::initBiomes();
-		//TileEntity::initTileEntities();
 	}
 
 	_initOptions();
@@ -340,6 +341,7 @@ void NinecraftApp::onGraphicsReset()
 
 void NinecraftApp::teardown()
 {
+	TileEntityFactory::teardownTileEntities();
 	teardownRenderer();
 	Resource::teardownLoaders();
 	// Stop our SoundSystem before we nuke our sound buffers and cause it to implode

@@ -18,6 +18,7 @@
 #include "network/packets/ExplodePacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "world/entity/MobSpawner.hpp"
+#include "world/tile/entity/TileEntity.hpp"
 
 #include "Explosion.hpp"
 #include "Region.hpp"
@@ -38,6 +39,8 @@ Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& 
 	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
+	m_tileEntityList = TileEntityVector();
+	m_bUpdatingTileEntities = false;
 	m_randValue = 42184323;
 	m_addend = 1013904223;
 	m_bUpdateLights = true;
@@ -77,10 +80,9 @@ Level::~Level()
 	SAFE_DELETE(m_pPathFinder);
 	SAFE_DELETE(m_pMobSpawner);
 
-	const size_t size = m_entities.size();
-	for (size_t i = 0; i < size; i++)
+	for (EntityMap::iterator it = m_entities.begin(); it != m_entities.end(); it++)
 	{
-		Entity* pEnt = m_entities.at(i);
+		Entity* pEnt = it->second;
 		
 		//you better HOPE this is freed by Minecraft! (or a NetworkHandler)
 		//Really should have used shared pointers and stuff.
@@ -258,6 +260,61 @@ int Level::getRawBrightness(const TilePos& pos, bool b) const
 	return pChunk->getRawBrightness(pos, m_skyDarken);
 }
 
+TileEntity* Level::getTileEntity(const TilePos& pos) const
+{
+	LevelChunk* pChunk = getChunk(pos);
+	return pChunk ? pChunk->getTileEntity(pos) : nullptr;
+}
+
+const TileEntityVector* Level::getAllTileEntities() const
+{
+	return &m_tileEntityList;
+}
+
+void Level::setTileEntity(const TilePos& pos, TileEntity* tileEntity)
+{
+
+	if (tileEntity->isRemoved())
+		return;
+
+	if (m_bUpdatingTileEntities)
+	{
+		tileEntity->m_pos = pos;
+		m_pendingTileEntities.push_back(tileEntity);
+		return;
+	}
+
+	m_tileEntityList.push_back(tileEntity);
+	LevelChunk* pChunk = getChunk(pos);
+	if (pChunk)
+		pChunk->setTileEntity(pos, tileEntity);
+}
+
+void Level::removeTileEntity(const TilePos& pos)
+{
+	TileEntity* tileEntity = getTileEntity(pos);
+
+	if (tileEntity == nullptr)
+	{
+		LOG_W("Tried to remove a tile entity at %d, %d, %d, but there was no tile entity there!", pos.x, pos.y, pos.z);
+		return;
+	}
+
+	// During a tile entity update, just mark it for potential removal
+	if (m_bUpdatingTileEntities)
+	{
+		tileEntity->setRemoved();
+		return;
+	}
+
+	Util::remove(m_tileEntityList, tileEntity);
+
+	if (LevelChunk* pChunk = getChunk(pos))
+	{
+		pChunk->removeTileEntity(pos);
+	}
+}
+
 void Level::swap(const TilePos& pos1, const TilePos& pos2)
 {
 	TileID tile1 = getTile(pos1);
@@ -300,21 +357,17 @@ Material* Level::getMaterial(const TilePos& pos) const
 
 Entity* Level::getEntity(Entity::ID id) const
 {
-	// @TODO: wtf? no map??
-
 	// prioritize players first.
 	for (std::vector<Player*>::const_iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
 		Player* pEnt = *it;
-		if (pEnt->m_EntityID == id)
+		if (pEnt->hashCode() == id)
 			return pEnt;
 	}
-	for (std::vector<Entity*>::const_iterator it = m_entities.begin(); it != m_entities.end(); it++)
-	{
-		Entity* pEnt = *it;
-		if (pEnt->m_EntityID == id)
-			return pEnt;
-	}
+
+	EntityMap::const_iterator it = m_entities.find(id);
+	if (it != m_entities.end())
+		return it->second;
 
 	return nullptr;
 }
@@ -328,7 +381,7 @@ unsigned int Level::getEntityCount(const EntityCategories& category) const
 	return it->second;
 }
 
-const EntityVector* Level::getAllEntities() const
+const EntityMap* Level::getAllEntities() const
 {
 	return &m_entities;
 }
@@ -1190,11 +1243,29 @@ _failure:
 
 void Level::removeAllPendingEntityRemovals()
 {
-	Util::removeAll(m_entities, m_pendingEntityRemovals);
+	for (EntityVector::iterator it = m_pendingEntityRemovals.begin(); it != m_pendingEntityRemovals.end(); it++)
+	{
+		Entity* ent = *it;
+		if (m_entities.find(ent->hashCode()) != m_entities.end())
+		{
+			m_entities.erase(ent->hashCode());
+		}
+
+	}
 
 	for (EntityVector::iterator it = m_pendingEntityRemovals.begin(); it != m_pendingEntityRemovals.end(); it++)
 	{
 		Entity* ent = *it;
+		if (Entity* riding = ent->getRiding())
+		{
+			if (riding->m_bRemoved || riding->getRider() != ent)
+			{
+				riding->setRider(nullptr);
+				ent->setRiding(nullptr);
+			}
+			else
+				continue;
+		}
 		ent->removed();
 
 		LevelChunk* chunk = getChunk(ent->m_chunkPos);
@@ -1215,6 +1286,14 @@ void Level::removeEntities(const EntityVector& vec)
 
 bool Level::removeEntity(Entity* pEnt)
 {
+	// kick off rider before disappearing
+	if (Entity* rider = pEnt->getRider())
+		rider->ride(nullptr);
+
+	// kick self off mount before disappearing
+	if (Entity* mount = pEnt->getRiding())
+		mount->ride(nullptr);
+
 	pEnt->remove();
 
 	if (pEnt->isPlayer())
@@ -1249,7 +1328,7 @@ bool Level::addEntity(Entity* pEnt)
 		m_players.push_back((Player*)pEnt);
 	}
 
-	m_entities.push_back(pEnt);
+	m_entities.insert(std::make_pair(pEnt->hashCode(), pEnt));
 
 	entityAdded(pEnt);
 
@@ -1315,9 +1394,9 @@ void Level::sendEntityData()
 		return;
 
 	// Inlined on 0.2.1, god bless PerfTimer
-	for (EntityVector::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+	for (EntityMap::iterator it = m_entities.begin(); it != m_entities.end(); it++)
 	{
-		Entity* ent = *it;
+		Entity* ent = it->second;
 		SynchedEntityData& data = ent->getEntityData();
 		if (data.isDirty())
 			m_pRakNetInstance->send(new SetEntityDataPacket(ent->m_EntityID, data));
@@ -1620,7 +1699,12 @@ void Level::tick(Entity* pEnt, bool shouldTick)
 		pEnt->m_oRot = pEnt->m_rot;
 
 		if (pEnt->m_bInAChunk)
-			pEnt->tick();
+		{
+			if (pEnt->getRiding())
+				pEnt->rideTick();
+			else
+				pEnt->tick();
+		}
 	}
 	else
 	{
@@ -1652,6 +1736,23 @@ void Level::tick(Entity* pEnt, bool shouldTick)
 		if (pEnt->m_chunkPosY != ChunkPos::ToChunkCoordinate(pEnt->m_pos.y))
 		{
 			getChunk(cp)->updateEntity(pEnt);
+		}
+	}
+	if (shouldTick && pEnt->m_bInAChunk)
+	{
+		Entity* rider = pEnt->getRider();
+		// someone is riding this entity
+		if (rider)
+		{
+			if (rider->m_bRemoved || rider->getRiding() != pEnt)
+			{
+				rider->setRiding(nullptr);
+				pEnt->setRider(nullptr);
+			}
+			else
+			{
+				tick(rider);
+			}
 		}
 	}
 }
@@ -1686,26 +1787,72 @@ void Level::tickEntities()
 	// inlined in the original
 	removeAllPendingEntityRemovals();
 
-	for (size_t i = 0; i < m_entities.size(); i++)
+	for (EntityMap::iterator it = m_entities.begin(); it != m_entities.end();)
 	{
-		Entity* pEnt = m_entities[i];
+		Entity* pEnt = it->second;
+
+		if (Entity* riding = pEnt->getRiding())
+		{
+			if (riding->m_bRemoved || riding->getRider() != pEnt)
+			{
+				riding->setRider(nullptr);
+				pEnt->setRiding(nullptr);
+			}
+			else
+			{
+				++it;
+				continue;
+			}
+		}
 
 		if (!pEnt->m_bRemoved)
 		{
 			tick(pEnt);
+			++it;
+			
+			continue;
 		}
-		else if (!pEnt->isPlayer() || pEnt->m_bForceRemove)
+		
+		if (!pEnt->isPlayer() || pEnt->m_bForceRemove)
 		{
 			if (pEnt->m_bInAChunk && hasChunk(pEnt->m_chunkPos))
 				getChunk(pEnt->m_chunkPos)->removeEntity(pEnt);
 
-			m_entities.erase(m_entities.begin() + i);
-			i--;
+			EntityMap::iterator itErase = it;
+			it++;
+			m_entities.erase(itErase);
 
 			entityRemoved(pEnt);
 			delete pEnt;
+
+			continue;
+		}
+		
+		++it;
+	}
+
+	m_bUpdatingTileEntities = true;
+	for (size_t i = 0; i < m_tileEntityList.size(); i++)
+	{
+		TileEntity* tileEnt = m_tileEntityList[i];
+
+		if (!tileEnt->isRemoved())
+		{
+			tileEnt->tick();
+		}
+		else
+		{
+			LevelChunk* ch = getChunk(tileEnt->m_pos);
+			if (ch)
+				ch->removeTileEntity(tileEnt->m_pos);
+
+			m_tileEntityList.erase(m_tileEntityList.begin() + i);
+			i--;
+
+			delete tileEnt;
 		}
 	}
+	m_bUpdatingTileEntities = false;
 }
 
 HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const
@@ -1941,11 +2088,24 @@ void Level::explode(Entity* entity, const Vec3& pos, float power, bool bIsFiery)
 
 void Level::addEntities(const EntityVector& entities)
 {
-	m_entities.insert(m_entities.end(), entities.begin(), entities.end());
-
-	for (EntityVector::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+	for (EntityVector::const_iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		Entity* pEnt = *it;
+		EntityMap::iterator result = m_entities.find(pEnt->hashCode());
+		
+		if (result != m_entities.end())
+		{
+			if (result->second == pEnt)
+			{
+				LOG_W("Entity %d already exists. Skipping...", pEnt->hashCode());
+				continue;
+			}
+
+			removeEntity(result->second);
+			continue;
+		}
+
+		m_entities.insert(std::make_pair(pEnt->hashCode(), pEnt));
 		entityAdded(pEnt);
 	}
 }
@@ -1962,9 +2122,9 @@ void Level::ensureAdded(Entity* entity)
 		for (cp.z = chunkPos.z - 2; cp.z <= chunkPos.z + 2; cp.z++)
 			getChunk(cp);
 
-	EntityVector::iterator result = std::find(m_entities.begin(), m_entities.end(), entity);
+	EntityMap::iterator result = m_entities.find(entity->hashCode());
 	if (result == m_entities.end())
-		m_entities.push_back(entity);
+		m_entities.insert(std::make_pair(entity->hashCode(), entity));
 }
 
 bool Level::extinguishFire(Player* player, const TilePos& pos, Facing::Name face)

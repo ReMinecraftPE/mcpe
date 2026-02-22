@@ -40,7 +40,7 @@ void ResultContainer::setItem(int index, const ItemStack& item)
         m_item = item;
 }
 
-void ResultContainer::setChanged()
+void ResultContainer::setContainerChanged(SlotID slot)
 {
 }
 

@@ -82,6 +82,8 @@ public:
 	bool initGraphics(int width, int height);
 	void createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale);
 	void swapBuffers();
+	void setVSyncEnabled(bool enabled) override;
+	bool isVsyncSwitchable() const override;
 
 	static MouseButtonType GetMouseButtonType(UINT iMsg);
 	static bool GetMouseButtonState(UINT iMsg, WPARAM wParam);

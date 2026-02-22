@@ -17,21 +17,21 @@ SmokeParticle::SmokeParticle(Level* level, const Vec3& pos, const Vec3& dir, flo
 
 	m_bCol = m_gCol = m_rCol = Mth::random() * 0.5f;
 
-	field_104 = field_F0 = field_F0 * 0.75f * a9;
+	field_104 = m_size = m_size * 0.75f * a9;
 
 	m_bNoPhysics = false;
-	field_EC = int((a9 * 8.0f) / (0.2f + 0.8f * Mth::random()));
+	m_lifetime = int((a9 * 8.0f) / (0.2f + 0.8f * Mth::random()));
 }
 
 void SmokeParticle::render(Tesselator& t, float f, float a, float b, float c, float d, float e)
 {
-	float mult = 32.0f * (float(field_E8 + f) / float(field_EC));
+	float mult = 32.0f * (float(m_timer + f) / float(m_lifetime));
 	if (mult < 0.0f)
 		mult = 0.0f;
 	if (mult > 1.0f)
 		mult = 1.0f;
 
-	field_F0 = field_104 * mult;
+	m_size = field_104 * mult;
 	Particle::render(t, f, a, b, c, d, e);
 }
 
@@ -39,12 +39,12 @@ void SmokeParticle::tick()
 {
 	m_oPos = m_pos;
 	
-	field_E8++;
-	if (field_E8 > field_EC)
+	m_timer++;
+	if (m_timer > m_lifetime)
 		remove();
 
 	m_vel.y += 0.004f;
-	field_DC = -8 * field_E8 / field_EC + 7;
+	m_tex = -8 * m_timer / m_lifetime + 7;
 
 	move(m_vel);
 

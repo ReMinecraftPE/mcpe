@@ -14,6 +14,7 @@
 #define _USE_MATH_DEFINES
 #endif
 #include <math.h>
+#include <map>
 
 #include "client/renderer/LightUpdate.hpp"
 #include "world/tile/Tile.hpp"
@@ -38,6 +39,8 @@ class Packet;
 class MobSpawner;
 
 typedef std::vector<Entity*> EntityVector;
+typedef std::map<Entity::ID, Entity*> EntityMap;
+typedef std::vector<TileEntity*> TileEntityVector;
 typedef std::vector<AABB> AABBVector;
 
 struct Brightness
@@ -72,6 +75,10 @@ public:
 	LevelChunk* getChunkAt(const TilePos& pos) const;
 	int getRawBrightness(const TilePos& pos) const;
 	int getRawBrightness(const TilePos& pos, bool b) const;
+	TileEntity* getTileEntity(const TilePos& pos) const override;
+	const TileEntityVector* getAllTileEntities() const;
+	void setTileEntity(const TilePos& pos, TileEntity* tileEntity);
+	void removeTileEntity(const TilePos& pos);
 	int getBrightness(const LightLayer&, const TilePos& pos) const;
 	void setBrightness(const LightLayer&, const TilePos& pos, int brightness);
 	int getSeaLevel() const { return 63; }
@@ -178,7 +185,7 @@ public:
 	HitResult clip(Vec3 a, Vec3 b, bool c) const;
 	Entity* getEntity(Entity::ID id) const;
 	unsigned int getEntityCount(const EntityCategories&) const;
-	const EntityVector* getAllEntities() const;
+	const EntityMap* getAllEntities() const;
 	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
 	BiomeSource* getBiomeSource() const override;
 	LevelStorage* getLevelStorage() const { return m_pLevelStorage; }
@@ -203,6 +210,7 @@ public:
 
 private:
 	LevelData* m_pLevelData;
+	bool m_bUpdatingTileEntities;
 
 protected:
 	int m_randValue;
@@ -213,7 +221,7 @@ public:
 	bool m_bInstantTicking;
 	bool m_bIsClientSide; // if the level is controlled externally by a server.
 	bool m_bPostProcessing;
-	EntityVector m_entities;
+	EntityMap m_entities;
 	std::vector<Player*> m_players;
 	int m_skyDarken;
 	uint8_t field_30;
@@ -237,5 +245,7 @@ public:
 	MobSpawner* m_pMobSpawner;
 
 	std::map<EntityCategories::CategoriesMask, int> m_entityCountsByCategory;
+	TileEntityVector m_tileEntityList;
+	TileEntityVector m_pendingTileEntities;
 };
 

@@ -63,13 +63,17 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 Player::~Player()
 {
-	delete m_pInventory;
 	delete m_pInventoryMenu;
+	delete m_pInventory;
 }
 
 void Player::reallyDrop(ItemEntity* pEnt)
 {
 	m_pLevel->addEntity(pEnt);
+}
+
+void Player::_handleOpenedContainerMenu()
+{
 }
 
 void Player::reset()
@@ -320,7 +324,8 @@ void Player::readAdditionalSaveData(const CompoundTag& tag)
 	m_dimension = tag.getInt32("Dimension");
 	//m_sleepTimer = tag.getInt32("SleepTimer");
 
-	if (tag.contains("SpawnX") && tag.contains("SpawnY") && tag.contains("SpawnZ")) {
+	if (tag.contains("SpawnX") && tag.contains("SpawnY") && tag.contains("SpawnZ"))
+	{
 		setRespawnPos(TilePos(	static_cast<int>(tag.getInt32("SpawnX")),
 								static_cast<int>(tag.getInt32("SpawnY")),
 								static_cast<int>(tag.getInt32("SpawnZ"))));
@@ -385,7 +390,8 @@ void Player::attack(Entity* pEnt)
 	if (!item.isEmpty() && isMob)
 	{
 		item.hurtEnemy((Mob*)pEnt, this);
-		if (item.m_count <= 0) {
+		if (item.m_count <= 0)
+		{
 			item.snap(this);
 			removeSelectedItem();
 		}
@@ -492,7 +498,9 @@ void Player::respawn()
 
 void Player::rideTick()
 {
-
+	Mob::rideTick();
+	m_oBob = m_bob;
+	m_bob = 0.0f;
 }
 
 void Player::setDefaultHeadHeight()
@@ -559,12 +567,12 @@ void Player::drop(const ItemStack& item, bool randomly)
 
 void Player::startCrafting(const TilePos& pos)
 {
-
+	_handleOpenedContainerMenu();
 }
 
 void Player::startStonecutting(const TilePos& pos)
 {
-
+	_handleOpenedContainerMenu();
 }
 
 void Player::startDestroying()
@@ -575,6 +583,20 @@ void Player::startDestroying()
 void Player::stopDestroying()
 {
 	m_destroyingBlock = false;
+}
+
+void Player::openFurnace(FurnaceTileEntity* tileEntity)
+{
+	_handleOpenedContainerMenu();
+}
+
+void Player::openContainer(Container* container)
+{
+	_handleOpenedContainerMenu();
+}
+
+void Player::closeContainer()
+{
 }
 
 void Player::touch(Entity* pEnt)
@@ -592,9 +614,11 @@ void Player::interact(Entity* pEnt)
 		return;
 
 	ItemStack& item = getSelectedItem();
-	if (!item.isEmpty()) {
+	if (!item.isEmpty())
+	{
 		item.interactEnemy(static_cast<Mob*>(pEnt));
-		if (item.m_count <= 0) {
+		if (item.m_count <= 0)
+		{
 			item.snap(this);
 			removeSelectedItem();
 		} 

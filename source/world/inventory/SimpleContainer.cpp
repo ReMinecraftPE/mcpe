@@ -1,8 +1,10 @@
 #include "SimpleContainer.hpp"
+#include "ContainerContentChangeListener.hpp"
+#include "ContainerSizeChangeListener.hpp"
 
-SimpleContainer::SimpleContainer(int size, const std::string& name) :
-    m_items(size),
-    m_name(name)
+SimpleContainer::SimpleContainer(int size, const std::string& name)
+    : m_items(size)
+    , m_name(name)
 {
 }
 
@@ -25,7 +27,7 @@ ItemStack SimpleContainer::removeItem(int index, int count)
         {
             result = m_items[index];
             m_items[index] = ItemStack::EMPTY;
-            setChanged();
+            setContainerChanged(index);
             return result;
         }
         else
@@ -34,7 +36,7 @@ ItemStack SimpleContainer::removeItem(int index, int count)
             if (!m_items[index].m_count)
                 m_items[index] = ItemStack::EMPTY;
 
-            setChanged();
+            setContainerChanged(index);
             return result;
         }
     }
@@ -47,7 +49,7 @@ void SimpleContainer::setItem(int index, const ItemStack& item)
     if (!item.isEmpty() && item.m_count > getMaxStackSize())
         m_items[index].m_count = getMaxStackSize();
 
-    setChanged();
+    setContainerChanged(index);
 }
 
 std::string SimpleContainer::getName() const
@@ -55,8 +57,13 @@ std::string SimpleContainer::getName() const
     return m_name;
 }
 
-void SimpleContainer::setChanged()
+void SimpleContainer::setContainerChanged(SlotID slot)
 {
+    for (ContentChangeListeners::iterator it = m_contentChangeListeners.begin(); it != m_contentChangeListeners.end(); it++)
+    {
+        ContainerContentChangeListener* pListener = *it;
+        pListener->containerContentChanged(this, slot);
+    }
 }
 
 bool SimpleContainer::stillValid(Player* player) const
@@ -64,7 +71,32 @@ bool SimpleContainer::stillValid(Player* player) const
     return true;
 }
 
-void SimpleContainer::load(CompoundTag& tag)
+void SimpleContainer::addContentChangeListener(ContainerContentChangeListener* listener)
+{
+    m_contentChangeListeners.insert(listener);
+}
+
+void SimpleContainer::addSizeChangeListener(ContainerSizeChangeListener* listener)
+{
+    m_sizeChangeListeners.insert(listener);
+}
+
+void SimpleContainer::removeContentChangeListener(ContainerContentChangeListener* listener)
+{
+    m_contentChangeListeners.erase(listener);
+}
+
+void SimpleContainer::removeSizeChangeListener(ContainerSizeChangeListener* listener)
+{
+    m_sizeChangeListeners.erase(listener);
+}
+
+void SimpleContainer::clear()
+{
+    std::fill(m_items.begin(), m_items.end(), ItemStack::EMPTY);
+}
+
+void SimpleContainer::load(const CompoundTag& tag)
 {
     clear();
     const ListTag* list = tag.getList("Items");
@@ -78,14 +110,14 @@ void SimpleContainer::load(CompoundTag& tag)
         {
             uint8_t slot = itemTag->getInt8("Slot") & 255;
             ItemStack item = ItemStack::fromTag(*itemTag);
-            if (itemTag->isEmpty() && slot >= 0 && slot < m_items.size())
+            if (!itemTag->isEmpty() && slot >= 0 && slot < m_items.size())
                 m_items[slot] = item;
         }
     }
     
 }
 
-void SimpleContainer::save(CompoundTag& tag)
+void SimpleContainer::save(CompoundTag& tag) const
 {
     ListTag* list = new ListTag;
 
@@ -101,9 +133,4 @@ void SimpleContainer::save(CompoundTag& tag)
     }
 
     tag.put("Items", list);
-}
-
-void SimpleContainer::clear()
-{
-    std::fill(m_items.begin(), m_items.end(), ItemStack::EMPTY);
 }

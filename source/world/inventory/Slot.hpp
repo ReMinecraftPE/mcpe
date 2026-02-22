@@ -1,6 +1,6 @@
 #pragma once
 
-#include "world/Container.hpp"
+#include "Container.hpp"
 
 class ItemStack;
 
@@ -32,7 +32,7 @@ public:
 
     virtual void set(const ItemStack& item);
 
-    virtual void setChanged() { m_pContainer->setChanged(); }
+    virtual void setChanged() { m_pContainer->setContainerChanged(m_slot); }
 
     virtual int getMaxStackSize() const { return m_pContainer->getMaxStackSize(); }
 
@@ -42,7 +42,7 @@ public:
 
 public:
     Container* m_pContainer;
-    int m_slot;
-    int m_index;
+    int m_slot; // the position in the attached container
+    int m_index; // the position in the ContainerMenu::m_slots vector
     Group m_group;
 };

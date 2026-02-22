@@ -1,7 +1,7 @@
 #pragma once
 
 #include "client/player/LocalPlayer.hpp"
-#include "world/ContainerListener.hpp"
+#include "world/inventory/ContainerListener.hpp"
 
 class MultiplayerLocalPlayer : public LocalPlayer, public ContainerListener
 {
@@ -10,6 +10,7 @@ public:
 
 protected:
 	void reallyDrop(ItemEntity* itemEntity) override;
+	void _handleOpenedContainerMenu() override;
 
 public:
 	bool hurt(Entity*, int) override;
@@ -21,7 +22,7 @@ public:
 	void closeContainer() override;
 
 	void refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items) override;
-	void slotChanged(ContainerMenu* menu, int index, ItemStack& item, bool isResultSlot) override;
+	void slotChanged(ContainerMenu* menu, int index, Slot* slot, ItemStack& item, bool isResultSlot) override;
 
 private:
 	bool m_flashOnSetHealth;

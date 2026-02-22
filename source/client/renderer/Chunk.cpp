@@ -133,6 +133,9 @@ void Chunk::rebuild()
 
 	LevelChunk::touchedSky = false;
 
+	std::set<TileEntity*> tmpSet(m_tileEntities.begin(), m_tileEntities.end());
+	m_tileEntities.clear();
+
 	for (int i = Tile::RENDER_LAYERS_MIN; i <= Tile::RENDER_LAYERS_MAX; i++)
 	{
 		m_empty[i] = true;
@@ -169,6 +172,16 @@ void Chunk::rebuild()
 						t.setOffset(-m_pos);
 					}
 
+					if (!layer && Tile::isEntityTile[tile])
+					{
+						/*
+						// @TODO: ADD TILE ENTITY RENDER DISPATCHER
+						TileEntity* et = region.getTileEntity(tp);
+						if (TileEntityRenderDispatcher::getInstance()->hasRenderer(et))
+							m_tileEntities.push_back(et);
+						*/
+					}
+
 					Tile* pTile = Tile::tiles[tile];
 
 					if (layer == pTile->getRenderLayer())
@@ -201,11 +214,45 @@ void Chunk::rebuild()
 			break;
 	}
 
+	std::set<TileEntity*> newSet(m_tileEntities.begin(), m_tileEntities.end());
+	TileEntityVector toAdd, toRemove;
+
+	std::set_difference(
+		newSet.begin(), newSet.end(),
+		tmpSet.begin(), tmpSet.end(),
+		std::back_inserter(toAdd)
+	);
+
+	std::set_difference(
+		tmpSet.begin(), tmpSet.end(),
+		newSet.begin(), newSet.end(),
+		std::back_inserter(toRemove)
+	);
+
+	// Add
+	for (TileEntityVector::iterator it = toAdd.begin(); it != toAdd.end(); ++it)
+	{
+		m_globalTileEntities.push_back(*it);
+	}
+
+	// Remove
+	for (TileEntityVector::iterator it = toRemove.begin(); it != toRemove.end(); ++it)
+	{
+		TileEntityVector::iterator f =
+			std::find(m_globalTileEntities.begin(),
+					m_globalTileEntities.end(),
+					*it);
+
+		if (f != m_globalTileEntities.end())
+			m_globalTileEntities.erase(f);
+	}
+
 	field_54 = LevelChunk::touchedSky;
 	m_bCompiled = true;
 }
 
-Chunk::Chunk(Level* level, const TilePos& pos, int size, int lists)
+Chunk::Chunk(Level* level, TileEntityVector& tileEntities, const TilePos& pos, int size, int lists)
+	: m_globalTileEntities(tileEntities)
 {
 	m_bOcclusionVisible = true;
 	m_bOcclusionQuerying = false;

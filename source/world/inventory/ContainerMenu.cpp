@@ -1,14 +1,15 @@
 #include "ContainerMenu.hpp"
-#include "Slot.hpp"
 #include "world/item/ItemStack.hpp"
 #include "world/item/Inventory.hpp"
-#include "world/Container.hpp"
-#include "world/ContainerListener.hpp"
+#include "Slot.hpp"
+#include "Container.hpp"
+#include "ContainerListener.hpp"
 
 ContainerMenu::ContainerMenu(Container::Type containerType)
     : m_changeUid(0)
     , m_containerId(0)
     , m_containerType(containerType)
+    , m_bBroadcastChanges(true)
 {
 }
 
@@ -18,8 +19,24 @@ ContainerMenu::~ContainerMenu()
     /*for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
         delete (*it);*/
 
+    _clearSlots();
+}
+
+void ContainerMenu::_clearSlots()
+{
     for (std::vector<Slot*>::iterator it = m_slots.begin(); it != m_slots.end(); ++it)
-        delete (*it);
+    {
+        Slot* slot = *it;
+
+        // @HACK: I don't like this
+        Container* pContainer = slot->m_pContainer;
+        if (pContainer)
+            pContainer->removeContentChangeListener(this);
+
+        delete slot;
+    }
+
+    m_slots.clear();
 }
 
 void ContainerMenu::addSlot(Slot* slot)
@@ -27,35 +44,40 @@ void ContainerMenu::addSlot(Slot* slot)
     slot->m_index = m_slots.size();
     m_slots.push_back(slot);
     m_lastSlots.push_back(ItemStack::EMPTY);
+
+    // @HACK: holy hack
+    Container* pContainer = slot->m_pContainer;
+    if (pContainer)
+        pContainer->addContentChangeListener(this);
 }
 
 void ContainerMenu::addSlotListener(ContainerListener* listener)
 {
-    m_listeners.push_back(listener);
-
-    // Not done on PE
-    /*std::vector<ItemStack> snapshot = copyItems();
-    listener->refreshContainer(this, snapshot);
-    broadcastChanges();*/
+    m_listeners.insert(listener);
 }
 
 void ContainerMenu::sendData(int id, int value)
 {
-    for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
+    for (ContainerListeners::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
         (*it)->setContainerData(this, id, value);
+}
+
+void ContainerMenu::broadcastChanges(SlotID slot)
+{
+    ItemStack& current = m_slots[slot]->getItem();
+    if (m_lastSlots[slot] != current)
+    {
+        m_lastSlots[slot] = ItemStack(current);
+        for (ContainerListeners::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
+            (*it)->slotChanged(this, slot, m_slots[slot], m_lastSlots[slot], isResultSlot());
+    }
 }
 
 void ContainerMenu::broadcastChanges()
 {
     for (size_t i = 0; i < m_slots.size(); ++i)
     {
-        ItemStack& current = m_slots[i]->getItem();
-        if (m_lastSlots[i] != current)
-        {
-            m_lastSlots[i] = ItemStack(current);
-            for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
-                (*it)->slotChanged(this, i, m_lastSlots[i], isResultSlot());
-        }
+        broadcastChanges(i);
     }
 }
 
@@ -74,12 +96,39 @@ void ContainerMenu::slotsChanged(Container*)
     broadcastChanges();
 }
 
-std::vector<ItemStack> ContainerMenu::copyItems()
+void ContainerMenu::containerContentChanged(Container* container, SlotID containerSlot)
+{
+    // containerSlot is an index within a specific container, but m_slots contains
+    // slots from multiple containers. We need to find which slot in m_slots corresponds
+    // to this container slot by matching both the container and the slot index.
+    for (size_t i = 0; i < m_slots.size(); ++i)
+    {
+        Slot* slot = m_slots[i];
+        if (slot->m_pContainer == container && slot->m_slot == containerSlot)
+        {
+            if (m_bBroadcastChanges)
+                broadcastChanges(i);
+            return;
+        }
+    }
+}
+
+std::vector<ItemStack> ContainerMenu::cloneItems()
 {
     std::vector<ItemStack> content;
 
     for (std::vector<Slot*>::iterator it = m_slots.begin(); it != m_slots.end(); ++it)
-        content.push_back((*it)->getItem());
+    {
+        Slot* slot = *it;
+        // @TODO: I really do not like this.
+        // Firstly, inventories shouldn't be owned by the client
+        // Secondly, we shouldn't be checking types directly like this
+        // Ultimately this HAS to have two different storages, one for the inventory and one for the container
+        if (slot->m_group == Slot::INVENTORY || slot->m_group == Slot::HOTBAR)
+            continue;
+        const ItemStack& item = (*it)->getItem();
+        content.push_back(item);
+    }
 
     return content;
 }
@@ -217,8 +266,6 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
         if (!slot)
             return result;
 
-        slot->setChanged();
-
         ItemStack& slotItem = slot->getItem();
 
         if (!slotItem.isEmpty())
@@ -259,6 +306,7 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
                     if (carried.m_count <= slot->getMaxStackSize())
                     {
                         std::swap(carried, slotItem);
+                        slot->setChanged();
                     }
                 }
                 else if (slotItem.getId() == carried.getId())
@@ -279,6 +327,7 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
                             inv->setCarried(ItemStack::EMPTY);
 
                         slotItem.m_count += count;
+                        slot->setChanged();
                         break;
                     }
                     case MOUSE_BUTTON_RIGHT:
@@ -295,6 +344,7 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
                             inv->setCarried(ItemStack::EMPTY);
 
                         slotItem.m_count += count;
+                        slot->setChanged();
                         break;
                     }
                     default:
@@ -328,38 +378,51 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
 void ContainerMenu::setItem(int index, ItemStack item)
 {
     m_slots[index]->set(item);
+    if (!m_bBroadcastChanges && index >= 0 && index < (int)m_lastSlots.size())
+    {
+        m_lastSlots[index] = ItemStack(m_slots[index]->getItem());
+    }
 }
 
 void ContainerMenu::setAll(const std::vector<ItemStack>& items)
 {
-    for (size_t i = 0; i < items.size(); ++i)
+    size_t n = std::min(items.size(), m_slots.size());
+    for (size_t i = 0; i < n; ++i)
     {
         m_slots[i]->set(items[i]);
+        if (!m_bBroadcastChanges)
+        {
+            m_lastSlots[i] = ItemStack(m_slots[i]->getItem());
+        }
     }
 }
 
-void ContainerMenu::setData(int id, int value) {
+void ContainerMenu::setData(int id, int value)
+{
 }
 
-uint16_t ContainerMenu::backup(Inventory*) {
+uint16_t ContainerMenu::backup(Inventory*)
+{
     return ++m_changeUid;
 }
 
-void ContainerMenu::deleteBackup(uint16_t) {
+void ContainerMenu::deleteBackup(uint16_t)
+{
 }
 
-void ContainerMenu::rollbackToBackup(uint16_t) {
+void ContainerMenu::rollbackToBackup(uint16_t)
+{
 }
 
 bool ContainerMenu::isSynched(Player* player) const
 {
-    return unsynchedPlayers.find(player) == unsynchedPlayers.end();
+    return m_unsynchedPlayers.find(player) == m_unsynchedPlayers.end();
 }
 
 void ContainerMenu::setSynched(Player* player, bool isSynched)
 {
     if (isSynched)
-        unsynchedPlayers.erase(player);
+        m_unsynchedPlayers.erase(player);
     else
-        unsynchedPlayers.insert(player);
+        m_unsynchedPlayers.insert(player);
 }

@@ -104,6 +104,7 @@ options.guiScale.small=Small
 options.guiScale.normal=Normal
 options.guiScale.large=Large
 options.advancedOpengl=Advanced OpenGL
+options.enableVsync=Enable Vsync
 
 performance.max=Max FPS
 performance.balanced=Balanced

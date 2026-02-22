@@ -25,6 +25,7 @@ public:
 	int32_t m_entityTypeId;
 	Vec3 m_pos;
 	Vec2 m_rot;
+
 private:
 	SynchedEntityData m_entityData;
 	SynchedEntityData::ItemsArray m_unpack;
