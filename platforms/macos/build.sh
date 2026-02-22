@@ -149,7 +149,7 @@ if [ -n "$outdated_toolchain" ]; then
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
     rm -rf cctools-port-*
-    wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+    wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
     ./configure \
@@ -163,10 +163,10 @@ if [ -n "$outdated_toolchain" ]; then
     mv ld64/src/ld/ld ../../toolchain/bin/ld64.ld64
     make -C libmacho -j"$ncpus"
     make -C libstuff -j"$ncpus"
-    make -C misc strip lipo
+    make -C misc strip lipo -j"$ncpus"
     strip misc/strip misc/lipo
-    cp misc/strip ../../toolchain/bin/cctools-strip
-    cp misc/lipo ../../toolchain/bin/lipo
+    mv misc/strip ../../toolchain/bin/cctools-strip
+    mv misc/lipo ../../toolchain/bin/lipo
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
@@ -186,6 +186,48 @@ if [ -n "$outdated_toolchain" ]; then
     fi
     rm -rf toolchain/include
     printf '%s' "$toolchainver" > toolchain/toolchainver
+fi
+
+# Increase this if we ever make a change to the toolchain, for example
+# using a newer GCC version, and we need to invalidate the cache.
+ppctoolchainver=1
+if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; then
+    rm -rf toolchain-ppc
+    mkdir -p toolchain-ppc/bin
+
+    cctools_commit=3fc7881e3e7fd2bc073d4f3121ce99e5e5ae36b1
+    rm -rf cctools-port-*
+    wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+
+    cd "cctools-port-$cctools_commit/cctools"
+    ./autogen.sh
+    ./configure \
+        --enable-silent-rules \
+        CC=remcpe-clang \
+        CXX=remcpe-clang++
+    make -C ld64 -j"$ncpus"
+    strip ld64/src/ld/ld
+    mv ld64/src/ld/ld ../../toolchain-ppc/bin/ld64.ppc
+    cd ../..
+    rm -rf "cctools-port-$cctools_commit"
+
+    gcc_version='15.2.0'
+    rm -rf gcc-*
+    wget -O- "https://ftp.gnu.org/gnu/gcc/gcc-$gcc_version/gcc-$gcc_version.tar.xz" | tar -xz
+
+    cd "gcc-$gcc_version"
+    mkdir build
+    cd build
+    ../configure \
+        --prefix="$workdir/toolchain-ppc" \
+        --target=powerpc-apple-darwin8 \
+        --enable-languages=c,c++
+    make -j"$ncpus"
+    make -j"$ncpus" install
+    cd ../..
+    rm -rf "gcc-$gcc_version"
+
+    printf '%s' "$ppctoolchainver" > toolchain-ppc/toolchainver
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,

@@ -124,10 +124,10 @@ if [ -n "$outdated_toolchain" ]; then
     mv ld64/src/ld/ld ../../toolchain/bin/ld64.ld64
     make -C libmacho -j"$ncpus"
     make -C libstuff -j"$ncpus"
-    make -C misc strip lipo
+    make -C misc strip lipo -j"$ncpus"
     strip misc/strip misc/lipo
-    cp misc/strip ../../toolchain/bin/cctools-strip
-    cp misc/lipo ../../toolchain/bin/lipo
+    mv misc/strip ../../toolchain/bin/cctools-strip
+    mv misc/lipo ../../toolchain/bin/lipo
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
