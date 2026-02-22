@@ -123,6 +123,10 @@ jobs:
         name: iOS
         runs-on: ubuntu-24.04
         steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
           - name: Get Time
             id: get-time
             run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
@@ -133,10 +137,6 @@ jobs:
               restore-keys: ios-
           - name: Unpack cache
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
           - name: Install Dependencies
             run: |
                 wget https://apt.llvm.org/llvm.sh
