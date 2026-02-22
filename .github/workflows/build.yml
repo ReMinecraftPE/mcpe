@@ -149,7 +149,7 @@ jobs:
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-          - name: Build iOS binary
+          - name: Build
             run: ./platforms/ios/build.sh
             env:
               CLANG: clang-21

@@ -147,7 +147,7 @@ jobs:
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Install Dependencies
             run: brew install llvm@21 ccache
-          - name: Build macOS binary
+          - name: Build
             run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
             env:
               NOSTRIP: 1
@@ -190,7 +190,7 @@ jobs:
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-          - name: Build iOS binary
+          - name: Build
             run: ./platforms/ios/build.sh
             env:
               CLANG: clang-21
