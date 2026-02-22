@@ -141,6 +141,7 @@ if [ -n "$outdated_toolchain" ]; then
     INSTALLPREFIX="$workdir/toolchain" CC=remcpe-clang CXX=remcpe-clang++ ./build.sh && ./install.sh
     cd ..
     rm -rf "apple-libtapi-$tapi_commit"
+    strip "$(realpath toolchain/lib/libtapi.so)"
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
     rm -rf cctools-port-*
@@ -154,10 +155,12 @@ if [ -n "$outdated_toolchain" ]; then
         CC=remcpe-clang \
         CXX=remcpe-clang++
     make -C ld64 -j"$ncpus"
+    strip ld64/src/ld/ld
     mv ld64/src/ld/ld ../../toolchain/bin/ld64.ld64
     make -C libmacho -j"$ncpus"
     make -C libstuff -j"$ncpus"
     make -C misc strip lipo
+    strip misc/strip misc/lipo
     cp misc/strip ../../toolchain/bin/cctools-strip
     cp misc/lipo ../../toolchain/bin/lipo
     cd ../..
@@ -172,6 +175,7 @@ if [ -n "$outdated_toolchain" ]; then
 
         cd "ldid-$ldid_commit"
         make CXX=remcpe-clang++
+        strip ldid
         mv ldid ../toolchain/bin
         cd ..
         rm -rf "ldid-$ldid_commit"
