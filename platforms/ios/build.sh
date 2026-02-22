@@ -107,7 +107,7 @@ chmod +x toolchain/bin/remcpe-clang toolchain/bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
     # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
-    printf '\nBuilding ld64 and strip...\n\n'
+    printf '\nBuilding toolchain...\n\n'
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
     rm -rf cctools-port-*

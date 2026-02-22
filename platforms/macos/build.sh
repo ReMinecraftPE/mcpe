@@ -131,7 +131,7 @@ chmod +x toolchain/bin/remcpe-clang toolchain/bin/remcpe-clang++
 
 if [ -n "$outdated_toolchain" ]; then
     # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old macOS versions anymore
-    printf '\nBuilding ld64 and strip...\n\n'
+    printf '\nBuilding toolchain...\n\n'
 
     tapi_commit=640b4623929c923c0468143ff2a363a48665fa54
     rm -rf apple-libtapi-*
