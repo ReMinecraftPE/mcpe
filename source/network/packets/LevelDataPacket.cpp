@@ -22,8 +22,8 @@ void LevelDataPacket::write(RakNet::BitStream& bs)
 	// @TODO: Maybe offload this to a different 'worker thread'? Or maybe just the compression job?
 
 	// send a crapton of them in a raw packet(why? Laziness)
-	int chunksX = C_MAX_CHUNKS_X;
-	int chunksZ = C_MAX_CHUNKS_Z;
+	uint32_t chunksX = C_MAX_CHUNKS_X;
+	uint32_t chunksZ = C_MAX_CHUNKS_Z;
 	//int minus9999 = -9999;
 	RakNet::BitStream bs2;
 	bs.Write((unsigned char)PACKET_LEVEL_DATA);
@@ -67,7 +67,7 @@ void LevelDataPacket::write(RakNet::BitStream& bs)
 		//float ratio = 100.0f * float(compSize) / float(uncompSize);
 		//LOG_I("Compression ratio: %.2f (%d comp, %d uncomp)", ratio, int(compSize), int(uncompSize));
 
-		int cs2 = int(compSize), us2 = int(uncompSize);
+		uint32_t cs2 = compSize, us2 = uncompSize;
 		bs2.Reset();
 		bs2.Write(compMagic);
 		bs2.Write(us2);

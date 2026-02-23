@@ -823,7 +823,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
 {
-	if (!m_pLevel) return;
+	/*if (!m_pLevel) return;
 
 	const int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
 	RakNet::BitStream* bs = &packet->m_data, bs2;
@@ -840,7 +840,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 	if (magicNum == compMagic)
 	{
 		// Decompress it before we handle it.
-		int uncompSize = 0, compSize = 0;
+		uint32_t uncompSize = 0, compSize = 0;
 		bs->Read(uncompSize);
 		bs->Read(compSize);
 
@@ -873,7 +873,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 		bs->Read(magicNum);
 	}
 
-	int chunksX = 0, chunksZ = 0;
+	uint32_t chunksX = 0, chunksZ = 0;
 	bs->Read(chunksX);
 	bs->Read(chunksZ);
 
@@ -899,7 +899,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 			uint8_t ptype = 0;
 
 			// read the data size. This'll let us know how much to read.
-			int dataSize = 0;
+			uint32_t dataSize = 0;
 			bs->Read(dataSize);
 
 			LevelChunk* pChunk = m_pLevel->getChunk(cp);
@@ -932,7 +932,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 
 	// All chunks are loaded. Also flush all the updates we've buffered.
 	m_chunksRequested = C_MAX_CHUNKS;
-	flushAllBufferedUpdates();
+	flushAllBufferedUpdates();*/
 }
 
 bool ClientSideNetworkHandler::areAllChunksLoaded()
