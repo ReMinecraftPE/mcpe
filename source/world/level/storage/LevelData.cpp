@@ -10,8 +10,6 @@
 #include "network/RakIO.hpp"
 #include "nbt/NbtIo.hpp"
 
-#define FORCE_SURVIVAL_MODE (TEST_SURVIVAL_MODE || 0)
-
 void LevelData::_init()
 {
 	_init(LevelSettings());
@@ -223,11 +221,7 @@ void LevelData::setPlayerTag(const CompoundTag* playerTag)
 
 GameType LevelData::getGameType() const
 {
-#if FORCE_SURVIVAL_MODE
-	return GAME_TYPE_SURVIVAL;
-#else
 	return m_gameType;
-#endif
 }
 
 void LevelData::setLoadedPlayerTo(Player& player) const
@@ -252,9 +246,9 @@ void PlayerData::loadPlayer(Player& player) const
 		player.m_oRot = m_rot
 	);
 	player.m_distanceFallen = m_distanceFallen;
-	player.m_fireTicks = field_24;
-	player.m_airCapacity = field_26;
-	player.m_bOnGround = field_28;
+	player.m_fireTicks = m_fireTicks;
+	player.m_airCapacity = m_airCapacity;
+	player.m_bOnGround = m_bOnGround;
 
 	// @NOTE: Why are we updating m_pos, m_oPos and m_posPrev above if we do this?
 	player.setPos(m_pos);
@@ -266,7 +260,7 @@ void PlayerData::savePlayer(const Player& player)
 	m_vel = player.m_vel;
 	m_rot = player.m_rot;
 	m_distanceFallen = player.m_distanceFallen;
-	field_24 = player.m_fireTicks;
-	field_26 = player.m_airCapacity;
-	field_28 = player.m_bOnGround;
+	m_fireTicks = player.m_fireTicks;
+	m_airCapacity = player.m_airCapacity;
+	m_bOnGround = player.m_bOnGround;
 }

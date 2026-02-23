@@ -21,9 +21,9 @@ struct PlayerData
 	Vec3 m_vel;
 	Vec2 m_rot;
 	float m_distanceFallen;
-	short field_24;
-	short field_26;
-	bool field_28;
+	int16_t m_fireTicks;
+	int16_t m_airCapacity;
+	bool m_bOnGround;
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
 
 	void loadPlayer(Player& player) const;

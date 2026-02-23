@@ -15,8 +15,10 @@
 #include "client/multiplayer/MultiplayerLocalPlayer.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
-#include "world/tile/BedTile.hpp"
+#include "world/entity/EntityFactory.hpp"
+#include "world/entity/PrimedTnt.hpp"
 #include "world/level/Explosion.hpp"
+#include "world/tile/BedTile.hpp"
 #include "world/inventory/SimpleContainer.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
@@ -84,7 +86,7 @@ void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // s
 	m_serverGUID = rakGuid;
 
 	clearChunksLoaded();
-	LoginPacket* pLoginPkt = new LoginPacket(m_pMinecraft->m_pUser->field_0, NETWORK_PROTOCOL_VERSION);
+	LoginPacket* pLoginPkt = new LoginPacket(m_pMinecraft->m_pUser->m_name, NETWORK_PROTOCOL_VERSION);
 	m_pRakNetInstance->send(pLoginPkt);
 }
 
@@ -243,6 +245,50 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobP
 	entity->moveTo(pAddMobPkt->m_pos, pAddMobPkt->m_rot);
 	entity->getEntityData().assignValues(pAddMobPkt->getUnpackedData());
 	m_pLevel->addEntity(entity);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddEntityPacket* packet)
+{
+	puts_ignorable("AddEntityPacket");
+
+	if (!m_pLevel)
+	{
+		LOG_W("Trying to add an entity with no level!");
+		return;
+	}
+
+	EntityType::ID entityTypeId = (EntityType::ID)packet->m_entityTypeId;
+	if (entityTypeId == EntityType::UNKNOWN)
+	{
+		LOG_E("Trying to add an entity without a type id");
+		return;
+	}
+
+	Entity* entity = EntityFactory::CreateEntity(entityTypeId, m_pLevel);
+	if (!entity)
+	{
+		LOG_E("Server tried to add an unknown entity type! :%d", entityTypeId);
+		return;
+	}
+
+	entity->m_EntityID = packet->m_entityId;
+	entity->setPos(packet->m_pos);
+	
+	if (packet->m_auxValue > 0)
+	{
+		entity->setAuxValue(packet->m_auxValue);
+
+		entity->m_vel = packet->m_vel;
+	}
+
+	// @HACK 0.3.3 did this
+	if (entity->getDescriptor().isType(EntityType::PRIMED_TNT))
+	{
+		PrimedTnt& tnt = (PrimedTnt&)*entity;
+		tnt.m_fuseTimer = 1000;
+	}
+
+	m_pLevel->putEntity(packet->m_entityId, entity);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveEntityPacket* pRemoveEntityPkt)
@@ -856,7 +902,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerS
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
 {
-	if (!m_pLevel) return;
+	/*if (!m_pLevel) return;
 
 	const int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
 	RakNet::BitStream* bs = &packet->m_data, bs2;
@@ -873,7 +919,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 	if (magicNum == compMagic)
 	{
 		// Decompress it before we handle it.
-		int uncompSize = 0, compSize = 0;
+		uint32_t uncompSize = 0, compSize = 0;
 		bs->Read(uncompSize);
 		bs->Read(compSize);
 
@@ -906,7 +952,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 		bs->Read(magicNum);
 	}
 
-	int chunksX = 0, chunksZ = 0;
+	uint32_t chunksX = 0, chunksZ = 0;
 	bs->Read(chunksX);
 	bs->Read(chunksZ);
 
@@ -932,7 +978,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 			uint8_t ptype = 0;
 
 			// read the data size. This'll let us know how much to read.
-			int dataSize = 0;
+			uint32_t dataSize = 0;
 			bs->Read(dataSize);
 
 			LevelChunk* pChunk = m_pLevel->getChunk(cp);
@@ -965,12 +1011,12 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 
 	// All chunks are loaded. Also flush all the updates we've buffered.
 	m_chunksRequested = C_MAX_CHUNKS;
-	flushAllBufferedUpdates();
+	flushAllBufferedUpdates();*/
 }
 
 bool ClientSideNetworkHandler::areAllChunksLoaded()
 {
-	return m_chunksRequested > C_MAX_CHUNKS;
+	return m_chunksRequested >= C_MAX_CHUNKS;
 }
 
 bool ClientSideNetworkHandler::isChunkLoaded(const ChunkPos& cp)

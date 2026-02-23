@@ -224,6 +224,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ClayFeature.cpp">
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\FancyTreeFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.cpp">
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>

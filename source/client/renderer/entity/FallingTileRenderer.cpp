@@ -43,7 +43,7 @@ void FallingTileRenderer::render(const Entity& entity, const Vec3& pos, float ro
 #define ARGPATCH
 #endif
 	
-	m_pDispatcher->m_tileRenderer->renderTile(FullTile(tile.m_id, 0), m_heavyMaterials.heavy_tile ARGPATCH);
+	m_pDispatcher->m_tileRenderer->renderTile(FullTile(tile.getTile(), 0), m_heavyMaterials.heavy_tile ARGPATCH);
 
 #ifdef ARGPATCH
 #undef ARGPATCH

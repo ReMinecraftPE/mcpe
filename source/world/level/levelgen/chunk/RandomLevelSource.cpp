@@ -88,7 +88,7 @@ LevelChunk* RandomLevelSource::getChunk(const ChunkPos& pos)
 	pChunk->recalcHeightmap();
 
 	// @NOTE: Java Edition Beta 1.6 uses the m_largeCaveFeature.
-#ifdef TEST_CAVES
+#ifdef FEATURE_CAVES
 	m_largeCaveFeature.apply(this, m_pLevel, pos.x, pos.z, pLevelData, 0);
 #endif
 

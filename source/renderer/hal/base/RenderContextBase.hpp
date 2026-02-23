@@ -50,6 +50,8 @@ namespace mce
         void setRenderTarget();
         void beginRender();
         void endRender();
+		void suspend();
+		void resume();
         void swapBuffers();
         void lostContext();
 

@@ -16,7 +16,7 @@
 void Mob::_init()
 {
 	// only sets 19 fields on 0.2.1
-	m_invulnerableDuration = 10;
+	m_invulnerableDuration = 20;
 	m_yBodyRot = 0.0f;
 	m_yBodyRotO = 0.0f;
 	m_oAttackAnim = 0.0f;
@@ -573,8 +573,8 @@ void Mob::heal(int health)
 		return;
 
 	m_health += health;
-	if (m_health > C_MAX_MOB_HEALTH)
-		m_health = C_MAX_MOB_HEALTH;
+	if (m_health > getMaxHealth())
+		m_health = getMaxHealth();
 
 	m_invulnerableTime = m_invulnerableDuration / 2;
 }

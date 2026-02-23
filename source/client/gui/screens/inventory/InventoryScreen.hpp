@@ -8,7 +8,14 @@ class InventoryScreen : public ContainerScreen
 public:
     InventoryScreen(Player* player);
 
+    void init() override;
+    void renderBackground() override;
+
 protected:
-    virtual void _renderLabels() override;
-    virtual void _renderBg(float partialTick) override;
+    void _renderLabels() override;
+    void _renderBg(float partialTick) override;
+    SlotDisplay _createSlotDisplay(const Slot&);
+
+public:
+    static std::string CONSOLE_ARMOR_SLOTS[];
 };

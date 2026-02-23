@@ -58,7 +58,7 @@ bool DyePowderItem::useOn(ItemStack* item, Player* player, Level* level, const T
 
 void DyePowderItem::interactEnemy(ItemStack* item, Mob* mob) const
 {
-	if (mob->getDescriptor().getEntityType().getId() != EntityType::SHEEP)
+	if (!mob->getDescriptor().isType(EntityType::SHEEP))
         return;
 
     Sheep* sheep = static_cast<Sheep*>(mob);

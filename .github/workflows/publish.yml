@@ -50,54 +50,54 @@ jobs:
             with:
               asset_paths: '["ReMCPE-Linux-x86_64.tar.gz"]'
 
-    linux32:
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                  - name: SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl2-dev:i386'
-        name: Linux 32-bit (${{ matrix.name }})
-        runs-on: ubuntu-24.04
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
-          - name: Install Dependencies
-            run: |
-                sudo dpkg --add-architecture i386
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y \
-                    build-essential \
-                    cmake ninja-build \
-                    gcc-multilib g++-multilib \
-                    libopenal-dev:i386 \
-                    zlib1g-dev:i386 \
-                    ${{ matrix.packages }}
-          - name: Build
-            run: |
-                mkdir build
-                cd build
-                cmake .. -GNinja \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-                    -DCMAKE_C_FLAGS='-m32' \
-                    -DCMAKE_CXX_FLAGS='-m32' \
-                    ${{ matrix.flags }}
-                cmake --build .
-                strip reminecraftpe
-          - name: Pack release
-            run: |
-                mkdir ReMCPE
-                mv game/assets build/reminecraftpe ReMCPE
-                tar -czf ReMCPE-Linux-x86.tar.gz ReMCPE
-          - uses: alexellis/upload-assets@0.4.1
-            env:
-              GITHUB_TOKEN: ${{ github.token }}
-            with:
-              asset_paths: '["ReMCPE-Linux-x86.tar.gz"]'
+    # linux32:
+    #     strategy:
+    #         fail-fast: false
+    #         matrix:
+    #             include:
+    #               - name: SDL 2
+    #                 flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+    #                 packages: 'libsdl2-dev:i386'
+    #     name: Linux 32-bit (${{ matrix.name }})
+    #     runs-on: ubuntu-24.04
+    #     steps:
+    #       - name: Checkout Repository
+    #         uses: actions/checkout@v6
+    #         with:
+    #             submodules: true
+    #       - name: Install Dependencies
+    #         run: |
+    #             sudo dpkg --add-architecture i386
+    #             sudo apt-get update
+    #             sudo apt-get install --no-install-recommends -y \
+    #                 build-essential \
+    #                 cmake ninja-build \
+    #                 gcc-multilib g++-multilib \
+    #                 libopenal-dev:i386 \
+    #                 zlib1g-dev:i386 \
+    #                 ${{ matrix.packages }}
+    #       - name: Build
+    #         run: |
+    #             mkdir build
+    #             cd build
+    #             cmake .. -GNinja \
+    #                 -DCMAKE_BUILD_TYPE=Release \
+    #                 -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    #                 -DCMAKE_C_FLAGS='-m32' \
+    #                 -DCMAKE_CXX_FLAGS='-m32' \
+    #                 ${{ matrix.flags }}
+    #             cmake --build .
+    #             strip reminecraftpe
+    #       - name: Pack release
+    #         run: |
+    #             mkdir ReMCPE
+    #             mv game/assets build/reminecraftpe ReMCPE
+    #             tar -czf ReMCPE-Linux-x86.tar.gz ReMCPE
+    #       - uses: alexellis/upload-assets@0.4.1
+    #         env:
+    #           GITHUB_TOKEN: ${{ github.token }}
+    #         with:
+    #           asset_paths: '["ReMCPE-Linux-x86.tar.gz"]'
 
     macos:
         strategy:
@@ -111,7 +111,7 @@ jobs:
                 submodules: true
           - name: Install Dependencies
             run: brew install llvm@21
-          - name: Build macOS binary
+          - name: Build
             run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
           - name: Pack release
             run: |
@@ -143,7 +143,7 @@ jobs:
                     libplist-dev \
                     libssl-dev
 
-          - name: Build iOS binary
+          - name: Build
             run: ./platforms/ios/build.sh
             env:
               CLANG: clang-21
@@ -190,7 +190,7 @@ jobs:
               keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
               alias: remcpe
             env:
-              BUILD_TOOLS_VERSION: 33.0.1
+              BUILD_TOOLS_VERSION: 36.1.0
           - name: Rename APK
             run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE.apk
           - uses: alexellis/upload-assets@0.4.1
@@ -249,7 +249,7 @@ jobs:
         name: Nintendo Switch
         runs-on: ubuntu-24.04
         container:
-            image: devkitpro/devkita64@sha256:7ca6fb93e8f576a65bbfe07b537b67664a974e06eabe4e94359e3e026a0f0b0c
+            image: devkitpro/devkita64@sha256:a52e05e06951c025fe23127252555e2f94d944458ff4f19028ba297e5ffc99fd
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v6

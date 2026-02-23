@@ -8,20 +8,12 @@
 
 #pragma once
 
+#include <vector>
+#include <map>
+
+#include "client/app/AppPlatformListener.hpp"
 #include "EntityRenderer.hpp"
-#include "HumanoidMobRenderer.hpp"
-#include "TripodCameraRenderer.hpp"
-#include "TntRenderer.hpp"
-#include "ItemRenderer.hpp"
-#include "FallingTileRenderer.hpp"
-#include "PigRenderer.hpp"
-#include "SheepRenderer.hpp"
-#include "CowRenderer.hpp"
-#include "ChickenRenderer.hpp"
-#include "CreeperRenderer.hpp"
-#include "SpiderRenderer.hpp"
-#include "ArrowRenderer.hpp"
-#include "RocketRenderer.hpp"
+#include "../TileRenderer.hpp"
 
 class Minecraft;
 class Font;
@@ -30,10 +22,20 @@ class Entity;
 class Textures;
 class ItemInHandRenderer;
 
-class EntityRenderDispatcher : AppPlatformListener
+class EntityRenderDispatcher : public AppPlatformListener
 {
+protected:
+	typedef std::vector<EntityRenderer*> EntityRenderers;
+	typedef std::map<Entity::RenderType, EntityRenderer*> EntityRendererMap;
+
 public:
 	EntityRenderDispatcher();
+	~EntityRenderDispatcher();
+
+protected:
+	void _addRenderer(Entity::RenderType renderType, EntityRenderer* pRenderer);
+
+public:
 	float distanceToSqr(const Vec3& pos);
 	Font* getFont();
 	EntityRenderer* getRenderer(const Entity& entity);
@@ -49,30 +51,14 @@ public:
 
 	static EntityRenderDispatcher* getInstance();
 
+protected:
+	// @TODO: replace with unordered_map
+	EntityRenderers m_entityRenderers;
+	EntityRendererMap m_entityRendererMap;
+
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	TileRenderer* m_tileRenderer;
-
-	HumanoidMobRenderer m_HumanoidMobRenderer;
-	PigRenderer m_PigRenderer;
-	SheepRenderer m_SheepRenderer;
-	CowRenderer m_CowRenderer;
-	ChickenRenderer m_ChickenRenderer;
-	TntRenderer m_TntRenderer;
-	//padding??
-	ItemRenderer m_ItemRenderer;
-	CreeperRenderer m_CreeperRenderer;
-	SpiderRenderer m_SpiderRenderer;
-	HumanoidMobRenderer m_SkeletonRenderer;
-	HumanoidMobRenderer m_ZombieRenderer;
-	//SheepRenderer m_SheepRenderer;
-	//SheepFurRenderer m_SheepFurRenderer;
-	TripodCameraRenderer m_CameraRenderer;
-	ArrowRenderer m_ArrowRenderer;
-#ifdef ENH_ALLOW_SAND_GRAVITY
-	FallingTileRenderer m_FallingTileRenderer;
-#endif
-	RocketRenderer m_RocketRenderer;
 
 	Textures* m_pTextures;
 	Level* m_pLevel;

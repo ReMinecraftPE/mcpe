@@ -6,8 +6,11 @@ UseItemPacket::UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t e
 	m_tilePos = tilePos;
 	m_tileFace = tileFace;
 	m_entityId = entityId;
-	m_itemId = item.getId();
-	m_itemAuxValue = item.getAuxValue();
+	if (!item.isEmpty())
+	{
+		m_itemId = item.getId();
+		m_itemAuxValue = item.getAuxValue();
+	}
 }
 
 void UseItemPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)

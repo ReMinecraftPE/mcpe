@@ -53,6 +53,34 @@ software with different but compatible licenses:
 Want to help this project? Here's [a list of things to do.](https://github.com/ReMinecraftPE/mcpe/issues)
 Once your code is tested and ready, [submit a pull request](https://github.com/ReMinecraftPE/mcpe/pulls).
 
+## USING BETA ASSETS
+
+Prepare a copy of minecraft.jar from Beta 1.7.3.
+Then, copy the assets (including sounds and textures) into the "minecraft" resource pack within the project.<br>
+   Do this by performing the following:
+   - Open minecraft.jar as if it were a ZIP file, either by renaming it to "minecraft.jar.zip", or by opening it with an unarchiver.
+     - Locate the the following files/folders in minecraft.jar, and copy them into the `game/assets/resource_packs/minecraft` directory of the project:
+	   ```
+	   armor
+	   art
+	   environment
+	   font
+	   gui
+	   item
+       misc
+	   mob
+	   terrain
+	   title
+	   pack.png
+	   particles.png
+	   terrain.png
+	   ```
+     - Any Pocket Edition assets will need to be manually extracted from _Pocket Edition_.
+   - **To retrieve the sounds**, locate the `resources` directory in the `.minecraft` folder
+     - Copy the contents (e.g. `music`, `sound`, etc.) into the `game/assets/resource_packs/minecraft` directory of the project.
+<br>
+Finally, the "minecraft" resource pack should be automatically enabled by the game, assuming it can find it.
+
 ## Prep for Building
 
 Before trying to build:
@@ -63,23 +91,6 @@ git submodule init
 git submodule update
 ```
 This fetches the project's necessary dependencies.
-
-2. It is recommended that you have a copy of the Minecraft PE v0.1.3 APK (SHA256 of the `libminecraftpe.so`
-inside: `157af341d13a54cc935bbe24c5e1cf3d02d7e40ec20f9859b9853c2e996ebd81`), to extract assets from. Otherwise, the minecraft.jar file from Java Edition Beta 1.7.3 should work _more or less_.
-
-3. Copy the assets (including sounds and textures) into the necessary folders within the project.<br>
-   Do this by performing <ins>**one**</ins> of the following:
-   - To extract all assets from _Pocket Edition_:
-     - **Run the following command**:
-     - `tools/extract_apk.py /path/to/the/apk`
-     - You can also run it with an interactive GUI by not providing arguments.
-   - To extract only the sounds from _Pocket Edition_:
-     - **Run the following command**:
-     - `tools/grabsounds.py /path/to/the/apk/lib/armeabi-v7a/libminecraftpe.so`
-     - You will need to extract textures and other assets manually.
-   - To retrieve only the sounds from _Java Edition_:
-     - Locate the `resources` directory in the `.minecraft` folder and copy its contents (e.g. `music`, `sound`, etc.) into the `game/assets/` directory of the project.
-     - You will need to extract textures and other assets manually from _Pocket Edition_.
 
 ## How to Build
 

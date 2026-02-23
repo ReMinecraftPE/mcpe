@@ -28,6 +28,20 @@ void PacketUtil::Rot_charToEntity(Entity* entity, char yawChar, char pitchChar)
 	entity->m_rot.x = yaw;
 }
 
+void PacketUtil::PackMotion(const Vec3& in, int16_t* out)
+{
+    out[0] = Mth::clamp(in.x, -3.9f, 3.9f) * 8000.0f;
+    out[1] = Mth::clamp(in.y, -3.9f, 3.9f) * 8000.0f;
+    out[2] = Mth::clamp(in.z, -3.9f, 3.9f) * 8000.0f;
+}
+
+void PacketUtil::UnpackMotion(int16_t* in, Vec3& out)
+{
+    out.x = (float)in[0] / 8000.0f;
+    out.y = (float)in[1] / 8000.0f;
+    out.z = (float)in[2] / 8000.0f;
+}
+
 void PacketUtil::WriteUserData(const ItemStack& item, RakNet::BitStream& bs, bool minData)
 {
     if (item.getItem())
@@ -121,6 +135,7 @@ void PacketUtil::ReadUserData(ItemStack& item, RakNet::BitStream& bs)
             bs.Read(hoverName);
             item.setHoverName(hoverName.C_String());
         }
+        return;
     }
 
     assert(!"Attempted PacketUtil::ReadUserData() for invalid ItemStack!");

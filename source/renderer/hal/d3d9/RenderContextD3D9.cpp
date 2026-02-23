@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "RenderContextD3D9.hpp"
+#include "compat/PlatformDefinitions.h"
 #include "common/Logger.hpp"
 #include "renderer/hal/d3d9/helpers/ErrorHandlerD3D9.hpp"
 
@@ -117,7 +118,8 @@ void RenderContextD3D9::beginRender()
 #if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
     m_d3dDevice->GpuOwn(D3DTAG_VERTEXSHADERCONSTANTS);
     m_d3dDevice->GpuOwn(D3DTAG_PIXELSHADERCONSTANTS);
-#else
+#endif
+#if !MC_PLATFORM_XBOX360
     m_d3dDevice->BeginScene();
 #endif
 }
@@ -126,8 +128,23 @@ void RenderContextD3D9::endRender()
 {
 #if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
     m_d3dDevice->GpuDisownAll();
-#else
+#endif
+#if !MC_PLATFORM_XBOX360
     m_d3dDevice->EndScene();
+#endif
+}
+
+void RenderContextD3D9::suspend()
+{
+#if MC_PLATFORM_XBOX360
+	m_d3dDevice->Suspend();
+#endif
+}
+
+void RenderContextD3D9::resume()
+{
+#if MC_PLATFORM_XBOX360
+	m_d3dDevice->Resume();
 #endif
 }
 
@@ -167,12 +184,12 @@ void RenderContextD3D9::createWindowSizeDependentResources(HWND hWnd, unsigned i
         {
             d3dpp.BackBufferWidth = width;
             d3dpp.BackBufferHeight = height;
-            d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+            d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
             d3dpp.BackBufferCount = 1;
             d3dpp.EnableAutoDepthStencil = TRUE;
             d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
             d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-            d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+            d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE; // basically V-Sync
             if (hWnd)
             {
                 d3dpp.hDeviceWindow = hWnd;
@@ -181,8 +198,23 @@ void RenderContextD3D9::createWindowSizeDependentResources(HWND hWnd, unsigned i
         }
 
         DWORD flags = D3DCREATE_HARDWARE_VERTEXPROCESSING;
+		LOG_I("Creating IDirect3DDevice9 with %dx%d size...", width, height);
         HRESULT hResult = m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, NULL, flags, &d3dpp, *m_d3dDevice);
-        ErrorHandlerD3D9::checkForErrors(hResult);
+
+		if (hResult == E_OUTOFMEMORY)
+		{
+			width = 1280;
+			height = 720;
+            d3dpp.BackBufferWidth = width;
+            d3dpp.BackBufferHeight = height;
+			LOG_I("Failed to create IDirect3DDevice9! Falling back to (%dx%d)...", width, height);
+			HRESULT hResult = m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, NULL, flags, &d3dpp, *m_d3dDevice);
+			ErrorHandlerD3D9::checkForErrors(hResult);
+		}
+		else
+		{
+			ErrorHandlerD3D9::checkForErrors(hResult);
+		}
 
         m_d3dDevice->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
         m_d3dDevice->SetRenderState(D3DRS_TWOSIDEDSTENCILMODE, TRUE);

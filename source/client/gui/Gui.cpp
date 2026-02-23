@@ -6,9 +6,11 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+//#include "Gui.hpp" // apparently this breaks building on clang or something
 #include "client/app/Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/gui/screens/ChatScreen.hpp"
+#include "client/gui/screens/PauseScreen.hpp"
 #include "client/gui/screens/inventory/InventoryScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
@@ -29,10 +31,12 @@ Gui::Materials::Materials()
 }
 
 #ifdef ENH_USE_GUI_SCALE_2
-float Gui::InvGuiScale = 1.0f / 2.0f;
+float Gui::GuiScale = 1.0f / 2.0f;
 #else
-float Gui::InvGuiScale = 1.0f / 3.0f;
+float Gui::GuiScale = 1.0f / 3.0f;
 #endif
+int Gui::GuiWidth = Minecraft::width;
+int Gui::GuiHeight = Minecraft::height;
 
 bool Gui::_isVignetteAvailable = false; // false because PE never seemed to have it
 
@@ -43,7 +47,7 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_24 = 0;
 	field_28 = 0;
 	field_2C = 0;
-	field_9FC = 0;
+	m_ticks = 0;
 	field_A00 = "";
 	field_A18 = 0;
 	field_A1C = false;
@@ -51,16 +55,8 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_A3C = true;
 	m_bRenderMessages = true;
     m_bRenderHunger = false;
-	m_width = 0;
-	m_height = 0;
 
 	m_pMinecraft = pMinecraft;
-}
-
-void Gui::_updateHudPositions()
-{
-	m_width  = int(ceilf(Minecraft::width  * InvGuiScale));
-	m_height = int(ceilf(Minecraft::height * InvGuiScale));
 }
 
 void Gui::addMessage(const std::string& s)
@@ -161,30 +157,39 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	Minecraft& mc = *m_pMinecraft;
 	GameRenderer& renderer = *mc.m_pGameRenderer;
 	Textures& textures = *mc.m_pTextures;
-    bool isTouchscreen = AppPlatform::singleton()->isTouchscreen();
+    bool isPocket = mc.getOptions()->getUiTheme() == UI_POCKET;
+	bool isConsole = mc.getOptions()->getUiTheme() == UI_CONSOLE;
 
 	renderer.setupGuiScreen();
+
+	if (bHaveScreen && isConsole)
+		return;
 
 	if (!mc.m_pLevel || !mc.m_pLocalPlayer)
 		return;
 
-	_updateHudPositions();
-
-	if (mc.getOptions()->m_fancyGraphics.get() && isVignetteAvailable())
+	if (mc.getOptions()->m_fancyGraphics.get() && isVignetteAvailable() && !isConsole)
 	{
-		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
+		renderVignette(mc.m_pLocalPlayer->getBrightness(f), GuiWidth, GuiHeight);
 	}
 
 	ItemStack& headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(Item::SLOT_HEAD);
 
 	if (!mc.getOptions()->m_thirdPerson.get() && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
-		renderPumpkin(m_width, m_height);
+		renderPumpkin(GuiWidth, GuiHeight);
 
-	renderProgressIndicator(m_width, m_height);
+	renderProgressIndicator(GuiWidth, GuiHeight);
 
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(Vec3(GuiWidth / 2, GuiHeight, 0));
+	if (isConsole)
+	{
+		matrix->translate(Vec3(0, -35, 0));
+		matrix->scale(mc.getOptions()->m_hudSize.get());
+	}
 	if (mc.m_pGameMode->canHurtPlayer())
 	{
 		textures.loadAndBindTexture("gui/icons.png");
@@ -193,11 +198,11 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		t.begin(0);
 		t.voidBeginAndEndCalls(true);
 
-		renderHearts(isTouchscreen);
-		renderArmor(isTouchscreen);
-		renderBubbles(isTouchscreen);
+		renderHearts(isPocket);
+		renderArmor(isPocket);
+		renderBubbles(isPocket);
         if (m_bRenderHunger)
-            renderHunger(isTouchscreen);
+            renderHunger(isPocket);
 
 		t.voidBeginAndEndCalls(false);
 		t.draw(m_materials.ui_textured);
@@ -210,6 +215,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	alpha = 0.50f; // 0.65f on 0.12.1
 #endif
 	renderToolBar(f, alpha);
+	matrix.release();
 
 	if (m_bRenderMessages)
 	{
@@ -222,7 +228,7 @@ void Gui::tick()
 	if (field_A18 > 0)
 		field_A18--;
 
-	field_9FC++;
+	m_ticks++;
 
 	for (size_t i = 0; i < m_guiMessages.size(); i++)
 	{
@@ -271,8 +277,8 @@ void Gui::renderSlotOverlay(int slot, int x, int y, float f)
 
 int Gui::getSlotIdAt(int mouseX, int mouseY)
 {
-	int scaledY = int(InvGuiScale * mouseY);
-	int scaledHeight = int(InvGuiScale * Minecraft::height);
+	int scaledY = int(GuiScale * mouseY);
+	int scaledHeight = int(GuiScale * Minecraft::height);
 
 	if (scaledY >= scaledHeight)
 		return -1;
@@ -281,7 +287,7 @@ int Gui::getSlotIdAt(int mouseX, int mouseY)
 
 	int hotbarOffset = getNumSlots() * 20 / 2 - 2;
 
-	int slotX = (int(InvGuiScale * mouseX) - int(InvGuiScale * Minecraft::width) / 2 + hotbarOffset + 20) / 20;
+	int slotX = (int(GuiScale * mouseX) - int(GuiScale * Minecraft::width) / 2 + hotbarOffset + 20) / 20;
 
 	if (slotX >= 0)
 		slotX--;
@@ -302,12 +308,40 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 	if (clickID != 1)
 		return;
 
+	// @TODO: add InGamePlayScreen at some point
+	if (m_pMinecraft->isTouchscreen())
+    {
+		int cenX = GuiWidth / 2;
+        int scaledMouseX = int(mouseX * GuiScale);
+        int scaledMouseY = int(mouseY * GuiScale);
+
+		if (scaledMouseY >= 1 && scaledMouseY < 19 && scaledMouseX >= cenX - 19 && scaledMouseX < cenX - 1)
+		{
+			m_pMinecraft->setScreen(new ChatScreen(false));
+			return;
+		}
+
+		if (scaledMouseY >= 1 && scaledMouseY < 19 && scaledMouseX >= cenX && scaledMouseX < cenX + 18)
+		{
+            if (m_pMinecraft->isGamePaused())
+                m_pMinecraft->resumeGame();
+            else
+                m_pMinecraft->pauseGame();
+            return;
+		}
+	}
+
 	int slot = getSlotIdAt(mouseX, mouseY);
 	if (slot == -1)
 		return;
 
 	if (m_pMinecraft->isTouchscreen() && slot == getNumSlots() - 1)
-		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
+	{
+		if (m_pMinecraft->m_pGameMode->isSurvivalType())
+			m_pMinecraft->setScreen(new InventoryScreen(m_pMinecraft->m_pLocalPlayer));
+		else
+			m_pMinecraft->setScreen(new IngameBlockSelectionScreen());
+	}
 	else
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
 }
@@ -380,10 +414,7 @@ void Gui::handleKeyPressed(int keyCode)
 
 void Gui::renderMessages(bool bShowAll)
 {
-	//int width = Minecraft::width * InvGuiScale,
-	int height = int(ceilf(Minecraft::height * InvGuiScale));
-
-	int topEdge = height - 49;
+	int topEdge = GuiHeight - 49;
 	if (m_pMinecraft->isTouchscreen())
 		topEdge = 49;
 
@@ -423,36 +454,30 @@ void Gui::renderMessages(bool bShowAll)
 
 void Gui::renderHearts(bool topLeft)
 {
+	m_random.setSeed(m_ticks * 312871);
+
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 
-	int cenX = m_width / 2;
+	bool b1 = player->m_invulnerableTime >= 10 && player->m_invulnerableTime / 3 % 2;
 
-	int emptyHeartX = 16;
-	bool b1 = false;
-	if (player->m_invulnerableTime < 10)
-	{
-		b1 = player->m_invulnerableTime / 3 % 2;
-		emptyHeartX += 9 * b1;
-	}
-    
 	int heartX;
 	int heartYStart;
-    
-    if (topLeft)
-    {
-        heartX = 2;
-        heartYStart = 2;
-    }
-    else
-    {
-        // @NOTE: At the default scale, this would go off screen.
-        // Renders to the left of the hotbar, why?
-        /*heartX = cenX - 191; // why?
-        heartYStart = m_height - 10;*/
-        
-        heartX = cenX - 91;
-        heartYStart = m_height - 32;
-    }
+
+	if (topLeft)
+	{
+		heartX = -GuiWidth / 2 + 2;
+		heartYStart = -GuiHeight + 2;
+	}
+	else
+	{
+		// @NOTE: At the default scale, this would go off screen.
+		// Renders to the left of the hotbar, why?
+		/*heartX = cenX - 191; // why?
+		heartYStart = height - 10;*/
+
+		heartX = -91;
+		heartYStart = -32;
+	}
 
 	int playerHealth = player->m_health;
 	int maxHealth = player->getMaxHealth();
@@ -464,7 +489,7 @@ void Gui::renderHearts(bool topLeft)
 		if (playerHealth <= 4 && m_random.genrand_int32() % 2)
 			heartY++;
 
-		blit(heartX, heartY, emptyHeartX, 0, 9, 9, 0, 0);
+		blit(heartX, heartY, 16 + b1 * 9, 0, 9, 9, 0, 0);
 
 		if (b1)
 		{
@@ -488,12 +513,10 @@ void Gui::renderArmor(bool topLeft)
 	int armor = m_pMinecraft->m_pLocalPlayer->m_pInventory->getArmorValue();
 	if (armor <= 0)
 		return;
-
-	int cenX = m_width / 2;
 	
 	int hotbarWidth = (topLeft) ? 0 : (2 + getNumSlots() * 20);
-	int armorX = (topLeft) ? (m_width - 11) : cenX - 91 + (hotbarWidth - 9);
-	int armorY = (topLeft) ? 2 : (m_height - 32);
+	int armorX = (topLeft) ? (GuiWidth / 2 - 11) : - 91 + (hotbarWidth - 9);
+	int armorY = (topLeft) ? 2 - GuiHeight : -32;
 
 	if (armor > 0)
 	{
@@ -523,8 +546,6 @@ void Gui::renderBubbles(bool topLeft)
 {
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 
-	int cenX = m_width / 2;
-
 	if (player->isUnderLiquid(Material::water))
 	{
 		int breathRaw = player->m_airCapacity;
@@ -536,8 +557,8 @@ void Gui::renderBubbles(bool topLeft)
         
         if (topLeft)
         {
-            bubbleX = 2;
-            bubbleY = 12;
+            bubbleX = -GuiWidth / 2 + 2;
+            bubbleY = -GuiHeight + 12;
         }
         else if (m_bRenderHunger)
         {
@@ -549,9 +570,9 @@ void Gui::renderBubbles(bool topLeft)
         {
             // Renders to the left of the hotbar, why?
             /*bubbleX = cenX - 191;
-            bubbleY = m_height - 19;*/
-            bubbleX = cenX - 91;
-            bubbleY = m_height - 41;
+            bubbleY = height - 19;*/
+            bubbleX = -91;
+            bubbleY = -41;
         }
         
 		//@NOTE: Not sure this works as it should
@@ -580,7 +601,11 @@ void Gui::renderProgressIndicator(int width, int height)
 	{
 		// draw crosshair
 		textures.loadAndBindTexture("gui/icons.png");
-		blit(width / 2 - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0, &m_guiMaterials.ui_crosshair);
+		MatrixStack::Ref matrix = MatrixStack::World.push();
+		matrix->translate(Vec3(width / 2, height / 2, 0));
+		if (mc.getOptions()->getUiTheme() == UI_CONSOLE)
+			matrix->scale(mc.getOptions()->m_hudSize.get());
+		blit(-8, -8, 0, 0, 16, 16, 0, 0, &m_guiMaterials.ui_crosshair);
 	}
 	else
 	{
@@ -606,14 +631,14 @@ void Gui::renderProgressIndicator(int width, int height)
 
 				textures.loadAndBindTexture("gui/feedback_outer.png");
 				currentShaderColor = Color::WHITE;
-				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay_textured);
+				blit(GuiScale * xPos - 44.0f, GuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay_textured);
 
 				textures.loadAndBindTexture("gui/feedback_fill.png");
 
 				// note: scale starts from 4.0f
 				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
 
-				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256, &m_guiMaterials.ui_invert_overlay_textured);
+				blit(GuiScale * xPos - halfWidth, GuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256, &m_guiMaterials.ui_invert_overlay_textured);
 			}
 		}
 		else
@@ -623,7 +648,7 @@ void Gui::renderProgressIndicator(int width, int height)
 
 			textures.loadAndBindTexture("gui/feedback_outer.png");
 			currentShaderColor = Color(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, input.m_feedbackAlpha));
-			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay_textured);
+			blit(GuiScale * xPos - 44.0f, GuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay_textured);
 		}
 	}
 }
@@ -645,40 +670,56 @@ void Gui::renderToolBar(float f, float alpha)
 
 	m_blitOffset = -90.0f;
 
-	// chat
-	//blit(width - 18, 0, 200, 82, 18, 18, 18, 18);
-
 	int nSlots = getNumSlots();
 	int hotbarWidth = 2 + nSlots * 20;
 
-	mce::MaterialPtr* material = &m_materials.ui_textured_and_glcolor;
-
 	// hotbar
-	int cenX = m_width / 2;
-	blit(cenX - hotbarWidth / 2, m_height - 22, 0, 0, hotbarWidth - 2, 22, 0, 0, material);
-	blit(cenX + hotbarWidth / 2 - 2, m_height - 22, 180, 0, 2, 22, 0, 0, material);
+	blit(-hotbarWidth / 2, -22, 0, 0, hotbarWidth - 2, 22, 0, 0);
+	
+	// if there is a tenth hotbar slot, it is given another slot area (for mobile devices)
+	if (hotbarWidth > 182)
+	{
+		int extraWidth = hotbarWidth - 182 + 2;
+		int textureUV = 182 - extraWidth;
+		blit(-hotbarWidth / 2 + 180, -22, textureUV, 0, extraWidth, 22, 0, 0);
+	}
+	
+	blit(hotbarWidth / 2 - 2, -22, 180, 0, 2, 22, 0, 0);
 
 	Inventory* inventory = player->m_pInventory;
 
 	// selection mark
-	blit(cenX - 1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, m_height - 23, 0, 22, 24, 22, 0, 0, material);
+	blit(-1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, -23, 0, 22, 24, 22, 0, 0);
+
+	// chat and pause button for mobile devices
+	if (mc->isTouchscreen())
+	{
+		textures->loadAndBindTexture("gui/gui2.png");
+		
+		currentShaderColor.a = 0.5f;
+
+		blit(-19, -GuiHeight + 1, 200, 82, 18, 18, 0, 0); // chat
+		blit(0, -GuiHeight + 1, 200, 64, 18, 18, 0, 0); // pause
+
+		currentShaderColor.a = alpha;
+	}
 
 	textures->loadAndBindTexture(C_BLOCKS_NAME);
 
 	int diff = mc->isTouchscreen();
 
-	int slotX = cenX - hotbarWidth / 2 + 3;
+	int slotX = -hotbarWidth / 2 + 3;
 	for (int i = 0; i < nSlots - diff; i++)
 	{
-		renderSlot(i, slotX, m_height - 19, f);
+		renderSlot(i, slotX, -19, f);
 
 		slotX += 20;
 	}
 
-	slotX = cenX - hotbarWidth / 2 + 3;
+	slotX = -hotbarWidth / 2 + 3;
 	for (int i = 0; i < nSlots - diff; i++)
 	{
-		renderSlotOverlay(i, slotX, m_height - 19, f);
+		renderSlotOverlay(i, slotX, -19, f);
 
 		slotX += 20;
 	}
@@ -691,13 +732,14 @@ void Gui::renderToolBar(float f, float alpha)
 	if (mc->isTouchscreen())
 	{
 		textures->loadAndBindTexture(C_TERRAIN_NAME);
-		blit(cenX + hotbarWidth / 2 - 19, m_height - 19, 208, 208, 16, 16, 0, 0, material);
+		blit(hotbarWidth / 2 - 19, -19, 208, 208, 16, 16, 0, 0);
 	}
 }
 
 int Gui::getNumSlots()
 {
-	if (m_pMinecraft->isTouchscreen())
+    Minecraft& mc = *m_pMinecraft;
+    if (mc.getOptions()->getUiTheme() == UI_POCKET)
 		return 6;
 
 	return 9;
@@ -711,10 +753,10 @@ int Gui::getNumUsableSlots()
 RectangleArea Gui::getRectangleArea(bool b)
 {
 	float centerX = Minecraft::width / 2;
-	float hotbarWidthHalf = (10 * getNumSlots() + 5) / InvGuiScale;
+	float hotbarWidthHalf = (10 * getNumSlots() + 5) / GuiScale;
 	return RectangleArea(
 		b ? (centerX - hotbarWidthHalf) : 0,
-		Minecraft::height - 24.0f / InvGuiScale,
+		Minecraft::height - 24.0f / GuiScale,
 		centerX + hotbarWidthHalf,
 		Minecraft::height);
 }

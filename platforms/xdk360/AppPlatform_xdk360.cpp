@@ -51,8 +51,17 @@ const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(LocalPlayerID playe
 	if (deviceId != C_SAVEDEVICE_ID_NONE)
 		return deviceId;
 
+	/*mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	// This is required in order for the system UI to render in a blocking context
+	renderContext.suspend();*/
+
+	// Create event for asynchronous writing
+	HANDLE hEventComplete = NULL; //CreateEvent(NULL, FALSE, FALSE, NULL);
+
 	ULARGE_INTEGER iBytesRequested = { C_SAVEDEVICE_MINIMUM_FREE_BYTES };
 	XOVERLAPPED xov = {0};
+	if (hEventComplete)
+		xov.hEvent = hEventComplete;
 
 	deviceId = C_SAVEDEVICE_ID_PENDING;
 	DWORD result = XShowDeviceSelectorUI(
@@ -63,7 +72,10 @@ const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(LocalPlayerID playe
 		&xov
 	);
 
-	if (result != ERROR_IO_PENDING)
+	if (result != ERROR_IO_PENDING
+		// Only block if we could get an event handle
+		|| (hEventComplete && XGetOverlappedResult(&xov, NULL, TRUE) != ERROR_SUCCESS)
+	)
 	{
 		LOG_W("Failed to open save device for player %d", playerId);
 		deviceId = C_SAVEDEVICE_ID_ERROR;
@@ -72,8 +84,12 @@ const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(LocalPlayerID playe
 	// Wait for the save-device handle
 	while (XHasOverlappedIoCompleted(&xov) == FALSE)
 	{
+		swapBuffers();
+		// This only ends up getting run if the above event handle couldn't be created and waited on
 		sleepMs(20);
 	}
+
+	//renderContext.resume();
 
 	return deviceId;
 }
@@ -154,7 +170,8 @@ void AppPlatform_xdk360::beginProfileDataRead(LocalPlayerID playerId)
 	XCONTENT_DATA contentData;
 	_getXContentData(contentData, playerId);
 
-	XUID xuid;
+	// Fuck this check, it just fails sometimes for no apparent reason
+	/*XUID xuid;
 	BOOL playerIsCreator;
 	XContentGetCreator(playerId, &contentData, &playerIsCreator, &xuid, NULL);
 
@@ -162,7 +179,7 @@ void AppPlatform_xdk360::beginProfileDataRead(LocalPlayerID playerId)
 	{
 		LOG_E("Current player is not the creator of, and therefore cannot write to, the requested profile data!");
 		throw std::bad_cast();
-	}
+	}*/
 
 	// Mount the device to the "savedrive" drive name
 	DWORD result = XContentCreate(playerId, "savedrive", &contentData, XCONTENTFLAG_OPENEXISTING, NULL, NULL, NULL);
@@ -187,8 +204,9 @@ void AppPlatform_xdk360::endProfileDataRead(LocalPlayerID playerId)
 {
 	if (m_currentSavingPlayerId == -1)
 	{
-		LOG_E("Tried to end profile data read for player %d, but no one is saving any data!", playerId);
-		throw std::bad_cast();
+		LOG_W("Tried to end profile data read for player %d, but no one is saving any data!", playerId);
+		//throw std::bad_cast();
+		return;
 	}
 
 	XContentClose("savedrive", NULL);

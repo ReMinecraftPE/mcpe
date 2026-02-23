@@ -66,6 +66,8 @@ namespace mce
         void clearContextState();
         void beginRender();
         void endRender();
+		void suspend();
+		void resume();
         void swapBuffers();
 
         bool supports8BitIndices() const;

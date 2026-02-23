@@ -14,16 +14,16 @@ RegionFile::RegionFile(const std::string fileName)
 	m_pFile = nullptr;
 	m_fileName = fileName + "/" + "chunks.dat";
 
-	field_20 = new int[1024];
-	field_24 = new int[1024];
-	memset(field_24, 0, 1024 * sizeof(int));
+	m_offsets = new int[1024];
+	m_emptyChunk = new int[1024];
+	memset(m_emptyChunk, 0, 1024 * sizeof(int));
 }
 
 RegionFile::~RegionFile()
 {
 	close();
-	if (field_20) delete[] field_20;
-	if (field_24) delete[] field_24;
+	if (m_offsets) delete[] m_offsets;
+	if (m_emptyChunk) delete[] m_emptyChunk;
 }
 
 void RegionFile::close()
@@ -38,25 +38,25 @@ void RegionFile::close()
 bool RegionFile::open()
 {
 	close();
-	memset(field_20, 0, 1024 * sizeof(int));
+	memset(m_offsets, 0, 1024 * sizeof(int));
 	
 	m_pFile = fopen(m_fileName.c_str(), "r+b");
 	if (m_pFile)
 	{
-		READ(field_20, sizeof(int), 1024, m_pFile);
+		READ(m_offsets, sizeof(int), 1024, m_pFile);
 		
-		field_28[0] = false;
+		m_sectorFree[0] = false;
 
 		for (int i = 0; i < 1024; i++)
 		{
-			int v13 = this->field_20[i];
+			int v13 = this->m_offsets[i];
 			if (v13)
 			{
 				int v12 = v13 >> 8;
 				int v11 = uint8_t(v13);
 				for (int j = 0; j < v11; ++j)
 				{
-					field_28[j + v12] = false;
+					m_sectorFree[j + v12] = false;
 				}
 			}
 		}
@@ -68,15 +68,15 @@ bool RegionFile::open()
 	if (!m_pFile)
 		return false;
 
-	WRITE(field_20, sizeof(int), 1024, m_pFile);
-	field_28[0] = false;
+	WRITE(m_offsets, sizeof(int), 1024, m_pFile);
+	m_sectorFree[0] = false;
 
 	return true;
 }
 
 bool RegionFile::readChunk(const ChunkPos& pos, RakNet::BitStream** pBitStream)
 {
-	int idx = field_20[32 * pos.z + pos.x];
+	int idx = m_offsets[32 * pos.z + pos.x];
 	if (!idx)
 		return false;
 
@@ -113,7 +113,7 @@ bool RegionFile::write(int index, RakNet::BitStream& bitStream)
 bool RegionFile::writeChunk(const ChunkPos& pos, RakNet::BitStream& bitStream)
 {
 	int length = bitStream.GetNumberOfBytesUsed();
-	int field20i = field_20[32 * pos.z + pos.x];
+	int field20i = m_offsets[32 * pos.z + pos.x];
 	int lowerIndex = (length + 4) / SECTOR_BYTES + 1;
 	if (lowerIndex > 256)
 		return false;
@@ -128,20 +128,20 @@ bool RegionFile::writeChunk(const ChunkPos& pos, RakNet::BitStream& bitStream)
 	
 	for (int i = 0; i < field20iL; i++)
 	{
-		field_28[i + field20iU] = true;
+		m_sectorFree[i + field20iU] = true;
 	}
 
 	bool bNeedWrite = false;
 	int v22 = 0, i = 0;
 	while (i < lowerIndex)
 	{
-		if (field_28.find(i + v22) == field_28.end())
+		if (m_sectorFree.find(i + v22) == m_sectorFree.end())
 		{
 			bNeedWrite = true;
 			break;
 		}
 
-		if (field_28[i + v22])
+		if (m_sectorFree[i + v22])
 		{
 			i++;
 		}
@@ -158,22 +158,22 @@ bool RegionFile::writeChunk(const ChunkPos& pos, RakNet::BitStream& bitStream)
 			return false;
 		for (int j = 0; lowerIndex - i > j; j++)
 		{
-			if (fwrite(field_24, sizeof(int), 1024, m_pFile) != 1024)
+			if (fwrite(m_emptyChunk, sizeof(int), 1024, m_pFile) != 1024)
 				return false;
-			field_28[j + v22] = true;
+			m_sectorFree[j + v22] = true;
 		}
 	}
 
-	field_20[32 * pos.z + pos.x] = (v22 << 8) | lowerIndex;
+	m_offsets[32 * pos.z + pos.x] = (v22 << 8) | lowerIndex;
 	for (int k = 0; k < lowerIndex; k++)
 	{
-		field_28[k + v22] = false;
+		m_sectorFree[k + v22] = false;
 	}
 
 	write(v22, bitStream);
 	if (fseek(m_pFile, sizeof(int) * (pos.x + 32 * pos.z), SEEK_SET) != 0)
 		return false;
-	if (fwrite(&field_20[pos.x + 32 * pos.z], sizeof(int), 1, m_pFile) != 1)
+	if (fwrite(&m_offsets[pos.x + 32 * pos.z], sizeof(int), 1, m_pFile) != 1)
 		return false;
 
 	return true;

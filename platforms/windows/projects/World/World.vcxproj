@@ -81,6 +81,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\BirchFeature.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\CactusFeature.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ClayFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\FancyTreeFeature.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\FlowerFeature.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeCaveFeature.cpp" />

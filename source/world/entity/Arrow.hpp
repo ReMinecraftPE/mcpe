@@ -32,6 +32,8 @@ public:
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	float getShadowHeightOffs() const override { return 0.0f; }
+	AuxValue getAuxValue() const override;
+	void setAuxValue(AuxValue value) override;
 
 private:
 	TilePos m_tilePos;

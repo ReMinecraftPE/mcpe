@@ -216,9 +216,9 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStac
 	ss << item.m_count;
 	std::string amtstr = ss.str();
 
-	int width = font->width(amtstr), height = font->height(amtstr) + 8;
+	int width = font->width(amtstr);
 
-	font->drawShadow(amtstr, x + 17 - width, y + 17 - height, 0xFFFFFF);
+	font->drawShadow(amtstr, x + 17 - width, y + 6 + 3, 0xFFFFFF);
 }
 
 void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemStack& item, int x, int y, bool b)

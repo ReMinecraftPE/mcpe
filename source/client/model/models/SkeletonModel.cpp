@@ -7,7 +7,7 @@ SkeletonModel::SkeletonModel() : ZombieModel()
     m_armRight.clear();
     m_armLeft.clear();
     m_legRight.clear();
-    m_legRight.clear();
+    m_legLeft.clear();
 
     m_armRight.addBox(-1.0f, -2.0f, -1.0f, 2, 12, 2, 0.0f);
     m_armRight.setPos(-5.0f, 2.0f, 0.0f);

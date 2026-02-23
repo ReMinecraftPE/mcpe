@@ -32,6 +32,10 @@ EntityRenderer::EntityRenderer()
 	m_pDispatcher = nullptr;
 }
 
+EntityRenderer::~EntityRenderer()
+{
+}
+
 bool EntityRenderer::bindTexture(const std::string& file, bool isRequired)
 {
 	if (!m_pDispatcher || !m_pDispatcher->m_pTextures)

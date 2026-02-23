@@ -16,58 +16,29 @@ bool ProgressScreen::isInGameScreen()
 
 void ProgressScreen::render(float f)
 {
-	renderBackground();
+	renderDirtBackground(0);
 
-	// render the dirt background
-	// for some reason, this was manually written:
-
-	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-
-	//! why not use the screen stuff
-	int x_width  = int(Minecraft::width  * Gui::InvGuiScale);
-	int x_height = int(Minecraft::height * Gui::InvGuiScale);
-
-	Tesselator& t = Tesselator::instance;
-	t.begin(4);
-	t.color(0x404040);
-	t.vertexUV(0.0f,           float(x_height), 0, 0,                      float(x_height) / 32.0f);
-	t.vertexUV(float(x_width), float(x_height), 0, float(x_width) / 32.0f, float(x_height) / 32.0f);
-	t.vertexUV(float(x_width), 0,               0, float(x_width) / 32.0f, 0);
-	t.vertexUV(0.0f,           0,               0, 0,                      0);
-	t.draw(m_materials.ui_texture_and_color);
-
-	int yPos = x_height / 2;
+	int yPos = m_height / 2;
 
 	if (m_pMinecraft->m_progressPercent >= 0)
 	{
-		float lX = float(x_width) / 2 - 50, rX = float(x_width) / 2 + 50;
+		float lX = float(m_width) / 2 - 50, rX = float(m_width) / 2 + 50;
 		float prog = float(m_pMinecraft->m_progressPercent);
 
-		t.begin(8);
-
-		t.color(0x808080); // gray background
-		t.vertex(lX, float(yPos + 16), 0);
-		t.vertex(lX, float(yPos + 18), 0);
-		t.vertex(rX, float(yPos + 18), 0);
-		t.vertex(rX, float(yPos + 16), 0);
-
-		t.color(0x80FF80); // the green stuff
-		t.vertex(lX,        float(yPos + 16), 0);
-		t.vertex(lX,        float(yPos + 18), 0);
-		t.vertex(lX + prog, float(yPos + 18), 0);
-		t.vertex(lX + prog, float(yPos + 16), 0);
-
-		t.draw(m_materials.ui_fill_gradient);
+		// gray background
+		fill(lX, yPos + 16.0f, rX, yPos + 18.0f, 0xFF808080);
+		// the green stuff
+		fill(lX, yPos + 16.0f, lX + prog, yPos + 18.0f, 0xFF80FF80);
 	}
 
 	//! Using m_pMinecraft->m_pFont instead of m_pFont.
 	Font* pFont = m_pMinecraft->m_pFont;
 
 	int width = pFont->width("Generating world");
-	pFont->drawShadow("Generating world", (x_width - width) / 2, yPos - 20, 0xFFFFFF);
+	pFont->drawShadow("Generating world", (m_width - width) / 2, yPos - 20, 0xFFFFFF);
 
 	width = pFont->width(m_pMinecraft->getProgressMessage());
-	pFont->drawShadow(m_pMinecraft->getProgressMessage(), (x_width - width) / 2, yPos + 4, 0xFFFFFF);
+	pFont->drawShadow(m_pMinecraft->getProgressMessage(), (m_width - width) / 2, yPos + 4, 0xFFFFFF);
 
 #ifdef ORIGINAL_CODE
 	sleepMs(50);

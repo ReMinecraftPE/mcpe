@@ -7,6 +7,8 @@
  ********************************************************************/
 
 #include "TileItem.hpp"
+#include "network/RakNetInstance.hpp"
+#include "network/packets/PlaceBlockPacket.hpp"
 #include "world/level/Level.hpp"
 #include "world/tile/Tile.hpp"
 
@@ -65,6 +67,9 @@ bool TileItem::useOn(ItemStack* instance, Player* player, Level* level, const Ti
 		(pTile->m_pSound->volume + 1.0f) * 0.5f,
 		pTile->m_pSound->pitch * 0.8f
 	);
+
+	if (level->m_pRakNetInstance)
+		level->m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp, (TileID)m_tile, face, instance->getAuxValue()));
 
 	player->useItem(*instance);
 	return true;

@@ -30,7 +30,7 @@ void AvailableGamesList::renderBackground(float f)
 void AvailableGamesList::renderItem(int idx, int x, int y, int width, const MenuPointer& pointer, Tesselator& t)
 {
     drawString(*m_pMinecraft->m_pFont, std::string(m_games[idx].m_name.C_String()),    x, y + 2,  0xA0FFFF);
-    drawString(*m_pMinecraft->m_pFont, std::string(m_games[idx].m_address.ToString()), x, y + 16, 0xA0FFFF);
+    drawString(*m_pMinecraft->m_pFont, m_games[idx].getAddressStr(), x, y + 16, 0xA0FFFF);
 }
 
 void AvailableGamesList::selectItem(int index, bool b)

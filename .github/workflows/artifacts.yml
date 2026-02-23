@@ -50,6 +50,7 @@ jobs:
                 cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     ${{ matrix.flags }}
                 cmake --build .
@@ -62,66 +63,67 @@ jobs:
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
-    linux32:
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                  - name: SDL 2 (OGL)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl2-dev:i386'
-                  - name: SDL 2 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
-                    packages: 'libsdl2-dev:i386'
-        name: Linux 32-bit (${{ matrix.name }})
-        runs-on: ubuntu-24.04
-        steps:
-          - name: Get Time
-            id: get-time
-            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
-          - uses: actions/cache@v5
-            with:
-              path: ~/ccache.tar.xz
-              key: linux32-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
-              restore-keys: linux32-artifact-${{ matrix.name }}-
-          - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
-          - name: Install Dependencies
-            run: |
-                sudo dpkg --add-architecture i386
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y \
-                    build-essential \
-                    cmake ninja-build \
-                    ccache \
-                    gcc-multilib g++-multilib \
-                    libopenal-dev:i386 \
-                    zlib1g-dev:i386 \
-                    ${{ matrix.packages }}
-          - name: Build
-            run: |
-                mkdir build
-                cd build
-                cmake .. -GNinja \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-                    -DCMAKE_C_FLAGS='-m32' \
-                    -DCMAKE_CXX_FLAGS='-m32' \
-                    ${{ matrix.flags }}
-                cmake --build .
-          - uses: actions/upload-artifact@v6
-            with:
-              name: Linux 32-bit (${{ matrix.name }})
-              path: |
-                build/reminecraftpe
-                build/assets
-          - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+    # linux32:
+    #     strategy:
+    #         fail-fast: false
+    #         matrix:
+    #             include:
+    #               - name: SDL 2 (OGL)
+    #                 flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+    #                 packages: 'libsdl2-dev:i386'
+    #               - name: SDL 2 (OGL + Shaders)
+    #                 flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
+    #                 packages: 'libsdl2-dev:i386'
+    #     name: Linux 32-bit (${{ matrix.name }})
+    #     runs-on: ubuntu-24.04
+    #     steps:
+    #       - name: Get Time
+    #         id: get-time
+    #         run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+    #       - uses: actions/cache@v5
+    #         with:
+    #           path: ~/ccache.tar.xz
+    #           key: linux32-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+    #           restore-keys: linux32-artifact-${{ matrix.name }}-
+    #       - name: Unpack cache
+    #         run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+    #       - name: Checkout Repository
+    #         uses: actions/checkout@v6
+    #         with:
+    #             submodules: true
+    #       - name: Install Dependencies
+    #         run: |
+    #             sudo dpkg --add-architecture i386
+    #             sudo apt-get update
+    #             sudo apt-get install --no-install-recommends -y \
+    #                 build-essential \
+    #                 cmake ninja-build \
+    #                 ccache \
+    #                 gcc-multilib g++-multilib \
+    #                 libopenal-dev:i386 \
+    #                 zlib1g-dev:i386 \
+    #                 ${{ matrix.packages }}
+    #       - name: Build
+    #         run: |
+    #             mkdir build
+    #             cd build
+    #             cmake .. -GNinja \
+    #                 -DCMAKE_BUILD_TYPE=Release \
+    #                 -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    #                 -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+    #                 -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    #                 -DCMAKE_C_FLAGS='-m32' \
+    #                 -DCMAKE_CXX_FLAGS='-m32' \
+    #                 ${{ matrix.flags }}
+    #             cmake --build .
+    #       - uses: actions/upload-artifact@v6
+    #         with:
+    #           name: Linux 32-bit (${{ matrix.name }})
+    #           path: |
+    #             build/reminecraftpe
+    #             build/assets
+    #       - name: Pack cache
+    #         run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     macos:
         strategy:
@@ -129,6 +131,10 @@ jobs:
         name: macOS
         runs-on: macos-15
         steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
           - name: Get Time
             id: get-time
             run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
@@ -138,15 +144,18 @@ jobs:
               key: macos-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: macos-artifact-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
             run: brew install llvm@21 ccache
-          - name: Build macOS binary
-            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+          - name: Build
+            run: |
+              [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
+              LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+              tar cf workspacecache.tar platforms/macos/build/work/toolchain
+              mv workspacecache.tar ~
             env:
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
@@ -154,7 +163,7 @@ jobs:
               name: macOS
               path: platforms/macos/build/ReMCPE
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache
+            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache workspacecache.tar
 
     ios:
         strategy:
@@ -162,6 +171,10 @@ jobs:
         name: iOS
         runs-on: ubuntu-24.04
         steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
           - name: Get Time
             id: get-time
             run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
@@ -171,11 +184,10 @@ jobs:
               key: ios-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: ios-artifact-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
             run: |
                 wget https://apt.llvm.org/llvm.sh
@@ -188,8 +200,12 @@ jobs:
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-          - name: Build iOS binary
-            run: ./platforms/ios/build.sh
+          - name: Build
+            run: |
+              [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
+              ./platforms/ios/build.sh
+              tar cf workspacecache.tar platforms/ios/build/work/toolchain
+              mv workspacecache.tar ~
             env:
               CLANG: clang-21
               AR: llvm-ar-21
@@ -201,7 +217,7 @@ jobs:
               name: iOS
               path: platforms/ios/build/ReMCPE.ipa
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache workspacecache.tar
 
     android:
         strategy:
@@ -215,6 +231,16 @@ jobs:
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: android-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: android-artifact-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -225,15 +251,20 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 cache: gradle
+          - name: Install Dependencies
+            run: sudo apt-get install --no-install-recommends -y ccache
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleRelease
+            env:
+                USE_CCACHE: 1
+                CCACHE_COMPILERCHECK: "%compiler% -v"
           - uses: upup-company/apksigner-android@v1
             id: sign_apk
             env:
               ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-              BUILD_TOOLS_VERSION: 33.0.1
+              BUILD_TOOLS_VERSION: 36.1.0
             if: ${{ env.ANDROID_KEYSTORE }}
             with:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
@@ -254,6 +285,8 @@ jobs:
             with:
               name: Android (${{ matrix.name }})
               path: ReMCPE.apk
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     mingw:
         strategy:
@@ -300,6 +333,7 @@ jobs:
                 cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     ${{ matrix.flags }}
                 cmake --build .
@@ -316,7 +350,7 @@ jobs:
         name: Nintendo Switch
         runs-on: ubuntu-24.04
         container:
-            image: devkitpro/devkita64@sha256:7ca6fb93e8f576a65bbfe07b537b67664a974e06eabe4e94359e3e026a0f0b0c
+            image: devkitpro/devkita64@sha256:a52e05e06951c025fe23127252555e2f94d944458ff4f19028ba297e5ffc99fd
         steps:
           - name: Get Time
             id: get-time
@@ -341,6 +375,7 @@ jobs:
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
                 mv platforms/sdl/sdl2/reminecraftpe.nro .

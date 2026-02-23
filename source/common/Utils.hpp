@@ -111,9 +111,6 @@ void closedir(DIR* dir);
 
 #define C_MAX_TILES (256)
 
-#define C_DEFAULT_PORT (19132)
-#define C_MAX_CONNECTIONS (4) // pitiful
-
 constexpr int C_MIN_X = -32000000, C_MAX_X = 32000000;
 constexpr int C_MIN_Z = -32000000, C_MAX_Z = 32000000;
 constexpr int C_MIN_Y = 0, C_MAX_Y = 128;

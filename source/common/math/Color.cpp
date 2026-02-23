@@ -18,6 +18,8 @@ Color Color::BLACK  = Color(0.0f, 0.0f, 0.0f);
 Color Color::GREY   = Color(0.5f, 0.5f, 0.5f);
 Color Color::WHITE  = Color(1.0f, 1.0f, 1.0f);
 
+Color Color::TEXT_GREY = Color(0x404040);
+
 void Color::fromHSB(float h, float s, float b)
 {
     if (s == 0.0f)

@@ -15,26 +15,8 @@
 
 ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string& path)
 {
-	m_worldsPath = path;
-
-	// Should use C_HOME_PATH
-	m_worldsPath += "/games";
-	if (createFolderIfNotExists(m_worldsPath.c_str()))
-	{
-		m_worldsPath += "/com.mojang";
-		if (createFolderIfNotExists(m_worldsPath.c_str()))
-		{
-			m_worldsPath += "/minecraftWorlds";
-			if (createFolderIfNotExists(m_worldsPath.c_str()))
-			{
-                // @WTF: why?
-				//std::vector<LevelSummary> vls;
-				//getLevelList(vls);
-			}
-		}
-	}
-
 	m_worldsPath = path + C_HOME_PATH + "minecraftWorlds";
+	createFolderIfNotExists(m_worldsPath.c_str());
 }
 
 std::string ExternalFileLevelStorageSource::getName() const

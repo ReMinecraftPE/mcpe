@@ -1,8 +1,8 @@
 #include "DeathScreen.hpp"
 
 DeathScreen::DeathScreen() :
-	m_btnRespawn(1, "Respawn!"),
-	m_btnTitle  (2, "Main menu")
+	m_btnRespawn("Respawn!"),
+	m_btnTitle  ("Main menu")
 {
 	m_tickCounter = 0;
 }
@@ -26,7 +26,7 @@ void DeathScreen::_buttonClicked(Button* pButton)
 		m_pMinecraft->m_pLocalPlayer->respawn();
 		m_pMinecraft->setScreen(nullptr);
 	}
-	if (pButton->getId() == m_btnTitle.getId())
+	else if (pButton->getId() == m_btnTitle.getId())
 	{
 		m_pMinecraft->leaveGame(false);
 	}
@@ -35,10 +35,6 @@ void DeathScreen::_buttonClicked(Button* pButton)
 void DeathScreen::tick()
 {
 	m_tickCounter++;
-}
-
-void DeathScreen::keyPressed(int key)
-{
 }
 
 void DeathScreen::render(float f)

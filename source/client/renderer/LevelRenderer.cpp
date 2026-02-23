@@ -1378,7 +1378,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	m_pMinecraft->m_pCameraEntity = pCamera;
 	m_pMinecraft->getOptions()->m_hideGui.set(true);
 	m_pMinecraft->getOptions()->m_thirdPerson.set(false); // really from the perspective of the camera
-	m_pMinecraft->m_pGameRenderer->render(0.0f);
+	m_pMinecraft->m_pGameRenderer->render(m_pMinecraft->m_timer);
 	m_pMinecraft->m_pCameraEntity = pOldMob;
 	m_pMinecraft->getOptions()->m_hideGui.set(bOldDontRenderGui);
 	m_pMinecraft->getOptions()->m_thirdPerson.set(bOldThirdPerson);

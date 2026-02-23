@@ -34,5 +34,5 @@ void RenameMPLevelScreen::render(float f)
 		}
 	}
 
-	m_pMinecraft->setScreen(new StartMenuScreen);
+	m_pMinecraft->getScreenChooser()->pushStartScreen();
 }

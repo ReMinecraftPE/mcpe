@@ -11,13 +11,13 @@
 
 DisconnectionScreen::DisconnectionScreen(const std::string& text) :
 	m_text(text),
-	m_btnOK    (0, 0, 0, "OK")
+	m_btnOK    (0, 0, "OK")
 {
 }
 
 void DisconnectionScreen::_buttonClicked(Button* pButton)
 {
-	m_pMinecraft->setScreen(new StartMenuScreen);
+	m_pMinecraft->getScreenChooser()->pushStartScreen();;
 }
 
 void DisconnectionScreen::init()

@@ -12,8 +12,16 @@ void _setSize()
 {
     XVIDEO_MODE VideoMode;
     XGetVideoMode(&VideoMode);
-    Minecraft::width  = Mth::Max(VideoMode.dwDisplayWidth, 1280);
-    Minecraft::height = Mth::Max(VideoMode.dwDisplayHeight, 720);
+    Minecraft::width  = Mth::Max(VideoMode.dwDisplayWidth, 640);
+    Minecraft::height = Mth::Max(VideoMode.dwDisplayHeight, 480);
+
+	// Hardcoded 1080p check to avoid failed D3D device creation attempt
+	if (Minecraft::width == 1920 && Minecraft::height == 1080)
+	{
+		// too big, D3D9 Device creation will fail
+		Minecraft::width = 1280;
+		Minecraft::height = 720;
+	}
 }
 
 void _onKeyboardClosed()

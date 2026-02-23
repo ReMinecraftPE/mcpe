@@ -8,13 +8,11 @@
 
 #include "JoinGameScreen.hpp"
 #include "DirectConnectScreen.hpp"
-#include "ProgressScreen.hpp"
-#include "StartMenuScreen.hpp"
 
 JoinGameScreen::JoinGameScreen() :
-	m_btnJoin(2, "Join Game"),
-	m_btnDirectConnect(3, "Direct Connect"),
-	m_btnBack(4, "Back"),
+	m_btnJoin("Join Game"),
+	m_btnDirectConnect("Direct Connect"),
+	m_btnBack("Back"),
 	m_pAvailableGamesList(nullptr)
 {
 }
@@ -24,24 +22,6 @@ JoinGameScreen::~JoinGameScreen()
 	SAFE_DELETE(m_pAvailableGamesList);
 }
 
-void JoinGameScreen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)
-{
-	if (stickId == 1)
-	{
-		switch (stickState)
-		{
-		case GameController::STICK_STATE_LEFT:
-			prevElement();
-			break;
-		case GameController::STICK_STATE_RIGHT:
-			nextElement();
-			break;
-		default:
-			break;
-		}
-	}
-}
-
 void JoinGameScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->getId() == m_btnJoin.getId())
@@ -49,7 +29,7 @@ void JoinGameScreen::_buttonClicked(Button* pButton)
 		if (isIndexValid(m_pAvailableGamesList->m_selectedIndex))
 		{
 			m_pMinecraft->joinMultiplayer(m_pAvailableGamesList->m_games[m_pAvailableGamesList->m_selectedIndex]);
-			m_pMinecraft->setScreen(new ProgressScreen);
+			m_pMinecraft->getScreenChooser()->pushProgressScreen();
 
 			m_btnJoin.setEnabled(false);
 			m_btnDirectConnect.setEnabled(false);
@@ -64,7 +44,7 @@ void JoinGameScreen::_buttonClicked(Button* pButton)
 
 	if (pButton->getId() == m_btnBack.getId())
 	{
-		m_pMinecraft->setScreen(new StartMenuScreen);
+		m_pMinecraft->getScreenChooser()->pushStartScreen();
 	}
 }
 
@@ -73,7 +53,7 @@ bool JoinGameScreen::handleBackEvent(bool b)
 	if (!b)
 	{
 		m_pMinecraft->cancelLocateMultiplayer();
-		m_pMinecraft->setScreen(new StartMenuScreen);
+		m_pMinecraft->getScreenChooser()->pushStartScreen();
 	}
 
 	return true;

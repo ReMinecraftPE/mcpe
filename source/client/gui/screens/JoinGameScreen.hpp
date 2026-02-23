@@ -19,7 +19,6 @@ public:
 	~JoinGameScreen();
 
 protected:
-	void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState) override;
 	void _buttonClicked(Button* pButton) override;
 
 public:

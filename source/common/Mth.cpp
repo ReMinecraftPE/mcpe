@@ -102,6 +102,17 @@ float Mth::clamp(float x, float min, float max)
 	return max;
 }
 
+int Mth::clamp(int x, int min, int max)
+{
+	if (x > max)
+		return max;
+	if (x > min)
+		return x;
+	else
+		return min;
+	return max;
+}
+
 int Mth::floor(float f)
 {
 	int result = int(f);
@@ -110,6 +121,11 @@ int Mth::floor(float f)
 		result--;
 
 	return result;
+}
+
+int Mth::round(float f)
+{
+	return floor(f + 0.5f);
 }
 
 float Mth::atan(float f)

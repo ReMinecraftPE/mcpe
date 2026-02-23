@@ -32,7 +32,6 @@ public:
 	void initVideoMenu();
 	void initControlsMenu();
 	void initGameplayMenu();
-	void initMiscMenu();
 
 private:
 	int m_selectedItem;
@@ -42,7 +41,7 @@ private:
 class OptionHeader : public GuiElement
 {
 public:
-	OptionHeader(GuiElement::ID id, const std::string& text);
+	OptionHeader(const std::string& text);
 
 public:
 	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;

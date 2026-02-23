@@ -104,6 +104,14 @@ void RenderContextBase::endRender()
 {
 }
 
+void RenderContextBase::suspend()
+{
+}
+
+void RenderContextBase::resume()
+{
+}
+
 void RenderContextBase::swapBuffers()
 {
 }

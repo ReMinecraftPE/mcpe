@@ -306,18 +306,19 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 	if (!m_pLevel)
 		return;
 
+	TilePos pos = packet->m_pos;
+
+	printf_ignorable("PlaceBlockPacket @ %d, %d, %d", pos.x, pos.y, pos.z);
+
 	Mob* pMob = (Mob*)m_pLevel->getEntity(packet->m_entityId);
 	if (!pMob || !pMob->isPlayer())
 		return;
 
 	pMob->swing();
 
-	TileID tileId = packet->m_tileTypeId;
+	TileID tileId = Tile::TransformToValidBlockId(packet->m_tileTypeId);
 	Facing::Name face = (Facing::Name)packet->m_face;
-	TilePos pos = packet->m_pos;
 	TileData data = packet->m_data;
-
-	printf_ignorable("PlaceBlockPacket: %d", tileId);
 
 	if (!m_pLevel->mayPlace(tileId, pos, true))
 		return;
@@ -442,7 +443,54 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, Interactio
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPacket* packet)
 {
+	if (!m_pLevel) return;
+
 	//puts_ignorable("UseItemPacket");
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity) return;
+	Player* pPlayer = (Player*)pEntity;
+
+	if (!pEntity->isPlayer())
+		return;
+
+	bool onTile = packet->m_tileFace != 255;
+
+	if (onTile)
+	{
+		Tile* pTile = Tile::tiles[m_pLevel->getTile(packet->m_tilePos)];
+		if (pTile)
+		{
+			if (pTile == Tile::invisible_bedrock)
+				return;
+
+			// Interface with tile instead of using item
+			if (pTile->use(m_pLevel, packet->m_tilePos, pPlayer))
+			{
+				pPlayer->swing();
+				return;
+			}
+		}
+	}
+
+	if (packet->m_item.isEmpty())
+		return;
+
+	if (onTile)
+	{
+		packet->m_item.useOn(pPlayer, m_pLevel, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
+	}
+	else
+	{
+		packet->m_item.use(m_pLevel, pPlayer);
+	}
+
+	pPlayer->swing();
+}
+
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerActionPacket* packet)
+{
+	puts_ignorable("PlayerActionPacket");
 	if (!m_pLevel) return;
 
 	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
@@ -452,25 +500,15 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPac
 	if (!pEntity->isPlayer())
 		return;
 
-	Tile* pTile = Tile::tiles[m_pLevel->getTile(packet->m_tilePos)];
-	if (pTile)
+	switch (packet->m_action)
 	{
-		if (pTile == Tile::invisible_bedrock)
-			return;
-
-		// Interface with tile instead of using item
-		if (pTile->use(m_pLevel, packet->m_tilePos, pPlayer))
-		{
-			pPlayer->swing();
-			return;
-		}
+	case PlayerActionPacket::STOP_USING_ITEM:
+		pPlayer->releaseUsingItem();
+		break;
+	default:
+		LOG_W("Unsupported PlayerAction: %d", packet->m_action);
+		break;
 	}
-
-	if (packet->m_item.isEmpty())
-		return;
-
-	packet->m_item.useOn(pPlayer, m_pLevel, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
-	pPlayer->swing();
 }
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket* packet)
@@ -666,17 +704,26 @@ void ServerSideNetworkHandler::timeChanged(uint32_t time)
 
 void ServerSideNetworkHandler::entityAdded(Entity* entity)
 {
+	if (!canReplicateEntity(entity))
+		return;
+
 	if (entity->getDescriptor().isType(EntityType::ITEM))
 	{
+#if NETWORK_PROTOCOL_VERSION >= 2
 		m_pRakNetInstance->send(new AddItemEntityPacket(*(ItemEntity*)entity));
+#endif
+	}
+	else if (entity->isMob())
+	{
+		AddMobPacket packet(*((Mob*)entity));
+		//LOG_I("add mob packet!");
+		redistributePacket(&packet, m_pRakNetInstance->m_guid);
 	}
 	else
 	{
-		if (!canReplicateEntity(entity))
-			return;
-
-		AddMobPacket packet(*((Mob*)entity));
-		redistributePacket(&packet, m_pRakNetInstance->m_guid);
+#if NETWORK_PROTOCOL_VERSION >= 6
+		m_pRakNetInstance->send(new AddEntityPacket(*entity));
+#endif
 	}
 }
 
@@ -786,7 +833,15 @@ Player* ServerSideNetworkHandler::getPendingPlayerByGUID(const RakNet::RakNetGUI
 
 bool ServerSideNetworkHandler::canReplicateEntity(const Entity* pEntity) const
 {
-	if (!pEntity || !pEntity->isMob() || pEntity->isPlayer())
+	if (!pEntity || pEntity->isPlayer())
+		return false;
+
+#if NETWORK_PROTOCOL_VERSION <= 5
+	if (!pEntity->isMob() && !pEntity->getDescriptor().isType(EntityType::ITEM))
+		return false;
+#endif
+
+	if (pEntity->getDescriptor().isType(EntityType::FALLING_TILE))
 		return false;
 
 	// All clients on V3 will just crash if an unknown 
@@ -871,7 +926,7 @@ void ServerSideNetworkHandler::commandStats(OnlinePlayer* player, const std::vec
 
 	std::stringstream ss;
 	ss << "Server uptime: " << getTimeS() << " seconds.\n";
-	ss << "Host's name: " << m_pMinecraft->m_pUser->field_0 << "\n";
+	ss << "Host's name: " << m_pMinecraft->m_pUser->m_name << "\n";
 
 	size_t nPlayers = m_onlinePlayers.size();
 	if (nPlayers == 1)

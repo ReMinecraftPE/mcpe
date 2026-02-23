@@ -40,7 +40,7 @@ def extract_sounds(apk_zip):
 # Extract Assets
 def extract_assets(apk_zip):
     assets = os.path.dirname(os.path.abspath(__file__))
-    assets = os.path.join(assets, '..', 'game', 'assets', 'resource_packs', 'mojang')
+    assets = os.path.join(assets, '..', 'game', 'assets', 'resource_packs', 'minecraft')
     # Search For Assets
     for name in apk_zip.namelist():
         if name.startswith(ASSETS_DIR):

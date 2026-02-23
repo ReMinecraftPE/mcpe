@@ -235,11 +235,29 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ContainerScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\InventoryScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LogoRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\TextureAtlas.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePack.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\AreaNavigation.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\ScrollRenderer_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TickBox.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\ScreenChooser_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\VerticalLayout.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboard.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\ScreenChooser.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\SplashManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -391,6 +409,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ContainerScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\InventoryScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LogoRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureAtlas.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePack.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.cpp" />
@@ -398,6 +418,22 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SliderButton.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchButton.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SwitchValuesButton.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\AreaNavigation.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\ScrollRenderer_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TickBox.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\ScreenChooser_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ClassicCraftingScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PanelScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\VerticalLayout.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\ScreenChooser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\SplashManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

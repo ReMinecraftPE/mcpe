@@ -36,9 +36,6 @@
   },
 
   "ui_text:ui_texture_and_color": {
-    "states": [
-      "EnableAlphaTest"
-    ],
     "fragmentShader": "shaders/text.fragment"
   },
 

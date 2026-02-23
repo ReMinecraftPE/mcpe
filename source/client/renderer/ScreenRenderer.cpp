@@ -3,10 +3,27 @@
 #include "renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "client/renderer/renderer/Tesselator.hpp"
+#include "client/resources/Resource.hpp"
 
 #ifdef _MSC_VER
 #pragma warning (disable : 4244)
 #endif
+
+std::string ScreenRenderer::PANEL_SLICES[] = { "gui/console/Graphics/Panel_TL.png", "gui/console/Graphics/Panel_TM.png", "gui/console/Graphics/Panel_TR.png",
+                                               "gui/console/Graphics/Panel_ML.png", "gui/console/Graphics/Panel_MM.png", "gui/console/Graphics/Panel_MR.png",
+                                               "gui/console/Graphics/Panel_BL.png", "gui/console/Graphics/Panel_BM.png", "gui/console/Graphics/Panel_BR.png" };
+
+std::string ScreenRenderer::SMALL_PANEL_SLICES[] = { "gui/console/Panel_Top_L.png", "gui/console/Panel_Top_M.png", "gui/console/Panel_Top_R.png",
+                                                     "gui/console/Panel_Mid_L.png", "gui/console/Panel_Mid_M.png", "gui/console/Panel_Mid_R.png",
+                                                     "gui/console/Panel_Bot_L.png", "gui/console/Panel_Bot_M.png", "gui/console/Panel_Bot_R.png" };
+
+std::string ScreenRenderer::PANEL_RECESS_SLICES[] = { "gui/console/Graphics/Panel_Recess_Top_L.png", "gui/console/Graphics/Panel_Recess_Top_M.png", "gui/console/Graphics/Panel_Recess_Top_R.png",
+                                                      "gui/console/Graphics/Panel_Recess_Mid_L.png", "gui/console/Graphics/Panel_Recess_Mid_M.png", "gui/console/Graphics/Panel_Recess_Mid_R.png",
+                                                      "gui/console/Graphics/Panel_Recess_Bot_L.png", "gui/console/Graphics/Panel_Recess_Bot_M.png", "gui/console/Graphics/Panel_Recess_Bot_R.png" };
+
+std::string ScreenRenderer::POINTER_TEXT_PANEL_SLICES[] = { "gui/console/Graphics/PointerTextPanel_TL.png", "gui/console/Graphics/PointerTextPanel_TM.png", "gui/console/Graphics/PointerTextPanel_TR.png",
+                                                            "gui/console/Graphics/PointerTextPanel_ML.png", "gui/console/Graphics/PointerTextPanel_MM.png", "gui/console/Graphics/PointerTextPanel_MR.png",
+                                                            "gui/console/Graphics/PointerTextPanel_BL.png", "gui/console/Graphics/PointerTextPanel_BM.png", "gui/console/Graphics/PointerTextPanel_BR.png" };
 
 ScreenRenderer::Materials::Materials()
 {
@@ -75,6 +92,55 @@ void ScreenRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw
     t.draw(materialPtr ? *materialPtr : m_materials.ui_textured);
 }
 
+void ScreenRenderer::blitTexture(Textures& textures, const std::string& texture, int x, int y, float u, float v, int width, int height, int uvWidth, int uvHeight, int textureWidth, int textureHeight, mce::MaterialPtr* materialPtr)
+{
+    textures.loadAndBindTexture(texture);
+    Tesselator& t = Tesselator::instance;
+    t.begin(4);
+    t.vertexUV(x, y + height, m_blitOffset, u / textureWidth, (v + uvHeight) / textureHeight);
+    t.vertexUV(x + width, y + height, m_blitOffset, (u + uvWidth) / textureWidth, (v + uvHeight) / textureHeight);
+    t.vertexUV(x + width, y, m_blitOffset, (u + uvWidth) / textureWidth, v / textureHeight);
+    t.vertexUV(x, y, m_blitOffset, u / textureWidth, v / textureHeight);
+    t.draw(materialPtr ? *materialPtr : m_materials.ui_textured);
+}
+
+void ScreenRenderer::blitTexture(Textures& textures, const std::string& texture, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, mce::MaterialPtr* materialPtr)
+{
+    blitTexture(textures, texture, x, y, u, v, width, height, width, height, textureWidth, textureHeight, materialPtr);
+}
+
+void ScreenRenderer::blitTexture(Textures& textures, const std::string& texture, int x, int y, float u, float v, int width, int height, mce::MaterialPtr* materialPtr)
+{
+    blitTexture(textures, texture, x, y, u, v, width, height, width, height, width, height, materialPtr);
+}
+
+void ScreenRenderer::blitSprite(Textures& textures, const std::string& texture, int x, int y, int width, int height, mce::MaterialPtr* materialPtr, float u, float v, int uvWidth, int uvHeight)
+{
+    blitSprite(textures, textures.getGuiSprite(texture), x, y, width, height, materialPtr, u, v, uvWidth, uvHeight);
+}
+
+void ScreenRenderer::blitSprite(Textures& textures, const TextureAtlasSprite* sprite, int x, int y, int width, int height, mce::MaterialPtr* materialPtr, float u, float v, int uvWidth, int uvHeight)
+{
+    if (!sprite || !sprite->m_pAtlas) return;
+
+    TextureAtlas& atlas = *sprite->m_pAtlas;
+
+
+    float u0 = u ? sprite->minU + u / atlas.getWidth() : sprite->minU;
+    float u1 = u || uvWidth ? sprite->minU + (u + uvWidth) / atlas.getWidth() : sprite->maxU;
+    float v0 = v ? sprite->minV + v / atlas.getHeight() : sprite->minV;
+    float v1 = v || uvHeight ? sprite->minV + (v + uvHeight) / atlas.getHeight() : sprite->maxV;
+
+    textures.loadAndBindTexture(sprite->m_pAtlas->m_name);
+    Tesselator& t = Tesselator::instance;
+    t.begin(4);
+    t.vertexUV(x, y + height, m_blitOffset, u0, v1);
+    t.vertexUV(x + width, y + height, m_blitOffset, u1, v1);
+    t.vertexUV(x + width, y, m_blitOffset, u1, v0);
+    t.vertexUV(x, y, m_blitOffset, u0, v0);
+    t.draw(materialPtr ? *materialPtr : m_materials.ui_textured);
+}
+
 void ScreenRenderer::blitRaw(float x1, float x2, float y1, float y2, float z, float u1, float u2, float v1, float v2)
 {
     Tesselator& t = Tesselator::instance;
@@ -87,11 +153,64 @@ void ScreenRenderer::blitRaw(float x1, float x2, float y1, float y2, float z, fl
     t.draw(m_materials.ui_textured_and_glcolor);
 }
 
+void ScreenRenderer::blitNineSlice(Textures& textures, const std::string* slices, int x, int y, int width, int height, int border, mce::MaterialPtr* materialPtr)
+{
+    blitSprite(textures, slices[0], x,                  y,                   border,             border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[1], x + border,         y,                   width - 2 * border, border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[2], x + width - border, y,                   border,             border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[3], x,                  y + border,          border,             height - 2 * border, materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[4], x + border,         y + border,          width - 2 * border, height - 2 * border, materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[5], x + width - border, y + border,          border,             height - 2 * border, materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[6], x,                  y + height - border, border,             border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[7], x + border,         y + height - border, width - 2 * border, border,              materialPtr, 0, 0, border, border);
+    blitSprite(textures, slices[8], x + width - border, y + height - border, border,             border,              materialPtr, 0, 0, border, border);
+}
+
+void ScreenRenderer::blitNineSlice(Textures& textures, const std::string& spriteName, int x, int y, int width, int height, int border, mce::MaterialPtr* materialPtr)
+{
+    const TextureAtlasSprite* sprite = textures.getGuiSprite(spriteName);
+    if (!sprite || !sprite->m_pAtlas) return;
+
+    int iw = sprite->w;
+    int ih = sprite->h;
+
+    if (iw == width && ih == height)
+    {
+        blitSprite(textures, spriteName, x, y, width, height, materialPtr);
+        return;
+    }
+
+    if (iw == width)
+    {
+        blitSprite(textures, sprite, x, y,                   width, border,              materialPtr);
+        blitSprite(textures, sprite, x, y + border,          width, height - border * 2, materialPtr, 0, border,      width, border);
+        blitSprite(textures, sprite, x, y + height - border, width, border,              materialPtr, 0, ih - border);
+        return;
+    }
+
+    if (iw == height)
+    {
+        blitSprite(textures, sprite, x,                  y, border,             height, materialPtr);
+        blitSprite(textures, sprite, x + border,         y, width - 2 * border, height, materialPtr, border,      0, border, height);
+        blitSprite(textures, sprite, x + width - border, y, border,             height, materialPtr, iw - border);
+        return;
+    }
+
+    blitSprite(textures, sprite, x,                  y,                   border,             border,              materialPtr, 0,           0,           border, border);
+    blitSprite(textures, sprite, x + border,         y,                   width - 2 * border, border,              materialPtr, border,      0,           border, border);
+    blitSprite(textures, sprite, x + width - border, y,                   border,             border,              materialPtr, iw - border, 0,           border, border);
+    blitSprite(textures, sprite, x,                  y + border,          border,             height - 2 * border, materialPtr, 0,           border,      border, border);
+    blitSprite(textures, sprite, x + border,         y + border,          width - 2 * border, height - 2 * border, materialPtr, border,      border,      border, border);
+    blitSprite(textures, sprite, x + width - border, y + border,          border,             height - 2 * border, materialPtr, iw - border, border,      border, border);
+    blitSprite(textures, sprite, x,                  y + height - border, border,             border,              materialPtr, 0,           ih - border, border, border);
+    blitSprite(textures, sprite, x + border,         y + height - border, width - 2 * border, border,              materialPtr, border,      ih - border, border, border);
+    blitSprite(textures, sprite, x + width - border, y + height - border, border,             border,              materialPtr, iw - border, ih - border, border, border);
+}
+
 void ScreenRenderer::drawCenteredString(Font& font, const std::string& str, int cx, int cy, const Color& color)
 {
     int width = font.width(str);
-    int height = font.height(str);
-    font.drawShadow(str, cx - width / 2, cy - height / 2, color);
+    font.drawShadow(str, cx - width / 2, cy, color);
 }
 
 void ScreenRenderer::drawString(Font& font, const std::string& str, int cx, int cy, const Color& color)

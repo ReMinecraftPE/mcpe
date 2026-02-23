@@ -35,6 +35,7 @@ public:
 	virtual float getEntityReachDistance() const;
 	virtual bool useItem(Player* player, Level* level, ItemStack& item);
 	virtual bool useItemOn(Player*, Level*, ItemStack&, const TilePos& pos, Facing::Name face);
+	virtual void releaseUsingItem(Player* player);
 	virtual LocalPlayer* createPlayer(Level*);
 	virtual void initPlayer(Player*);
 	virtual void adjustPlayer(Player*);

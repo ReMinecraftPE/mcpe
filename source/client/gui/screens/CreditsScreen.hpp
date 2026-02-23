@@ -6,7 +6,7 @@
 class CreditsScreen : public Screen
 {
 public:
-	CreditsScreen();
+	CreditsScreen(Screen* parent);
 	~CreditsScreen();
 
 private:
@@ -21,9 +21,10 @@ public:
 	bool handleBackEvent(bool b) override;
 	void _buttonClicked(Button* pButton) override;
 
+private:
+	Screen* m_pParent;
+	std::vector<std::string> m_credits;
+
 public:
 	Button m_btnBack;
-
-private:
-	std::vector<std::string> m_credits;
 };

@@ -13,10 +13,13 @@ public:
 		m_entityTypeId = 0;
 	}
 	AddMobPacket(const Mob& mob);
+
+public:
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
 	void write(RakNet::BitStream&) override;
 	void read(RakNet::BitStream&) override;
 	const SynchedEntityData::ItemsArray& getUnpackedData() const { return m_unpack; }
+
 public:
 	int32_t m_entityId;
 	int32_t m_entityTypeId;

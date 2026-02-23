@@ -2,6 +2,8 @@
 <xex>
 	<!-- "Minecraft: Xbox 360 Edition" Title ID + 1 (to ensure no conflicts) -->
 	<titleid id="0x584111F8"/>
+	<!-- https://gist.github.com/Byrom90/13c82244e5d8262632f4e1de302d2e11 -->
+	<privilege id="6"/> <!-- Insecure Sockets -->
 	<format>
 		<compressed/>
 	</format>

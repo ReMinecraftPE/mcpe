@@ -7,14 +7,13 @@
  ********************************************************************/
 
 #include "DirectConnectScreen.hpp"
-#include "ProgressScreen.hpp"
 #include "JoinGameScreen.hpp"
 #include "common/Util.hpp"
 
 DirectConnectScreen::DirectConnectScreen() :
-	m_textAddress(this, 1, 0, 0, 0),
-	m_btnCancel(3, "Cancel"),
-	m_btnJoin(2, "Join Server")
+	m_textAddress(this, 0, 0, 0),
+	m_btnCancel("Cancel"),
+	m_btnJoin("Join Server")
 {}
 
 void DirectConnectScreen::_buttonClicked(Button* pButton)
@@ -36,7 +35,7 @@ void DirectConnectScreen::_buttonClicked(Button* pButton)
 		newPgs.m_address = sysAddress;
 
 		m_pMinecraft->joinMultiplayer(newPgs);
-		m_pMinecraft->setScreen(new ProgressScreen);
+		m_pMinecraft->getScreenChooser()->pushProgressScreen();
 
 		m_btnJoin.setEnabled(false);
 		m_textAddress.setEnabled(false);

@@ -10,6 +10,7 @@ public:
 protected:
     void _renderLabels() override;
     void _renderBg(float partialTicks) override;
+    SlotDisplay _createSlotDisplay(const Slot&);
 
 private:
     Container* m_pInventory;

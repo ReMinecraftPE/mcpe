@@ -46,8 +46,6 @@ private:
 	SlotID m_selectedSlot;
 	bool m_bReleased;
 	bool m_bClickedOnSlot;
-    Button m_btnPause;
-	Button m_btnChat;
 	Button m_btnCraft;
 	Button m_btnArmor;
 	std::vector<ItemStack> m_items;

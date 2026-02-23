@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <vector>
 #include "common/Random.hpp"
 #include "common/Utils.hpp"
 #include "world/level/TilePos.hpp"
@@ -44,6 +45,44 @@ class PineFeature : public Feature
 {
 public:
 	bool place(Level*, Random*, const TilePos& pos) override;
+};
+
+class FancyTreeFeature : public Feature
+{
+public:
+	FancyTreeFeature();
+	virtual ~FancyTreeFeature();
+	void generateBranchesAndTrunk();
+	void crossection(int x, int y, int z, float radius, uint8_t majorAxis, int blockId);
+	float treeShape(int offset);
+	float foliageShape(int layerOffset);
+	void foliageCluster(int x, int y, int z);
+	void limb(const TilePos& start, const TilePos& end, int blockId);
+	bool trimBranches(int heightOffset);
+	void makeTrunk();
+	int checkLine(TilePos& startPos, TilePos& endPos);
+	bool checkLocation();
+	void init(float density, float widthScale, float foliageDensity) override;
+	bool place(Level*, Random*, const TilePos& pos) override;
+	
+	// Helper methods for axis-based coordinate access
+	static int& getAxisCoord(TilePos& pos, uint8_t axis);
+	static int getAxisCoord(const TilePos& pos, uint8_t axis);
+
+private:
+	static const uint8_t axisConversionArray[6];
+	Random m_rnd;
+	Level* m_pLevel;
+	TilePos m_origin;
+	int m_height;
+	int m_trunkHeight;
+	float m_trunkHeightScale;
+	float m_branchSlope;
+	float m_widthScale;
+	float m_foliageDensity;
+	int m_trunkWidth;
+	int m_heightVariance;
+	int m_foliageHeight;
 };
 
 class FlowerFeature : public Feature
@@ -117,5 +156,3 @@ class PumpkinFeature : public Feature
 public:
 	bool place(Level*, Random*, const TilePos& pos) override;
 };
-
-

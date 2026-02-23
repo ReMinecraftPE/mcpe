@@ -37,7 +37,7 @@ cp -a \
     "$platformdir/precompiled"/* \
     "$assetdir" \
     "$apppath" || true
-mv "$apppath/assets/icon.png" "$apppath/assets/app/launch"/* "$apppath"
+mv "$apppath/assets/app/icons/icon.png" "$apppath/assets/app/launch"/* "$apppath"
 rm -rf "$apppath/assets/app" "$apppath/assets/.gitignore"
 cd "$ipadir"
 rm -f "../$ipaname"

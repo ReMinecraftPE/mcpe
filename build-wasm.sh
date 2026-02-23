@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -19,7 +19,7 @@ git pull
 
 # Use Emscripten SDK
 export EMSDK_QUIET=1
-source ./emsdk_env.sh
+. ./emsdk_env.sh
 
 # Create Output Directory
 cd ../

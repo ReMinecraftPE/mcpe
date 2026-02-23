@@ -5,13 +5,14 @@
 class SwitchValuesButton : public Button
 {
 public:
-	SwitchValuesButton(int id, int x, int y, ValuesOption*, const std::string&);
+	SwitchValuesButton(int x, int y, OptionEntry*, const std::string&);
 
+	void pressed(Minecraft*) override;
 	void pressed(Minecraft*, const MenuPointer& pointer) override;
 	void render(Minecraft*, const MenuPointer& pointer) override;
 
-	ValuesOption& getOption() { return *m_pOption; };
+	OptionEntry& getOption() { return *m_pOption; };
 
 private:
-	ValuesOption* m_pOption;
+	OptionEntry* m_pOption;
 };
