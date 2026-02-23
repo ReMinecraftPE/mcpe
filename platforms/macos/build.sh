@@ -201,7 +201,6 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
-    ./autogen.sh
     ./configure \
         --target="$ppc_triple" \
         --enable-silent-rules \
