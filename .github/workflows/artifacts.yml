@@ -149,11 +149,16 @@ jobs:
               [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
               [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
-            run: brew install llvm@21 ccache gmp mpfr mpc
+            run: |
+              brew install llvm@21 ccache gmp mpfr mpc
+              # current homebrew cmake segfaults when building the ppc binary
+              wget -O- https://github.com/Kitware/CMake/releases/download/v4.2.3/cmake-4.2.3-macos-universal.tar.gz | tar -xz
           - name: Build
             run: |
               [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
-              LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+              LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" \
+                  PATH="$PWD/cmake-4.2.3-macos-universal/CMake.app/Contents/bin:$PATH" \
+                  ./platforms/macos/build.sh
               tar cf workspacecache.tar platforms/macos/build/work/toolchain platforms/macos/build/work/toolchain-ppc
               mv workspacecache.tar ~
             env:
