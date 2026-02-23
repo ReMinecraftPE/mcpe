@@ -110,9 +110,13 @@ jobs:
             with:
                 submodules: true
           - name: Install Dependencies
-            run: brew install llvm@21
+            run: brew install llvm@21 gmp mpfr mpc
           - name: Build
             run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+            env:
+              GMP: /opt/homebrew
+              MPFR: /opt/homebrew
+              MPC: /opt/homebrew
           - name: Pack release
             run: |
                 mv platforms/macos/build/ReMCPE .
