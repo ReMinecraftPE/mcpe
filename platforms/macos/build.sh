@@ -202,7 +202,6 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
 
     cd "cctools-port-$cctools_commit/cctools"
     ./configure \
-        --target="$ppc_triple" \
         --enable-silent-rules \
         --with-llvm-config=false \
         CC=remcpe-clang \
@@ -293,7 +292,7 @@ for target in $targets; do
     cc="$platformdir/macos-cc"
     cxx="$platformdir/macos-c++"
     case $arch in
-        (i386|powerpc*)
+        (i386|powerpc*|ppc*)
             if [ "$arch" = 'i386' ]; then
                 target_cflags="$cflags -march=pentium-m"
                 set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
