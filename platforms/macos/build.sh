@@ -209,7 +209,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         CXX=remcpe-clang++
     make -C ld64 -j"$ncpus"
     strip ld64/src/ld/ld
-    mv ld64/src/ld/ld "../../toolchain-ppc/bin/$ppc_triple-ld"
+    mv ld64/src/ld/ld ../../toolchain-ppc/bin/ppc-ld
     make -C libstuff -j"$ncpus"
     make -C misc nm strip -j"$ncpus"
     strip misc/nm misc/strip
@@ -242,6 +242,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --enable-languages=c,c++,objc,lto \
         --with-sysroot="$old_sdk" \
         --with-as="$(command -v ppc-as)" \
+        --with-ld="$(command -v ppc-ld)" \
         AR_FOR_TARGET="$(command -v cctools-ar)" \
         RANLIB_FOR_TARGET="$(command -v cctools-ranlib)" \
         NM_FOR_TARGET="$(command -v ppc-nm)" \
