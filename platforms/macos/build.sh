@@ -238,6 +238,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --target="$ppc_triple" \
         --disable-multilib \
         --enable-lto \
+        --with-system-zlib \
         --enable-languages=c,c++,objc,lto \
         --with-sysroot="$old_sdk" \
         --with-as="$(command -v "$ppc_triple-as")"

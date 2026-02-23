@@ -149,7 +149,7 @@ jobs:
               [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
               [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
-            run: brew install llvm@21 ccache
+            run: brew install llvm@21 ccache gmp mpfr mpc
           - name: Build
             run: |
               [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
