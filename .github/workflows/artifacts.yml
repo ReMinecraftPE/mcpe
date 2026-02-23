@@ -154,7 +154,7 @@ jobs:
             run: |
               [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
               LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
-              tar cf workspacecache.tar platforms/macos/build/work/toolchain
+              tar cf workspacecache.tar platforms/macos/build/work/toolchain platforms/macos/build/work/toolchain-ppc
               mv workspacecache.tar ~
             env:
               NOSTRIP: 1
