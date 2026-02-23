@@ -1,4 +1,6 @@
 #include <limits.h>
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 
 #include "SynchedEntityData.hpp"
 

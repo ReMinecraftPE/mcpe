@@ -163,7 +163,7 @@ public:
 class BoolOption : public OptionInstance<bool>
 {
 public:
-	BoolOption(const std::string& key, const std::string& name, bool initial = true) : OptionInstance(key, name, initial) {}
+	BoolOption(const std::string& key, const std::string& name, bool initial = true) : OptionInstance<bool>(key, name, initial) {}
 
 	void load(const std::string& value) override;
 	void save(std::stringstream& ss) const override;
@@ -176,7 +176,7 @@ class FloatOption : public OptionInstance<float>
 {
 public:
 	FloatOption(const std::string& key, const std::string& name, float initial = 0.0f, float unit = 0.01f) :
-		OptionInstance(key, name, initial),
+		OptionInstance<float>(key, name, initial),
 		m_unit(unit)
 	{
 	}
@@ -228,7 +228,7 @@ public:
 class IntOption : public OptionInstance<int>
 {
 public:
-	IntOption(const std::string& key, const std::string& name, int initial = 0) : OptionInstance(key, name, initial) {}
+	IntOption(const std::string& key, const std::string& name, int initial = 0) : OptionInstance<int>(key, name, initial) {}
 
 	void load(const std::string& value) override;
 	void save(std::stringstream& ss) const override { ss << get(); }
@@ -237,7 +237,7 @@ public:
 class StringOption : public OptionInstance<std::string>
 {
 public:
-	StringOption(const std::string& key, const std::string& name, std::string initial = "") : OptionInstance(key, name, initial) {}
+	StringOption(const std::string& key, const std::string& name, std::string initial = "") : OptionInstance<std::string>(key, name, initial) {}
 
 	void load(const std::string& value) override { set(value); }
 	void save(std::stringstream& ss) const override { ss.str(get()); }
