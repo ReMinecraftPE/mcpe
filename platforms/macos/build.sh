@@ -216,7 +216,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     make -C misc nm strip -j"$ncpus"
     strip misc/nm misc/strip
     mv misc/nm "../../toolchain-ppc/bin/$ppc_triple-nm"
-    mv misc/strip ../../toolchain/bin/ppc-strip
+    mv misc/strip ../../toolchain-ppc/bin/ppc-strip
     make -C as/ppc -j"$ncpus"
     strip as/ppc/ppc-as
     mv as/ppc/ppc-as "../../toolchain-ppc/bin/$ppc_triple-as"
@@ -287,13 +287,14 @@ for target in $targets; do
         (i386|powerpc*)
             if [ "$arch" = 'i386' ]; then
                 target_cflags="$cflags -march=pentium-m"
+                set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             else
                 target_cflags=
                 cc="$ppc_triple-gcc"
                 cxx="$ppc_triple-g++"
+                set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -static-libgcc'
             fi
             export REMCPE_SDK="$old_sdk"
-            set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             platform='sdl1'
             sdl1ver=1
             if ! [ -f sdl/lib/libSDL.a ] || [ "$(cat sdl/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
