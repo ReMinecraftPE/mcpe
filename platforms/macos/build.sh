@@ -187,6 +187,8 @@ ppctoolchainver=1
 ppc_triple='powerpc-apple-darwin8'
 targets="$targets $ppc_triple"
 if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; then
+    printf '\nBuilding powerpc toolchain...\n\n'
+
     rm -rf toolchain-ppc
     mkdir -p toolchain-ppc/bin
 
