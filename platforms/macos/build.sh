@@ -21,7 +21,7 @@ cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
-sdkver=2
+sdkver=3
 if ! [ -d "$x86_64_sdk" ] || ! [ -d "$arm64_sdk" ] || ! [ -d "$old_sdk" ] || [ "$(cat sdks/sdkver 2>/dev/null)" != "$sdkver" ]; then
     printf '\nDownloading macOS SDKs...\n\n'
     (
@@ -338,7 +338,7 @@ for target in $targets; do
                     CXX="$cxx" \
                     CFLAGS="$opt $target_cflags" \
                     CXXFLAGS="$opt $target_cflags" \
-                    CPPFLAGS='-DNDEBUG -D__DARWIN_UNIX03=1' \
+                    CPPFLAGS='-DNDEBUG' \
                     AR=cctools-ar \
                     RANLIB=cctools-ranlib
                 make -j"$ncpus"

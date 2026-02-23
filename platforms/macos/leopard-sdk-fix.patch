@@ -13,3 +13,14 @@
  #ifndef __SCSI__
  #include <OSServices/SCSI.h>
  #endif
+--- a/usr/include/sys/signal.h
++++ b/usr/include/sys/signal.h
+@@ -121,7 +121,7 @@
+ #define SIGUSR1 30	/* user defined signal 1 */
+ #define SIGUSR2 31	/* user defined signal 2 */
+ 
+-#if defined(_ANSI_SOURCE) || __DARWIN_UNIX03 || defined(__cplusplus)
++#if 1
+ /*
+  * Language spec sez we must list exactly one parameter, even though we
+  * actually supply three.  Ugh!
