@@ -153,7 +153,9 @@ jobs:
                     libssl-dev
 
           - name: Build
-            run: ./platforms/ios/build.sh
+            run: |
+              ./platforms/ios/build.sh
+              mv platforms/ios/build/ReMCPE.ipa ReMCPE-iOS.ipa
             env:
               CLANG: clang-21
               AR: llvm-ar-21
@@ -163,7 +165,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["platforms/ios/build/ReMCPE.ipa"]'
+              asset_paths: '["ReMCPE-iOS.ipa"]'
 
     android:
         strategy:
@@ -201,7 +203,7 @@ jobs:
             env:
               BUILD_TOOLS_VERSION: 36.1.0
           - name: Rename APK
-            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE.apk
+            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE-Android.apk
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
