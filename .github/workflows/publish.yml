@@ -117,12 +117,11 @@ jobs:
           - name: Build
             run: |
               LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" \
+                  GMP="$(brew --prefix)" \
+                  MPFR="$(brew --prefix)" \
+                  MPC="$(brew --prefix)" \
                   PATH="$PWD/cmake-4.2.3-macos-universal/CMake.app/Contents/bin:$PATH" \
                   ./platforms/macos/build.sh
-            env:
-              GMP: /opt/homebrew
-              MPFR: /opt/homebrew
-              MPC: /opt/homebrew
           - name: Pack release
             run: |
                 mv platforms/macos/build/ReMCPE .
