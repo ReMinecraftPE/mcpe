@@ -171,7 +171,6 @@ if [ -n "$outdated_toolchain" ]; then
     make -C ar
     strip ar/ar
     mv ar/ar ../../toolchain/bin/cctools-ar
-
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
@@ -234,7 +233,6 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     make -C as/ppc -j"$ncpus"
     strip as/ppc/ppc-as
     mv as/ppc/ppc-as ../../toolchain-ppc/bin/ppc-as
-
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
