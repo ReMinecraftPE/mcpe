@@ -9,10 +9,12 @@ int main(void) {
     puts("i386");
 #elif defined(__aarch64__)
     puts("arm64");
-#elif defined(__powerpc64__)
+#elif defined(__POWERPC__)
+#ifdef __LP64__
     puts("ppc64");
-#elif defined(__powerpc__)
+#else
     puts("powerpc");
+#endif
 #else
 #error unknown mac architecture
 #endif

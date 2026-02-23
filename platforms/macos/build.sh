@@ -5,7 +5,7 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
-# TODO: powerpc
+# powerpc is handled further down
 targets='i386-apple-macos10.4 x86_64-apple-macos10.7 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
@@ -131,13 +131,14 @@ if [ -n "$outdated_toolchain" ]; then
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
     rm -rf cctools-port-*
-    wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+    wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
     ./configure \
         --enable-silent-rules \
         --with-llvm-config="$LLVM_CONFIG" \
         --with-libtapi="$workdir/toolchain" \
+        --target=i386-apple-darwin \
         CC=remcpe-clang \
         CXX=remcpe-clang++
     make -C ld64 -j"$ncpus"
@@ -150,6 +151,10 @@ if [ -n "$outdated_toolchain" ]; then
     mv misc/strip ../../toolchain/bin/cctools-strip
     mv misc/lipo ../../toolchain/bin/lipo
     mv misc/ranlib ../../toolchain/bin/cctools-ranlib
+    ln -s cctools-ranlib ../../toolchain/bin/i386-apple-darwin-ranlib # so ar can find ranlib
+    make -C ar
+    strip ar/ar
+    mv ar/ar ../../toolchain/bin/cctools-ar
 
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
@@ -180,10 +185,12 @@ fi
 # using a newer GCC version, and we need to invalidate the cache.
 ppctoolchainver=1
 ppc_triple='powerpc-apple-darwin8'
+targets="$targets $ppc_triple"
 if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; then
     rm -rf toolchain-ppc
     mkdir -p toolchain-ppc/bin
 
+    ln -s ../../toolchain/bin/cctools-ar "toolchain-ppc/bin/$ppc_triple-ar"
     ln -s ../../toolchain/bin/cctools-ranlib "toolchain-ppc/bin/$ppc_triple-ranlib"
     ln -s ../../toolchain/bin/lipo "toolchain-ppc/bin/$ppc_triple-lipo"
     # building the real dsymutil would require a partial LLVM build, we don't need debug info that bad
@@ -192,7 +199,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
 
     cctools_commit=3fc7881e3e7fd2bc073d4f3121ce99e5e5ae36b1
     rm -rf cctools-port-*
-    wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+    wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
     ./autogen.sh
@@ -206,16 +213,13 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     strip ld64/src/ld/ld
     mv ld64/src/ld/ld "../../toolchain-ppc/bin/$ppc_triple-ld"
     make -C libstuff -j"$ncpus"
-    make -C misc nm -j"$ncpus"
-    strip misc/nm
+    make -C misc nm strip -j"$ncpus"
+    strip misc/nm misc/strip
     mv misc/nm "../../toolchain-ppc/bin/$ppc_triple-nm"
+    mv misc/strip ../../toolchain/bin/ppc-strip
     make -C as/ppc -j"$ncpus"
     strip as/ppc/ppc-as
     mv as/ppc/ppc-as "../../toolchain-ppc/bin/$ppc_triple-as"
-    make -C ar -j"$ncpus"
-    strip ar/ar
-    mv ar/ar "../../toolchain-ppc/bin/$ppc_triple-ar"
-    ln -s "$ppc_triple-ar" ../../toolchain-ppc/bin/cctools-ar
 
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
@@ -277,9 +281,17 @@ for target in $targets; do
     cd "build-$target"
 
     arch="${target%%-*}"
+    cc="$platformdir/macos-cc"
+    cxx="$platformdir/macos-c++"
     case $arch in
-        (i386)
-            target_cflags="$cflags -march=pentium-m"
+        (i386|powerpc*)
+            if [ "$arch" = 'i386' ]; then
+                target_cflags="$cflags -march=pentium-m"
+            else
+                target_cflags=
+                cc="$ppc_triple-gcc"
+                cxx="$ppc_triple-g++"
+            fi
             export REMCPE_SDK="$old_sdk"
             set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             platform='sdl1'
@@ -296,18 +308,27 @@ for target in $targets; do
                 if [ -n "$DEBUG" ]; then
                     opt='-O0'
                 else
-                    opt='-O2'
+                    if [ "$arch" = 'i386' ]; then
+                        opt='-O2'
+                    else
+                        opt='-O2 -flto'
+                    fi
+                fi
+                if [ "$arch" != 'i386' ]; then
+                    sed -e 's/-fpascal-strings//g' configure > configure.patched
+                    mv configure.patched configure
+                    chmod +x configure
                 fi
                 ./configure \
                     --host="$arch-apple-darwin" \
                     --prefix="${PWD%/*}/sdl" \
                     --disable-shared \
                     --disable-video-x11 \
-                    CC="$platformdir/macos-cc" \
-                    CXX="$platformdir/macos-c++" \
-                    CFLAGS="$opt $cflags" \
-                    CXXFLAGS="$opt $cflags" \
-                    CPPFLAGS='-DNDEBUG' \
+                    CC="$cc" \
+                    CXX="$cxx" \
+                    CFLAGS="$opt $target_cflags" \
+                    CXXFLAGS="$opt $target_cflags" \
+                    CPPFLAGS='-DNDEBUG -D__DARWIN_UNIX03=1' \
                     AR=cctools-ar \
                     RANLIB=cctools-ranlib
                 make -j"$ncpus"
@@ -347,8 +368,8 @@ for target in $targets; do
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v cctools-ar)" \
         -DCMAKE_RANLIB="$(command -v cctools-ranlib)" \
-        -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
-        -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
+        -DCMAKE_C_COMPILER="$cc" \
+        -DCMAKE_CXX_COMPILER="$cxx" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
         -DCMAKE_SYSROOT="$REMCPE_SDK" \
         -DCMAKE_C_FLAGS="$target_cflags" \
@@ -374,18 +395,29 @@ REMCPE_TARGET='unknown-apple-macos10.4' \
     -arch x86_64 -arch i386 \
     "$platformdir/arch.c" -Os -o arch-x86
 
+rm -f arch-ppc
 lipo -create arch-* -output arch
-mv arch ../ReMCPE/libexec/arch
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    cctools-strip -no_code_signature_warning ../ReMCPE/libexec/arch
+    cctools-strip -no_code_signature_warning arch
+
+"$ppc_triple-gcc" "$platformdir/arch.c" -Os -o arch-ppc
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+    ppc-strip arch-ppc
+
+lipo -create arch arch-ppc -output ../ReMCPE/libexec/arch
 
 cp -a "$platformdir/../../game/assets" ../ReMCPE
 cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
 
 for target in $targets; do
-    cp "build-$target/$bin" "../ReMCPE/libexec/$bin-${target%%-*}"
+    arch="${target%%-*}"
+    cp "build-$target/$bin" "../ReMCPE/libexec/$bin-$arch"
+    case $arch in
+        (powerpc*|ppc*) strip='ppc-strip' ;;
+        (*) strip='cctools-strip -no_code_signature_warning' ;;
+    esac
     [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-        cctools-strip -no_code_signature_warning "../ReMCPE/libexec/$bin-${target%%-*}"
+        $strip "../ReMCPE/libexec/$bin-${target%%-*}"
 done
 if command -v ldid >/dev/null; then
     ldid -S ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
