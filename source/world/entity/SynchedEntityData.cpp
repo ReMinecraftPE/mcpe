@@ -1,8 +1,6 @@
 #include <limits.h>
-// stupid ppc gcc bullshit idk how to fix
-#ifndef UINT16_MAX
-#define UINT16_MAX 65535
-#endif
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 
 #include "SynchedEntityData.hpp"
 

@@ -415,6 +415,8 @@ int main(int argc, char *argv[])
 	std::string storagePath;
 #ifdef _WIN32
 	storagePath = getenv("APPDATA");
+#elif defined(MC_PLATFORM_MAC)
+	storagePath = std::string(getenv("HOME")) + "/Library/Application Support";
 #elif defined(__EMSCRIPTEN__) || defined(__SWITCH__)
 	storagePath = "";
 #elif defined(ANDROID)
