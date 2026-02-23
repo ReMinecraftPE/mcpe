@@ -218,6 +218,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
 
     cd "cctools-port-$cctools_commit/cctools"
     ./configure \
+        --target=ppc \
         --enable-silent-rules \
         --with-llvm-config=false \
         CC=remcpe-clang \
@@ -262,9 +263,10 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         RANLIB_FOR_TARGET="$(command -v cctools-ranlib)" \
         NM_FOR_TARGET="$(command -v ppc-nm)" \
         LIPO_FOR_TARGET="$(command -v lipo)" \
+        STRIP_FOR_TARGET="$(command -v ppc-strip)" \
         "$@"
     make -j"$ncpus"
-    make -j"$ncpus" install
+    make -j"$ncpus" install-strip
     cd ../..
     rm -rf "gcc-$gcc_version"
 
