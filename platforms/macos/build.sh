@@ -192,9 +192,6 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     rm -rf toolchain-ppc
     mkdir -p toolchain-ppc/bin
 
-    ln -s ../../toolchain/bin/cctools-ar "toolchain-ppc/bin/$ppc_triple-ar"
-    ln -s ../../toolchain/bin/cctools-ranlib "toolchain-ppc/bin/$ppc_triple-ranlib"
-    ln -s ../../toolchain/bin/lipo "toolchain-ppc/bin/$ppc_triple-lipo"
     # building the real dsymutil would require a partial LLVM build, we don't need debug info that bad
     printf '#!/bin/sh\nexit 0\n' > "toolchain-ppc/bin/$ppc_triple-dsymutil"
     chmod +x "toolchain-ppc/bin/$ppc_triple-dsymutil"
@@ -246,6 +243,9 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --enable-languages=c,c++,objc,lto \
         --with-sysroot="$old_sdk" \
         --with-as="$(command -v "$ppc_triple-as")" \
+        AR_FOR_TARGET="$(command -v cctools-ar)" \
+        RANLIB_FOR_TARGET="$(command -v cctools-ranlib)" \
+        LIPO_FOR_TARGET="$(command -v lipo)" \
         "$@"
     make -j"$ncpus"
     make -j"$ncpus" install
