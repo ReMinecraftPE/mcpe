@@ -214,7 +214,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     make -C libstuff -j"$ncpus"
     make -C misc nm strip -j"$ncpus"
     strip misc/nm misc/strip
-    mv misc/nm "../../toolchain-ppc/bin/$ppc_triple-nm"
+    mv misc/nm ../../toolchain-ppc/bin/ppc-nm
     mv misc/strip ../../toolchain-ppc/bin/ppc-strip
     make -C as/ppc -j"$ncpus"
     strip as/ppc/ppc-as
@@ -245,6 +245,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --with-as="$(command -v "$ppc_triple-as")" \
         AR_FOR_TARGET="$(command -v cctools-ar)" \
         RANLIB_FOR_TARGET="$(command -v cctools-ranlib)" \
+        NM_FOR_TARGET="$(command -v cctools-nm)" \
         LIPO_FOR_TARGET="$(command -v lipo)" \
         "$@"
     make -j"$ncpus"
