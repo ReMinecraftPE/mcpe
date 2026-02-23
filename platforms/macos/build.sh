@@ -245,7 +245,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --with-as="$(command -v "$ppc_triple-as")" \
         AR_FOR_TARGET="$(command -v cctools-ar)" \
         RANLIB_FOR_TARGET="$(command -v cctools-ranlib)" \
-        NM_FOR_TARGET="$(command -v cctools-nm)" \
+        NM_FOR_TARGET="$(command -v ppc-nm)" \
         LIPO_FOR_TARGET="$(command -v lipo)" \
         "$@"
     make -j"$ncpus"
