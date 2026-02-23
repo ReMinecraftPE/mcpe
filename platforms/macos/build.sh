@@ -66,6 +66,22 @@ else
     ncpus="$(sysctl -n hw.ncpu)"
 fi
 
+if [ "$(uname -s)" = "Darwin" ]; then
+    ar="${AR:-ar}"
+    ranlib="${RANLIB:-ranlib}"
+else
+    ar="${AR:-"llvm-ar"}"
+    ranlib="${RANLIB:-"llvm-ranlib"}"
+fi
+
+for var in ar ranlib; do
+    dep="$(eval "echo \$$var")"
+    if ! command -v "$dep" >/dev/null; then
+        printf '%s not found!\n' "$dep"
+        exit 1
+    fi
+done
+
 for dep in "${CLANG:-clang}" make cmake; do
     if ! command -v "$dep" >/dev/null; then
         printf '%s not found!\n' "$dep"
@@ -291,6 +307,8 @@ for target in $targets; do
     arch="${target%%-*}"
     cc="$platformdir/macos-cc"
     cxx="$platformdir/macos-c++"
+    target_ar="$ar"
+    target_ranlib="$ranlib"
     case $arch in
         (i386|powerpc*|ppc*)
             if [ "$arch" = 'i386' ]; then
@@ -300,6 +318,8 @@ for target in $targets; do
                 target_cflags=
                 cc="$target-gcc"
                 cxx="$target-g++"
+                target_ar="cctools-ar"
+                target_ranlib="cctools-ranlib"
                 set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -static-libgcc'
             fi
             export REMCPE_SDK="$old_sdk"
@@ -375,8 +395,8 @@ for target in $targets; do
         -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
-        -DCMAKE_AR="$(command -v cctools-ar)" \
-        -DCMAKE_RANLIB="$(command -v cctools-ranlib)" \
+        -DCMAKE_AR="$(command -v "$target_ar")" \
+        -DCMAKE_RANLIB="$(command -v "$target_ranlib")" \
         -DCMAKE_C_COMPILER="$cc" \
         -DCMAKE_CXX_COMPILER="$cxx" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
