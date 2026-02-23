@@ -233,6 +233,10 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     cd "gcc-$gcc_version"
     mkdir build
     cd build
+    set --
+    [ -n "$GMP" ] && set -- --with-gmp="$GMP"
+    [ -n "$MPFR" ] && set -- "$@" --with-mpfr="$MPFR"
+    [ -n "$MPC" ] && set -- "$@" --with-mpc="$MPC"
     ../configure \
         --prefix="$workdir/toolchain-ppc" \
         --target="$ppc_triple" \
@@ -241,7 +245,8 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --with-system-zlib \
         --enable-languages=c,c++,objc,lto \
         --with-sysroot="$old_sdk" \
-        --with-as="$(command -v "$ppc_triple-as")"
+        --with-as="$(command -v "$ppc_triple-as")" \
+        "$@"
     make -j"$ncpus"
     make -j"$ncpus" install
     cd ../..
