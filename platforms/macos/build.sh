@@ -359,8 +359,8 @@ for target in $targets; do
                     CFLAGS="$opt $target_cflags" \
                     CXXFLAGS="$opt $target_cflags" \
                     CPPFLAGS='-DNDEBUG' \
-                    AR=cctools-ar \
-                    RANLIB=cctools-ranlib
+                    AR="$target_ar" \
+                    RANLIB="$target_ranlib"
                 make -j"$ncpus"
                 make install -j"$ncpus"
                 cd ..
