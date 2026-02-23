@@ -158,6 +158,9 @@ jobs:
               mv workspacecache.tar ~
             env:
               NOSTRIP: 1
+              GMP: /opt/homebrew
+              MPFR: /opt/homebrew
+              MPC: /opt/homebrew
           - uses: actions/upload-artifact@v6
             with:
               name: macOS
