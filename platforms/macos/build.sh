@@ -196,9 +196,9 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     printf '#!/bin/sh\nexit 0\n' > "toolchain-ppc/bin/$ppc_triple-dsymutil"
     chmod +x "toolchain-ppc/bin/$ppc_triple-dsymutil"
 
-    cctools_commit=3fc7881e3e7fd2bc073d4f3121ce99e5e5ae36b1
+    cctools_commit=a35aa0162cb2614e68db577a28fdd903fae47f20
     rm -rf cctools-port-*
-    wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+    wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
     ./autogen.sh
