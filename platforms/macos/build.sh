@@ -217,7 +217,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     mv misc/strip ../../toolchain-ppc/bin/ppc-strip
     make -C as/ppc -j"$ncpus"
     strip as/ppc/ppc-as
-    mv as/ppc/ppc-as "../../toolchain-ppc/bin/$ppc_triple-as"
+    mv as/ppc/ppc-as ../../toolchain-ppc/bin/ppc-as
 
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
@@ -241,7 +241,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --with-system-zlib \
         --enable-languages=c,c++,objc,lto \
         --with-sysroot="$old_sdk" \
-        --with-as="$(command -v "$ppc_triple-as")" \
+        --with-as="$(command -v ppc-as)" \
         AR_FOR_TARGET="$(command -v cctools-ar)" \
         RANLIB_FOR_TARGET="$(command -v cctools-ranlib)" \
         NM_FOR_TARGET="$(command -v ppc-nm)" \
@@ -298,8 +298,8 @@ for target in $targets; do
                 set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             else
                 target_cflags=
-                cc="$ppc_triple-gcc"
-                cxx="$ppc_triple-g++"
+                cc="$target-gcc"
+                cxx="$target-g++"
                 set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -static-libgcc'
             fi
             export REMCPE_SDK="$old_sdk"
