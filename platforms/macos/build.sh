@@ -396,16 +396,9 @@ REMCPE_TARGET='unknown-apple-macos10.4' \
     -arch x86_64 -arch i386 \
     "$platformdir/arch.c" -Os -o arch-x86
 
-rm -f arch-ppc
-lipo -create arch-* -output arch
+lipo -create arch-* -output ../ReMCPE/libexec/arch
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    cctools-strip -no_code_signature_warning arch
-
-"$ppc_triple-gcc" "$platformdir/arch.c" -Os -o arch-ppc
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    ppc-strip arch-ppc
-
-lipo -create arch arch-ppc -output ../ReMCPE/libexec/arch
+    cctools-strip -no_code_signature_warning ../ReMCPE/libexec/arch
 
 cp -a "$platformdir/../../game/assets" ../ReMCPE
 cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
