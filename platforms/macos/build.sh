@@ -316,6 +316,9 @@ for target in $targets; do
                 set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             else
                 target_cflags=
+                if [ -n "$DEBUG" ]; then
+                    target_cflags='-flto'
+                fi
                 cc="$target-gcc"
                 cxx="$target-g++"
                 target_ar="cctools-ar"
@@ -337,11 +340,7 @@ for target in $targets; do
                 if [ -n "$DEBUG" ]; then
                     opt='-O0'
                 else
-                    if [ "$arch" = 'i386' ]; then
-                        opt='-O2'
-                    else
-                        opt='-O2 -flto'
-                    fi
+                    opt='-O2'
                 fi
                 if [ "$arch" != 'i386' ]; then
                     sed -e 's/-fpascal-strings//g' configure > configure.patched
