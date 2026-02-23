@@ -66,24 +66,6 @@ else
     ncpus="$(sysctl -n hw.ncpu)"
 fi
 
-if [ "$(uname -s)" = "Darwin" ]; then
-    ar="${AR:-ar}"
-    ranlib="${RANLIB:-ranlib}"
-    strip='strip'
-else
-    ar="${AR:-"llvm-ar"}"
-    ranlib="${RANLIB:-"llvm-ranlib"}"
-    strip='cctools-strip'
-fi
-
-for var in ar ranlib; do
-    dep="$(eval "echo \$$var")"
-    if ! command -v "$dep" >/dev/null; then
-        printf '%s not found!\n' "$dep"
-        exit 1
-    fi
-done
-
 for dep in "${CLANG:-clang}" make cmake; do
     if ! command -v "$dep" >/dev/null; then
         printf '%s not found!\n' "$dep"
@@ -101,7 +83,7 @@ fi
 
 # Increase this if we ever make a change to the toolchain, for example
 # using a newer cctools-port version, and we need to invalidate the cache.
-toolchainver=1
+toolchainver=2
 if [ "$(cat toolchain/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
     rm -rf toolchain
     outdated_toolchain=1
@@ -116,7 +98,7 @@ fi
 
 mkdir -p toolchain/bin
 mv toolchainsettings toolchain/lasttoolchainsettings
-export PATH="$PWD/toolchain/bin:$PATH"
+export PATH="$PWD/toolchain/bin:$PWD/toolchain-ppc/bin:$PATH"
 
 if [ -n "$CLANG" ]; then
     ln -sf "$(command -v "$CLANG")" toolchain/bin/clang && ln -sf clang toolchain/bin/clang++
@@ -163,10 +145,12 @@ if [ -n "$outdated_toolchain" ]; then
     mv ld64/src/ld/ld ../../toolchain/bin/ld64.ld64
     make -C libmacho -j"$ncpus"
     make -C libstuff -j"$ncpus"
-    make -C misc strip lipo -j"$ncpus"
-    strip misc/strip misc/lipo
+    make -C misc strip lipo ranlib -j"$ncpus"
+    strip misc/strip misc/lipo misc/ranlib
     mv misc/strip ../../toolchain/bin/cctools-strip
     mv misc/lipo ../../toolchain/bin/lipo
+    mv misc/ranlib ../../toolchain/bin/cctools-ranlib
+
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
@@ -188,12 +172,23 @@ if [ -n "$outdated_toolchain" ]; then
     printf '%s' "$toolchainver" > toolchain/toolchainver
 fi
 
+# The PPC toolchain is separate from the regular toolchain because
+# it doesn't use llvm for LTO, so it doesn't get invalidated when llvm-config's
+# version changes
+
 # Increase this if we ever make a change to the toolchain, for example
 # using a newer GCC version, and we need to invalidate the cache.
 ppctoolchainver=1
+ppc_triple='powerpc-apple-darwin8'
 if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; then
     rm -rf toolchain-ppc
     mkdir -p toolchain-ppc/bin
+
+    ln -s ../../toolchain/bin/cctools-ranlib "toolchain-ppc/bin/$ppc_triple-ranlib"
+    ln -s ../../toolchain/bin/lipo "toolchain-ppc/bin/$ppc_triple-lipo"
+    # building the real dsymutil would require a partial LLVM build, we don't need debug info that bad
+    printf '#!/bin/sh\nexit 0\n' > "toolchain-ppc/bin/$ppc_triple-dsymutil"
+    chmod +x "toolchain-ppc/bin/$ppc_triple-dsymutil"
 
     cctools_commit=3fc7881e3e7fd2bc073d4f3121ce99e5e5ae36b1
     rm -rf cctools-port-*
@@ -202,12 +197,26 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     cd "cctools-port-$cctools_commit/cctools"
     ./autogen.sh
     ./configure \
+        --target="$ppc_triple" \
         --enable-silent-rules \
+        --with-llvm-config=false \
         CC=remcpe-clang \
         CXX=remcpe-clang++
     make -C ld64 -j"$ncpus"
     strip ld64/src/ld/ld
-    mv ld64/src/ld/ld ../../toolchain-ppc/bin/ld64.ppc
+    mv ld64/src/ld/ld "../../toolchain-ppc/bin/$ppc_triple-ld"
+    make -C libstuff -j"$ncpus"
+    make -C misc nm -j"$ncpus"
+    strip misc/nm
+    mv misc/nm "../../toolchain-ppc/bin/$ppc_triple-nm"
+    make -C as/ppc -j"$ncpus"
+    strip as/ppc/ppc-as
+    mv as/ppc/ppc-as "../../toolchain-ppc/bin/$ppc_triple-as"
+    make -C ar -j"$ncpus"
+    strip ar/ar
+    mv ar/ar "../../toolchain-ppc/bin/$ppc_triple-ar"
+    ln -s "$ppc_triple-ar" ../../toolchain-ppc/bin/cctools-ar
+
     cd ../..
     rm -rf "cctools-port-$cctools_commit"
 
@@ -220,8 +229,12 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     cd build
     ../configure \
         --prefix="$workdir/toolchain-ppc" \
-        --target=powerpc-apple-darwin8 \
-        --enable-languages=c,c++
+        --target="$ppc_triple" \
+        --disable-multilib \
+        --enable-lto \
+        --enable-languages=c,c++,objc,lto \
+        --with-sysroot="$old_sdk" \
+        --with-as="$(command -v "$ppc_triple-as")"
     make -j"$ncpus"
     make -j"$ncpus" install
     cd ../..
@@ -295,8 +308,8 @@ for target in $targets; do
                     CFLAGS="$opt $cflags" \
                     CXXFLAGS="$opt $cflags" \
                     CPPFLAGS='-DNDEBUG' \
-                    AR="$ar" \
-                    RANLIB="$ranlib"
+                    AR=cctools-ar \
+                    RANLIB=cctools-ranlib
                 make -j"$ncpus"
                 make install -j"$ncpus"
                 cd ..
@@ -332,8 +345,8 @@ for target in $targets; do
         -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
-        -DCMAKE_AR="$(command -v "$ar")" \
-        -DCMAKE_RANLIB="$(command -v "$ranlib")" \
+        -DCMAKE_AR="$(command -v cctools-ar)" \
+        -DCMAKE_RANLIB="$(command -v cctools-ranlib)" \
         -DCMAKE_C_COMPILER="$platformdir/macos-cc" \
         -DCMAKE_CXX_COMPILER="$platformdir/macos-c++" \
         -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
@@ -364,7 +377,7 @@ REMCPE_TARGET='unknown-apple-macos10.4' \
 lipo -create arch-* -output arch
 mv arch ../ReMCPE/libexec/arch
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    "$strip" -no_code_signature_warning ../ReMCPE/libexec/arch
+    cctools-strip -no_code_signature_warning ../ReMCPE/libexec/arch
 
 cp -a "$platformdir/../../game/assets" ../ReMCPE
 cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
@@ -372,7 +385,7 @@ cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
 for target in $targets; do
     cp "build-$target/$bin" "../ReMCPE/libexec/$bin-${target%%-*}"
     [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-        "$strip" -no_code_signature_warning "../ReMCPE/libexec/$bin-${target%%-*}"
+        cctools-strip -no_code_signature_warning "../ReMCPE/libexec/$bin-${target%%-*}"
 done
 if command -v ldid >/dev/null; then
     ldid -S ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
