@@ -45,11 +45,9 @@ fi
 if [ "$(uname -s)" = "Darwin" ]; then
     ar="${AR:-ar}"
     ranlib="${RANLIB:-ranlib}"
-    strip='strip'
 else
     ar="${AR:-"llvm-ar"}"
     ranlib="${RANLIB:-"llvm-ranlib"}"
-    strip='cctools-strip'
 fi
 
 for var in ar ranlib; do
@@ -199,7 +197,7 @@ for target in $targets; do
 done
 
 lipo -create build-*/"$bin" -output "$bin"
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin"
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && cctools-strip -no_code_signature_warning "$bin"
 if command -v ldid >/dev/null; then
     ldid -S"$entitlements" "$bin"
 else
