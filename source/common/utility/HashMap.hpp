@@ -208,12 +208,12 @@ public:
     TValue* get(const TKey& key)
     {
         if (m_size == 0)
-            return nullptr;
+            return NULL;
 
         size_t slot = _findSlot(key);
 
         if (slot == capacity())
-            return nullptr;
+            return NULL;
 
         return &m_entries[slot].value;
     }
@@ -221,12 +221,12 @@ public:
     const TValue* get(const TKey& key) const
     {
         if (m_size == 0)
-            return nullptr;
+            return NULL;
 
         size_t slot = _findSlot(key);
 
         if (slot == capacity())
-            return nullptr;
+            return NULL;
 
         return &m_entries[slot].value;
     }
