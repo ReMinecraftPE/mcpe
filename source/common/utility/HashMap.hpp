@@ -151,7 +151,7 @@ private:
 
     void _resize(size_t newCapacity)
     {
-        std::vector<HashMapEntry<TKey, TValue>> oldEntries = m_entries;
+        std::vector<HashMapEntry<TKey, TValue> > oldEntries = m_entries;
 
         m_entries.clear();
         m_entries.resize(newCapacity);
@@ -264,7 +264,7 @@ public:
         }
 
     public:
-        Iterator(std::vector<HashMapEntry<TKey, TValue>>* entries, size_t index) :
+        Iterator(std::vector<HashMapEntry<TKey, TValue> >* entries, size_t index) :
             m_entries(entries),
             m_index(index)
         {
@@ -293,7 +293,7 @@ public:
         TValue& value() { return m_entries->at(m_index).value; }
         
     private:
-        std::vector<HashMapEntry<TKey, TValue>>* m_entries;
+        std::vector<HashMapEntry<TKey, TValue> >* m_entries;
         size_t m_index;
         
         friend class HashMap;
@@ -352,7 +352,7 @@ public:
         }
 
     public:
-        ConstIterator(const std::vector<HashMapEntry<TKey, TValue>>* entries, size_t index) :
+        ConstIterator(const std::vector<HashMapEntry<TKey, TValue> >* entries, size_t index) :
             m_entries(entries),
             m_index(index)
         {
@@ -381,7 +381,7 @@ public:
         const TValue& value() { return m_entries->at(m_index).value; }
 
     private:
-        const std::vector<HashMapEntry<TKey, TValue>>* m_entries;
+        const std::vector<HashMapEntry<TKey, TValue> >* m_entries;
         size_t m_index;
 
         friend class HashMap;
@@ -404,7 +404,7 @@ public:
     ConstIterator end() const { return ConstIterator(&m_entries, capacity()); }
 
 private:
-    std::vector<HashMapEntry<TKey, TValue>> m_entries;
+    std::vector<HashMapEntry<TKey, TValue> > m_entries;
     size_t m_size;
     THash m_HashFunc;
     
