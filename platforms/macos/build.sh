@@ -253,7 +253,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --disable-multilib \
         --disable-nls \
         --with-system-zlib \
-        --enable-languages=c,c++,objc,lto \
+        --enable-languages=c,c++,objc \
         --with-sysroot="$old_sdk" \
         --with-as="$(command -v ppc-as)" \
         --with-ld="$(command -v ppc-ld)" \
@@ -320,9 +320,6 @@ for target in $targets; do
                 set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
             else
                 target_cflags=
-                if [ -z "$DEBUG" ]; then
-                    target_cflags='-flto'
-                fi
                 cc="$target-gcc"
                 cxx="$target-g++"
                 target_ar="cctools-ar"
