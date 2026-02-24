@@ -86,32 +86,30 @@ static void initGraphics()
 
 static std::string getStoragePath()
 {
-    // Doing this as a c-string because worst-case, an SDK
-    // will return a nullptr instead of an empty string
-    const char* pathBase;
+    std::string path;
+    const char *tmp;
 #ifdef _WIN32
-    pathBase = getenv("APPDATA");
+    tmp = getenv("APPDATA");
+    if (tmp)
+        path = tmp;
+#elif defined(MC_PLATFORM_MAC)
+    tmp = getenv("HOME");
+    if (tmp)
+        path = std::string(tmp) + "/Library/Application Support";
 #else
-    const char *xdg_data = getenv("XDG_DATA_HOME");
-    if (xdg_data)
-        pathBase = xdg_data;
+    tmp = getenv("XDG_DATA_HOME");
+    if (tmp)
+        path = tmp;
     else
     {
-        xdg_data = getenv("HOME");
-        if (!xdg_data)
-        {
-            LOG_E("HOME not set");
-            pathBase = ""; // current working directory
-        }
+        tmp = getenv("HOME");
+        if (tmp)
+            path = std::string(tmp) + "/.local/share";
         else
-            pathBase = ((std::string)xdg_data + "/.local/share").c_str();
+            LOG_E("HOME not set");
     }
 #endif
 
-    if (!pathBase)
-        pathBase = ""; // just use the current working directory
-
-    std::string path(pathBase);
     if (!path.empty())
         path += "/";
     path += ".reminecraftpe";

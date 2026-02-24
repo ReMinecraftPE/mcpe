@@ -131,6 +131,10 @@ jobs:
         name: macOS
         runs-on: macos-15
         steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
           - name: Get Time
             id: get-time
             run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
@@ -140,15 +144,26 @@ jobs:
               key: macos-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: macos-artifact-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
-            run: brew install llvm@21 ccache
-          - name: Build macOS binary
-            run: LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" ./platforms/macos/build.sh
+            run: |
+              brew install llvm@21 ccache gmp mpfr mpc
+              # current homebrew cmake segfaults when building the ppc binary
+              wget -O- https://github.com/Kitware/CMake/releases/download/v4.2.3/cmake-4.2.3-macos-universal.tar.gz | tar -xz
+          - name: Build
+            run: |
+              [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
+              LLVM_CONFIG="$(brew --prefix)/opt/llvm@21/bin/llvm-config" \
+                  GMP="$(brew --prefix)" \
+                  MPFR="$(brew --prefix)" \
+                  MPC="$(brew --prefix)" \
+                  PATH="$PWD/cmake-4.2.3-macos-universal/CMake.app/Contents/bin:$PATH" \
+                  ./platforms/macos/build.sh
+              tar cf workspacecache.tar platforms/macos/build/work/toolchain platforms/macos/build/work/toolchain-ppc
+              mv workspacecache.tar ~
             env:
               NOSTRIP: 1
           - uses: actions/upload-artifact@v6
@@ -156,7 +171,7 @@ jobs:
               name: macOS
               path: platforms/macos/build/ReMCPE
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache
+            run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache workspacecache.tar
 
     ios:
         strategy:
@@ -164,6 +179,10 @@ jobs:
         name: iOS
         runs-on: ubuntu-24.04
         steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
           - name: Get Time
             id: get-time
             run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
@@ -173,11 +192,10 @@ jobs:
               key: ios-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: ios-artifact-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Install Dependencies
             run: |
                 wget https://apt.llvm.org/llvm.sh
@@ -190,8 +208,12 @@ jobs:
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-          - name: Build iOS binary
-            run: ./platforms/ios/build.sh
+          - name: Build
+            run: |
+              [ -f workspacecache.tar ] && tar xf workspacecache.tar || true
+              ./platforms/ios/build.sh
+              tar cf workspacecache.tar platforms/ios/build/work/toolchain
+              mv workspacecache.tar ~
             env:
               CLANG: clang-21
               AR: llvm-ar-21
@@ -203,7 +225,7 @@ jobs:
               name: iOS
               path: platforms/ios/build/ReMCPE.ipa
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache workspacecache.tar
 
     android:
         strategy:
