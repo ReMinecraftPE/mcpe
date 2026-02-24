@@ -198,7 +198,7 @@ fi
 
 # Increase this if we ever make a change to the toolchain, for example
 # using a newer GCC version, and we need to invalidate the cache.
-ppctoolchainver=1
+ppctoolchainver=2
 ppc_triple='powerpc-apple-darwin8'
 targets="$targets $ppc_triple"
 if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; then
