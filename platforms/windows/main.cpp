@@ -61,7 +61,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				posY = Mouse::getY();
 			}
 			Mouse::feed(buttonType, buttonState, posX, posY);
-			Multitouch::feed(buttonType, buttonState, posX, posY, 0);
+			if (g_AppPlatform.isTouchscreen())
+				Multitouch::feed(buttonType, buttonState, posX, posY, 0);
 			break;
 		}
 

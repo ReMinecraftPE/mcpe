@@ -152,9 +152,9 @@ void Options::_load()
 	{
 		std::string key = strings[i], value = strings[i + 1];
 
-		std::map<std::string, OptionEntry*>::iterator opt = m_options.find(key);
-		if (opt != m_options.end())
-			opt->second->load(value);
+		HashMap<std::string, OptionEntry*>::Iterator it = m_options.find(key);
+		if (it != m_options.end())
+			it.value()->load(value);
 		else if (key == "misc_oldtitle")
 			logo3d = !readBool(value);
 		else if (key == "gfx_resourcepacks")
@@ -404,11 +404,11 @@ std::vector<std::string> Options::getOptionStrings()
 #define SO(optname, value) do { vec.push_back(optname); vec.push_back(value); } while (0)
 
 	std::stringstream ss;
-	for (std::map<std::string, OptionEntry*>::iterator it = m_options.begin(); it != m_options.end(); ++it)
+	for (HashMap<std::string, OptionEntry*>::Iterator it = m_options.begin(); it != m_options.end(); ++it)
 	{
 		ss.str("");
-		it->second->save(ss);
-		SO(it->first, ss.str());
+		it.value()->save(ss);
+		SO(it.key(), ss.str());
 	}
 	SO("gfx_resourcepacks", savePackArray(m_resourcePacks));
 
@@ -418,7 +418,7 @@ std::vector<std::string> Options::getOptionStrings()
 void Options::loadControls()
 {
 	// Win32 key codes are being used by default
-#define KM(idx, name, code) m_keyMappings[idx] = KeyMapping(name, code)
+#define KM(idx, name, code) m_controlMappings[idx] = ControlMapping(name, code)
 	KM(KM_FORWARD,      "key.forward",       'W');
 	KM(KM_LEFT,         "key.left",          'A');
 	KM(KM_BACKWARD,     "key.back",          'S');
@@ -465,7 +465,7 @@ void Options::loadControls()
 
 	// @TODO: These should **really** not be defined in here. How about AppPlatform?
 
-#define KM(idx,code) m_keyMappings[idx].value = code
+#define KM(idx,code) m_controlMappings[idx].bind.keyId = code
 #ifdef USE_SDL
 	KM(KM_FORWARD,       SDLVK_w);
 	KM(KM_LEFT,          SDLVK_a);
@@ -577,64 +577,37 @@ void Options::loadControls()
 #endif
 #undef KM
 
-	if (m_bUseController.get())
-	{
-#define KM(idx,code) m_keyMappings[idx].value = code
-#ifdef USE_SDL
-		KM(KM_TOGGLEDEBUG,   SDL_CONTROLLER_BUTTON_GUIDE);
-		KM(KM_JUMP,          SDL_CONTROLLER_BUTTON_A);
-		KM(KM_MENU_UP,       SDL_CONTROLLER_BUTTON_DPAD_UP);
-		KM(KM_MENU_DOWN,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-		KM(KM_MENU_LEFT,     SDL_CONTROLLER_BUTTON_DPAD_LEFT);
-		KM(KM_MENU_RIGHT,    SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
-		KM(KM_MENU_TAB_LEFT, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-		KM(KM_MENU_TAB_RIGHT, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-		KM(KM_MENU_OK,       SDL_CONTROLLER_BUTTON_A);
-		KM(KM_MENU_CANCEL,   SDL_CONTROLLER_BUTTON_B);
-		KM(KM_DROP,          SDL_CONTROLLER_BUTTON_B);
-		KM(KM_CHAT,          SDL_CONTROLLER_BUTTON_BACK);
-		KM(KM_INVENTORY,     SDL_CONTROLLER_BUTTON_Y);
-		KM(KM_SNEAK,         SDL_CONTROLLER_BUTTON_RIGHTSTICK);
-		KM(KM_CONTAINER_QUICKMOVE, SDL_CONTROLLER_BUTTON_Y);
-		KM(KM_CONTAINER_SPLIT,     SDL_CONTROLLER_BUTTON_X);
-		KM(KM_TOGGLE3RD,     SDL_CONTROLLER_BUTTON_LEFTSTICK);
-		KM(KM_SLOT_L,        SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-		KM(KM_SLOT_R,        SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-		KM(KM_FLY_UP,        SDL_CONTROLLER_BUTTON_A);
-		KM(KM_FLY_DOWN,      SDL_CONTROLLER_BUTTON_RIGHTSTICK);
-#else
-		KM(KM_TOGGLEDEBUG,   GameController::BUTTON_GUIDE);
-		KM(KM_JUMP,          GameController::BUTTON_A);
-		KM(KM_MENU_UP,       GameController::BUTTON_DPAD_UP);
-		KM(KM_MENU_DOWN,     GameController::BUTTON_DPAD_DOWN);
-		KM(KM_MENU_LEFT,     GameController::BUTTON_DPAD_LEFT);
-		KM(KM_MENU_RIGHT,    GameController::BUTTON_DPAD_RIGHT);
-		KM(KM_MENU_TAB_LEFT, GameController::BUTTON_LEFTSHOULDER);
-		KM(KM_MENU_TAB_RIGHT, GameController::BUTTON_RIGHTSHOULDER);
-		KM(KM_MENU_OK,       GameController::BUTTON_A);
-		KM(KM_MENU_CANCEL,   GameController::BUTTON_B);
-		KM(KM_MENU_PAUSE,	 GameController::BUTTON_START);
-		KM(KM_DROP,          GameController::BUTTON_B);
-		KM(KM_CHAT,          GameController::BUTTON_BACK);
-		KM(KM_INVENTORY,     GameController::BUTTON_Y);
-		KM(KM_SNEAK,         GameController::BUTTON_RIGHTSTICK);
-		KM(KM_CONTAINER_QUICKMOVE, GameController::BUTTON_Y);
-		KM(KM_CONTAINER_SPLIT,     GameController::BUTTON_X);
-		KM(KM_TOGGLE3RD,     GameController::BUTTON_LEFTSTICK);
-		KM(KM_SLOT_L,        GameController::BUTTON_LEFTSHOULDER);
-		KM(KM_SLOT_R,        GameController::BUTTON_RIGHTSHOULDER);
-		KM(KM_FLY_UP,        GameController::BUTTON_A);
-		KM(KM_FLY_DOWN,      GameController::BUTTON_RIGHTSTICK);
-#endif
-#undef KM
-	}
+#define BTN(idx,code) m_controlMappings[idx].bind.buttonId = code
+	BTN(KM_TOGGLEDEBUG,			GameController::BUTTON_GUIDE);
+	BTN(KM_JUMP,				GameController::BUTTON_A);
+	BTN(KM_MENU_UP,				GameController::BUTTON_DPAD_UP);
+	BTN(KM_MENU_DOWN,			GameController::BUTTON_DPAD_DOWN);
+	BTN(KM_MENU_LEFT,			GameController::BUTTON_DPAD_LEFT);
+	BTN(KM_MENU_RIGHT,			GameController::BUTTON_DPAD_RIGHT);
+	BTN(KM_MENU_TAB_LEFT,		GameController::BUTTON_LEFTSHOULDER);
+	BTN(KM_MENU_TAB_RIGHT,		GameController::BUTTON_RIGHTSHOULDER);
+	BTN(KM_MENU_OK,				GameController::BUTTON_A);
+	BTN(KM_MENU_CANCEL,			GameController::BUTTON_B);
+	BTN(KM_MENU_PAUSE,			GameController::BUTTON_START);
+	BTN(KM_DROP,				GameController::BUTTON_B);
+	BTN(KM_CHAT,				GameController::BUTTON_BACK);
+	BTN(KM_INVENTORY,			GameController::BUTTON_Y);
+	BTN(KM_SNEAK,				GameController::BUTTON_RIGHTSTICK);
+	BTN(KM_CONTAINER_QUICKMOVE, GameController::BUTTON_Y);
+	BTN(KM_CONTAINER_SPLIT,		GameController::BUTTON_X);
+	BTN(KM_TOGGLE3RD,			GameController::BUTTON_LEFTSTICK);
+	BTN(KM_SLOT_L,				GameController::BUTTON_LEFTSHOULDER);
+	BTN(KM_SLOT_R,				GameController::BUTTON_RIGHTSHOULDER);
+	BTN(KM_FLY_UP,				GameController::BUTTON_A);
+	BTN(KM_FLY_DOWN,			GameController::BUTTON_RIGHTSTICK);
+#undef BTN
 }
 
 void Options::reset()
 {
-	for (std::map<std::string, OptionEntry*>::iterator it = m_options.begin(); it != m_options.end(); ++it)
+	for (HashMap<std::string, OptionEntry*>::Iterator it = m_options.begin(); it != m_options.end(); ++it)
 	{
-		it->second->reset();
+		it.value()->reset();
 	}
 }
 

@@ -258,7 +258,9 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
                 {
                     if (carried.m_count <= slot->getMaxStackSize())
                     {
-                        std::swap(carried, slotItem);
+                        ItemStack oldSlotItem = slotItem;
+                        slot->set(carried);
+                        inv->setCarried(oldSlotItem);
                     }
                 }
                 else if (slotItem.getId() == carried.getId())

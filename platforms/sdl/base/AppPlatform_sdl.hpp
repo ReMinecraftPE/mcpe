@@ -8,6 +8,7 @@
 
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
+#include "client/player/input/GameController.hpp"
 #include "common/Logger.hpp"
 
 class AppPlatform_sdl : public AppPlatform
@@ -72,6 +73,7 @@ public:
 	static MouseButtonType GetMouseButtonType(uint8_t button);
 	static bool GetMouseButtonState(const SDL_Event& event);
 	static Keyboard::KeyState GetKeyState(uint8_t state);
+	static GameController::EngineButtonID GetEngineButton(uint8_t button);
 
 protected:
 	ImageData m_iconImage;

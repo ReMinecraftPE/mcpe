@@ -24,7 +24,7 @@ protected:
 public:
 	void init() override;
 	bool isInGameScreen() override;
-	void keyPressed(int code) override;
+	void controlPressed(const ControlBind&) override;
 	void tick() override;
 	void render(float f) override;
 	bool handleBackEvent(bool b) override;

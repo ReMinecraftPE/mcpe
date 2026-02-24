@@ -42,6 +42,7 @@ public:
 	void _buttonClicked(Button* pButton) override;
 	bool handleBackEvent(bool b) override;
 	void handleScrollWheel(float force) override;
+	bool isInvalid(Minecraft*) override;
 
 private:
 	void setCategory(OptionsCategory category);

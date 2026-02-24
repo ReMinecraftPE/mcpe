@@ -73,3 +73,13 @@ void StartMenuScreen_Console::_buttonClicked(Button* btn)
 	else if (btn->getId() == m_btnExitGame.getId())
 		m_pMinecraft->quit();
 }
+
+bool StartMenuScreen_Console::isInvalid(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushStartScreen();
+		return true;
+	}
+	return false;
+}

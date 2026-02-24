@@ -8,9 +8,16 @@
 
 #include "CustomInputHolder.hpp"
 
-CustomInputHolder::CustomInputHolder(IMoveInput* pMoveInput, ITurnInput* pTurnInput, IBuildInput* pBuildInput)
+CustomInputHolder::CustomInputHolder(IMoveInput* pMoveInput, ITurnInput* pTurnInput, IBuildInput* pBuildInput, bool isController) :
+	m_bIsController(isController)
 {
 	setInputs(pMoveInput, pTurnInput, pBuildInput);
+}
+
+bool CustomInputHolder::allowsType(Type type) const
+{
+	if (m_bIsController) return type == CONTROLLER;
+	return IInputHolder::allowsType(type);
 }
 
 IMoveInput* CustomInputHolder::getMoveInput()

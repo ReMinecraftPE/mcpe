@@ -58,15 +58,15 @@ void ChatScreen::render(float f)
 	Screen::render(f);
 }
 
-void ChatScreen::keyPressed(int keyCode)
+void ChatScreen::controlPressed(const ControlBind& bind)
 {
 	if (!_useController())
 	{
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, keyCode))
+		if (m_pMinecraft->getOptions()->isControl(KM_MENU_OK, bind))
 			sendMessageAndExit();
 	}
 
-	Screen::keyPressed(keyCode);
+	Screen::controlPressed(bind);
 }
 
 void ChatScreen::handleKeyboardClosed()
@@ -75,6 +75,11 @@ void ChatScreen::handleKeyboardClosed()
 		sendMessageAndExit();
 	else
 		Screen::handleKeyboardClosed();
+}
+
+bool ChatScreen::isPauseScreen()
+{
+	return false;
 }
 
 void ChatScreen::sendMessageAndExit()

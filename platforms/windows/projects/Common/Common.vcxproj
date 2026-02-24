@@ -115,6 +115,7 @@
     <ClInclude Include="$(MC_ROOT)\source\common\utility\JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\utility\Singleton.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\threading\AsyncTask.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\HashMap.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

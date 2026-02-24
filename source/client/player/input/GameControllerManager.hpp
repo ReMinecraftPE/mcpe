@@ -19,8 +19,16 @@ private:
 	static const float DIRECTION_Y_THRESHOLD;
 
 	static float _deadzonesX[2][2], _deadzonesY[2][2];
+	static std::vector<GameController::ButtonEvent> _inputs;
+	static GameController::ButtonState _states[GameController::BUTTON_MAX];
+	static size_t _index;
 
 public:
+	static void feedButton(GameController::ButtonState, GameController::EngineButtonID);
+	static bool next();
+	static GameController::EngineButtonID getEventButton();
+	static GameController::ButtonState getEventButtonState();
+	static bool isButtonDown(GameController::EngineButtonID);
 	static bool isValidStick(GameController::StickID stickId);
 	static float linearTransform(float, float, float, bool);
 	// SDL2 feeds controller stick update events one axis at a time
@@ -39,6 +47,7 @@ public:
 	static bool isValidTrigger(int triggerNo);
 	static void feedTrigger(int triggerNo, float x);
 	static float getPressure(int triggerNo);
+	static void clear();
 	static void reset();
 	static bool isReset() { return inReset; }
 

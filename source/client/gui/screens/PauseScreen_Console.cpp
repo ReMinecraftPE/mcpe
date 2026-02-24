@@ -55,3 +55,13 @@ void PauseScreen_Console::_buttonClicked(Button* btn)
 	else if (btn->getId() == m_btnExitGame.getId())
 		m_pMinecraft->leaveGame(false);
 }
+
+bool PauseScreen_Console::isInvalid(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushPauseScreen();
+		return true;
+	}
+	return false;
+}

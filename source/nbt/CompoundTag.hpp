@@ -14,11 +14,12 @@
 #include "StringTag.hpp"
 #include "FloatTag.hpp"
 #include "DoubleTag.hpp"
+#include "common/utility/HashMap.hpp"
 
 class CompoundTag : public Tag
 {
 public:
-    typedef std::map<std::string, Tag*> NamedTagMap;
+    typedef HashMap<std::string, Tag*> NamedTagMap;
 
 public:
     CompoundTag();

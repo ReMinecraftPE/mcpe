@@ -15,10 +15,19 @@
 class IInputHolder
 {
 public:
+	enum Type
+	{
+		KEYBOARD,
+		MOUSE,
+		CONTROLLER,
+		TOUCHSCREEN
+	};
+
 	IInputHolder();
 	virtual ~IInputHolder();
 	virtual bool allowPicking();
 	virtual void setScreenSize(int width, int height);
+	virtual bool allowsType(Type) const;
 	virtual IMoveInput* getMoveInput() = 0;
 	virtual ITurnInput* getTurnInput() = 0;
 	virtual IBuildInput* getBuildInput() = 0;
@@ -30,5 +39,9 @@ protected:
 	float m_feedbackX;
 	float m_feedbackY;
 	float m_feedbackAlpha;
+
+public:
+	static Type activeType;
+	static Type lastType;
 };
 

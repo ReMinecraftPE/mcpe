@@ -76,23 +76,24 @@ bool SelectWorldScreen::isInGameScreen()
 	return true;
 }
 
-void SelectWorldScreen::keyPressed(int code)
+void SelectWorldScreen::controlPressed(const ControlBind& bind)
 {
+	Options& options = *m_pMinecraft->getOptions();
 #ifndef ORIGINAL_CODE
-	if (m_pMinecraft->getOptions()->getKey(KM_MENU_OK) == code)
+	if (options.isControl(KM_MENU_OK, bind))
 		m_pWorldSelectionList->selectItem(m_pWorldSelectionList->getItemAtPosition(m_width / 2, m_height / 2), false);
 #endif
 
 	if (m_btnWorld.isSelected())
 	{
-		if (m_pMinecraft->getOptions()->getKey(KM_LEFT) == code)
+		if (options.isControl(KM_LEFT, bind))
 			m_pWorldSelectionList->stepLeft();
 
-		if (m_pMinecraft->getOptions()->getKey(KM_RIGHT) == code)
+		if (options.isControl(KM_RIGHT, bind))
 			m_pWorldSelectionList->stepRight();
 	}
 
-	Screen::keyPressed(code);
+	Screen::controlPressed(bind);
 }
 
 static char g_SelectWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':'};

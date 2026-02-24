@@ -29,19 +29,33 @@ void KeyboardInput::releaseAllKeys()
 		m_keys[i] = false;
 }
 
-void KeyboardInput::setKey(int eventKey, bool eventKeyState)
+void KeyboardInput::setKey(eControlMappingIndex ctrl, bool eventKeyState)
 {
-	int index = -1;
-
-	if      (m_pOptions->getKey(KM_FORWARD)  == eventKey) index = INPUT_FORWARD;
-	else if (m_pOptions->getKey(KM_BACKWARD) == eventKey) index = INPUT_BACKWARD;
-	else if (m_pOptions->getKey(KM_LEFT)     == eventKey) index = INPUT_LEFT;
-	else if (m_pOptions->getKey(KM_RIGHT)    == eventKey) index = INPUT_RIGHT;
-	else if (m_pOptions->getKey(KM_JUMP)     == eventKey) index = INPUT_JUMP;
-	else if (m_pOptions->getKey(KM_SNEAK)    == eventKey) index = INPUT_SNEAK;
-
-	if (index == -1)
+	int index;
+	switch (ctrl)
+	{
+	case KM_FORWARD:
+		index = INPUT_FORWARD;
+		break;
+	case KM_BACKWARD:
+		index = INPUT_BACKWARD;
+		break;
+	case KM_LEFT:
+		index = INPUT_LEFT;
+		break;
+	case KM_RIGHT:
+		index = INPUT_RIGHT;
+		break;
+	case KM_JUMP:
+		index = INPUT_JUMP;
+		break;
+	case KM_SNEAK:
+		index = INPUT_SNEAK;
+		break;
+	default:
+		index = -1;
 		return;
+	}
 
 	m_keys[index] = eventKeyState;
 }

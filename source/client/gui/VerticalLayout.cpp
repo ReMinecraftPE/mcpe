@@ -26,6 +26,11 @@ GuiElement* VerticalLayout::getElement(ID index) const
 	return nullptr;
 }
 
+bool VerticalLayout::isLastIn(AreaNavigation::Direction dir)
+{
+	return m_pSelectedElement && Navigation(this).navigate(dir, m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2, m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2) < 0;
+}
+
 bool VerticalLayout::selectElementById(ID id, bool sound)
 {
 	GuiElement* element = getElement(id);
@@ -99,7 +104,7 @@ void VerticalLayout::organize()
 	}
 
 	if (isSelected() && !m_pSelectedElement && m_pScreen->_useController())
-		selectElementById(0, false);
+		startNavigation();
 }
 
 void VerticalLayout::clear()
@@ -115,18 +120,24 @@ void VerticalLayout::clear()
 	}
 }
 
+void VerticalLayout::startNavigation()
+{
+	AreaNavigation::ID id = Navigation(this).navigate(AreaNavigation::DOWN, m_pScreen->m_width / 2, 0);
+	if (id >= 0)
+		selectElementById(m_scrollAmount + id);
+}
+
 bool VerticalLayout::areaNavigation(Minecraft* mc, AreaNavigation::Direction dir)
 {
 	if (m_pSelectedElement && m_pSelectedElement->areaNavigation(mc, dir)) return true;
 
 	if (dir == AreaNavigation::DOWN)
 	{
-		GuiElement* element = m_pSelectedElement;
-		if (element && isBottomElement(*element))
+		if (isLastIn(dir))
 		{
-			if (m_bCyclic && !m_bCanScrollDown && m_scrollAmount > 0)
+			if (m_bCyclic && !m_bCanScrollDown)
 			{
-				int x = element->m_xPos + element->m_width / 2;
+				int x = m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2;
 				updateScroll(0);
 				AreaNavigation::ID id = Navigation(this).navigate(dir, x, 0, true);
 				if (id >= 0)
@@ -134,21 +145,28 @@ bool VerticalLayout::areaNavigation(Minecraft* mc, AreaNavigation::Direction dir
 				return true;
 			}
 
-			handleScroll(false);
-			areaNavigation(dir, element == getElement(ID(m_elements.size() - 1)));
-			return true;
+			if (m_bCanScrollDown)
+			{
+				GuiElement* oldElement = m_pSelectedElement;
+				while (oldElement == m_pSelectedElement)
+				{
+					handleScroll(false);
+					areaNavigation(dir, false);
+				}
+
+				return true;
+			}
 		}
 		areaNavigation(dir);
 		return true;
 	}
 	else if (dir == AreaNavigation::UP)
 	{
-		GuiElement* element = m_pSelectedElement;
-		if (element && isTopElement(*element))
+		if (isLastIn(dir))
 		{
 			if (m_bCyclic && !m_scrollAmount)
 			{
-				int x = element->m_xPos + element->m_width / 2;
+				int x = m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2;
 				while (m_bCanScrollDown)
 				{
 					updateScroll(m_scrollAmount + 1);
@@ -189,7 +207,7 @@ void VerticalLayout::setSelected(bool b)
 	GuiElement::setSelected(b);
 
 	if (b && !m_pSelectedElement && m_pScreen->_useController())
-		selectElementById(0, false);
+		startNavigation();
 
 	if (!b)
 		selectElement(nullptr);
@@ -284,5 +302,5 @@ bool VerticalLayout::Navigation::next(int& x, int& y, bool cycle)
 
 bool VerticalLayout::Navigation::isValid(ID id)
 {
-	return m_pLayout->m_pSelectedElement->getId() != (m_pLayout->m_scrollAmount + id);
+	return !m_pLayout->m_pSelectedElement || m_pLayout->m_pSelectedElement->getId() != (m_pLayout->m_scrollAmount + id);
 }

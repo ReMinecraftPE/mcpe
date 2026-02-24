@@ -35,7 +35,7 @@ void OptionsScreen_Console::_buttonClicked(Button* btn)
 
 void OptionsScreen_Console::init()
 {
-	Button* layoutButtons[] = {&m_btnHowToPlay, &m_btnControls, &m_btnSettings, &m_btnCredits, &m_btnResetToDefaults};
+	Button* layoutButtons[] = { &m_btnHowToPlay, &m_btnControls, &m_btnSettings, &m_btnCredits, &m_btnResetToDefaults };
 
 	int buttonsWidth = 450;
 	int buttonsHeight = 40;
@@ -68,6 +68,16 @@ bool OptionsScreen_Console::handleBackEvent(bool b)
 	}
 
 	return true;
+}
+
+bool OptionsScreen_Console::isInvalid(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushOptionsScreen(m_pParent);
+		return true;
+	}
+	return false;
 }
 
 #define HEADER(text) do { m_layout.m_elements.push_back(new OptionHeader_Console(text)); currentIndex++; } while (0)
@@ -134,6 +144,7 @@ OptionHeader_Console::OptionHeader_Console(const std::string& text)
 	: m_text(text)
 {
 	m_height = 22;
+	setNavigable(false);
 }
 
 void OptionHeader_Console::render(Minecraft* pMinecraft, const MenuPointer& pointer)

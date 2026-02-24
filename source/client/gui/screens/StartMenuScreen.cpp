@@ -239,3 +239,13 @@ bool StartMenuScreen::handleBackEvent(bool b)
 	}
 	return true;
 }
+
+bool StartMenuScreen::isInvalid(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() == UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushStartScreen();
+		return true;
+	}
+	return false;
+}

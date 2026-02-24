@@ -39,6 +39,11 @@ bool TouchInputHolder::allowPicking()
 	return false;
 }
 
+bool TouchInputHolder::allowsType(Type type) const
+{
+	return type == TOUCHSCREEN;
+}
+
 IMoveInput* TouchInputHolder::getMoveInput()
 {
 	return &m_touchScreenInput;

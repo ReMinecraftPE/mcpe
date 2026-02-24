@@ -9,6 +9,8 @@
 #include "IInputHolder.hpp"
 #include "Mouse.hpp"
 
+IInputHolder::Type IInputHolder::activeType = KEYBOARD;
+
 IInputHolder::IInputHolder() :
 	m_feedbackX(0),
 	m_feedbackY(0)
@@ -31,4 +33,9 @@ void IInputHolder::setScreenSize(int width, int height)
 	getMoveInput()->setScreenSize(width, height);
 	getTurnInput()->setScreenSize(width, height);
 	getBuildInput()->setScreenSize(width, height);
+}
+
+bool IInputHolder::allowsType(Type type) const
+{
+	return type == KEYBOARD || type == MOUSE;
 }

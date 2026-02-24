@@ -32,6 +32,7 @@ public:
 	void init() override;
 	void render(float) override;
 	bool handleBackEvent(bool) override;
+	bool isInvalid(Minecraft*) override;
 
 private:
 	Screen* m_pParent;

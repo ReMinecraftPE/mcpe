@@ -212,16 +212,17 @@ void ContainerScreen::render(float partialTicks)
         if (!name.empty())
         {
             int w = m_pFont->width(name);
-            int tx = m_menuPointer.x - m_leftPos + 12;
-            int ty = m_menuPointer.y - m_topPos - 12;
             if (m_uiTheme == UI_CONSOLE)
             {
-                blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::POINTER_TEXT_PANEL_SLICES, tx - 6, ty - 6, w * 2 + 12, 28, 8);
-                MatrixStack::Ref tooltipMatrix = MatrixStack::World.push();
-                m_pFont->drawScalable(name, tx, ty, -1);
+                int tx = m_menuPointer.x - m_leftPos + 12;
+                int ty = m_menuPointer.y - m_topPos - 28;
+                blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::POINTER_TEXT_PANEL_SLICES, tx - 6, ty - 10, w * 2 + 12, 33, 8);
+                m_pFont->drawScalableShadow(name, tx, ty, -1);
             }
             else
             {
+                int tx = m_menuPointer.x - m_leftPos + 12;
+                int ty = m_menuPointer.y - m_topPos - 12;
                 fillGradient(tx - 3, ty - 3, tx + w + 3, ty + 8 + 3, 0xC0000000, 0xC0000000);
                 m_pFont->drawShadow(name, tx, ty, -1);
             }
@@ -285,33 +286,34 @@ void ContainerScreen::slotClicked(const MenuPointer& pointer, MouseButtonType bu
     slotClicked(pointer, button, m_pMinecraft->m_pPlatform->shiftPressed());
 }
 
-void ContainerScreen::keyPressed(int keyCode)
+void ContainerScreen::controlPressed(const ControlBind& bind)
 {
-    if (!_useController() && m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
+    Options& options = *m_pMinecraft->getOptions();
+    if (!_useController() && options.isControl(KM_INVENTORY, bind))
     {
         m_pMinecraft->handleBack(false);
     }
-    else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
+    else if (options.isControl(KM_CONTAINER_QUICKMOVE, bind) && _useController())
     {
         slotClicked(m_menuPointer, MOUSE_BUTTON_LEFT, true);
     }
-    else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_SPLIT, keyCode) && _useController())
+    else if (options.isControl(KM_CONTAINER_SPLIT, bind) && _useController())
     {
         slotClicked(m_menuPointer, MOUSE_BUTTON_RIGHT, false);
     }
     else
     {
         if (_useController() &&
-                ((m_pMinecraft->getOptions()->isKey(KM_MENU_UP, keyCode) && _selectSlotInDirection(AreaNavigation::UP)) ||
-                (m_pMinecraft->getOptions()->isKey(KM_MENU_DOWN, keyCode) && _selectSlotInDirection(AreaNavigation::DOWN)) ||
-                (m_pMinecraft->getOptions()->isKey(KM_MENU_RIGHT, keyCode) && _selectSlotInDirection(AreaNavigation::RIGHT)) ||
-                (m_pMinecraft->getOptions()->isKey(KM_MENU_LEFT, keyCode) && _selectSlotInDirection(AreaNavigation::LEFT))))
+                ((options.isControl(KM_MENU_UP, bind) && _selectSlotInDirection(AreaNavigation::UP)) ||
+                (options.isControl(KM_MENU_DOWN, bind) && _selectSlotInDirection(AreaNavigation::DOWN)) ||
+                (options.isControl(KM_MENU_RIGHT, bind) && _selectSlotInDirection(AreaNavigation::RIGHT)) ||
+                (options.isControl(KM_MENU_LEFT, bind) && _selectSlotInDirection(AreaNavigation::LEFT))))
         {
             _playSelectSound();
             return;
         }
 
-        Screen::keyPressed(keyCode);
+        Screen::controlPressed(bind);
     }
 }
 

@@ -233,7 +233,8 @@ static void handle_events()
 					float x = event.button.x * scale;
 					float y = event.button.y * scale;
 					Mouse::feed(type, state, x, y);
-					Multitouch::feed(type, state, x, y, 0);
+					if (g_pAppPlatform->isTouchscreen())
+						Multitouch::feed(type, state, x, y, 0);
 				}
 				break;
 			}
@@ -244,7 +245,8 @@ static void handle_events()
 					float scale = g_fPointToPixelScale;
 					float x = event.motion.x * scale;
 					float y = event.motion.y * scale;
-					Multitouch::feed(MOUSE_BUTTON_NONE, false, x, y, 0);
+					if (g_pAppPlatform->isTouchscreen())
+						Multitouch::feed(MOUSE_BUTTON_NONE, false, x, y, 0);
 					Mouse::feed(MOUSE_BUTTON_NONE, false, x, y);
 					g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				}

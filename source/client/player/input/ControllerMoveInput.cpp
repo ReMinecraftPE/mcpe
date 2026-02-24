@@ -43,9 +43,15 @@ void ControllerMoveInput::tick(Player* player)
     IMoveInput::tick(player);
 }
 
-void ControllerMoveInput::setKey(int eventKey, bool eventKeyState)
+void ControllerMoveInput::setKey(eControlMappingIndex ctrl, bool eventKeyState)
 {
-	KeyboardInput::setKey(eventKey, eventKeyState);
+    if (ctrl == KM_SNEAK)
+    {
+        if (eventKeyState)
+            KeyboardInput::setKey(ctrl, m_keys[INPUT_SNEAK] ^ 1);
+    }
+	else 
+        KeyboardInput::setKey(ctrl, eventKeyState);
 	//this->m_culledEntities = m_pOptions[36] == eventKey && eventKeyState;
 	//this->field_21 = m_pOptions[34] == eventKey && eventKeyState;
 }

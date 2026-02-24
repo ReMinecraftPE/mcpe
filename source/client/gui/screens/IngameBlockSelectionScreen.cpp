@@ -337,16 +337,21 @@ void IngameBlockSelectionScreen::removed()
 	m_pMinecraft->m_pGui->inventoryUpdated();
 }
 
-void IngameBlockSelectionScreen::keyPressed(int keyCode)
+void IngameBlockSelectionScreen::controlPressed(const ControlBind& bind)
 {
-    if (!_useController() && m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
+    if (!_useController() && m_pMinecraft->getOptions()->isControl(KM_INVENTORY, bind))
     {
         m_pMinecraft->handleBack(false);
     }
 	else
 	{
-        Screen::keyPressed(keyCode);
+        Screen::controlPressed(bind);
 	}
+}
+
+bool IngameBlockSelectionScreen::isPauseScreen()
+{
+	return false;
 }
 
 void IngameBlockSelectionScreen::selectSlotAndClose()

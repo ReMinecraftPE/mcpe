@@ -8,6 +8,7 @@
 
 #include <stddef.h>
 #include "MouseDevice.hpp"
+#include "IInputHolder.hpp"
 
 MouseDevice::MouseDevice()
 {
@@ -24,7 +25,10 @@ MouseDevice::MouseDevice()
 void MouseDevice::feed(MouseButtonType buttonType, bool buttonState, int posX, int posY)
 {
 	if (buttonType != MOUSE_BUTTON_NONE)
+	{
 		_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY, 0));
+		IInputHolder::activeType = IInputHolder::MOUSE;
+	}
 
 	// Make sure button type is valid
 	if (buttonType < MOUSE_BUTTON_COUNT)
@@ -53,7 +57,10 @@ short MouseDevice::getY()
 bool MouseDevice::next()
 {
 	if ((size_t)_index + 1 >= _inputs.size())
+	{
+		if (!_inputs.empty()) reset();
 		return false;
+	}
 
 	_index++;
 	return true;

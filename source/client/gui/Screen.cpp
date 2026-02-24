@@ -56,7 +56,7 @@ Screen::~Screen()
 	m_elements.clear();
 }
 
-void Screen::controllerEvent(GameController::StickID stickID, double deltaTime)
+void Screen::controllerStickEvent(GameController::StickID stickID, double deltaTime)
 {
 	// @TODO: this probably shouldn't be here
 	GameController::StickEvent event;
@@ -139,10 +139,10 @@ void Screen::init(Minecraft* pMinecraft, int width, int height)
 	m_pFont = pMinecraft->m_pFont;
 
 	// Apply UI theme to current Screen based on user preference
-	UITheme userTheme = m_pMinecraft->getOptions()->getUiTheme();
+	UITheme userTheme = pMinecraft->getOptions()->getUiTheme();
 	// We don't bother applying the console theme automatically for generic screens because this completely fucks scaling
 	if (m_uiTheme == UI_UNIVERSAL || (m_uiTheme == UI_GENERIC && userTheme != UI_CONSOLE))
-		m_uiTheme = m_pMinecraft->getOptions()->getUiTheme();
+		m_uiTheme = userTheme;
 
 	setSize(width, height);
 	initMenuPointer();
@@ -150,44 +150,44 @@ void Screen::init(Minecraft* pMinecraft, int width, int height)
 	m_bLastPointerPressedState = false;
 }
 
-void Screen::keyPressed(int key)
+void Screen::controlPressed(const ControlBind& bind)
 {
 	Options& options = *m_pMinecraft->getOptions();
 	GuiElement* element = _getSelectedElement();
 
-	if (options.isKey(KM_MENU_CANCEL, key))
+	if (options.isControl(KM_MENU_CANCEL, bind))
 	{
 		m_pMinecraft->handleBack(false);
 	}
 
-	if (m_pMinecraft->getOptions()->isKey(KM_MENU_TAB_LEFT, key))
+	if (options.isControl(KM_MENU_TAB_LEFT, bind))
 	{
 		prevTab();
 	}
-	if (m_pMinecraft->getOptions()->isKey(KM_MENU_TAB_RIGHT, key))
+	if (options.isControl(KM_MENU_TAB_RIGHT, bind))
 	{
 		nextTab();
 	}
 
 	if (doElementTabbing())
 	{
-		if (options.isKey(KM_MENU_DOWN, key))
+		if (options.isControl(KM_MENU_DOWN, bind))
 		{
 			_areaNavigation(AreaNavigation::DOWN);
 		}
-		else if (options.isKey(KM_MENU_UP, key))
+		else if (options.isControl(KM_MENU_UP, bind))
 		{
 			_areaNavigation(AreaNavigation::UP);
 		}
-		else if (options.isKey(KM_MENU_RIGHT, key))
+		else if (options.isControl(KM_MENU_RIGHT, bind))
 		{
 			_areaNavigation(AreaNavigation::RIGHT);
 		}
-		else if (options.isKey(KM_MENU_LEFT, key))
+		else if (options.isControl(KM_MENU_LEFT, bind))
 		{
 			_areaNavigation(AreaNavigation::LEFT);
 		}
-		else if (options.isKey(KM_MENU_OK, key))
+		else if (options.isControl(KM_MENU_OK, bind))
 		{
 			if (element && element->isEnabled())
 			{
@@ -204,7 +204,7 @@ void Screen::keyPressed(int key)
 	
 	if (element && element->isEnabled())
 	{
-		element->handleButtonPress(m_pMinecraft, key);
+		element->handleControlPress(m_pMinecraft, bind);
 	}
 }
 
@@ -253,6 +253,11 @@ void Screen::handleKeyboardClosed()
 	{
 		element->setFocused(false);
 	}
+}
+
+bool Screen::isInvalid(Minecraft*)
+{
+	return false;
 }
 
 static const char* g_panoramaList[] =
@@ -530,11 +535,14 @@ void Screen::selectElement(GuiElement* element)
 
 bool Screen::_areaNavigation(AreaNavigation::Direction dir)
 {
-	if (!m_pSelectedElement) return false;
+	if (m_pSelectedElement && m_pSelectedElement->areaNavigation(m_pMinecraft, dir)) return true;
 
-	if (m_pSelectedElement->areaNavigation(m_pMinecraft, dir)) return true;
-
-	if (selectElementById(Navigation(this).navigateCyclic(dir, m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2, m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2)))
+	if ((m_pSelectedElement && selectElementById(Navigation(this).navigateCyclic(dir,
+		m_pSelectedElement->m_xPos + m_pSelectedElement->m_width / 2,
+		m_pSelectedElement->m_yPos + m_pSelectedElement->m_height / 2))) ||
+		(!m_pSelectedElement && selectElementById(Navigation(this).navigate(dir,
+		m_width / 2,
+		m_height / 2, true))))
 	{
 		_playSelectSound();
 		return true;
@@ -723,7 +731,14 @@ void Screen::updateEvents()
 	if (_useController())
 	{
 		checkForPointerEvent(MOUSE_BUTTON_LEFT);
-		controllerEvent();
+
+		while(GameControllerManager::next())
+			controllerEvent();
+
+		_processControllerDirection(1);
+		_processControllerDirection(2);
+
+		controllerStickEvent(2);
 	}
 }
 
@@ -758,15 +773,26 @@ void Screen::keyboardEvent()
 	}
 
 	if (Keyboard::getEventKeyState())
-		keyPressed(Keyboard::getEventKey());
+		controlPressed(ControlBind(Keyboard::getEventKey(), GameController::BUTTON_NONE));
 }
 
 void Screen::controllerEvent()
 {
-	_processControllerDirection(1);
-	_processControllerDirection(2);
+	// Ugly hack x2
+	if (!doElementTabbing())
+	{
+		if (GameControllerManager::getEventButtonState() && m_pMinecraft->getOptions()->getControl(KM_MENU_OK).isButton(GameControllerManager::getEventButton()))
+		{
+			m_menuPointer.isPressed = true;
+		}
+		else
+		{
+			m_menuPointer.isPressed = false;
+		}
+	}
 
-	controllerEvent(2);
+	if (GameControllerManager::getEventButtonState())
+		controlPressed(ControlBind(-1, GameControllerManager::getEventButton()));
 }
 
 void Screen::checkForPointerEvent(MouseButtonType button)

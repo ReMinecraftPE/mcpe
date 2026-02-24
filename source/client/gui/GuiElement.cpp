@@ -63,7 +63,7 @@ bool GuiElement::areaNavigation(Minecraft* pMinecraft, AreaNavigation::Direction
 	return false;
 }
 
-void GuiElement::handleButtonPress(Minecraft* pMinecraft, int key)
+void GuiElement::handleControlPress(Minecraft* pMinecraft, const ControlBind& key)
 {
 }
 

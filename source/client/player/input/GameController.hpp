@@ -29,6 +29,7 @@ public:
     };
 	enum EngineButtonID
 	{
+        BUTTON_NONE = -1,
         BUTTON_A,
         BUTTON_B,
         BUTTON_X,

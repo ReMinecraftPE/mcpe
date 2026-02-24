@@ -76,7 +76,7 @@ public:
 	int getYOffset();
 	unsigned int getCursorMoveThrottle() const { return 65; }
 	bool doElementTabbing() const;
-	void controllerEvent(GameController::StickID stickId, double deltaTime = 0.0);
+	void controllerStickEvent(GameController::StickID stickId, double deltaTime = 0.0);
 
 protected:
 	virtual bool _areaNavigation(AreaNavigation::Direction);
@@ -117,13 +117,14 @@ public:
 	virtual void onTextBoxUpdated(int id) {};
 	virtual void pointerPressed(const MenuPointer& pointer, MouseButtonType btn);
 	virtual void pointerReleased(const MenuPointer& pointer, MouseButtonType btn);
-	virtual void keyPressed(int);
+	virtual void controlPressed(const ControlBind&);
 	virtual void handleTextChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
 	virtual float getScale(int width, int height);
 	static float GetConsoleScale(int height);
 	virtual void setTextboxText(const std::string& text);
 	virtual void handleKeyboardClosed();
+	virtual bool isInvalid(Minecraft*);
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);

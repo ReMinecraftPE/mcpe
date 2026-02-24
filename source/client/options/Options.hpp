@@ -15,10 +15,12 @@
 #include <vector>
 #include <map>
 
+#include "common/utility/HashMap.hpp"
 #include "common/threading/AsyncTask.hpp"
+#include "client/player/input/GameController.hpp"
 #include "client/resources/ResourcePackManager.hpp"
 
-enum eKeyMappingIndex
+enum eControlMappingIndex
 {
 	KM_FORWARD,
 	KM_LEFT,
@@ -65,13 +67,44 @@ enum eKeyMappingIndex
 	KM_COUNT
 };
 
-struct KeyMapping
+struct ControlBind
+{
+	//@TODO: Replace this with an universal key
+	int keyId;
+	GameController::EngineButtonID buttonId;
+
+	ControlBind() : keyId(-1), buttonId(GameController::BUTTON_NONE) {}
+	ControlBind(int key, GameController::EngineButtonID button) : keyId(key), buttonId(button) {}
+
+	bool isKey(int key) const { return keyId >= 0 && key == keyId; }
+	bool isButton(GameController::EngineButtonID button) const { return buttonId > GameController::BUTTON_NONE && button == buttonId; }
+	bool operator==(const ControlBind& other) const
+	{
+		return isKey(other.keyId) || isButton(other.buttonId);
+	}
+};
+
+struct ControlMapping
 {
 	std::string key;
-	int value;
+	ControlBind bind;
+	int timesPressed;
 
-	KeyMapping() : value(-1) {} // key is automatically clear when constructed
-	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
+	ControlMapping() : timesPressed(0) {} // key is automatically clear when constructed
+	ControlMapping(const char* keyName, int keyCode) : key(keyName), timesPressed(0)
+	{
+		bind.keyId = keyCode;
+	}
+
+	void pressed() { ++timesPressed; }
+	void reset() { timesPressed = 0; }
+	bool consume()
+	{
+		if (timesPressed == 0) return false;
+		
+		--timesPressed;
+		return true;
+	}
 };
 
 enum UITheme
@@ -330,8 +363,6 @@ public:
 
 class Options
 {
-public:
-	struct KeyBind;
 private:
 	static bool _hasResourcePack(const ResourcePack& pack, ResourcePackStack& packs);
 	static void _tryAddResourcePack(const std::string& name, ResourcePackStack& packs);
@@ -368,8 +399,12 @@ public:
 	const AsyncTask& save();
 	std::vector<std::string> getOptionStrings();
 	
-	int getKey(eKeyMappingIndex idx) const { return m_keyMappings[idx].value; }
-	bool isKey(eKeyMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
+	int getKey(eControlMappingIndex idx) const { return m_controlMappings[idx].bind.keyId; }
+	bool isKey(eControlMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
+
+	ControlMapping& getControlMapping(eControlMappingIndex idx) { return m_controlMappings[idx]; }
+	const ControlBind& getControl(eControlMappingIndex idx) const { return m_controlMappings[idx].bind; }
+	bool isControl(eControlMappingIndex idx, const ControlBind& bind) const { return m_controlMappings[idx].bind == bind; }
 
 	void loadControls();
 	void reset();
@@ -380,10 +415,10 @@ public:
 
 private:
 	Minecraft* m_pMinecraft;
-	std::map<std::string, OptionEntry*> m_options;
+	HashMap<std::string, OptionEntry*> m_options;
 	AsyncTask m_saveTask;
 	std::string m_filePath;
-	KeyMapping m_keyMappings[KM_COUNT];
+	ControlMapping m_controlMappings[KM_COUNT];
 
 public:
 	friend class BoolOption;

@@ -657,7 +657,7 @@ void GameRenderer::render(const Timer& timer)
 	{
 		if (m_pMinecraft->m_pScreen)
 		{
-			m_pMinecraft->m_pScreen->controllerEvent(1, timer.m_deltaTime);
+			m_pMinecraft->m_pScreen->controllerStickEvent(1, timer.m_deltaTime);
 		}
 	}
 	else

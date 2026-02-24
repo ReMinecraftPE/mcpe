@@ -127,5 +127,8 @@
     <ClInclude Include="$(MC_ROOT)\source\common\threading\AsyncTask.hpp">
       <Filter>Header Files\Threading</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\HashMap.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

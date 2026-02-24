@@ -24,8 +24,9 @@ public:
 	void init() override;
 	void removed() override;
 	void render(float f) override;
-	void keyPressed(int keyCode) override;
+	void controlPressed(const ControlBind& bind) override;
 	void handleKeyboardClosed() override;
+	bool isPauseScreen() override;
 
 	void sendMessageAndExit();
 
