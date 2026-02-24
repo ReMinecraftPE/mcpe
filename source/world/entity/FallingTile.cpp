@@ -78,7 +78,10 @@ void FallingTile::tick()
 	if (!m_bOnGround)
 	{
 		if (field_E0 > 100 && !m_pLevel->m_bIsClientSide)
+		{
+			spawnAtLocation(getTile(), 1);
 			remove();
+		}
 
 		return;
 	}
@@ -88,13 +91,9 @@ void FallingTile::tick()
 	m_vel.y *= -0.5f;
 	remove();
 	if (m_pLevel->mayPlace(getTile(), tilePos, true))
-	{
 		m_pLevel->setTile(tilePos, getTile());
-	}
 	else
-	{
-		// @TODO: spawn resources?
-	}
+		spawnAtLocation(getTile(), 1);
 }
 
 void FallingTile::addAdditionalSaveData(CompoundTag& tag) const
