@@ -268,6 +268,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     rm -rf "gcc-$gcc_version"
 
     printf '%s' "$ppctoolchainver" > toolchain-ppc/toolchainver
+    outdated_ppc_toolchain=1
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
@@ -291,7 +292,10 @@ fi
 # Delete old build files if build settings change or if the SDK changes.
 printf '%s\n' "$DEBUG" > buildsettings
 clang -v >> buildsettings 2>&1
-if [ -n "$outdated_sdk" ] || ! cmp -s buildsettings lastbuildsettings; then
+if [ -n "$outdated_sdk" ] ||
+    [ -n "$outdated_toolchain" ] ||
+    [ -n "$outdated_ppc_toolchain" ] ||
+    ! cmp -s buildsettings lastbuildsettings; then
     rm -rf build-*
 fi
 mv buildsettings lastbuildsettings
