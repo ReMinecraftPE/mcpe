@@ -92,7 +92,7 @@ static std::string getStoragePath()
     tmp = getenv("APPDATA");
     if (tmp)
         path = tmp;
-#elif defined(MC_PLATFORM_MAC)
+#elif MC_PLATFORM_MAC
     tmp = getenv("HOME");
     if (tmp)
         path = std::string(tmp) + "/Library/Application Support";
