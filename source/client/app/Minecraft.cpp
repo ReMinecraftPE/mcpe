@@ -904,7 +904,7 @@ void Minecraft::tick()
 		Multitouch::reset();
 
 		// Actually pause the game, because fuck bedrock edition
-		m_bIsGamePaused = !isOnline() || (m_pLevel && m_pLevel->m_players.size() == 1 && m_pScreen && m_pScreen->isPauseScreen());
+		m_bIsGamePaused = (!isOnline() || (m_pLevel && m_pLevel->m_players.size() == 1)) && (m_pScreen && m_pScreen->isPauseScreen());
 	}
 }
 
