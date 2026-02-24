@@ -73,7 +73,6 @@ public:
 	static MouseButtonType GetMouseButtonType(uint8_t button);
 	static bool GetMouseButtonState(const SDL_Event& event);
 	static Keyboard::KeyState GetKeyState(uint8_t state);
-	static GameController::EngineButtonID GetEngineButton(uint8_t button);
 
 protected:
 	ImageData m_iconImage;

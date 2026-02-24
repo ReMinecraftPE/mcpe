@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <utility>
 #include <stdint.h>
 
 template<typename TKey, typename TValue>
 struct HashMapEntry
 {
-    TKey key;
-    TValue value;
+    std::pair<TKey, TValue> pair;
     bool bOccupied;
     bool bDeleted;
     
@@ -106,7 +106,7 @@ private:
 
         while (m_entries[slot].bOccupied)
         {
-            if (!m_entries[slot].bDeleted && _keysEqual(m_entries[slot].key, key))
+            if (!m_entries[slot].bDeleted && _keysEqual(m_entries[slot].pair.first, key))
                 return slot;
 
             slot = (slot + 1) % capacity();
@@ -132,7 +132,7 @@ private:
                 if (firstDeleted == capacity())
                     firstDeleted = slot;
             }
-            else if (_keysEqual(m_entries[slot].key, key))
+            else if (_keysEqual(m_entries[slot].pair.first, key))
             {
                 return slot;
             }
@@ -160,7 +160,7 @@ private:
         for (size_t i = 0; i < oldEntries.size(); i++)
         {
             if (oldEntries[i].bOccupied && !oldEntries[i].bDeleted)
-                insert(oldEntries[i].key, oldEntries[i].value);
+                insert(oldEntries[i].pair.first, oldEntries[i].pair.second);
         }
     }
 
@@ -187,12 +187,12 @@ public:
 
         if (m_entries[slot].bOccupied && !m_entries[slot].bDeleted)
         {
-            m_entries[slot].value = value;
+            m_entries[slot].pair.second = value;
             return false;
         }
 
-        m_entries[slot].key = key;
-        m_entries[slot].value = value;
+        m_entries[slot].pair.first = key;
+        m_entries[slot].pair.second = value;
         m_entries[slot].bOccupied = true;
         m_entries[slot].bDeleted = false;
         m_size++;
@@ -215,7 +215,7 @@ public:
         if (slot == capacity())
             return NULL;
 
-        return &m_entries[slot].value;
+        return &m_entries[slot].pair.second;
     }
 
     const TValue* get(const TKey& key) const
@@ -228,7 +228,7 @@ public:
         if (slot == capacity())
             return NULL;
 
-        return &m_entries[slot].value;
+        return &m_entries[slot].pair.second;
     }
     
     TValue& operator[](const TKey& key)
@@ -254,7 +254,7 @@ public:
     size_t capacity() const { return m_entries.size(); }
     bool empty() const { return m_size == 0; }
     
-    class Iterator
+    class iterator
     {
     private:
         void _findNextOccupied()
@@ -264,7 +264,7 @@ public:
         }
 
     public:
-        Iterator(std::vector<HashMapEntry<TKey, TValue> >* entries, size_t index) :
+        iterator(std::vector<HashMapEntry<TKey, TValue> >* entries, size_t index) :
             m_entries(entries),
             m_index(index)
         {
@@ -272,25 +272,26 @@ public:
                 _findNextOccupied();
         }
 
-        Iterator& operator++()
+        iterator& operator++()
         {
             m_index++;
             _findNextOccupied();
             return *this;
         }
 
-        Iterator operator++(int)
+        iterator operator++(int)
         {
-            Iterator it = *this;
+            iterator it = *this;
             ++(*this);
             return it;
         }
 
-        bool operator==(const Iterator& other) const { return m_entries == other.m_entries && m_index == other.m_index; }
-        bool operator!=(const Iterator& other) const { return !(*this == other); }
+        bool operator==(const iterator& other) const { return m_entries == other.m_entries && m_index == other.m_index; }
+        bool operator!=(const iterator& other) const { return !(*this == other); }
         
-        TKey& key() { return m_entries->at(m_index).key; }
-        TValue& value() { return m_entries->at(m_index).value; }
+        TKey& key() { return m_entries->at(m_index).pair.first; }
+        TValue& value() { return m_entries->at(m_index).pair.second; }
+        std::pair<TKey, TValue>* operator->() { return &m_entries->at(m_index); }
         
     private:
         std::vector<HashMapEntry<TKey, TValue> >* m_entries;
@@ -299,7 +300,7 @@ public:
         friend class HashMap;
     };
     
-    Iterator find(const TKey& key)
+    iterator find(const TKey& key)
     {
         if (m_size == 0)
             return end();
@@ -309,13 +310,13 @@ public:
         if (slot == capacity())
             return end();
 
-        return Iterator(&m_entries, slot);
+        return iterator(&m_entries, slot);
     }
 
-    Iterator begin() { return Iterator(&m_entries, 0); }
-    Iterator end() { return Iterator(&m_entries, capacity()); }
+    iterator begin() { return iterator(&m_entries, 0); }
+    iterator end() { return iterator(&m_entries, capacity()); }
 
-    Iterator erase(Iterator it)
+    iterator erase(iterator it)
     {
         if (it == end())
             return it;
@@ -325,8 +326,7 @@ public:
             m_entries[slot].bOccupied &&
             !m_entries[slot].bDeleted)
         {
-            m_entries[slot] = HashMapEntry<TKey, TValue>();
-            m_entries[slot].bOccupied = true;
+            m_entries[slot].pair = std::pair<TKey, TValue>();
             m_entries[slot].bDeleted = true;
             m_size--;
         }
@@ -334,7 +334,7 @@ public:
         return ++it;
     }
 
-    Iterator erase(Iterator first, Iterator last)
+    iterator erase(iterator first, iterator last)
     {
         while (first != last)
             first = erase(first);
@@ -342,7 +342,7 @@ public:
         return first;
     }
 
-    class ConstIterator
+    class const_iterator
     {
     private:
         void _findNextOccupied()
@@ -352,7 +352,7 @@ public:
         }
 
     public:
-        ConstIterator(const std::vector<HashMapEntry<TKey, TValue> >* entries, size_t index) :
+        const_iterator(const std::vector<HashMapEntry<TKey, TValue> >* entries, size_t index) :
             m_entries(entries),
             m_index(index)
         {
@@ -360,25 +360,26 @@ public:
                 _findNextOccupied();
         }
 
-        ConstIterator& operator++()
+        const_iterator& operator++()
         {
             m_index++;
             _findNextOccupied();
             return *this;
         }
 
-        ConstIterator operator++(int)
+        const_iterator operator++(int)
         {
-            ConstIterator it = *this;
+            const_iterator it = *this;
             ++(*this);
             return it;
         }
 
-        bool operator==(const ConstIterator& other) const { return m_entries == other.m_entries && m_index == other.m_index; }
-        bool operator!=(const ConstIterator& other) const { return !(*this == other); }
+        bool operator==(const const_iterator& other) const { return m_entries == other.m_entries && m_index == other.m_index; }
+        bool operator!=(const const_iterator& other) const { return !(*this == other); }
 
-        const TKey& key() { return m_entries->at(m_index).key; }
-        const TValue& value() { return m_entries->at(m_index).value; }
+        const TKey& key() { return m_entries->at(m_index).pair.first; }
+        const TValue& value() { return m_entries->at(m_index).pair.second; }
+        const std::pair<TKey, TValue>* operator->() { return &m_entries->at(m_index); }
 
     private:
         const std::vector<HashMapEntry<TKey, TValue> >* m_entries;
@@ -387,7 +388,7 @@ public:
         friend class HashMap;
     };
 
-    ConstIterator find(const TKey& key) const
+    const_iterator find(const TKey& key) const
     {
         if (m_size == 0)
             return end();
@@ -397,11 +398,11 @@ public:
         if (slot == capacity())
             return end();
 
-        return ConstIterator(&m_entries, slot);
+        return const_iterator(&m_entries, slot);
     }
 
-    ConstIterator begin() const { return ConstIterator(&m_entries, 0); }
-    ConstIterator end() const { return ConstIterator(&m_entries, capacity()); }
+    const_iterator begin() const { return const_iterator(&m_entries, 0); }
+    const_iterator end() const { return const_iterator(&m_entries, capacity()); }
 
 private:
     std::vector<HashMapEntry<TKey, TValue> > m_entries;

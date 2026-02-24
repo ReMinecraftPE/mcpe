@@ -14,6 +14,7 @@ PauseScreen_Console::PauseScreen_Console() :
 	m_btnLeaderboards.setEnabled(false);
 	m_btnAchievements.setEnabled(false);
 
+	m_themeSelection = UI_SPECIFIC;
 	m_uiTheme = UI_CONSOLE;
 }
 
@@ -56,12 +57,12 @@ void PauseScreen_Console::_buttonClicked(Button* btn)
 		m_pMinecraft->leaveGame(false);
 }
 
-bool PauseScreen_Console::isInvalid(Minecraft* mc)
+bool PauseScreen_Console::validate(Minecraft* mc)
 {
 	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
 	{
 		mc->getScreenChooser()->pushPauseScreen();
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }

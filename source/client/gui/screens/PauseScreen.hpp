@@ -19,7 +19,7 @@ public:
 	void tick() override;
 	void render(float f) override;
 	void _buttonClicked(Button*) override;
-	bool isInvalid(Minecraft*) override;
+	bool validate(Minecraft*) override;
 	
 	void updateServerVisibilityText();
 

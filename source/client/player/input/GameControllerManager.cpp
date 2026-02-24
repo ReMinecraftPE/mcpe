@@ -117,7 +117,7 @@ void GameControllerManager::feedStickX(GameController::StickID stickId, bool tou
 
 	inReset = false;
 
-	if (x)
+	if (x != 0.0f)
 		IInputHolder::activeType = IInputHolder::CONTROLLER;
 }
 
@@ -140,7 +140,7 @@ void GameControllerManager::feedStickY(GameController::StickID stickId, bool tou
 
 	inReset = false;
 
-	if (y)
+	if (y != 0.0f)
 		IInputHolder::activeType = IInputHolder::CONTROLLER;
 }
 

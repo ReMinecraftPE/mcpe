@@ -158,7 +158,7 @@ CompoundTag* ItemStack::getNetworkUserData() const
 {
 	CompoundTag* userData = new CompoundTag();
 	CompoundTag::NamedTagMap& tags = m_userData->rawView();
-	for (CompoundTag::NamedTagMap::Iterator it = tags.begin(); it != tags.end(); it++)
+	for (CompoundTag::NamedTagMap::iterator it = tags.begin(); it != tags.end(); it++)
 	{
 		const std::string& name = it.key();
 		const Tag* tag = it.value();

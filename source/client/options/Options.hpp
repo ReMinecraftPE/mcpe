@@ -111,10 +111,7 @@ enum UITheme
 {
 	UI_POCKET,
 	UI_JAVA,
-	UI_CONSOLE,
-
-	UI_GENERIC, // The Screen is a Java / Pocket mix
-	UI_UNIVERSAL // The Screen automatically handles all UI themes
+	UI_CONSOLE
 };
 
 enum LogoType

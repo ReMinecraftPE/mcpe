@@ -17,6 +17,7 @@ StartMenuScreen_Console::StartMenuScreen_Console() :
 	m_btnAchievements.setEnabled(false);
 	m_btnDownload.setEnabled(false);
 
+	m_themeSelection = UI_SPECIFIC;
 	m_uiTheme = UI_CONSOLE;
 
 	m_splash = SplashManager::singleton().getSplash();
@@ -74,12 +75,12 @@ void StartMenuScreen_Console::_buttonClicked(Button* btn)
 		m_pMinecraft->quit();
 }
 
-bool StartMenuScreen_Console::isInvalid(Minecraft* mc)
+bool StartMenuScreen_Console::validate(Minecraft* mc)
 {
 	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
 	{
 		mc->getScreenChooser()->pushStartScreen();
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }

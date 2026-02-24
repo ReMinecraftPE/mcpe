@@ -6,6 +6,7 @@ PanelScreen_Console::PanelScreen_Console(Screen* parent) :
 	m_pParent(parent)
 	, m_layout(this)
 {
+	m_themeSelection = UI_SPECIFIC;
 	m_uiTheme = UI_CONSOLE;
 	m_bDeletePrevious = false;
 }

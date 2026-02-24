@@ -286,7 +286,7 @@ void Minecraft::setScreen(Screen* pScreen)
 		return;
 	}
 
-	if (pScreen && (pScreen->isErrorScreen() || pScreen->isInvalid(this)))
+	if (pScreen && (pScreen->isErrorScreen() || !pScreen->validate(this)))
 	{
 		// not in original
 		delete pScreen;
@@ -571,7 +571,6 @@ void Minecraft::tickInput()
 
 		while (GameControllerManager::next())
 		{
-			if (!useController()) continue;
 			GameController::EngineButtonID button = GameControllerManager::getEventButton();
 			bool bPressed = GameControllerManager::getEventButtonState() == GameController::BTN_STATE_DOWN;
 
@@ -619,7 +618,7 @@ void Minecraft::tickInput()
 				continue;
 
 			// @TODO: Replace with KeyboardBuildInput
-			if (!useController() && getTimeMs() - field_2B4 <= 200)
+			if (getTimeMs() - field_2B4 <= 200)
 			{
 				if (getOptions()->isKey(KM_DESTROY, keyCode) && bPressed)
 				{
@@ -897,7 +896,10 @@ void Minecraft::tick()
 		}
 
 		if (m_pScreen)
+		{
+			m_pScreen->validate(this);
 			m_pScreen->tick();
+		}
 
 		Multitouch::reset();
 
@@ -1093,12 +1095,7 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	else if (m_pOptions->getUiTheme() == UI_CONSOLE)
 		return Screen::GetConsoleScale(height);
 
-#if MC_PLATFORM_XBOX
-#define USE_JAVA_SCREEN_SCALING
-#endif
-#ifdef USE_JAVA_SCREEN_SCALING
-	// @HACK: the scaling code for Java/Pocket Screens when using the Console theme is pretty broken
-	if (m_pOptions->getUiTheme() != UI_CONSOLE)
+	if (getUiTheme() == UI_JAVA)
 	{
 		int scale;
 		for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
@@ -1106,7 +1103,6 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 		}
 		return 1.0f / scale;
 	}
-#endif
 
 	if (height > 1800)
 		return 1.0f / 8.0f;

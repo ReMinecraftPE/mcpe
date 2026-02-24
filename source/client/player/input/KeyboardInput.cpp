@@ -34,27 +34,13 @@ void KeyboardInput::setKey(eControlMappingIndex ctrl, bool eventKeyState)
 	int index;
 	switch (ctrl)
 	{
-	case KM_FORWARD:
-		index = INPUT_FORWARD;
-		break;
-	case KM_BACKWARD:
-		index = INPUT_BACKWARD;
-		break;
-	case KM_LEFT:
-		index = INPUT_LEFT;
-		break;
-	case KM_RIGHT:
-		index = INPUT_RIGHT;
-		break;
-	case KM_JUMP:
-		index = INPUT_JUMP;
-		break;
-	case KM_SNEAK:
-		index = INPUT_SNEAK;
-		break;
-	default:
-		index = -1;
-		return;
+	case KM_FORWARD:	index = INPUT_FORWARD;	break;
+	case KM_BACKWARD:	index = INPUT_BACKWARD; break;
+	case KM_LEFT:		index = INPUT_LEFT;		break;
+	case KM_RIGHT:		index = INPUT_RIGHT;	break;
+	case KM_JUMP:		index = INPUT_JUMP;		break;
+	case KM_SNEAK:		index = INPUT_SNEAK;	break;
+	default:			index = -1;				return;
 	}
 
 	m_keys[index] = eventKeyState;

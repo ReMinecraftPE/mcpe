@@ -152,7 +152,7 @@ void Options::_load()
 	{
 		std::string key = strings[i], value = strings[i + 1];
 
-		HashMap<std::string, OptionEntry*>::Iterator it = m_options.find(key);
+		HashMap<std::string, OptionEntry*>::iterator it = m_options.find(key);
 		if (it != m_options.end())
 			it.value()->load(value);
 		else if (key == "misc_oldtitle")
@@ -404,7 +404,7 @@ std::vector<std::string> Options::getOptionStrings()
 #define SO(optname, value) do { vec.push_back(optname); vec.push_back(value); } while (0)
 
 	std::stringstream ss;
-	for (HashMap<std::string, OptionEntry*>::Iterator it = m_options.begin(); it != m_options.end(); ++it)
+	for (HashMap<std::string, OptionEntry*>::iterator it = m_options.begin(); it != m_options.end(); ++it)
 	{
 		ss.str("");
 		it.value()->save(ss);
@@ -605,7 +605,7 @@ void Options::loadControls()
 
 void Options::reset()
 {
-	for (HashMap<std::string, OptionEntry*>::Iterator it = m_options.begin(); it != m_options.end(); ++it)
+	for (HashMap<std::string, OptionEntry*>::iterator it = m_options.begin(); it != m_options.end(); ++it)
 	{
 		it.value()->reset();
 	}

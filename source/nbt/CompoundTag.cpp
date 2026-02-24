@@ -12,7 +12,7 @@ CompoundTag::CompoundTag()
 
 void CompoundTag::write(IDataOutput& dos) const
 {
-    for (NamedTagMap::ConstIterator it = m_tags.begin(); it != m_tags.end(); it++)
+    for (NamedTagMap::const_iterator it = m_tags.begin(); it != m_tags.end(); it++)
 	{
 		writeNamedTag(it.key(), *it.value(), dos);
     }
@@ -145,14 +145,14 @@ bool CompoundTag::contains(const std::string& name, Tag::Type type) const
 
 const Tag* CompoundTag::get(const std::string& name) const
 {
-	NamedTagMap::ConstIterator it = m_tags.find(name);
+	NamedTagMap::const_iterator it = m_tags.find(name);
 	if (it != m_tags.end()) return it.value();
     return nullptr;
 }
 
 Tag* CompoundTag::get(const std::string& name)
 {
-	NamedTagMap::Iterator it = m_tags.find(name);
+	NamedTagMap::iterator it = m_tags.find(name);
 	if (it != m_tags.end()) return it.value();
 	return nullptr;
 }
@@ -299,7 +299,7 @@ CompoundTag* CompoundTag::uniqueClone() const
 {
 	CompoundTag* newTag = new CompoundTag();
 
-	for (NamedTagMap::ConstIterator it = m_tags.begin(); it != m_tags.end(); it++)
+	for (NamedTagMap::const_iterator it = m_tags.begin(); it != m_tags.end(); it++)
 	{
 		newTag->put(it.key(), it.value()->copy());
 	}
@@ -309,7 +309,7 @@ CompoundTag* CompoundTag::uniqueClone() const
 
 bool CompoundTag::remove(const std::string& name)
 {
-	NamedTagMap::Iterator it = m_tags.find(name);
+	NamedTagMap::iterator it = m_tags.find(name);
 	if (it == m_tags.end())
 		return false;
 
@@ -323,7 +323,7 @@ void CompoundTag::deleteChildren()
 {
     if (!m_bLeak)
     {
-        for (NamedTagMap::Iterator it = m_tags.begin(); it != m_tags.end(); it++)
+        for (NamedTagMap::iterator it = m_tags.begin(); it != m_tags.end(); it++)
         {
             Tag* tag = it.value();
             tag->deleteChildren();
@@ -339,9 +339,9 @@ bool CompoundTag::operator==(const Tag& other) const
 	const CompoundTag& other2 = (const CompoundTag&)(other);
 	if (getId() == other2.getId() && m_tags.size() == other2.m_tags.size())
 	{
-		for (NamedTagMap::ConstIterator it = m_tags.begin(); it != m_tags.end(); it++)
+		for (NamedTagMap::const_iterator it = m_tags.begin(); it != m_tags.end(); it++)
 		{
-			NamedTagMap::ConstIterator it2 = other2.m_tags.find(it.key());
+			NamedTagMap::const_iterator it2 = other2.m_tags.find(it.key());
 			if (it2 == other2.m_tags.end())
 				return false; // Failed to find tag in other by name
 

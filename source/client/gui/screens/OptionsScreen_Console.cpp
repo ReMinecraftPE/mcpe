@@ -70,14 +70,14 @@ bool OptionsScreen_Console::handleBackEvent(bool b)
 	return true;
 }
 
-bool OptionsScreen_Console::isInvalid(Minecraft* mc)
+bool OptionsScreen_Console::validate(Minecraft* mc)
 {
 	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
 	{
 		mc->getScreenChooser()->pushOptionsScreen(m_pParent);
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }
 
 #define HEADER(text) do { m_layout.m_elements.push_back(new OptionHeader_Console(text)); currentIndex++; } while (0)

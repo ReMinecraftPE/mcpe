@@ -124,7 +124,7 @@ public:
 	static float GetConsoleScale(int height);
 	virtual void setTextboxText(const std::string& text);
 	virtual void handleKeyboardClosed();
-	virtual bool isInvalid(Minecraft*);
+	virtual bool validate(Minecraft*);
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);
@@ -153,16 +153,25 @@ public:
 		Screen* m_pScreen;
 	};
 
+	enum ThemeSelection
+	{
+		UI_SPECIFIC,	// The Screen handles a specific UI Theme
+		UI_GENERIC,		// The Screen is a Java / Pocket mix
+		UI_UNIVERSAL	// The Screen automatically handles all UI themes
+	};
+
 	int m_width;
 	int m_height;
 	bool m_bPassEvents;
 	//@NOTE: This should be enabled only if the the actual screen handles the deletion of the previous screen, otherwise, there will be a memory leak!
 	bool m_bDeletePrevious;
+	bool m_bUniversalUiTheme;
 	Minecraft* m_pMinecraft;
 	GuiElementList m_elements;
 	GuiElement* m_pSelectedElement;
 	Font* m_pFont;
 	GuiElement* m_pClickedElement;
+	ThemeSelection m_themeSelection;
 	UITheme m_uiTheme;
 
 #ifndef ORIGINAL_CODE

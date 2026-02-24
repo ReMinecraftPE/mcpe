@@ -322,7 +322,7 @@ Entity* Level::getEntity(Entity::ID id) const
 unsigned int Level::getEntityCount(const EntityCategories& category) const
 {
 	EntityCategories::CategoriesMask mask = category.getCategoryMask();
-	HashMap<uint32_t, int>::ConstIterator it = m_entityCountsByCategory.find(mask);
+	HashMap<uint32_t, int>::const_iterator it = m_entityCountsByCategory.find(mask);
 	if (it == m_entityCountsByCategory.end())
 		return 0;
 	return it.value();

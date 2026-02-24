@@ -164,16 +164,6 @@ void OptionsScreen::handleScrollWheel(float force)
 	m_pList->handleScrollWheel(force);
 }
 
-bool OptionsScreen::isInvalid(Minecraft* mc)
-{
-	if (mc->getOptions()->getUiTheme() == UI_CONSOLE)
-	{
-		mc->getScreenChooser()->pushOptionsScreen(m_pParent);
-		return true;
-	}
-	return false;
-}
-
 #else
 
 #include "client/renderer/PatchManager.hpp"

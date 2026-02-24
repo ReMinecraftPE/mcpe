@@ -89,7 +89,7 @@ void GameControllerHandler_xinput::refresh()
     {
         XINPUT_STATE& inputState = m_inputStates.m_inputState[id];
         bool joinGameAlreadyFired = false;
-        for (ButtonIDMap::Iterator it = m_buttonIdMap.begin(); it != m_buttonIdMap.end(); it++)
+        for (ButtonIDMap::iterator it = m_buttonIdMap.begin(); it != m_buttonIdMap.end(); it++)
         {
             _processButton(id, inputState, it.key(), it.value(), joinGameAlreadyFired);
         }
