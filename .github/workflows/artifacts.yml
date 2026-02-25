@@ -78,7 +78,6 @@ jobs:
             image: i386/alpine:3.23
             volumes:
               - /tmp:/__e/node24_alpine
-              #- /tmp:/__e/node20_alpine
         steps:
           - name: Get Time
             id: get-time
@@ -90,8 +89,6 @@ jobs:
                 # bullshit
                 mkdir -p /__e/node24_alpine/bin
                 ln -sf $(command -v node) /__e/node24_alpine/bin/node
-                # ln -sf $(command -v npm) /__e/node24_alpine/bin/npm
-                # ln -sf $(command -v npx) /__e/node24_alpine/bin/npx
                 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
                 flatpak --user install -y \
                     org.freedesktop.Platform/${{ matrix.arch }}/1.6 \
@@ -112,6 +109,7 @@ jobs:
             env:
               ARCH: ${{ matrix.arch }}
               REMCPE_GFX_API: ${{ matrix.gfx }}
+              FLATPAK_RUNTIME_VERSION: 1.6
           - uses: actions/upload-artifact@v6
             with:
               name: Linux (${{ matrix.name }})
