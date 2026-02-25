@@ -195,7 +195,8 @@ void EntityRenderer::renderFlat(const AABB& aabb)
 
 void EntityRenderer::postRender(const Entity& entity, const Vec3& pos, float rot, float a)
 {
-	if (m_pDispatcher->m_pOptions && m_pDispatcher->m_pOptions->m_fancyGraphics.get() && areShadowsAvailable() && m_shadowRadius > 0.0f)
+	//LocalPlayer's shadow not rendering was a bug in the original, caused by the heightOffset being applied to the y position, but as we want to replicate it, this extra condition was added
+	if (m_pDispatcher->m_pOptions && m_pDispatcher->m_pOptions->m_fancyGraphics.get() && areShadowsAvailable() && m_shadowRadius > 0.0f &&(!entity->isPlayer() || !((Player*)entity)->isLocalPlayer()))
 	{
 		float dist = m_pDispatcher->distanceToSqr(entity.m_pos);
 		float pow = (1.0f - dist / 256.0f) * m_shadowStrength;
