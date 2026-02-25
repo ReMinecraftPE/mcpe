@@ -75,7 +75,7 @@ jobs:
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         container:
-            image: i386/alpine@3.23
+          image: i386/alpine:3.23
         steps:
           - name: Get Time
             id: get-time
