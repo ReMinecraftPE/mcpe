@@ -51,6 +51,7 @@ flatpak build-finish output \
     --share=ipc \
     --socket=fallback-x11 \
     --socket=wayland \
+    --socket=pulseaudio \
     --device=dri \
     --device=input \
     --share=network \
