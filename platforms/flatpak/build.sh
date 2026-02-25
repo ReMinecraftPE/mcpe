@@ -39,6 +39,8 @@ fpbuild() {
 fpbuild cmake "$platformdir/../.." \
     -DCMAKE_BUILD_TYPE="$build" \
     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     -DREMCPE_PLATFORM="${REMCPE_PLATFORM:-sdl2}" \
     -DREMCPE_GFX_API="${REMCPE_GFX_API:-OGL}"
 fpbuild cmake --build . --parallel "$ncpus"
