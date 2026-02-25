@@ -16,14 +16,14 @@ jobs:
                   - name: x86_64 SDL 2 (OGL + Shaders)
                     gfx: OGL_SHADERS
                     arch: x86_64
-                  - name: aarch64 SDL 2 (OGL)
-                    gfx: OGL
-                    arch: aarch64
-                    packages: qemu-user-static
-                  - name: aarch64 SDL 2 (OGL + Shaders)
-                    gfx: OGL_SHADERS
-                    arch: aarch64
-                    packages: qemu-user-static
+                  # - name: aarch64 SDL 2 (OGL)
+                  #   gfx: OGL
+                  #   arch: aarch64
+                  #   packages: qemu-user-static
+                  # - name: aarch64 SDL 2 (OGL + Shaders)
+                  #   gfx: OGL_SHADERS
+                  #   arch: aarch64
+                  #   packages: qemu-user-static
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
