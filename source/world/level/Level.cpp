@@ -1265,6 +1265,9 @@ void Level::loadPlayer(Player& player)
 		m_pLevelData->setLoadedPlayerTag(nullptr);
 		//addEntity(&player);
 	}
+	else if (player.isCreative())
+		player.m_pInventory->prepareCreativeInventory();
+
 	m_pLevelData->setLoadedPlayerTo(player);
 
 	// 0.2.1 had us only adding the player if LevelData had a CompoundTag

@@ -42,9 +42,10 @@ public:
 	void blitTexture(Textures&, const std::string&, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, mce::MaterialPtr* materialPtr = nullptr);
 	void blitTexture(Textures&, const std::string&, int x, int y, float u, float v, int width, int height, mce::MaterialPtr* materialPtr = nullptr);
 	void blitSprite(Textures&, const std::string&, int x, int y, int width, int height, mce::MaterialPtr* materialPtr = nullptr, float u = 0, float v = 0, int uvWidth = 0, int uvHeight = 0);
-	void blitSprite(Textures&, const TextureAtlasSprite*, int x, int y, int width, int height, mce::MaterialPtr* materialPtr = nullptr, float u = 0, float v = 0, int uvWidth = 0, int uvHeight = 0);
+	void blitSprite(Textures&, const TextureAtlasSprite&, int x, int y, int width, int height, mce::MaterialPtr* materialPtr = nullptr, float u = 0, float v = 0, int uvWidth = 0, int uvHeight = 0);
 	void blitRaw(float x1, float x2, float y1, float y2, float z, float u1, float u2, float v1, float v2);
 	void blitNineSlice(Textures&, const std::string* slices, int x, int y, int width, int height, int tileSize, mce::MaterialPtr* materialPtr = nullptr);
+	void blitNineSlice(Textures&, const TextureAtlasSprite&, int x, int y, int width, int height, int border, mce::MaterialPtr* materialPtr = nullptr);
 	void blitNineSlice(Textures&, const std::string&, int x, int y, int width, int height, int border, mce::MaterialPtr* materialPtr = nullptr);
 	void drawCenteredString(Font& font, const std::string& str, int cx, int cy, const Color& color = Color::WHITE);
 	void drawString(Font& font, const std::string& str, int cx, int cy, const Color& color = Color::WHITE);

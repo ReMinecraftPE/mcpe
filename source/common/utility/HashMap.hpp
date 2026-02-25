@@ -291,7 +291,7 @@ public:
         
         TKey& key() { return m_entries->at(m_index).pair.first; }
         TValue& value() { return m_entries->at(m_index).pair.second; }
-        std::pair<TKey, TValue>* operator->() { return &m_entries->at(m_index); }
+        std::pair<TKey, TValue>* operator->() { return &m_entries->at(m_index).pair; }
         
     private:
         std::vector<HashMapEntry<TKey, TValue> >* m_entries;

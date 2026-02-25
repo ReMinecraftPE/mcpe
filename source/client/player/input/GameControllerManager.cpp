@@ -9,7 +9,7 @@
 #include <cmath>
 
 #include "GameControllerManager.hpp"
-#include "IInputHolder.hpp"
+#include "client/app/Minecraft.hpp"
 
 const float GameControllerManager::DIRECTION_X_THRESHOLD = 0.3f;
 const float GameControllerManager::DIRECTION_Y_THRESHOLD = 0.3f;
@@ -35,7 +35,7 @@ void GameControllerManager::feedButton(GameController::ButtonState state, GameCo
 		return;
 	}
 
-	IInputHolder::activeType = IInputHolder::CONTROLLER;
+	Minecraft::setInputType(InputType::CONTROLLER);
 
 	GameController::ButtonEvent event;
 	event.state = state;
@@ -118,7 +118,7 @@ void GameControllerManager::feedStickX(GameController::StickID stickId, bool tou
 	inReset = false;
 
 	if (x != 0.0f)
-		IInputHolder::activeType = IInputHolder::CONTROLLER;
+		Minecraft::setInputType(InputType::CONTROLLER);
 }
 
 void GameControllerManager::feedStickY(GameController::StickID stickId, bool touched, float y)
@@ -141,7 +141,7 @@ void GameControllerManager::feedStickY(GameController::StickID stickId, bool tou
 	inReset = false;
 
 	if (y != 0.0f)
-		IInputHolder::activeType = IInputHolder::CONTROLLER;
+		Minecraft::setInputType(InputType::CONTROLLER);
 }
 
 void GameControllerManager::feedStick(GameController::StickID stickId, bool touched, float x, float y)

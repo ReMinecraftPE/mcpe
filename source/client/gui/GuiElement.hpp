@@ -42,7 +42,7 @@ public:
 	virtual bool pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer);
 	virtual bool pointerReleased(Minecraft* pMinecraft, const MenuPointer& pointer);
 	virtual bool areaNavigation(Minecraft* pMinecraft, AreaNavigation::Direction);
-	virtual void handleControlPress(Minecraft* pMinecraft, const ControlBind& key);
+	virtual void handleButtonPress(Minecraft* pMinecraft, const ButtonInfo& button);
 	virtual void handleTextChar(Minecraft* pMinecraft, int chr);
 	virtual void handleClipboardPaste(const std::string& content);
 	virtual void handleScroll(float force);

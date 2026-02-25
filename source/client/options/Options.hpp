@@ -20,80 +20,80 @@
 #include "client/player/input/GameController.hpp"
 #include "client/resources/ResourcePackManager.hpp"
 
-enum eControlMappingIndex
+enum eButtonMappingIndex
 {
-	KM_FORWARD,
-	KM_LEFT,
-	KM_BACKWARD,
-	KM_RIGHT,
-	KM_JUMP,
-	KM_INVENTORY,
-	KM_DROP,
-	KM_CHAT,
-	KM_FOG,
-	KM_SNEAK,
-	KM_DESTROY,
-	KM_PLACE,
-	KM_MENU_UP,
-	KM_MENU_DOWN,
-	KM_MENU_LEFT,
-	KM_MENU_RIGHT,
-	KM_MENU_TAB_LEFT,
-	KM_MENU_TAB_RIGHT,
-	KM_MENU_OK,
-	KM_MENU_CANCEL, KM_BACK = KM_MENU_CANCEL,
-	KM_MENU_PAUSE,
-	KM_SLOT_1,
-	KM_SLOT_2,
-	KM_SLOT_3,
-	KM_SLOT_4,
-	KM_SLOT_5,
-	KM_SLOT_6,
-	KM_SLOT_7,
-	KM_SLOT_8,
-	KM_SLOT_9,
-	KM_SLOT_L,
-	KM_SLOT_R,
-	KM_CONTAINER_QUICKMOVE,
-	KM_CONTAINER_SPLIT,
-	KM_TOGGLEGUI,
-	KM_SCREENSHOT,
-	KM_TOGGLEDEBUG,
-	KM_TOGGLEAO,
-	KM_TOGGLE3RD,
-	KM_FLY_UP,
-	KM_FLY_DOWN,
-	KM_CHAT_CMD, // called "Open Chat" in Release 1.8
-	KM_COUNT
+	BM_FORWARD,
+	BM_LEFT,
+	BM_BACKWARD,
+	BM_RIGHT,
+	BM_JUMP,
+	BM_INVENTORY,
+	BM_DROP,
+	BM_CHAT,
+	BM_FOG,
+	BM_SNEAK,
+	BM_DESTROY,
+	BM_PLACE,
+	BM_MENU_UP,
+	BM_MENU_DOWN,
+	BM_MENU_LEFT,
+	BM_MENU_RIGHT,
+	BM_MENU_TAB_LEFT,
+	BM_MENU_TAB_RIGHT,
+	BM_MENU_OK,
+	BM_MENU_CANCEL, BM_BACK = BM_MENU_CANCEL,
+	BM_MENU_PAUSE,
+	BM_SLOT_1,
+	BM_SLOT_2,
+	BM_SLOT_3,
+	BM_SLOT_4,
+	BM_SLOT_5,
+	BM_SLOT_6,
+	BM_SLOT_7,
+	BM_SLOT_8,
+	BM_SLOT_9,
+	BM_SLOT_L,
+	BM_SLOT_R,
+	BM_CONTAINER_QUICKMOVE,
+	BM_CONTAINER_SPLIT,
+	BM_TOGGLEGUI,
+	BM_SCREENSHOT,
+	BM_TOGGLEDEBUG,
+	BM_TOGGLEAO,
+	BM_TOGGLE3RD,
+	BM_FLY_UP,
+	BM_FLY_DOWN,
+	BM_CHAT_CMD, // called "Open Chat" in Release 1.8
+	BM_COUNT
 };
 
-struct ControlBind
+struct ButtonInfo
 {
 	//@TODO: Replace this with an universal key
 	int keyId;
-	GameController::EngineButtonID buttonId;
+	GameController::EngineButtonID controllerButtonId;
 
-	ControlBind() : keyId(-1), buttonId(GameController::BUTTON_NONE) {}
-	ControlBind(int key, GameController::EngineButtonID button) : keyId(key), buttonId(button) {}
+	ButtonInfo() : keyId(-1), controllerButtonId(GameController::BUTTON_NONE) {}
+	ButtonInfo(int key, GameController::EngineButtonID button) : keyId(key), controllerButtonId(button) {}
 
 	bool isKey(int key) const { return keyId >= 0 && key == keyId; }
-	bool isButton(GameController::EngineButtonID button) const { return buttonId > GameController::BUTTON_NONE && button == buttonId; }
-	bool operator==(const ControlBind& other) const
+	bool isControllerButton(GameController::EngineButtonID button) const { return controllerButtonId > GameController::BUTTON_NONE && button == controllerButtonId; }
+	bool operator==(const ButtonInfo& other) const
 	{
-		return isKey(other.keyId) || isButton(other.buttonId);
+		return isKey(other.keyId) || isControllerButton(other.controllerButtonId);
 	}
 };
 
-struct ControlMapping
+struct ButtonMapping
 {
 	std::string key;
-	ControlBind bind;
+	ButtonInfo info;
 	int timesPressed;
 
-	ControlMapping() : timesPressed(0) {} // key is automatically clear when constructed
-	ControlMapping(const char* keyName, int keyCode) : key(keyName), timesPressed(0)
+	ButtonMapping() : timesPressed(0) {} // key is automatically clear when constructed
+	ButtonMapping(const char* keyName, int keyCode) : key(keyName), timesPressed(0)
 	{
-		bind.keyId = keyCode;
+		info.keyId = keyCode;
 	}
 
 	void pressed() { ++timesPressed; }
@@ -396,12 +396,12 @@ public:
 	const AsyncTask& save();
 	std::vector<std::string> getOptionStrings();
 	
-	int getKey(eControlMappingIndex idx) const { return m_controlMappings[idx].bind.keyId; }
-	bool isKey(eControlMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
+	int getKey(eButtonMappingIndex idx) const { return m_buttonMappings[idx].info.keyId; }
+	bool isKey(eButtonMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
 
-	ControlMapping& getControlMapping(eControlMappingIndex idx) { return m_controlMappings[idx]; }
-	const ControlBind& getControl(eControlMappingIndex idx) const { return m_controlMappings[idx].bind; }
-	bool isControl(eControlMappingIndex idx, const ControlBind& bind) const { return m_controlMappings[idx].bind == bind; }
+	ButtonMapping& getButtonMapping(eButtonMappingIndex idx) { return m_buttonMappings[idx]; }
+	const ButtonInfo& getButton(eButtonMappingIndex idx) const { return m_buttonMappings[idx].info; }
+	bool isButton(eButtonMappingIndex idx, const ButtonInfo& info) const { return m_buttonMappings[idx].info == info; }
 
 	void loadControls();
 	void reset();
@@ -415,7 +415,7 @@ private:
 	HashMap<std::string, OptionEntry*> m_options;
 	AsyncTask m_saveTask;
 	std::string m_filePath;
-	ControlMapping m_controlMappings[KM_COUNT];
+	ButtonMapping m_buttonMappings[BM_COUNT];
 
 public:
 	friend class BoolOption;

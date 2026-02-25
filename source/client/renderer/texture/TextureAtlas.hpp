@@ -9,25 +9,21 @@
 #define DEFAULT_ATLAS_SIZE (256)
 #define MAX_ATLAS_SIZE (16384)
 
-class TextureAtlas;
-
 struct TextureAtlasSprite : IntRectangle
 {
-    std::string name;
     float minU, minV, maxU, maxV;
-    TextureAtlas* m_pAtlas;
+    std::string atlasName;
 
     TextureAtlasSprite() :
         IntRectangle(0, 0, 0, 0),
         minU(0.0f),
         minV(0.0f),
         maxU(0.0f),
-        maxV(0.0f),
-        m_pAtlas(nullptr)
+        maxV(0.0f)
     {
     }
 
-    TextureAtlasSprite(const std::string& name, int x, int y, int width, int height, TextureAtlas* atlas);
+    TextureAtlasSprite(int x, int y, int width, int height, const std::string& atlasName, int atlasWidth, int atlasHeight);
 };
 
 struct PendingSprite

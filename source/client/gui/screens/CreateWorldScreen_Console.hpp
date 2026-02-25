@@ -24,6 +24,8 @@ public:
 	TickBox m_inviteOnly;
 	TextBox m_textName;
 	TextBox m_textSeed;
+	Button m_btnGameMode;
 	SliderButton m_difficultySlider;
 	Button m_btnCreate;
+	GameType m_gameMode;
 };

@@ -32,7 +32,7 @@ void Button::_renderBgPocket(Minecraft* mc, const MenuPointer& pointer)
 	int iXPos = isSelected() ? 66 : 0;
 	currentShaderColor = isEnabled() ? Color::WHITE : Color::GREY;
 	mc->m_pTextures->loadAndBindTexture("gui/touchgui.png");
-	blit(m_xPos, m_yPos, iXPos, 0, m_width, m_height, 66, 26, &m_materials.ui_textured_and_glcolor);
+	blitNineSlice(*mc->m_pTextures, TextureAtlasSprite(iXPos, 0, 66, 26, "gui/touchgui.png", 256, 256), m_xPos, m_yPos, m_width, m_height, 3, &m_materials.ui_textured_and_glcolor);
 }
 
 void Button::_renderBgConsole(Minecraft* mc, const MenuPointer& pointer)

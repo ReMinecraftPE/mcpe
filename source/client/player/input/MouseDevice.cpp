@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 #include "MouseDevice.hpp"
-#include "IInputHolder.hpp"
+#include "client/app/Minecraft.hpp"
 
 MouseDevice::MouseDevice()
 {
@@ -27,7 +27,7 @@ void MouseDevice::feed(MouseButtonType buttonType, bool buttonState, int posX, i
 	if (buttonType != MOUSE_BUTTON_NONE)
 	{
 		_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY, 0));
-		IInputHolder::activeType = IInputHolder::MOUSE;
+		Minecraft::setInputType(InputType::MOUSE);
 	}
 
 	// Make sure button type is valid

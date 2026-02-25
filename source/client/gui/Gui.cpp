@@ -366,11 +366,11 @@ void Gui::handleScrollWheel(bool down)
 	m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
 }
 
-void Gui::handleControlPressed(const ControlBind& bind)
+void Gui::handleButtonPressed(const ButtonInfo& info)
 {
 	Options* options = m_pMinecraft->getOptions();
 
-	if (options->isControl(KM_INVENTORY, bind))
+	if (options->isButton(BM_INVENTORY, info))
 	{
 		if (m_pMinecraft->m_pGameMode->isSurvivalType())
 			m_pMinecraft->setScreen(new InventoryScreen(m_pMinecraft->m_pLocalPlayer));
@@ -379,8 +379,8 @@ void Gui::handleControlPressed(const ControlBind& bind)
 		return;
 	}
 
-	bool slotL = options->isControl(KM_SLOT_L, bind);
-	bool slotR = options->isControl(KM_SLOT_R, bind);
+	bool slotL = options->isButton(BM_SLOT_L, info);
+	bool slotR = options->isButton(BM_SLOT_R, info);
 	if (slotL || slotR)
 	{
 		int maxItems = getNumSlots() - 1;
@@ -405,10 +405,10 @@ void Gui::handleControlPressed(const ControlBind& bind)
 		return;
 	}
 
-	if (options->isControl(KM_CHAT, bind) || options->isControl(KM_CHAT_CMD, bind))
+	if (options->isButton(BM_CHAT, info) || options->isButton(BM_CHAT_CMD, info))
 	{
 		if (!m_pMinecraft->m_pScreen)
-			m_pMinecraft->setScreen(new ChatScreen(m_pMinecraft->getOptions()->isControl(KM_CHAT_CMD, bind)));
+			m_pMinecraft->setScreen(new ChatScreen(m_pMinecraft->getOptions()->isButton(BM_CHAT_CMD, info)));
 	}
 }
 

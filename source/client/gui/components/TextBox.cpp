@@ -205,13 +205,13 @@ char TextBox::guessCharFromKey(int key) {
 
 #endif
 
-void TextBox::handleControlPress(Minecraft* pMinecraft, const ControlBind& bind)
+void TextBox::handleButtonPress(Minecraft* pMinecraft, const ButtonInfo& info)
 {
 	Options& options = *pMinecraft->getOptions();
 
 	if (!hasFocus())
 	{
-		if (options.isControl(KM_MENU_OK, bind))
+		if (options.isButton(BM_MENU_OK, info))
 			setFocused(true);
 		return;
 	}
@@ -224,7 +224,7 @@ void TextBox::handleControlPress(Minecraft* pMinecraft, const ControlBind& bind)
 	}
 #endif
 
-	switch (bind.keyId) {
+	switch (info.keyId) {
 		case AKEYCODE_DEL:
 		{
 			// handled elsewhere, do not dupe

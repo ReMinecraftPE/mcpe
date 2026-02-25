@@ -43,9 +43,9 @@ void ControllerMoveInput::tick(Player* player)
     IMoveInput::tick(player);
 }
 
-void ControllerMoveInput::setKey(eControlMappingIndex ctrl, bool eventKeyState)
+void ControllerMoveInput::setKey(eButtonMappingIndex ctrl, bool eventKeyState)
 {
-    if (ctrl == KM_SNEAK)
+    if (ctrl == BM_SNEAK)
     {
         if (eventKeyState)
             KeyboardInput::setKey(ctrl, m_keys[INPUT_SNEAK] ^ 1);

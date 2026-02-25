@@ -13,7 +13,7 @@
 #include "renderer/MaterialPtr.hpp"
 #include "client/renderer/renderer/Tesselator.hpp"
 
-#define FONT_CHARS_AMOUNT (256)
+#define C_FONT_CHARS_AMOUNT (256)
 
 class Font
 {
@@ -50,9 +50,9 @@ public:
 
 private:
 	int field_0; 
-	int m_charWidthInt[FONT_CHARS_AMOUNT];
-	float m_charWidthFloat[FONT_CHARS_AMOUNT];
-	mce::Mesh m_charMeshes[FONT_CHARS_AMOUNT];
+	int m_charWidthInt[C_FONT_CHARS_AMOUNT];
+	float m_charWidthFloat[C_FONT_CHARS_AMOUNT];
+	mce::Mesh m_charMeshes[C_FONT_CHARS_AMOUNT];
 	// huge gap, don't know why it's there...
 	std::string m_fileName;
 	Options* m_pOptions;

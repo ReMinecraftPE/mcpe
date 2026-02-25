@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 #include "Keyboard.hpp"
-#include "IInputHolder.hpp"
+#include "client/app/Minecraft.hpp"
 
 #include "GameMods.hpp"
 
@@ -23,7 +23,7 @@ void Keyboard::feed(KeyState state, int key)
 		return;
 	}
 
-	IInputHolder::activeType = IInputHolder::KEYBOARD;
+	Minecraft::setInputType(InputType::KEYBOARD);
 
 	_inputs.push_back(KeyboardAction(key, state));
 

@@ -30,7 +30,7 @@ void IMoveInput::render(float f)
 {
 }
 
-void IMoveInput::setKey(eControlMappingIndex, bool eventKeyState)
+void IMoveInput::setKey(eButtonMappingIndex, bool eventKeyState)
 {
 }
 

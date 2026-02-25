@@ -51,6 +51,7 @@ int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
 bool Minecraft::useAmbientOcclusion = false;
 int Minecraft::customDebugId = 0;
+InputType::Name Minecraft::_inputType = InputType::KEYBOARD;
 
 //@HUH: For the demo, this is defined as TRUE.
 //@HUH: deadmau5 had camera cheats? That's interesting.
@@ -372,7 +373,7 @@ bool Minecraft::isOnlineClient() const
 
 bool Minecraft::isTouchscreen() const
 {
-	return IInputHolder::activeType == IInputHolder::TOUCHSCREEN;
+	return getInputType() == InputType::TOUCHSCREEN;
 }
 
 bool Minecraft::useSplitControls() const
@@ -382,7 +383,7 @@ bool Minecraft::useSplitControls() const
 
 bool Minecraft::useController() const
 {
-	return m_pPlatform->hasGamepad() && (IInputHolder::activeType == IInputHolder::CONTROLLER || getOptions()->m_bUseController.get());
+	return m_pPlatform->hasGamepad() && (getInputType() == InputType::CONTROLLER || getOptions()->m_bUseController.get());
 }
 
 void Minecraft::setGameMode(GameType gameType)
@@ -516,7 +517,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 
 void Minecraft::tickInput()
 {
-	if (!m_pInputHolder->allowsType(IInputHolder::activeType))
+	if (!m_pInputHolder->allowsType(getInputType()))
 		_reloadInput();
 
 	if (m_pScreen)
@@ -575,18 +576,18 @@ void Minecraft::tickInput()
 			bool bPressed = GameControllerManager::getEventButtonState() == GameController::BTN_STATE_DOWN;
 
 			if (bPressed)
-				m_pGui->handleControlPressed(ControlBind(-1, button));
+				m_pGui->handleButtonPressed(ButtonInfo(-1, button));
 
-			for (size_t i = 0; i < KM_COUNT; ++i)
+			for (size_t i = 0; i < BM_COUNT; ++i)
 			{
-				eControlMappingIndex ctrl = (eControlMappingIndex)i;
-				if (!getOptions()->getControl(ctrl).isButton(button)) continue;
+				eButtonMappingIndex ctrl = (eButtonMappingIndex)i;
+				if (!getOptions()->getButton(ctrl).isControllerButton(button)) continue;
 
 				m_pLocalPlayer->m_pMoveInput->setKey(ctrl, bPressed);
 				if (bPressed)
-					getOptions()->getControlMapping(ctrl).pressed();
+					getOptions()->getButtonMapping(ctrl).pressed();
 				else
-					getOptions()->getControlMapping(ctrl).reset();
+					getOptions()->getButtonMapping(ctrl).reset();
 			}
 		}
 	}
@@ -600,18 +601,18 @@ void Minecraft::tickInput()
 			bool bPressed = Keyboard::getEventKeyState() == Keyboard::DOWN;
 
 			if (bPressed)
-				m_pGui->handleControlPressed(ControlBind(keyCode, GameController::BUTTON_NONE));
+				m_pGui->handleButtonPressed(ButtonInfo(keyCode, GameController::BUTTON_NONE));
 
-			for (size_t i = 0; i < KM_COUNT; ++i)
+			for (size_t i = 0; i < BM_COUNT; ++i)
 			{
-				eControlMappingIndex ctrl = (eControlMappingIndex)i;
+				eButtonMappingIndex ctrl = (eButtonMappingIndex)i;
 				if (!getOptions()->isKey(ctrl, keyCode)) continue;
 
 				m_pLocalPlayer->m_pMoveInput->setKey(ctrl, bPressed);
 				if (bPressed)
-					getOptions()->getControlMapping(ctrl).pressed();
+					getOptions()->getButtonMapping(ctrl).pressed();
 				else
-					getOptions()->getControlMapping(ctrl).reset();
+					getOptions()->getButtonMapping(ctrl).reset();
 			}
 
 			if (getOptions()->field_19)
@@ -620,13 +621,13 @@ void Minecraft::tickInput()
 			// @TODO: Replace with KeyboardBuildInput
 			if (getTimeMs() - field_2B4 <= 200)
 			{
-				if (getOptions()->isKey(KM_DESTROY, keyCode) && bPressed)
+				if (getOptions()->isKey(BM_DESTROY, keyCode) && bPressed)
 				{
 					BuildActionIntention intention(BuildActionIntention::KEY_DESTROY);
 					handleBuildAction(intention);
 				}
 
-				if (getOptions()->isKey(KM_PLACE, keyCode) && bPressed)
+				if (getOptions()->isKey(BM_PLACE, keyCode) && bPressed)
 				{
 					BuildActionIntention intention(BuildActionIntention::KEY_USE);
 					handleBuildAction(intention);
@@ -637,21 +638,21 @@ void Minecraft::tickInput()
 
 	for (int i = 0; i < m_pGui->getNumUsableSlots(); i++)
 	{
-		while (getOptions()->getControlMapping(eControlMappingIndex(KM_SLOT_1 + i)).consume())
+		while (getOptions()->getButtonMapping(eButtonMappingIndex(BM_SLOT_1 + i)).consume())
 			m_pLocalPlayer->m_pInventory->selectSlot(i);
 	}
 
-	while (getOptions()->getControlMapping(KM_TOGGLE3RD).consume())
+	while (getOptions()->getButtonMapping(BM_TOGGLE3RD).consume())
 	{
 		getOptions()->m_thirdPerson.toggle();
 	}
 
-	while (getOptions()->getControlMapping(KM_MENU_PAUSE).consume())
+	while (getOptions()->getButtonMapping(BM_MENU_PAUSE).consume())
 	{
 		handleBack(false);
 	}
 
-	while (getOptions()->getControlMapping(KM_DROP).consume())
+	while (getOptions()->getButtonMapping(BM_DROP).consume())
 	{
 		ItemStack& item = m_pLocalPlayer->m_pInventory->getSelected();
 		if (!item.isEmpty())
@@ -665,17 +666,17 @@ void Minecraft::tickInput()
 		}
 	}
 
-	while (getOptions()->getControlMapping(KM_TOGGLEGUI).consume())
+	while (getOptions()->getButtonMapping(BM_TOGGLEGUI).consume())
 	{
 		getOptions()->m_hideGui.toggle();
 	}
 
-	while (getOptions()->getControlMapping(KM_TOGGLEDEBUG).consume())
+	while (getOptions()->getButtonMapping(BM_TOGGLEDEBUG).consume())
 	{
 		getOptions()->m_debugText.toggle();
 	}
 #ifdef ENH_ALLOW_AO_TOGGLE
-	while (getOptions()->getControlMapping(KM_TOGGLEAO).consume())
+	while (getOptions()->getButtonMapping(BM_TOGGLEAO).consume())
 	{
 		// Toggle ambient occlusion.
 		getOptions()->m_ambientOcclusion.toggle();
@@ -846,6 +847,10 @@ void Minecraft::tick()
 			setScreen(new DeathScreen);
 		}
 	}
+	else
+	{
+		m_pScreen->validate(this);
+	}
 
 	tickInput();
 
@@ -896,10 +901,7 @@ void Minecraft::tick()
 		}
 
 		if (m_pScreen)
-		{
-			m_pScreen->validate(this);
 			m_pScreen->tick();
-		}
 
 		Multitouch::reset();
 

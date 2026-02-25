@@ -200,9 +200,9 @@ void LocalPlayer::calculateFlight(const Vec3& pos)
 	float z1 = f1 * pos.z;
 
 	float y1 = 0.0f;
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(KM_FLY_UP)))
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(BM_FLY_UP)))
 		y1 = f1 * 0.2f;
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(KM_FLY_DOWN)))
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(BM_FLY_DOWN)))
 		y1 = f1 * -0.2f;
 
 	field_BFC += x1;

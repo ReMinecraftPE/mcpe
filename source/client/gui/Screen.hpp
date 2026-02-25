@@ -117,7 +117,7 @@ public:
 	virtual void onTextBoxUpdated(int id) {};
 	virtual void pointerPressed(const MenuPointer& pointer, MouseButtonType btn);
 	virtual void pointerReleased(const MenuPointer& pointer, MouseButtonType btn);
-	virtual void controlPressed(const ControlBind&);
+	virtual void buttonPressed(const ButtonInfo&);
 	virtual void handleTextChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
 	virtual float getScale(int width, int height);
@@ -165,7 +165,6 @@ public:
 	bool m_bPassEvents;
 	//@NOTE: This should be enabled only if the the actual screen handles the deletion of the previous screen, otherwise, there will be a memory leak!
 	bool m_bDeletePrevious;
-	bool m_bUniversalUiTheme;
 	Minecraft* m_pMinecraft;
 	GuiElementList m_elements;
 	GuiElement* m_pSelectedElement;
