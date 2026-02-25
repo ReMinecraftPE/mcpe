@@ -83,7 +83,7 @@ jobs:
           - name: Install Dependencies
             run: |
                 apk update
-                apk add flatpak node
+                apk add flatpak nodejs
                 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
                 flatpak --user install -y \
                     org.freedesktop.Platform/${{ matrix.arch }}/1.6 \
