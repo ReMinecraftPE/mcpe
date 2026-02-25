@@ -48,6 +48,7 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_SET_ENTITY_DATA:       return new SetEntityDataPacket;
 		case PACKET_SET_ENTITY_MOTION:     return new SetEntityMotionPacket;
 		case PACKET_SET_HEALTH:            return new SetHealthPacket;
+ 		case PACKET_INTERACTION:           return new InteractionPacket;
 		case PACKET_ANIMATE:               return new AnimatePacket;
 		case PACKET_RESPAWN:               return new RespawnPacket;
 		case PACKET_SEND_INVENTORY:        return new SendInventoryPacket;

@@ -35,6 +35,7 @@
 #include "packets/ChunkDataPacket.hpp"
 #include "packets/PlayerEquipmentPacket.hpp"
 #include "packets/InteractPacket.hpp"
+#include "packets/InteractionPacket.hpp"
 #include "packets/UseItemPacket.hpp"
 #include "packets/PlayerActionPacket.hpp"
 #include "packets/SetEntityDataPacket.hpp"

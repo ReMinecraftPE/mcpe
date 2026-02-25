@@ -265,8 +265,8 @@ enum MinecraftPacketIds
 	PACKET_CONTAINER_ACK, // Unused in PE
 	PACKET_CHAT,
 
-	PACKET_LEVEL_DATA = 200
-
+	PACKET_LEVEL_DATA = 200,
+	PACKET_INTERACTION = 201 // temporary custom to keep this building before the packet is removed
 #endif
 };
 

@@ -220,7 +220,7 @@ SynchedEntityData::ItemsArray SynchedEntityData::Unpack(IDataInput& dis)
 
     for (int8_t var2 = dis.readInt8(); var2 != C_ENTITYDATA_EOF_MARKER; var2 = dis.readInt8())
     {
-        DataType dataType = (DataType)(var2 >> 5);
+        DataType dataType = (DataType)((uint8_t)var2 >> 5);
         DataID dataId = var2 & C_ENTITYDATA_MAX_ID_VALUE;
         DataItem* dataItem = nullptr;
 
