@@ -383,7 +383,7 @@ bool Minecraft::useSplitControls() const
 
 bool Minecraft::useController() const
 {
-	return m_pPlatform->hasGamepad() && (getInputType() == InputType::CONTROLLER || getOptions()->m_bUseController.get());
+	return m_pPlatform->hasGamepad() && (getInputType() == InputType::CONTROLLER || getOptions()->m_controllerOnly.get());
 }
 
 void Minecraft::setGameMode(GameType gameType)

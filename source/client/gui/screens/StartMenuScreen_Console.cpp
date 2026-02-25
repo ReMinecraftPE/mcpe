@@ -17,7 +17,7 @@ StartMenuScreen_Console::StartMenuScreen_Console() :
 	m_btnAchievements.setEnabled(false);
 	m_btnDownload.setEnabled(false);
 
-	m_themeSelection = UI_SPECIFIC;
+	m_screenType = SCREEN_SPECIFIC;
 	m_uiTheme = UI_CONSOLE;
 
 	m_splash = SplashManager::singleton().getSplash();

@@ -14,7 +14,7 @@ PauseScreen_Console::PauseScreen_Console() :
 	m_btnLeaderboards.setEnabled(false);
 	m_btnAchievements.setEnabled(false);
 
-	m_themeSelection = UI_SPECIFIC;
+	m_screenType = SCREEN_SPECIFIC;
 	m_uiTheme = UI_CONSOLE;
 }
 

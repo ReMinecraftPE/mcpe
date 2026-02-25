@@ -153,11 +153,11 @@ public:
 		Screen* m_pScreen;
 	};
 
-	enum ThemeSelection
+	enum Type
 	{
-		UI_SPECIFIC,	// The Screen handles a specific UI Theme
-		UI_GENERIC,		// The Screen is a Java / Pocket mix
-		UI_UNIVERSAL	// The Screen automatically handles all UI themes
+		SCREEN_SPECIFIC,	// The Screen handles a specific UI Theme
+		SCREEN_GENERIC,		// The Screen is a Java / Pocket mix
+		SCREEN_UNIVERSAL	// The Screen automatically handles all UI themes
 	};
 
 	int m_width;
@@ -170,7 +170,7 @@ public:
 	GuiElement* m_pSelectedElement;
 	Font* m_pFont;
 	GuiElement* m_pClickedElement;
-	ThemeSelection m_themeSelection;
+	Type m_screenType;
 	UITheme m_uiTheme;
 
 #ifndef ORIGINAL_CODE

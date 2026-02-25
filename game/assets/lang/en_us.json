@@ -79,7 +79,7 @@
     "options.dynamicHand": "Dynamic Hand Movement",
     "options.autoJump": "Auto Jump",
     "options.splitControls": "Split Controls",
-    "options.useController": "Use Controller",
+    "options.controllerOnly": "Controller Only",
     "options.flightHax": "Flight Hax",
     "options.serverVisibleDefault": "Local Server Multiplayer",
     "options.debugText": "Debug Text",
