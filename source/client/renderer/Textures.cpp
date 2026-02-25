@@ -34,10 +34,17 @@ TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 			uint32_t* placeholder = (uint32_t *)malloc(sizeof(uint32_t) * 4);
 			if (!placeholder)
 				throw std::bad_alloc();
+#if MC_ENDIANNESS_BIG
+			placeholder[0] = 0xf800f8ff;
+			placeholder[1] = 0x000000ff;
+			placeholder[3] = 0xf800f8ff;
+			placeholder[2] = 0x000000ff;
+#else // MC_ENDIANNESS_LITTLE
 			placeholder[0] = 0xfff800f8;
 			placeholder[1] = 0xff000000;
 			placeholder[3] = 0xfff800f8;
 			placeholder[2] = 0xff000000;
+#endif
 			t.m_imageData.m_data = (uint8_t*)placeholder;
 		}
 		else
