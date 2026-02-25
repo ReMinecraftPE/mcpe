@@ -49,9 +49,9 @@ fpbuild cp "$platformdir/rungame.sh" /app/bin
 cd ..
 
 # permissions given (in order of specification):
-# X11
+# X11 (when wayland is unavailable)
 # Wayland
-# Audio
+# Audio (both input and output)
 # GPU access (OpenGL)
 # Input devices (game controllers)
 # Network access
