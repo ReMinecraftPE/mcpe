@@ -112,7 +112,7 @@ void Gui::renderPumpkin(int var1, int var2)
 	currentShaderDarkColor = Color::WHITE;
 
 	m_pMinecraft->m_pTextures->setSmoothing(true);
-	m_pMinecraft->m_pTextures->loadAndBindTexture("/misc/pumpkinblur.png");
+	m_pMinecraft->m_pTextures->loadAndBindTexture("misc/pumpkinblur.png");
 	m_pMinecraft->m_pTextures->setSmoothing(false);
 
 	Tesselator& t = Tesselator::instance;

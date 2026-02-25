@@ -302,7 +302,7 @@ void ItemInHandRenderer::renderScreenEffect(float a)
 
     if (player->isUnderLiquid(Material::water))
     {
-        if (textures->loadAndBindTexture("/misc/water.png", false))
+        if (textures->loadAndBindTexture("misc/water.png", false))
         {
             renderWater(a);
         }
