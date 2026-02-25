@@ -86,6 +86,7 @@ jobs:
                 apk add flatpak nodejs
                 # bullshit
                 mkdir -p /__e/node24_alpine/bin
+                ls -l /__e/node24_alpine/bin/node
                 ln -sf $(command -v node) /__e/node24_alpine/bin/node
                 ln -sf $(command -v npm) /__e/node24_alpine/bin/npm
                 ln -sf $(command -v npx) /__e/node24_alpine/bin/npx
