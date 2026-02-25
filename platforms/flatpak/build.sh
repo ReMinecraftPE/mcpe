@@ -35,8 +35,9 @@ fpbuild cmake "$platformdir/../.." \
 fpbuild cmake --build . --parallel "$ncpus"
 fpbuild mkdir -p /app/bin
 fpbuild strip reminecraftpe
-fpbuild mv reminecraftpe /app/bin
+fpbuild cp reminecraftpe /app/bin
 fpbuild cp -a "$(readlink assets)" /app
+fpbuild cp "$platformdir/rungame.sh" /app/bin
 
 cd ..
 
@@ -47,7 +48,7 @@ flatpak build-finish output \
     --device=dri \
     --device=input \
     --share=network \
-    --command=reminecraftpe
+    --command=rungame.sh
 
 flatpak build-export repo output
 flatpak build-bundle repo ReMCPE.flatpak "$bundleid"
