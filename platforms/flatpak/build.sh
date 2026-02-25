@@ -39,9 +39,8 @@ fpbuild() {
 fpbuild cmake "$platformdir/../.." \
     -DCMAKE_BUILD_TYPE="$build" \
     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-    -DREMCPE_PLATFORM=sdl2 \
-    -DREMCPE_GFX_API=OGL \
-    "$@"
+    -DREMCPE_PLATFORM="${REMCPE_PLATFORM:-sdl2}" \
+    -DREMCPE_GFX_API="${REMCPE_GFX_API:-OGL}"
 fpbuild cmake --build . --parallel "$ncpus"
 fpbuild mkdir -p /app/bin /app/libexec
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && fpbuild strip reminecraftpe
