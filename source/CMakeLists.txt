@@ -380,6 +380,7 @@ add_library(reminecraftpe-core STATIC
     world/item/ArmorItem.cpp
     world/item/HoeItem.cpp
     world/item/DyePowderItem.cpp
+    world/item/CoalItem.cpp
     world/item/ToolItem.cpp
     world/item/WeaponItem.cpp
     world/item/BowItem.cpp
