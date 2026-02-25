@@ -28,7 +28,7 @@ rm -rf build
 mkdir -p build/work
 cd build
 
-flatpak build-init output "$bundleid" "org.freedesktop.Sdk/$arch" "org.freedesktop.Platform/$arch" 25.08
+flatpak build-init output "$bundleid" "org.freedesktop.Sdk/$arch" "org.freedesktop.Platform/$arch" "${FLATPAK_RUNTIME_VERSION:-25.08}"
 
 cd work
 
