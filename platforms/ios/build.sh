@@ -192,7 +192,7 @@ for target in $targets; do
         -DCMAKE_C_FLAGS="$cflags" \
         -DCMAKE_CXX_FLAGS="$cflags" \
         -DWERROR="${WERROR:-OFF}"
-    make -j"$ncpus"
+    cmake --build . --parallel "$ncpus"
 
     cd ..
 done
