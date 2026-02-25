@@ -86,7 +86,6 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_fancyGrass("gfx_fancygrass", "options.fancyGrass", true)
 	, m_biomeColors("gfx_biomecolors", "options.biomeColors", true)
 	, m_splitControls("ctrl_split", "options.splitControls", false)
-	, m_controllerOnly("ctrl_onlycontroller", "options.controllerOnly", false)
 	, m_dynamicHand("gfx_dynamichand", "options.dynamicHand", false)
 	, m_menuPanorama("misc_menupano", "options.menuPanorama", true)
 	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
@@ -130,7 +129,6 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	add(m_logoType);
 	add(m_hudSize);
 	add(m_classicCrafting);
-	add(m_controllerOnly);
 	_initDefaultValues();
 	if (folderPath.empty()) return;
 	m_filePath = folderPath + "/options.txt";

@@ -95,7 +95,8 @@ ControlsPanelScreen::ControlsPanelScreen(Screen* parent, Minecraft* mc) : PanelS
 
 	if (!mc->isTouchscreen())
 		m_layout.m_elements[idxSplit]->setEnabled(false);
-	m_layout.m_elements[idxController]->setEnabled(false);
+	if (!mc->platform()->hasGamepad())
+		m_layout.m_elements[idxController]->setEnabled(false);
 }
 
 void ControlsPanelScreen::removed()

@@ -383,7 +383,7 @@ bool Minecraft::useSplitControls() const
 
 bool Minecraft::useController() const
 {
-	return m_pPlatform->hasGamepad() && (getInputType() == InputType::CONTROLLER || getOptions()->m_controllerOnly.get());
+	return getInputType() == InputType::CONTROLLER;
 }
 
 void Minecraft::setGameMode(GameType gameType)
@@ -517,6 +517,9 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 
 void Minecraft::tickInput()
 {
+	if (!platform()->hasGamepad() && useController())
+		setInputType(platform()->isTouchscreen() ? InputType::TOUCHSCREEN : InputType::KEYBOARD);
+
 	if (!m_pInputHolder->allowsType(getInputType()))
 		_reloadInput();
 

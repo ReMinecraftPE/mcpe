@@ -454,7 +454,6 @@ public:
 	GraphicsOption m_fancyGrass;
 	GraphicsOption m_biomeColors;
 	BoolOption m_splitControls;
-	BoolOption m_controllerOnly;
 	BoolOption m_dynamicHand;
 	BoolOption m_menuPanorama;
 	GuiScaleOption m_guiScale;
@@ -486,7 +485,6 @@ public:
 	/*OPTION(m_swapJumpSneak);*/           \
 	/*OPTION(m_buttonSize);*/              \
 	OPTION(m_autoJump);                    \
-	OPTION(m_controllerOnly); idxController = currentIndex; \
 
 #define OPTIONS_LIST_CONTROLS_FEEDBACK     \
 	/*HEADER("Feedback");*/                \
