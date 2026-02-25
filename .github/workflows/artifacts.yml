@@ -10,12 +10,18 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  - name: SDL 2 (OGL)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl2-dev'
-                  - name: SDL 2 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
-                    packages: 'libsdl2-dev'
+                  - name: x86_64 SDL 2 (OGL)
+                    gfx: OGL
+                    arch: x86_64
+                  - name: x86_64 SDL 2 (OGL + Shaders)
+                    gfx: OGL_SHADERS
+                    arch: x86_64
+                  - name: aarch64 SDL 2 (OGL)
+                    gfx: OGL
+                    arch: aarch64
+                  - name: aarch64 SDL 2 (OGL + Shaders)
+                    gfx: OGL_SHADERS
+                    arch: aarch64
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -36,30 +42,19 @@ jobs:
           - name: Install Dependencies
             run: |
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y \
-                    build-essential \
-                    cmake ninja-build \
-                    ccache \
-                    libopenal-dev \
-                    zlib1g-dev \
-                    ${{ matrix.packages }}
+                sudo apt-get install --no-install-recommends -y flatpak
+                flatpak --user install -y \
+                    org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
+                    org.freedesktop.Sdk/${{ matrix.arch }}/25.08
           - name: Build
-            run: |
-                mkdir build
-                cd build
-                cmake .. -GNinja \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-                    ${{ matrix.flags }}
-                cmake --build .
+            run: ./platforms/flatpak/build.sh
+            env:
+              ARCH: ${{ matrix.arch }}
+              REMCPE_GFX_API: ${{ matrix.gfx }}
           - uses: actions/upload-artifact@v6
             with:
               name: Linux (${{ matrix.name }})
-              path: |
-                build/reminecraftpe
-                build/assets
+              path: platforms/flatpak/build/ReMCPE-${{ matrix.arch }}.flatpak
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 

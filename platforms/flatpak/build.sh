@@ -5,7 +5,6 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
-# when cross compiling you must have qemu-user-static installed
 arch="${ARCH:-x86_64}"
 
 bundleid='io.github.reminecraftpe'
