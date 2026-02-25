@@ -43,6 +43,7 @@ jobs:
             run: |
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y flatpak
+                flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
                 flatpak --user install -y \
                     org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
                     org.freedesktop.Sdk/${{ matrix.arch }}/25.08
