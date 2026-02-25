@@ -5,6 +5,9 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
+# when cross compiling you must have qemu-user-static installed
+arch="${ARCH:-x86_64}"
+
 bundleid='io.github.reminecraftpe'
 
 platformdir=$PWD
@@ -25,7 +28,7 @@ rm -rf build
 mkdir -p build/work
 cd build
 
-flatpak build-init output "$bundleid" org.freedesktop.Sdk org.freedesktop.Platform 25.08
+flatpak build-init output "$bundleid" "org.freedesktop.Sdk/$arch" "org.freedesktop.Platform/$arch" 25.08
 
 cd work
 
@@ -66,4 +69,4 @@ flatpak build-finish output \
     --command=rungame.sh
 
 flatpak build-export repo output
-flatpak build-bundle repo ReMCPE.flatpak "$bundleid"
+flatpak build-bundle --arch "$arch" repo "ReMCPE-$arch.flatpak" "$bundleid"
