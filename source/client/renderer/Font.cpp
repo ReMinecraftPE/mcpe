@@ -170,18 +170,12 @@ void Font::draw(const std::string& str, int x, int y, const Color& color, bool b
 {
 	if (str.empty()) return;
 
-	if (bShadow)
-	{
-		currentShaderDarkColor = Color(0.25f, 0.25f, 0.25f);
-	}
-	else
-	{
-		currentShaderDarkColor = Color::WHITE;
-	}
-
 	m_pTextures->loadAndBindTexture(m_fileName);
 
 	Color finalColor = color;
+
+	if (bShadow)
+		finalColor *= 0.25f;
 	// For hex colors which don't specify an alpha
 	if (finalColor.a == 0.0f)
 		finalColor.a = 1.0f;
@@ -217,18 +211,15 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 {
 	if (str.empty()) return;
 
-	if (bShadow)
-	{
-		currentShaderDarkColor = Color(0.25f, 0.25f, 0.25f);
-	}
-	else
-	{
-		currentShaderDarkColor = Color::WHITE;
-	}
-
 	m_pTextures->loadAndBindTexture(m_fileName);
 
 	Color finalColor = color;
+
+	if (bShadow)
+	{
+		finalColor *= 0.25f;
+	}
+
 	// For hex colors which don't specify an alpha
 	if (finalColor.a == 0.0f)
 		finalColor.a = 1.0f;
