@@ -56,16 +56,19 @@ cd ..
 # X11 (when wayland is unavailable)
 # Wayland
 # Audio (both input and output)
-# GPU access (OpenGL)
-# Input devices (game controllers)
+# Device access (USB, game controllers, GPU, etc)*
 # Network access
+#
+# *: Flatpak has --device=dri for GPU access, and --device=input for
+# input devices (controllers), which would be enough for us, but it was
+# added relatively recently, and older flatpak versions don't understand
+# it, so we just do --device=all to make everything work on old systems.
 flatpak build-finish output \
     --share=ipc \
     --socket=fallback-x11 \
     --socket=wayland \
     --socket=pulseaudio \
-    --device=dri \
-    --device=input \
+    --device=all \
     --share=network \
     --command=rungame.sh
 
