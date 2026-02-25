@@ -35,7 +35,7 @@
     "states": ["DisableCulling"]
   },
 
-  "ui_text:ui_textured": {
+  "ui_text:ui_texture_and_color": {
     "fragmentShader": "shaders/text.fragment"
   },
 

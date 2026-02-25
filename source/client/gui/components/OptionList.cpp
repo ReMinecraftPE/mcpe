@@ -165,7 +165,7 @@ void OptionList::initControlsMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
-	int idxSplit = -1, idxController = -1;
+	int idxSplit = -1;
 
 	OPTIONS_LIST_CONTROLS_CONTROLS;
 	OPTIONS_LIST_CONTROLS_FEEDBACK;
@@ -173,8 +173,6 @@ void OptionList::initControlsMenu()
 
 	if (!m_pMinecraft->isTouchscreen())
 		m_items[idxSplit]->setEnabled(false);
-	if (!m_pMinecraft->platform()->hasGamepad())
-		m_items[idxController]->setEnabled(false);
 }
 
 void OptionList::initVideoMenu()

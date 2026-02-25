@@ -63,10 +63,6 @@ void Font::init(Options* pOpts)
 
 		m_charWidthInt[i] = widthMax + 2;
 		m_charWidthFloat[i] = float (widthMax) + 2;
-		Tesselator& t = Tesselator::instance;
-		t.begin(4);
-		buildChar(i, 0, 0);
-		m_charMeshes[i] = t.end();
 	}
 }
 
@@ -168,68 +164,40 @@ void Font::drawWordWrap(const std::vector<std::string>& lines, int x, int y, con
 
 void Font::draw(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
-	if (str.empty()) return;
-
-	m_pTextures->loadAndBindTexture(m_fileName);
-
-	Color finalColor = color;
-
-	if (bShadow)
-		finalColor *= 0.25f;
-	// For hex colors which don't specify an alpha
-	if (finalColor.a == 0.0f)
-		finalColor.a = 1.0f;
-
-	MatrixStack::Ref mtx = MatrixStack::World.push();
-	mtx->translate(Vec3(x, y, 0.0f));
-
-	currentShaderColor = finalColor;
-	float xOff = 0.0f;
-
-	for (size_t i = 0; i < str.size(); i++)
-	{
-		if (str[i] == '\n')
-		{
-			mtx->translate(Vec3(0.0f, 12.0f, 0.0f));
-			xOff = 0.0f;
-			continue;
-		}
-
-		uint8_t x = uint8_t(str[i]);
-
-		MatrixStack::Ref xmtx = MatrixStack::World.push();
-		xmtx->translate(Vec3(xOff, 0.0f, 0.0f));
-		m_charMeshes[x].render(m_materials.ui_text);
-
-		xOff += m_charWidthFloat[x];
-	}
-
-	currentShaderColor = Color::WHITE;
+	drawSlow(str, x, y, color, bShadow);
 }
 
 void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
 	if (str.empty()) return;
 
+	if (bShadow)
+	{
+		currentShaderDarkColor = Color(0.25f, 0.25f, 0.25f);
+	}
+	else
+	{
+		currentShaderDarkColor = Color::WHITE;
+	}
+
 	m_pTextures->loadAndBindTexture(m_fileName);
 
 	Color finalColor = color;
-
-	if (bShadow)
-	{
-		finalColor *= 0.25f;
-	}
-
 	// For hex colors which don't specify an alpha
 	if (finalColor.a == 0.0f)
 		finalColor.a = 1.0f;
 
+#ifndef FEATURE_GFX_SHADERS
+	finalColor *= currentShaderDarkColor;
+#endif
+
 	MatrixStack::Ref mtx = MatrixStack::World.push();
 	mtx->translate(Vec3(x, y, 0.0f));
 
-	currentShaderColor = finalColor;
 	Tesselator& t = Tesselator::instance;
 	t.begin(4 * str.size());
+
+	t.color(finalColor);
 
 	float cXPos = 0.0f, cYPos = 0.0f;
 
@@ -250,8 +218,6 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 	}
 
 	t.draw(m_materials.ui_text);
-
-	currentShaderColor = Color::WHITE;
 }
 
 void Font::onGraphicsReset()
