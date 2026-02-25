@@ -19,9 +19,11 @@ jobs:
                   - name: aarch64 SDL 2 (OGL)
                     gfx: OGL
                     arch: aarch64
+                    packages: qemu-user-static
                   - name: aarch64 SDL 2 (OGL + Shaders)
                     gfx: OGL_SHADERS
                     arch: aarch64
+                    packages: qemu-user-static
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -42,7 +44,7 @@ jobs:
           - name: Install Dependencies
             run: |
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y flatpak
+                sudo apt-get install --no-install-recommends -y flatpak ${{ matrix.packages }}
                 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
                 flatpak --user install -y \
                     org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
