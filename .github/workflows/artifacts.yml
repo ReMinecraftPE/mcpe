@@ -75,7 +75,10 @@ jobs:
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         container:
-          image: i386/alpine:3.23
+            image: i386/alpine:3.23
+            volumes:
+              - /tmp:/__e/node24_alpine
+              #- /tmp:/__e/node20_alpine
         steps:
           - name: Get Time
             id: get-time
@@ -86,7 +89,6 @@ jobs:
                 apk add flatpak nodejs
                 # bullshit
                 mkdir -p /__e/node24_alpine/bin
-                rm -f /__e/node24_alpine/bin/node #/__e/node24_alpine/bin/npm /__e/node24_alpine/bin/npx
                 ln -sf $(command -v node) /__e/node24_alpine/bin/node
                 # ln -sf $(command -v npm) /__e/node24_alpine/bin/npm
                 # ln -sf $(command -v npx) /__e/node24_alpine/bin/npx
