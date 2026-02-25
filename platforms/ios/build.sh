@@ -2,6 +2,7 @@
 # shellcheck disable=2086
 set -e
 
+# cd to the directory this script is in
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
