@@ -27,7 +27,7 @@ std::string ResourceLoader::GetPath(ResourceLocation::FileSystem fileSystem, con
 std::string ResourceLoader::getPath(const std::string& path) const
 {
 	std::string p = path;
-	if (p[0] == '/')
+	if (!p.empty() && p[0] == '/')
 		p = p.substr(1, p.size() - 1);
 	return GetPath(getFileSystem(), p);
 }
