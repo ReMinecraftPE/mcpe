@@ -15,6 +15,12 @@ else
     ncpus="$(sysctl -n hw.ncpu)"
 fi
 
+if [ -n "$DEBUG" ]; then
+    build=Debug
+else
+    build=Release
+fi
+
 rm -rf build
 mkdir -p build/work
 cd build
@@ -28,14 +34,14 @@ fpbuild() {
 }
 
 fpbuild cmake "$platformdir/../.." \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE="$build" \
     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
     -DREMCPE_PLATFORM=sdl2 \
     -DREMCPE_GFX_API=OGL
 fpbuild cmake --build . --parallel "$ncpus"
-fpbuild mkdir -p /app/bin
-fpbuild strip reminecraftpe
-fpbuild cp reminecraftpe /app/bin
+fpbuild mkdir -p /app/bin /app/libexec
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && fpbuild strip reminecraftpe
+fpbuild cp reminecraftpe /app/libexec
 fpbuild cp -a "$(readlink assets)" /app
 fpbuild cp "$platformdir/rungame.sh" /app/bin
 

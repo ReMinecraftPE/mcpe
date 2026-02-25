@@ -1,3 +1,3 @@
 #!/bin/sh
 cd /app || exit 1
-exec reminecraftpe
+exec ./libexec/reminecraftpe
