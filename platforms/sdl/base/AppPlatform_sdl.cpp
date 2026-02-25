@@ -309,6 +309,35 @@ void AppPlatform_sdl::handleKeyEvent(const SDL_Event& event)
 	return _handleKeyEvent(key, state);
 }
 
+static GameController::EngineButtonID _getEngineButton(uint8_t button)
+{
+	switch (button)
+	{
+	case SDL_CONTROLLER_BUTTON_A:				return GameController::BUTTON_A;
+	case SDL_CONTROLLER_BUTTON_B:				return GameController::BUTTON_B;
+	case SDL_CONTROLLER_BUTTON_X:				return GameController::BUTTON_X;
+	case SDL_CONTROLLER_BUTTON_Y:				return GameController::BUTTON_Y;
+	case SDL_CONTROLLER_BUTTON_DPAD_UP:			return GameController::BUTTON_DPAD_UP;
+	case SDL_CONTROLLER_BUTTON_DPAD_DOWN:		return GameController::BUTTON_DPAD_DOWN;
+	case SDL_CONTROLLER_BUTTON_DPAD_LEFT:		return GameController::BUTTON_DPAD_LEFT;
+	case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:		return GameController::BUTTON_DPAD_RIGHT;
+	case SDL_CONTROLLER_BUTTON_LEFTSTICK:		return GameController::BUTTON_LEFTSTICK;
+	case SDL_CONTROLLER_BUTTON_RIGHTSTICK:		return GameController::BUTTON_RIGHTSTICK;
+	case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:	return GameController::BUTTON_LEFTSHOULDER;
+	case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:	return GameController::BUTTON_RIGHTSHOULDER;
+	case SDL_CONTROLLER_BUTTON_BACK:			return GameController::BUTTON_BACK;
+	case SDL_CONTROLLER_BUTTON_START:			return GameController::BUTTON_START;
+	case SDL_CONTROLLER_BUTTON_GUIDE:			return GameController::BUTTON_GUIDE;
+	case SDL_CONTROLLER_BUTTON_MISC1:			return GameController::BUTTON_MISC1;
+	case SDL_CONTROLLER_BUTTON_PADDLE1:			return GameController::BUTTON_PADDLE1;
+	case SDL_CONTROLLER_BUTTON_PADDLE2:			return GameController::BUTTON_PADDLE2;
+	case SDL_CONTROLLER_BUTTON_PADDLE3:			return GameController::BUTTON_PADDLE3;
+	case SDL_CONTROLLER_BUTTON_PADDLE4:			return GameController::BUTTON_PADDLE4;
+	case SDL_CONTROLLER_BUTTON_TOUCHPAD:		return GameController::BUTTON_TOUCHPAD;
+	default:									return GameController::BUTTON_NONE;
+	}
+}
+
 void AppPlatform_sdl::handleControllerButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state)
 {
 	// Normal Key Press
@@ -490,34 +519,5 @@ Keyboard::KeyState AppPlatform_sdl::GetKeyState(uint8_t state)
 	case SDL_PRESSED:
 	default:
 		return Keyboard::DOWN;
-	}
-}
-
-static GameController::EngineButtonID _getEngineButton(uint8_t button)
-{
-	switch (button)
-	{
-	case SDL_CONTROLLER_BUTTON_A:				return GameController::BUTTON_A;
-	case SDL_CONTROLLER_BUTTON_B:				return GameController::BUTTON_B;
-	case SDL_CONTROLLER_BUTTON_X:				return GameController::BUTTON_X;
-	case SDL_CONTROLLER_BUTTON_Y:				return GameController::BUTTON_Y;
-	case SDL_CONTROLLER_BUTTON_DPAD_UP:			return GameController::BUTTON_DPAD_UP;
-	case SDL_CONTROLLER_BUTTON_DPAD_DOWN:		return GameController::BUTTON_DPAD_DOWN;
-	case SDL_CONTROLLER_BUTTON_DPAD_LEFT:		return GameController::BUTTON_DPAD_LEFT;
-	case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:		return GameController::BUTTON_DPAD_RIGHT;
-	case SDL_CONTROLLER_BUTTON_LEFTSTICK:		return GameController::BUTTON_LEFTSTICK;
-	case SDL_CONTROLLER_BUTTON_RIGHTSTICK:		return GameController::BUTTON_RIGHTSTICK;
-	case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:	return GameController::BUTTON_LEFTSHOULDER;
-	case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:	return GameController::BUTTON_RIGHTSHOULDER;
-	case SDL_CONTROLLER_BUTTON_BACK:			return GameController::BUTTON_BACK;
-	case SDL_CONTROLLER_BUTTON_START:			return GameController::BUTTON_START;
-	case SDL_CONTROLLER_BUTTON_GUIDE:			return GameController::BUTTON_GUIDE;
-	case SDL_CONTROLLER_BUTTON_MISC1:			return GameController::BUTTON_MISC1;
-	case SDL_CONTROLLER_BUTTON_PADDLE1:			return GameController::BUTTON_PADDLE1;
-	case SDL_CONTROLLER_BUTTON_PADDLE2:			return GameController::BUTTON_PADDLE2;
-	case SDL_CONTROLLER_BUTTON_PADDLE3:			return GameController::BUTTON_PADDLE3;
-	case SDL_CONTROLLER_BUTTON_PADDLE4:			return GameController::BUTTON_PADDLE4;
-	case SDL_CONTROLLER_BUTTON_TOUCHPAD:		return GameController::BUTTON_TOUCHPAD;
-	default:									return GameController::BUTTON_NONE;
 	}
 }
