@@ -43,10 +43,18 @@ fpbuild mkdir -p /app/bin /app/libexec
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && fpbuild strip reminecraftpe
 fpbuild cp reminecraftpe /app/libexec
 fpbuild cp -a "$(readlink assets)" /app
+# rungame.sh is just a script that does a cd to the directory with the assets
 fpbuild cp "$platformdir/rungame.sh" /app/bin
 
 cd ..
 
+# permissions given (in order of specification):
+# X11
+# Wayland
+# Audio
+# GPU access (OpenGL)
+# Input devices (game controllers)
+# Network access
 flatpak build-finish output \
     --share=ipc \
     --socket=fallback-x11 \
