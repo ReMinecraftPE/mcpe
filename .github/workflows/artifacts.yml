@@ -86,7 +86,7 @@ jobs:
           - name: Install Dependencies
             run: |
                 apk update
-                apk add flatpak nodejs
+                apk add flatpak nodejs git
                 # bullshit
                 mkdir -p /__e/node24_alpine/bin
                 ln -sf $(command -v node) /__e/node24_alpine/bin/node
