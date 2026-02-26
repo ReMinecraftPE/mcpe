@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=ReMinecraftPE
 GenericName=ReMinecraftPE
-Comment=Open source reverse engineering of Minecraft Pocket Edition with extra features
+Comment=Decompilation of Minecraft Pocket Edition with extra features
 Exec=rungame.sh
 Icon=io.github.reminecraftpe
 Terminal=false
