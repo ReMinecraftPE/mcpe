@@ -13,19 +13,21 @@ jobs:
                   - name: x86_64 SDL 2 (OGL)
                     gfx: OGL
                     arch: x86_64
+                    runner: ubuntu-24.04
                   - name: x86_64 SDL 2 (OGL + Shaders)
                     gfx: OGL_SHADERS
                     arch: x86_64
-                  # - name: aarch64 SDL 2 (OGL)
-                  #   gfx: OGL
-                  #   arch: aarch64
-                  #   packages: qemu-user-static
-                  # - name: aarch64 SDL 2 (OGL + Shaders)
-                  #   gfx: OGL_SHADERS
-                  #   arch: aarch64
-                  #   packages: qemu-user-static
+                    runner: ubuntu-24.04
+                  - name: aarch64 SDL 2 (OGL)
+                    gfx: OGL
+                    arch: aarch64
+                    runner: ubuntu-24.04-arm
+                  - name: aarch64 SDL 2 (OGL + Shaders)
+                    gfx: OGL_SHADERS
+                    arch: aarch64
+                    runner: ubuntu-24.04-arm
         name: Linux (${{ matrix.name }})
-        runs-on: ubuntu-24.04
+        runs-on: ${{ matrix.runner }}
         steps:
           - name: Get Time
             id: get-time
@@ -44,7 +46,7 @@ jobs:
           - name: Install Dependencies
             run: |
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y flatpak ${{ matrix.packages }}
+                sudo apt-get install --no-install-recommends -y flatpak
                 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
                 flatpak --user install -y \
                     org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
