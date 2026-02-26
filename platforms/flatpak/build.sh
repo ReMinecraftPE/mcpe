@@ -11,6 +11,8 @@ bundleid='io.github.reminecraftpe'
 
 platformdir=$PWD
 
+workdir="$PWD/build/work"
+
 if command -v nproc >/dev/null; then
     ncpus="$(nproc)"
 else
@@ -23,34 +25,77 @@ else
     build=Release
 fi
 
-rm -rf build
-mkdir -p build/work
+rm -rf build/output build/work/build
+mkdir -p build/work/build
 cd build
 
-flatpak build-init output "$bundleid" "org.freedesktop.Sdk/$arch" "org.freedesktop.Platform/$arch" "${FLATPAK_RUNTIME_VERSION:-25.08}"
+runtime="${FLATPAK_RUNTIME_VERSION:-25.08}"
+[ "$ARCH" = 'i386' ] && runtime='1.6'
+
+flatpak build-init output "$bundleid" "org.freedesktop.Sdk/$arch" "org.freedesktop.Platform/$arch" "$runtime"
 
 cd work
 
 fpbuild() {
-    flatpak build ../output "$@"
+    flatpak build ../../output "$@"
 }
 
-fpbuild cmake "$platformdir/../.." \
+cmake=cmake
+set -- -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
+
+toolchainver=2
+if [ "$ARCH" = 'i386' ]; then
+    if [ "$(cat toolchain/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
+        printf '\nBuilding i386 toolchain...\n\n'
+
+        cmake_version='4.2.3'
+        wget -O- "https://github.com/Kitware/CMake/archive/refs/tags/v$cmake_version.tar.gz" | tar -xz
+        cd "CMake-$cmake_version"
+        fpbuild ./bootstrap \
+            --prefix="$workdir/toolchain" \
+            --parallel="$ncpus" \
+            --enable-ccache \
+            --system-zlib \
+            --system-bzip2 \
+            --system-curl \
+            --system-expat \
+            --system-liblzma
+        fpbuild make -j"$ncpus"
+        fpbuild make install/strip -j"$ncpus"
+        cd ..
+        rm -rf "CMake-$cmake_version"
+
+        rm -rf toolchain/doc share/emacs share/vim share/bash-completion
+
+        printf '%s' "$toolchainver" > toolchain/toolchainver
+    fi
+
+    set -- \
+        -DREMCPE_VENDORED_SDL2=ON \
+        -DCMAKE_C_COMPILER=clang \
+        -DCMAKE_CXX_COMPILER=clang++
+
+    cmake="$workdir/toolchain/bin/cmake"
+fi
+
+cd build
+fpbuild "$cmake" "$platformdir/../.." \
     -DCMAKE_BUILD_TYPE="$build" \
-    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
     -DCMAKE_C_COMPILER_LAUNCHER=ccache \
     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     -DREMCPE_PLATFORM="${REMCPE_PLATFORM:-sdl2}" \
-    -DREMCPE_GFX_API="${REMCPE_GFX_API:-OGL}"
-fpbuild cmake --build . --parallel "$ncpus"
+    -DREMCPE_GFX_API="${REMCPE_GFX_API:-OGL}" \
+    "$@"
+fpbuild "$cmake" --build . --parallel "$ncpus"
 fpbuild mkdir -p /app/bin /app/libexec
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && fpbuild strip reminecraftpe
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+    fpbuild strip reminecraftpe
 fpbuild cp reminecraftpe /app/libexec
 fpbuild cp -a "$(readlink assets)" /app
 # rungame.sh is just a script that does a cd to the directory with the assets
 fpbuild cp "$platformdir/rungame.sh" /app/bin
 
-cd ..
+cd ../..
 
 # permissions given (in order of specification):
 # X11 (when wayland is unavailable)
