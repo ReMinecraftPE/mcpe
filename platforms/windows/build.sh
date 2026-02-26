@@ -13,7 +13,7 @@ bin='reminecraftpe'
 platformdir=$PWD
 
 workdir="$PWD/build/work"
-mkdir -p "$workdir/sdks"
+mkdir -p "$workdir"
 cd "$workdir"
 
 if command -v nproc >/dev/null; then
@@ -29,7 +29,7 @@ for dep in make cmake; do
     fi
 done
 
-export PATH="$PWD/toolchain/bin:$PATH"
+export PATH="$PWD/toolchain-$arch/bin:$PATH"
 
 # Increase this if we ever make a change to the toolchain, for example
 # using a newer GCC version, and we need to invalidate the cache.
@@ -84,13 +84,14 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
         --with-default-win32-winnt="$winnt" \
         --with-default-msvcrt=crtdll
     make -j"$ncpus" install
-    cd ..
+    cd ../..
 
-    gcc_version='15.2.0'
+    gcc_version='13.1.0'
     rm -rf gcc-*
     wget -O- "https://ftp.gnu.org/gnu/gcc/gcc-$gcc_version/gcc-$gcc_version.tar.xz" | tar -xJ
 
     cd "gcc-$gcc_version"
+    patch -fNp1 < ../../../gcc.diff
     mkdir build
     cd build
     set --
@@ -111,7 +112,7 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
         --enable-languages=c,c++ \
         "$@"
     make -j"$ncpus" all-gcc
-    make -j"$ncpus" install-gcc-strip
+    make -j"$ncpus" install-strip-gcc
     cd ../..
 
     cd "mingw-w64-v$mingw_version/mingw-w64-crt"
