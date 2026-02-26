@@ -6,6 +6,8 @@ set -e
 cd "$scriptroot"
 
 arch="${ARCH:-x86_64}"
+# Must be kept in sync with the cmake executable name
+bin='reminecraftpe'
 
 bundleid='io.github.reminecraftpe'
 
@@ -89,8 +91,8 @@ fpbuild "$cmake" "$platformdir/../.." \
 fpbuild "$cmake" --build . --parallel "$ncpus"
 fpbuild mkdir -p /app/bin /app/libexec /app/share/applications
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    fpbuild strip reminecraftpe
-fpbuild cp reminecraftpe /app/libexec
+    fpbuild strip "$bin"
+fpbuild cp "$bin" /app/libexec
 fpbuild cp -a "$(readlink assets)" /app
 # rungame.sh is just a script that does a cd to the directory with the assets
 fpbuild cp "$platformdir/rungame.sh" /app/bin
