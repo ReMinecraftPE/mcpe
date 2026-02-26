@@ -128,7 +128,7 @@ if [ -n "$outdated_toolchain" ]; then
     mv misc/strip ../../toolchain/bin/cctools-strip
     mv misc/lipo ../../toolchain/bin/lipo
     cd ../..
-    rm -rf "cctools-port-$cctools_commit"
+    rm -rf "cctools-port-$cctools_commit" &
 
     if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
         printf '\nBuilding ldid...\n\n'
@@ -142,9 +142,11 @@ if [ -n "$outdated_toolchain" ]; then
         strip ldid
         mv ldid ../toolchain/bin
         cd ..
-        rm -rf "ldid-$ldid_commit"
+        rm -rf "ldid-$ldid_commit" &
     fi
     printf '%s' "$toolchainver" > toolchain/toolchainver
+    outdated_toolchain=1
+    wait
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
@@ -165,7 +167,9 @@ fi
 # Delete old build files if build settings change or if the SDK changes.
 printf '%s\n' "$DEBUG" > buildsettings
 clang -v >> buildsettings 2>&1
-if [ -n "$outdated_sdk" ] || ! cmp -s buildsettings lastbuildsettings; then
+if [ -n "$outdated_sdk" ] ||
+    [ -n "$outdated_toolchain" ] ||
+    ! cmp -s buildsettings lastbuildsettings; then
     rm -rf build-*
 fi
 mv buildsettings lastbuildsettings

@@ -148,7 +148,7 @@ if [ -n "$outdated_toolchain" ]; then
     cd "apple-libtapi-$tapi_commit"
     INSTALLPREFIX="$workdir/toolchain" CC=nbc-clang CXX=nbc-clang++ ./build.sh && ./install.sh
     cd ..
-    rm -rf "apple-libtapi-$tapi_commit"
+    rm -rf "apple-libtapi-$tapi_commit" &
     if [ "$(uname -s)" = "Darwin" ]; then
         strip -x toolchain/lib/libtapi.dylib
         install_name_tool -id '@executable_path/../lib/libtapi.dylib' \
@@ -184,7 +184,7 @@ if [ -n "$outdated_toolchain" ]; then
     strip ar/ar
     mv ar/ar ../../toolchain/bin/cctools-ar
     cd ../..
-    rm -rf "cctools-port-$cctools_commit"
+    rm -rf "cctools-port-$cctools_commit" &
 
     if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
         printf '\nBuilding ldid...\n\n'
@@ -198,10 +198,11 @@ if [ -n "$outdated_toolchain" ]; then
         strip ldid
         mv ldid ../toolchain/bin
         cd ..
-        rm -rf "ldid-$ldid_commit"
+        rm -rf "ldid-$ldid_commit" &
     fi
     rm -rf toolchain/include
     printf '%s' "$toolchainver" > toolchain/toolchainver
+    wait
 fi
 
 # The PPC toolchain is separate from the regular toolchain because
@@ -246,7 +247,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     strip as/ppc/ppc-as
     mv as/ppc/ppc-as ../../toolchain-ppc/bin/ppc-as
     cd ../..
-    rm -rf "cctools-port-$cctools_commit"
+    rm -rf "cctools-port-$cctools_commit" &
 
     gcc_version='15.2.0'
     rm -rf gcc-*
@@ -278,11 +279,12 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     make -j"$ncpus"
     make -j"$ncpus" install-strip
     cd ../..
-    rm -rf "gcc-$gcc_version"
+    rm -rf "gcc-$gcc_version" &
 
     rm -rf toolchain-ppc/share
     printf '%s' "$ppctoolchainver" > toolchain-ppc/toolchainver
     outdated_ppc_toolchain=1
+    wait
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
