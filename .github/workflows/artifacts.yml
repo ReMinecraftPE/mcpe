@@ -54,6 +54,7 @@ jobs:
           - name: Build
             run: ./platforms/flatpak/build.sh
             env:
+              NOSTRIP: 1
               ARCH: ${{ matrix.arch }}
               REMCPE_GFX_API: ${{ matrix.gfx }}
           - uses: actions/upload-artifact@v6
