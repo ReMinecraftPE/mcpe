@@ -87,13 +87,18 @@ fpbuild "$cmake" "$platformdir/../.." \
     -DREMCPE_GFX_API="${REMCPE_GFX_API:-OGL}" \
     "$@"
 fpbuild "$cmake" --build . --parallel "$ncpus"
-fpbuild mkdir -p /app/bin /app/libexec
+fpbuild mkdir -p /app/bin /app/libexec /app/share/applications
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
     fpbuild strip reminecraftpe
 fpbuild cp reminecraftpe /app/libexec
 fpbuild cp -a "$(readlink assets)" /app
 # rungame.sh is just a script that does a cd to the directory with the assets
 fpbuild cp "$platformdir/rungame.sh" /app/bin
+fpbuild cp "$platformdir/$bundleid.desktop" /app/share/applications
+for size in 48 64 72 96 128 192 256; do
+    fpbuild install -Dm644 "assets/app/icons/mipmap/icon_${size}x${size}.png" \
+        "/app/share/icons/hicolor/${size}x${size}/apps/$bundleid.png"
+done
 
 cd ../..
 
