@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <algorithm>
+#include <stdlib.h>
 
 #include "CThread.hpp"
 #include "compat/LegacyCPP.hpp"

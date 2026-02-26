@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include <stdio.h>
+#include <cstdlib>
 #include "Util.hpp"
 
 const std::string Util::EMPTY_STRING = "";
