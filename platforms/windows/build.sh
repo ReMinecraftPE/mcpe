@@ -64,7 +64,8 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     ./configure \
         --prefix="$workdir/toolchain-$arch" \
         --target="$target" \
-        --disable-multilib
+        --disable-multilib \
+        CFLAGS='-Wno-discarded-qualifiers'
     make -j"$ncpus"
     make -j"$ncpus" install-strip
     cd ..
@@ -79,7 +80,7 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     cd mingw-w64-headers
     ./configure \
         --host="$target" \
-        --prefix="$workdir/toolchain-$arch/sysroot" \
+        --prefix="$workdir/toolchain-$arch/$arch-w64-mingw32" \
         --with-default-win32-winnt="$winnt" \
         --with-default-msvcrt=crtdll
     make -j"$ncpus" install
@@ -108,7 +109,6 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
         --disable-nls \
         --with-system-zlib \
         --enable-languages=c,c++ \
-        --with-sysroot="$workdir/toolchain-$arch/sysroot"
         "$@"
     make -j"$ncpus" all-gcc
     make -j"$ncpus" install-gcc-strip
@@ -117,7 +117,7 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     cd "mingw-w64-v$mingw_version/mingw-w64-crt"
     ./configure \
         --host="$target" \
-        --prefix="$workdir/toolchain/sysroot" \
+        --prefix="$workdir/toolchain/$arch-w64-mingw32" \
         --with-default-win32-winnt="$winnt" \
         --with-default-msvcrt=crtdll \
         --disable-wchar
