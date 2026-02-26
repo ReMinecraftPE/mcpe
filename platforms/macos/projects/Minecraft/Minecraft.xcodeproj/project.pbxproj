@@ -173,6 +173,9 @@
 		8406FDD32AF182E700B09C1D /* WindowsIncludes.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8432AC810630006A435 /* WindowsIncludes.h */; };
 		8406FDD42AF182E700B09C1D /* WSAStartupSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8452AC810630006A435 /* WSAStartupSingleton.h */; };
 		8406FDD52AF182E700B09C1D /* XBox360Includes.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8462AC810630006A435 /* XBox360Includes.h */; };
+		840823DA2F4FF4B80097F6A5 /* CoalItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840823D72F4FF4B80097F6A5 /* CoalItem.cpp */; };
+		840823DB2F4FF4B80097F6A5 /* CoalItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840823D82F4FF4B80097F6A5 /* CoalItem.hpp */; };
+		840823DC2F4FF4B80097F6A5 /* Tool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840823D92F4FF4B80097F6A5 /* Tool.hpp */; };
 		84171E812B1A6227008B82E6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C4D86E2A872C0100323E33 /* OpenAL.framework */; };
 		841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp */; };
 		841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp */; };
@@ -1605,6 +1608,9 @@
 /* Begin PBXFileReference section */
 		8400360F2E89DADB00C14213 /* SDL_gamecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_gamecontroller.h; sourceTree = "<group>"; };
 		8406FD292AF1814500B09C1D /* libRenderer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRenderer.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		840823D72F4FF4B80097F6A5 /* CoalItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CoalItem.cpp; sourceTree = "<group>"; };
+		840823D82F4FF4B80097F6A5 /* CoalItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CoalItem.hpp; sourceTree = "<group>"; };
+		840823D92F4FF4B80097F6A5 /* Tool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tool.hpp; sourceTree = "<group>"; };
 		840DD5792AC810620006A435 /* KeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KeyCodes.hpp; sourceTree = "<group>"; };
 		840DD57A2AC810620006A435 /* SDLKeyCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLKeyCodes.h; sourceTree = "<group>"; };
 		840DD57E2AC810620006A435 /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
@@ -3850,31 +3856,29 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
-				84B9D8962F3BE0A900FD67C4 /* ArmorItem.hpp */,
 				84B9D8972F3BE0A900FD67C4 /* ArmorItem.cpp */,
-				84B9D8982F3BE0A900FD67C4 /* HoeItem.hpp */,
-				84B9D8992F3BE0A900FD67C4 /* HoeItem.cpp */,
-				84B9D89A2F3BE0A900FD67C4 /* SeedItem.hpp */,
-				84B9D89B2F3BE0A900FD67C4 /* SeedItem.cpp */,
-				848CCB482F3A974000031D1F /* FoodItem.hpp */,
-				848CCB492F3A974000031D1F /* FoodItem.cpp */,
-				848AA3132F34E897007E9A3E /* DyePowderItem.hpp */,
-				848AA3142F34E897007E9A3E /* DyePowderItem.cpp */,
-				84C614242F323602008AC5BE /* BowItem.hpp */,
-				84C614252F323602008AC5BE /* BowItem.cpp */,
-				84C614262F323602008AC5BE /* WeaponItem.hpp */,
-				84C614272F323602008AC5BE /* WeaponItem.cpp */,
+				84B9D8962F3BE0A900FD67C4 /* ArmorItem.hpp */,
 				84E1C9DF2E7FDC72007D2F5D /* AuxTileItem.cpp */,
 				84E1C9E02E7FDC72007D2F5D /* AuxTileItem.hpp */,
+				84C614252F323602008AC5BE /* BowItem.cpp */,
+				84C614242F323602008AC5BE /* BowItem.hpp */,
 				840DD6702AC810620006A435 /* CameraItem.cpp */,
 				840DD6712AC810620006A435 /* CameraItem.hpp */,
 				84E1C9E12E7FDC72007D2F5D /* ClothItem.cpp */,
 				84E1C9E22E7FDC72007D2F5D /* ClothItem.hpp */,
+				840823D72F4FF4B80097F6A5 /* CoalItem.cpp */,
+				840823D82F4FF4B80097F6A5 /* CoalItem.hpp */,
 				84DED19E2F309611004001C5 /* crafting */,
 				840DD6722AC810620006A435 /* DoorItem.cpp */,
 				840DD6732AC810620006A435 /* DoorItem.hpp */,
 				84E023022F2A0255003C8FFE /* DyeColor.cpp */,
 				84E023032F2A0255003C8FFE /* DyeColor.hpp */,
+				848AA3142F34E897007E9A3E /* DyePowderItem.cpp */,
+				848AA3132F34E897007E9A3E /* DyePowderItem.hpp */,
+				848CCB492F3A974000031D1F /* FoodItem.cpp */,
+				848CCB482F3A974000031D1F /* FoodItem.hpp */,
+				84B9D8992F3BE0A900FD67C4 /* HoeItem.cpp */,
+				84B9D8982F3BE0A900FD67C4 /* HoeItem.hpp */,
 				840DD6742AC810620006A435 /* Inventory.cpp */,
 				840DD6752AC810620006A435 /* Inventory.hpp */,
 				840DD6762AC810620006A435 /* Item.cpp */,
@@ -3883,14 +3887,19 @@
 				84E7BF352F286A6A002D3936 /* ItemStack.hpp */,
 				84E78C812B58B5FB00D515EF /* RocketItem.cpp */,
 				84E78C822B58B5FB00D515EF /* RocketItem.hpp */,
+				84B9D89B2F3BE0A900FD67C4 /* SeedItem.cpp */,
+				84B9D89A2F3BE0A900FD67C4 /* SeedItem.hpp */,
 				84E1C9E32E7FDC72007D2F5D /* SlabItem.cpp */,
 				84E1C9E42E7FDC72007D2F5D /* SlabItem.hpp */,
 				840DD67A2AC810620006A435 /* TileItem.cpp */,
 				840DD67B2AC810620006A435 /* TileItem.hpp */,
 				840DD67C2AC810620006A435 /* TilePlanterItem.cpp */,
 				840DD67D2AC810620006A435 /* TilePlanterItem.hpp */,
+				840823D92F4FF4B80097F6A5 /* Tool.hpp */,
 				845BBCB42F2EA81700C7232C /* ToolItem.cpp */,
 				845BBCB32F2EA81700C7232C /* ToolItem.hpp */,
+				84C614272F323602008AC5BE /* WeaponItem.cpp */,
+				84C614262F323602008AC5BE /* WeaponItem.hpp */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -5961,6 +5970,7 @@
 				84BF63C92AF186C9008A9995 /* SandTile.hpp in Headers */,
 				84E1C9D82E7FDC26007D2F5D /* PumpkinTile.hpp in Headers */,
 				84BF63CA2AF186C9008A9995 /* Sapling.hpp in Headers */,
+				840823DC2F4FF4B80097F6A5 /* Tool.hpp in Headers */,
 				84CCBC942E61880600E251AF /* EntityFactory.hpp in Headers */,
 				84BF63CB2AF186C9008A9995 /* SpongeTile.hpp in Headers */,
 				84BF63CC2AF186C9008A9995 /* StairTile.hpp in Headers */,
@@ -5968,6 +5978,7 @@
 				84BF63CD2AF186C9008A9995 /* StoneSlabTile.hpp in Headers */,
 				84BF63CE2AF186C9008A9995 /* StoneTile.hpp in Headers */,
 				84E7BF1D2F286A08002D3936 /* ContainerMenu.hpp in Headers */,
+				840823DB2F4FF4B80097F6A5 /* CoalItem.hpp in Headers */,
 				848AA3162F34E897007E9A3E /* DyePowderItem.hpp in Headers */,
 				84BF63CF2AF186C9008A9995 /* Tile.hpp in Headers */,
 				84BF63D02AF186C9008A9995 /* TntTile.hpp in Headers */,
@@ -7132,6 +7143,7 @@
 				84AA8B7C2B32F3B5003F5B82 /* Cow.cpp in Sources */,
 				84AA8B7E2B32F3B5003F5B82 /* Creeper.cpp in Sources */,
 				84AA8B8A2B32F3B5003F5B82 /* Monster.cpp in Sources */,
+				840823DA2F4FF4B80097F6A5 /* CoalItem.cpp in Sources */,
 				84E7BF242F286A08002D3936 /* ResultSlot.cpp in Sources */,
 				84E7BF202F286A08002D3936 /* InventoryMenu.cpp in Sources */,
 				84AA8B8C2B32F3B5003F5B82 /* PathfinderMob.cpp in Sources */,
