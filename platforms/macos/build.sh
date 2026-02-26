@@ -269,6 +269,7 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
     cd ../..
     rm -rf "gcc-$gcc_version"
 
+    rm -rf toolchain-ppc/share
     printf '%s' "$ppctoolchainver" > toolchain-ppc/toolchainver
     outdated_ppc_toolchain=1
 fi
