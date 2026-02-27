@@ -73,64 +73,64 @@ jobs:
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
-    flatpak:
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                  - name: x86_64 SDL 2 (OGL)
-                    gfx-api: OGL
-                    arch: x86_64
-                    runner: ubuntu-24.04
-                  - name: x86_64 SDL 2 (OGL + Shaders)
-                    gfx-api: OGL_SHADERS
-                    arch: x86_64
-                    runner: ubuntu-24.04
-                  - name: aarch64 SDL 2 (OGL)
-                    gfx-api: OGL
-                    arch: aarch64
-                    runner: ubuntu-24.04-arm
-                  - name: aarch64 SDL 2 (OGL + Shaders)
-                    gfx-api: OGL_SHADERS
-                    arch: aarch64
-                    runner: ubuntu-24.04-arm
-        name: Flatpak (${{ matrix.name }})
-        runs-on: ${{ matrix.runner }}
-        steps:
-          - name: Get Time
-            id: get-time
-            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
-          - uses: actions/cache@v5
-            with:
-              path: ~/ccache.tar.xz
-              key: flatpak-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
-              restore-keys: flatpak-artifact-${{ matrix.name }}-
-          - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
-          - name: Install Dependencies
-            run: |
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y flatpak
-                flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-                flatpak --user install -y \
-                    org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
-                    org.freedesktop.Sdk/${{ matrix.arch }}/25.08
-          - name: Build
-            run: ./platforms/linux/build-flatpak.sh
-            env:
-              NOSTRIP: 1
-              ARCH: ${{ matrix.arch }}
-              REMCPE_GFX_API: ${{ matrix.gfx }}
-          - uses: actions/upload-artifact@v6
-            with:
-              name: Flatpak (${{ matrix.name }})
-              path: platforms/linux/build-flatpak/ReMCPE-${{ matrix.arch }}.flatpak
-          - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+    # flatpak:
+    #     strategy:
+    #         fail-fast: false
+    #         matrix:
+    #             include:
+    #               - name: x86_64 SDL 2 (OGL)
+    #                 gfx-api: OGL
+    #                 arch: x86_64
+    #                 runner: ubuntu-24.04
+    #               - name: x86_64 SDL 2 (OGL + Shaders)
+    #                 gfx-api: OGL_SHADERS
+    #                 arch: x86_64
+    #                 runner: ubuntu-24.04
+    #               - name: aarch64 SDL 2 (OGL)
+    #                 gfx-api: OGL
+    #                 arch: aarch64
+    #                 runner: ubuntu-24.04-arm
+    #               - name: aarch64 SDL 2 (OGL + Shaders)
+    #                 gfx-api: OGL_SHADERS
+    #                 arch: aarch64
+    #                 runner: ubuntu-24.04-arm
+    #     name: Flatpak (${{ matrix.name }})
+    #     runs-on: ${{ matrix.runner }}
+    #     steps:
+    #       - name: Get Time
+    #         id: get-time
+    #         run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+    #       - uses: actions/cache@v5
+    #         with:
+    #           path: ~/ccache.tar.xz
+    #           key: flatpak-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+    #           restore-keys: flatpak-artifact-${{ matrix.name }}-
+    #       - name: Unpack cache
+    #         run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+    #       - name: Checkout Repository
+    #         uses: actions/checkout@v6
+    #         with:
+    #             submodules: true
+    #       - name: Install Dependencies
+    #         run: |
+    #             sudo apt-get update
+    #             sudo apt-get install --no-install-recommends -y flatpak
+    #             flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    #             flatpak --user install -y \
+    #                 org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
+    #                 org.freedesktop.Sdk/${{ matrix.arch }}/25.08
+    #       - name: Build
+    #         run: ./platforms/linux/build-flatpak.sh
+    #         env:
+    #           NOSTRIP: 1
+    #           ARCH: ${{ matrix.arch }}
+    #           REMCPE_GFX_API: ${{ matrix.gfx }}
+    #       - uses: actions/upload-artifact@v6
+    #         with:
+    #           name: Flatpak (${{ matrix.name }})
+    #           path: platforms/linux/build-flatpak/ReMCPE-${{ matrix.arch }}.flatpak
+    #       - name: Pack cache
+    #         run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     # linux32:
     #     strategy:

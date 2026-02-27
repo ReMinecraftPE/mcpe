@@ -57,44 +57,44 @@ jobs:
             with:
               asset_paths: '["ReMCPE-Linux-${{ matrix.arch }}.tar.gz"]'
 
-    flatpak:
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                  - name: x86_64 SDL 2
-                    gfx: OGL
-                    arch: x86_64
-                    runner: ubuntu-24.04
-                  - name: aarch64 SDL 2
-                    gfx: OGL
-                    arch: aarch64
-                    runner: ubuntu-24.04-arm
-        name: Flatpak (${{ matrix.name }})
-        runs-on: ${{ matrix.runner }}
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v6
-            with:
-                submodules: true
-          - name: Install Dependencies
-            run: |
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y flatpak
-                flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-                flatpak --user install -y \
-                    org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
-                    org.freedesktop.Sdk/${{ matrix.arch }}/25.08
-          - name: Build
-            run: ./platforms/linux/build-flatpak.sh
-            env:
-              ARCH: ${{ matrix.arch }}
-              REMCPE_GFX_API: ${{ matrix.gfx }}
-          - uses: alexellis/upload-assets@0.4.1
-            env:
-              GITHUB_TOKEN: ${{ github.token }}
-            with:
-              asset_paths: '["platforms/linux/build-flatpak/ReMCPE-Linux-${{ matrix.arch }}.flatpak"]'
+    # flatpak:
+    #     strategy:
+    #         fail-fast: false
+    #         matrix:
+    #             include:
+    #               - name: x86_64 SDL 2
+    #                 gfx: OGL
+    #                 arch: x86_64
+    #                 runner: ubuntu-24.04
+    #               - name: aarch64 SDL 2
+    #                 gfx: OGL
+    #                 arch: aarch64
+    #                 runner: ubuntu-24.04-arm
+    #     name: Flatpak (${{ matrix.name }})
+    #     runs-on: ${{ matrix.runner }}
+    #     steps:
+    #       - name: Checkout Repository
+    #         uses: actions/checkout@v6
+    #         with:
+    #             submodules: true
+    #       - name: Install Dependencies
+    #         run: |
+    #             sudo apt-get update
+    #             sudo apt-get install --no-install-recommends -y flatpak
+    #             flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    #             flatpak --user install -y \
+    #                 org.freedesktop.Platform/${{ matrix.arch }}/25.08 \
+    #                 org.freedesktop.Sdk/${{ matrix.arch }}/25.08
+    #       - name: Build
+    #         run: ./platforms/linux/build-flatpak.sh
+    #         env:
+    #           ARCH: ${{ matrix.arch }}
+    #           REMCPE_GFX_API: ${{ matrix.gfx }}
+    #       - uses: alexellis/upload-assets@0.4.1
+    #         env:
+    #           GITHUB_TOKEN: ${{ github.token }}
+    #         with:
+    #           asset_paths: '["platforms/linux/build-flatpak/ReMCPE-Linux-${{ matrix.arch }}.flatpak"]'
 
     # linux32:
     #     strategy:
