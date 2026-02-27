@@ -50,7 +50,7 @@ jobs:
             run: |
                 mkdir ReMCPE
                 mv game/assets build/reminecraftpe ReMCPE
-                tar -czf ReMCPE-Linux-x86_64.tar.gz ReMCPE
+                tar -czf ReMCPE-Linux-${{ matrix.arch }}.tar.gz ReMCPE
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
