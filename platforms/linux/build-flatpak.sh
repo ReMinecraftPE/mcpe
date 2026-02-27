@@ -13,7 +13,7 @@ bundleid='io.github.reminecraftpe'
 
 platformdir=$PWD
 
-workdir="$PWD/build/work"
+workdir="$PWD/build-flatpak/work"
 
 if command -v nproc >/dev/null; then
     ncpus="$(nproc)"
@@ -27,9 +27,9 @@ else
     build=Release
 fi
 
-rm -rf build/output build/work/build
-mkdir -p build/work/build
-cd build
+rm -rf build-flatpak/output build-flatpak/work/build
+mkdir -p build-flatpak/work/build
+cd build-flatpak
 
 runtime="${FLATPAK_RUNTIME_VERSION:-25.08}"
 [ "$ARCH" = 'i386' ] && runtime='1.6'
