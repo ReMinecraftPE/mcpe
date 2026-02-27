@@ -12,12 +12,17 @@ jobs:
                 include:
                   - name: x86_64 SDL 2
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl2-dev'
+                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04
                     arch: x86_64
+                  - name: i686 SDL 2
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
+                    packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386 zlib1g-dev:i386'
+                    runner: ubuntu-22.04
+                    arch: i686
                   - name: aarch64 SDL 2
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl2-dev'
+                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04-arm
                     arch: aarch64
         name: Linux (${{ matrix.name }})
@@ -27,14 +32,15 @@ jobs:
             uses: actions/checkout@v6
             with:
                 submodules: true
+          - name: Enable i386 packages
+            if: ${{ matrix.arch == 'i686' }}
+            run: sudo dpkg --add-architecture i386
           - name: Install Dependencies
             run: |
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake ninja-build \
-                    libopenal-dev \
-                    zlib1g-dev \
                     ${{ matrix.packages }}
           - name: Build
             run: |
@@ -95,55 +101,6 @@ jobs:
     #           GITHUB_TOKEN: ${{ github.token }}
     #         with:
     #           asset_paths: '["platforms/linux/build-flatpak/ReMCPE-Linux-${{ matrix.arch }}.flatpak"]'
-
-    # linux32:
-    #     strategy:
-    #         fail-fast: false
-    #         matrix:
-    #             include:
-    #               - name: SDL 2
-    #                 flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
-    #                 packages: 'libsdl2-dev:i386'
-    #     name: Linux 32-bit (${{ matrix.name }})
-    #     runs-on: ubuntu-24.04
-    #     steps:
-    #       - name: Checkout Repository
-    #         uses: actions/checkout@v6
-    #         with:
-    #             submodules: true
-    #       - name: Install Dependencies
-    #         run: |
-    #             sudo dpkg --add-architecture i386
-    #             sudo apt-get update
-    #             sudo apt-get install --no-install-recommends -y \
-    #                 build-essential \
-    #                 cmake ninja-build \
-    #                 gcc-multilib g++-multilib \
-    #                 libopenal-dev:i386 \
-    #                 zlib1g-dev:i386 \
-    #                 ${{ matrix.packages }}
-    #       - name: Build
-    #         run: |
-    #             mkdir build
-    #             cd build
-    #             cmake .. -GNinja \
-    #                 -DCMAKE_BUILD_TYPE=Release \
-    #                 -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-    #                 -DCMAKE_C_FLAGS='-m32' \
-    #                 -DCMAKE_CXX_FLAGS='-m32' \
-    #                 ${{ matrix.flags }}
-    #             cmake --build .
-    #             strip reminecraftpe
-    #       - name: Pack release
-    #         run: |
-    #             mkdir ReMCPE
-    #             mv game/assets build/reminecraftpe ReMCPE
-    #             tar -czf ReMCPE-Linux-x86.tar.gz ReMCPE
-    #       - uses: alexellis/upload-assets@0.4.1
-    #         env:
-    #           GITHUB_TOKEN: ${{ github.token }}
-    #         with:
-    #           asset_paths: '["ReMCPE-Linux-x86.tar.gz"]'
 
     macos:
         strategy:
