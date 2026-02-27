@@ -14,10 +14,12 @@ jobs:
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl2-dev'
                     runner: ubuntu-24.04
+                    arch: x86_64
                   - name: aarch64 SDL 2
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl2-dev'
                     runner: ubuntu-24.04-arm
+                    arch: aarch64
         name: Linux (${{ matrix.name }})
         runs-on: ${{ matrix.runner }}
         steps:
@@ -53,7 +55,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["ReMCPE-Linux-x86_64.tar.gz"]'
+              asset_paths: '["ReMCPE-Linux-${{ matrix.arch }}.tar.gz"]'
 
     flatpak:
         strategy:
