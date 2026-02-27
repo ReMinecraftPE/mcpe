@@ -94,7 +94,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["platforms/linux/build-flatpak/ReMCPE-${{ matrix.arch }}.flatpak"]'
+              asset_paths: '["platforms/linux/build-flatpak/ReMCPE-Linux-${{ matrix.arch }}.flatpak"]'
 
     # linux32:
     #     strategy:
