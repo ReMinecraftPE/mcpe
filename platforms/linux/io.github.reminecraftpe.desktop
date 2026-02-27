@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=ReMinecraftPE
 GenericName=ReMinecraftPE
-Comment=Decompilation of Minecraft Pocket Edition with extra features
+Comment=A custom experience based on Minecraft PE as of 2011
 Exec=rungame.sh
 Icon=io.github.reminecraftpe
 Terminal=false
