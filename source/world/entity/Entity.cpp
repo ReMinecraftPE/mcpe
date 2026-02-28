@@ -23,10 +23,7 @@ Random Entity::sharedRandom;
 void Entity::_init()
 {
 	m_bInAChunk = false;
-	field_20 = 0;
-	field_24 = 0;
-	field_28 = 0;
-	field_30 = 1.0f;
+	m_viewScale = 1.0f;
 	m_dimensionId = DIMENSION_OVERWORLD;
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
@@ -44,7 +41,7 @@ void Entity::_init()
 	m_heightOffset = 0.0f;
 	m_bbWidth = 0.6f;
 	m_bbHeight = 1.8f;
-	field_90 = 0.0f;
+	m_walkDistO = 0.0f;
 	m_walkDist = 0.0f;
 	m_bMakeStepSound = true;
 	m_ySlideOffset = 0.0f;
@@ -470,7 +467,7 @@ void Entity::baseTick()
 {
 	//@TODO: untangle the gotos
 
-	field_90 = m_walkDist;
+	m_walkDistO = m_walkDist;
 	m_oPos = m_pos;
     m_tickCount++;
 	m_oRot = m_rot;
@@ -728,9 +725,9 @@ float Entity::distanceToSqr(const Vec3& pos) const
 	return m_pos.distanceToSqr(pos);
 }
 
-int Entity::interactPreventDefault()
+bool Entity::interactPreventDefault() const
 {
-	return 0;
+	return false;
 }
 
 bool Entity::interact(Player* player)
@@ -778,7 +775,7 @@ bool Entity::shouldRender(Vec3& camPos) const
 
 bool Entity::shouldRenderAtSqrDistance(float distSqr) const
 {
-	float maxDist = (field_30 * 64.0f) * (((m_hitbox.max.z - m_hitbox.min.z) + (m_hitbox.max.x - m_hitbox.min.x) + (m_hitbox.max.y - m_hitbox.min.y)) / 3.0f);
+	float maxDist = (m_viewScale * 64.0f) * (((m_hitbox.max.z - m_hitbox.min.z) + (m_hitbox.max.x - m_hitbox.min.x) + (m_hitbox.max.y - m_hitbox.min.y)) / 3.0f);
 
 	return maxDist * maxDist > distSqr;
 }

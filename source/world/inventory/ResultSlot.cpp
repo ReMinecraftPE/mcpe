@@ -24,11 +24,11 @@ void ResultSlot::onTake(ItemStack& item)
 {
 	item.onCraftedBy(m_pPlayer, m_pPlayer->m_pLevel);
 
-	//if (item.getId() == Tile::craftingTable->m_ID)
+	//if (item.getId() == Tile::craftingTable->id)
 	//	m_pPlayer->awardStat(Achievements::buildWorkBench);
 	//else if (item.getId() == Item::woodPickaxe->getId())
 	//	m_pPlayer->awardStat(Achievements::buildPickaxe);
-	//else if (item.getId() == Tile::furnace->m_ID)
+	//else if (item.getId() == Tile::furnace->id)
 	//	m_pPlayer->awardStat(Achievements::buildFurnace);
 	//else if (item.getId() == Item::woodHoe->getId())
 	//	m_pPlayer->awardStat(Achievements::buildHoe);

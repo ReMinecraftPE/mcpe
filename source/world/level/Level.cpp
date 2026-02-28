@@ -504,7 +504,7 @@ void Level::updateLight(const LightLayer& ll, const TilePos& tilePos1, const Til
 {
 	static int nUpdateLevels;
 
-	if ((m_pDimension->field_E && &ll == &LightLayer::Sky) || !m_bUpdateLights)
+	if ((m_pDimension->m_bHasCeiling && &ll == &LightLayer::Sky) || !m_bUpdateLights)
 		return;
 
 	nUpdateLevels++;
@@ -556,7 +556,7 @@ void Level::updateLight(const LightLayer& ll, const TilePos& tilePos1, const Til
 
 void Level::updateLightIfOtherThan(const LightLayer& ll, const TilePos& tilePos, int bright)
 {
-	if (m_pDimension->field_E && &ll == &LightLayer::Sky)
+	if (m_pDimension->m_bHasCeiling && &ll == &LightLayer::Sky)
 		return;
 
 	if (!hasChunkAt(tilePos))
@@ -1548,14 +1548,14 @@ void Level::tickPendingTicks(bool b)
 	for (int i = 0; i < size; i++)
 	{
 		const TickNextTickData& t = *m_pendingTicks.begin();
-		if (!b && t.m_delay > m_pLevelData->getTime())
+		if (!b && t.delay > m_pLevelData->getTime())
 			break;
 
-		if (hasChunksAt(t.field_4 - 8, t.field_4 + 8))
+		if (hasChunksAt(t.tilePos - 8, t.tilePos + 8))
 		{
-			TileID tile = getTile(t.field_4);
-			if (tile == t.field_10 && tile > 0)
-				Tile::tiles[tile]->tick(this, t.field_4, &m_random);
+			TileID tile = getTile(t.tilePos);
+			if (tile == t.tileId && tile > 0)
+				Tile::tiles[tile]->tick(this, t.tilePos, &m_random);
 		}
 
 		m_pendingTicks.erase(m_pendingTicks.begin());
@@ -1819,9 +1819,9 @@ void Level::addToTickNextTick(const TilePos& tilePos, int d, int delay)
 		if (!hasChunksAt(tilePos, 8))
 			return;
 
-		TileID tile = getTile(tntd.field_4);
-		if (tile > 0 && tile == tntd.field_10)
-			Tile::tiles[tntd.field_10]->tick(this, tntd.field_4, &m_random);
+		TileID tile = getTile(tntd.tilePos);
+		if (tile > 0 && tile == tntd.tileId)
+			Tile::tiles[tntd.tileId]->tick(this, tntd.tilePos, &m_random);
 	}
 	else
 	{

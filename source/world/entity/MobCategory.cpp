@@ -12,11 +12,11 @@ const MobCategory* MobCategory::all[] = {
 };
 const unsigned int MobCategory::allCount = sizeof(MobCategory::all) / sizeof(MobCategory*);
 
-MobCategory::MobCategory(const EntityCategories& baseType, int unknown, int max, const Material* material, bool friendly)
+MobCategory::MobCategory(const EntityCategories& baseType, int min, int max, const Material* material, bool friendly)
 	: m_baseType(baseType)
 {
-	m_maxInstancesPerChunk = max;
-	field_4 = unknown;
+	m_min = min;
+	m_max = max;
 	m_pSpawnPositionMaterial = material;
 	m_bIsFriendly = friendly;
 }

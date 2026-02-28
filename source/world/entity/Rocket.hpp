@@ -18,15 +18,15 @@ class Rocket : public Entity
 public:
 	Rocket(Level*, const Vec3& pos);
 
+public:
 	float getShadowHeightOffs() const override;
 	bool interact(Player* player) override;
-	int interactPreventDefault() override;
+	bool interactPreventDefault() const override;
 	bool isPickable() const override;
 	bool isPushable() const override;
 	void tick() override;
 
 public:
-	int field_B8C;
-	int field_B90;
+	int m_lifetime;
 };
 

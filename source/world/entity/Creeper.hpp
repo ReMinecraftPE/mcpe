@@ -10,6 +10,7 @@ class Creeper : public Monster
 public:
 	Creeper(Level* pLevel);
 
+public:
 	void tick() override;
 	std::string getHurtSound() const override { return "mob.creeper"; }
 	std::string getDeathSound() const override { return "mob.creeperdeath"; }
@@ -18,8 +19,8 @@ public:
 	void setSwellDir(int value) { m_entityData.set<int>(DATA_SWELL_DIR, value); }
 	int getDeathLoot() const override { return ITEM_SULPHUR; }
 
-	virtual void die(Entity* pCulprit) override;
-	virtual void checkHurtTarget(Entity*, float) override;
+	void die(Entity* pCulprit) override;
+	void checkHurtTarget(Entity*, float) override;
 
 private:
 	void _defineEntityData();

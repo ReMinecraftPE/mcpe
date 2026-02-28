@@ -14,6 +14,7 @@ class TilePlanterItem : public Item
 public:
 	TilePlanterItem(int id, int place);
 
+public:
 	bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const override;
 
 public:

@@ -13,14 +13,14 @@
 
 struct Node
 {
-	int field_0;
-	float field_4;
-	float field_8;
-	float field_C;
-	Node* m_pCameFrom;
-	TilePos m_tilePos;
-	bool m_bClosed;
-	int m_hash;
+	int heapIdx;
+	float g;
+	float h;
+	float f;
+	Node* pCameFrom;
+	TilePos tilePos;
+	bool bClosed;
+	int hash;
 
 	Node()
 	{
@@ -29,29 +29,29 @@ struct Node
 
 	void setPos(const TilePos& tilePos)
 	{
-		m_tilePos = tilePos;
+		this->tilePos = tilePos;
 	}
 
 	void setHash(int index)
 	{
-		m_hash = index;
+		hash = index;
 	}
 
 	void init()
 	{
-		field_0 = -1;
-		field_4 = 0.0f;
-		field_8 = 0.0f;
-		field_C = 0.0f;
-		m_pCameFrom = nullptr;
-		m_tilePos = TilePos(0, 0, 0);
-		m_bClosed = false;
-		m_hash = 0;
+		heapIdx = -1;
+		g = 0.0f;
+		h = 0.0f;
+		f = 0.0f;
+		pCameFrom = nullptr;
+		tilePos = TilePos(0, 0, 0);
+		bClosed = false;
+		hash = 0;
 	}
 
 	bool equals(Node* node)
 	{
-		return m_hash == node->m_hash && m_tilePos == node->m_tilePos;
+		return hash == node->hash && tilePos == node->tilePos;
 	}
 
 	float distanceTo(Node* node);

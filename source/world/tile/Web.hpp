@@ -7,6 +7,7 @@ class Web : public Tile
 public:
 	Web(TileID id, int texture);
 
+public:
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	virtual eRenderShape getRenderShape() const override;
 	virtual bool isCubeShaped() const override;

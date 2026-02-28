@@ -14,6 +14,7 @@ class Cow : public Animal
 public:
 	Cow(Level* pLevel);
 
+public:
 	std::string getAmbientSound() const override { return "mob.cow"; };
 	std::string getDeathSound() const override { return "mob.cowhurt"; }
 	std::string getHurtSound() const override { return "mob.cowhurt"; }

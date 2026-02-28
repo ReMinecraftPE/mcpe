@@ -15,6 +15,7 @@ class Bush : public Tile
 public:
 	Bush(TileID id, int texture);
 
+public:
 	bool canSurvive(const Level*, const TilePos& pos) const override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	eRenderShape getRenderShape() const override;
@@ -24,5 +25,6 @@ public:
 	void tick(Level*, const TilePos& pos, Random*) override;
 	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
 
+public:
 	void checkAlive(Level*, const TilePos& pos);
 };

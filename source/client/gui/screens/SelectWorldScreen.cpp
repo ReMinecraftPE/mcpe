@@ -150,7 +150,7 @@ void SelectWorldScreen::tick()
 
 		// @BUG: Use of deallocated memory. SetScreen frees us
 #ifdef ORIGINAL_CODE
-		field_130 = 0;
+		m_walkAnimPos = 0;
 #endif
 
 		return;
@@ -211,7 +211,7 @@ void SelectWorldScreen::_buttonClicked(Button* pButton)
 #else
 		m_pMinecraft->platform()->showDialog(AppPlatform::DLG_CREATE_WORLD);
 		m_pMinecraft->platform()->createUserInput();
-		field_130 = true;
+		m_walkAnimPos = true;
 #endif
 	}
 

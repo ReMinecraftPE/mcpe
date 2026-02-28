@@ -15,6 +15,7 @@ class LiquidTileStatic : public LiquidTile
 public:
 	LiquidTileStatic(int id, Material* pMtl);
 
+public:
 	void neighborChanged(Level* level, const TilePos& pos, TileID tile) override;
 	void tick(Level* level, const TilePos& pos, Random* random) override;
 

@@ -425,7 +425,7 @@ void GameRenderer::bobView(Matrix& matrix, float f)
 	float f1 = Mth::Lerp(player->m_oBob, player->m_bob, f);
 	float f2 = Mth::Lerp(player->m_oTilt, player->m_tilt, f);
 	// @NOTE: Multiplying by M_PI inside of the paren makes it stuttery for some reason? Anyways it works now :)
-	float f3 = -(player->m_walkDist + (player->m_walkDist - player->field_90) * f) * float(M_PI);
+	float f3 = -(player->m_walkDist + (player->m_walkDist - player->m_walkDistO) * f) * float(M_PI);
 	float f4 = Mth::sin(f3);
 	float f5 = Mth::cos(f3);
 	float f6 = Mth::cos(f3 - 0.2f);
@@ -790,7 +790,7 @@ void GameRenderer::renderWeather(float f)
 	int bPosX = Mth::floor(pLP->m_pos.x);
 	int bPosY = Mth::floor(pLP->m_pos.y);
 	int bPosZ = Mth::floor(pLP->m_pos.z);
-	Vec3 pos = pLP->getPos(f);
+	Vec3 tilePos = pLP->getPos(f);
 	Tesselator& t = Tesselator::instance;
 	Level* pLevel = m_pMinecraft->m_pLevel;
 
@@ -832,7 +832,7 @@ void GameRenderer::renderWeather(float f)
 			t.begin(8);
 			currentShaderColor = Color(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
 			currentShaderDarkColor = Color::WHITE;
-			t.setOffset(-pos.x, -pos.y, -pos.z);
+			t.setOffset(-tilePos.x, -tilePos.y, -tilePos.z);
 			t.vertexUV(float(tp.x + 0), float(minY), float(tp.z + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 1), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);

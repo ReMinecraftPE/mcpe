@@ -34,6 +34,6 @@ public:
 	Level* getLevel() { return m_pLevel; }
 
 public:
-	int field_E0;
+	int m_time;
 };
 

@@ -237,7 +237,7 @@ void Arrow::playerTouch(Player* pPlayer)
 {
     if (!m_pLevel->m_bIsClientSide)
     {
-        // had m_owner == pPlayer, but this logic breaks when loaded from a save, and m_owner is null
+        // had m_pPlayer == pPlayer, but this logic breaks when loaded from a save, and m_pPlayer is null
         if (m_bInGround && m_bIsPlayerOwned && m_shakeTime <= 0)
         {
             ItemStack arrow(Item::arrow, 1);

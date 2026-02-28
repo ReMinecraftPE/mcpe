@@ -90,7 +90,7 @@ void GrassTile::tick(Level* level, const TilePos& pos, Random* random)
 			level->getRawBrightness(tp.above()) > 3 &&
 			!level->getMaterial(tp.above())->blocksLight())
 		{
-			//@NOTE: not this->m_ID
+			//@NOTE: not this->id
 			level->setTile(tp, Tile::grass->m_ID);
 		}
 	}

@@ -15,6 +15,7 @@ class TntTile : public Tile
 public:
 	TntTile(int ID, int texture);
 
+public:
 	int getResourceCount(Random*) const override;
 	int getTexture(Facing::Name face) const override;
 	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;

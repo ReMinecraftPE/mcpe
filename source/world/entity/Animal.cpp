@@ -79,7 +79,7 @@ float Animal::getWalkTargetValue(const TilePos& pos) const
 /*bool Animal::hurt(Entity* pCulprit, int damage)
 {
 	// Run around erratically for three seconds.
-	field_BA4 = 60;
+	m_goCrazyTicks = 60;
 
 	m_pAttackTarget = nullptr;
 	field_BB4 = 0;

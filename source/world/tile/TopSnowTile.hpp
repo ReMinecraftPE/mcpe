@@ -15,6 +15,7 @@ class TopSnowTile : public Tile
 public:
 	TopSnowTile(TileID id, int texture, Material* pMtl);
 
+public:
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;

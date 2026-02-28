@@ -12,8 +12,7 @@
 
 Rocket::Rocket(Level* level, const Vec3& pos) : Entity(level)
 {
-	field_B8C = 0;
-	field_B90 = 80;
+	m_lifetime = 80;
 	m_renderType = RENDER_ROCKET;
 
     m_bBlocksBuilding = true;
@@ -37,9 +36,9 @@ bool Rocket::interact(Player* player)
 	return true;
 }
 
-int Rocket::interactPreventDefault()
+bool Rocket::interactPreventDefault() const
 {
-	return 1;
+	return true;
 }
 
 bool Rocket::isPickable() const
@@ -60,8 +59,8 @@ void Rocket::tick()
 
 	move(m_vel);
 
-	field_B90--;
-	if (field_B90 == 0)
+	m_lifetime--;
+	if (m_lifetime == 0)
 	{
 		for (int i = 0; i < 100; i++)
 		{

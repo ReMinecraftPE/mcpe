@@ -15,5 +15,6 @@ class SandStoneTile : public Tile
 public:
 	SandStoneTile(int ID, int texture, Material*);
 
+public:
 	int getTexture(Facing::Name face) const override;
 };

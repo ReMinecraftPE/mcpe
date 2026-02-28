@@ -15,6 +15,7 @@ class ClayTile : public Tile
 public:
 	ClayTile(TileID ID, int texture, Material*);
 
+public:
 	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;
 };

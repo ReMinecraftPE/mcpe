@@ -15,6 +15,7 @@ class Sapling : public Bush
 public:
 	Sapling(TileID id, int texture);
 
+public:
 	int getTexture(Facing::Name face, TileData data) const override;
 	void tick(Level*, const TilePos& pos, Random*) override;
 	int getSpawnResourcesAuxValue(int x) const override;

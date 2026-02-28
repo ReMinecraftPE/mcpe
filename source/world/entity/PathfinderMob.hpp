@@ -35,6 +35,6 @@ protected:
 	friend class Animal;
 	Entity* m_pAttackTarget;
 	bool m_bHoldGround;
-	int field_BA4;
+	int m_goCrazyTicks;
 	Path m_path;
 };

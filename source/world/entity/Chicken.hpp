@@ -22,6 +22,7 @@ public:
 public:
 	Chicken(Level* pLevel);
 
+public:
 	std::string getAmbientSound() const override { return "mob.chicken"; }
 	std::string getDeathSound() const override { return "mob.chickenhurt"; }
 	std::string getHurtSound() const override { return "mob.chickenhurt"; }

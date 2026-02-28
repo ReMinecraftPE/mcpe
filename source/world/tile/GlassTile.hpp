@@ -15,5 +15,6 @@ class GlassTile : public HalfTransparentTile
 public:
 	GlassTile(int ID, int texture, Material*);
 
+public:
 	int getResourceCount(Random*) const override;
 };

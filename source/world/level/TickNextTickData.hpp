@@ -9,21 +9,22 @@
 #pragma once
 
 #include <stdint.h>
+#include "common/Utils.hpp"
 #include "world/level/TilePos.hpp"
 
 struct TickNextTickData
 {
 	static int C;
 
-	TickNextTickData(const TilePos& tilePos, int d);
+	TickNextTickData(const TilePos& tilePos, TileID tileId);
 	int hashCode() const;
 	bool operator<(const TickNextTickData& other) const;
 	bool operator==(const TickNextTickData& other) const;
-	void setDelay(int32_t);
+	void setDelay(int32_t delay) { this->delay = delay; }
 
-	int m_ID;
-	TilePos field_4;
-	int field_10;
-	int32_t m_delay;
+	int id;
+	TilePos tilePos;
+	TileID tileId;
+	int32_t delay;
 };
 

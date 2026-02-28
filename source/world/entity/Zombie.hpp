@@ -7,6 +7,7 @@ class Zombie : public Monster
 public:
 	Zombie(Level* pLevel);
 
+public:
 	std::string getAmbientSound() const override { return "mob.zombie"; }
 	std::string getDeathSound() const override { return "mob.zombiedeath"; }
 	std::string getHurtSound() const override { return "mob.zombiehurt"; }

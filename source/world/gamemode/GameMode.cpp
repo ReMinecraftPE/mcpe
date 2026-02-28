@@ -13,7 +13,7 @@
 GameMode::GameMode(Minecraft* pMinecraft, Level& level) :
 	_level(level),
 	m_pMinecraft(pMinecraft),
-	field_8(0)
+	m_bInstaBuild(0)
 {
 }
 
@@ -100,7 +100,7 @@ float GameMode::getEntityReachDistance() const
 
 LocalPlayer* GameMode::createPlayer(Level* pLevel)
 {
-	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.m_pDimension->field_50);
+	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.m_pDimension->m_id);
 }
 
 void GameMode::initPlayer(Player* pPlayer)

@@ -113,10 +113,10 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 		scale(mob, matrix, a);
 		matrix->translate(Vec3(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f));
 
-		float x1 = mob.field_128 + (mob.m_walkAnimSpeed - mob.field_128) * a;
+		float x1 = mob.m_walkAnimSpeedO + (mob.m_walkAnimSpeed - mob.m_walkAnimSpeedO) * a;
 		if (x1 > 1.0f)
 			x1 = 1.0f;
-		float x2 = mob.field_130 - mob.m_walkAnimSpeed * (1.0f - a);
+		float x2 = mob.m_walkAnimPos - mob.m_walkAnimSpeed * (1.0f - a);
 
 		_setupShaderParameters(entity, a);
 

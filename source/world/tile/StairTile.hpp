@@ -15,6 +15,7 @@ class StairTile : public Tile
 public:
 	StairTile(int ID, Tile* pParent);
 
+public:
 	void addAABBs(const Level*, const TilePos& pos, const AABB*, std::vector<AABB>&) override;
 	bool isSolidRender() const override;
 	bool isCubeShaped() const override;

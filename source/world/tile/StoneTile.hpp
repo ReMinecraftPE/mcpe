@@ -15,5 +15,6 @@ class StoneTile : public Tile
 public:
 	StoneTile(TileID ID, int texture, Material*);
 
+public:
 	int getResource(TileData data, Random*) const override;
 };

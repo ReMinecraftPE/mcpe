@@ -10,13 +10,14 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
+#define C_TIMER 80
+
 TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(level)
 {
-	field_B8C = 0;
-	field_B90 = 80;
-	m_bActive = false;
+	m_countdown = C_TIMER;
+	m_bActivated = false;
 
-	m_owner = player;
+	m_pPlayer = player;
 	m_renderType = RENDER_CAMERA;
 
 	m_oRot = m_rot = player->m_rot;
@@ -34,13 +35,13 @@ TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(
 bool TripodCamera::interact(Player* player)
 {
 	// @BUG-ish: No check for owner?
-	m_bActive = true;
+	m_bActivated = true;
 	return true;
 }
 
-int TripodCamera::interactPreventDefault()
+bool TripodCamera::interactPreventDefault() const
 {
-	return 1;
+	return true;
 }
 
 void TripodCamera::tick()
@@ -58,26 +59,22 @@ void TripodCamera::tick()
 		m_vel.y *= -0.5f;
 	}
 
-	if (!m_bActive)
+	if (!m_bActivated)
 		return;
 
-	field_B90--;
-	if (field_B90 == 0)
+	m_countdown--;
+	if (m_countdown == 0)
 	{
 		remove();
-		return;
 	}
-
-	if (field_B90 == 8)
+	else if (m_countdown == 8)
 	{
-		m_pLevel->takePicture(this, m_owner);
+		m_pLevel->takePicture(this, m_pPlayer);
 		m_pLevel->addParticle("explode", Vec3(m_pos.x, m_pos.y + 0.6f, m_pos.z));
 		m_pLevel->addParticle("explode", Vec3(m_pos.x, m_pos.y + 0.8f, m_pos.z));
 		m_pLevel->addParticle("explode", Vec3(m_pos.x, m_pos.y + 1.0f, m_pos.z));
-		return;
 	}
-
-	if (field_B90 > 8)
+	else if (m_countdown > 8)
 	{
 		m_pLevel->addParticle("smoke", Vec3(m_pos.x, m_pos.y + 1.0f, m_pos.z));
 	}

@@ -25,7 +25,7 @@ void StartGamePacket::write(RakNet::BitStream& bs)
 	bs.Write(m_entityId);
 	// probably older, you figure it out
 #if NETWORK_PROTOCOL_VERSION >= 29
-	bs.Write(m_time);
+	bs.Write(m_lifetime);
 #endif
 	bs.Write(m_pos.x);
 	bs.Write(m_pos.y);
@@ -43,7 +43,7 @@ void StartGamePacket::read(RakNet::BitStream& bs)
 #endif
 	bs.Read(m_entityId);
 #if NETWORK_PROTOCOL_VERSION >= 29
-	bs.Read(m_time);
+	bs.Read(m_lifetime);
 #endif
 	bs.Read(m_pos.x);
 	bs.Read(m_pos.y);

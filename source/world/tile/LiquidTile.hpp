@@ -15,9 +15,10 @@ class LiquidTile : public Tile
 public:
 	LiquidTile(int ID, Material*);
 
-	virtual void onPlace(Level*, const TilePos& pos) override;
-	virtual void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
-	virtual void tick(Level*, const TilePos& pos, Random* random) override;
+public:
+	void onPlace(Level*, const TilePos& pos) override;
+	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
+	void tick(Level*, const TilePos& pos, Random* random) override;
 	void animateTick(Level*, const TilePos& pos, Random* random) override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	float getBrightness(const LevelSource*, const TilePos& pos) const override;
@@ -40,6 +41,7 @@ public:
 	int getRenderedDepth(const LevelSource*, const TilePos& pos) const;
 	Vec3 getFlow(const LevelSource*, const TilePos& pos) const;
 
+public:
 	static float getSlopeAngle(const LevelSource*, const TilePos& pos, const Material* pMtl);
 
 	// @NOTE: This is inlined in minecraftcpp

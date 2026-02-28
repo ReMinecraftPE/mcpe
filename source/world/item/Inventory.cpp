@@ -37,9 +37,9 @@ void Inventory::prepareSurvivalInventory()
 	addTestItem(Item::wheat->m_itemID, 64);
 	addTestItem(Item::sugar->m_itemID, 64);
 	addTestItem(Item::camera->m_itemID, 64);
-	addTestItem(Tile::ladder->m_ID, 64);
-	addTestItem(Tile::obsidian->m_ID, 64);
-	addTestItem(Tile::fire->m_ID, 64);*/
+	addTestItem(Tile::ladder->id, 64);
+	addTestItem(Tile::obsidian->id, 64);
+	addTestItem(Tile::fire->id, 64);*/
 
 #ifdef MOD_POCKET_SURVIVAL
 

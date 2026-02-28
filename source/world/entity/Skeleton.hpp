@@ -11,6 +11,7 @@ private:
 public:
 	Skeleton(Level* pLevel);
 
+public:
 	std::string getAmbientSound() const override { return "mob.skeleton"; }
 	std::string getDeathSound() const override { return "mob.skeletonhurt"; }
 	std::string getHurtSound() const override { return "mob.skeletonhurt"; }

@@ -162,7 +162,7 @@ public:
 	virtual float distanceToSqr(const Vec3& pos) const;
 	virtual float distanceTo(const Vec3& pos) const;
 	virtual float distanceToSqr(const Entity*) const;
-	virtual int interactPreventDefault();
+	virtual bool interactPreventDefault() const;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 	virtual bool interact(Player*);
@@ -242,11 +242,8 @@ public:
 	bool m_bInAChunk;
 	ChunkPos m_chunkPos;
 	int m_chunkPosY;
-	int field_20; // unused Vec3?
-	int field_24;
-	int field_28;
 	Entity::ID m_EntityID;
-	float field_30;
+	float m_viewScale;
 	//TileSource* m_pTileSource;
 	DimensionId m_dimensionId;
 	bool m_bBlocksBuilding;
@@ -270,7 +267,7 @@ public:
 	float m_heightOffset;
 	float m_bbWidth;
 	float m_bbHeight;
-	float field_90;
+	float m_walkDistO;
 	float m_walkDist;
 	Vec3 m_posPrev;
 	float m_ySlideOffset;

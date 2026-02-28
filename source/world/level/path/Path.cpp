@@ -40,7 +40,7 @@ void Path::setNodes(Node** pNodes, int nodeCount)
 
 Vec3 Path::getPos(const Entity& e, int index)
 {
-	Vec3 result(m_pNodes[index]->m_tilePos);
+	Vec3 result(m_pNodes[index]->tilePos);
     float offset = float(int(e.m_bbWidth + 1.0f)) * 0.5f; // * 0.5f doesn't exist in 0.12.1, but does exist in later versions
 	result.x += offset;
     result.z += offset;
@@ -57,5 +57,5 @@ Vec3 Path::currentPos(const Entity& e)
 
 Vec3 Path::currentPos()
 {
-	return Vec3(getCurrentNode()->m_tilePos);
+	return Vec3(getCurrentNode()->tilePos);
 }

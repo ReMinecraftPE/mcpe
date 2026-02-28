@@ -21,8 +21,10 @@ public:
 		COBBLE
 	};
 
+public:
 	StoneSlabTile(int ID, bool bFull);
 
+public:
 	bool isSolidRender() const override;
 	bool isCubeShaped() const override;
 	int getResource(TileData, Random*) const override;

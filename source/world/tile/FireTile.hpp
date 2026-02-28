@@ -15,6 +15,7 @@ class FireTile : public Tile
 public:
 	FireTile(int ID, int texture);
 
+public:
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	eRenderShape getRenderShape() const override;
 	bool isCubeShaped() const override;

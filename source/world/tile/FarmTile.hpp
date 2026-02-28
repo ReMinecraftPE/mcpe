@@ -15,6 +15,7 @@ class FarmTile : public Tile
 public:
 	FarmTile(TileID ID, Material*);
 
+public:
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	int getResource(TileData, Random*) const override;
 	int getTexture(Facing::Name face, TileData data) const override;

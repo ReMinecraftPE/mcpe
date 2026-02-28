@@ -101,7 +101,7 @@ void Tile::_init()
 {
 	m_TextureFrame = 1;
 	m_pSound = nullptr;
-	field_28 = 1.0f;
+	m_gravity = 1.0f;
 	m_friction = 0.6f;
 	m_hardness = 0.0f;
 	m_blastResistance = 0.0f;
@@ -120,7 +120,7 @@ void Tile::_init(TileID ID, Material* pMaterial, int texture)
 	m_aabb = m_aabbReturned = AABB(0, 0, 0, 1, 1, 1);
 
 	if (tiles[m_ID])
-		// @BUG: Printing &tiles[m_ID], but probably supposed to print tiles[m_ID]
+		// @BUG: Printing &tiles[id], but probably supposed to print tiles[id]
 		LOG_W("Slot %d is already occupied by %p when adding %p", m_ID, &tiles[m_ID], this);
 }
 
@@ -802,9 +802,9 @@ void Tile::initTiles()
 	Item::items[Tile::sapling->m_ID] = (new AuxTileItem(Tile::sapling->m_ID - C_MAX_TILES))
 		->setDescriptionId("sapling");
 
-	//Item::items[Tile::piston->m_ID] = (new PistonItem(Tile::piston->m_ID - C_MAX_TILES));
+	//Item::items[Tile::piston->id] = (new PistonItem(Tile::piston->id - C_MAX_TILES));
 
-	//Item::items[Tile::stickyPiston->m_ID] = (new PistonItem(Tile::stickyPiston->m_ID - C_MAX_TILES));
+	//Item::items[Tile::stickyPiston->id] = (new PistonItem(Tile::stickyPiston->id - C_MAX_TILES));
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{

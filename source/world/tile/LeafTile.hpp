@@ -35,6 +35,7 @@ public:
 
 	void die(Level*, const TilePos& pos);
 
+public:
 	int* m_checkBuffer;
 	int field_74;
 };

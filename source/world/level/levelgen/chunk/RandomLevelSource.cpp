@@ -89,7 +89,7 @@ LevelChunk* RandomLevelSource::getChunk(const ChunkPos& pos)
 
 	// @NOTE: Java Edition Beta 1.6 uses the m_largeCaveFeature.
 #ifdef FEATURE_CAVES
-	m_largeCaveFeature.apply(this, m_pLevel, pos.x, pos.z, pLevelData, 0);
+	m_largeCaveFeature.apply(this, m_pLevel, tilePos.x, tilePos.z, pLevelData, 0);
 #endif
 
 	return pChunk;
@@ -597,7 +597,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		TilePos o(m_random.nextInt(16),
 		m_random.nextInt(128),
 		m_random.nextInt(16));
-		VegetationFeature(Tile::tallGrass->m_ID, data).place(m_pLevel, &m_random, TilePos(tp.x + 8 + o.x, o.y, tp.z + 8 + o.z));
+		VegetationFeature(Tile::tallGrass->id, data).place(m_pLevel, &m_random, TilePos(tp.x + 8 + o.x, o.y, tp.z + 8 + o.z));
 	}
 
 	vegetationCount = 0;
@@ -610,7 +610,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(128);
 		int zo = m_random.nextInt(16);
-		VegetationFeature(Tile::deadBush->m_ID, 0, 4).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
+		VegetationFeature(Tile::deadBush->id, 0, 4).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 #endif
 	float* tempBlock = m_pLevel->getBiomeSource()->getTemperatureBlock(tp.x + 8, tp.z + 8, 16, 16);

@@ -7,6 +7,7 @@ class DyePowderItem : public Item
 public:
     DyePowderItem(int);
 
+public:
 	int getIcon(const ItemStack*) const override;
 	std::string getDescriptionId() const override;
 	std::string getDescriptionId(ItemStack*) const override;

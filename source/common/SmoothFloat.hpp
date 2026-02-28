@@ -12,11 +12,13 @@ class SmoothFloat
 {
 public:
 	SmoothFloat();
-	float getNewDeltaValue(float, float);
+
+public:
+	float getNewDeltaValue(float inputDelta, float speed);
 
 private:
-	float field_0;
-	float field_4;
-	float field_8;
+	float m_desiredValue;
+	float m_currentValue;
+	float m_velocity;
 };
 

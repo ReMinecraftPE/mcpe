@@ -15,6 +15,7 @@ class ReedTile : public Tile
 public:
 	ReedTile(TileID id);
 
+public:
 	bool canSurvive(const Level*, const TilePos& pos) const override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	eRenderShape getRenderShape() const override;

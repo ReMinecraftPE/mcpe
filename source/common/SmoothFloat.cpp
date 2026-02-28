@@ -9,23 +9,23 @@
 #include "SmoothFloat.hpp"
 
 SmoothFloat::SmoothFloat() :
-	field_0(0),
-	field_4(0),
-	field_8(0)
+	m_desiredValue(0),
+	m_currentValue(0),
+	m_velocity(0)
 {
 }
 
-float SmoothFloat::getNewDeltaValue(float a1, float a2)
+float SmoothFloat::getNewDeltaValue(float inputDelta, float speed)
 {
-	field_0 += a1;
+	m_desiredValue += inputDelta;
 
-	float v1 = (field_0 - field_4) * a2;
-	field_8 += 0.5f * (v1 - field_8);
+	float v1 = (m_desiredValue - m_currentValue) * speed;
+	m_velocity += 0.5f * (v1 - m_velocity);
 
-	if ((v1 > 0.0f && field_8 < v1) || (v1 < 0.0f && field_8 > v1))
-		v1 = field_8;
+	if ((v1 > 0.0f && m_velocity < v1) || (v1 < 0.0f && m_velocity > v1))
+		v1 = m_velocity;
 
-	field_4 += v1;
+	m_currentValue += v1;
 
 	return v1;
 }

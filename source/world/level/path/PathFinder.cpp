@@ -39,15 +39,16 @@ PathFinder::~PathFinder()
 	m_nodeSpillover.clear();
 }
 
+// @TODO: return NodeType
 int PathFinder::isFree(Entity* pEntity, const TilePos& pos, const Node* node)
 {
 	TilePos tp(pos);
 
-	for (tp.x = pos.x; tp.x < pos.x + node->m_tilePos.x; tp.x++)
+	for (tp.x = pos.x; tp.x < pos.x + node->tilePos.x; tp.x++)
 	{
-		for (tp.y = pos.y; tp.y < pos.y + node->m_tilePos.y; tp.y++)
+		for (tp.y = pos.y; tp.y < pos.y + node->tilePos.y; tp.y++)
 		{
-			for (tp.z = pos.z; tp.z < pos.z + node->m_tilePos.z; tp.z++)
+			for (tp.z = pos.z; tp.z < pos.z + node->tilePos.z; tp.z++)
 			{
 				TileID id = m_pLevel->getTile(tp);
 				if (id <= 0)
@@ -65,12 +66,12 @@ int PathFinder::isFree(Entity* pEntity, const TilePos& pos, const Node* node)
 				}
 
 				// 0.2.1
-				/*if (id == Tile::water->m_ID || id == Tile::calmWater->m_ID)
+				/*if (id == Tile::water->id || id == Tile::calmWater->id)
 				{
 					if (field_100B9) // offset from 0.7.0
 						return 3;
 				}
-				else */if (id == Tile::fence->m_ID/* || id == Tile::fenceGate->m_ID*/)
+				else */if (id == Tile::fence->m_ID/* || id == Tile::fenceGate->id*/)
 				{
 					return 0; // 1 on 0.2.1
 				}
@@ -150,17 +151,17 @@ Node* PathFinder::getNode(const TilePos& pos)
 int PathFinder::getNeighbors(Entity* pEntity, Node* node1, const Node* node2, Node* node3, float maxDist)
 {
 	int nr = 0;
-	bool isf = isFree(pEntity, node1->m_tilePos.above(), node2) == 1; // this is > 0 on b1.2_02, but == 1 on 0.12.1
+	bool isf = isFree(pEntity, node1->tilePos.above(), node2) == 1; // this is > 0 on b1.2_02, but == 1 on 0.12.1
 
-	Node* n1 = getNode(pEntity, node1->m_tilePos.south(), node2, isf);
-	Node* n2 = getNode(pEntity, node1->m_tilePos.west(),  node2, isf);
-	Node* n3 = getNode(pEntity, node1->m_tilePos.east(),  node2, isf);
-	Node* n4 = getNode(pEntity, node1->m_tilePos.north(), node2, isf);
+	Node* n1 = getNode(pEntity, node1->tilePos.south(), node2, isf);
+	Node* n2 = getNode(pEntity, node1->tilePos.west(),  node2, isf);
+	Node* n3 = getNode(pEntity, node1->tilePos.east(),  node2, isf);
+	Node* n4 = getNode(pEntity, node1->tilePos.north(), node2, isf);
 
-	if (n1 && !n1->m_bClosed && n1->distanceTo(node3) < maxDist) m_neighbors[nr++] = n1;
-	if (n2 && !n2->m_bClosed && n2->distanceTo(node3) < maxDist) m_neighbors[nr++] = n2;
-	if (n3 && !n3->m_bClosed && n3->distanceTo(node3) < maxDist) m_neighbors[nr++] = n3;
-	if (n4 && !n4->m_bClosed && n4->distanceTo(node3) < maxDist) m_neighbors[nr++] = n4;
+	if (n1 && !n1->bClosed && n1->distanceTo(node3) < maxDist) m_neighbors[nr++] = n1;
+	if (n2 && !n2->bClosed && n2->distanceTo(node3) < maxDist) m_neighbors[nr++] = n2;
+	if (n3 && !n3->bClosed && n3->distanceTo(node3) < maxDist) m_neighbors[nr++] = n3;
+	if (n4 && !n4->bClosed && n4->distanceTo(node3) < maxDist) m_neighbors[nr++] = n4;
 
 	return nr;
 }
@@ -172,9 +173,9 @@ bool PathFinder::reconstructPath(Path& path, Node* nodeEnd)
 
 	int number = 1;
 	Node* temp = nodeEnd;
-	while (temp->m_pCameFrom)
+	while (temp->pCameFrom)
 	{
-		temp = temp->m_pCameFrom;
+		temp = temp->pCameFrom;
 		number++;
 	}
 
@@ -183,10 +184,10 @@ bool PathFinder::reconstructPath(Path& path, Node* nodeEnd)
 
 	pathNodes[index--] = nodeEnd;
 
-	while (nodeEnd->m_pCameFrom)
+	while (nodeEnd->pCameFrom)
 	{
-		pathNodes[index--] = nodeEnd->m_pCameFrom;
-		nodeEnd = nodeEnd->m_pCameFrom;
+		pathNodes[index--] = nodeEnd->pCameFrom;
+		nodeEnd = nodeEnd->pCameFrom;
 	}
 
 	path.setNodes(pathNodes, number);
@@ -197,8 +198,8 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, Node* nodeStart, Node* no
 {
 	dword_1CD868 = 0;
 
-	nodeStart->field_4 = 0;
-	nodeStart->field_C = nodeStart->field_8 = nodeStart->distanceTo(nodeEnd);
+	nodeStart->g = 0;
+	nodeStart->f = nodeStart->h = nodeStart->distanceTo(nodeEnd);
 
 	m_binaryHeap.clear();
 	m_binaryHeap.insert(nodeStart);
@@ -214,31 +215,31 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, Node* nodeStart, Node* no
 		if (nodep->distanceTo(nodeEnd) > pNode->distanceTo(nodeEnd))
 			nodep = pNode;
 
-		pNode->m_bClosed = true;
+		pNode->bClosed = true;
 
 		int numNeighbors = getNeighbors(pEntity, pNode, node3, nodeEnd, fp);
 		for (int i = 0; i < numNeighbors; i++)
 		{
 			Node* otherNode = m_neighbors[i];
 
-			if (!otherNode->m_bClosed)
+			if (!otherNode->bClosed)
 			{
-				float dist = pNode->field_4 + pNode->distanceTo(otherNode);
-				if (otherNode->field_0 < 0 || otherNode->field_4 > dist)
+				float dist = pNode->g + pNode->distanceTo(otherNode);
+				if (otherNode->heapIdx < 0 || otherNode->g > dist)
 				{
-					otherNode->m_pCameFrom = pNode;
-					otherNode->field_4 = dist;
-					otherNode->field_8 = otherNode->distanceTo(nodeEnd);
+					otherNode->pCameFrom = pNode;
+					otherNode->g = dist;
+					otherNode->h = otherNode->distanceTo(nodeEnd);
 
-					if (otherNode->field_0 < 0)
+					if (otherNode->heapIdx < 0)
 					{
-						otherNode->field_C = otherNode->field_4 + otherNode->field_8;
+						otherNode->f = otherNode->g + otherNode->h;
 						m_binaryHeap.insert(otherNode);
 					}
 					else
 					{
 						// Update distance
-						m_binaryHeap.setDistance(otherNode, otherNode->field_4 + otherNode->field_8);
+						m_binaryHeap.setDistance(otherNode, otherNode->g + otherNode->h);
 					}
 				}
 			}

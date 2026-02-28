@@ -14,7 +14,7 @@ PathfinderMob::PathfinderMob(Level* pLevel) : Mob(pLevel)
 {
 	m_pAttackTarget = nullptr;
 	m_bHoldGround = false;
-	field_BA4 = 0;
+	m_goCrazyTicks = 0;
 }
 
 Entity* PathfinderMob::getAttackTarget()
@@ -85,7 +85,7 @@ float PathfinderMob::getWalkingSpeedModifier() const
 {
 	float mod = Mob::getWalkingSpeedModifier();
 
-	if (field_BA4 > 0)
+	if (m_goCrazyTicks > 0)
 		mod *= 2.0f;
 
 	return mod;
@@ -101,8 +101,8 @@ bool PathfinderMob::canSpawn()
 
 void PathfinderMob::updateAi()
 {
-	if (field_BA4 > 0)
-		field_BA4--;
+	if (m_goCrazyTicks > 0)
+		m_goCrazyTicks--;
 
 	m_bHoldGround = shouldHoldGround();
 
@@ -133,7 +133,7 @@ void PathfinderMob::updateAi()
 	{
 		m_pLevel->findPath(&m_path, this, m_pAttackTarget, 16.0f);
 	}
-	else if (!m_bHoldGround && ((m_path.empty() && m_random.nextInt(180) == 0) || field_BA4 > 0 || m_random.nextInt(120) == 0))
+	else if (!m_bHoldGround && ((m_path.empty() && m_random.nextInt(180) == 0) || m_goCrazyTicks > 0 || m_random.nextInt(120) == 0))
 	{
 		if (m_noActionTime < 100)
 			findRandomStrollLocation();

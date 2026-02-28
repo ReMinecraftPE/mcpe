@@ -139,7 +139,7 @@ void LevelChunk::recalcHeightmap()
 				x1 = x2;
 			m_heightMap[MakeHeightMapIndex(pos)] = x2;
 
-			if (!m_pLevel->m_pDimension->field_E)
+			if (!m_pLevel->m_pDimension->m_bHasCeiling)
 			{
 				int x4 = 15;
 				for (int x3 = 127; x3 > 0; x3--)
@@ -651,7 +651,7 @@ bool LevelChunk::setTileAndData(const ChunkTilePos& pos, TileID tile, TileData d
 	// update the data value of the block
 	m_tileData.set(pos, data);
 
-	if (m_pLevel->m_pDimension->field_E)
+	if (m_pLevel->m_pDimension->m_bHasCeiling)
 	{
 		m_pLevel->updateLight(LightLayer::Block, tilePos, tilePos);
 		lightGaps(pos);

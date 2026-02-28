@@ -15,6 +15,7 @@ class IceTile : public HalfTransparentTile
 public:
 	IceTile(int ID, int texture, Material*);
 
+public:
 	int getResourceCount(Random*) const override;
 	void onRemove(Level*, const TilePos& pos) override;
 	void tick(Level*, const TilePos& pos, Random*) override;

@@ -15,6 +15,7 @@ class TreeTile : public Tile
 public:
 	TreeTile(int ID);
 
+public:
 	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;
 	int getSpawnResourcesAuxValue(int) const override;

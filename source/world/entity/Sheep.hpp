@@ -30,5 +30,6 @@ public:
     bool isSheared() const;
     void setSheared(bool);
 
+public:
 	static int getSheepColor(Random&);
 };

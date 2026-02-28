@@ -6,6 +6,8 @@ class TallGrass : public Bush
 {
 public:
 	TallGrass(TileID id, int texture);
+
+public:
 	int getResource(TileData, Random*) const override;
 	bool isValidGrowTile(const TileID tile) const;
 	int getColor(const LevelSource*, const TilePos& pos) const override;

@@ -22,10 +22,10 @@ TripodCameraRenderer::TripodCameraRenderer()
 
 float TripodCameraRenderer::getFlashTime(const TripodCamera& camera, float f)
 {
-	if (camera.field_B90 > 7 || camera.field_B90 < 0)
+	if (camera.m_countdown > 7 || camera.m_countdown < 0)
 		return -1.0f;
 
-	return 0.125f * (float(camera.field_B90) - f);
+	return 0.125f * (float(camera.m_countdown) - f);
 }
 
 void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)

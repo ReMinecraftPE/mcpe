@@ -15,6 +15,7 @@ class DoorTile : public Tile
 public:
 	DoorTile(int ID, Material*);
 
+public:
 	void attack(Level*, const TilePos& pos, Player*) override;
 	bool use(Level*, const TilePos& pos, Player*) override;
 	HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3) override;

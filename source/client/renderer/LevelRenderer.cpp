@@ -1288,7 +1288,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
          float br = Mth::sin((float)getTimeMs() / 100.0f) * 0.2f + 0.8f;
 		 currentShaderColor = Color(br, br, br, Mth::sin((float)getTimeMs() / 200.0f) * 0.2f + 0.5f);
 		 m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-         TilePos tp = hr.m_tilePos.relative(hr.m_hitSide);
+         TilePos tp = hr.tilePos.relative(hr.m_hitSide);
 	}*/
 }
 

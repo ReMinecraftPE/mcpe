@@ -34,7 +34,7 @@ public:
 	Particle() { _init(); }
 	Particle(Level*, const Vec3& pos, const Vec3& dir);
 
-	virtual void render(Tesselator&, float, float, float, float, float, float);
+	virtual void render(Tesselator& t, float f, float xa, float ya, float za, float xa2, float za2);
 	virtual int getParticleTexture();
 
 	void tick() override;
@@ -45,13 +45,13 @@ public:
 	Particle* setPower(float);
 
 public:
-	int field_DC;
-	float field_E0;
-	float field_E4;
-	int field_E8;
-	int field_EC;
-	float field_F0;
-	float field_F4;
+	int m_tex;
+	float m_uo;
+	float m_vo;
+	int m_age;
+	int m_lifetime;
+	float m_size;
+	float m_gravity;
 	float m_rCol;
 	float m_gCol;
 	float m_bCol;
@@ -91,7 +91,7 @@ public:
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
 public:
-	float field_104;
+	float m_oSize;
 };
 
 class RedDustParticle : public Particle
@@ -102,7 +102,7 @@ public:
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
 public:
-	float field_104;
+	float m_oSize;
 };
 
 class ExplodeParticle : public Particle
@@ -110,9 +110,6 @@ class ExplodeParticle : public Particle
 public:
 	ExplodeParticle(Level*, const Vec3& pos, const Vec3& dir);
 	void tick() override;
-
-public:
-	float field_104;
 };
 
 class FlameParticle : public Particle
@@ -124,7 +121,7 @@ public:
 	float getBrightness(float f) const override;
 
 public:
-	float field_104;
+	float m_oSize;
 };
 
 class LavaParticle : public Particle
@@ -136,5 +133,5 @@ public:
 	float getBrightness(float f) const override;
 
 public:
-	float field_104;
+	float m_oSize;
 };

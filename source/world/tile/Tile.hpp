@@ -248,7 +248,7 @@ public:
 	TileID m_ID;
 	AABB m_aabb;
 	const SoundType* m_pSound;
-	float field_28;
+	float m_gravity; // only affects particle gravity at the moment
 	Material* m_pMaterial;
 	float m_friction;
 	float m_hardness;

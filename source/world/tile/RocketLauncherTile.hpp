@@ -15,6 +15,7 @@ class RocketLauncherTile : public Tile
 public:
 	RocketLauncherTile(TileID id);
 
+public:
 	int getTexture(Facing::Name face, TileData data) const override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	eRenderShape getRenderShape() const override;

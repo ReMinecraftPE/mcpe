@@ -15,6 +15,7 @@ class LiquidTileDynamic : public LiquidTile
 public:
 	LiquidTileDynamic(int id, Material* pMtl);
 
+public:
 	void onPlace(Level*, const TilePos& pos) override;
 	void tick(Level*, const TilePos& pos, Random*) override;
 

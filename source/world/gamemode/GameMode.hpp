@@ -50,5 +50,5 @@ public:
 
 public:
 	Minecraft* m_pMinecraft;
-	uint8_t field_8;
+	uint8_t m_bInstaBuild;
 };

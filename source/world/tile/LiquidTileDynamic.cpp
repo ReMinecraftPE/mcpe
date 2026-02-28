@@ -213,7 +213,7 @@ void LiquidTileDynamic::tick(Level* level, const TilePos& pos, Random* random)
 {
 	int depth = getDepth(level, pos);
 	int speed;
-	if (m_pMaterial != Material::lava || level->m_pDimension->field_D)
+	if (m_pMaterial != Material::lava || level->m_pDimension->m_bUltraWarm)
 		speed = 1;
 	else
 		speed = 2;

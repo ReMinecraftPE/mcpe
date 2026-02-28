@@ -20,7 +20,7 @@ void FallingTile::_init(Level*, const Vec3& pos, int id)
 	_defineEntityData();
 
 	setTile(id);
-	field_E0 = 0;
+	m_time = 0;
 	m_bBlocksBuilding = false;
 	setSize(0.98f, 0.98f);
 	m_heightOffset = m_bbHeight * 0.5f;
@@ -61,7 +61,7 @@ void FallingTile::tick()
 		remove();
 
 	m_oPos = m_pos;
-	field_E0++;
+	m_time++;
 
 	m_vel.y -= 0.04f;
 	move(m_vel);
@@ -77,7 +77,7 @@ void FallingTile::tick()
 
 	if (!m_bOnGround)
 	{
-		if (field_E0 > 100 && !m_pLevel->m_bIsClientSide)
+		if (m_time > 100 && !m_pLevel->m_bIsClientSide)
 		{
 			spawnAtLocation(getTile(), 1);
 			remove();

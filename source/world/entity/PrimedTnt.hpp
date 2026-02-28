@@ -18,6 +18,7 @@ public:
 	PrimedTnt(Level* level) : Entity(level) { _init(); }
 	PrimedTnt(Level* level, const Vec3& pos);
 
+public:
 	float getShadowHeightOffs() const override;
 	bool isPickable() const override;
 	void tick() override;

@@ -11,7 +11,7 @@
 
 HalfTransparentTile::HalfTransparentTile(int a, int b, Material* c) : Tile(a, b, c)
 {
-	field_6C = false;
+	m_bAllowSame = false;
 }
 
 bool HalfTransparentTile::isSolidRender() const
@@ -21,8 +21,8 @@ bool HalfTransparentTile::isSolidRender() const
 
 bool HalfTransparentTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
-	if (field_6C || level->getTile(pos) != m_ID)
+	if (m_bAllowSame || level->getTile(pos) != m_ID)
 		return Tile::shouldRenderFace(level, pos, face);
 	
-	return field_6C;
+	return m_bAllowSame;
 }

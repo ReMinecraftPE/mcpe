@@ -15,6 +15,7 @@ class LadderTile : public Tile
 public:
 	LadderTile(int ID, int texture);
 
+public:
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
 	eRenderShape getRenderShape() const override;

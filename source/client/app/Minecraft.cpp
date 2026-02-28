@@ -396,7 +396,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 		player->swing();
 	}
 	
-	if (!action.isDestroy() && !m_pGameMode->field_8) // from Minecraft::handleMouseDown
+	if (!action.isDestroy() && !m_pGameMode->m_bInstaBuild) // from Minecraft::handleMouseDown
 	{
 		m_pGameMode->stopDestroyBlock();
 	}
@@ -444,7 +444,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 				// @BUG: Hits sometimes pass through fire when done from above
 				//if (extinguished) break;
 
-				if (pTile != Tile::unbreakable || (player->field_B94 >= 100 && !m_hitResult.m_bUnk24))
+				if (pTile != Tile::unbreakable || (player->m_userType >= 100 && !m_hitResult.m_bUnk24))
 				{
 					bool destroyed = false;
 					if (action.isDestroyStart())

@@ -7,6 +7,7 @@ class WeaponItem : public ToolItem
 public:
 	WeaponItem(int id, Tier& tier);
 
+public:
 	float getDestroySpeed(ItemStack* instance, const Tile* tile) const override;
 	void hurtEnemy(ItemStack* instance, Mob* mob) const override;
 	void mineBlock(ItemStack* instance, const TilePos& pos, Facing::Name face, Mob* mob) const override;

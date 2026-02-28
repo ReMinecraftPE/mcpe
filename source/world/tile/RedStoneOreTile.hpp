@@ -15,6 +15,7 @@ class RedStoneOreTile : public Tile
 public:
 	RedStoneOreTile(TileID id, int texture, bool bLit);
 
+public:
 	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;
 	int getSpawnResourcesAuxValue(int) const override;
@@ -28,5 +29,6 @@ public:
 	int poofParticles(Level*, const TilePos& pos);
 	void interact(Level*, const TilePos& pos);
 
+public:
 	bool m_bLit;
 };

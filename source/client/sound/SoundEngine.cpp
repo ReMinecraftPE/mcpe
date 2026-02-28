@@ -167,7 +167,7 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
     if (distance < SOUND_ATTENUATION_MIN_DISTANCE)
         nPos = Vec3::ZERO;
     else
-        nPos = pos;
+        nPos = tilePos;
 #else
     nPos = pos;
 #endif

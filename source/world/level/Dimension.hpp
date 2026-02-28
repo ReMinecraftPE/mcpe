@@ -47,10 +47,10 @@ public:
 	Level* m_pLevel;
 	BiomeSource* m_pBiomeSource;
 	bool m_bFoggy;
-	bool field_D;
-	bool field_E;
+	bool m_bUltraWarm;
+	bool m_bHasCeiling;
 	float m_brightnessRamp[16];
-	int field_50;
+	int m_id;
 	float m_sunriseColor[4];
 };
 

@@ -20,15 +20,14 @@ public:
 
 	float getShadowHeightOffs() const override { return 0.0f; }
 	bool interact(Player* player) override;
-	int interactPreventDefault() override;
+	bool interactPreventDefault() const override;
 	bool isPickable() const override { return !m_bRemoved; }
 	bool isPushable() const override { return false; }
 	void tick() override;
 
 public:
-	int field_B8C;
-	int field_B90;
-	Player* m_owner;
-	bool m_bActive;
+	int m_countdown;
+	Player* m_pPlayer;
+	bool m_bActivated;
 };
 

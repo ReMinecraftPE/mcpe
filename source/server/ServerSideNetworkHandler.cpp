@@ -367,7 +367,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 			ItemStack tileItem(pTile, 1, auxValue);
 			if (pTile == Tile::grass || !pPlayer->m_pInventory->hasUnlimitedResource(tileItem))
 			{
-				pTile->spawnResources(m_pLevel, pos, auxValue);
+				pTile->spawnResources(m_pLevel, tilePos, auxValue);
 			}
 #else
 			pTile->spawnResources(m_pLevel, pos, auxValue);

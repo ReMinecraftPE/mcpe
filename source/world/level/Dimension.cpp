@@ -162,9 +162,9 @@ Dimension::Dimension()
 	m_pLevel = nullptr;
 	m_pBiomeSource = nullptr;
 	m_bFoggy = false;
-	field_D = false;
-	field_E = false;
-	field_50 = 0;
+	m_bUltraWarm = false;
+	m_bHasCeiling = false;
+	m_id = 0;
 }
 
 Dimension::~Dimension()
