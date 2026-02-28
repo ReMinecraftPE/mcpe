@@ -856,7 +856,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos)
 
 	if (useAmbientOcclusion())
 	{
-		if (Tile::lightEmission[tile->m_ID] == 0 /*&& Tile::translucency[tile->id] < 0.9*/)
+		if (Tile::lightEmission[tile->m_ID] == 0 /*&& Tile::translucency[tile->m_ID] < 0.9*/)
 		{
 #ifdef ENH_USE_OWN_AO
 			return tesselateBlockInWorldWithAmbienceOcclusionV2(tile, pos, r, g, b);

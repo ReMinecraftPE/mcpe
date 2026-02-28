@@ -115,8 +115,8 @@ void NinecraftApp::_updateStats()
 	{
 		if (m_pLocalPlayer)
 		{
-			Vec3 &tilePos = m_pLocalPlayer->m_pos;
-			LOG_I("%d fps\t%3d chunk updates.   (%.2f, %.2f, %.2f)", m_fps, Chunk::updates, tilePos.x, tilePos.y, tilePos.z);
+			Vec3 &pos = m_pLocalPlayer->m_pos;
+			LOG_I("%d fps\t%3d chunk updates.   (%.2f, %.2f, %.2f)", m_fps, Chunk::updates, pos.x, pos.y, pos.z);
 			LOG_I("%s", m_pLevelRenderer->gatherStats1().c_str());
 			Chunk::updates = 0;
 		}

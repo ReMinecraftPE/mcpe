@@ -56,7 +56,7 @@ void DataLayer::set(const ChunkTilePos& pos, uint8_t data)
 
 	data &= 0xF;
 
-	int index = tilePos.y | (tilePos.x << 11) | (tilePos.z << 7);
+	int index = pos.y | (pos.x << 11) | (pos.z << 7);
 
 	uint8_t& xdata = m_data[index >> 1];
 	if (index & 1)

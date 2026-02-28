@@ -790,7 +790,7 @@ void GameRenderer::renderWeather(float f)
 	int bPosX = Mth::floor(pLP->m_pos.x);
 	int bPosY = Mth::floor(pLP->m_pos.y);
 	int bPosZ = Mth::floor(pLP->m_pos.z);
-	Vec3 tilePos = pLP->getPos(f);
+	Vec3 pos = pLP->getPos(f);
 	Tesselator& t = Tesselator::instance;
 	Level* pLevel = m_pMinecraft->m_pLevel;
 
@@ -832,7 +832,7 @@ void GameRenderer::renderWeather(float f)
 			t.begin(8);
 			currentShaderColor = Color(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
 			currentShaderDarkColor = Color::WHITE;
-			t.setOffset(-tilePos.x, -tilePos.y, -tilePos.z);
+			t.setOffset(-pos.x, -pos.y, -pos.z);
 			t.vertexUV(float(tp.x + 0), float(minY), float(tp.z + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 1), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);

@@ -80,7 +80,7 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 		ItemStack tileItem(tile, 1, data);
 		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(tileItem))
 		{
-			Tile::tiles[tile]->playerDestroy(&_level, player, tilePos, data);
+			Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
 		}
 #else
 		Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
@@ -166,11 +166,11 @@ bool SurvivalMode::useItemOn(Player* player, Level* level, ItemStack& item, cons
 {
 #ifdef MOD_POCKET_SURVIVAL
 	if (item.isEmpty())
-		return GameMode::useItemOn(player, level, item, tilePos, face);
+		return GameMode::useItemOn(player, level, item, pos, face);
 
 	bool unlimited = player->m_pInventory->hasUnlimitedResource(item);
 	int oldCount = item.m_count;
-	bool result = GameMode::useItemOn(player, level, item, tilePos, face);
+	bool result = GameMode::useItemOn(player, level, item, pos, face);
 	if (unlimited)
 		item.m_count = oldCount;
 

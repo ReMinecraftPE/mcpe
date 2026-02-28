@@ -167,7 +167,7 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
     if (distance < SOUND_ATTENUATION_MIN_DISTANCE)
         nPos = Vec3::ZERO;
     else
-        nPos = tilePos;
+        nPos = pos;
 #else
     nPos = pos;
 #endif
@@ -184,7 +184,7 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 
 void SoundEngine::playUI(const std::string& name, float volume, float pitch)
 {
-    volume *= 0.25F; // present on Java b1.2_02, but not Pocket for some reason
+    volume *= 0.25f; // present on Java b1.2_02, but not Pocket for some reason
     float vol = m_pOptions->m_masterVolume.get() * volume;
     if (vol <= 0.0f)
         return;

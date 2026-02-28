@@ -539,8 +539,8 @@ bool Mob::onLadder() const
 
 	//@INFO: Pre Beta 1.5 stair behaviour
 	return
-		m_pLevel->getTile(tilePos) == Tile::ladder->id ||
-		m_pLevel->getTile(tilePos.above()) == Tile::ladder->id;
+		m_pLevel->getTile(tilePos) == Tile::ladder->m_ID ||
+		m_pLevel->getTile(tilePos.above()) == Tile::ladder->m_ID;
 #endif
 }
 
