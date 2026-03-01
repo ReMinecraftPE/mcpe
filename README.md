@@ -1,7 +1,7 @@
 # NBCraft (NBC)
 
 **NBCraft is not affiliated or associated with Minecraft, Mojang AB, or Microsoft.**
-To be absolutely clear: ** THIS IS NOT AN OFFICIAL MINECRAFT PRODUCT AND IS NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT **
+To be absolutely clear: **THIS IS NOT AN OFFICIAL MINECRAFT PRODUCT AND IS NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT**
 
 This project aims to provide a customizable, cross-platform, legacy mining experience.
 The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of 2011, which itself is a port of Minecraft: Java Edition (Beta 1.3-1.7.3).
