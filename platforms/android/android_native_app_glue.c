@@ -202,7 +202,6 @@ static void process_cmd(struct android_app* app, struct android_poll_source* sou
 }
 
 static void* android_app_entry(void* param) {
-    LOGI("hi there from android_app_entry");
     struct android_app* android_app = (struct android_app*)param;
 
     android_app->config = AConfiguration_new();
