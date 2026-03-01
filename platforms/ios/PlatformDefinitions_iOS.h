@@ -1,6 +1,6 @@
 //
 //  PlatformDefinitions_iOS.h
-//  Minecraft
+//  NBCraft
 //
 //  Created by Brent on 12/19/23.
 //

@@ -18,8 +18,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8492591C2AD8FCFC0081F5B9"
             BuildableName = "minecraftpe.app"
-            BlueprintName = "minecraftpe"
-            ReferencedContainer = "container:Minecraft.xcodeproj">
+            BlueprintName = "NBCraftClient.iOS"
+            ReferencedContainer = "container:NBCraft.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -38,8 +38,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8492591C2AD8FCFC0081F5B9"
             BuildableName = "minecraftpe.app"
-            BlueprintName = "minecraftpe"
-            ReferencedContainer = "container:Minecraft.xcodeproj">
+            BlueprintName = "NBCraftClient.iOS"
+            ReferencedContainer = "container:NBCraft.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -56,8 +56,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8492591C2AD8FCFC0081F5B9"
             BuildableName = "minecraftpe.app"
-            BlueprintName = "minecraftpe"
-            ReferencedContainer = "container:Minecraft.xcodeproj">
+            BlueprintName = "NBCraftClient.iOS"
+            ReferencedContainer = "container:NBCraft.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

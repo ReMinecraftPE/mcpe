@@ -197,6 +197,8 @@
 		8426107D2AE989730065905F /* UpdateBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64C2AC810620006A435 /* UpdateBlockPacket.cpp */; };
 		8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
 		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
+		842B21892F5414660006C1FA /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842B21872F5414660006C1FA /* Default-667h@2x.png */; };
+		842B218A2F5414660006C1FA /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 842B21882F5414660006C1FA /* Default-736h@3x.png */; };
 		8435BB192DCD47F400D38282 /* SoundStreamOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */; };
 		8435BB1A2DCD47F400D38282 /* SoundStreamOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */; };
 		8441F98F2DB4E911005977BD /* SoundSystemOAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemOAL.cpp */; };
@@ -333,12 +335,12 @@
 		848CCB4A2F3A974000031D1F /* FoodItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 848CCB482F3A974000031D1F /* FoodItem.hpp */; };
 		848CCB4B2F3A974000031D1F /* FoodItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848CCB492F3A974000031D1F /* FoodItem.cpp */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
-		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */; };
-		8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */; };
+		849259592AD8FD4F0081F5B9 /* NBCAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* NBCAppDelegate.mm */; };
+		8492595A2AD8FD4F0081F5B9 /* NBCViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 849259502AD8FD4F0081F5B9 /* NBCViewController.mm */; };
 		849259622AD8FDD10081F5B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 849259612AD8FDD10081F5B9 /* main.m */; };
 		849371312EE51DCD00081C5A /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E001BA2AF3AF9B009B9555 /* MainWindow.xib */; };
 		849371322EE51DE000081C5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8492595E2AD8FDCB0081F5B9 /* InfoPlist.strings */; };
-		849371332EE51DE800081C5A /* minecraftpeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */; };
+		849371332EE51DE800081C5A /* NBCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849259482AD8FD4F0081F5B9 /* NBCViewController.xib */; };
 		849371392EE51EAB00081C5A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 849371352EE51E6700081C5A /* Default-568h@2x.png */; };
 		8493713A2EE51EAB00081C5A /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 849371362EE51E6700081C5A /* Default-Landscape~ipad.png */; };
 		8493713B2EE51EAB00081C5A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 849371372EE51E6700081C5A /* Default.png */; };
@@ -2236,6 +2238,8 @@
 		841DD8762AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl2_desktop.hpp; sourceTree = "<group>"; };
 		8420EF2F2B32B4EE0051910E /* libSystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSystem.dylib; path = usr/lib/libSystem.dylib; sourceTree = SDKROOT; };
 		842610682AE988D30065905F /* libNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		842B21872F5414660006C1FA /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667h@2x.png"; path = "../../game/assets/app/launch/Default-667h@2x.png"; sourceTree = "<group>"; };
+		842B21882F5414660006C1FA /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-736h@3x.png"; path = "../../game/assets/app/launch/Default-736h@3x.png"; sourceTree = "<group>"; };
 		84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS.xcconfig; path = ../Configuration/Settings_iOS.xcconfig; sourceTree = "<group>"; };
 		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = ../Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
 		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = ../Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
@@ -2352,14 +2356,14 @@
 		848CCB482F3A974000031D1F /* FoodItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FoodItem.hpp; sourceTree = "<group>"; };
 		848CCB492F3A974000031D1F /* FoodItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FoodItem.cpp; sourceTree = "<group>"; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
-		8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeAppDelegate.h; sourceTree = "<group>"; };
-		8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeAppDelegate.mm; sourceTree = "<group>"; };
-		8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeViewController.h; sourceTree = "<group>"; };
-		849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeViewController.mm; sourceTree = "<group>"; };
+		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = NBCViewController.xib; sourceTree = "<group>"; };
+		8492594D2AD8FD4F0081F5B9 /* NBCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBCAppDelegate.h; sourceTree = "<group>"; };
+		8492594E2AD8FD4F0081F5B9 /* NBCAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NBCAppDelegate.mm; sourceTree = "<group>"; };
+		8492594F2AD8FD4F0081F5B9 /* NBCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBCViewController.h; sourceTree = "<group>"; };
+		849259502AD8FD4F0081F5B9 /* NBCViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NBCViewController.mm; sourceTree = "<group>"; };
 		8492595F2AD8FDCB0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		849259612AD8FDD10081F5B9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		849259632AD8FDD90081F5B9 /* minecraftpe-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "minecraftpe-Info.plist"; sourceTree = "<group>"; };
+		849259632AD8FDD90081F5B9 /* NBCraft-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "NBCraft-Info.plist"; sourceTree = "<group>"; };
 		849259722AD912890081F5B9 /* AppContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppContext.hpp; sourceTree = "<group>"; };
 		849371352EE51E6700081C5A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../game/assets/app/launch/Default-568h@2x.png"; sourceTree = "<group>"; };
 		849371362EE51E6700081C5A /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../../game/assets/app/launch/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
@@ -4633,11 +4637,11 @@
 				84CEF0022AE3C97D006C5829 /* EAGLView.m */,
 				84E001BA2AF3AF9B009B9555 /* MainWindow.xib */,
 				84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */,
-				8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */,
-				8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */,
-				8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */,
-				849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */,
-				849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */,
+				8492594D2AD8FD4F0081F5B9 /* NBCAppDelegate.h */,
+				8492594E2AD8FD4F0081F5B9 /* NBCAppDelegate.mm */,
+				8492594F2AD8FD4F0081F5B9 /* NBCViewController.h */,
+				849259502AD8FD4F0081F5B9 /* NBCViewController.mm */,
+				849259482AD8FD4F0081F5B9 /* NBCViewController.xib */,
 				8484ABDC2B32935700076873 /* PlatformDefinitions_iOS.h */,
 				8488C0882B1EDD4F001AEC4F /* ShowKeyboardView.h */,
 				8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */,
@@ -4714,13 +4718,15 @@
 			isa = PBXGroup;
 			children = (
 				849371352EE51E6700081C5A /* Default-568h@2x.png */,
+				842B21872F5414660006C1FA /* Default-667h@2x.png */,
+				842B21882F5414660006C1FA /* Default-736h@3x.png */,
 				849371362EE51E6700081C5A /* Default-Landscape~ipad.png */,
 				849371372EE51E6700081C5A /* Default.png */,
 				849371382EE51E6700081C5A /* Default@2x.png */,
 				8493713D2EE51F2A00081C5A /* icon.png */,
 				8492595E2AD8FDCB0081F5B9 /* InfoPlist.strings */,
 				849259612AD8FDD10081F5B9 /* main.m */,
-				849259632AD8FDD90081F5B9 /* minecraftpe-Info.plist */,
+				849259632AD8FDD90081F5B9 /* NBCraft-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -6282,9 +6288,9 @@
 			productReference = 842610682AE988D30065905F /* libNetwork.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		844496752E76685C008CF2E0 /* MinecraftClient.SDL1 */ = {
+		844496752E76685C008CF2E0 /* NBCraftClient.SDL1 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 844496832E76685C008CF2E0 /* Build configuration list for PBXNativeTarget "MinecraftClient.SDL1" */;
+			buildConfigurationList = 844496832E76685C008CF2E0 /* Build configuration list for PBXNativeTarget "NBCraftClient.SDL1" */;
 			buildPhases = (
 				844496722E76685C008CF2E0 /* Sources */,
 				844496732E76685C008CF2E0 /* Frameworks */,
@@ -6296,7 +6302,7 @@
 				844496852E7668A1008CF2E0 /* PBXTargetDependency */,
 				844496872E7668A1008CF2E0 /* PBXTargetDependency */,
 			);
-			name = MinecraftClient.SDL1;
+			name = NBCraftClient.SDL1;
 			productName = MinecraftClient.SDL1;
 			productReference = 844496762E76685C008CF2E0 /* MinecraftClient.SDL1 */;
 			productType = "com.apple.product-type.tool";
@@ -6318,9 +6324,9 @@
 			productReference = 84498A832AF18C7A005EF5A5 /* libZLib.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		8489B0962A86D4B2004CA8EC /* MinecraftClient.SDL2 */ = {
+		8489B0962A86D4B2004CA8EC /* NBCraftClient.SDL2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8489B09E2A86D4B2004CA8EC /* Build configuration list for PBXNativeTarget "MinecraftClient.SDL2" */;
+			buildConfigurationList = 8489B09E2A86D4B2004CA8EC /* Build configuration list for PBXNativeTarget "NBCraftClient.SDL2" */;
 			buildPhases = (
 				8489B0932A86D4B2004CA8EC /* Sources */,
 				8489B0942A86D4B2004CA8EC /* Frameworks */,
@@ -6332,14 +6338,14 @@
 				84B8AF8A2AF18A84008DE93D /* PBXTargetDependency */,
 				84498A9F2AF18D01005EF5A5 /* PBXTargetDependency */,
 			);
-			name = MinecraftClient.SDL2;
+			name = NBCraftClient.SDL2;
 			productName = Minecraft;
 			productReference = 8489B0972A86D4B2004CA8EC /* MinecraftClient.SDL2 */;
 			productType = "com.apple.product-type.tool";
 		};
-		8492591C2AD8FCFC0081F5B9 /* minecraftpe */ = {
+		8492591C2AD8FCFC0081F5B9 /* NBCraftClient.iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8492593D2AD8FCFD0081F5B9 /* Build configuration list for PBXNativeTarget "minecraftpe" */;
+			buildConfigurationList = 8492593D2AD8FCFD0081F5B9 /* Build configuration list for PBXNativeTarget "NBCraftClient.iOS" */;
 			buildPhases = (
 				849259192AD8FCFC0081F5B9 /* Sources */,
 				8492591A2AD8FCFC0081F5B9 /* Frameworks */,
@@ -6352,7 +6358,7 @@
 				84619B1B2AF1EC3500B0DE81 /* PBXTargetDependency */,
 				84619B1D2AF1EC3500B0DE81 /* PBXTargetDependency */,
 			);
-			name = minecraftpe;
+			name = NBCraftClient.iOS;
 			productName = minecraftpe;
 			productReference = 8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */;
 			productType = "com.apple.product-type.application";
@@ -6486,7 +6492,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8489B0922A86D4B2004CA8EC /* Build configuration list for PBXProject "Minecraft" */;
+			buildConfigurationList = 8489B0922A86D4B2004CA8EC /* Build configuration list for PBXProject "NBCraft" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -6499,9 +6505,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8489B0962A86D4B2004CA8EC /* MinecraftClient.SDL2 */,
-				844496752E76685C008CF2E0 /* MinecraftClient.SDL1 */,
-				8492591C2AD8FCFC0081F5B9 /* minecraftpe */,
+				8489B0962A86D4B2004CA8EC /* NBCraftClient.SDL2 */,
+				844496752E76685C008CF2E0 /* NBCraftClient.SDL1 */,
+				8492591C2AD8FCFC0081F5B9 /* NBCraftClient.iOS */,
 				84B8AE132AF188D8008DE93D /* Client */,
 				84E4BFAD2AE9854B0023E16A /* Common */,
 				84CCBC442E61849800E251AF /* NBT */,
@@ -6523,12 +6529,14 @@
 				84D772272EE5182B00701DCB /* assets in Resources */,
 				849371392EE51EAB00081C5A /* Default-568h@2x.png in Resources */,
 				8493713A2EE51EAB00081C5A /* Default-Landscape~ipad.png in Resources */,
+				842B218A2F5414660006C1FA /* Default-736h@3x.png in Resources */,
 				8493713B2EE51EAB00081C5A /* Default.png in Resources */,
 				8493713C2EE51EAB00081C5A /* Default@2x.png in Resources */,
 				8493713E2EE51F4000081C5A /* icon.png in Resources */,
 				849371322EE51DE000081C5A /* InfoPlist.strings in Resources */,
 				849371312EE51DCD00081C5A /* MainWindow.xib in Resources */,
-				849371332EE51DE800081C5A /* minecraftpeViewController.xib in Resources */,
+				849371332EE51DE800081C5A /* NBCViewController.xib in Resources */,
+				842B21892F5414660006C1FA /* Default-667h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6774,8 +6782,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */,
-				8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */,
+				849259592AD8FD4F0081F5B9 /* NBCAppDelegate.mm in Sources */,
+				8492595A2AD8FD4F0081F5B9 /* NBCViewController.mm in Sources */,
 				849259622AD8FDD10081F5B9 /* main.m in Sources */,
 				8441F98F2DB4E911005977BD /* SoundSystemOAL.cpp in Sources */,
 				84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */,
@@ -7415,12 +7423,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */ = {
+		849259482AD8FD4F0081F5B9 /* NBCViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				849259492AD8FD4F0081F5B9 /* en */,
 			);
-			name = minecraftpeViewController.xib;
+			name = NBCViewController.xib;
 			path = en.lproj;
 			sourceTree = "<group>";
 		};
@@ -7973,8 +7981,8 @@
 		84619B262AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8120,8 +8128,8 @@
 		84619B312AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8351,8 +8359,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8366,8 +8374,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8382,8 +8390,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8397,8 +8405,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8412,8 +8420,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8707,8 +8715,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8878,8 +8886,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -9093,7 +9101,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
-		844496832E76685C008CF2E0 /* Build configuration list for PBXNativeTarget "MinecraftClient.SDL1" */ = {
+		844496832E76685C008CF2E0 /* Build configuration list for PBXNativeTarget "NBCraftClient.SDL1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8444967C2E76685C008CF2E0 /* Debug [SDL2] (Default) */,
@@ -9125,7 +9133,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
-		8489B0922A86D4B2004CA8EC /* Build configuration list for PBXProject "Minecraft" */ = {
+		8489B0922A86D4B2004CA8EC /* Build configuration list for PBXProject "NBCraft" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8489B09C2A86D4B2004CA8EC /* Debug [SDL2] (Default) */,
@@ -9141,7 +9149,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
-		8489B09E2A86D4B2004CA8EC /* Build configuration list for PBXNativeTarget "MinecraftClient.SDL2" */ = {
+		8489B09E2A86D4B2004CA8EC /* Build configuration list for PBXNativeTarget "NBCraftClient.SDL2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8489B09F2A86D4B2004CA8EC /* Debug [SDL2] (Default) */,
@@ -9157,7 +9165,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
-		8492593D2AD8FCFD0081F5B9 /* Build configuration list for PBXNativeTarget "minecraftpe" */ = {
+		8492593D2AD8FCFD0081F5B9 /* Build configuration list for PBXNativeTarget "NBCraftClient.iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8492593E2AD8FCFD0081F5B9 /* Debug [SDL2] (Default) */,

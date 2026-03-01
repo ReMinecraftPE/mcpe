@@ -1,14 +1,14 @@
 //
 //  AppPlatform_iOS.h
-//  Minecraft
+//  NBCraft
 //
 //  Created by Brent on 10/30/23.
-//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
+//  Copyright (c) 2023 NBCraft. All rights reserved.
 //
 
 #pragma once
 
-#import "minecraftpeViewController.h"
+#import "NBCViewController.h"
 
 #include <string>
 
@@ -24,7 +24,7 @@ private:
     NSString* _getBundleResourcePath(const std::string &path) const;
     
 public:
-	AppPlatform_iOS(minecraftpeViewController *viewController);
+	AppPlatform_iOS(NBCViewController *viewController);
 	~AppPlatform_iOS();
 	
 	void initSoundSystem() override;
@@ -50,7 +50,7 @@ private:
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 	
-	minecraftpeViewController* m_pViewController;
+	NBCViewController* m_pViewController;
 	
 	bool m_bShiftPressed[2];
 	

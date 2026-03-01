@@ -1,9 +1,9 @@
 //
-//  minecraftpeViewController.h
-//  minecraftpe
+//  NBCViewController.h
+//  NBCraft
 //
 //  Created by Brent on 10/12/23.
-//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
+//  Copyright (c) 2023 NBCraft. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -11,7 +11,7 @@
 
 class AppPlatform_iOS;
 
-@interface minecraftpeViewController : UIViewController
+@interface NBCViewController : UIViewController
 {
     EAGLContext *context;
     GLuint program;

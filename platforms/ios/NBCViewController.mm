@@ -1,12 +1,12 @@
 //
-//  minecraftpeViewController.m
-//  minecraftpe
+//  NBCViewController.m
+//  NBCraft
 //
 //  Created by Brent on 10/12/23.
-//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
+//  Copyright (c) 2023 NBCraft. All rights reserved.
 //
 
-#import "minecraftpeViewController.h"
+#import "NBCViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -30,7 +30,7 @@ extern bool g_bIsMenuBackgroundAvailable;
 
 NSThread *G_drawFrameThread = nil;
 
-@interface minecraftpeViewController () {
+@interface NBCViewController () {
     GLuint _program;
     
     float _rotation;
@@ -62,7 +62,7 @@ NSThread *G_drawFrameThread = nil;
 
 @end
 
-@implementation minecraftpeViewController
+@implementation NBCViewController
 
 @synthesize animating, context, displayLink;
 @synthesize platform = _platform;

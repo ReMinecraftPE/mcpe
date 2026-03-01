@@ -1,6 +1,6 @@
 //
 //  EndianDefinitions.h
-//  Minecraft
+//  NBCraft
 //
 //  Created by Brent on 9/14/25.
 //

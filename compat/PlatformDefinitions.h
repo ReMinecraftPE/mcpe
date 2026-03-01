@@ -1,6 +1,6 @@
 //
 //  PlatformDefinitions.h
-//  Minecraft
+//  NBCraft
 //
 //  Created by Brent on 11/27/23.
 //

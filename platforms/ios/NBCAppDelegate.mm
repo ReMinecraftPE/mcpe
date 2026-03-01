@@ -1,23 +1,23 @@
 //
-//  minecraftpeAppDelegate.m
-//  minecraftpe
+//  NBCAppDelegate.m
+//  NBCraft
 //
 //  Created by Brent on 10/12/23.
-//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
+//  Copyright (c) 2023 NBCraft. All rights reserved.
 //
 
-#import "minecraftpeAppDelegate.h"
+#import "NBCAppDelegate.h"
 
-#import "minecraftpeViewController.h"
+#import "NBCViewController.h"
 #import "AppPlatform_iOS.h"
 
 NSError *G_audioSessionError = nil;
 
-@interface minecraftpeAppDelegate ()
+@interface NBCAppDelegate ()
     - (void)initAudio;
 @end
 
-@implementation minecraftpeAppDelegate
+@implementation NBCAppDelegate
 
 @synthesize window;
 @synthesize viewController;
@@ -27,7 +27,7 @@ NSError *G_audioSessionError = nil;
     [self initAudio];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[minecraftpeViewController alloc] initWithNibName:@"minecraftpeViewController" bundle:nil];
+    self.viewController = [[NBCViewController alloc] initWithNibName:@"NBCViewController" bundle:nil];
     if ([self.window respondsToSelector:@selector(setRootViewController:)])
     {
         [self.window setRootViewController:self.viewController];

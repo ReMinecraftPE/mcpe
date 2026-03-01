@@ -50,7 +50,7 @@ void AppPlatform_sdl::_init(std::string storageDir)
 	m_bIsTouchscreen = false;
 #endif
 	// Custom Touchscreen Mode
-	const char *mode = getenv("MCPE_INPUT_MODE");
+	const char *mode = getenv("NBC_INPUT_MODE");
 	if (mode)
 	{
 		if (strcmp(mode, "touch") == 0)

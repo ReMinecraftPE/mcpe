@@ -1,18 +1,18 @@
 //
 //  main.m
-//  minecraftpe
+//  NBCraft
 //
 //  Created by Brent on 10/12/23.
-//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
+//  Copyright (c) 2023 NBCraft. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "minecraftpeAppDelegate.h"
+#import "NBCAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([minecraftpeAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([NBCAppDelegate class]));
     }
 }

@@ -1,9 +1,9 @@
 //
 //  AppContext.hpp
-//  Minecraft
+//  NBCraft
 //
 //  Created by Brent on 10/13/23.
-//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
+//  Copyright (c) 2023 NBCraft. All rights reserved.
 //
 
 #pragma once
@@ -21,5 +21,5 @@ public:
     }
     
     AppPlatform *platform;
-    std::string doRender;
+    bool doRender;
 };

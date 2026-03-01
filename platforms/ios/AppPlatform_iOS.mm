@@ -1,6 +1,6 @@
 //
 //  AppPlatform_iOS.m
-//  Minecraft
+//  NBCraft
 //
 //  Created by Brent on 10/30/23.
 //  Copyright (c) 2023 __MyCompanyName__. All rights reserved.
@@ -15,7 +15,7 @@
 
 #include "platforms/audio/openal/CustomSoundSystem.hpp"
 
-AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
+AppPlatform_iOS::AppPlatform_iOS(NBCViewController *viewController)
 {
 	m_bShiftPressed[0] = false;
 	m_bShiftPressed[1] = false;
