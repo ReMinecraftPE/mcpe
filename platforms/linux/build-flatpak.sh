@@ -73,7 +73,7 @@ if [ "$ARCH" = 'i386' ]; then
     fi
 
     set -- \
-        -DREMCPE_VENDORED_SDL2=ON \
+        -DNBC_VENDORED_SDL2=ON \
         -DCMAKE_C_COMPILER=clang \
         -DCMAKE_CXX_COMPILER=clang++
 
@@ -85,8 +85,8 @@ fpbuild "$cmake" "$platformdir/../.." \
     -DCMAKE_BUILD_TYPE="$build" \
     -DCMAKE_C_COMPILER_LAUNCHER=ccache \
     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-    -DREMCPE_PLATFORM="${REMCPE_PLATFORM:-sdl2}" \
-    -DREMCPE_GFX_API="${REMCPE_GFX_API:-OGL}" \
+    -DNBC_PLATFORM="${NBC_PLATFORM:-sdl2}" \
+    -DNBC_GFX_API="${NBC_GFX_API:-OGL}" \
     "$@"
 fpbuild "$cmake" --build . --parallel "$ncpus"
 fpbuild mkdir -p /app/bin /app/libexec /app/share/applications
@@ -125,4 +125,4 @@ flatpak build-finish output \
     --command=rungame.sh
 
 flatpak build-export repo output
-flatpak build-bundle --arch "$arch" repo "ReMCPE-$arch.flatpak" "$bundleid"
+flatpak build-bundle --arch "$arch" repo "NBCraft-$arch.flatpak" "$bundleid"

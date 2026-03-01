@@ -9,7 +9,7 @@ cd "$scriptroot"
 # powerpc is handled further down
 targets='i386-apple-macos10.4 x86_64-apple-macos10.7 arm64-apple-macos11.0'
 # Must be kept in sync with the cmake executable name
-bin='reminecraftpe'
+bin='nbcraft'
 
 platformdir=$PWD
 
@@ -124,9 +124,9 @@ else
 fi
 # ensure we use ccache for the toolchain build
 ccache="$(command -v ccache || true)"
-printf '#!/bin/sh\nexec %s clang "$@"\n' "$ccache" > toolchain/bin/remcpe-clang
-printf '#!/bin/sh\nexec %s clang++ "$@"\n' "$ccache" > toolchain/bin/remcpe-clang++
-chmod +x toolchain/bin/remcpe-clang toolchain/bin/remcpe-clang++
+printf '#!/bin/sh\nexec %s clang "$@"\n' "$ccache" > toolchain/bin/nbc-clang
+printf '#!/bin/sh\nexec %s clang++ "$@"\n' "$ccache" > toolchain/bin/nbc-clang++
+chmod +x toolchain/bin/nbc-clang toolchain/bin/nbc-clang++
 
 if [ -n "$outdated_toolchain" ]; then
     # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old macOS versions anymore
@@ -137,7 +137,7 @@ if [ -n "$outdated_toolchain" ]; then
     wget -O- "https://github.com/tpoechtrager/apple-libtapi/archive/$tapi_commit.tar.gz" | tar -xz
 
     cd "apple-libtapi-$tapi_commit"
-    INSTALLPREFIX="$workdir/toolchain" CC=remcpe-clang CXX=remcpe-clang++ ./build.sh && ./install.sh
+    INSTALLPREFIX="$workdir/toolchain" CC=nbc-clang CXX=nbc-clang++ ./build.sh && ./install.sh
     cd ..
     rm -rf "apple-libtapi-$tapi_commit"
     if [ "$(uname -s)" = "Darwin" ]; then
@@ -156,8 +156,8 @@ if [ -n "$outdated_toolchain" ]; then
         --with-llvm-config="$LLVM_CONFIG" \
         --with-libtapi="$workdir/toolchain" \
         --target=i386-apple-darwin \
-        CC=remcpe-clang \
-        CXX=remcpe-clang++
+        CC=nbc-clang \
+        CXX=nbc-clang++
     make -C ld64 -j"$ncpus"
     strip ld64/src/ld/ld
     mv ld64/src/ld/ld ../../toolchain/bin/ld64.ld64
@@ -183,7 +183,7 @@ if [ -n "$outdated_toolchain" ]; then
         wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
 
         cd "ldid-$ldid_commit"
-        make CXX=remcpe-clang++
+        make CXX=nbc-clang++
         strip ldid
         mv ldid ../toolchain/bin
         cd ..
@@ -221,8 +221,8 @@ if [ "$(cat toolchain-ppc/toolchainver 2>/dev/null)" != "$ppctoolchainver" ]; th
         --target=ppc \
         --enable-silent-rules \
         --with-llvm-config=false \
-        CC=remcpe-clang \
-        CXX=remcpe-clang++
+        CC=nbc-clang \
+        CXX=nbc-clang++
     make -C ld64 -j"$ncpus"
     strip ld64/src/ld/ld
     mv ld64/src/ld/ld ../../toolchain-ppc/bin/ppc-ld
@@ -278,8 +278,8 @@ fi
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
     if printf 'int main(void) {return 0;}' |
-        REMCPE_TARGET=i386-apple-macos10.4 \
-        REMCPE_SDK="$old_sdk" \
+        NBC_TARGET=i386-apple-macos10.4 \
+        NBC_SDK="$old_sdk" \
         "$platformdir/macos-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
         cflags='-flto'
     fi
@@ -305,7 +305,7 @@ mv buildsettings lastbuildsettings
 
 for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
-    export REMCPE_TARGET="$target"
+    export NBC_TARGET="$target"
 
     mkdir -p "build-$target"
     cd "build-$target"
@@ -328,7 +328,7 @@ for target in $targets; do
                 target_ranlib="cctools-ranlib"
                 set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -static-libgcc'
             fi
-            export REMCPE_SDK="$old_sdk"
+            export NBC_SDK="$old_sdk"
             platform='sdl1'
             sdl1ver=1
             if ! [ -f sdl/lib/libSDL.a ] || [ "$(cat sdl/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
@@ -374,11 +374,11 @@ for target in $targets; do
             target_cflags="$cflags"
             case $arch in
                 (arm64*)
-                    export REMCPE_SDK="$arm64_sdk"
+                    export NBC_SDK="$arm64_sdk"
                     set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
                 ;;
                 (x86_64*)
-                    export REMCPE_SDK="$x86_64_sdk"
+                    export NBC_SDK="$x86_64_sdk"
                     set --
                 ;;
             esac
@@ -393,7 +393,7 @@ for target in $targets; do
     cmake "$platformdir/../.." \
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
-        -DREMCPE_PLATFORM="$platform" \
+        -DNBC_PLATFORM="$platform" \
         -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
@@ -401,8 +401,8 @@ for target in $targets; do
         -DCMAKE_RANLIB="$(command -v "$target_ranlib")" \
         -DCMAKE_C_COMPILER="$cc" \
         -DCMAKE_CXX_COMPILER="$cxx" \
-        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
-        -DCMAKE_SYSROOT="$REMCPE_SDK" \
+        -DCMAKE_FIND_ROOT_PATH="$NBC_SDK/usr;$PWD/sdl" \
+        -DCMAKE_SYSROOT="$NBC_SDK" \
         -DCMAKE_C_FLAGS="$target_cflags" \
         -DCMAKE_CXX_FLAGS="$target_cflags" \
         -DWERROR="${WERROR:-OFF}" \
@@ -412,39 +412,39 @@ for target in $targets; do
     cd ..
 done
 
-rm -rf ../ReMCPE
-mkdir -p ../ReMCPE/libexec
+rm -rf ../NBCraft
+mkdir -p ../NBCraft/libexec
 
-REMCPE_TARGET='arm64-apple-macos11.0' \
-    REMCPE_SDK="$arm64_sdk" \
+NBC_TARGET='arm64-apple-macos11.0' \
+    NBC_SDK="$arm64_sdk" \
     "$platformdir/macos-cc" \
     "$platformdir/arch.c" -Os -o arch-arm64
 
-REMCPE_TARGET='unknown-apple-macos10.4' \
-    REMCPE_SDK="$old_sdk" \
+NBC_TARGET='unknown-apple-macos10.4' \
+    NBC_SDK="$old_sdk" \
     "$platformdir/macos-cc" \
     -arch x86_64 -arch i386 \
     "$platformdir/arch.c" -Os -o arch-x86
 
-lipo -create arch-* -output ../ReMCPE/libexec/arch
+lipo -create arch-* -output ../NBCraft/libexec/arch
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-    cctools-strip -no_code_signature_warning ../ReMCPE/libexec/arch
+    cctools-strip -no_code_signature_warning ../NBCraft/libexec/arch
 
-cp -a "$platformdir/../../game/assets" ../ReMCPE
-cp "$platformdir/launchscript.sh" "../ReMCPE/$bin"
+cp -a "$platformdir/../../game/assets" ../NBCraft
+cp "$platformdir/launchscript.sh" "../NBCraft/$bin"
 
 for target in $targets; do
     arch="${target%%-*}"
-    cp "build-$target/$bin" "../ReMCPE/libexec/$bin-$arch"
+    cp "build-$target/$bin" "../NBCraft/libexec/$bin-$arch"
     case $arch in
         (powerpc*|ppc*) strip='ppc-strip' ;;
         (*) strip='cctools-strip -no_code_signature_warning' ;;
     esac
     [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-        $strip "../ReMCPE/libexec/$bin-${target%%-*}"
+        $strip "../NBCraft/libexec/$bin-${target%%-*}"
 done
 if command -v ldid >/dev/null; then
-    ldid -S ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
+    ldid -S ../NBCraft/libexec/arch "../NBCraft/libexec/$bin-arm64"*
 else
-    codesign -f -s - ../ReMCPE/libexec/arch "../ReMCPE/libexec/$bin-arm64"*
+    codesign -f -s - ../NBCraft/libexec/arch "../NBCraft/libexec/$bin-arm64"*
 fi
