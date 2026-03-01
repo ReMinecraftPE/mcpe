@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe)
+project(nbcraft)
 
 # Store Output In Top-Level Build Directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
@@ -33,10 +33,10 @@ endif()
 
 # Detect Windows
 include(CheckSymbolExists)
-check_symbol_exists("_WIN32" "" REMCPE_WIN32)
+check_symbol_exists("_WIN32" "" NBC_WIN32)
 
 # Windows Linking
-if(REMCPE_WIN32)
+if(NBC_WIN32)
     # Modern MinGW doesn't support C++98 and will error if you try to use it
     set(CMAKE_CXX_STANDARD 11)
 else()
@@ -44,7 +44,7 @@ else()
 endif()
 
 # Platform-specific stuff #
-if(REMCPE_WIN32) # Windows
+if(NBC_WIN32) # Windows
     add_link_options(
         -static-libgcc
         -static-libstdc++
@@ -116,12 +116,12 @@ endif()
 # Disable thread local storage (needed for C++98 & iOS)
 add_compile_definitions(RAPIDJSON_NO_THREAD_LOCAL STBI_NO_THREAD_LOCALS)
 
-if(NOT DEFINED REMCPE_GFX_API)
+if(NOT DEFINED NBC_GFX_API)
 	message(STATUS "No GFX API specified, defaulting to OGL...")
-	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
+	set(NBC_GFX_API "OGL" CACHE STRING "HAL GFX API")
 endif()
 
-message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
+message(STATUS "Selected GFX API: ${NBC_GFX_API}")
 
 # stb_image And Other Libraries
 add_subdirectory(thirdparty/stb_image EXCLUDE_FROM_ALL)
@@ -134,7 +134,7 @@ add_subdirectory(platforms)
 
 # Assets
 if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/game@/")
+    target_link_options(nbcraft PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/game@/")
 elseif(XENON)
     # idk, we'll figure it out later
     # Example: adding a binary file (like a texture or sound)

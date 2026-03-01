@@ -1,24 +1,24 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe-windows)
+project(nbcraft-windows)
 
 # Win32 Build
-target_compile_definitions(reminecraftpe-core
+target_compile_definitions(nbcraft-core
     PUBLIC HANDLE_CHARS_SEPARATELY
 )
 
 # Libraries
-target_link_libraries(reminecraftpe-core
+target_link_libraries(nbcraft-core
     PUBLIC gdi32
     PUBLIC uuid
 )
 
-if(REMCPE_GFX_API STREQUAL "OGL")
-    target_link_libraries(reminecraftpe-core
+if(NBC_GFX_API STREQUAL "OGL")
+    target_link_libraries(nbcraft-core
         PUBLIC opengl32
         PUBLIC glu32
     )
-elseif(REMCPE_GFX_API STREQUAL "D3D11")
-    target_link_libraries(reminecraftpe-core
+elseif(NBC_GFX_API STREQUAL "D3D11")
+    target_link_libraries(nbcraft-core
         PUBLIC d3d11
         PUBLIC d3dcompiler
         PUBLIC dxgi
@@ -27,7 +27,7 @@ elseif(REMCPE_GFX_API STREQUAL "D3D11")
 endif()
 
 # Build
-add_executable(reminecraftpe WIN32
+add_executable(nbcraft WIN32
     LoggerWin32.cpp
     AppPlatform_win32.cpp
     main.cpp
@@ -35,7 +35,7 @@ add_executable(reminecraftpe WIN32
 )
 
 # Core
-target_link_libraries(reminecraftpe reminecraftpe-core)
+target_link_libraries(nbcraft nbcraft-core)
 
 # stb_image (If Needed)
-target_link_libraries(reminecraftpe stb_image)
+target_link_libraries(nbcraft stb_image)

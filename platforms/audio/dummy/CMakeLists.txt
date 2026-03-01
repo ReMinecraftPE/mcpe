@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe-audio-dummy)
+project(nbcraft-audio-dummy)
 
 # Build
-add_library(reminecraftpe-audio STATIC
+add_library(nbcraft-audio STATIC
 	SoundSystemNull.cpp
 )
 
-target_link_libraries(reminecraftpe-audio PUBLIC reminecraftpe-core)
+target_link_libraries(nbcraft-audio PUBLIC nbcraft-core)
 
 # Headers
-target_include_directories(reminecraftpe-audio PUBLIC .)
+target_include_directories(nbcraft-audio PUBLIC .)
