@@ -139,7 +139,7 @@ jobs:
     #       - uses: actions/upload-artifact@v6
     #         with:
     #           name: Flatpak (${{ matrix.name }})
-    #           path: platforms/linux/build-flatpak/ReMCPE-${{ matrix.arch }}.flatpak
+    #           path: platforms/linux/build-flatpak/NBCraft-${{ matrix.arch }}.flatpak
     #       - name: Pack cache
     #         run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
@@ -187,7 +187,7 @@ jobs:
           - uses: actions/upload-artifact@v6
             with:
               name: macOS
-              path: platforms/macos/build/ReMCPE
+              path: platforms/macos/build/NBCraft
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz Library/Caches/ccache workspacecache.tar
 
@@ -241,7 +241,7 @@ jobs:
           - uses: actions/upload-artifact@v6
             with:
               name: iOS
-              path: platforms/ios/build/ReMCPE.ipa
+              path: platforms/ios/build/NBCraft.ipa
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache workspacecache.tar
 
@@ -303,16 +303,16 @@ jobs:
             env:
               ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
             if: ${{ env.ANDROID_KEYSTORE }}
-            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE.apk
+            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} NBCraft.apk
           - name: Rename APK
             env:
               ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
             if: ${{ !env.ANDROID_KEYSTORE }}
-            run: mv ${{ matrix.directory }}/app/build/outputs/apk/release/app-release-unsigned.apk ReMCPE.apk
+            run: mv ${{ matrix.directory }}/app/build/outputs/apk/release/app-release-unsigned.apk NBCraft.apk
           - uses: actions/upload-artifact@v6
             with:
               name: Android (${{ matrix.name }})
-              path: ReMCPE.apk
+              path: NBCraft.apk
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
