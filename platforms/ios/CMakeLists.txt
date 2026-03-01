@@ -8,8 +8,8 @@ add_executable(nbcraft
     AppPlatform_iOS.mm
     EAGLView.m
     main.m
-    minecraftpeAppDelegate.mm
-    minecraftpeViewController.mm
+    NBCAppDelegate.mm
+    NBCViewController.mm
     ShowKeyboardView.mm
 )
 
