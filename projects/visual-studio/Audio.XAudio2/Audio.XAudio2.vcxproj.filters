@@ -14,7 +14,7 @@
     <ClInclude Include="$(MC_ROOT)\platforms\audio\xaudio2\CustomSoundSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\audio\xaudio2\SoundStreamXA2.hpp">
+    <ClInclude Include="$(MC_ROOT)\platforms\audio\xaudio2\SoundStreamXA2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -22,7 +22,7 @@
     <ClCompile Include="$(MC_ROOT)\platforms\audio\xaudio2\SoundSystemXA2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\audio\xaudio2\SoundStreamXA2.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\audio\xaudio2\SoundStreamXA2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

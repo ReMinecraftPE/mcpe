@@ -53,11 +53,11 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\platforms\audio\xaudio2\SoundSystemXA2.cpp" />
-    <ClCompile Include="..\..\..\audio\xaudio2\SoundStreamXA2.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\audio\xaudio2\SoundStreamXA2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\audio\xaudio2\CustomSoundSystem.hpp" />
-    <ClInclude Include="..\..\..\audio\xaudio2\SoundStreamXA2.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\audio\xaudio2\SoundStreamXA2.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\COM\COM.vcxproj">
