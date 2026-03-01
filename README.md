@@ -4,9 +4,9 @@
 To be absolutely clear:<br>
 **THIS IS NOT AN OFFICIAL MINECRAFT PRODUCT AND IS NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT**
 
-This project aims to provide a customizable, cross-platform, legacy mining experience.
-The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of 2011, which itself is a port of Minecraft: Java Edition (Beta 1.3-1.7.3).
-The decompilation was performed primarily using [IDA](https://hex-rays.com/ida-pro) in conjunction with Android builds of MCPE, since these contain info such as function and class names.
+This project aims to provide a customizable, cross-platform, legacy mining experience.<br>
+The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of 2011, which itself is a port of Minecraft: Java Edition (Beta 1.3-1.7.3).<br>
+The decompilation was performed primarily using [IDA](https://hex-rays.com/ida-pro) in conjunction with Android builds of MCPE, since these contain info such as function and class names.<br>
 
 **Its goals are:**
 * To add features from Minecraft Beta 1.7.3 and below.
