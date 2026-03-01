@@ -6,7 +6,7 @@ def useCcache = System.getenv("USE_CCACHE") == "1"
 
 android {
     namespace = 'org.nbcraft'
-    compileSdk 21
+    compileSdk 33
 
     // Employ a hack which copies the assets folder in to the local assets folder.
     tasks.register('CopyAssets', Copy) {
@@ -49,7 +49,7 @@ android {
         minSdk 16
         // Don't inspect the target SDK. You'd better not intend to upload this to the Google Play Store.
         //noinspection ExpiredTargetSdkVersion
-        targetSdk 21
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
