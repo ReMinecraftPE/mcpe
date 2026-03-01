@@ -177,8 +177,8 @@ jobs:
                 include:
                   - name: SDL 2
                     directory: platforms/sdl/sdl2/android
-                  # - name: Native
-                  #   directory: platforms/android/project
+                  - name: Native
+                    directory: platforms/android/project
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
