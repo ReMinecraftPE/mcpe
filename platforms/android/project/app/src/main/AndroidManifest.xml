@@ -24,7 +24,7 @@
 			<!-- Tell the NativeActivity about our shared object -->
 			<meta-data
 				android:name="android.app.lib_name"
-				android:value="reminecraftpe" />
+				android:value="nbcraft" />
 			
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />

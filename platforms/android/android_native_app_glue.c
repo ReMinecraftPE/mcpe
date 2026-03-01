@@ -26,8 +26,8 @@
 #include "android_native_app_glue.h"
 #include <android/log.h>
 
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "ReMinecraftPE", __VA_ARGS__))
-#define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "ReMinecraftPE", __VA_ARGS__))
+#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "NBCraft", __VA_ARGS__))
+#define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "NBCraft", __VA_ARGS__))
 
 /* For debug builds, always enable the debug traces in this library */
 #ifndef NDEBUG
@@ -202,6 +202,7 @@ static void process_cmd(struct android_app* app, struct android_poll_source* sou
 }
 
 static void* android_app_entry(void* param) {
+    LOGI("hi there from android_app_entry");
     struct android_app* android_app = (struct android_app*)param;
 
     android_app->config = AConfiguration_new();

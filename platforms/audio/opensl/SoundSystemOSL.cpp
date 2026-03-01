@@ -214,3 +214,8 @@ void SoundSystemOSL::destroy()
 {
 
 }
+
+bool SoundSystemOSL::isAvailable() override
+{
+	return true;
+}

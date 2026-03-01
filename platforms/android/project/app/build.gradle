@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.reminecraftpe'
+    namespace 'org.nbcraft'
     compileSdk 21
 
     // Employ a hack which copies the assets folder in to the local assets folder.
@@ -43,7 +43,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.reminecraftpe"
+        applicationId "org.nbcraft"
         minSdk 16
         // Don't inspect the target SDK. You'd better not intend to upload this to the Google Play Store.
         //noinspection ExpiredTargetSdkVersion
@@ -54,7 +54,7 @@ android {
         // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                arguments '-DANDROID_PLATFORM=android-21', '-DANDROID_STL=c++_static', '-DREMCPE_PLATFORM=android', '-DREMCPE_AUDIO_LIBRARY=opensl'
+                arguments '-DANDROID_PLATFORM=android-21', '-DANDROID_STL=c++_static', '-DNBC_PLATFORM=android', '-DNBC_AUDIO_LIBRARY=opensl', '-DNBC_GFX_API=OGL'
                 abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
             }
         }

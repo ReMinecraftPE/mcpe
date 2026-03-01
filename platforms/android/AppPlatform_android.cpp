@@ -280,3 +280,8 @@ AssetFile AppPlatform_android::readAssetFile(const std::string& str, bool quiet)
 	AAsset_close(asset);
 	return AssetFile(ssize_t(cnt), buffer);
 }
+
+std::string AppPlatform_android::getAssetPath(const std::string& path) const
+{
+	return path;
+}

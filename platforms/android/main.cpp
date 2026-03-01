@@ -25,8 +25,10 @@
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Multitouch.hpp"
 
-
-AppPlatform_android g_AppPlatform;
+// TODO FIX: For some reason, after this constructor is initialized, AppPlatform::m_singleton
+// gets reset to 0, seemingly because for some reason, libnbcraft.so is loaded again! Why??
+//AppPlatform_android g_AppPlatform;
+AppPlatform_android* g_pAppPlatform;
 
 bool g_LButtonDown, g_RButtonDown;
 int g_MousePosX, g_MousePosY;
@@ -332,17 +334,17 @@ static void initWindow(struct engine* engine, struct android_app* app)
     eglQuerySurface(engine->display, engine->surface, EGL_WIDTH, &w);
     eglQuerySurface(engine->display, engine->surface, EGL_HEIGHT, &h);
 
-    g_AppPlatform.initConsts();
-    g_AppPlatform.setScreenSize(w, h);
-    g_AppPlatform.initAndroidApp(app);
+    g_pAppPlatform->initConsts();
+    g_pAppPlatform->setScreenSize(w, h);
+    g_pAppPlatform->initAndroidApp(app);
 
     engine->ninecraftApp->width = w;
     engine->ninecraftApp->height = h;
 
     if (!engine->initted)
     {
-        g_AppPlatform.m_externalStorageDir = getExternalStorageDir(engine);
-        g_AppPlatform.setExternalStoragePath(g_AppPlatform.m_externalStorageDir);
+        g_pAppPlatform->m_externalStorageDir = getExternalStorageDir(engine);
+        g_pAppPlatform->setExternalStoragePath(g_pAppPlatform->m_externalStorageDir);
         engine->ninecraftApp->init();
     }
     else
@@ -398,8 +400,9 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 }
 
 void android_main(struct android_app* state) {
+	g_pAppPlatform = new AppPlatform_android();
+	
     struct engine engine;
-
     memset(&engine, 0, sizeof(engine));
     state->userData = &engine;
     state->onAppCmd = engine_handle_cmd;
@@ -407,7 +410,7 @@ void android_main(struct android_app* state) {
     engine.androidApp = state;
 
     engine.ninecraftApp = new NinecraftApp;
-    engine.ninecraftApp->m_pPlatform = &g_AppPlatform;
+    engine.ninecraftApp->m_pPlatform = g_pAppPlatform;
 
     while (1)
     {
