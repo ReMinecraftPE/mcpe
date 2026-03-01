@@ -5,7 +5,7 @@ plugins {
 def useCcache = System.getenv("USE_CCACHE") == "1"
 
 android {
-    namespace 'org.nbcraft'
+    namespace = 'org.nbcraft'
     compileSdk 21
 
     // Employ a hack which copies the assets folder in to the local assets folder.
@@ -79,7 +79,7 @@ android {
     externalNativeBuild {
         cmake {
             path '../../../../CMakeLists.txt'
-            version '3.22.1'
+            version = '3.22.1'
         }
     }
 }
