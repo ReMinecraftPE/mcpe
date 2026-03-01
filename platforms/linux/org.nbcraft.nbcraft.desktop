@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=NBCraft
+GenericName=NBCraft
+Comment=The ultimate cross-platform mining experience.
+Exec=rungame.sh
+Icon=org.nbcraft.nbcraft
+Terminal=false
+Type=Application
+Categories=Game;Simulation;
+Keywords=sandbox;world;mining;crafting;blocks;

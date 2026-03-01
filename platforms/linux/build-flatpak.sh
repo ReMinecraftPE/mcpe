@@ -7,9 +7,9 @@ cd "$scriptroot"
 
 arch="${ARCH:-x86_64}"
 # Must be kept in sync with the cmake executable name
-bin='reminecraftpe'
+bin='nbcraft'
 
-bundleid='io.github.reminecraftpe'
+bundleid='org.nbcraft.nbcraft'
 
 platformdir=$PWD
 

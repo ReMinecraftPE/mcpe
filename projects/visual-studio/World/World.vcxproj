@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Xbox 360">
+      <Configuration>Debug</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Xbox 360">
+      <Configuration>Release</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{5f7cd8c1-413c-4855-a450-2c765f16c5a4}</ProjectGuid>
+    <RootNamespace>World</RootNamespace>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="NBCraft">
+    <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\FallingTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\ItemEntity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Mob.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Player.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\PrimedTnt.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\TripodCamera.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Rocket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\GameMode.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\AuxTileItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\CameraItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ClothItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\DoorItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\Inventory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\FoodItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ItemStack.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\RocketItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\SlabItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Dimension.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Explosion.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Level.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\BirchFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\CactusFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ClayFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\FancyTreeFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\FlowerFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeCaveFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\OreFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\PineFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\PumpkinFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ReedsFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\SpringFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\SpruceFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\TreeFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\VegetationFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\ImprovedNoise.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\PerlinNoise.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\Synth.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\LevelListener.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Material.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Region.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ChunkStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorageSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelData.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelStorageSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryChunkStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorageSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\RegionFile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\TickNextTickData.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\BubbleParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\ExplodeParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\FlameParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\LavaParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\Particle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\ParticleEngine.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\RedDustParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\SmokeParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\TerrainParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\FireworkParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\AABB.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\HitResult.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec3.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\RocketLauncherTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\BookshelfTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Bush.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CactusTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ClayTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ClothTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DeadBush.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DirtTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DoorTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CropsTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FarmTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FenceTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FireTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GlassTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GlowstoneTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GrassTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GravelTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\HalfTransparentTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\IceTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\InvisibleTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LadderTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LeafTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTileDynamic.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTileStatic.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\MetalTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ObsidianTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\OreTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\PumpkinTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ReedTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SandStoneTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SandTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Sapling.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SoulSandTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SpongeTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StairTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StoneSlabTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StoneTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TallGrass.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Tile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TntTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TopSnowTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TorchTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TransparentTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TreeTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Web.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\WireTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\Node.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\Path.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\PathFinder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Animal.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Monster.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\PathfinderMob.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\WaterAnimal.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Chicken.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Cow.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Creeper.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\MobFactory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\MobSpawner.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\TilePos.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Sheep.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\SynchedEntityData.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityCategories.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityType.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityTypeDescriptor.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\MobCategory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Arrow.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Skeleton.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Spider.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Zombie.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityFactory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\ContainerListener.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\Slot.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ArmorSlot.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\CraftingContainer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\InventoryMenu.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ResultContainer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ResultSlot.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\CompoundContainer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ChestMenu.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\DyeColor.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ToolItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ArmorItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\HoeItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\SeedItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\CraftingMenu.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\Recipes.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\ShapedRecipe.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\SingleInputRecipe.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CraftingTableTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\BowItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\WeaponItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\DyePowderItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\CoalItem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\FallingTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\ItemEntity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Mob.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Player.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\PrimedTnt.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\TripodCamera.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameMode.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameType.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\AuxTileItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\CameraItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ClothItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\DoorItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Inventory.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Item.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ItemStack.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\TileItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\TilePlanterItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\RocketItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\SlabItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Dimension.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Explosion.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Level.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeCaveFeature.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeFeature.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\ImprovedNoise.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\PerlinNoise.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\Synth.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelListener.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Material.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Region.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ChunkStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorageSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelData.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelStorageSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryChunkStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorageSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\RegionFile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TickNextTickData.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\particle\Particle.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\particle\ParticleEngine.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\AABB.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\HitResult.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\Vec3.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\RocketLauncherTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\BookshelfTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Bush.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\CactusTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ClayTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ClothTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DeadBush.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DirtTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DoorTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\CropsTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FarmTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FenceTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FireTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GlassTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GlowstoneTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GrassTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GravelTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\HalfTransparentTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\IceTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\InvisibleTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LadderTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LeafTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTileDynamic.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTileStatic.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\MetalTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ObsidianTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\OreTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\PumpkinTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ReedTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SandStoneTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SandTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Sapling.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SoulSandTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SpongeTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StairTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StoneSlabTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StoneTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TallGrass.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Tile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TntTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TopSnowTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TorchTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TransparentTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TreeTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Web.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\WireTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\Node.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\Path.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\PathFinder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Animal.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Monster.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\PathfinderMob.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\WaterAnimal.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Chicken.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Cow.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Creeper.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Pig.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityCategories.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityType.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityTypeDescriptor.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\MobFactory.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkTilePos.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\Vec2.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\Facing.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TilePos.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Sheep.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\SynchedEntityData.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\MobCategory.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Arrow.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Skeleton.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Spider.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Zombie.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityFactory.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\Container.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\ContainerListener.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\Slot.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ArmorSlot.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\CraftingContainer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\InventoryMenu.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ResultContainer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ResultSlot.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\CompoundContainer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ChestMenu.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\DyeColor.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Tool.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ToolItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\Recipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\Recipes.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\ShapedRecipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\SingleInputRecipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\CraftingTableTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileEvent.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\BowItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\WeaponItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\DyePowderItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\CoalItem.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBT\NBT.vcxproj">
+      <Project>{b01e1536-505b-4357-b5b6-083efbf786b0}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
