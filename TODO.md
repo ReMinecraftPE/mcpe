@@ -19,7 +19,7 @@
 * Finish the texture pack I've been working on and use that as a placeholder for the actual Minecraft assets.
 
 ## Reconstructed project structure
-Currently, ReMinecraftPE's directory structure imitates the structure found in 
+Currently, NBCraft's directory structure imitates the structure found in
 
 Info extracted from:
 * v0.1.0 demo - [D]

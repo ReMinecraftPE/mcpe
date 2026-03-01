@@ -1,4 +1,4 @@
-package io.github.reminecraftpe;
+package org.nbcraft.nbcraft;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

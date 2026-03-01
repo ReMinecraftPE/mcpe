@@ -10,7 +10,7 @@
 execdir="${0%/*}"
 
 [ "$(arch)" = "ppc" ] &&
-    exec "$execdir/libexec/reminecraftpe-powerpc" "$@"
+    exec "$execdir/libexec/nbcraft-powerpc" "$@"
 
 arch="$("$execdir/libexec/arch")"
 
@@ -18,12 +18,12 @@ if [ "$arch" = "x86_64" ]; then
     case $(uname -r) in
         (8.*|9.*|10.*)
             # Tiger, Leopard, or Snow Leopard
-            exec "$execdir/libexec/reminecraftpe-i386" "$@"
+            exec "$execdir/libexec/nbcraft-i386" "$@"
         ;;
         (*)
-            exec "$execdir/libexec/reminecraftpe-x86_64" "$@"
+            exec "$execdir/libexec/nbcraft-x86_64" "$@"
         ;;
     esac
 fi
 
-exec "$execdir/libexec/reminecraftpe-$arch" "$@"
+exec "$execdir/libexec/nbcraft-$arch" "$@"

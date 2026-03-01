@@ -59,7 +59,7 @@ for var in ar ranlib; do
     fi
 done
 
-for dep in "${CLANG:-clang}" make cmake; do
+for dep in "${CLANG:-clang}" make cmake cmp; do
     if ! command -v "$dep" >/dev/null; then
         printf '%s not found!\n' "$dep"
         exit 1
@@ -83,7 +83,7 @@ if [ "$(cat toolchain/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
 fi
 
 # invalidate toolchain cache if settings change
-"$LLVM_CONFIG" --version > toolchainsettings
+"$LLVM_CONFIG" --version > toolchainsettings || true
 if ! cmp -s toolchainsettings toolchain/lasttoolchainsettings; then
     rm -rf toolchain
     outdated_toolchain=1

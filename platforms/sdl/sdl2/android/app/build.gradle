@@ -5,7 +5,7 @@ def useCcache = System.getenv("USE_CCACHE") == "1"
 android {
     compileSdk 36
     defaultConfig {
-        applicationId 'io.github.reminecraftpe'
+        applicationId 'org.nbcraft.nbcraft'
         minSdkVersion 21
         //noinspection EditedTargetSdkVersion
         targetSdkVersion 36
@@ -68,5 +68,5 @@ android {
     lint {
         abortOnError = false
     }
-    namespace = 'io.github.reminecraftpe'
+    namespace = 'org.nbcraft.nbcraft'
 }

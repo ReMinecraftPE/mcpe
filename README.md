@@ -176,7 +176,7 @@ mkdir build && cd build
 cmake -GNinja ..
 cmake --build .
 # Run
-./reminecraftpe
+./nbcraft
 ```
 
 ### HaikuOS
@@ -210,7 +210,7 @@ To build, perform the same steps as on Linux.
 ./platforms/ios/build.sh
 ```
 
-Then install the IPA at `platforms/ios/build/ReMCPE.ipa`
+Then install the IPA at `platforms/ios/build/NBCraft.ipa`
 
 ## Have seams when playing?
 

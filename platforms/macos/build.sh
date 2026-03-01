@@ -83,7 +83,7 @@ for var in ar ranlib; do
     fi
 done
 
-for dep in "${CLANG:-clang}" make cmake; do
+for dep in "${CLANG:-clang}" make cmake cmp; do
     if ! command -v "$dep" >/dev/null; then
         printf '%s not found!\n' "$dep"
         exit 1
@@ -98,9 +98,18 @@ if [ -z "$LLVM_CONFIG" ]; then
     fi
 fi
 
+# If the repo directory is moved the ppc toolchain breaks, and the regular
+# toolchain breaks under non-darwin platforms.
+printf '%s' "$workdir" > workdir
+if ! cmp -s workdir lastworkdir; then
+    [ "$(uname -s)" != "Darwin" ] && rm -rf toolchain
+    rm -rf toolchain-ppc
+fi
+mv workdir lastworkdir
+
 # Increase this if we ever make a change to the toolchain, for example
 # using a newer cctools-port version, and we need to invalidate the cache.
-toolchainver=2
+toolchainver=3
 if [ "$(cat toolchain/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
     rm -rf toolchain
     outdated_toolchain=1
@@ -142,6 +151,8 @@ if [ -n "$outdated_toolchain" ]; then
     rm -rf "apple-libtapi-$tapi_commit"
     if [ "$(uname -s)" = "Darwin" ]; then
         strip -x toolchain/lib/libtapi.dylib
+        install_name_tool -id '@executable_path/../lib/libtapi.dylib' \
+            toolchain/lib/libtapi.dylib
     else
         strip "$(realpath toolchain/lib/libtapi.so)"
     fi

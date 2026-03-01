@@ -1,4 +1,4 @@
-package io.github.reminecraftpe;
+package org.nbcraft.nbcraft;
 
 import android.os.Build;
 import android.os.Bundle;
