@@ -42,11 +42,6 @@ void GameControllerHandler_xinput::_initButtonMap()
     m[XINPUT_GAMEPAD_START]          = GameController::BUTTON_START;
 }
 
-Keyboard::KeyState _getKeyState(bool value)
-{
-    return value ? Keyboard::DOWN : Keyboard::UP;
-}
-
 void GameControllerHandler_xinput::_processButton(GameController::ID controllerId, const XINPUT_STATE& state, GameController::NativeButtonID nativeBtn, GameController::EngineButtonID engineBtn, bool& joinGameAlreadyFired)
 {
     bool bButtonPressed = (state.Gamepad.wButtons & nativeBtn) != 0;
@@ -63,8 +58,7 @@ void GameControllerHandler_xinput::_processButton(GameController::ID controllerI
         joinGameAlreadyFired = true;
     }
 
-    // @TODO: should call GameControllerManager::feedButton() instead
-    Keyboard::feed(_getKeyState(bButtonPressed), engineBtn);
+    GameControllerManager::feedButton(btnState, engineBtn);
 
     lastBtnState = btnState;
 }
@@ -95,9 +89,9 @@ void GameControllerHandler_xinput::refresh()
     {
         XINPUT_STATE& inputState = m_inputStates.m_inputState[id];
         bool joinGameAlreadyFired = false;
-        for (ButtonIDMap::const_iterator it = m_buttonIdMap.begin(); it != m_buttonIdMap.end(); it++)
+        for (ButtonIDMap::iterator it = m_buttonIdMap.begin(); it != m_buttonIdMap.end(); it++)
         {
-            _processButton(id, inputState, it->first, it->second, joinGameAlreadyFired);
+            _processButton(id, inputState, it.key(), it.value(), joinGameAlreadyFired);
         }
 
         GameControllerManager::feedTrigger(1, (float)inputState.Gamepad.bLeftTrigger / 255.0f);

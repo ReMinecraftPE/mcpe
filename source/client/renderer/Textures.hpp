@@ -13,6 +13,7 @@
 #include "client/app/AppPlatform.hpp"
 #include "DynamicTexture.hpp"
 #include "texture/TextureAtlas.hpp"
+#include "common/utility/HashMap.hpp"
 
 #define C_TERRAIN_NAME "terrain.png"
 #define C_ITEMS_NAME   "gui/items.png"
@@ -23,13 +24,15 @@ class DynamicTexture; // in case we are being included from DynamicTexture. We d
 class Textures
 {
 protected:
-	typedef std::map<std::string, TextureData*> TextureMap;
+	typedef HashMap<std::string, TextureData*> TextureMap;
+	typedef HashMap<std::string, TextureAtlas*> TextureAtlasMap;
 
 public:
 	TextureData* loadTexture(const std::string& name, bool bRequired);
 	TextureData* loadAndBindTexture(const std::string& name, bool isRequired = true, unsigned int textureUnit = 0);
 	TextureData* getTextureData(const std::string& name, bool isRequired);
 	TextureData* uploadTexture(const std::string& name, TextureData& t);
+	TextureAtlas* getTextureAtlas(const std::string& name);
 	void unloadAll();
 	void clear();
 	void tick();
@@ -59,6 +62,7 @@ private:
 
 protected:
 	TextureMap m_textures;
+	TextureAtlasMap m_atlases;
 	int m_currBoundTex;
 	bool m_bClamp;
 	bool m_bBlur;

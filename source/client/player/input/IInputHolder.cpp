@@ -32,3 +32,8 @@ void IInputHolder::setScreenSize(int width, int height)
 	getTurnInput()->setScreenSize(width, height);
 	getBuildInput()->setScreenSize(width, height);
 }
+
+bool IInputHolder::allowsType(InputType::Name type) const
+{
+	return type == InputType::KEYBOARD || type == InputType::MOUSE;
+}

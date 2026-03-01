@@ -13,8 +13,9 @@
 class CustomInputHolder : public IInputHolder
 {
 public:
-	CustomInputHolder(IMoveInput*, ITurnInput*, IBuildInput*);
+	CustomInputHolder(IMoveInput*, ITurnInput*, IBuildInput*, bool isController = false);
 
+	bool allowsType(InputType::Name) const override;
 	IMoveInput* getMoveInput() override;
 	ITurnInput* getTurnInput() override;
 	IBuildInput* getBuildInput() override;
@@ -26,5 +27,6 @@ private:
 	IMoveInput* m_pMoveInput;
 	ITurnInput* m_pTurnInput;
 	IBuildInput* m_pBuildInput;
+	bool m_bIsController;
 };
 

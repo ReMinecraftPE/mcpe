@@ -35,7 +35,7 @@ void OptionsScreen_Console::_buttonClicked(Button* btn)
 
 void OptionsScreen_Console::init()
 {
-	Button* layoutButtons[] = {&m_btnHowToPlay, &m_btnControls, &m_btnSettings, &m_btnCredits, &m_btnResetToDefaults};
+	Button* layoutButtons[] = { &m_btnHowToPlay, &m_btnControls, &m_btnSettings, &m_btnCredits, &m_btnResetToDefaults };
 
 	int buttonsWidth = 450;
 	int buttonsHeight = 40;
@@ -70,6 +70,16 @@ bool OptionsScreen_Console::handleBackEvent(bool b)
 	return true;
 }
 
+bool OptionsScreen_Console::validate(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushOptionsScreen(m_pParent);
+		return false;
+	}
+	return true;
+}
+
 #define HEADER(text) do { m_layout.m_elements.push_back(new OptionHeader_Console(text)); currentIndex++; } while (0)
 #define OPTION(name) do { options.name.addGuiElement(m_layout.m_elements, m_uiTheme); currentIndex++; } while (0)
 
@@ -77,7 +87,7 @@ ControlsPanelScreen::ControlsPanelScreen(Screen* parent, Minecraft* mc) : PanelS
 {
 	Options& options = *mc->getOptions();
 	int currentIndex = -1;
-	int idxSplit = -1, idxController = -1;
+	int idxSplit = -1;
 
 	OPTIONS_LIST_CONTROLS_CONTROLS;
 	OPTIONS_LIST_CONTROLS_FEEDBACK;
@@ -85,7 +95,6 @@ ControlsPanelScreen::ControlsPanelScreen(Screen* parent, Minecraft* mc) : PanelS
 
 	if (!mc->isTouchscreen())
 		m_layout.m_elements[idxSplit]->setEnabled(false);
-	m_layout.m_elements[idxController]->setEnabled(false);
 }
 
 void ControlsPanelScreen::removed()
@@ -134,6 +143,7 @@ OptionHeader_Console::OptionHeader_Console(const std::string& text)
 	: m_text(text)
 {
 	m_height = 22;
+	setNavigable(false);
 }
 
 void OptionHeader_Console::render(Minecraft* pMinecraft, const MenuPointer& pointer)

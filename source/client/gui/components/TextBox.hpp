@@ -40,7 +40,7 @@ private:
 public:
 	void init(Font* pFont);
 	bool pointerPressed(Minecraft* pMinecraft, const MenuPointer& pointer) override;
-	void handleButtonPress(Minecraft* pMinecraft, int key) override;
+	void handleButtonPress(Minecraft* pMinecraft, const ButtonInfo&) override;
 	void handleTextChar(Minecraft* pMinecraft, int chr) override;
 	void handleClipboardPaste(const std::string& text) override;
 	void render(Minecraft* pMinecraft, const MenuPointer& pointer) override;

@@ -10,6 +10,7 @@ public:
 	void init() override;
 	void render(float) override;
 	void _buttonClicked(Button*) override;
+	bool validate(Minecraft*) override;
 
 private:
 	Button m_btnResume;

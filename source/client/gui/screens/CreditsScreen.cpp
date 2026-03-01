@@ -53,9 +53,9 @@ bool CreditsScreen::isInGameScreen()
 	return true;
 }
 
-void CreditsScreen::keyPressed(int code)
+void CreditsScreen::buttonPressed(const ButtonInfo& info)
 {
-	Screen::keyPressed(code);
+	Screen::buttonPressed(info);
 }
 
 void CreditsScreen::tick()

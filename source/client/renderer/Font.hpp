@@ -11,6 +11,9 @@
 #include "Textures.hpp"
 #include "client/options/Options.hpp"
 #include "renderer/MaterialPtr.hpp"
+#include "client/renderer/renderer/Tesselator.hpp"
+
+#define C_FONT_CHARS_AMOUNT (256)
 
 class Font
 {
@@ -47,8 +50,8 @@ public:
 
 private:
 	int field_0; 
-	int m_charWidthInt[256];
-	float m_charWidthFloat[256];
+	int m_charWidthInt[C_FONT_CHARS_AMOUNT];
+	float m_charWidthFloat[C_FONT_CHARS_AMOUNT];
 	// huge gap, don't know why it's there...
 	std::string m_fileName;
 	Options* m_pOptions;

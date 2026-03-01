@@ -125,6 +125,12 @@ TextureData* Textures::uploadTexture(const std::string& name, TextureData& t)
 	return result;
 }
 
+TextureAtlas* Textures::getTextureAtlas(const std::string& name)
+{
+	TextureAtlasMap::iterator it = m_atlases.find(name);
+	return it != m_atlases.end() ? it->second : nullptr;
+}
+
 void Textures::unloadAll()
 {
 	for (TextureMap::iterator it = m_textures.begin(); it != m_textures.end(); it++)
@@ -283,6 +289,7 @@ void Textures::setupAtlas(TextureAtlas& atlas)
 {
 	atlas.build();
 	uploadTexture(atlas.m_name, atlas.m_texture);
+	m_atlases[atlas.m_name] = &atlas;
 }
 
 const TextureAtlasSprite* Textures::getGuiSprite(const std::string& spriteTexture)

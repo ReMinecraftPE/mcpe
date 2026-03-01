@@ -548,9 +548,6 @@ void Inventory::dropAll(bool onlyClearContainer)
 
 void Inventory::save(ListTag& tag) const
 {
-	if (_getGameMode() == GAME_TYPE_CREATIVE)
-		return;
-
 	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		const ItemStack& item = m_items[i];
@@ -590,9 +587,6 @@ void Inventory::save(ListTag& tag) const
 
 void Inventory::load(const ListTag& tag)
 {
-	if (_getGameMode() == GAME_TYPE_CREATIVE)
-		return;
-
 	const std::vector<Tag*>& itemTags = tag.rawView();
 
 	for (std::vector<Tag*>::const_iterator it = itemTags.begin(); it != itemTags.end(); it++)
@@ -621,9 +615,4 @@ void Inventory::load(const ListTag& tag)
 			}
 		}
 	}
-}
-
-GameType Inventory::_getGameMode() const
-{
-	return m_pPlayer->getPlayerGameType();
 }

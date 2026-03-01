@@ -119,3 +119,13 @@ void PauseScreen::_buttonClicked(Button* pButton)
 	}
 #endif
 }
+
+bool PauseScreen::validate(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() == UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushPauseScreen();
+		return false;
+	}
+	return true;
+}

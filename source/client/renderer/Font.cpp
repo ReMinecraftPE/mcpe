@@ -8,7 +8,6 @@
 
 #include "Font.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
-#include "client/renderer/renderer/Tesselator.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/MatrixStack.hpp"
 #include <sstream>
@@ -33,7 +32,7 @@ void Font::init(Options* pOpts)
 	TextureData* pTexture = m_pTextures->getTextureData(m_fileName, true);
 	if (!pTexture) return;
 
-	for (int i = 0; i < 256; i++) // character number
+	for (int i = 0; i < C_FONT_CHARS_AMOUNT; i++) // character number
 	{
 		// note: the 'widthMax' behavior is assumed. It might not be like that exactly
 		int widthMax = 0;

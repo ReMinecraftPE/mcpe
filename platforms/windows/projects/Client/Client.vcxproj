@@ -258,6 +258,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\ScreenChooser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\LoadingTipManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\SplashManager.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\InputType.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />

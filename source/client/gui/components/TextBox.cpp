@@ -205,26 +205,26 @@ char TextBox::guessCharFromKey(int key) {
 
 #endif
 
-void TextBox::handleButtonPress(Minecraft* pMinecraft, int key)
+void TextBox::handleButtonPress(Minecraft* pMinecraft, const ButtonInfo& info)
 {
 	Options& options = *pMinecraft->getOptions();
 
 	if (!hasFocus())
 	{
-		if (options.isKey(KM_MENU_OK, key))
+		if (options.isButton(BM_MENU_OK, info))
 			setFocused(true);
 		return;
 	}
 
 #ifndef HANDLE_CHARS_SEPARATELY
-	char guess = guessCharFromKey(key);
+	char guess = guessCharFromKey(bind.keyId);
 	if (guess != '\0') {
 		handleTextChar(guess);
 		return;
 	}
 #endif
 
-	switch (key) {
+	switch (info.keyId) {
 		case AKEYCODE_DEL:
 		{
 			// handled elsewhere, do not dupe

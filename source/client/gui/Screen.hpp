@@ -76,7 +76,7 @@ public:
 	int getYOffset();
 	unsigned int getCursorMoveThrottle() const { return 65; }
 	bool doElementTabbing() const;
-	void controllerEvent(GameController::StickID stickId, double deltaTime = 0.0);
+	void controllerStickEvent(GameController::StickID stickId, double deltaTime = 0.0);
 
 protected:
 	virtual bool _areaNavigation(AreaNavigation::Direction);
@@ -117,13 +117,14 @@ public:
 	virtual void onTextBoxUpdated(int id) {};
 	virtual void pointerPressed(const MenuPointer& pointer, MouseButtonType btn);
 	virtual void pointerReleased(const MenuPointer& pointer, MouseButtonType btn);
-	virtual void keyPressed(int);
+	virtual void buttonPressed(const ButtonInfo&);
 	virtual void handleTextChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
 	virtual float getScale(int width, int height);
 	static float GetConsoleScale(int height);
 	virtual void setTextboxText(const std::string& text);
 	virtual void handleKeyboardClosed();
+	virtual bool validate(Minecraft*);
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);
@@ -152,6 +153,13 @@ public:
 		Screen* m_pScreen;
 	};
 
+	enum Type
+	{
+		SCREEN_SPECIFIC,	// The Screen handles a specific UI Theme
+		SCREEN_GENERIC,		// The Screen is a Java / Pocket mix
+		SCREEN_UNIVERSAL	// The Screen automatically handles all UI themes
+	};
+
 	int m_width;
 	int m_height;
 	bool m_bPassEvents;
@@ -162,6 +170,7 @@ public:
 	GuiElement* m_pSelectedElement;
 	Font* m_pFont;
 	GuiElement* m_pClickedElement;
+	Type m_screenType;
 	UITheme m_uiTheme;
 
 #ifndef ORIGINAL_CODE

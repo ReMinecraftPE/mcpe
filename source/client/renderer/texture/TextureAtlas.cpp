@@ -76,7 +76,7 @@ void TextureAtlas::_init()
     m_texture.m_imageData.release();
 
     int size = getWidth() * getHeight() * 4;
-    uint8_t *mem = (uint8_t *)malloc(size);
+    uint8_t* mem = (uint8_t*)malloc(size);
     if (!mem)
         throw std::bad_alloc();
     m_texture.m_imageData.m_data = mem;
@@ -110,10 +110,9 @@ bool TextureAtlas::pack()
         blitSprite(pending.data, pending.width, pending.height, m_currentX, m_currentY);
 
         m_sprites[pending.name] = TextureAtlasSprite(
-            pending.name,
             m_currentX, m_currentY,
             pending.width, pending.height,
-            this
+            m_name, getWidth(), getHeight()
         );
 
         m_currentX += pending.width;
@@ -167,13 +166,12 @@ int TextureAtlas::getHeight() const
     return m_texture.m_imageData.m_height;
 }
 
-TextureAtlasSprite::TextureAtlasSprite(const std::string& name, int x, int y, int width, int height, TextureAtlas* atlas) :
+TextureAtlasSprite::TextureAtlasSprite(int x, int y, int width, int height, const std::string& atlasName, int atlasWidth, int atlasHeight) :
     IntRectangle(x, y, width, height),
-    name(name),
-    m_pAtlas(atlas)
+    atlasName(atlasName)
 {
-    minU = float(x) / atlas->getWidth();
-    minV = float(y) / atlas->getHeight();
-    maxU = float(x + width) / atlas->getWidth();
-    maxV = float(y + height) / atlas->getHeight();
+    minU = float(x) / atlasWidth;
+    minV = float(y) / atlasHeight;
+    maxU = float(x + width) / atlasWidth;
+    maxV = float(y + height) / atlasHeight;
 }

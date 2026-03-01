@@ -65,7 +65,7 @@ public:
 	bool isInside(int mx, int my);
 	void handleClick(int id, int mx, int my);
 	void handleScrollWheel(bool down);
-	void handleKeyPressed(int keyCode);
+	void handleButtonPressed(const ButtonInfo&);
 	void renderMessages(bool bShowAll);
 	void renderHearts(bool topLeft);
 	void renderArmor(bool topLeft);

@@ -14,6 +14,7 @@ PauseScreen_Console::PauseScreen_Console() :
 	m_btnLeaderboards.setEnabled(false);
 	m_btnAchievements.setEnabled(false);
 
+	m_screenType = SCREEN_SPECIFIC;
 	m_uiTheme = UI_CONSOLE;
 }
 
@@ -54,4 +55,14 @@ void PauseScreen_Console::_buttonClicked(Button* btn)
 		m_pMinecraft->m_pLevel->saveGame(); // Minecraft auto-saves automatically when we hit the pause screen
 	else if (btn->getId() == m_btnExitGame.getId())
 		m_pMinecraft->leaveGame(false);
+}
+
+bool PauseScreen_Console::validate(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushPauseScreen();
+		return false;
+	}
+	return true;
 }

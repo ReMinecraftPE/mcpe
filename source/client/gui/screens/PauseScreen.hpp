@@ -15,10 +15,11 @@ class PauseScreen : public Screen
 {
 public:
 	PauseScreen();
-	virtual void init() override;
-	virtual void tick() override;
-	virtual void render(float f) override;
-	virtual void _buttonClicked(Button*) override;
+	void init() override;
+	void tick() override;
+	void render(float f) override;
+	void _buttonClicked(Button*) override;
+	bool validate(Minecraft*) override;
 	
 	void updateServerVisibilityText();
 

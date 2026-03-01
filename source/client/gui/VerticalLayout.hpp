@@ -12,6 +12,7 @@ public:
     ~VerticalLayout();
 
     GuiElement* getElement(ID) const;
+    bool isLastIn(AreaNavigation::Direction dir);
     bool isTopElement(GuiElement& element) const { return element.m_yPos == m_yPos; };
     bool isBottomElement(GuiElement& element) const { return element.m_yPos == m_bottom; };
     bool selectElementById(ID, bool sound = true);
@@ -21,6 +22,7 @@ public:
     void organize();
     void clear();
 
+    void startNavigation();
     bool areaNavigation(Minecraft*, AreaNavigation::Direction) override;
     void areaNavigation(AreaNavigation::Direction, bool cyclic = false);
     void setSelected(bool);

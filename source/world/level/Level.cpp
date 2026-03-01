@@ -322,10 +322,10 @@ Entity* Level::getEntity(Entity::ID id) const
 unsigned int Level::getEntityCount(const EntityCategories& category) const
 {
 	EntityCategories::CategoriesMask mask = category.getCategoryMask();
-	std::map<EntityCategories::CategoriesMask, int>::const_iterator it = m_entityCountsByCategory.find(mask);
+	HashMap<uint32_t, int>::const_iterator it = m_entityCountsByCategory.find(mask);
 	if (it == m_entityCountsByCategory.end())
 		return 0;
-	return it->second;
+	return it.value();
 }
 
 const EntityVector* Level::getAllEntities() const
@@ -1265,6 +1265,9 @@ void Level::loadPlayer(Player& player)
 		m_pLevelData->setLoadedPlayerTag(nullptr);
 		//addEntity(&player);
 	}
+	else if (player.isCreative())
+		player.m_pInventory->prepareCreativeInventory();
+
 	m_pLevelData->setLoadedPlayerTo(player);
 
 	// 0.2.1 had us only adding the player if LevelData had a CompoundTag

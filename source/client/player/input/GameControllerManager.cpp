@@ -9,6 +9,7 @@
 #include <cmath>
 
 #include "GameControllerManager.hpp"
+#include "client/app/Minecraft.hpp"
 
 const float GameControllerManager::DIRECTION_X_THRESHOLD = 0.3f;
 const float GameControllerManager::DIRECTION_Y_THRESHOLD = 0.3f;
@@ -17,12 +18,64 @@ const float GameControllerManager::DIRECTION_Y_THRESHOLD = 0.3f;
 // 0.3051f
 float GameControllerManager::_deadzonesX[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
 float GameControllerManager::_deadzonesY[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
+std::vector<GameController::ButtonEvent> GameControllerManager::_inputs;
+GameController::ButtonState GameControllerManager::_states[];
+size_t GameControllerManager::_index = -1;
 
 bool GameControllerManager::isTouchedValues[] = { false, false };
 float GameControllerManager::stickValuesX[] = { 0.0f, 0.0f };
 float GameControllerManager::stickValuesY[] = { 0.0f, 0.0f };
 float GameControllerManager::triggerValues[] = { 0.0f, 0.0f };
 bool GameControllerManager::inReset = true;
+
+void GameControllerManager::feedButton(GameController::ButtonState state, GameController::EngineButtonID button)
+{
+	// Prevent Crashes
+	if (button >= GameController::BUTTON_MAX || button < 0) {
+		return;
+	}
+
+	Minecraft::setInputType(InputType::CONTROLLER);
+
+	GameController::ButtonEvent event;
+	event.state = state;
+	event.id = button;
+	event.bAllowRemapping = false;
+
+	_inputs.push_back(event);
+
+	_states[button] = state;
+}
+
+bool GameControllerManager::next()
+{
+	if ((size_t)_index + 1 >= _inputs.size())
+	{
+		if (!_inputs.empty()) clear();
+		return false;
+	}
+
+	_index++;
+	return true;
+}
+
+GameController::EngineButtonID GameControllerManager::getEventButton()
+{
+	return _inputs[_index].id;
+}
+
+GameController::ButtonState GameControllerManager::getEventButtonState()
+{
+	return _inputs[_index].state;
+}
+
+bool GameControllerManager::isButtonDown(GameController::EngineButtonID button)
+{
+	if (button < 0 || button >= GameController::BUTTON_MAX)
+		return false;
+
+	return _states[button] == GameController::BTN_STATE_DOWN;
+}
 
 bool GameControllerManager::isValidStick(GameController::StickID stickId)
 {
@@ -63,6 +116,9 @@ void GameControllerManager::feedStickX(GameController::StickID stickId, bool tou
 	stickValuesX[index] = x; // LCE has a deadzone of 20000, ~0.3f on 360
 
 	inReset = false;
+
+	if (x != 0.0f)
+		Minecraft::setInputType(InputType::CONTROLLER);
 }
 
 void GameControllerManager::feedStickY(GameController::StickID stickId, bool touched, float y)
@@ -83,6 +139,9 @@ void GameControllerManager::feedStickY(GameController::StickID stickId, bool tou
 	stickValuesY[index] = y; // LCE has a deadzone of 20000, ~0.3f on 360
 
 	inReset = false;
+
+	if (y != 0.0f)
+		Minecraft::setInputType(InputType::CONTROLLER);
 }
 
 void GameControllerManager::feedStick(GameController::StickID stickId, bool touched, float x, float y)
@@ -192,8 +251,15 @@ float GameControllerManager::getPressure(int triggerNo)
 	return isValidTrigger(triggerNo) ? triggerValues[triggerNo - 1] : 0;
 }
 
+void GameControllerManager::clear()
+{
+	_index = -1;
+	_inputs.clear();
+}
+
 void GameControllerManager::reset()
 {
+	clear();
 	feedStick(1, 0, 0.0f, 0.0f);
 	feedStick(2, 0, 0.0f, 0.0f);
 	feedTrigger(1, 0.0f);

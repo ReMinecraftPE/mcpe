@@ -8,6 +8,7 @@
 
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
+#include "client/player/input/GameController.hpp"
 #include "common/Logger.hpp"
 
 class AppPlatform_sdl : public AppPlatform

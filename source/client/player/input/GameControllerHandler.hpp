@@ -1,7 +1,6 @@
 #pragma once
 
-#include <map>
-
+#include "common/utility/HashMap.hpp"
 #include "client/app/AppPlatform.hpp"
 #include "world/phys/Vec2.hpp"
 #include "GameController.hpp"
@@ -11,8 +10,8 @@
 class GameControllerHandler
 {
 public:
-	typedef std::map<GameController::NativeButtonID, GameController::EngineButtonID> ButtonIDMap;
-	typedef std::map<GameController::NativeButtonID, GameController::ButtonState> ButtonStateLookup;
+	typedef HashMap<GameController::NativeButtonID, GameController::EngineButtonID> ButtonIDMap;
+	typedef HashMap<GameController::NativeButtonID, GameController::ButtonState> ButtonStateLookup;
 
 public:
 	GameControllerHandler();

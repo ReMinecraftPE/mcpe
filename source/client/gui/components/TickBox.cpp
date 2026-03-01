@@ -48,11 +48,9 @@ void TickBox::render(Minecraft* mc, const MenuPointer& pointer)
 	if (!mc->m_pScreen->doElementTabbing())
 		setSelected(isHovered(mc, pointer));
 
-	if (!isEnabled())
-		currentShaderColor.a *= 0.5f;
-
 	Color unselectedColor = Color::TEXT_GREY;
-	unselectedColor.a = currentShaderColor.a;
+	if (!isEnabled())
+		unselectedColor.a = 0.5f;
 	mc->m_pFont->drawScalable(
 		getMessage(),
 		m_xPos + C_TICKBOX_SIZE + 5,
@@ -64,7 +62,10 @@ void TickBox::render(Minecraft* mc, const MenuPointer& pointer)
 			getMessage(),
 			m_xPos + C_TICKBOX_SIZE + 4,
 			m_yPos + m_height / 2 - 9,
-			Color(204, 196, 13, currentShaderColor.a));
+			Color(204, 196, 13, unselectedColor.a));
+
+	if (!isEnabled())
+		currentShaderColor.a *= 0.5f;
 
 	blitSprite(*mc->m_pTextures, isSelected() ? "gui/console/Graphics/Tickbox_Over.png" : "gui/console/Graphics/Tickbox_Norm.png", m_xPos, m_yPos + (m_height - C_TICKBOX_SIZE) / 2, C_TICKBOX_SIZE, C_TICKBOX_SIZE, &m_materials.ui_textured_and_glcolor);
 

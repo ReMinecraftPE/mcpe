@@ -157,11 +157,11 @@ int ItemStack::getIdAux() const
 CompoundTag* ItemStack::getNetworkUserData() const
 {
 	CompoundTag* userData = new CompoundTag();
-	CompoundTag::NamedTagMap& tags = m_userData->rawView();
-	for (CompoundTag::NamedTagMap::iterator it = tags.begin(); it != tags.end(); it++)
+	const CompoundTag::NamedTagMap& tags = m_userData->rawView();
+	for (CompoundTag::NamedTagMap::const_iterator it = tags.begin(); it != tags.end(); it++)
 	{
-		const std::string& name = it->first;
-		const Tag* tag = it->second;
+		const std::string& name = it.key();
+		const Tag* tag = it.value();
 		if (!tag) continue;
 
 		if (name == TAG_REPAIR_COST)

@@ -102,7 +102,13 @@ void NinecraftApp::_initRenderMaterials()
 void NinecraftApp::_initInput()
 {
 	m_bIsTouchscreen = platform()->isTouchscreen();
-	getOptions()->m_bUseController.set(platform()->hasGamepad());
+
+	//If someone has a gamepad connected, certainly they want to use it
+	if (platform()->hasGamepad())
+		setInputType(InputType::CONTROLLER);
+	else if (platform()->isTouchscreen())
+		setInputType(InputType::TOUCHSCREEN);
+
 	getOptions()->loadControls();
 	_reloadInput();
 }
@@ -365,13 +371,10 @@ void NinecraftApp::update()
 
 	Multitouch::commit();
 
-	if (getOptions()->m_bUseController.get())
+	GameControllerHandler* pControllerHandler = platform()->getGameControllerHandler();
+	if (pControllerHandler)
 	{
-		GameControllerHandler* pControllerHandler = platform()->getGameControllerHandler();
-		if (pControllerHandler)
-		{
-			pControllerHandler->refresh();
-		}
+		pControllerHandler->refresh();
 	}
 
 	Minecraft::update();

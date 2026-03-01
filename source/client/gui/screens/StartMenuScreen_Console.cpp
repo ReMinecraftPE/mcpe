@@ -17,6 +17,7 @@ StartMenuScreen_Console::StartMenuScreen_Console() :
 	m_btnAchievements.setEnabled(false);
 	m_btnDownload.setEnabled(false);
 
+	m_screenType = SCREEN_SPECIFIC;
 	m_uiTheme = UI_CONSOLE;
 
 	m_splash = SplashManager::singleton().getSplash();
@@ -72,4 +73,14 @@ void StartMenuScreen_Console::_buttonClicked(Button* btn)
 		m_pMinecraft->getScreenChooser()->pushOptionsScreen(this);
 	else if (btn->getId() == m_btnExitGame.getId())
 		m_pMinecraft->quit();
+}
+
+bool StartMenuScreen_Console::validate(Minecraft* mc)
+{
+	if (mc->getOptions()->getUiTheme() != UI_CONSOLE)
+	{
+		mc->getScreenChooser()->pushStartScreen();
+		return false;
+	}
+	return true;
 }

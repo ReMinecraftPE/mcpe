@@ -33,7 +33,7 @@ void Skeleton::checkHurtTarget(Entity* ent, float f)
 		{
 			Arrow* arrow = new Arrow(m_pLevel, this);
 			arrow->m_pos.y += 1;
-			float var8 = ent->m_pos.y - 0.2f - arrow->m_pos.y;
+			float var8 = ent->m_pos.y + ent->getHeadHeight() - 0.2f - arrow->m_pos.y;
 			float var10 = Mth::sqrt(delta_x * delta_x + delta_z * delta_z) * 0.2f;
 			m_pLevel->playSound(this, "random.bow", 1.0f, 1.0f / (m_random.nextFloat() * 0.4f + 0.8f));
 			m_pLevel->addEntity(arrow);
