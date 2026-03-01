@@ -56,7 +56,7 @@ android {
         // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                arguments '-DANDROID_PLATFORM=android-21', '-DANDROID_STL=c++_static', '-DNBC_PLATFORM=android', '-DNBC_AUDIO_LIBRARY=opensl', '-DNBC_GFX_API=OGL'
+                arguments '-DANDROID_PLATFORM=android-16', '-DANDROID_STL=c++_static', '-DNBC_PLATFORM=android', '-DNBC_AUDIO_LIBRARY=opensl', '-DNBC_GFX_API=OGL'
                 abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
                 if (useCcache) {
                     arguments += '-DCMAKE_C_COMPILER_LAUNCHER=ccache'
