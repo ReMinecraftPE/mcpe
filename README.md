@@ -1,6 +1,6 @@
 # NBCraft (NBC)
 
-**NBCraft is not affiliated or associated with Minecraft, Mojang AB, or Microsoft.**
+**NBCraft is not affiliated or associated with Minecraft, Mojang AB, or Microsoft.**<br>
 To be absolutely clear: **THIS IS NOT AN OFFICIAL MINECRAFT PRODUCT AND IS NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT**
 
 This project aims to provide a customizable, cross-platform, legacy mining experience.
