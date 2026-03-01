@@ -6,8 +6,8 @@ if [ -z "$NBC_TARGET" ]; then
 fi
 
 case $0 in
-    *++) cc="nbcraft-clang++" ;;
-    *)   cc="nbcraft-clang"   ;;
+    *++) cc="nbc-clang++" ;;
+    *)   cc="nbc-clang"   ;;
 esac
 
 case $NBC_TARGET in
