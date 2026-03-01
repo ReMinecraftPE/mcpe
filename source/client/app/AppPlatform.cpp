@@ -18,7 +18,9 @@
 #include "compat/LegacyCPP.hpp"
 #include "AppPlatformListener.hpp"
 
-AppPlatform* AppPlatform::m_singleton = nullptr;
+// NOTE: don't initialize this with `nullptr`, because some compilers think ` = nullptr;` is a
+// static initialization rather than just setting to null/0.
+AppPlatform* AppPlatform::m_singleton = NULL;
 
 AppPlatform* AppPlatform::singleton()
 {
