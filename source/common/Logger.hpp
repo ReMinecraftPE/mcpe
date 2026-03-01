@@ -44,7 +44,7 @@ static inline void mc_vlog(enum eLogLevel loglevel, const char *fmt, va_list ap)
 {
 #ifdef ANDROID
 	// TODO: Add a LoggerAndroid
-	__android_log_vprint(loglevel, C_GAME_NAME, fmt, ap);
+	__android_log_vprint(loglevel, "NBCraft", fmt, ap);
 #else
 	Logger::singleton()->vprintf(loglevel, fmt, ap);
 #endif
