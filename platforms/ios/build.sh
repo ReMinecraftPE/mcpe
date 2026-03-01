@@ -12,7 +12,7 @@ targets='armv7-apple-ios3.1 arm64-apple-ios7.0'
 bin='nbcraft'
 
 platformdir=$PWD
-entitlements="$platformdir/minecraftpe.entitlements"
+entitlements="$platformdir/nbcraft.entitlements"
 
 workdir="$PWD/build/work"
 sdk="$workdir/sdks/ios-sdk"
