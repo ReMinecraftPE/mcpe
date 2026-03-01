@@ -6359,7 +6359,7 @@
 				84619B1D2AF1EC3500B0DE81 /* PBXTargetDependency */,
 			);
 			name = NBCraftClient.iOS;
-			productName = minecraftpe;
+			productName = nbcraft;
 			productReference = 8492591D2AD8FCFC0081F5B9 /* NBCraftClient.iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
