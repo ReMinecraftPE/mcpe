@@ -188,7 +188,7 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: android-${{ steps.get-time.outputs.time }}
+              key: android-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
               restore-keys: android-
           - name: Unpack cache
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
