@@ -1,6 +1,6 @@
-# ReMinecraftPE
+# NBCraft (NBC)
 
-This project aims to provide a customizable, cross-platform, legacy Minecraft experience.
+This project aims to provide a customizable, cross-platform, legacy mining experience.
 The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of 2011, which itself is a port of Minecraft: Java Edition (Beta 1.3-1.7.3).
 
 **Its goals are:**
@@ -34,9 +34,9 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 * Add support for Minecraft Java or Minecraft Bedrock servers. (although LAN play with original MCPE clients
   will be supported for as long as possible)
 
-Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMinecraftPE works on any of the platforms listed above.
+Note: While the original Minecraft PE v0.1.3 may not work on newer devices, nbcraft-org works on any of the platforms listed above.
 
-### This is a modified version of [the original Minecraft PE v0.1.3 decompilation](https://github.com/ReMinecraftPE/mcped).
+### This is a modified version of [the original Minecraft PE v0.1.3 decompilation](https://github.com/nbcraft-org/mcped).
 
 ## License information
 
@@ -50,8 +50,8 @@ software with different but compatible licenses:
 
 ## WANT TO HELP?
 
-Want to help this project? Here's [a list of things to do.](https://github.com/ReMinecraftPE/mcpe/issues)
-Once your code is tested and ready, [submit a pull request](https://github.com/ReMinecraftPE/mcpe/pulls).
+Want to help this project? Here's [a list of things to do.](https://github.com/nbcraft-org/mcpe/issues)
+Once your code is tested and ready, [submit a pull request](https://github.com/nbcraft-org/mcpe/pulls).
 
 ## USING BETA ASSETS
 
@@ -96,9 +96,9 @@ This fetches the project's necessary dependencies.
 
 ### Windows
 
-Click the thumbnail below to watch a video guide showcasing how to build ReMCPE.
+Click the thumbnail below to watch a video guide showcasing how to build NBCraft.
 <a href="https://youtu.be/Tx1u7C2DCPI" target="_blank">
-  <img alt="How to Compile ReMCPE for Windows" src="http://i.ytimg.com/vi/Tx1u7C2DCPI/maxresdefault.jpg" />
+  <img alt="How to Compile NBCraft for Windows" src="http://i.ytimg.com/vi/Tx1u7C2DCPI/maxresdefault.jpg" />
 </a>
 
 The project is configured to target Windows XP by default by using "v141_xp" build tools. If you would like
@@ -215,6 +215,9 @@ Panel, then in "Manage 3D Settings", change "Antialiasing - Mode" to "Applicatio
 
 ## Enhancements
 
-ReMinecraftPE is an enhanced version of the original decompilation. To see the original, (mostly) unmodified code,
-[see the mcped repository](https://github.com/ReMinecraftPE/mcped).
+NBCraft is an enhanced version of the original decompilation. To see the original, (mostly) unmodified code,
+[see the mcped repository](https://github.com/nbcraft-org/mcped).
 
+## Where'd the name come from?
+We came up with "NBCraft" by combining the last names of the three original developers of Minecraft: Pocket Edition;
+Aron Nieminen, Johan Bernhardsson, and Tommaso Checchi
