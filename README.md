@@ -1,17 +1,22 @@
 # NBCraft (NBC)
 
+**NBCraft is not affiliated or associated with Minecraft, Mojang AB, or Microsoft.**
+To be absolutely clear: ** THIS IS NOT AN OFFICIAL MINECRAFT PRODUCT AND IS NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT **
+
 This project aims to provide a customizable, cross-platform, legacy mining experience.
 The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of 2011, which itself is a port of Minecraft: Java Edition (Beta 1.3-1.7.3).
+The decompilation was performed primarily using [IDA](https://hex-rays.com/ida-pro) in conjunction with Android builds of MCPE, since these contain info such as function and class names.
 
 **Its goals are:**
 * To add features from Minecraft Beta 1.7.3 and below.
 * To add togglable edition-specific aesthetic features.
   Some examples include:
-  * Legacy Console Edition gamma and mipmaps
-  * Pocket Edition sky colors
+  * Legacy Console Edition UI theme, gamma, and mipmaps
+  * Pocket Edition UI theme and sky colors
+  * Java Edition UI theme
   * Normal lighting (something Pocket Edition lacked)
   * Alpha title logo
-* To (in the future) provide a cross-platform modding API in [WebAssembly](https://webassembly.org/), giving more creative control to the community.
+* To (in the future) provide a cross-platform modding API in the form of [WebAssembly](https://webassembly.org/) modules, giving more creative control to the community.
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
 * To add support for as many platforms as possible, such as the PlayStation 3, Wii, and more.
@@ -34,9 +39,13 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 * Add support for Minecraft Java or Minecraft Bedrock servers. (although LAN play with original MCPE clients
   will be supported for as long as possible)
 
-Note: While the original Minecraft PE v0.1.3 may not work on newer devices, nbcraft-org works on any of the platforms listed above.
+Note: While the original Minecraft PE v0.1.3 may not work on newer devices, NBCraft works on any of the platforms listed above.
 
 ### This is a modified version of [the original Minecraft PE v0.1.3 decompilation](https://github.com/nbcraft-org/mcped).
+
+## Where'd the name come from?
+We came up with "NBCraft" by combining the last names of the three original developers of Minecraft: Pocket Edition;
+Aron Nieminen, Johan Bernhardsson, and Tommaso Checchi
 
 ## License information
 
@@ -50,8 +59,8 @@ software with different but compatible licenses:
 
 ## WANT TO HELP?
 
-Want to help this project? Here's [a list of things to do.](https://github.com/nbcraft-org/mcpe/issues)
-Once your code is tested and ready, [submit a pull request](https://github.com/nbcraft-org/mcpe/pulls).
+Want to help this project? Here's [a list of things to do.](https://github.com/nbcraft-org/nbcraft/issues)
+Once your code is tested and ready, [submit a pull request](https://github.com/nbcraft-org/nbcraft/pulls).
 
 ## USING BETA ASSETS
 
@@ -212,12 +221,3 @@ Panel, then in "Manage 3D Settings", change "Antialiasing - Mode" to "Applicatio
 ![In-game](screenshots/ingame.png)
 ![Inventory](screenshots/inventory.png)
 ![Pause menu](screenshots/pause_screen.png)
-
-## Enhancements
-
-NBCraft is an enhanced version of the original decompilation. To see the original, (mostly) unmodified code,
-[see the mcped repository](https://github.com/nbcraft-org/mcped).
-
-## Where'd the name come from?
-We came up with "NBCraft" by combining the last names of the three original developers of Minecraft: Pocket Edition;
-Aron Nieminen, Johan Bernhardsson, and Tommaso Checchi
