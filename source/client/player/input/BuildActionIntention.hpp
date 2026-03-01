@@ -1,5 +1,5 @@
 /********************************************************************
-	ReMinecraftPE
+	NBCraft
 	Copyright (C) 2023 iProgramInCpp
 
 	The following code is licensed under the BSD 1 clause license.

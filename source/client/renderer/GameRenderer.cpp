@@ -154,7 +154,7 @@ void GameRenderer::_renderDebugOverlay(float a)
 	Font& font = *m_pMinecraft->m_pFont;
 
 	std::stringstream debugText;
-	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
+	debugText << C_GAME_NAME " " << m_pMinecraft->getVersionString();
 	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
 
 	/*

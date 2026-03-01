@@ -397,7 +397,7 @@ int main(int argc, char *argv[])
 #endif
 
 	// Create Window
-	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, VIDEO_FLAGS);
+	window = SDL_CreateWindow(C_GAME_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, VIDEO_FLAGS);
 	if (!window)
 	{
 		LOG_E("Unable to create SDL window: %s", SDL_GetError());
@@ -437,7 +437,7 @@ int main(int argc, char *argv[])
 			storagePath = (std::string)xdg_data + "/.local/share";
 	}
 #endif
-	storagePath += "/.reminecraftpe";
+	storagePath += "/" C_STORAGE_DIR;
 	
 	if (!storagePath.empty())
 		createFolderIfNotExists(storagePath.c_str());

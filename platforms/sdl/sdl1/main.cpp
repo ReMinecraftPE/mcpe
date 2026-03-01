@@ -59,8 +59,8 @@ static void initPlatform()
 
     // disable buffering for stdout, so we don't lose our logs when abort is called
     setbuf(stdout, NULL);
-    freopen("reminecraftpe.stdout.log", "w", stdout);
-    freopen("reminecraftpe.stderr.log", "w", stderr);
+    freopen("nbcraft.stdout.log", "w", stdout);
+    freopen("nbcraft.stderr.log", "w", stderr);
 #endif
 }
 
@@ -112,7 +112,7 @@ static std::string getStoragePath()
 
     if (!path.empty())
         path += "/";
-    path += ".reminecraftpe";
+    path += C_STORAGE_DIR;
 
     return path;
 }
@@ -268,7 +268,7 @@ int main(int argc, char* argv[])
     
     SDL_EnableUNICODE(SDL_TRUE);
 
-	SDL_WM_SetCaption("ReMinecraftPE", nullptr);
+	SDL_WM_SetCaption(C_GAME_NAME, nullptr);
     //LOG_I("Setting SDL video mode...");
     // XENON: width and height need to be accurate to what's already set by the console,
     // or else libXenon will crash.

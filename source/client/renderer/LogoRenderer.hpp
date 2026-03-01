@@ -23,7 +23,7 @@ protected:
 
 private:
     friend class LogoRenderer;
-    static Tile* _tiles[3];
+    static Tile* _tiles[2];
     static bool _firstTimeInit;
     static Random _random;
     static Tile* getRandomTile(Tile* except1, Tile* except2);

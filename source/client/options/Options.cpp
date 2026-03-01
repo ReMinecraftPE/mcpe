@@ -387,7 +387,7 @@ void Options::savePropertiesToFile(const std::string& filePath, const std::vecto
 		return;
 	}
 
-	os << "#Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.\n\n";
+	os << "#Config file for " C_GAME_NAME ".  The # at the start denotes a comment, removing it makes it a command.\n\n";
 
 	for (size_t i = 0; i < properties.size(); i += 2)
 		os << properties[i] << ':' << properties[i + 1] << '\n';

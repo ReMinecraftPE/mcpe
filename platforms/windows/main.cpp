@@ -137,7 +137,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	FILE* istream;
 	freopen_s(&ostream, "CONOUT$", "w", stdout);
 	freopen_s(&istream, "CONIN$", "r", stdin);
-	SetConsoleTitle("ReMinecraftPE Debug Console");
+	SetConsoleTitle(C_GAME_NAME " Debug Console");
 #endif
 
 	// This initializes the Logger singleton to use the Windows-specific variant
@@ -158,7 +158,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Storage Directory
 	{
 		std::string storagePath = getenv("APPDATA");
-		storagePath += "/.reminecraftpe";
+		storagePath += "/" C_STORAGE_DIR;
 
 		if (!storagePath.empty())
 			createFolderIfNotExists(storagePath.c_str());

@@ -15,7 +15,7 @@
 
 ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string& path)
 {
-	m_worldsPath = path + C_HOME_PATH + "minecraftWorlds";
+	m_worldsPath = path + C_HOME_PATH + "worlds";
 	createFolderIfNotExists(m_worldsPath.c_str());
 }
 

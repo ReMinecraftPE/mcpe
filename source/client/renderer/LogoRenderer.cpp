@@ -14,11 +14,11 @@
 #define C_TITLE_PATH_XBOX360  "gui/title_xbox360.png"
 #define C_TITLE_PATH_CONSOLE  "gui/title_console.png"
 
-const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
-const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
-const char gLogoLine3[] = "??  ??  # # # # # # # ##  #   ##  ### ##   #  $$  $$ ";
-const char gLogoLine4[] = "? ? ?   #   # # #  ## #   #   # # # # #    #  $   $  ";
-const char gLogoLine5[] = "? ? ??? #   # # #   # ### ### # # # # #    #  $   $$$";
+const char gLogoLine1[] = "?   ? ???  ### ### ### ### ###";
+const char gLogoLine2[] = "??  ? ?  ? #   # # # # #    # ";
+const char gLogoLine3[] = "? ? ? ???  #   ##  ### ##   # ";
+const char gLogoLine4[] = "?  ?? ?  ? #   # # # # #    # ";
+const char gLogoLine5[] = "?   ? ???  ### # # # # #    # ";
 
 const char* gLogoLines[] = {
 	gLogoLine1,
@@ -359,7 +359,7 @@ void LogoRenderer::render3d(float f)
 	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 }
 
-Tile* TitleTile::_tiles[3];
+Tile* TitleTile::_tiles[2];
 Random TitleTile::_random;
 bool TitleTile::_firstTimeInit = true;
 
@@ -392,7 +392,7 @@ Tile* TitleTile::getTileFromChar(char c)
 	switch (c)
 	{
 	case '?': return _tiles[1];
-	case '$': return _tiles[2];
+	//case '$': return _tiles[2];
 	default:  return _tiles[0];
 	}
 }
@@ -448,7 +448,7 @@ void TitleTile::regenerate()
 
 	_tiles[0] = getRandomTile(nullptr, nullptr);
 	_tiles[1] = getRandomTile(_tiles[0], nullptr);
-	_tiles[2] = getRandomTile(_tiles[0], _tiles[1]);
+	//_tiles[2] = getRandomTile(_tiles[0], _tiles[1]);
 }
 
 LogoRenderer::Materials::Materials()

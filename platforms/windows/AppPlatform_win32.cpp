@@ -43,7 +43,7 @@ AppPlatform_win32::AppPlatform_win32()
 	m_hRC = NULL;
 #endif
 
-	m_WindowTitle = "ReMinecraftPE";
+	m_WindowTitle = C_GAME_NAME;
 	// just assume an 854x480 window for now:
 	m_ScreenWidth = C_DEFAULT_SCREEN_WIDTH;
 	m_ScreenHeight = C_DEFAULT_SCREEN_HEIGHT;
