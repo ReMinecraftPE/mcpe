@@ -10,10 +10,10 @@ jobs:
             matrix:
                 include:
                   - name: SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
                     packages: 'libsdl2-dev'
                   - name: SDL 1.2
-                    flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
+                    flags: '-DNBC_PLATFORM=sdl1 -DNBC_GFX_API=OGL'
                     packages: 'libsdl1.2-dev'
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
@@ -79,7 +79,7 @@ jobs:
                 sudo apt-get install --no-install-recommends -y cmake ninja-build ccache
           - name: Build
             run: |
-                ./build-wasm.sh \
+                ./platforms/emscripten/build.sh \
                     -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     -DWERROR=ON
@@ -108,8 +108,8 @@ jobs:
             run: brew install ${{ matrix.packages }}
           - name: Build macOS Archive
             run: |
-                cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
+                cd projects/xcode
+                xcodebuild -scheme "NBCraftClient.${{ matrix.backend_name }}" \
                 -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
                 -sdk macosx \
                 -configuration "Release [${{ matrix.backend_name }}] (Default)" \
@@ -165,7 +165,7 @@ jobs:
               AR: llvm-ar-21
               RANLIB: llvm-ranlib-21
               LLVM_CONFIG: llvm-config-21
-              REMCPE_NO_IPA: 1
+              NBC_NO_IPA: 1
               WERROR: ON
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache workspacecache.tar
@@ -220,16 +220,16 @@ jobs:
             matrix:
                 include:
                   - name: Win32 (OGL)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL'
                   - name: Win32 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL_SHADERS'
                   - name: Win32 (D3D11)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=D3D11'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=D3D11'
                   - name: SDL2
-                    flags: "-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL"
+                    flags: "-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL"
                   # CMake can't find it
                   #- name: SDL 1.2
-                  #  flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
+                  #  flags: '-DNBC_PLATFORM=sdl1 -DNBC_GFX_API=OGL'
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -313,5 +313,5 @@ jobs:
                 submodules: true
           - uses: ilammy/msvc-dev-cmd@v1
           - name: Build
-            run: msbuild projects\MinecraftClient.Win32\MinecraftClient.Win32.vcxproj /p:PlatformToolset=v143 /p:Configuration=Debug
+            run: msbuild projects\NBCraftClient.Win32\NBCraftClient.Win32.vcxproj /p:PlatformToolset=v143 /p:Configuration=Debug
             working-directory: platforms/windows

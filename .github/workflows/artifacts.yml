@@ -11,29 +11,29 @@ jobs:
             matrix:
                 include:
                   - name: x86_64 SDL 2 (OGL)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
                     packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04
                   - name: x86_64 SDL 2 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL_SHADERS'
                     packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04
                   - name: i686 SDL 2 (OGL)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
                     packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386 zlib1g-dev:i386'
                     runner: ubuntu-22.04
                     i386: true
                   - name: i686 SDL 2 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
                     packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386 zlib1g-dev:i386'
                     runner: ubuntu-22.04
                     i386: true
                   - name: aarch64 SDL 2 (OGL)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
                     packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04-arm
                   - name: aarch64 SDL 2 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL_SHADERS'
                     packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04-arm
         name: Linux (${{ matrix.name }})
@@ -79,7 +79,7 @@ jobs:
             with:
               name: Linux (${{ matrix.name }})
               path: |
-                build/reminecraftpe
+                build/nbcraft
                 build/assets
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
@@ -135,7 +135,7 @@ jobs:
     #         env:
     #           NOSTRIP: 1
     #           ARCH: ${{ matrix.arch }}
-    #           REMCPE_GFX_API: ${{ matrix.gfx }}
+    #           NBC_GFX_API: ${{ matrix.gfx }}
     #       - uses: actions/upload-artifact@v6
     #         with:
     #           name: Flatpak (${{ matrix.name }})
@@ -320,13 +320,13 @@ jobs:
             matrix:
                 include:
                   - name: Win32 (OGL)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
                   - name: Win32 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
                   - name: Win32 (OGL) 32-bit
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
                   - name: Win32 (OGL + Shaders) 32-bit
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -367,7 +367,7 @@ jobs:
             with:
               name: Windows (${{ matrix.name }})
               path: |
-                build/reminecraftpe.exe
+                build/nbcraft.exe
                 build/assets
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
@@ -404,13 +404,13 @@ jobs:
                     -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
-                mv platforms/sdl/sdl2/reminecraftpe.nro .
+                mv platforms/sdl/sdl2/nbcraft.nro .
           - uses: actions/upload-artifact@v6
             with:
               name: Nintendo Switch
               path: |
-                build/reminecraftpe.nro
-                build/reminecraftpe.elf
+                build/nbcraft.nro
+                build/nbcraft.elf
                 build/assets
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache

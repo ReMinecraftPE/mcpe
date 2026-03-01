@@ -11,17 +11,17 @@ jobs:
             matrix:
                 include:
                   - name: x86_64 SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
                     packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04
                     arch: x86_64
                   - name: i686 SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
                     packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386 zlib1g-dev:i386'
                     runner: ubuntu-22.04
                     arch: i686
                   - name: aarch64 SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
                     packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
                     runner: ubuntu-24.04-arm
                     arch: aarch64
@@ -51,17 +51,17 @@ jobs:
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
                     ${{ matrix.flags }}
                 cmake --build .
-                strip reminecraftpe
+                strip nbcraft
           - name: Pack release
             run: |
-                mkdir ReMCPE
-                mv game/assets build/reminecraftpe ReMCPE
-                tar -czf ReMCPE-Linux-${{ matrix.arch }}.tar.gz ReMCPE
+                mkdir NBCraft
+                mv game/assets build/nbcraft NBCraft
+                tar -czf NBCraft-Linux-${{ matrix.arch }}.tar.gz NBCraft
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["ReMCPE-Linux-${{ matrix.arch }}.tar.gz"]'
+              asset_paths: '["NBCraft-Linux-${{ matrix.arch }}.tar.gz"]'
 
     # flatpak:
     #     strategy:
@@ -95,12 +95,12 @@ jobs:
     #         run: ./platforms/linux/build-flatpak.sh
     #         env:
     #           ARCH: ${{ matrix.arch }}
-    #           REMCPE_GFX_API: ${{ matrix.gfx }}
+    #           NBC_GFX_API: ${{ matrix.gfx }}
     #       - uses: alexellis/upload-assets@0.4.1
     #         env:
     #           GITHUB_TOKEN: ${{ github.token }}
     #         with:
-    #           asset_paths: '["platforms/linux/build-flatpak/ReMCPE-Linux-${{ matrix.arch }}.flatpak"]'
+    #           asset_paths: '["platforms/linux/build-flatpak/NBCraft-Linux-${{ matrix.arch }}.flatpak"]'
 
     macos:
         strategy:
@@ -127,13 +127,13 @@ jobs:
                   ./platforms/macos/build.sh
           - name: Pack release
             run: |
-                mv platforms/macos/build/ReMCPE .
-                zip -r ReMCPE-macOS.zip ReMCPE
+                mv platforms/macos/build/NBCraft .
+                zip -r NBCraft-macOS.zip NBCraft
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["ReMCPE-macOS.zip"]'
+              asset_paths: '["NBCraft-macOS.zip"]'
 
     ios:
         name: iOS
@@ -158,7 +158,7 @@ jobs:
           - name: Build
             run: |
               ./platforms/ios/build.sh
-              mv platforms/ios/build/ReMCPE.ipa ReMCPE-iOS.ipa
+              mv platforms/ios/build/NBCraft.ipa NBCraft-iOS.ipa
             env:
               CLANG: clang-21
               AR: llvm-ar-21
@@ -168,7 +168,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["ReMCPE-iOS.ipa"]'
+              asset_paths: '["NBCraft-iOS.ipa"]'
 
     android:
         strategy:
@@ -202,16 +202,16 @@ jobs:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
               signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
               keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-              alias: remcpe
+              alias: NBCraft
             env:
               BUILD_TOOLS_VERSION: 36.1.0
           - name: Rename APK
-            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE-Android.apk
+            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} NBCraft-Android.apk
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["ReMCPE.apk"]'
+              asset_paths: '["NBCraft.apk"]'
 
     mingw:
         strategy:
@@ -219,10 +219,10 @@ jobs:
             matrix:
                 include:
                   - name: Win32 (OGL)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
                     arch: x86_64
                   - name: Win32 (OGL) 32-bit
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
+                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
                     arch: x86
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-24.04
@@ -247,17 +247,17 @@ jobs:
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
                     ${{ matrix.flags }}
                 cmake --build .
-                x86_64-w64-mingw32-strip reminecraftpe.exe
+                x86_64-w64-mingw32-strip nbcraft.exe
           - name: Pack release
             run: |
-                mkdir ReMCPE
-                mv game/assets build/reminecraftpe.exe ReMCPE
-                zip -r ReMCPE-Windows-${{ matrix.arch }}.zip ReMCPE
+                mkdir NBCraft
+                mv game/assets build/nbcraft.exe NBCraft
+                zip -r NBCraft-Windows-${{ matrix.arch }}.zip NBCraft
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["ReMCPE-Windows-${{ matrix.arch }}.zip"]'
+              asset_paths: '["NBCraft-Windows-${{ matrix.arch }}.zip"]'
 
     switch:
         name: Nintendo Switch
@@ -277,14 +277,14 @@ jobs:
                     -DCMAKE_BUILD_TYPE=Release \
                     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
-                mv platforms/sdl/sdl2/reminecraftpe.nro .
+                mv platforms/sdl/sdl2/nbcraft.nro .
           - name: Pack release
             run: |
-                mkdir ReMCPE
-                mv game/assets build/reminecraftpe.nro ReMCPE
-                zip -r ReMCPE-Switch.zip ReMCPE
+                mkdir NBCraft
+                mv game/assets build/nbcraft.nro NBCraft
+                zip -r NBCraft-Switch.zip NBCraft
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["ReMCPE-Switch.zip"]'
+              asset_paths: '["NBCraft-Switch.zip"]'

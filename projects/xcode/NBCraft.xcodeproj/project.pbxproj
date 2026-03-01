@@ -2240,10 +2240,10 @@
 		842610682AE988D30065905F /* libNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		842B21872F5414660006C1FA /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667h@2x.png"; path = "../../game/assets/app/launch/Default-667h@2x.png"; sourceTree = "<group>"; };
 		842B21882F5414660006C1FA /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-736h@3x.png"; path = "../../game/assets/app/launch/Default-736h@3x.png"; sourceTree = "<group>"; };
-		84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS.xcconfig; path = ../Configuration/Settings_iOS.xcconfig; sourceTree = "<group>"; };
-		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = ../Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
-		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = ../Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
-		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = ../Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
+		84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS.xcconfig; path = Configuration/Settings_iOS.xcconfig; sourceTree = "<group>"; };
+		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
+		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
+		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
 		8435BB172DCD47F400D38282 /* SoundStreamOAL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundStreamOAL.hpp; sourceTree = "<group>"; };
 		8435BB182DCD47F400D38282 /* SoundStreamOAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundStreamOAL.cpp; sourceTree = "<group>"; };
 		8441F9852DB4E911005977BD /* CustomSoundSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CustomSoundSystem.hpp; sourceTree = "<group>"; };
@@ -2285,15 +2285,15 @@
 		8443373C2F4060AD00EB3115 /* TickBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TickBox.cpp; sourceTree = "<group>"; };
 		8443373D2F4060AD00EB3115 /* TickBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TickBox.hpp; sourceTree = "<group>"; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
-		844496762E76685C008CF2E0 /* MinecraftClient.SDL1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftClient.SDL1; sourceTree = BUILT_PRODUCTS_DIR; };
-		8444968C2E7668E5008CF2E0 /* libSDL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL.a; path = ../../../../../../../../../opt/local/libexec/libsdl12/lib/libSDL.a; sourceTree = "<group>"; };
+		844496762E76685C008CF2E0 /* NBCraftClient.SDL1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NBCraftClient.SDL1; sourceTree = BUILT_PRODUCTS_DIR; };
+		8444968C2E7668E5008CF2E0 /* libSDL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL.a; path = ../../../../../opt/local/libexec/libsdl12/lib/libSDL.a; sourceTree = "<group>"; };
 		844496912E766960008CF2E0 /* AppPlatform_sdl1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl1.cpp; sourceTree = "<group>"; };
 		844496922E766960008CF2E0 /* AppPlatform_sdl1.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl1.hpp; sourceTree = "<group>"; };
 		844496952E766960008CF2E0 /* AppPlatform_sdl1_desktop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl1_desktop.cpp; sourceTree = "<group>"; };
 		844496962E766960008CF2E0 /* AppPlatform_sdl1_desktop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl1_desktop.hpp; sourceTree = "<group>"; };
 		844496972E766960008CF2E0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8444969B2E766977008CF2E0 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		844496A62E76792A008CF2E0 /* libSDLmain.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDLmain.a; path = ../../../../../../../../../opt/local/libexec/libsdl12/lib/libSDLmain.a; sourceTree = "<group>"; };
+		844496A62E76792A008CF2E0 /* libSDLmain.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDLmain.a; path = ../../../../../opt/local/libexec/libsdl12/lib/libSDLmain.a; sourceTree = "<group>"; };
 		844496A92E767971008CF2E0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8445E7952D769329008DC834 /* EntityCategories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityCategories.cpp; sourceTree = "<group>"; };
 		8445E7962D769329008DC834 /* EntityCategories.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityCategories.hpp; sourceTree = "<group>"; };
@@ -2325,7 +2325,7 @@
 		8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FireworkParticle.hpp; sourceTree = "<group>"; };
 		8470AF3E2BE9B80900BCA54E /* DisconnectionScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisconnectionScreen.cpp; sourceTree = "<group>"; };
 		8470AF3F2BE9B80900BCA54E /* DisconnectionScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisconnectionScreen.hpp; sourceTree = "<group>"; };
-		8470AF452BE9BC8500BCA54E /* GameMods.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../../../GameMods.hpp; sourceTree = "<group>"; };
+		8470AF452BE9BC8500BCA54E /* GameMods.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../gameMods.hpp; sourceTree = "<group>"; };
 		8477B39C2C4DC374004E1AC5 /* ControllerBuildInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerBuildInput.cpp; sourceTree = "<group>"; };
 		8477B39D2C4DC374004E1AC5 /* ControllerBuildInput.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ControllerBuildInput.hpp; sourceTree = "<group>"; };
 		8477B39E2C4DC374004E1AC5 /* ControllerMoveInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerMoveInput.cpp; sourceTree = "<group>"; };
@@ -2345,7 +2345,7 @@
 		8484ABDC2B32935700076873 /* PlatformDefinitions_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions_iOS.h; sourceTree = "<group>"; };
 		8488C0882B1EDD4F001AEC4F /* ShowKeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowKeyboardView.h; sourceTree = "<group>"; };
 		8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowKeyboardView.mm; sourceTree = "<group>"; };
-		8489B0972A86D4B2004CA8EC /* MinecraftClient.SDL2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftClient.SDL2; sourceTree = BUILT_PRODUCTS_DIR; };
+		8489B0972A86D4B2004CA8EC /* NBCraftClient.SDL2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NBCraftClient.SDL2; sourceTree = BUILT_PRODUCTS_DIR; };
 		8489B3212A86E464004CA8EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8489B3252A86E4B0004CA8EC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		848AA3132F34E897007E9A3E /* DyePowderItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DyePowderItem.hpp; sourceTree = "<group>"; };
@@ -2355,7 +2355,7 @@
 		848CCB452F3A38E800031D1F /* MobSpawner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MobSpawner.cpp; sourceTree = "<group>"; };
 		848CCB482F3A974000031D1F /* FoodItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FoodItem.hpp; sourceTree = "<group>"; };
 		848CCB492F3A974000031D1F /* FoodItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FoodItem.cpp; sourceTree = "<group>"; };
-		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8492591D2AD8FCFC0081F5B9 /* NBCraftClient.iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NBCraftClient.iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = NBCViewController.xib; sourceTree = "<group>"; };
 		8492594D2AD8FD4F0081F5B9 /* NBCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBCAppDelegate.h; sourceTree = "<group>"; };
 		8492594E2AD8FD4F0081F5B9 /* NBCAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NBCAppDelegate.mm; sourceTree = "<group>"; };
@@ -2522,7 +2522,7 @@
 		84B9D8A22F3BE0B200FD67C4 /* CropsTile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CropsTile.hpp; sourceTree = "<group>"; };
 		84B9D8A32F3BE0B200FD67C4 /* CropsTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CropsTile.cpp; sourceTree = "<group>"; };
 		84BF630B2AF1859D008A9995 /* libWorld.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWorld.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		84C0D8002B159A0E007E1E76 /* GlobalSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = GlobalSettings.xcconfig; path = ../Configuration/GlobalSettings.xcconfig; sourceTree = "<group>"; };
+		84C0D8002B159A0E007E1E76 /* GlobalSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = GlobalSettings.xcconfig; path = Configuration/GlobalSettings.xcconfig; sourceTree = "<group>"; };
 		84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions.h; sourceTree = "<group>"; };
 		84C4D86E2A872C0100323E33 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		84C614242F323602008AC5BE /* BowItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BowItem.hpp; sourceTree = "<group>"; };
@@ -2572,8 +2572,8 @@
 		84CED51E2E672826006BC585 /* ConvertWorldScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConvertWorldScreen.hpp; sourceTree = "<group>"; };
 		84CEF0012AE3C97D006C5829 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		84CEF0022AE3C97D006C5829 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
-		84D6694F2B1EAEBF00B34FC1 /* GlobalDebugSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = GlobalDebugSettings.xcconfig; path = ../Configuration/GlobalDebugSettings.xcconfig; sourceTree = "<group>"; };
-		84D772262EE5180600701DCB /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../../game/assets; sourceTree = "<group>"; };
+		84D6694F2B1EAEBF00B34FC1 /* GlobalDebugSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = GlobalDebugSettings.xcconfig; path = Configuration/GlobalDebugSettings.xcconfig; sourceTree = "<group>"; };
+		84D772262EE5180600701DCB /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../game/assets; sourceTree = "<group>"; };
 		84DAF5732F3464B400D67310 /* ContainerType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ContainerType.hpp; sourceTree = "<group>"; };
 		84DAF5752F3464DD00D67310 /* TileEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileEvent.hpp; sourceTree = "<group>"; };
 		84DAF5772F34650500D67310 /* ContainerAckPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContainerAckPacket.cpp; sourceTree = "<group>"; };
@@ -3006,7 +3006,7 @@
 		84EB0D0F2EE2D4B3008FB007 /* WeatherConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WeatherConstants.hpp; sourceTree = "<group>"; };
 		84EB0D102EE2D4B3008FB007 /* WorldConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldConstants.cpp; sourceTree = "<group>"; };
 		84EB0D112EE2D4B3008FB007 /* WorldConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldConstants.hpp; sourceTree = "<group>"; };
-		84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = minecraftpe.entitlements; sourceTree = "<group>"; };
+		84ED99D42AFF12D1003B6AF0 /* nbcraft.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = nbcraft.entitlements; sourceTree = "<group>"; };
 		84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP.hpp; sourceTree = "<group>"; };
 		84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Compat.hpp; sourceTree = "<group>"; };
 		84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Info.hpp; sourceTree = "<group>"; };
@@ -3254,7 +3254,7 @@
 				84F66DEE2F18CA3B00DE508E /* Unused.hpp */,
 			);
 			name = compat;
-			path = ../../../../compat;
+			path = ../../compat;
 			sourceTree = SOURCE_ROOT;
 		};
 		840DD57B2AC810620006A435 /* source */ = {
@@ -3269,7 +3269,7 @@
 				840DD6562AC810620006A435 /* world */,
 			);
 			name = source;
-			path = ../../../../source;
+			path = ../../source;
 			sourceTree = SOURCE_ROOT;
 		};
 		840DD57C2AC810620006A435 /* client */ = {
@@ -4202,7 +4202,7 @@
 				840DD84D2AC810630006A435 /* zlib */,
 			);
 			name = thirdparty;
-			path = ../../../../thirdparty;
+			path = ../../thirdparty;
 			sourceTree = SOURCE_ROOT;
 		};
 		840DD7312AC810620006A435 /* GL */ = {
@@ -4540,7 +4540,7 @@
 				8441F98D2DB4E911005977BD /* audio */,
 			);
 			name = platforms;
-			path = ../../..;
+			path = ../../platforms;
 			sourceTree = SOURCE_ROOT;
 		};
 		841DD8712AF8AA7A00AA3B66 /* base */ = {
@@ -4636,7 +4636,7 @@
 				84CEF0012AE3C97D006C5829 /* EAGLView.h */,
 				84CEF0022AE3C97D006C5829 /* EAGLView.m */,
 				84E001BA2AF3AF9B009B9555 /* MainWindow.xib */,
-				84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */,
+				84ED99D42AFF12D1003B6AF0 /* nbcraft.entitlements */,
 				8492594D2AD8FD4F0081F5B9 /* NBCAppDelegate.h */,
 				8492594E2AD8FD4F0081F5B9 /* NBCAppDelegate.mm */,
 				8492594F2AD8FD4F0081F5B9 /* NBCViewController.h */,
@@ -4683,9 +4683,9 @@
 		8489B0982A86D4B2004CA8EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8489B0972A86D4B2004CA8EC /* MinecraftClient.SDL2 */,
+				8489B0972A86D4B2004CA8EC /* NBCraftClient.SDL2 */,
 				84FFBD7E2ACA2876005A8CCF /* libRakNet.a */,
-				8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */,
+				8492591D2AD8FCFC0081F5B9 /* NBCraftClient.iOS.app */,
 				84E4BFAE2AE9854B0023E16A /* libCommon.a */,
 				842610682AE988D30065905F /* libNetwork.a */,
 				8406FD292AF1814500B09C1D /* libRenderer.a */,
@@ -4693,7 +4693,7 @@
 				84B8AEE72AF188D8008DE93D /* libClient.a */,
 				84498A832AF18C7A005EF5A5 /* libZLib.a */,
 				84CCBC452E61849800E251AF /* libNBT.a */,
-				844496762E76685C008CF2E0 /* MinecraftClient.SDL1 */,
+				844496762E76685C008CF2E0 /* NBCraftClient.SDL1 */,
 				84F779FD2EA1BF8E0045C907 /* libServer.a */,
 			);
 			name = Products;
@@ -6304,7 +6304,7 @@
 			);
 			name = NBCraftClient.SDL1;
 			productName = MinecraftClient.SDL1;
-			productReference = 844496762E76685C008CF2E0 /* MinecraftClient.SDL1 */;
+			productReference = 844496762E76685C008CF2E0 /* NBCraftClient.SDL1 */;
 			productType = "com.apple.product-type.tool";
 		};
 		84498A762AF18C7A005EF5A5 /* ZLib */ = {
@@ -6340,7 +6340,7 @@
 			);
 			name = NBCraftClient.SDL2;
 			productName = Minecraft;
-			productReference = 8489B0972A86D4B2004CA8EC /* MinecraftClient.SDL2 */;
+			productReference = 8489B0972A86D4B2004CA8EC /* NBCraftClient.SDL2 */;
 			productType = "com.apple.product-type.tool";
 		};
 		8492591C2AD8FCFC0081F5B9 /* NBCraftClient.iOS */ = {
@@ -6360,7 +6360,7 @@
 			);
 			name = NBCraftClient.iOS;
 			productName = minecraftpe;
-			productReference = 8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */;
+			productReference = 8492591D2AD8FCFC0081F5B9 /* NBCraftClient.iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		84B8AE132AF188D8008DE93D /* Client */ = {
@@ -7546,7 +7546,7 @@
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -7629,7 +7629,7 @@
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -7712,7 +7712,7 @@
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -7950,7 +7950,7 @@
 					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -7982,7 +7982,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8097,7 +8097,7 @@
 					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -8129,7 +8129,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8255,7 +8255,7 @@
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -8324,7 +8324,7 @@
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -8360,7 +8360,7 @@
 			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8375,7 +8375,7 @@
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8391,7 +8391,7 @@
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8406,7 +8406,7 @@
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8421,7 +8421,7 @@
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8673,7 +8673,7 @@
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -8716,7 +8716,7 @@
 			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
@@ -8844,7 +8844,7 @@
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
-				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MC_ROOT = "$(PROJECT_DIR)/../../";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
@@ -8887,7 +8887,7 @@
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/nbcraft.entitlements;
-				INFOPLIST_FILE = "$(SRCROOT)/../../../ios/NBCraft-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../platforms/ios/NBCraft-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",

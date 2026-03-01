@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-               BuildableName = "MinecraftClient.SDL2"
+               BuildableName = "NBCraftClient.SDL2"
                BlueprintName = "NBCraftClient.SDL2"
                ReferencedContainer = "container:NBCraft.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "MinecraftClient.SDL2"
+            BuildableName = "NBCraftClient.SDL2"
             BlueprintName = "NBCraftClient.SDL2"
             ReferencedContainer = "container:NBCraft.xcodeproj">
          </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "MinecraftClient.SDL2"
+            BuildableName = "NBCraftClient.SDL2"
             BlueprintName = "NBCraftClient.SDL2"
             ReferencedContainer = "container:NBCraft.xcodeproj">
          </BuildableReference>
@@ -77,7 +77,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "MinecraftClient.SDL2"
+            BuildableName = "NBCraftClient.SDL2"
             BlueprintName = "NBCraftClient.SDL2"
             ReferencedContainer = "container:NBCraft.xcodeproj">
          </BuildableReference>
