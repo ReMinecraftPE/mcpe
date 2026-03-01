@@ -1,9 +1,11 @@
 # NBCraft (NBC)
 
+## Disclaimer
 **NBCraft is not affiliated or associated with Minecraft, Mojang AB, or Microsoft.**<br>
 To be absolutely clear:<br>
 **THIS IS NOT AN OFFICIAL MINECRAFT PRODUCT AND IS NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT**
 
+## About
 This project aims to provide a customizable, cross-platform, legacy mining experience.<br>
 The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of 2011, which itself is a port of Minecraft: Java Edition (Beta 1.3-1.7.3).<br>
 The decompilation was performed primarily using [IDA](https://hex-rays.com/ida-pro) in conjunction with Android builds of MCPE, since these contain info such as function and class names.<br>
@@ -45,8 +47,9 @@ Note: While the original Minecraft PE v0.1.3 may not work on newer devices, NBCr
 ### This is a modified version of [the original Minecraft PE v0.1.3 decompilation](https://github.com/nbcraft-org/mcped).
 
 ## Where'd the name come from?
-We came up with "NBCraft" by combining the last names of the three original developers of Minecraft: Pocket Edition;
-Aron Nieminen, Johan Bernhardsson, and Tommaso Checchi
+We came up with "NBCraft" by combining the last names of the three original developers of Minecraft: Pocket Edition;<br>
+Aron Nieminen, Johan Bernhardsson, and Tommaso Checchi. While they were not the only developers working on Pocket Edition at the time, they played a pivotal role in the game's development.<br>
+Ultimately, these three guys made Minecraft what it is today.
 
 ## License information
 
