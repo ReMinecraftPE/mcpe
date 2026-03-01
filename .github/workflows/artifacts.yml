@@ -250,10 +250,12 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  # - name: Native
-                  #   directory: platforms/android/project
+                  - name: Native
+                    directory: platforms/android/project
+                    build_tools: 30.0.3
                   - name: SDL 2
                     directory: platforms/sdl/sdl2/android
+                    build_tools: 36.1.0
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -290,7 +292,7 @@ jobs:
             id: sign_apk
             env:
               ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-              BUILD_TOOLS_VERSION: 36.1.0
+              BUILD_TOOLS_VERSION: ${{ matrix.build_tools }}
             if: ${{ env.ANDROID_KEYSTORE }}
             with:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
