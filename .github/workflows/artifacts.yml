@@ -359,7 +359,10 @@ jobs:
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake \
-                    ccache
+                    ccache \
+                    gmp-dev \
+                    mpfr-dev \
+                    mpc-dev
           - name: Build
             run: |
               ./platforms/windows/build.sh
