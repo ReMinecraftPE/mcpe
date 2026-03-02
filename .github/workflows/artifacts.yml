@@ -365,12 +365,9 @@ jobs:
                     libmpc-dev
           - name: Build
             run: |
-              sh -x ./platforms/windows/build.sh
-              echo "build: $?"
+              ./platforms/windows/build.sh
               tar cf workspacecache.tar platforms/windows/build/work/toolchain-${{ matrix.arch }}
-              echo "workspace cache: $?"
               mv workspacecache.tar ~
-              echo "workspace cache move: $?"
             env:
               ARCH: ${{ matrix.arch }}
               NBC_GFX_API: ${{ matrix.gfx-api }}
