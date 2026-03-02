@@ -38,7 +38,10 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     # adapted from https://github.com/DiscordMessenger/dm/blob/master/doc/pentium-toolchain/README.md
 
     case $arch in
-        (x86_64|i?86)
+        (i?86)
+            winnt=0x0500 # Windows 2000
+        ;;
+        (x86_64)
             winnt=0x0501 # Windows XP
         ;;
         (arm64)
