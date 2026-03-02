@@ -154,6 +154,12 @@ printf '\nBuilding for %s\n\n' "$arch"
 mkdir -p "build-$arch"
 cd "build-$arch"
 
+if command -v ccache >/dev/null; then
+    set -- \
+        -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+fi
+
 cmake "$platformdir/../.." \
     -DCMAKE_BUILD_TYPE="$build" \
     -DCMAKE_SYSTEM_NAME=Windows \
