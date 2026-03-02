@@ -202,7 +202,7 @@ jobs:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
               signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
               keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-              alias: NBCraft
+              alias: remcpe
             env:
               BUILD_TOOLS_VERSION: 36.1.0
           - name: Rename APK
