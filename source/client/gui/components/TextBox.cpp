@@ -12,7 +12,7 @@
 #ifndef ORIGINAL_CODE
 
 #ifdef USE_NATIVE_ANDROID
-#define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
+#define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/main.cpp
 #endif
 
 static bool IsInvalidCharacter(char c)
