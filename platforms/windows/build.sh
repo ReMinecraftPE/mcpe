@@ -38,10 +38,7 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     # adapted from https://github.com/DiscordMessenger/dm/blob/master/doc/pentium-toolchain/README.md
 
     case $arch in
-        (i?86)
-            winnt=0x0500 # Windows 2000
-        ;;
-        (x86_64)
+        (x86_64|i?86)
             winnt=0x0501 # Windows XP
         ;;
         (arm64)
@@ -75,23 +72,20 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     rm -rf mingw-w64-*
     wget -O- "https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/mingw-w64-v$mingw_version.tar.bz2/download" | tar -xj
 
-    cd "mingw-w64-v$mingw_version"
-    patch -fNp1 < ../../../mingw-w64.diff
-    cd mingw-w64-headers
+    cd "mingw-w64-v$mingw_version/mingw-w64-headers"
     ./configure \
         --host="$target" \
         --prefix="$workdir/toolchain-$arch/$arch-w64-mingw32" \
         --with-default-win32-winnt="$winnt" \
-        --with-default-msvcrt=crtdll
+        --with-default-msvcrt=msvcrt-os
     make -j"$ncpus" install
     cd ../..
 
-    gcc_version='13.1.0'
+    gcc_version='15.2.0'
     rm -rf gcc-*
     wget -O- "https://ftp.gnu.org/gnu/gcc/gcc-$gcc_version/gcc-$gcc_version.tar.xz" | tar -xJ
 
     cd "gcc-$gcc_version"
-    patch -fNp1 < ../../../gcc.diff
     mkdir build
     cd build
     set --
@@ -120,8 +114,7 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
         --host="$target" \
         --prefix="$workdir/toolchain-$arch/$arch-w64-mingw32" \
         --with-default-win32-winnt="$winnt" \
-        --with-default-msvcrt=crtdll \
-        --disable-wchar
+        --with-default-msvcrt=msvcrt-os
     make -j1
     make -j1 install
     cd ../..
@@ -130,6 +123,7 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     cd "gcc-$gcc_version/build"
     make -j"$ncpus"
     make -j"$ncpus" install-strip
+    cd ../..
     rm -rf "gcc-$gcc_version" &
 
     printf '%s' "$toolchainver" > "toolchain-$arch/toolchainver"
