@@ -8,7 +8,7 @@ cd "$scriptroot"
 arch="${ARCH:-x86_64}"
 target="$arch-w64-mingw32"
 # Must be kept in sync with the cmake executable name
-bin='reminecraftpe'
+bin='nbcraft.exe'
 
 platformdir=$PWD
 
@@ -137,138 +137,35 @@ else
     build=Release
 fi
 
-exit 0
-
 # Delete old build files if build settings change or if the SDK changes.
 printf '%s\n' "$DEBUG" > buildsettings
-clang -v >> buildsettings 2>&1
 if [ -n "$outdated_toolchain" ] ||
     ! cmp -s buildsettings lastbuildsettings; then
     rm -rf build-*
 fi
 mv buildsettings lastbuildsettings
 
-for target in $targets; do
-    printf '\nBuilding for %s\n\n' "$target"
-    export REMCPE_TARGET="$target"
+printf '\nBuilding for %s\n\n' "$arch"
 
-    mkdir -p "build-$target"
-    cd "build-$target"
+mkdir -p "build-$arch"
+cd "build-$arch"
 
-    arch="${target%%-*}"
-    cc="$platformdir/macos-cc"
-    cxx="$platformdir/macos-c++"
-    target_ar="$ar"
-    target_ranlib="$ranlib"
-    case $arch in
-        (i386|powerpc*|ppc*)
-            if [ "$arch" = 'i386' ]; then
-                target_cflags="$cflags -march=pentium-m"
-                set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -undefined dynamic_lookup'
-            else
-                target_cflags=
-                cc="$target-gcc"
-                cxx="$target-g++"
-                target_ar="cctools-ar"
-                target_ranlib="cctools-ranlib"
-                set -- -DCMAKE_EXE_LINKER_FLAGS='-framework IOKit -framework Carbon -framework AudioUnit -static-libgcc'
-            fi
-            export REMCPE_SDK="$old_sdk"
-            platform='sdl1'
-            sdl1ver=1
-            if ! [ -f sdl/lib/libSDL.a ] || [ "$(cat sdl/sdl1ver 2>/dev/null)" != "$sdl1ver" ]; then
-                sdl1_commit=25712c1e9270035667e1ed68f2acc5b82b441461
-                rm -rf SDL-1.2-*
-                if ! [ -f ../sdl1src.tar.gz ] ||
-                    [ "$(sha256sum ../sdl1src.tar.gz | awk '{print $1}')" != 'd1753e9d8fc3d25cabd0198122546a3d53b5b1df0b208145cff5fc4b2d50d786' ]; then
-                    wget -O ../sdl1src.tar.gz "https://github.com/libsdl-org/SDL-1.2/archive/$sdl1_commit.tar.gz"
-                fi
-                tar -xzf ../sdl1src.tar.gz
-                cd "SDL-1.2-$sdl1_commit"
-                if [ -n "$DEBUG" ]; then
-                    opt='-O0'
-                else
-                    opt='-O2'
-                fi
-                if [ "$arch" != 'i386' ]; then
-                    sed -e 's/-fpascal-strings//g' configure > configure.patched
-                    mv configure.patched configure
-                    chmod +x configure
-                fi
-                ./configure \
-                    --host="$arch-apple-darwin" \
-                    --prefix="${PWD%/*}/sdl" \
-                    --disable-shared \
-                    --disable-video-x11 \
-                    CC="$cc" \
-                    CXX="$cxx" \
-                    CFLAGS="$opt $target_cflags" \
-                    CXXFLAGS="$opt $target_cflags" \
-                    CPPFLAGS='-DNDEBUG' \
-                    AR="$target_ar" \
-                    RANLIB="$target_ranlib"
-                make -j"$ncpus"
-                make install -j"$ncpus"
-                cd ..
-                printf '%s' "$sdl1ver" > sdl/sdl1ver
-                rm -rf "SDL-1.2-$sdl1_commit"
-            fi
-            target_cflags="$target_cflags -I$PWD/sdl/include"
-        ;;
-        (arm64*|x86_64*)
-            target_cflags="$cflags"
-            case $arch in
-                (arm64*)
-                    export REMCPE_SDK="$arm64_sdk"
-                    set -- -DCMAKE_EXE_LINKER_FLAGS='-undefined dynamic_lookup'
-                ;;
-                (x86_64*)
-                    export REMCPE_SDK="$x86_64_sdk"
-                    set --
-                ;;
-            esac
-            platform='sdl2'
-        ;;
-        (*)
-            echo "Unknown target"
-            exit 1
-        ;;
-    esac
+cmake "$platformdir/../.." \
+    -DCMAKE_BUILD_TYPE="$build" \
+    -DCMAKE_SYSTEM_NAME=Windows \
+    -DCMAKE_C_COMPILER="$target-gcc" \
+    -DCMAKE_CXX_COMPILER="$target-g++" \
+    -DCMAKE_EXE_LINKER_FLAGS='-static' \
+    -DWERROR="${WERROR:-OFF}" \
+    "$@"
+make -j"$ncpus"
 
-    cmake "$platformdir/../.." \
-        -DCMAKE_BUILD_TYPE="$build" \
-        -DCMAKE_SYSTEM_NAME=Darwin \
-        -DREMCPE_PLATFORM="$platform" \
-        -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY \
-        -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
-        -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
-        -DCMAKE_AR="$(command -v "$target_ar")" \
-        -DCMAKE_RANLIB="$(command -v "$target_ranlib")" \
-        -DCMAKE_C_COMPILER="$cc" \
-        -DCMAKE_CXX_COMPILER="$cxx" \
-        -DCMAKE_FIND_ROOT_PATH="$REMCPE_SDK/usr;$PWD/sdl" \
-        -DCMAKE_SYSROOT="$REMCPE_SDK" \
-        -DCMAKE_C_FLAGS="$target_cflags" \
-        -DCMAKE_CXX_FLAGS="$target_cflags" \
-        -DWERROR="${WERROR:-OFF}" \
-        "$@"
-    make -j"$ncpus"
+cd ..
 
-    cd ..
-done
+rm -rf ../NBCraft
+mkdir -p ../NBCraft
 
-rm -rf ../ReMCPE
-mkdir -p ../ReMCPE
-
-cp -a "$platformdir/../../game/assets" ../ReMCPE
-
-for target in $targets; do
-    arch="${target%%-*}"
-    cp "build-$target/$bin" "../ReMCPE/libexec/$bin-$arch"
-    case $arch in
-        (powerpc*|ppc*) strip='ppc-strip' ;;
-        (*) strip='cctools-strip -no_code_signature_warning' ;;
-    esac
-    [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
-        $strip "../ReMCPE/libexec/$bin-${target%%-*}"
-done
+cp -a "$platformdir/../../game/assets" ../NBCraft
+cp "build-$arch/$bin" ../NBCraft
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
+    "$target-strip" "../NBCraft/$bin"
