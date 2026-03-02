@@ -157,6 +157,8 @@ cmake "$platformdir/../.." \
     -DCMAKE_C_COMPILER="$target-gcc" \
     -DCMAKE_CXX_COMPILER="$target-g++" \
     -DCMAKE_EXE_LINKER_FLAGS='-static' \
+    -DNBC_PLATFORM="${NBC_PLATFORM:-windows}" \
+    -DNBC_GFX_API="${NBC_GFX_API:-OGL}" \
     -DWERROR="${WERROR:-OFF}" \
     "$@"
 make -j"$ncpus"
