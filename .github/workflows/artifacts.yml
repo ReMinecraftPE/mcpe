@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'windows-xp' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
