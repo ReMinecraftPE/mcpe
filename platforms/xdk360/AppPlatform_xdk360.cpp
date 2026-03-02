@@ -41,7 +41,17 @@ void AppPlatform_xdk360::_getXContentData(XCONTENT_DATA& contentData, LocalPlaye
 	lstrcpyW(contentData.szDisplayName, L"Profile Data");
 	strcpy(contentData.szFileName, "profile.bin");
 	contentData.dwContentType = XCONTENTTYPE_SAVEDGAME;
+	_reloadXContentData(contentData, playerId);
+}
+
+void AppPlatform_xdk360::_reloadXContentData(XCONTENT_DATA& contentData, LocalPlayerID playerId)
+{
 	contentData.DeviceID = _getSaveDeviceId(playerId);
+}
+
+void AppPlatform_xdk360::_clearSaveDeviceId(LocalPlayerID playerId)
+{
+	m_saveDeviceId[playerId] = C_SAVEDEVICE_ID_NONE;
 }
 
 const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(LocalPlayerID playerId)
@@ -51,9 +61,9 @@ const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(LocalPlayerID playe
 	if (deviceId != C_SAVEDEVICE_ID_NONE)
 		return deviceId;
 
-	/*mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	// This is required in order for the system UI to render in a blocking context
-	renderContext.suspend();*/
+	//renderContext.suspend();
 
 	// Create event for asynchronous writing
 	HANDLE hEventComplete = NULL; //CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -77,14 +87,15 @@ const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(LocalPlayerID playe
 		|| (hEventComplete && XGetOverlappedResult(&xov, NULL, TRUE) != ERROR_SUCCESS)
 	)
 	{
-		LOG_W("Failed to open save device for player %d", playerId);
+		LOG_W("Failed to open save device for player %d: %d", playerId, result);
 		deviceId = C_SAVEDEVICE_ID_ERROR;
 	}
 
 	// Wait for the save-device handle
 	while (XHasOverlappedIoCompleted(&xov) == FALSE)
 	{
-		swapBuffers();
+		renderContext.clearFrameBuffer(Color::BLACK);
+		renderContext.swapBuffers();
 		// This only ends up getting run if the above event handle couldn't be created and waited on
 		sleepMs(20);
 	}
@@ -181,23 +192,39 @@ void AppPlatform_xdk360::beginProfileDataRead(LocalPlayerID playerId)
 		throw std::bad_cast();
 	}*/
 
-	// Mount the device to the "savedrive" drive name
-	DWORD result = XContentCreate(playerId, "savedrive", &contentData, XCONTENTFLAG_OPENEXISTING, NULL, NULL, NULL);
-
-	switch (result)
+	bool retry;
+	unsigned int retryCount = 0;
+	do
 	{
-	case ERROR_SUCCESS:
-		m_currentSavingPlayerId = playerId;
-		break;
-	case ERROR_ACCESS_DENIED:
-		LOG_E("beginProfileDataRead failed: XContentCreate returned access denied error!");
-		break;
-	case ERROR_INVALID_NAME:
-		LOG_E("beginProfileDataRead failed: XContentCreate szRootName is invalid!");
-		throw std::bad_cast();
-	default:
-		LOG_E("beginProfileDataRead failed: XContentCreate returned unknown error: %d", result);
-	}
+		retry = false;
+		retryCount++;
+
+		// Mount the device to the "savedrive" drive name
+		DWORD result = XContentCreate(playerId, "savedrive", &contentData, XCONTENTFLAG_OPENEXISTING, NULL, NULL, NULL);
+
+		switch (result)
+		{
+		case ERROR_SUCCESS:
+			m_currentSavingPlayerId = playerId;
+			break;
+		case ERROR_ACCESS_DENIED:
+			LOG_E("beginProfileDataRead failed: XContentCreate returned access denied error!");
+			break;
+		case ERROR_INVALID_NAME:
+			LOG_E("beginProfileDataRead failed: XContentCreate szRootName is invalid!");
+			throw std::bad_cast();
+		case ERROR_DEVICE_NOT_CONNECTED:
+			LOG_W("beginProfileDataRead failed: XContentCreate returned device removed error! Retrying...");
+			_clearSaveDeviceId(playerId);
+			sleepMs(20); // wait 20 ms, just so we don't spam the shit out of the API
+			// Get a new handle on the save device
+			_reloadXContentData(contentData, playerId);
+			retry = true;
+			break;
+		default:
+			LOG_E("beginProfileDataRead failed: XContentCreate returned unknown error: %d", result);
+		}
+	} while (retry && retryCount < 20);
 }
 
 void AppPlatform_xdk360::endProfileDataRead(LocalPlayerID playerId)
@@ -239,6 +266,8 @@ void AppPlatform_xdk360::beginProfileDataWrite(LocalPlayerID playerId)
 	case ERROR_INVALID_NAME:
 		LOG_E("beginProfileDataWrite failed: XContentCreate szRootName is invalid!");
 		throw std::bad_cast();
+	case ERROR_NO_SUCH_USER:
+		LOG_W("beginProfileDataWrite failed: XContentCreate returned an \"unknown user\" error! We are probably not signed in to a gamer profile. Won't be saving data...");
 	default:
 		LOG_E("beginProfileDataWrite failed: XContentCreate returned unknown error: %d", result);
 	}

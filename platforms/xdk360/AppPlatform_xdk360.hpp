@@ -14,6 +14,8 @@ public:
 
 protected:
 	void _getXContentData(XCONTENT_DATA& out, LocalPlayerID playerId);
+	void _reloadXContentData(XCONTENT_DATA& out, LocalPlayerID playerId);
+	void _clearSaveDeviceId(LocalPlayerID playerId);
 	const XCONTENTDEVICEID& _getSaveDeviceId(LocalPlayerID playerId);
 
 public:

@@ -49,8 +49,9 @@ bool RasterizerStateD3D9::bindRasterizerState(RenderContext& context, bool force
     // Depth Bias
     if (forceBind || ctxDesc.depthBias != m_description.depthBias)
     {
-        d3dDevice->SetRenderState(D3DRS_DEPTHBIAS, m_description.depthBias);
-        d3dDevice->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, m_description.depthBias);
+        float correctedDepthBias = m_description.depthBias;
+        d3dDevice->SetRenderState(D3DRS_DEPTHBIAS, *((DWORD*)&correctedDepthBias));
+        d3dDevice->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *((DWORD*)&correctedDepthBias));
 
         ctxDesc.depthBias = m_description.depthBias;
     }
