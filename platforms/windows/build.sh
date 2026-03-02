@@ -86,6 +86,7 @@ if [ "$(cat "toolchain-$arch/toolchainver" 2>/dev/null)" != "$toolchainver" ]; t
     wget -O- "https://ftp.gnu.org/gnu/gcc/gcc-$gcc_version/gcc-$gcc_version.tar.xz" | tar -xJ
 
     cd "gcc-$gcc_version"
+    patch -fNp1 < "$platformdir/gcc.diff"
     mkdir build
     cd build
     set --
