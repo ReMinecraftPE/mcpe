@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'master' ]
+    branches: [ 'windows-xp' ]
 
 jobs:
     linux:
@@ -316,20 +316,24 @@ jobs:
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
-    mingw:
+    windows:
         strategy:
             fail-fast: false
             matrix:
                 include:
-                  - name: Win32 (OGL)
-                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
-                  - name: Win32 (OGL + Shaders)
-                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
-                  - name: Win32 (OGL) 32-bit
-                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
-                  - name: Win32 (OGL + Shaders) 32-bit
-                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
-        name: MinGW-w64 (${{ matrix.name }})
+                  - name: x86_64 (OGL)
+                    arch: x86_64
+                    gfx-api: OGL
+                  - name: x86_64 (OGL + Shaders)
+                    arch: x86_64
+                    gfx-api: OGL_SHADERS
+                  - name: i686 (OGL)
+                    arch: i686
+                    gfx-api: OGL
+                  - name: i686 (OGL + Shaders)
+                    arch: i686
+                    gfx-api: OGL_SHADERS
+        name: Windows (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
           - name: Get Time
@@ -338,10 +342,13 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: mingw-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+              key: windows-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
               restore-keys: mingw-artifact-${{ matrix.name }}-
           - name: Unpack cache
-            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: |
+              cd ~
+              [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+              [ -f workspacecache.tar ] && mv workspacecache.tar ${{ github.workspace }} || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -351,28 +358,23 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
-                    cmake ninja-build \
-                    ccache \
-                    mingw-w64
+                    cmake \
+                    ccache
           - name: Build
             run: |
-                mkdir build
-                cd build
-                cmake .. -GNinja \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-                    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-                    ${{ matrix.flags }}
-                cmake --build .
+              ./platforms/windows/build.sh
+              tar cf workspacecache.tar platforms/windows/build/work/toolchain-${{ matrix.arch }}
+              mv workspacecache.tar ~
+            env:
+              ARCH: ${{ matrix.arch }}
+              NBC_GFX_API: ${{ matrix.gfx-api }}
+              NOSTRIP: 1
           - uses: actions/upload-artifact@v6
             with:
               name: Windows (${{ matrix.name }})
-              path: |
-                build/nbcraft.exe
-                build/assets
+              path: platforms/windows/build/NBCraft
           - name: Pack cache
-            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache workspacecache.tar
 
     switch:
         name: Nintendo Switch
