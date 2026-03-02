@@ -175,3 +175,4 @@ cp -a "$platformdir/../../game/assets" ../NBCraft
 cp "build-$arch/$bin" ../NBCraft
 [ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] &&
     "$target-strip" "../NBCraft/$bin"
+true
