@@ -4,9 +4,9 @@ working directory will be the one you ran minecraftcpp from.
 
 So for instance, if I ran it in a situation like
 
-/home/pi/mcpe/game $ ../minecraftcpp
+/home/pi/nbcraft/game $ ../minecraftcpp
 
-the working directory will be /home/pi/mcpe/game.
+the working directory will be /home/pi/nbcraft/game.
 
 If you run it from the shell on windows, the working directory
 will be the very one the executable is in.

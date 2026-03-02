@@ -126,8 +126,6 @@ xcuserdata/
 
 # Ignore linux/mingw build artifacts.
 /build*
-/minecraftcpp
-/minecraftcpp.exe
 
 # Ignore wasm build artifacts.
 /wasm
