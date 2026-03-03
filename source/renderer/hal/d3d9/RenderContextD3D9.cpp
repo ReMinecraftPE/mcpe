@@ -2,6 +2,7 @@
 #include "RenderContextD3D9.hpp"
 #include "compat/PlatformDefinitions.h"
 #include "common/Logger.hpp"
+#include "common/Mth.hpp"
 #include "renderer/hal/d3d9/helpers/ErrorHandlerD3D9.hpp"
 
 using namespace mce;
@@ -52,6 +53,48 @@ RenderContextD3D9::RenderContextD3D9()
 
     // wasn't here in 0.12.1, but where else is it supposed to go?
     createDeviceResources();
+}
+
+// Scaling factor for the input
+#define C_GAMMA_RANGE_SCALE 1.5f // Assumed 1.0 (range of gamma shift)
+// Base gamma value
+#define C_GAMMA_BASE_OFFSET 0.5f // Assumed 0.5 (min gamma)
+
+bool RenderContextD3D9::setGamma(Gamma gamma)
+{
+    if (!RenderContextBase::setGamma(gamma))
+        return false;
+    
+    // Calculate the target Gamma value based on linear equation
+    // Formula: Gamma = ((Input / 32768) * Scale) + Base
+    float normalized = (float)gamma / INT16_MAX;
+    float scaled = normalized * C_GAMMA_RANGE_SCALE;
+    float calculatedGamma = scaled + C_GAMMA_BASE_OFFSET;
+
+    // Calculate the exponent for the ramp generation (1.0 / Gamma)
+    float exponent = 1.0f / calculatedGamma;
+
+    D3DGAMMARAMP ramp;
+    for (int i = 0; i < 256; i++)
+    {
+        // Normalize index to 0.0 - 1.0 range
+        float linear = (float)i / 255.0f;
+
+        // Apply gamma curve
+        float corrected = powf(linear, exponent);
+
+        // Scale to 16-bit color range (0 - 65535)
+        float scaled = corrected * UINT16_MAX;
+
+        int val = Mth::clamp((int)scaled, 0, UINT16_MAX);
+        ramp.red[i]   = (uint16_t)val;
+        ramp.green[i] = (uint16_t)val;
+        ramp.blue[i]  = (uint16_t)val;
+    }
+
+    m_d3dDevice->SetGammaRamp(0, 0x0, &ramp);
+
+    return true;
 }
 
 void RenderContextD3D9::draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count)

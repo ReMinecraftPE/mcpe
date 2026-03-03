@@ -53,6 +53,8 @@ public:
 	void renderWeather(float f);
 	void renderPointer(const MenuPointer& pointer);
 	void setLevel(Level* pLevel, Dimension* pDimension);
+	// Range: 0.0 - 1.0
+	void setGamma(float gamma);
 	void tick();
 	void setupGuiScreen();
 	void onGraphicsReset();

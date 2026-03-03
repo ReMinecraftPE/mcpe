@@ -5,7 +5,6 @@ using namespace mce;
 RenderContextBase::RenderContextBase()
 {
     m_pRenderDevice = nullptr;
-    m_currentShadeMode = SHADE_MODE_SMOOTH;
 }
 
 void RenderContextBase::loadMatrix(MatrixType matrixType, const Matrix& matrix)
@@ -31,20 +30,30 @@ void RenderContextBase::disableFixedLighting(bool teardown)
 
 bool RenderContextBase::setShadeMode(ShadeMode mode)
 {
-    if (mode == m_currentShadeMode)
+    if (m_currentState.m_bBoundShadeMode && m_currentState.m_shadeMode == mode)
         return false;
 
-    m_currentShadeMode = mode;
+    m_currentState.m_shadeMode = mode;
 
     return true;
 }
 
 bool RenderContextBase::setCurrentColor(const Color& color)
 {
-    if (color == m_currentColor)
+    if (m_currentState.m_bBoundColor && m_currentState.m_color == color)
         return false;
 
-    m_currentColor = color;
+    m_currentState.m_color = color;
+
+    return true;
+}
+
+bool RenderContextBase::setGamma(Gamma gamma)
+{
+    if (m_currentState.m_bBoundGamma && m_currentState.m_gamma == gamma)
+        return false;
+
+    m_currentState.m_gamma = gamma;
 
     return true;
 }

@@ -465,13 +465,13 @@ void Tesselator::vertex(float x, float y, float z)
 #ifdef ENH_GFX_COMPACT_UVS
 			if (renderContext.supports16BitUnsignedUVs())
 			{
-				((uint16_t*)m_currentVertex.uvs[i])[0] = (uint16_t)ceilf(m_nextVtxUVs[i].x * 65535.f);
-				((uint16_t*)m_currentVertex.uvs[i])[1] = (uint16_t)ceilf(m_nextVtxUVs[i].y * 65535.f);
+				((uint16_t*)m_currentVertex.uvs[i])[0] = (uint16_t)ceilf(m_nextVtxUVs[i].x * UINT16_MAX);
+				((uint16_t*)m_currentVertex.uvs[i])[1] = (uint16_t)ceilf(m_nextVtxUVs[i].y * UINT16_MAX);
 			}
 			else
 			{
-				((int16_t*)m_currentVertex.uvs[i])[0] = (int16_t)ceilf(m_nextVtxUVs[i].x * 32767.f);
-				((int16_t*)m_currentVertex.uvs[i])[1] = (int16_t)ceilf(m_nextVtxUVs[i].y * 32767.f);
+				((int16_t*)m_currentVertex.uvs[i])[0] = (int16_t)ceilf(m_nextVtxUVs[i].x * INT16_MAX);
+				((int16_t*)m_currentVertex.uvs[i])[1] = (int16_t)ceilf(m_nextVtxUVs[i].y * INT16_MAX);
 			}
 #else
 			((float*)m_currentVertex.uvs[i])[0] = m_nextVtxUVs[i].x;

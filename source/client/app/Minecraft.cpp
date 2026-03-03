@@ -206,7 +206,7 @@ void Minecraft::_reloadInput()
 		m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
 	}
 
-	getOptions()->field_19 = !isTouchscreen();
+	getOptions()->m_bUseMouseForDigging = !isTouchscreen();
 }
 
 int Minecraft::getLicenseId()
@@ -608,7 +608,7 @@ void Minecraft::tickInput()
 #endif
 		}
 
-		if (getOptions()->field_19)
+		if (getOptions()->m_bUseMouseForDigging)
 			continue;
 
 		// @TODO: Replace with KeyboardBuildInput

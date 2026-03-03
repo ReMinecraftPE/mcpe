@@ -193,38 +193,6 @@ public:
 	float m_unit;
 };
 
-class SensitivityOption : public FloatOption
-{
-public:
-	SensitivityOption(const std::string& key, const std::string& name, float initial = 0.0f) : FloatOption(key, name, initial, 0.005f) {}
-
-	std::string getDisplayValue() const override;
-};
-
-class AOOption : public BoolOption
-{
-public:
-	AOOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
-
-	void apply() override;
-};
-
-class GraphicsOption : public BoolOption
-{
-public:
-	GraphicsOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
-
-	void apply() override;
-};
-
-class FancyGraphicsOption : public GraphicsOption
-{
-public:
-	FancyGraphicsOption(const std::string& key, const std::string& name, bool initial = true) : GraphicsOption(key, name, initial) {}
-
-	std::string getMessage() const override;
-};
-
 class IntOption : public OptionInstance<int>
 {
 public:
@@ -259,7 +227,9 @@ public:
 class MinMaxOption : public IntOption
 {
 public:
-	MinMaxOption(const std::string& key, const std::string& name, int initial, int min, int max) : IntOption(key, name, initial), m_min(min), m_max(max)
+	MinMaxOption(const std::string& key, const std::string& name, int initial, int min, int max) : IntOption(key, name, initial)
+		, m_min(min)
+		, m_max(max)
 	{
 	}
 
@@ -273,11 +243,11 @@ public:
 	int m_min, m_max;
 };
 
-
 class ValuesOption : public MinMaxOption
 {
 public:
-	ValuesOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : MinMaxOption(key, name, initial, 0, values.m_values.size()), m_values(values.m_values)
+	ValuesOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : MinMaxOption(key, name, initial, 0, values.m_values.size())
+		, m_values(values.m_values)
 	{
 	}
 
@@ -288,22 +258,59 @@ public:
 	std::vector<std::string> m_values;
 };
 
+class SensitivityOption : public FloatOption
+{
+public:
+	SensitivityOption(const std::string& key, const std::string& name, float initial = 0.0f) : FloatOption(key, name, initial, 0.005f) {}
+
+	std::string getDisplayValue() const override;
+};
+
+class AOOption : public BoolOption
+{
+public:
+	AOOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
+class GraphicsOption : public BoolOption
+{
+public:
+	GraphicsOption(const std::string& key, const std::string& name, bool initial = true) : BoolOption(key, name, initial) {}
+
+	void apply() override;
+};
+
+class FancyGraphicsOption : public GraphicsOption
+{
+public:
+	FancyGraphicsOption(const std::string& key, const std::string& name, bool initial = true) : GraphicsOption(key, name, initial) {}
+
+	std::string getMessage() const override;
+};
+
 class GuiScaleOption : public ValuesOption
 {
 public:
-	GuiScaleOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
-	{
-	}
+	GuiScaleOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values) {}
 
 	void apply() override;
+};
+
+class GammaOption : public FloatOption
+{
+public:
+	GammaOption(const std::string& key, const std::string& name, float initial) : FloatOption(key, name, initial, 0.01f) {}
+
+	void apply() override;
+	std::string getDisplayValue() const override;
 };
 
 class LogoTypeOption : public ValuesOption
 {
 public:
-	LogoTypeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
-	{
-	}
+	LogoTypeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values) {}
 
 	void apply() override;
 };
@@ -311,9 +318,7 @@ public:
 class UIThemeOption : public ValuesOption
 {
 public:
-	UIThemeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values)
-	{
-	}
+	UIThemeOption(const std::string& key, const std::string& name, int initial, const ValuesBuilder& values) : ValuesOption(key, name, initial, values) {}
 
 	void apply() override;
 };
@@ -321,9 +326,7 @@ public:
 class HUDSizeOption : public MinMaxOption
 {
 public:
-	HUDSizeOption(const std::string& key, const std::string& name, int initial) : MinMaxOption(key, name, initial, HUD_SIZE_1, HUD_SIZE_3 + 1)
-	{
-	}
+	HUDSizeOption(const std::string& key, const std::string& name, int initial) : MinMaxOption(key, name, initial, HUD_SIZE_1, HUD_SIZE_3 + 1) {}
 
 	std::string getDisplayValue() const override;
 };
@@ -399,21 +402,21 @@ public:
 	ValuesOption m_viewDistance;
 	BoolOption m_viewBobbing;
 	BoolOption m_anaglyphs;
-	uint8_t field_16;
+	bool m_bLimitFramerate;;
 	FancyGraphicsOption m_fancyGraphics;
 	AOOption m_ambientOcclusion;
-	uint8_t field_19; // use Mouse as input for breaking
-	std::string field_1C;
+	bool m_bUseMouseForDigging;
+	std::string m_skin;
 	ValuesOption m_difficulty;
 	BoolOption m_hideGui;
 	BoolOption m_thirdPerson;
-	uint8_t field_23E;
 	BoolOption m_flightHax;
-	uint8_t field_240;
-	bool field_241;
-	float field_244;
+	bool field_240; // seems like it's doing some sort of mouse smoothing
+	bool m_bFixedCamera;
+	float m_flySpeed;
 	float field_248;
-	int field_24C;
+	GuiScaleOption m_guiScale;
+	GammaOption m_gamma;
 	StringOption m_playerName;
 	BoolOption m_serverVisibleDefault;
 	BoolOption m_autoJump;
@@ -425,7 +428,6 @@ public:
 	BoolOption m_bUseController;
 	BoolOption m_dynamicHand;
 	BoolOption m_menuPanorama;
-	GuiScaleOption m_guiScale;
 	StringOption m_lang;
 	UIThemeOption m_uiTheme;
 	LogoTypeOption m_logoType;
@@ -471,6 +473,7 @@ public:
 	/*OPTION(m_antiAliasing);*/            \
 	/*OPTION(m_guiScale);*/                \
 	/*OPTION(m_fov);*/                     \
+	OPTION(m_gamma);                       \
 	OPTION(m_ambientOcclusion);            \
 	OPTION(m_fancyGraphics);               \
 	OPTION(m_viewBobbing);                 \

@@ -5,9 +5,14 @@
 #include "renderer/hal/RasterizerStateDescription.hpp"
 #include "renderer/hal/FixedPipelineStateDescription.hpp"
 #include "renderer/hal/FogStateDescription.hpp"
+#include "common/math/Color.hpp"
+#include "renderer/hal/enums/ShadeMode.hpp"
 
 namespace mce
 {
+	// Ranges from 0 - 32768
+    typedef uint16_t Gamma;
+
     class RenderContextStateBase
     {
     public:
@@ -16,11 +21,17 @@ namespace mce
         RasterizerStateDescription m_rasterizerStateDescription;
         FixedPipelineStateDescription m_fixedPipelineStateDescription;
         FogStateDescription m_fogStateDescription;
+        Color m_color;
+        ShadeMode m_shadeMode;
+        Gamma m_gamma;
         bool m_bBoundBlendState;
         bool m_bBoundDepthStencilState;
         bool m_bBoundRasterizerState;
         bool m_bBoundFixedPipelineState;
         bool m_bBoundFogState;
+        bool m_bBoundColor;
+        bool m_bBoundShadeMode;
+        bool m_bBoundGamma;
 
     public:
         RenderContextStateBase();

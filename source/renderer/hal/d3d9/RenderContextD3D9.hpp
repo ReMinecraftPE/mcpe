@@ -55,6 +55,7 @@ namespace mce
         RenderContextD3D9();
 
     public:
+        bool setGamma(Gamma gamma);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);

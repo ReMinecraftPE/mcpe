@@ -3,7 +3,7 @@
 
 #include "DataIO.hpp"
 
-#define STR16_MAX_LEN 32767
+#define STR16_MAX_LEN INT16_MAX
 #define STR32_MAX_LEN 2147483647
 
 std::string IDataInput::_readString()
