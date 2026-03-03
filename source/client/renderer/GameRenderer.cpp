@@ -879,6 +879,9 @@ void GameRenderer::setLevel(Level* pLevel, Dimension* pDimension)
 
 void GameRenderer::setGamma(float gamma)
 {
+	if (!mce::RenderContextImmediate::hasDevice())
+		return;
+
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	renderContext.setGamma(gamma * (INT16_MAX+1));
 }

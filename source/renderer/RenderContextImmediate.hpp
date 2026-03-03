@@ -9,5 +9,6 @@ namespace mce
     public:
         static RenderContext& get();
         static const RenderContext& getAsConst();
+        static bool hasDevice();
     };
 }
