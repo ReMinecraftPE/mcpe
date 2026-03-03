@@ -221,15 +221,9 @@ jobs:
                   - name: x86_64 (OGL)
                     arch: x86_64
                     gfx-api: OGL
-                  - name: x86_64 (OGL + Shaders)
-                    arch: x86_64
-                    gfx-api: OGL_SHADERS
                   - name: i686 (OGL)
                     arch: i686
                     gfx-api: OGL
-                  - name: i686 (OGL + Shaders)
-                    arch: i686
-                    gfx-api: OGL_SHADERS
         name: Windows (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
