@@ -33,6 +33,7 @@ public:
 	static std::string getExtension(const std::string& path);
 
 	static std::string toString(int value);
+	static std::string toString(float value);
 	static std::string toString(const wchar_t* str);
 	static std::string toString(const std::wstring& str);
 	static std::wstring toWideString(const std::string& str);
@@ -64,7 +65,6 @@ public:
 		return removed;
 	}
 
-	// @TODO: reverse the actual thing? This is something different, but I'm lazy. It uses std::string::replace
 	static void stringReplace(std::string& in, const std::string& what, const std::string& with)
 	{
 		//snippet from Zahlman's post on gamedev:  http://www.gamedev.net/community/forums/topic.asp?topic_id=372125

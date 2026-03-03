@@ -317,7 +317,7 @@ void AppPlatform_sdl::handleControllerButtonEvent(SDL_JoystickID controllerIndex
 
 void AppPlatform_sdl::handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value)
 {
-	float val = value / 32767.0f; // -32768 to 32767
+	float val = value / (float)INT16_MAX; // -32768 to 32767
 
 	switch (axis)
 	{

@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <sstream>
 #include <stdio.h>
 #include <cstdlib>
 #include "Util.hpp"
@@ -137,6 +138,13 @@ std::string Util::toString(int value)
 
 	std::reverse(str.begin(), str.end());
 	return str;
+}
+
+std::string Util::toString(float value)
+{
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
 std::string Util::toString(const wchar_t* str)

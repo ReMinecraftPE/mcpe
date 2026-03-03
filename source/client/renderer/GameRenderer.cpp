@@ -77,6 +77,8 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 #ifdef FEATURE_GFX_SHADERS
 	mce::GlobalConstantBuffers::getInstance().init();
 #endif
+
+	m_pMinecraft->getOptions()->m_gamma.apply();
 }
 
 GameRenderer::~GameRenderer()
@@ -312,7 +314,7 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 	if (m_pMinecraft->getOptions()->m_thirdPerson.get())
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
-		if (m_pMinecraft->getOptions()->field_241)
+		if (m_pMinecraft->getOptions()->m_bFixedCamera)
 		{
 			matrix.translate(Vec3::NEG_UNIT_Z * v11);
 			matrix.rotate(field_38 + (field_34 - field_38) * f, Vec3::UNIT_X);
@@ -363,7 +365,7 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 		matrix.translate(Vec3(0.0f, 0.0f, -0.1f));
 	}
 
-	if (!m_pMinecraft->getOptions()->field_241)
+	if (!m_pMinecraft->getOptions()->m_bFixedCamera)
 	{
 		matrix.rotate(pMob->m_oRot.y + f * (pMob->m_rot.y - pMob->m_oRot.y), Vec3::UNIT_X);
 		matrix.rotate(pMob->m_oRot.x + f * (pMob->m_rot.x - pMob->m_oRot.x) + 180.0f, Vec3::UNIT_Y);
@@ -613,7 +615,7 @@ void GameRenderer::render(const Timer& timer)
 				float v20 = mult1 * 0.25f * (v17 - v18);
 				float v21 = v19 + (v20 - v19) * 0.5f;
 				field_1C = v21;
-				if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
+				if ((v20 <= 0.0f || v20 <= v21) && (v20 >= 0.0f || v20 >= v21))
 					v21 = mult1 * 0.25f * (v17 - v18);
 				float v22 = d.y + field_20;
 				field_18 = v18 + v21;
@@ -622,7 +624,7 @@ void GameRenderer::render(const Timer& timer)
 				float v24 = mult1 * 0.15f * (v22 - v23);
 				float v25 = field_28 + (v24 - field_28) * 0.5f;
 				field_28 = v25;
-				if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
+				if ((v24 <= 0.0f || v24 <= v25) && (v24 >= 0.0f || v24 >= v25))
 					v25 = v24;
 				field_24 = v23 + v25;
 			}
@@ -873,9 +875,16 @@ void GameRenderer::setLevel(Level* pLevel, Dimension* pDimension)
 	//_tickLightTexture(pDimension, 1.0f);
 }
 
+void GameRenderer::setGamma(float gamma)
+{
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.setGamma(gamma * (INT16_MAX+1));
+}
+
 void GameRenderer::onGraphicsReset()
 {
-
+	// We might not need this long-term, but putting it here just in case
+	m_pMinecraft->getOptions()->m_gamma.apply();
 }
 
 void GameRenderer::pick(float f)

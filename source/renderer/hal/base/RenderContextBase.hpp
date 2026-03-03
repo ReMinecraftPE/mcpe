@@ -1,12 +1,9 @@
 #pragma once
 
 #include "RenderContextStateBase.hpp"
-#include "common/math/Color.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/MatrixStack.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
-#include "renderer/hal/enums/ShadeMode.hpp"
-#include "renderer/hal/enums/ShaderType.hpp"
 #include "renderer/hal/interface/ShaderProgram.hpp"
 #include "renderer/hal/interface/ImmediateBuffer.hpp"
 #include "renderer/hal/interface/RenderDevice.hpp"
@@ -21,8 +18,6 @@ namespace mce
         VertexFormat m_lastVertexFormat;
         unsigned int m_lastAttributeListIndex;
         ShaderProgram* m_lastShaderPrograms[SHADER_TYPES_COUNT];
-        Color m_currentColor;
-        ShadeMode m_currentShadeMode;
         ImmediateBuffer m_immediateBuffer;
         StencilRefObject m_stencilReference;
         RenderDevice *m_pRenderDevice;
@@ -38,6 +33,7 @@ namespace mce
         void disableFixedLighting(bool teardown);
         bool setShadeMode(ShadeMode mode);
         bool setCurrentColor(const Color& color);
+        bool setGamma(Gamma gamma);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);

@@ -195,7 +195,7 @@ void LocalPlayer::hurtTo(int newHealth)
 
 void LocalPlayer::calculateFlight(const Vec3& pos)
 {
-	float f1 = m_pMinecraft->getOptions()->field_244;
+	float f1 = m_pMinecraft->getOptions()->m_flySpeed;
 	float x1 = f1 * pos.x;
 	float z1 = f1 * pos.z;
 

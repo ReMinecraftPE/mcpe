@@ -30,18 +30,18 @@
 #include "client/gui/components/TickBox.hpp"
 #include "client/renderer/LogoRenderer.hpp"
 
+#include "renderer/RenderContextImmediate.hpp"
+
 
 void Options::_initDefaultValues()
 {
-	field_244 = 1.0f;
+	m_flySpeed = 1.0f;
 	field_248 = 1.0f;
-	field_23E = 0;
-	field_241 = false;
-	field_24C = 0;
-	field_16  = 0;
-	field_240 = 1;
-	field_1C = "Default";
-	field_19 = 1;
+	m_bFixedCamera = false;
+	m_bLimitFramerate = false;
+	field_240 = true;
+	m_skin = "Default";
+	m_bUseMouseForDigging = true;
 #ifdef ORIGINAL_CODE
 	m_viewDistance.set(2);
 	m_thirdPerson.set(0);
@@ -78,6 +78,8 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_hideGui("gfx_hidegui", "options.hideGui", false)
 	, m_thirdPerson("gfx_thirdperson", "options.thirdPerson", false)
 	, m_flightHax("misc_flycheat", "options.flightHax", false)
+	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
+	, m_gamma("gfx_gamma", "options.gamma", 0.50f)
 	, m_playerName("mp_username", "options.username", "Steve")
 	, m_serverVisibleDefault("mp_server_visible_default", "options.serverVisibleDefault", true)
 	, m_autoJump("ctrl_autojump", "options.autoJump", mc->platform()->isTouchscreen())
@@ -89,7 +91,6 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	, m_bUseController("ctrl_usecontroller", "options.useController", false)
 	, m_dynamicHand("gfx_dynamichand", "options.dynamicHand", false)
 	, m_menuPanorama("misc_menupano", "options.menuPanorama", true)
-	, m_guiScale("gfx_guiscale", "options.guiScale", 0, ValuesBuilder().add("options.guiScale.auto").add("options.guiScale.small").add("options.guiScale.normal").add(("options.guiScale.large")))
 	, m_lang("gfx_lang", "options.lang", "en_us")
 	, m_uiTheme("gfx_uitheme", "options.uiTheme", GetDefaultUiTheme(m_pMinecraft), ValuesBuilder().add("options.uiTheme.pocket").add("options.uiTheme.java").add("options.uiTheme.console"))
 	, m_logoType("gfx_logotype", "options.logoType", LOGO_AUTO, ValuesBuilder().add("options.logoType.auto").add("options.logoType.pocket").add("options.logoType.java").add("options.logoType.console").add("options.logoType.xbox360").add("options.logoType.logo3d"))
@@ -114,6 +115,7 @@ Options::Options(Minecraft* mc, const std::string& folderPath) :
 	add(m_biomeColors);
 	add(m_ambientOcclusion);
 	add(m_guiScale);
+	add(m_gamma);
 	//add(m_limitFramerate);
 	add(m_autoJump);
 	//add(m_bMipmaps);
@@ -275,16 +277,12 @@ std::string Options::saveBool(bool b)
 
 std::string Options::saveInt(int i)
 {
-	std::stringstream ss;
-	ss << i;
-	return ss.str();
+	return Util::toString(i);
 }
 
 std::string Options::saveFloat(float f)
 {
-	std::stringstream ss;
-	ss << f;
-	return ss.str();
+	return Util::toString(f);
 }
 
 std::string Options::saveArray(const std::vector<std::string>& arr)
@@ -698,18 +696,6 @@ void OptionEntry::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiTh
 	elements.push_back(new SmallButton(0, 0, this, getMessage()));
 }
 
-void AOOption::apply()
-{
-	Minecraft::useAmbientOcclusion = get();
-	if (m_pMinecraft->m_pLevelRenderer)
-		m_pMinecraft->m_pLevelRenderer->allChanged();
-}
-
-void GuiScaleOption::apply()
-{
-	m_pMinecraft->sizeUpdate(Minecraft::width, Minecraft::height);
-}
-
 void FloatOption::load(const std::string& value)
 {
 	set(Options::readFloat(value));
@@ -717,12 +703,17 @@ void FloatOption::load(const std::string& value)
 
 std::string FloatOption::getDisplayValue() const
 {
-	return get() == 0.0f ? Language::get("options.off") : Options::saveInt(get() * 100) + "%";
+	return get() == 0.0f ? Language::get("options.off") : Util::toString(get() * 100) + "%";
 }
 
 void FloatOption::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiTheme)
 {
 	elements.push_back(new SliderButton(0, 0, 200, uiTheme == UI_CONSOLE ? 32 : 20, this, getMessage(), toFloat()));
+}
+
+void IntOption::load(const std::string& value)
+{
+	set(Options::readInt(value));
 }
 
 void BoolOption::load(const std::string& value)
@@ -761,6 +752,36 @@ void MinMaxOption::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiT
 		elements.push_back(new SwitchValuesButton(0, 0, this, getDisplayName()));
 }
 
+std::string SensitivityOption::getDisplayValue() const
+{
+	return get() == 0.0f ? Language::get("options.sensitivity.min") : get() == 1.0f ? Language::get("options.sensitivity.max") : Util::toString(int(get() * 200)) + "%";
+}
+
+void AOOption::apply()
+{
+	Minecraft::useAmbientOcclusion = get();
+	if (m_pMinecraft->m_pLevelRenderer)
+		m_pMinecraft->m_pLevelRenderer->allChanged();
+}
+
+void GuiScaleOption::apply()
+{
+	m_pMinecraft->sizeUpdate(Minecraft::width, Minecraft::height);
+}
+
+void GammaOption::apply()
+{
+	// Budget rounding since the 360 just doesn't have a round function
+	// @TODO: Then again, we don't need this level or precision to begin with
+	// I just don't wanna have to rework the SliderButton to support integers
+	m_pMinecraft->m_pGameRenderer->setGamma((float)Mth::floor(get() * 100) / 100);
+}
+
+std::string GammaOption::getDisplayValue() const
+{
+	return Util::toString(int(get() * 100)) + "%";
+}
+
 void GraphicsOption::apply()
 {
 	if (m_pMinecraft->m_pLevelRenderer)
@@ -770,16 +791,6 @@ void GraphicsOption::apply()
 std::string FancyGraphicsOption::getMessage() const
 {
 	return Util::format(Language::get("options.value").c_str(), Language::get("options.graphics").c_str(), Language::get(get() ? "options.graphics.fancy" : "options.graphics.fast").c_str());
-}
-
-std::string SensitivityOption::getDisplayValue() const
-{
-	return get() == 0.0f ? Language::get("options.sensitivity.min") : get() == 1.0f ? Language::get("options.sensitivity.max") : Options::saveInt(get() * 200) + "%";
-}
-
-void IntOption::load(const std::string& value)
-{
-	set(Options::readInt(value));
 }
 
 void LogoTypeOption::apply()
@@ -793,7 +804,7 @@ void LogoTypeOption::apply()
 
 std::string HUDSizeOption::getDisplayValue() const
 {
-	return Options::saveInt(get() - 1);
+	return Util::toString(get() - 1);
 }
 
 void UIThemeOption::apply()

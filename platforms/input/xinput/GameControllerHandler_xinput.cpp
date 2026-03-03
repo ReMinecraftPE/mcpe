@@ -109,10 +109,10 @@ void GameControllerHandler_xinput::refresh()
 
 float GameControllerHandler_xinput::normalizeAxis(float raw, float deadzone) const
 {
-    return Mth::Max(-1.0f, raw / 32767.0f); // -32768 to 32767
+    return Mth::Max(-1.0f, raw / INT16_MAX);
 
     // Deadzone is currently handled in GameControllerManager
-    /*float v3 = Mth::Max(-1.0f, raw / 32767.0f);
+    /*float v3 = Mth::Max(-1.0f, raw / INT16_MAX);
     float v4 = fabs(v3);
     float v5;
     if (v4 >= deadzone)
@@ -124,8 +124,8 @@ float GameControllerHandler_xinput::normalizeAxis(float raw, float deadzone) con
 
 void GameControllerHandler_xinput::normalizeAxes(Vec2& io, float deadzone) const
 {
-    io.x = Mth::Max(-1.0f, io.x / 32767.0f);
-    io.y = Mth::Max(-1.0f, io.y / 32767.0f);
+    io.x = Mth::Max(-1.0f, io.x / INT16_MAX);
+    io.y = Mth::Max(-1.0f, io.y / INT16_MAX);
 
     // Deadzone is currently handled in GameControllerManager
     /*float length = io.length();
