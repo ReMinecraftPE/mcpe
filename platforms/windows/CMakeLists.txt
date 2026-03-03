@@ -26,12 +26,19 @@ elseif(NBC_GFX_API STREQUAL "D3D11")
     )
 endif()
 
+set(ICON_FILE "${CMAKE_SOURCE_DIR}/game/assets/app/icons/icon.ico")
+configure_file(
+    NBCraftClient.Win32.rc
+    ${CMAKE_CURRENT_SOURCE_DIR}/NBCraftClient.Win32.configured.rc
+    @ONLY
+)
+
 # Build
 add_executable(nbcraft WIN32
     LoggerWin32.cpp
     AppPlatform_win32.cpp
     main.cpp
-    NBCraftClient.Win32.rc
+    NBCraftClient.Win32.configured.rc
 )
 
 # Core

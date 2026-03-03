@@ -1,10 +1,12 @@
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 #include <assert.h>
 #include <cstring>
 
 #include "DataIO.hpp"
 
 #define STR16_MAX_LEN INT16_MAX
-#define STR32_MAX_LEN 2147483647
+#define STR32_MAX_LEN INT32_MAX
 
 std::string IDataInput::_readString()
 {

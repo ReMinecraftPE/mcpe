@@ -1,3 +1,5 @@
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 #include <sstream>
 #include <fstream>
 #include <sys/stat.h>

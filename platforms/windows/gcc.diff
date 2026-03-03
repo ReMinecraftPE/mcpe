@@ -1,0 +1,47 @@
+Modified version of https://github.com/DiscordMessenger/dm/blob/master/doc/pentium-toolchain/gcc.diff
+Removes the use of some APIs only present in newer Windows versions from libgcc.
+
+--- a/libgcc/config/i386/gthr-win32.h.orig
++++ b/libgcc/config/i386/gthr-win32.h
+@@ -636,7 +636,7 @@
+ __GTHREAD_WIN32_INLINE int
+ __gthread_equal (__gthread_t __t1, __gthread_t __t2)
+ {
+-  return GetThreadId ((HANDLE) __t1) == GetThreadId ((HANDLE) __t2);
++  return __t1 == __t2; //GetThreadId ((HANDLE) __t1) == GetThreadId ((HANDLE) __t2);
+ }
+ 
+ __GTHREAD_WIN32_INLINE int
+@@ -749,6 +749,7 @@
+ __GTHREAD_WIN32_INLINE int
+ __gthread_mutex_trylock (__gthread_mutex_t *__mutex)
+ {
++/*
+   if (__GTHREAD_WIN32_ACTIVE_P ())
+     {
+       BOOL __ret = TryEnterCriticalSection ((LPCRITICAL_SECTION) __mutex);
+@@ -767,6 +768,9 @@
+     }
+   else
+     return 0;
++*/
++	// TODO
++	return 0;
+ }
+ 
+ __GTHREAD_WIN32_INLINE int
+@@ -780,10 +784,14 @@
+ __GTHREAD_WIN32_INLINE int
+ __gthread_recursive_mutex_trylock (__gthread_recursive_mutex_t *__mutex)
+ {
++/*
+   if (__GTHREAD_WIN32_ACTIVE_P ())
+     return TryEnterCriticalSection ((LPCRITICAL_SECTION) __mutex) ? 0 : 1;
+   else
+     return 0;
++*/
++	// TODO
++	return 0;
+ }
+ 
+ #if __GTHREAD_HAS_COND

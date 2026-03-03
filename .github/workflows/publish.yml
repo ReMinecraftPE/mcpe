@@ -202,7 +202,7 @@ jobs:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
               signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
               keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-              alias: NBCraft
+              alias: remcpe
             env:
               BUILD_TOOLS_VERSION: 36.1.0
           - name: Rename APK
@@ -213,18 +213,18 @@ jobs:
             with:
               asset_paths: '["NBCraft.apk"]'
 
-    mingw:
+    windows:
         strategy:
             fail-fast: false
             matrix:
                 include:
-                  - name: Win32 (OGL)
-                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                  - name: x86_64 (OGL)
                     arch: x86_64
-                  - name: Win32 (OGL) 32-bit
-                    flags: '-DNBC_PLATFORM=windows -DNBC_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
-                    arch: x86
-        name: MinGW-w64 (${{ matrix.name }})
+                    gfx-api: OGL
+                  - name: i686 (OGL)
+                    arch: i686
+                    gfx-api: OGL
+        name: Windows (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
@@ -236,22 +236,20 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
-                    cmake ninja-build \
-                    mingw-w64
+                    cmake \
+                    ccache \
+                    libgmp-dev \
+                    libmpfr-dev \
+                    libmpc-dev
           - name: Build
-            run: |
-                mkdir build
-                cd build
-                cmake .. -GNinja \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-                    ${{ matrix.flags }}
-                cmake --build .
-                x86_64-w64-mingw32-strip nbcraft.exe
+            run: ./platforms/windows/build.sh
+            env:
+              ARCH: ${{ matrix.arch }}
+              NBC_GFX_API: ${{ matrix.gfx-api }}
+              NOSTRIP: 1
           - name: Pack release
             run: |
-                mkdir NBCraft
-                mv game/assets build/nbcraft.exe NBCraft
+                mv platforms/windows/build/NBCraft .
                 zip -r NBCraft-Windows-${{ matrix.arch }}.zip NBCraft
           - uses: alexellis/upload-assets@0.4.1
             env:

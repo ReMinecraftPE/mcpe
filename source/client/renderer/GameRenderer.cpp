@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 #include "GameRenderer.hpp"
 #include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
