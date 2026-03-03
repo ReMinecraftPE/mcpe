@@ -4,6 +4,11 @@
 #include "client/app/AppPlatform.hpp"
 #include <cmath>
 
+X3DAUDIO_DISTANCE_CURVE_POINT VOLUME_CURVE_POINTS[] = {
+    {0.0f, 1.0f},
+    {1.0f, 0.0f},
+};
+
 SoundSystemXA2::SoundSystemXA2()
     : m_available(false)
     , m_pMasteringVoice(nullptr)
@@ -15,6 +20,9 @@ SoundSystemXA2::SoundSystemXA2()
     ZeroMemory(&m_listener, sizeof(X3DAUDIO_LISTENER));
     m_listener.OrientFront.z = 1.0f;
     m_listener.OrientTop.y = 1.0f;
+
+    m_volumeCurve.PointCount = sizeof(VOLUME_CURVE_POINTS) / sizeof(X3DAUDIO_DISTANCE_CURVE_POINT);
+    m_volumeCurve.pPoints = VOLUME_CURVE_POINTS;
 
     startEngine();
 }
@@ -162,23 +170,15 @@ void SoundSystemXA2::_update3D()
 {
     if (m_activeVoices.empty()) return;
 
-    X3DAUDIO_DSP_SETTINGS dsp;
-    ZeroMemory(&dsp, sizeof(X3DAUDIO_DSP_SETTINGS));
-    float matrix[XAUDIO2_MAX_AUDIO_CHANNELS] = { 0 };
-
-    dsp.DstChannelCount = m_deviceChannels;
-    dsp.pMatrixCoefficients = matrix;
-
     for (size_t i = 0; i < m_activeVoices.size(); i++)
     {
         VoiceWrapper* voice = m_activeVoices[i];
         if (voice->is3D)
         {
-            dsp.SrcChannelCount = 1;
             X3DAudioCalculate(m_x3dInstance, &m_listener, &voice->emitter,
-                X3DAUDIO_CALCULATE_MATRIX, &dsp);
+                X3DAUDIO_CALCULATE_MATRIX, &m_dspSettings);
 
-            voice->sourceVoice->SetOutputMatrix(NULL, 1, m_deviceChannels, dsp.pMatrixCoefficients);
+            voice->sourceVoice->SetOutputMatrix(NULL, 1, m_deviceChannels, m_dspSettings.pMatrixCoefficients);
         }
     }
 }
@@ -194,9 +194,11 @@ void SoundSystemXA2::playAt(const SoundDesc& sound, const Vec3& pos, float volum
     VoiceWrapper* voice = _findFreeVoice(wf);
     if (!voice) return;
 
+    float finalVolume = Mth::clamp(volume, 0.0f, 1.0f);
+
     // 3. Apply Pitch and Volume
     if (pitch > 0.0f) voice->sourceVoice->SetFrequencyRatio(pitch);
-    voice->sourceVoice->SetVolume(Mth::clamp(volume, 0.0f, 1.0f));
+    voice->sourceVoice->SetVolume(finalVolume);
 
     // 4. Determine 2D vs 3D
     bool is2D = (pos.length() == 0.0f);
@@ -207,26 +209,28 @@ void SoundSystemXA2::playAt(const SoundDesc& sound, const Vec3& pos, float volum
     {
         voice->is3D = true;
         voice->emitter.ChannelCount = 1;
-        voice->emitter.CurveDistanceScaler = 1.0f;
+        voice->emitter.CurveDistanceScaler = 16.0f;
+        voice->emitter.OrientFront.z = 1.0f;
+        voice->emitter.OrientTop.y = 1.0f;
+
+        voice->emitter.pVolumeCurve = &m_volumeCurve;
+        voice->emitter.pLFECurve = &m_volumeCurve;
 
         // Match DirectSound coordinate inversion (Z inverted)
         voice->emitter.Position.x = pos.x;
         voice->emitter.Position.y = pos.y;
         voice->emitter.Position.z = -pos.z;
 
-        X3DAUDIO_DSP_SETTINGS dsp;
-        ZeroMemory(&dsp, sizeof(X3DAUDIO_DSP_SETTINGS));
-        float matrix[8]; // Sufficient for Mono -> 7.1
-        ZeroMemory(matrix, sizeof(matrix));
-
-        dsp.SrcChannelCount = 1;
-        dsp.DstChannelCount = m_deviceChannels;
-        dsp.pMatrixCoefficients = matrix;
-
         X3DAudioCalculate(m_x3dInstance, &m_listener, &voice->emitter,
-            X3DAUDIO_CALCULATE_MATRIX, &dsp);
+            X3DAUDIO_CALCULATE_MATRIX, &m_dspSettings);
 
-        voice->sourceVoice->SetOutputMatrix(NULL, 1, m_deviceChannels, dsp.pMatrixCoefficients);
+        // Not needed, since this is handled in XAudio2SourceVoice
+        /*for (unsigned int i = 0; i < m_dspMatrixSize; i++)
+        {
+            m_dspSettings.pMatrixCoefficients[i] *= finalVolume;
+        }*/
+
+        voice->sourceVoice->SetOutputMatrix(NULL, 1, m_deviceChannels, m_dspSettings.pMatrixCoefficients);
     }
     else
     {
@@ -360,6 +364,12 @@ void SoundSystemXA2::startEngine()
     }
 #endif
 
+    // Create shared DSP settings
+    ZeroMemory(&m_dspSettings, sizeof(X3DAUDIO_DSP_SETTINGS));
+    m_dspSettings.SrcChannelCount = 1;
+    m_dspSettings.DstChannelCount = m_deviceChannels;
+    m_dspSettings.pMatrixCoefficients = new float[m_dspSettings.SrcChannelCount * m_dspSettings.DstChannelCount];
+
     m_musicStream = new SoundStreamXA2(m_xaudio);
 
     // Mark as loaded
@@ -388,6 +398,8 @@ void SoundSystemXA2::stopEngine()
     m_voicePool.clear();
     m_activeVoices.clear();
     m_freeVoices.clear();
+
+    delete[] m_dspSettings.pMatrixCoefficients;
 
     if (m_pMasteringVoice)
     {
