@@ -103,6 +103,9 @@ private:
     DWORD m_channelMask;
     UINT32 m_deviceChannels;
 
+    X3DAUDIO_DSP_SETTINGS m_dspSettings;
+    X3DAUDIO_DISTANCE_CURVE	m_volumeCurve;
+
     // Owns the memory for voices
     std::vector<VoiceWrapper*> m_voicePool;
 

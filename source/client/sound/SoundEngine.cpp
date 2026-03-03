@@ -162,15 +162,10 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
     float distance = pos.distanceTo(m_listenerPosition);
     if (distance > SOUND_MAX_DISTANCE)
         return;
-    // @HACK: Annoying hack because DirectSound is making steps in 2D insanely quiet.
-#ifdef USE_OPENAL
     if (distance < SOUND_ATTENUATION_MIN_DISTANCE)
         nPos = Vec3::ZERO;
     else
         nPos = pos;
-#else
-    nPos = pos;
-#endif
 
     float cVolume = Mth::clamp(_getVolumeMult(pos) * vol, 0.0f, 1.0f);
     float cPitch = Mth::clamp(pitch, 0.5f, 2.0f); // Clamp to values specified by Paulscode
