@@ -12,3 +12,8 @@ const RenderContext& RenderContextImmediate::getAsConst()
 {
     return RenderDevice::getInstance().getRenderContextAsConst();
 }
+
+bool RenderContextImmediate::hasDevice()
+{
+    return RenderDevice::hasInstance();
+}

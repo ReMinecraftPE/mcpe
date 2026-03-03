@@ -54,6 +54,11 @@ namespace mce
             return *instance;
         }
 
+        static bool hasInstance()
+        {
+            return instance != nullptr;
+        }
+
     public:
         Singleton()
         {
