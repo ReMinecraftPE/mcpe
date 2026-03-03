@@ -402,7 +402,7 @@ public:
 	ValuesOption m_viewDistance;
 	BoolOption m_viewBobbing;
 	BoolOption m_anaglyphs;
-	bool m_bLimitFramerate;;
+	bool m_bLimitFramerate;
 	FancyGraphicsOption m_fancyGraphics;
 	AOOption m_ambientOcclusion;
 	bool m_bUseMouseForDigging;
