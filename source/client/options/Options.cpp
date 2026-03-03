@@ -703,7 +703,7 @@ void FloatOption::load(const std::string& value)
 
 std::string FloatOption::getDisplayValue() const
 {
-	return get() == 0.0f ? Language::get("options.off") : Util::toString(get() * 100) + "%";
+	return get() == 0.0f ? Language::get("options.off") : Util::toString(int(get() * 100)) + "%";
 }
 
 void FloatOption::addGuiElement(std::vector<GuiElement*>& elements, UITheme uiTheme)
