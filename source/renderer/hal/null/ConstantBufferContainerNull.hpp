@@ -6,7 +6,5 @@ namespace mce
 {
     class ConstantBufferContainerNull : public ConstantBufferContainerBase
     {
-    public:
-        ConstantBufferContainerNull();
     };
 }

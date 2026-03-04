@@ -24,7 +24,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderStateOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.cpp" />
@@ -43,6 +43,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\platform\ogl\Extensions.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\AlphaStateOGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.hpp" />
@@ -50,7 +51,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderStateOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.hpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\platform\ogl\Extensions.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\AlphaStateOGL.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

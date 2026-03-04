@@ -1,33 +1,33 @@
-#include "FixedPipelineStateD3D9.hpp"
+#include "AlphaStateD3D9.hpp"
 
 using namespace mce;
 
-FixedPipelineStateD3D9::FixedPipelineStateD3D9()
+AlphaStateD3D9::AlphaStateD3D9()
 {
     m_bAlphaTest = FALSE;
     m_alphaFunc = D3DCMP_ALWAYS;
     m_alphaRef = 0;
 }
 
-void FixedPipelineStateD3D9::createFixedPipelineState(RenderContext& context, const FixedPipelineStateDescription& desc)
+void AlphaStateD3D9::createAlphaState(RenderContext& context, const AlphaStateDescription& desc)
 {
-    FixedPipelineStateBase::createFixedPipelineState(context, desc);
+    AlphaStateBase::createAlphaState(context, desc);
 
     m_bAlphaTest = desc.enableAlphaTest ? TRUE : FALSE;
     m_alphaFunc = getComparisonFunc(desc.alphaFunc);
     m_alphaRef = ceilf(desc.alphaRef * 255.0f);
 
-    if (!context.m_currentState.m_bBoundFixedPipelineState)
+    if (!context.m_currentState.m_bBoundAlphaState)
     {
-        bindFixedPipelineState(context, true);
-        context.m_currentState.m_bBoundFixedPipelineState = true;
-        context.m_currentState.m_fixedPipelineStateDescription = desc;
+        bindAlphaState(context, true);
+        context.m_currentState.m_bBoundAlphaState = true;
+        context.m_currentState.m_alphaStateDescription = desc;
     }
 }
 
-bool FixedPipelineStateD3D9::bindFixedPipelineState(RenderContext& context, bool forceBind)
+bool AlphaStateD3D9::bindAlphaState(RenderContext& context, bool forceBind)
 {
-    FixedPipelineStateDescription& ctxDesc = context.m_currentState.m_fixedPipelineStateDescription;
+    AlphaStateDescription& ctxDesc = context.m_currentState.m_alphaStateDescription;
 
     D3DDevice d3dDevice = context.getD3DDevice();
 
@@ -49,5 +49,5 @@ bool FixedPipelineStateD3D9::bindFixedPipelineState(RenderContext& context, bool
         ctxDesc.alphaRef = m_description.alphaRef;
     }
 
-    return FixedPipelineStateBase::bindFixedPipelineState(context);
+    return AlphaStateBase::bindAlphaState(context);
 }

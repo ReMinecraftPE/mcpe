@@ -2,7 +2,7 @@
 
 namespace mce
 {
-    enum RenderState
+    enum RenderStateType
     {
         RS_NONE,
         RS_DISABLE_DEPTH_TEST,

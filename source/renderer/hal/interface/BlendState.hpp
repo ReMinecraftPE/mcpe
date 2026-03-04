@@ -7,7 +7,5 @@ namespace mce
 {
     class BlendState : public MCE_GFX_CLASS(BlendState)
     {
-    public:
-        BlendState();
     };
 }

@@ -8,12 +8,13 @@
 
 #include "client/renderer/renderer/ShaderGroup.hpp"
 
-#include "renderer/hal/enums/RenderState.hpp"
+#include "renderer/hal/enums/RenderStateType.hpp"
 #include "renderer/hal/interface/Shader.hpp"
 #include "renderer/hal/interface/BlendState.hpp"
 #include "renderer/hal/interface/DepthStencilState.hpp"
 #include "renderer/hal/interface/RasterizerState.hpp"
-#include "renderer/hal/interface/FixedPipelineState.hpp"
+#include "renderer/hal/interface/RenderState.hpp"
+#include "renderer/hal/interface/AlphaState.hpp"
 
 namespace mce
 {
@@ -36,21 +37,23 @@ namespace mce
         DepthStencilStateDescription m_depthStencilStateDescription;
         RasterizerState m_rasterizerState;
         RasterizerStateDescription m_rasterizerStateDescription;
-        FixedPipelineState m_fixedPipelineState;
-        FixedPipelineStateDescription m_fixedPipelineStateDescription;
+        RenderState m_renderState;
+        RenderStateDescription m_renderStateDescription;
+        AlphaState m_alphaState;
+        AlphaStateDescription m_alphaStateDescription;
 
     public:
         RenderMaterial();
         RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent);
 
     protected:
-        RenderState _parseStateName(const std::string& stateName) const;
+        RenderStateType _parseStateName(const std::string& stateName) const;
         void _parseRenderStates(const rapidjson::Value& root);
         void _parseRuntimeStates(const rapidjson::Value& root);
         void _parseDepthStencilFace(const rapidjson::Value& root, const char* depthStencilFaceName, StencilFaceDescription& faceDescription) const;
         void _parseDepthStencilState(const rapidjson::Value& root);
         void _parseBlendState(const rapidjson::Value& root);
-        void _parseFixedPipelineState(const rapidjson::Value& root);
+        void _parseAlphaState(const rapidjson::Value& root);
         void _parseDefines(const rapidjson::Value& root);
         void _parseShaderPaths(const rapidjson::Value& root);
 #ifdef FEATURE_GFX_SHADERS
@@ -62,8 +65,8 @@ namespace mce
     public:
         void useWith(RenderContext& context, const VertexFormat& vertexFormat, const void *basePtr);
         void compileShader();
-        void addState(RenderState state);
-        bool hasState(RenderState state) const { return (m_stateMask & (1 << state)) != 0; }
+        void addState(RenderStateType state);
+        bool hasState(RenderStateType state) const { return (m_stateMask & (1 << state)) != 0; }
         
     public:
         static void InitContext();

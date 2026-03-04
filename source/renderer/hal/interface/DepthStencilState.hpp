@@ -7,7 +7,5 @@ namespace mce
 {
     class DepthStencilState : public MCE_GFX_CLASS(DepthStencilState)
     {
-    public:
-        DepthStencilState();
     };
 }

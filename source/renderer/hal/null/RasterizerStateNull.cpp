@@ -2,7 +2,3 @@
 
 using namespace mce;
 
-RasterizerStateNull::RasterizerStateNull()
-    : RasterizerStateBase()
-{
-}

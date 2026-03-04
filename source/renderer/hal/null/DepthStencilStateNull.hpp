@@ -6,7 +6,5 @@ namespace mce
 {
     class DepthStencilStateNull : public DepthStencilStateBase
     {
-    public:
-        DepthStencilStateNull();
     };
 }

@@ -6,7 +6,5 @@ namespace mce
 {
     class TextureNull : public TextureBase
     {
-    public:
-        TextureNull();
     };
 }

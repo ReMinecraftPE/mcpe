@@ -56,7 +56,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp">
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderStateOGL.hpp">
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.hpp">
@@ -113,6 +113,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.hpp">
       <Filter>Header Files\Platform\OGL</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\AlphaStateOGL.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.cpp">
@@ -130,7 +133,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp">
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderStateOGL.cpp">
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.cpp">
@@ -186,6 +189,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.cpp">
       <Filter>Source Files\Platform\OGL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\AlphaStateOGL.cpp">
+      <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

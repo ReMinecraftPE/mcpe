@@ -41,7 +41,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferConstantsBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferContainerBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\RenderStateBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FogStateBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\ImmediateBufferBase.cpp" />
@@ -58,7 +58,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\BlendStateDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\DepthStencilStateDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderPrimitiveTypes.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\RenderStateDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\helpers\TextureHelper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ImageDescription.cpp" />
@@ -67,7 +67,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBuffer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBufferContainer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\RenderState.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FogState.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\RasterizerState.cpp" />
@@ -77,7 +77,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderConstantWithData.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderProgram.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\RasterizerStateDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\StencilFaceDescription.cpp" />
@@ -102,8 +102,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\BlendTarget_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ComparisonFunc_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode_JsonParser.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.hpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderStateType_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderStagesBits_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\StencilOp_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.cpp" />
@@ -111,6 +110,9 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\AlphaStateDescription.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\AlphaStateBase.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\AlphaState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp" />
@@ -127,7 +129,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferConstantsBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferContainerBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\RenderStateBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FogStateBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\ImmediateBufferBase.hpp" />
@@ -151,7 +153,8 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\DepthWriteMask.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\FogMode.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderStateType.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderStateType_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShadeMode.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderPrimitiveTypes.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderStagesBits.hpp" />
@@ -162,7 +165,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFormat.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\VertexFieldType.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\RenderStateDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\helpers\TextureHelper.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ImageDescription.hpp" />
@@ -172,7 +175,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBufferConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBufferContainer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\RenderState.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FogState.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\RasterizerState.hpp" />
@@ -183,7 +186,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderConstantWithData.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderProgram.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\RasterizerStateDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ShaderStage.hpp" />
@@ -210,6 +213,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\MapType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\AlphaStateDescription.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\AlphaStateBase.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\AlphaState.hpp" />
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
     <ProjectReference Include="..\Renderer.Null\Renderer.Null.vcxproj">

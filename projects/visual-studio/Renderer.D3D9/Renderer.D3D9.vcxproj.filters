@@ -86,8 +86,11 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\ErrorHandlerD3D9.cpp">
       <Filter>Source Files\HAL\D3D9\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\FixedPipelineStateD3D9.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\RenderStateD3D9.cpp">
       <Filter>Source Files\HAL\D3D9</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\AlphaStateD3D9.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,8 +154,11 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\ErrorHandlerD3D9.hpp">
       <Filter>Header Files\HAL\D3D9\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\FixedPipelineStateD3D9.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\RenderStateD3D9.hpp">
       <Filter>Header Files\HAL\D3D9</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\AlphaStateD3D9.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

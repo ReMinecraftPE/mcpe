@@ -7,7 +7,5 @@ namespace mce
 {
     class FogState : public MCE_GFX_CLASS_FIXED(FogState)
     {
-    public:
-        FogState();
     };
 }

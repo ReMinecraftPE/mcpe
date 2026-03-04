@@ -74,7 +74,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.hpp">
       <Filter>Header Files\HAL\Base</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\RenderStateBase.hpp">
       <Filter>Header Files\HAL\Base</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FogStateBase.hpp">
@@ -140,7 +140,10 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode.hpp">
       <Filter>Header Files\HAL\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderStateType.hpp">
+      <Filter>Header Files\HAL\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderStateType_JsonParser.hpp">
       <Filter>Header Files\HAL\Enums</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShadeMode.hpp">
@@ -194,7 +197,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\RenderState.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FogState.hpp">
@@ -227,7 +230,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.hpp">
       <Filter>Header Files\HAL\Null</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.hpp">
@@ -239,7 +242,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\DepthStencilStateDescription.hpp">
       <Filter>Header Files\HAL</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\RenderStateDescription.hpp">
       <Filter>Header Files\HAL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.hpp">
@@ -344,6 +347,15 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\AlphaState.hpp">
+      <Filter>Header Files\HAL\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\AlphaStateBase.hpp">
+      <Filter>Header Files\HAL\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\AlphaStateDescription.hpp">
+      <Filter>Header Files\HAL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
@@ -367,7 +379,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.cpp">
       <Filter>Source Files\HAL\Base</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\RenderStateBase.cpp">
       <Filter>Source Files\HAL\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FogStateBase.cpp">
@@ -412,16 +424,13 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\BlendTarget_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.hpp">
-      <Filter>Header Files\HAL\Enums</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ComparisonFunc_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderStateType_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderPrimitiveTypes.cpp">
@@ -460,7 +469,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.cpp">
       <Filter>Source Files\HAL\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\RenderState.cpp">
       <Filter>Source Files\HAL\Interface</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FogState.cpp">
@@ -490,7 +499,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.cpp">
       <Filter>Source Files\HAL\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.cpp">
       <Filter>Source Files\HAL\Null</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.cpp">
@@ -502,7 +511,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\DepthStencilStateDescription.cpp">
       <Filter>Source Files\HAL</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\RenderStateDescription.cpp">
       <Filter>Source Files\HAL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.cpp">
@@ -597,6 +606,15 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\AlphaState.cpp">
+      <Filter>Source Files\HAL\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\AlphaStateBase.cpp">
+      <Filter>Source Files\HAL\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\AlphaStateDescription.cpp">
+      <Filter>Source Files\HAL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

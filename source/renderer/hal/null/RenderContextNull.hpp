@@ -6,7 +6,5 @@ namespace mce
 {
     class RenderContextNull : public RenderContextBase
     {
-    public:
-        RenderContextNull();
     };
 }

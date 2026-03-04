@@ -4,7 +4,7 @@
 
 #include "common/utility/JsonParser.hpp"
 
-#include "renderer/hal/enums/RenderState_JsonParser.hpp"
+#include "renderer/hal/enums/RenderStateType_JsonParser.hpp"
 #include "renderer/hal/enums/ComparisonFunc.hpp"
 #include "renderer/hal/enums/StencilOp.hpp"
 #include "renderer/hal/enums/ShaderStagesBits.hpp"
@@ -44,12 +44,13 @@ RenderMaterial::RenderMaterial(const rapidjson::Value::ConstObject& root, const 
     m_blendState.createBlendState(renderContext, m_blendStateDescription);
     m_depthStencilState.createDepthState(renderContext, m_depthStencilStateDescription);
     m_rasterizerState.createRasterizerStateDescription(renderContext, m_rasterizerStateDescription);
-    m_fixedPipelineState.createFixedPipelineState(renderContext, m_fixedPipelineStateDescription);
+    m_renderState.createRenderState(renderContext, m_renderStateDescription);
+    m_alphaState.createAlphaState(renderContext, m_alphaStateDescription);
 }
 
-RenderState RenderMaterial::_parseStateName(const std::string& stateName) const
+RenderStateType RenderMaterial::_parseStateName(const std::string& stateName) const
 {
-    return ((std::map<std::string, RenderState>)_renderStateMap)[stateName];
+    return ((std::map<std::string, RenderStateType>)_renderStateTypeMap)[stateName];
 }
 
 void RenderMaterial::_parseRenderStates(const rapidjson::Value& root)
@@ -61,7 +62,7 @@ void RenderMaterial::_parseRenderStates(const rapidjson::Value& root)
     for (rapidjson::Value::ConstValueIterator it = statesValue.Begin(); it != statesValue.End(); it++)
     {
         std::string stateName = it->GetString();
-        RenderState state = _parseStateName(stateName);
+        RenderStateType state = _parseStateName(stateName);
         addState(state);
     }
 }
@@ -70,7 +71,7 @@ void RenderMaterial::_parseRuntimeStates(const rapidjson::Value& root)
 {
     _parseDepthStencilState(root);
     _parseBlendState(root);
-    _parseFixedPipelineState(root);
+    _parseAlphaState(root);
 
     if (root.HasMember("polygonOffsetLevel"))
     {
@@ -129,15 +130,15 @@ void RenderMaterial::_parseBlendState(const rapidjson::Value& root)
     parse(root, "blendDst", m_blendStateDescription.blendDestination);
 }
 
-void RenderMaterial::_parseFixedPipelineState(const rapidjson::Value& root)
+void RenderMaterial::_parseAlphaState(const rapidjson::Value& root)
 {
-    parse(root, "alphaFunc", m_fixedPipelineStateDescription.alphaFunc);
+    parse(root, "alphaFunc", m_alphaStateDescription.alphaFunc);
 
     if (root.HasMember("alphaRef"))
     {
         const rapidjson::Value& alphaRefValue = root["alphaRef"];
         if (!alphaRefValue.IsNull())
-            m_fixedPipelineStateDescription.alphaRef = alphaRefValue.GetFloat();
+            m_alphaStateDescription.alphaRef = alphaRefValue.GetFloat();
     }
 }
 
@@ -225,8 +226,8 @@ void RenderMaterial::_applyRenderStates()
     m_depthStencilStateDescription.depthWriteMask = hasState(RS_DISABLE_DEPTH_WRITE) ? DEPTH_WRITE_MASK_NONE : DEPTH_WRITE_MASK_ALL;
     m_depthStencilStateDescription.stencilTestEnabled = hasState(RS_ENABLE_STENCIL_TEST);
     m_blendStateDescription.enableBlend = hasState(RS_BLENDING);
-    m_fixedPipelineStateDescription.enableAlphaTest = hasState(RS_ENABLE_ALPHA_TEST);
-    m_fixedPipelineStateDescription.enableTexture = hasState(RS_ENABLE_TEXTURE);
+    m_renderStateDescription.enableTexture = hasState(RS_ENABLE_TEXTURE);
+    m_alphaStateDescription.enableAlphaTest = hasState(RS_ENABLE_ALPHA_TEST);
 
     float polygonOffsetLevel = 0.0f;
     if (hasState(RS_POLYGON_OFFSET))
@@ -269,7 +270,10 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
     m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
 #endif
 #if !defined(FEATURE_GFX_SHADERS) || MCE_GFX_FF_ALPHATEST
-    m_fixedPipelineState.bindFixedPipelineState(context);
+    m_renderState.bindRenderState(context);
+#endif
+#if !defined(FEATURE_GFX_SHADERS) || MCE_GFX_FF_ALPHATEST
+    m_alphaState.bindAlphaState(context);
 #endif
 }
 
@@ -281,7 +285,7 @@ void RenderMaterial::compileShader()
     m_pShader->compileAndLinkShader();
 }
 
-void RenderMaterial::addState(RenderState state)
+void RenderMaterial::addState(RenderStateType state)
 {
     m_stateMask |= 1 << (state & 0x1F);
 }
