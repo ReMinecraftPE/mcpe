@@ -1053,8 +1053,8 @@
 		84EB0D292EE2D4B3008FB007 /* ConstantBufferContainerBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C292EE2D4B2008FB007 /* ConstantBufferContainerBase.hpp */; };
 		84EB0D2A2EE2D4B3008FB007 /* DepthStencilStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C2A2EE2D4B2008FB007 /* DepthStencilStateBase.cpp */; };
 		84EB0D2B2EE2D4B3008FB007 /* DepthStencilStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C2B2EE2D4B2008FB007 /* DepthStencilStateBase.hpp */; };
-		84EB0D2C2EE2D4B3008FB007 /* FixedPipelineStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C2C2EE2D4B2008FB007 /* FixedPipelineStateBase.cpp */; };
-		84EB0D2D2EE2D4B3008FB007 /* FixedPipelineStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C2D2EE2D4B2008FB007 /* FixedPipelineStateBase.hpp */; };
+		84EB0D2C2EE2D4B3008FB007 /* RenderStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C2C2EE2D4B2008FB007 /* RenderStateBase.cpp */; };
+		84EB0D2D2EE2D4B3008FB007 /* RenderStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C2D2EE2D4B2008FB007 /* RenderStateBase.hpp */; };
 		84EB0D2E2EE2D4B3008FB007 /* FogStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C2E2EE2D4B2008FB007 /* FogStateBase.cpp */; };
 		84EB0D2F2EE2D4B3008FB007 /* FogStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C2F2EE2D4B2008FB007 /* FogStateBase.hpp */; };
 		84EB0D302EE2D4B3008FB007 /* FrameBufferObjectBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C302EE2D4B2008FB007 /* FrameBufferObjectBase.cpp */; };
@@ -1096,9 +1096,9 @@
 		84EB0D542EE2D4B3008FB007 /* FogMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C552EE2D4B3008FB007 /* FogMode.hpp */; };
 		84EB0D552EE2D4B3008FB007 /* PrimitiveMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C562EE2D4B3008FB007 /* PrimitiveMode.hpp */; };
 		84EB0D562EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C572EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp */; };
-		84EB0D572EE2D4B3008FB007 /* RenderState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C582EE2D4B3008FB007 /* RenderState.hpp */; };
-		84EB0D582EE2D4B3008FB007 /* RenderState_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C592EE2D4B3008FB007 /* RenderState_JsonParser.cpp */; };
-		84EB0D592EE2D4B3008FB007 /* RenderState_JsonParser.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5A2EE2D4B3008FB007 /* RenderState_JsonParser.hpp */; };
+		84EB0D572EE2D4B3008FB007 /* RenderStateType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C582EE2D4B3008FB007 /* RenderStateType.hpp */; };
+		84EB0D582EE2D4B3008FB007 /* RenderStateType_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C592EE2D4B3008FB007 /* RenderStateType_JsonParser.cpp */; };
+		84EB0D592EE2D4B3008FB007 /* RenderStateType_JsonParser.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5A2EE2D4B3008FB007 /* RenderStateType_JsonParser.hpp */; };
 		84EB0D5A2EE2D4B3008FB007 /* ShadeMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5B2EE2D4B3008FB007 /* ShadeMode.hpp */; };
 		84EB0D5B2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp */; };
 		84EB0D5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5D2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp */; };
@@ -1114,8 +1114,8 @@
 		84EB0D662EE2D4B3008FB007 /* VertexField.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C672EE2D4B3008FB007 /* VertexField.hpp */; };
 		84EB0D672EE2D4B3008FB007 /* VertexField_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C682EE2D4B3008FB007 /* VertexField_JsonParser.cpp */; };
 		84EB0D682EE2D4B3008FB007 /* VertexFieldType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C692EE2D4B3008FB007 /* VertexFieldType.hpp */; };
-		84EB0D692EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp */; };
-		84EB0D6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */; };
+		84EB0D692EE2D4B3008FB007 /* RenderStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6A2EE2D4B3008FB007 /* RenderStateDescription.cpp */; };
+		84EB0D6A2EE2D4B3008FB007 /* RenderStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C6B2EE2D4B3008FB007 /* RenderStateDescription.hpp */; };
 		84EB0D6B2EE2D4B3008FB007 /* FogStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */; };
 		84EB0D6C2EE2D4B3008FB007 /* FogStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */; };
 		84EB0D6F2EE2D4B3008FB007 /* TextureHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */; };
@@ -1133,8 +1133,8 @@
 		84EB0D7B2EE2D4B3008FB007 /* ConstantBufferContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C7E2EE2D4B3008FB007 /* ConstantBufferContainer.hpp */; };
 		84EB0D7C2EE2D4B3008FB007 /* DepthStencilState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C7F2EE2D4B3008FB007 /* DepthStencilState.cpp */; };
 		84EB0D7D2EE2D4B3008FB007 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C802EE2D4B3008FB007 /* DepthStencilState.hpp */; };
-		84EB0D7E2EE2D4B3008FB007 /* FixedPipelineState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C812EE2D4B3008FB007 /* FixedPipelineState.cpp */; };
-		84EB0D7F2EE2D4B3008FB007 /* FixedPipelineState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C822EE2D4B3008FB007 /* FixedPipelineState.hpp */; };
+		84EB0D7E2EE2D4B3008FB007 /* RenderState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C812EE2D4B3008FB007 /* RenderState.cpp */; };
+		84EB0D7F2EE2D4B3008FB007 /* RenderState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C822EE2D4B3008FB007 /* RenderState.hpp */; };
 		84EB0D802EE2D4B3008FB007 /* FogState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C832EE2D4B3008FB007 /* FogState.cpp */; };
 		84EB0D812EE2D4B3008FB007 /* FogState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C842EE2D4B3008FB007 /* FogState.hpp */; };
 		84EB0D822EE2D4B3008FB007 /* ImmediateBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C852EE2D4B3008FB007 /* ImmediateBuffer.cpp */; };
@@ -1164,8 +1164,8 @@
 		84EB0DB82EE2D4B4008FB007 /* ConstantBufferContainerOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CBD2EE2D4B3008FB007 /* ConstantBufferContainerOGL.hpp */; };
 		84EB0DB92EE2D4B4008FB007 /* DepthStencilStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CBE2EE2D4B3008FB007 /* DepthStencilStateOGL.cpp */; };
 		84EB0DBA2EE2D4B4008FB007 /* DepthStencilStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CBF2EE2D4B3008FB007 /* DepthStencilStateOGL.hpp */; };
-		84EB0DBB2EE2D4B4008FB007 /* FixedPipelineStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC02EE2D4B3008FB007 /* FixedPipelineStateOGL.cpp */; };
-		84EB0DBC2EE2D4B4008FB007 /* FixedPipelineStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC12EE2D4B3008FB007 /* FixedPipelineStateOGL.hpp */; };
+		84EB0DBB2EE2D4B4008FB007 /* RenderStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC02EE2D4B3008FB007 /* RenderStateOGL.cpp */; };
+		84EB0DBC2EE2D4B4008FB007 /* RenderStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC12EE2D4B3008FB007 /* RenderStateOGL.hpp */; };
 		84EB0DBD2EE2D4B4008FB007 /* FogStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC22EE2D4B3008FB007 /* FogStateOGL.cpp */; };
 		84EB0DBE2EE2D4B4008FB007 /* FogStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */; };
 		84EB0DBF2EE2D4B4008FB007 /* GPUEventsOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */; };
@@ -1264,8 +1264,8 @@
 		84EEED642F0A01B700F741B6 /* ViewportOrigin.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EEED622F0A01B700F741B6 /* ViewportOrigin.hpp */; };
 		84EEED682F0A02F300F741B6 /* ErrorHandlerOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EEED662F0A02F300F741B6 /* ErrorHandlerOGL.cpp */; };
 		84EEED692F0A02F300F741B6 /* ErrorHandlerOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EEED672F0A02F300F741B6 /* ErrorHandlerOGL.hpp */; };
-		84F4880E2EEA4F5C00309B1E /* FixedPipelineStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */; };
-		84F4880F2EEA4F5C00309B1E /* FixedPipelineStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */; };
+		84F4880E2EEA4F5C00309B1E /* RenderStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F02EEA4F5C00309B1E /* RenderStateNull.cpp */; };
+		84F4880F2EEA4F5C00309B1E /* RenderStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F12EEA4F5C00309B1E /* RenderStateNull.hpp */; };
 		84F488102EEA4F5C00309B1E /* FogStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */; };
 		84F488112EEA4F5C00309B1E /* FogStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */; };
 		84F66DDF2F18C9AA00DE508E /* VertexFieldFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F66DDD2F18C9AA00DE508E /* VertexFieldFormat.cpp */; };
@@ -2817,8 +2817,8 @@
 		84EB0C292EE2D4B2008FB007 /* ConstantBufferContainerBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferContainerBase.hpp; sourceTree = "<group>"; };
 		84EB0C2A2EE2D4B2008FB007 /* DepthStencilStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateBase.cpp; sourceTree = "<group>"; };
 		84EB0C2B2EE2D4B2008FB007 /* DepthStencilStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateBase.hpp; sourceTree = "<group>"; };
-		84EB0C2C2EE2D4B2008FB007 /* FixedPipelineStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateBase.cpp; sourceTree = "<group>"; };
-		84EB0C2D2EE2D4B2008FB007 /* FixedPipelineStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateBase.hpp; sourceTree = "<group>"; };
+		84EB0C2C2EE2D4B2008FB007 /* RenderStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderStateBase.cpp; sourceTree = "<group>"; };
+		84EB0C2D2EE2D4B2008FB007 /* RenderStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderStateBase.hpp; sourceTree = "<group>"; };
 		84EB0C2E2EE2D4B2008FB007 /* FogStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateBase.cpp; sourceTree = "<group>"; };
 		84EB0C2F2EE2D4B2008FB007 /* FogStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateBase.hpp; sourceTree = "<group>"; };
 		84EB0C302EE2D4B2008FB007 /* FrameBufferObjectBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameBufferObjectBase.cpp; sourceTree = "<group>"; };
@@ -2860,9 +2860,9 @@
 		84EB0C552EE2D4B3008FB007 /* FogMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogMode.hpp; sourceTree = "<group>"; };
 		84EB0C562EE2D4B3008FB007 /* PrimitiveMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PrimitiveMode.hpp; sourceTree = "<group>"; };
 		84EB0C572EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrimitiveMode_JsonParser.cpp; sourceTree = "<group>"; };
-		84EB0C582EE2D4B3008FB007 /* RenderState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderState.hpp; sourceTree = "<group>"; };
-		84EB0C592EE2D4B3008FB007 /* RenderState_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderState_JsonParser.cpp; sourceTree = "<group>"; };
-		84EB0C5A2EE2D4B3008FB007 /* RenderState_JsonParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderState_JsonParser.hpp; sourceTree = "<group>"; };
+		84EB0C582EE2D4B3008FB007 /* RenderStateType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderStateType.hpp; sourceTree = "<group>"; };
+		84EB0C592EE2D4B3008FB007 /* RenderStateType_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderStateType_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C5A2EE2D4B3008FB007 /* RenderStateType_JsonParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderStateType_JsonParser.hpp; sourceTree = "<group>"; };
 		84EB0C5B2EE2D4B3008FB007 /* ShadeMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShadeMode.hpp; sourceTree = "<group>"; };
 		84EB0C5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderPrimitiveTypes.cpp; sourceTree = "<group>"; };
 		84EB0C5D2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderPrimitiveTypes.hpp; sourceTree = "<group>"; };
@@ -2878,8 +2878,8 @@
 		84EB0C672EE2D4B3008FB007 /* VertexField.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexField.hpp; sourceTree = "<group>"; };
 		84EB0C682EE2D4B3008FB007 /* VertexField_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexField_JsonParser.cpp; sourceTree = "<group>"; };
 		84EB0C692EE2D4B3008FB007 /* VertexFieldType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexFieldType.hpp; sourceTree = "<group>"; };
-		84EB0C6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateDescription.cpp; sourceTree = "<group>"; };
-		84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateDescription.hpp; sourceTree = "<group>"; };
+		84EB0C6A2EE2D4B3008FB007 /* RenderStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderStateDescription.cpp; sourceTree = "<group>"; };
+		84EB0C6B2EE2D4B3008FB007 /* RenderStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderStateDescription.hpp; sourceTree = "<group>"; };
 		84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateDescription.cpp; sourceTree = "<group>"; };
 		84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateDescription.hpp; sourceTree = "<group>"; };
 		84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureHelper.cpp; sourceTree = "<group>"; };
@@ -2897,8 +2897,8 @@
 		84EB0C7E2EE2D4B3008FB007 /* ConstantBufferContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferContainer.hpp; sourceTree = "<group>"; };
 		84EB0C7F2EE2D4B3008FB007 /* DepthStencilState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilState.cpp; sourceTree = "<group>"; };
 		84EB0C802EE2D4B3008FB007 /* DepthStencilState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilState.hpp; sourceTree = "<group>"; };
-		84EB0C812EE2D4B3008FB007 /* FixedPipelineState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineState.cpp; sourceTree = "<group>"; };
-		84EB0C822EE2D4B3008FB007 /* FixedPipelineState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineState.hpp; sourceTree = "<group>"; };
+		84EB0C812EE2D4B3008FB007 /* RenderState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderState.cpp; sourceTree = "<group>"; };
+		84EB0C822EE2D4B3008FB007 /* RenderState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderState.hpp; sourceTree = "<group>"; };
 		84EB0C832EE2D4B3008FB007 /* FogState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogState.cpp; sourceTree = "<group>"; };
 		84EB0C842EE2D4B3008FB007 /* FogState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogState.hpp; sourceTree = "<group>"; };
 		84EB0C852EE2D4B3008FB007 /* ImmediateBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImmediateBuffer.cpp; sourceTree = "<group>"; };
@@ -2928,8 +2928,8 @@
 		84EB0CBD2EE2D4B3008FB007 /* ConstantBufferContainerOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferContainerOGL.hpp; sourceTree = "<group>"; };
 		84EB0CBE2EE2D4B3008FB007 /* DepthStencilStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateOGL.cpp; sourceTree = "<group>"; };
 		84EB0CBF2EE2D4B3008FB007 /* DepthStencilStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateOGL.hpp; sourceTree = "<group>"; };
-		84EB0CC02EE2D4B3008FB007 /* FixedPipelineStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateOGL.cpp; sourceTree = "<group>"; };
-		84EB0CC12EE2D4B3008FB007 /* FixedPipelineStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateOGL.hpp; sourceTree = "<group>"; };
+		84EB0CC02EE2D4B3008FB007 /* RenderStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderStateOGL.cpp; sourceTree = "<group>"; };
+		84EB0CC12EE2D4B3008FB007 /* RenderStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderStateOGL.hpp; sourceTree = "<group>"; };
 		84EB0CC22EE2D4B3008FB007 /* FogStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateOGL.cpp; sourceTree = "<group>"; };
 		84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateOGL.hpp; sourceTree = "<group>"; };
 		84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GPUEventsOGL.cpp; sourceTree = "<group>"; };
@@ -3023,8 +3023,8 @@
 		84EEED622F0A01B700F741B6 /* ViewportOrigin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ViewportOrigin.hpp; sourceTree = "<group>"; };
 		84EEED662F0A02F300F741B6 /* ErrorHandlerOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ErrorHandlerOGL.cpp; sourceTree = "<group>"; };
 		84EEED672F0A02F300F741B6 /* ErrorHandlerOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ErrorHandlerOGL.hpp; sourceTree = "<group>"; };
-		84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateNull.cpp; sourceTree = "<group>"; };
-		84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateNull.hpp; sourceTree = "<group>"; };
+		84F487F02EEA4F5C00309B1E /* RenderStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderStateNull.cpp; sourceTree = "<group>"; };
+		84F487F12EEA4F5C00309B1E /* RenderStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderStateNull.hpp; sourceTree = "<group>"; };
 		84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateNull.cpp; sourceTree = "<group>"; };
 		84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateNull.hpp; sourceTree = "<group>"; };
 		84F66DDD2F18C9AA00DE508E /* VertexFieldFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexFieldFormat.cpp; sourceTree = "<group>"; };
@@ -5162,8 +5162,8 @@
 				84EB0C4A2EE2D4B3008FB007 /* DepthStencilStateDescription.cpp */,
 				84EB0C4B2EE2D4B3008FB007 /* DepthStencilStateDescription.hpp */,
 				84EB0C4C2EE2D4B3008FB007 /* enums */,
-				84EB0C6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp */,
-				84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */,
+				84EB0C6A2EE2D4B3008FB007 /* RenderStateDescription.cpp */,
+				84EB0C6B2EE2D4B3008FB007 /* RenderStateDescription.hpp */,
 				84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */,
 				84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */,
 				84EB0C6E2EE2D4B3008FB007 /* helpers */,
@@ -5200,8 +5200,8 @@
 				84EB0C292EE2D4B2008FB007 /* ConstantBufferContainerBase.hpp */,
 				84EB0C2A2EE2D4B2008FB007 /* DepthStencilStateBase.cpp */,
 				84EB0C2B2EE2D4B2008FB007 /* DepthStencilStateBase.hpp */,
-				84EB0C2C2EE2D4B2008FB007 /* FixedPipelineStateBase.cpp */,
-				84EB0C2D2EE2D4B2008FB007 /* FixedPipelineStateBase.hpp */,
+				84EB0C2C2EE2D4B2008FB007 /* RenderStateBase.cpp */,
+				84EB0C2D2EE2D4B2008FB007 /* RenderStateBase.hpp */,
 				84EB0C2E2EE2D4B2008FB007 /* FogStateBase.cpp */,
 				84EB0C2F2EE2D4B2008FB007 /* FogStateBase.hpp */,
 				84EB0C302EE2D4B2008FB007 /* FrameBufferObjectBase.cpp */,
@@ -5248,9 +5248,9 @@
 				84EB0C552EE2D4B3008FB007 /* FogMode.hpp */,
 				84EB0C562EE2D4B3008FB007 /* PrimitiveMode.hpp */,
 				84EB0C572EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp */,
-				84EB0C582EE2D4B3008FB007 /* RenderState.hpp */,
-				84EB0C592EE2D4B3008FB007 /* RenderState_JsonParser.cpp */,
-				84EB0C5A2EE2D4B3008FB007 /* RenderState_JsonParser.hpp */,
+				84EB0C582EE2D4B3008FB007 /* RenderStateType.hpp */,
+				84EB0C592EE2D4B3008FB007 /* RenderStateType_JsonParser.cpp */,
+				84EB0C5A2EE2D4B3008FB007 /* RenderStateType_JsonParser.hpp */,
 				84EB0C5B2EE2D4B3008FB007 /* ShadeMode.hpp */,
 				84EB0C5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp */,
 				84EB0C5D2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp */,
@@ -5293,8 +5293,8 @@
 				84EB0C7E2EE2D4B3008FB007 /* ConstantBufferContainer.hpp */,
 				84EB0C7F2EE2D4B3008FB007 /* DepthStencilState.cpp */,
 				84EB0C802EE2D4B3008FB007 /* DepthStencilState.hpp */,
-				84EB0C812EE2D4B3008FB007 /* FixedPipelineState.cpp */,
-				84EB0C822EE2D4B3008FB007 /* FixedPipelineState.hpp */,
+				84EB0C812EE2D4B3008FB007 /* RenderState.cpp */,
+				84EB0C822EE2D4B3008FB007 /* RenderState.hpp */,
 				84EB0C832EE2D4B3008FB007 /* FogState.cpp */,
 				84EB0C842EE2D4B3008FB007 /* FogState.hpp */,
 				84EB0C852EE2D4B3008FB007 /* ImmediateBuffer.cpp */,
@@ -5331,8 +5331,8 @@
 				84EB0CBD2EE2D4B3008FB007 /* ConstantBufferContainerOGL.hpp */,
 				84EB0CBE2EE2D4B3008FB007 /* DepthStencilStateOGL.cpp */,
 				84EB0CBF2EE2D4B3008FB007 /* DepthStencilStateOGL.hpp */,
-				84EB0CC02EE2D4B3008FB007 /* FixedPipelineStateOGL.cpp */,
-				84EB0CC12EE2D4B3008FB007 /* FixedPipelineStateOGL.hpp */,
+				84EB0CC02EE2D4B3008FB007 /* RenderStateOGL.cpp */,
+				84EB0CC12EE2D4B3008FB007 /* RenderStateOGL.hpp */,
 				84EB0CC22EE2D4B3008FB007 /* FogStateOGL.cpp */,
 				84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */,
 				84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */,
@@ -5399,8 +5399,8 @@
 		84F487E72EEA4F5C00309B1E /* null */ = {
 			isa = PBXGroup;
 			children = (
-				84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */,
-				84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */,
+				84F487F02EEA4F5C00309B1E /* RenderStateNull.cpp */,
+				84F487F12EEA4F5C00309B1E /* RenderStateNull.hpp */,
 				84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */,
 				84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */,
 			);
@@ -5468,7 +5468,7 @@
 				84EB0E002EE2D4B4008FB007 /* TextureGroup.hpp in Headers */,
 				84EB0D4E2EE2D4B3008FB007 /* BufferType.hpp in Headers */,
 				84EB0DD62EE2D4B4008FB007 /* ShaderResourceOGL.hpp in Headers */,
-				84EB0D6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp in Headers */,
+				84EB0D6A2EE2D4B3008FB007 /* RenderStateDescription.hpp in Headers */,
 				84EB0DDD2EE2D4B4008FB007 /* ShaderStage.hpp in Headers */,
 				84F488112EEA4F5C00309B1E /* FogStateNull.hpp in Headers */,
 				84EB0D892EE2D4B3008FB007 /* RenderDevice.hpp in Headers */,
@@ -5492,7 +5492,7 @@
 				84619B392AF1F73900B0DE81 /* GL.hpp in Headers */,
 				84EB0DDC2EE2D4B4008FB007 /* RasterizerStateDescription.hpp in Headers */,
 				84EB0D5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp in Headers */,
-				84EB0D7F2EE2D4B3008FB007 /* FixedPipelineState.hpp in Headers */,
+				84EB0D7F2EE2D4B3008FB007 /* RenderState.hpp in Headers */,
 				84EB0DB22EE2D4B4008FB007 /* API_OGL.hpp in Headers */,
 				84EB0D1B2EE2D4B3008FB007 /* EntityConstants.hpp in Headers */,
 				84EB0D762EE2D4B3008FB007 /* Buffer.hpp in Headers */,
@@ -5516,11 +5516,11 @@
 				84EB0E042EE2D4B4008FB007 /* UniformMetaData.hpp in Headers */,
 				84EB0D812EE2D4B3008FB007 /* FogState.hpp in Headers */,
 				84EB0D7B2EE2D4B3008FB007 /* ConstantBufferContainer.hpp in Headers */,
-				84EB0D2D2EE2D4B3008FB007 /* FixedPipelineStateBase.hpp in Headers */,
+				84EB0D2D2EE2D4B3008FB007 /* RenderStateBase.hpp in Headers */,
 				84EB0D312EE2D4B3008FB007 /* FrameBufferObjectBase.hpp in Headers */,
 				84EB0DE12EE2D4B4008FB007 /* TextureDescription.hpp in Headers */,
 				84EB0D662EE2D4B3008FB007 /* VertexField.hpp in Headers */,
-				84F4880F2EEA4F5C00309B1E /* FixedPipelineStateNull.hpp in Headers */,
+				84F4880F2EEA4F5C00309B1E /* RenderStateNull.hpp in Headers */,
 				84EB0DBE2EE2D4B4008FB007 /* FogStateOGL.hpp in Headers */,
 				84EB0D352EE2D4B3008FB007 /* RasterizerStateBase.hpp in Headers */,
 				84F66DF72F18CB3D00DE508E /* MapType.hpp in Headers */,
@@ -5531,7 +5531,7 @@
 				84EB0D172EE2D4B3008FB007 /* ConstantBufferMetaDataManager.hpp in Headers */,
 				84EB0E062EE2D4B4008FB007 /* VertexFormat.hpp in Headers */,
 				84EB0D502EE2D4B3008FB007 /* ComparisonFunc.hpp in Headers */,
-				84EB0D572EE2D4B3008FB007 /* RenderState.hpp in Headers */,
+				84EB0D572EE2D4B3008FB007 /* RenderStateType.hpp in Headers */,
 				84EB0DCC2EE2D4B4008FB007 /* ResourceOGL.hpp in Headers */,
 				84EB0D722EE2D4B3008FB007 /* ImageDescription.hpp in Headers */,
 				84EB0DC22EE2D4B4008FB007 /* ImmediateBufferOGL.hpp in Headers */,
@@ -5567,7 +5567,7 @@
 				84EB0D832EE2D4B3008FB007 /* ImmediateBuffer.hpp in Headers */,
 				84EB0D212EE2D4B3008FB007 /* BlendStateBase.hpp in Headers */,
 				84EB0D132EE2D4B3008FB007 /* Attribute.hpp in Headers */,
-				84EB0DBC2EE2D4B4008FB007 /* FixedPipelineStateOGL.hpp in Headers */,
+				84EB0DBC2EE2D4B4008FB007 /* RenderStateOGL.hpp in Headers */,
 				84EB0D542EE2D4B3008FB007 /* FogMode.hpp in Headers */,
 				84EEED692F0A02F300F741B6 /* ErrorHandlerOGL.hpp in Headers */,
 				84EB0D612EE2D4B3008FB007 /* StencilOp.hpp in Headers */,
@@ -5584,7 +5584,7 @@
 				84EB0D1F2EE2D4B3008FB007 /* GlobalConstantBuffers.hpp in Headers */,
 				84EB0D682EE2D4B3008FB007 /* VertexFieldType.hpp in Headers */,
 				84EB0D372EE2D4B3008FB007 /* RenderContextBase.hpp in Headers */,
-				84EB0D592EE2D4B3008FB007 /* RenderState_JsonParser.hpp in Headers */,
+				84EB0D592EE2D4B3008FB007 /* RenderStateType_JsonParser.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6565,7 +6565,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84EB0DC72EE2D4B4008FB007 /* RenderContextOGL.cpp in Sources */,
-				84F4880E2EEA4F5C00309B1E /* FixedPipelineStateNull.cpp in Sources */,
+				84F4880E2EEA4F5C00309B1E /* RenderStateNull.cpp in Sources */,
 				84EB0D342EE2D4B3008FB007 /* RasterizerStateBase.cpp in Sources */,
 				84EB0DC52EE2D4B4008FB007 /* RasterizerStateOGL.cpp in Sources */,
 				84EB0DD72EE2D4B4008FB007 /* ShaderUniformOGL.cpp in Sources */,
@@ -6580,7 +6580,7 @@
 				84EB0D442EE2D4B3008FB007 /* ShaderProgramBase.cpp in Sources */,
 				84EB0E012EE2D4B4008FB007 /* TexturePtr.cpp in Sources */,
 				84EB0D7A2EE2D4B3008FB007 /* ConstantBufferContainer.cpp in Sources */,
-				84EB0D7E2EE2D4B3008FB007 /* FixedPipelineState.cpp in Sources */,
+				84EB0D7E2EE2D4B3008FB007 /* RenderState.cpp in Sources */,
 				84EB0D122EE2D4B3008FB007 /* Attribute.cpp in Sources */,
 				84EB0D802EE2D4B3008FB007 /* FogState.cpp in Sources */,
 				84EB0D242EE2D4B3008FB007 /* ConstantBufferBase.cpp in Sources */,
@@ -6632,7 +6632,7 @@
 				84EB0D822EE2D4B3008FB007 /* ImmediateBuffer.cpp in Sources */,
 				84EB0D1C2EE2D4B3008FB007 /* GlobalConstantBufferManager.cpp in Sources */,
 				84EB0DBF2EE2D4B4008FB007 /* GPUEventsOGL.cpp in Sources */,
-				84EB0DBB2EE2D4B4008FB007 /* FixedPipelineStateOGL.cpp in Sources */,
+				84EB0DBB2EE2D4B4008FB007 /* RenderStateOGL.cpp in Sources */,
 				84EB0DDB2EE2D4B4008FB007 /* RasterizerStateDescription.cpp in Sources */,
 				84EB0DD32EE2D4B4008FB007 /* ShaderProgramOGL.cpp in Sources */,
 				84EB0D262EE2D4B3008FB007 /* ConstantBufferConstantsBase.cpp in Sources */,
@@ -6642,14 +6642,14 @@
 				84EB0D362EE2D4B3008FB007 /* RenderContextBase.cpp in Sources */,
 				84EB0E052EE2D4B4008FB007 /* VertexFormat.cpp in Sources */,
 				84EB0D752EE2D4B3008FB007 /* Buffer.cpp in Sources */,
-				84EB0D2C2EE2D4B3008FB007 /* FixedPipelineStateBase.cpp in Sources */,
+				84EB0D2C2EE2D4B3008FB007 /* RenderStateBase.cpp in Sources */,
 				84EB0E032EE2D4B4008FB007 /* UniformMetaData.cpp in Sources */,
 				84EB0D5B2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp in Sources */,
 				84EB0DF72EE2D4B4008FB007 /* ShaderConstants.cpp in Sources */,
 				84F66DDF2F18C9AA00DE508E /* VertexFieldFormat.cpp in Sources */,
 				84EB0D562EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp in Sources */,
 				8406FD2A2AF181B800B09C1D /* GL.cpp in Sources */,
-				84EB0D692EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp in Sources */,
+				84EB0D692EE2D4B3008FB007 /* RenderStateDescription.cpp in Sources */,
 				84EB0DD92EE2D4B4008FB007 /* TextureOGL.cpp in Sources */,
 				84EB0DD52EE2D4B4008FB007 /* ShaderResourceOGL.cpp in Sources */,
 				84EB0D732EE2D4B3008FB007 /* BlendState.cpp in Sources */,
@@ -6666,7 +6666,7 @@
 				84EB0D8D2EE2D4B3008FB007 /* ShaderConstantWithData.cpp in Sources */,
 				84EB0DD12EE2D4B4008FB007 /* ShaderOGL.cpp in Sources */,
 				84F66DF82F18CB3D00DE508E /* VertexField.cpp in Sources */,
-				84EB0D582EE2D4B3008FB007 /* RenderState_JsonParser.cpp in Sources */,
+				84EB0D582EE2D4B3008FB007 /* RenderStateType_JsonParser.cpp in Sources */,
 				84EB0D422EE2D4B3008FB007 /* ShaderContextBase.cpp in Sources */,
 				84EB0D672EE2D4B3008FB007 /* VertexField_JsonParser.cpp in Sources */,
 				84EB0DE42EE2D4B4008FB007 /* MatrixStack.cpp in Sources */,
