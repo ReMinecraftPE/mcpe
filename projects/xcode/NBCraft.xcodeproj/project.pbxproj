@@ -1268,6 +1268,16 @@
 		84F4880F2EEA4F5C00309B1E /* RenderStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F12EEA4F5C00309B1E /* RenderStateNull.hpp */; };
 		84F488102EEA4F5C00309B1E /* FogStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */; };
 		84F488112EEA4F5C00309B1E /* FogStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */; };
+		84F5C0EE2F57D17C004A7315 /* AlphaStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F5C0EC2F57D17C004A7315 /* AlphaStateDescription.cpp */; };
+		84F5C0EF2F57D17C004A7315 /* AlphaStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F5C0ED2F57D17C004A7315 /* AlphaStateDescription.hpp */; };
+		84F5C0F22F57D202004A7315 /* AlphaStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F5C0F02F57D202004A7315 /* AlphaStateBase.cpp */; };
+		84F5C0F32F57D202004A7315 /* AlphaStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F5C0F12F57D202004A7315 /* AlphaStateBase.hpp */; };
+		84F5C0F62F57D22A004A7315 /* AlphaState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F5C0F42F57D22A004A7315 /* AlphaState.cpp */; };
+		84F5C0F72F57D22A004A7315 /* AlphaState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F5C0F52F57D22A004A7315 /* AlphaState.hpp */; };
+		84F5C0FA2F57D234004A7315 /* AlphaStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F5C0F82F57D234004A7315 /* AlphaStateOGL.cpp */; };
+		84F5C0FB2F57D234004A7315 /* AlphaStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F5C0F92F57D234004A7315 /* AlphaStateOGL.hpp */; };
+		84F5C0FE2F57D242004A7315 /* AlphaStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F5C0FC2F57D242004A7315 /* AlphaStateNull.cpp */; };
+		84F5C0FF2F57D242004A7315 /* AlphaStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F5C0FD2F57D242004A7315 /* AlphaStateNull.hpp */; };
 		84F66DDF2F18C9AA00DE508E /* VertexFieldFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F66DDD2F18C9AA00DE508E /* VertexFieldFormat.cpp */; };
 		84F66DE02F18C9AA00DE508E /* VertexFieldFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DDE2F18C9AA00DE508E /* VertexFieldFormat.hpp */; };
 		84F66DE72F18C9DA00DE508E /* GameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F66DE12F18C9DA00DE508E /* GameController.cpp */; };
@@ -3027,6 +3037,16 @@
 		84F487F12EEA4F5C00309B1E /* RenderStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderStateNull.hpp; sourceTree = "<group>"; };
 		84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateNull.cpp; sourceTree = "<group>"; };
 		84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateNull.hpp; sourceTree = "<group>"; };
+		84F5C0EC2F57D17C004A7315 /* AlphaStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlphaStateDescription.cpp; sourceTree = "<group>"; };
+		84F5C0ED2F57D17C004A7315 /* AlphaStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlphaStateDescription.hpp; sourceTree = "<group>"; };
+		84F5C0F02F57D202004A7315 /* AlphaStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlphaStateBase.cpp; sourceTree = "<group>"; };
+		84F5C0F12F57D202004A7315 /* AlphaStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlphaStateBase.hpp; sourceTree = "<group>"; };
+		84F5C0F42F57D22A004A7315 /* AlphaState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlphaState.cpp; sourceTree = "<group>"; };
+		84F5C0F52F57D22A004A7315 /* AlphaState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlphaState.hpp; sourceTree = "<group>"; };
+		84F5C0F82F57D234004A7315 /* AlphaStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlphaStateOGL.cpp; sourceTree = "<group>"; };
+		84F5C0F92F57D234004A7315 /* AlphaStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlphaStateOGL.hpp; sourceTree = "<group>"; };
+		84F5C0FC2F57D242004A7315 /* AlphaStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlphaStateNull.cpp; sourceTree = "<group>"; };
+		84F5C0FD2F57D242004A7315 /* AlphaStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlphaStateNull.hpp; sourceTree = "<group>"; };
 		84F66DDD2F18C9AA00DE508E /* VertexFieldFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexFieldFormat.cpp; sourceTree = "<group>"; };
 		84F66DDE2F18C9AA00DE508E /* VertexFieldFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexFieldFormat.hpp; sourceTree = "<group>"; };
 		84F66DE12F18C9DA00DE508E /* GameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameController.cpp; sourceTree = "<group>"; };
@@ -5156,14 +5176,14 @@
 		84EB0C1E2EE2D4B2008FB007 /* hal */ = {
 			isa = PBXGroup;
 			children = (
+				84F5C0EC2F57D17C004A7315 /* AlphaStateDescription.cpp */,
+				84F5C0ED2F57D17C004A7315 /* AlphaStateDescription.hpp */,
 				84EB0C1F2EE2D4B2008FB007 /* base */,
 				84EB0C482EE2D4B3008FB007 /* BlendStateDescription.cpp */,
 				84EB0C492EE2D4B3008FB007 /* BlendStateDescription.hpp */,
 				84EB0C4A2EE2D4B3008FB007 /* DepthStencilStateDescription.cpp */,
 				84EB0C4B2EE2D4B3008FB007 /* DepthStencilStateDescription.hpp */,
 				84EB0C4C2EE2D4B3008FB007 /* enums */,
-				84EB0C6A2EE2D4B3008FB007 /* RenderStateDescription.cpp */,
-				84EB0C6B2EE2D4B3008FB007 /* RenderStateDescription.hpp */,
 				84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */,
 				84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */,
 				84EB0C6E2EE2D4B3008FB007 /* helpers */,
@@ -5174,6 +5194,8 @@
 				84EB0CB52EE2D4B3008FB007 /* ogl */,
 				84EB0CE02EE2D4B3008FB007 /* RasterizerStateDescription.cpp */,
 				84EB0CE12EE2D4B3008FB007 /* RasterizerStateDescription.hpp */,
+				84EB0C6A2EE2D4B3008FB007 /* RenderStateDescription.cpp */,
+				84EB0C6B2EE2D4B3008FB007 /* RenderStateDescription.hpp */,
 				84EB0CE22EE2D4B3008FB007 /* ShaderStage.hpp */,
 				84EB0CE32EE2D4B3008FB007 /* StencilFaceDescription.cpp */,
 				84EB0CE42EE2D4B3008FB007 /* StencilFaceDescription.hpp */,
@@ -5188,6 +5210,8 @@
 		84EB0C1F2EE2D4B2008FB007 /* base */ = {
 			isa = PBXGroup;
 			children = (
+				84F5C0F02F57D202004A7315 /* AlphaStateBase.cpp */,
+				84F5C0F12F57D202004A7315 /* AlphaStateBase.hpp */,
 				84EB0C202EE2D4B2008FB007 /* BlendStateBase.cpp */,
 				84EB0C212EE2D4B2008FB007 /* BlendStateBase.hpp */,
 				84EB0C222EE2D4B2008FB007 /* BufferBase.cpp */,
@@ -5282,6 +5306,8 @@
 		84EB0C752EE2D4B3008FB007 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				84F5C0F42F57D22A004A7315 /* AlphaState.cpp */,
+				84F5C0F52F57D22A004A7315 /* AlphaState.hpp */,
 				84EB0C762EE2D4B3008FB007 /* BlendState.cpp */,
 				84EB0C772EE2D4B3008FB007 /* BlendState.hpp */,
 				84EB0C782EE2D4B3008FB007 /* Buffer.cpp */,
@@ -5321,6 +5347,8 @@
 		84EB0CB52EE2D4B3008FB007 /* ogl */ = {
 			isa = PBXGroup;
 			children = (
+				84F5C0F82F57D234004A7315 /* AlphaStateOGL.cpp */,
+				84F5C0F92F57D234004A7315 /* AlphaStateOGL.hpp */,
 				84EB0CB62EE2D4B3008FB007 /* API_OGL.cpp */,
 				84EB0CB72EE2D4B3008FB007 /* API_OGL.hpp */,
 				84EB0CB82EE2D4B3008FB007 /* BlendStateOGL.cpp */,
@@ -5331,8 +5359,6 @@
 				84EB0CBD2EE2D4B3008FB007 /* ConstantBufferContainerOGL.hpp */,
 				84EB0CBE2EE2D4B3008FB007 /* DepthStencilStateOGL.cpp */,
 				84EB0CBF2EE2D4B3008FB007 /* DepthStencilStateOGL.hpp */,
-				84EB0CC02EE2D4B3008FB007 /* RenderStateOGL.cpp */,
-				84EB0CC12EE2D4B3008FB007 /* RenderStateOGL.hpp */,
 				84EB0CC22EE2D4B3008FB007 /* FogStateOGL.cpp */,
 				84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */,
 				84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */,
@@ -5348,6 +5374,8 @@
 				84EB0CCD2EE2D4B3008FB007 /* RenderContextOGL.hpp */,
 				84EB0CCE2EE2D4B3008FB007 /* RenderDeviceOGL.cpp */,
 				84EB0CCF2EE2D4B3008FB007 /* RenderDeviceOGL.hpp */,
+				84EB0CC02EE2D4B3008FB007 /* RenderStateOGL.cpp */,
+				84EB0CC12EE2D4B3008FB007 /* RenderStateOGL.hpp */,
 				84EB0CD02EE2D4B3008FB007 /* ResourceOGL.cpp */,
 				84EB0CD12EE2D4B3008FB007 /* ResourceOGL.hpp */,
 				84EB0CD22EE2D4B3008FB007 /* ShaderConstantOGL.cpp */,
@@ -5399,10 +5427,12 @@
 		84F487E72EEA4F5C00309B1E /* null */ = {
 			isa = PBXGroup;
 			children = (
-				84F487F02EEA4F5C00309B1E /* RenderStateNull.cpp */,
-				84F487F12EEA4F5C00309B1E /* RenderStateNull.hpp */,
+				84F5C0FC2F57D242004A7315 /* AlphaStateNull.cpp */,
+				84F5C0FD2F57D242004A7315 /* AlphaStateNull.hpp */,
 				84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */,
 				84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */,
+				84F487F02EEA4F5C00309B1E /* RenderStateNull.cpp */,
+				84F487F12EEA4F5C00309B1E /* RenderStateNull.hpp */,
 			);
 			path = null;
 			sourceTree = "<group>";
@@ -5483,6 +5513,7 @@
 				84EB0DCA2EE2D4B4008FB007 /* RenderDeviceOGL.hpp in Headers */,
 				84EB0DEB2EE2D4B4008FB007 /* Extensions.hpp in Headers */,
 				84EB0DC02EE2D4B4008FB007 /* GPUEventsOGL.hpp in Headers */,
+				84F5C0F72F57D22A004A7315 /* AlphaState.hpp in Headers */,
 				84EB0D4C2EE2D4B3008FB007 /* BlendTarget.hpp in Headers */,
 				84EB0DCE2EE2D4B4008FB007 /* ShaderConstantOGL.hpp in Headers */,
 				84EB0D492EE2D4B3008FB007 /* BlendStateDescription.hpp in Headers */,
@@ -5496,6 +5527,7 @@
 				84EB0DB22EE2D4B4008FB007 /* API_OGL.hpp in Headers */,
 				84EB0D1B2EE2D4B3008FB007 /* EntityConstants.hpp in Headers */,
 				84EB0D762EE2D4B3008FB007 /* Buffer.hpp in Headers */,
+				84F5C0EF2F57D17C004A7315 /* AlphaStateDescription.hpp in Headers */,
 				84EB0DED2EE2D4B4008FB007 /* ShaderPrecision.hpp in Headers */,
 				84EB0DE32EE2D4B4008FB007 /* MaterialPtr.hpp in Headers */,
 				84EB0D4F2EE2D4B3008FB007 /* ColorWriteMask.hpp in Headers */,
@@ -5526,6 +5558,7 @@
 				84F66DF72F18CB3D00DE508E /* MapType.hpp in Headers */,
 				84EB0DBA2EE2D4B4008FB007 /* DepthStencilStateOGL.hpp in Headers */,
 				84EB0D412EE2D4B3008FB007 /* ShaderConstantWithDataBase.hpp in Headers */,
+				84F5C0FF2F57D242004A7315 /* AlphaStateNull.hpp in Headers */,
 				84EB0DC82EE2D4B4008FB007 /* RenderContextOGL.hpp in Headers */,
 				84EB0D632EE2D4B3008FB007 /* TextureFiltering.hpp in Headers */,
 				84EB0D172EE2D4B3008FB007 /* ConstantBufferMetaDataManager.hpp in Headers */,
@@ -5545,6 +5578,7 @@
 				84F66DE02F18C9AA00DE508E /* VertexFieldFormat.hpp in Headers */,
 				84EB0D192EE2D4B3008FB007 /* EnableScissorTest.hpp in Headers */,
 				84EB0DFC2EE2D4B4008FB007 /* ShaderGroupBase.hpp in Headers */,
+				84F5C0FB2F57D234004A7315 /* AlphaStateOGL.hpp in Headers */,
 				84EB0D252EE2D4B3008FB007 /* ConstantBufferBase.hpp in Headers */,
 				84EB0DDA2EE2D4B4008FB007 /* TextureOGL.hpp in Headers */,
 				84EB0DF42EE2D4B4008FB007 /* RenderContextImmediate.hpp in Headers */,
@@ -5584,6 +5618,7 @@
 				84EB0D1F2EE2D4B3008FB007 /* GlobalConstantBuffers.hpp in Headers */,
 				84EB0D682EE2D4B3008FB007 /* VertexFieldType.hpp in Headers */,
 				84EB0D372EE2D4B3008FB007 /* RenderContextBase.hpp in Headers */,
+				84F5C0F32F57D202004A7315 /* AlphaStateBase.hpp in Headers */,
 				84EB0D592EE2D4B3008FB007 /* RenderStateType_JsonParser.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6600,6 +6635,7 @@
 				84EB0D162EE2D4B3008FB007 /* ConstantBufferMetaDataManager.cpp in Sources */,
 				84EB0DC32EE2D4B4008FB007 /* ProfileSectionOGL.cpp in Sources */,
 				84EB0D8A2EE2D4B3008FB007 /* Shader.cpp in Sources */,
+				84F5C0FA2F57D234004A7315 /* AlphaStateOGL.cpp in Sources */,
 				84EB0E092EE2D4B4008FB007 /* WorldConstants.cpp in Sources */,
 				84EB0DB72EE2D4B4008FB007 /* ConstantBufferContainerOGL.cpp in Sources */,
 				84EB0DB52EE2D4B4008FB007 /* BufferOGL.cpp in Sources */,
@@ -6628,6 +6664,7 @@
 				84EB0DE22EE2D4B4008FB007 /* MaterialPtr.cpp in Sources */,
 				84EB0DEC2EE2D4B4008FB007 /* ShaderPrecision.cpp in Sources */,
 				84EB0DB32EE2D4B4008FB007 /* BlendStateOGL.cpp in Sources */,
+				84F5C0F22F57D202004A7315 /* AlphaStateBase.cpp in Sources */,
 				84EB0DF52EE2D4B4008FB007 /* RenderMaterial.cpp in Sources */,
 				84EB0D822EE2D4B3008FB007 /* ImmediateBuffer.cpp in Sources */,
 				84EB0D1C2EE2D4B3008FB007 /* GlobalConstantBufferManager.cpp in Sources */,
@@ -6643,6 +6680,7 @@
 				84EB0E052EE2D4B4008FB007 /* VertexFormat.cpp in Sources */,
 				84EB0D752EE2D4B3008FB007 /* Buffer.cpp in Sources */,
 				84EB0D2C2EE2D4B3008FB007 /* RenderStateBase.cpp in Sources */,
+				84F5C0F62F57D22A004A7315 /* AlphaState.cpp in Sources */,
 				84EB0E032EE2D4B4008FB007 /* UniformMetaData.cpp in Sources */,
 				84EB0D5B2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp in Sources */,
 				84EB0DF72EE2D4B4008FB007 /* ShaderConstants.cpp in Sources */,
@@ -6662,6 +6700,7 @@
 				84EB0D302EE2D4B3008FB007 /* FrameBufferObjectBase.cpp in Sources */,
 				84EB0D202EE2D4B3008FB007 /* BlendStateBase.cpp in Sources */,
 				84EB0D482EE2D4B3008FB007 /* BlendStateDescription.cpp in Sources */,
+				84F5C0FE2F57D242004A7315 /* AlphaStateNull.cpp in Sources */,
 				84EB0D6F2EE2D4B3008FB007 /* TextureHelper.cpp in Sources */,
 				84EB0D8D2EE2D4B3008FB007 /* ShaderConstantWithData.cpp in Sources */,
 				84EB0DD12EE2D4B4008FB007 /* ShaderOGL.cpp in Sources */,
@@ -6669,6 +6708,7 @@
 				84EB0D582EE2D4B3008FB007 /* RenderStateType_JsonParser.cpp in Sources */,
 				84EB0D422EE2D4B3008FB007 /* ShaderContextBase.cpp in Sources */,
 				84EB0D672EE2D4B3008FB007 /* VertexField_JsonParser.cpp in Sources */,
+				84F5C0EE2F57D17C004A7315 /* AlphaStateDescription.cpp in Sources */,
 				84EB0DE42EE2D4B4008FB007 /* MatrixStack.cpp in Sources */,
 				84EB0DF12EE2D4B4008FB007 /* RenderChunkConstants.cpp in Sources */,
 			);
