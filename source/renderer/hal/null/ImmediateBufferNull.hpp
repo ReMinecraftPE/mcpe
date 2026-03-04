@@ -6,7 +6,5 @@ namespace mce
 {
     class ImmediateBufferNull : public ImmediateBufferBase
     {
-    public:
-        ImmediateBufferNull();
     };
 }

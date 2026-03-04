@@ -40,6 +40,8 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\AlphaStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.hpp" />
@@ -55,6 +57,8 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\AlphaStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

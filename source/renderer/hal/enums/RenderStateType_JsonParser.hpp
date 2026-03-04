@@ -2,13 +2,13 @@
 
 #include <map>
 #include <string>
-#include "RenderState.hpp"
+#include "RenderStateType.hpp"
 
 namespace mce
 {
-    std::map<std::string, RenderState> _CreateRenderStateMap()
+    std::map<std::string, RenderStateType> _CreateRenderStateTypeMap()
     {
-        std::map<std::string, RenderState> m;
+        std::map<std::string, RenderStateType> m;
         m["DisableDepthTest"] = RS_DISABLE_DEPTH_TEST;
         m["Blending"] = RS_BLENDING;
         m["PolygonOffset"] = RS_POLYGON_OFFSET;
@@ -22,5 +22,5 @@ namespace mce
         m["Textured"] = RS_ENABLE_TEXTURE;
         return m;
     }
-    const std::map<std::string, RenderState> _renderStateMap = _CreateRenderStateMap();
+    const std::map<std::string, RenderStateType> _renderStateTypeMap = _CreateRenderStateTypeMap();
 }

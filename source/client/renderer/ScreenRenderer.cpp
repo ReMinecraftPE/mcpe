@@ -97,10 +97,10 @@ void ScreenRenderer::blitTexture(Textures& textures, const std::string& texture,
     textures.loadAndBindTexture(texture);
     Tesselator& t = Tesselator::instance;
     t.begin(4);
-    t.vertexUV(x, y + height, m_blitOffset, u / textureWidth, (v + uvHeight) / textureHeight);
+    t.vertexUV(x,         y + height, m_blitOffset, u / textureWidth,             (v + uvHeight) / textureHeight);
     t.vertexUV(x + width, y + height, m_blitOffset, (u + uvWidth) / textureWidth, (v + uvHeight) / textureHeight);
-    t.vertexUV(x + width, y, m_blitOffset, (u + uvWidth) / textureWidth, v / textureHeight);
-    t.vertexUV(x, y, m_blitOffset, u / textureWidth, v / textureHeight);
+    t.vertexUV(x + width, y,          m_blitOffset, (u + uvWidth) / textureWidth, v / textureHeight);
+    t.vertexUV(x,         y,          m_blitOffset, u / textureWidth,             v / textureHeight);
     t.draw(materialPtr ? *materialPtr : m_materials.ui_textured);
 }
 
@@ -125,19 +125,18 @@ void ScreenRenderer::blitSprite(Textures& textures, const TextureAtlasSprite* sp
 
     TextureAtlas& atlas = *sprite->m_pAtlas;
 
-
-    float u0 = u ? sprite->minU + u / atlas.getWidth() : sprite->minU;
-    float u1 = u || uvWidth ? sprite->minU + (u + uvWidth) / atlas.getWidth() : sprite->maxU;
-    float v0 = v ? sprite->minV + v / atlas.getHeight() : sprite->minV;
+    float u0 = u             ? sprite->minU +  u             / atlas.getWidth()  : sprite->minU;
+    float u1 = u || uvWidth  ? sprite->minU + (u + uvWidth)  / atlas.getWidth()  : sprite->maxU;
+    float v0 = v             ? sprite->minV +  v             / atlas.getHeight() : sprite->minV;
     float v1 = v || uvHeight ? sprite->minV + (v + uvHeight) / atlas.getHeight() : sprite->maxV;
 
-    textures.loadAndBindTexture(sprite->m_pAtlas->m_name);
+    textures.loadAndBindTexture(atlas.m_name);
     Tesselator& t = Tesselator::instance;
     t.begin(4);
-    t.vertexUV(x, y + height, m_blitOffset, u0, v1);
+    t.vertexUV(x,         y + height, m_blitOffset, u0, v1);
     t.vertexUV(x + width, y + height, m_blitOffset, u1, v1);
-    t.vertexUV(x + width, y, m_blitOffset, u1, v0);
-    t.vertexUV(x, y, m_blitOffset, u0, v0);
+    t.vertexUV(x + width, y,          m_blitOffset, u1, v0);
+    t.vertexUV(x,         y,          m_blitOffset, u0, v0);
     t.draw(materialPtr ? *materialPtr : m_materials.ui_textured);
 }
 

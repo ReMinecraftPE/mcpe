@@ -6,6 +6,5 @@ namespace mce
 {
     class ConstantBuffer : public ConstantBufferBase
     {
-        
     };
 }

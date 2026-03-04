@@ -472,22 +472,24 @@ add_library(nbcraft-core STATIC
     renderer/VertexFormat.cpp
     renderer/WeatherConstants.cpp
     renderer/WorldConstants.cpp
+    renderer/hal/AlphaStateDescription.cpp
     renderer/hal/BlendStateDescription.cpp
     renderer/hal/DepthStencilStateDescription.cpp
-    renderer/hal/FixedPipelineStateDescription.cpp
+    renderer/hal/RenderStateDescription.cpp
     renderer/hal/FogStateDescription.cpp
     renderer/hal/ImageDescription.cpp
     renderer/hal/RasterizerStateDescription.cpp
     renderer/hal/StencilFaceDescription.cpp
     renderer/hal/TextureDescription.cpp
     renderer/hal/ViewportOrigin.cpp
+    renderer/hal/base/AlphaStateBase.cpp
     renderer/hal/base/BlendStateBase.cpp
     renderer/hal/base/BufferBase.cpp
     renderer/hal/base/ConstantBufferBase.cpp
     renderer/hal/base/ConstantBufferConstantsBase.cpp
     renderer/hal/base/ConstantBufferContainerBase.cpp
     renderer/hal/base/DepthStencilStateBase.cpp
-    renderer/hal/base/FixedPipelineStateBase.cpp
+    renderer/hal/base/RenderStateBase.cpp
     renderer/hal/base/FogStateBase.cpp
     renderer/hal/base/FrameBufferObjectBase.cpp
     renderer/hal/base/ImmediateBufferBase.cpp
@@ -504,8 +506,7 @@ add_library(nbcraft-core STATIC
     renderer/hal/enums/BlendTarget_JsonParser.cpp
     renderer/hal/enums/ComparisonFunc_JsonParser.cpp
     renderer/hal/enums/PrimitiveMode_JsonParser.cpp
-    renderer/hal/enums/RenderState_JsonParser.cpp
-    renderer/hal/enums/RenderState_JsonParser.hpp
+    renderer/hal/enums/RenderStateType_JsonParser.cpp
     renderer/hal/enums/ShaderPrimitiveTypes.cpp
     renderer/hal/enums/ShaderStagesBits_JsonParser.cpp
     renderer/hal/enums/StencilOp_JsonParser.cpp
@@ -513,14 +514,16 @@ add_library(nbcraft-core STATIC
     renderer/hal/enums/VertexField.cpp
     renderer/hal/enums/VertexField_JsonParser.cpp
     renderer/hal/helpers/TextureHelper.cpp
-    renderer/hal/null/FixedPipelineStateNull.cpp
+    renderer/hal/null/AlphaStateNull.cpp
+    renderer/hal/null/RenderStateNull.cpp
     renderer/hal/null/FogStateNull.cpp
+    renderer/hal/interface/AlphaState.cpp
     renderer/hal/interface/BlendState.cpp
     renderer/hal/interface/Buffer.cpp
     renderer/hal/interface/ConstantBuffer.cpp
     renderer/hal/interface/ConstantBufferContainer.cpp
     renderer/hal/interface/DepthStencilState.cpp
-    renderer/hal/interface/FixedPipelineState.cpp
+    renderer/hal/interface/RenderState.cpp
     renderer/hal/interface/FogState.cpp
     renderer/hal/interface/ImmediateBuffer.cpp
     renderer/hal/interface/RasterizerState.cpp
@@ -544,11 +547,12 @@ if(NBC_GFX_API STREQUAL "OGL")
     target_compile_definitions(nbcraft-core PUBLIC MCE_GFX_API_OGL=1)
     target_sources(nbcraft-core PRIVATE
         renderer/hal/ogl/API_OGL.cpp
+        renderer/hal/ogl/AlphaStateOGL.cpp
         renderer/hal/ogl/BlendStateOGL.cpp
         renderer/hal/ogl/BufferOGL.cpp
         renderer/hal/ogl/ConstantBufferContainerOGL.cpp
         renderer/hal/ogl/DepthStencilStateOGL.cpp
-        renderer/hal/ogl/FixedPipelineStateOGL.cpp
+        renderer/hal/ogl/RenderStateOGL.cpp
         renderer/hal/ogl/FogStateOGL.cpp
         renderer/hal/ogl/GPUEventsOGL.cpp
         renderer/hal/ogl/ImmediateBufferOGL.cpp

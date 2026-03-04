@@ -3,7 +3,8 @@
 #include "renderer/hal/BlendStateDescription.hpp"
 #include "renderer/hal/DepthStencilStateDescription.hpp"
 #include "renderer/hal/RasterizerStateDescription.hpp"
-#include "renderer/hal/FixedPipelineStateDescription.hpp"
+#include "renderer/hal/RenderStateDescription.hpp"
+#include "renderer/hal/AlphaStateDescription.hpp"
 #include "renderer/hal/FogStateDescription.hpp"
 #include "common/math/Color.hpp"
 #include "renderer/hal/enums/ShadeMode.hpp"
@@ -19,7 +20,8 @@ namespace mce
         BlendStateDescription m_blendStateDescription;
         DepthStencilStateDescription m_depthStencilStateDescription;
         RasterizerStateDescription m_rasterizerStateDescription;
-        FixedPipelineStateDescription m_fixedPipelineStateDescription;
+        RenderStateDescription m_renderStateDescription;
+        AlphaStateDescription m_alphaStateDescription;
         FogStateDescription m_fogStateDescription;
         Color m_color;
         ShadeMode m_shadeMode;
@@ -27,7 +29,8 @@ namespace mce
         bool m_bBoundBlendState;
         bool m_bBoundDepthStencilState;
         bool m_bBoundRasterizerState;
-        bool m_bBoundFixedPipelineState;
+        bool m_bBoundRenderState;
+        bool m_bBoundAlphaState;
         bool m_bBoundFogState;
         bool m_bBoundColor;
         bool m_bBoundShadeMode;

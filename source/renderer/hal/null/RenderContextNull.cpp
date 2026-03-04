@@ -2,7 +2,3 @@
 
 using namespace mce;
 
-RenderContextNull::RenderContextNull()
-    : RenderContextBase()
-{
-}

@@ -2,7 +2,3 @@
 
 using namespace mce;
 
-DepthStencilStateNull::DepthStencilStateNull()
-    : DepthStencilStateBase()
-{
-}

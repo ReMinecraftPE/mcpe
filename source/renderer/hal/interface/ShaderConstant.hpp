@@ -7,6 +7,5 @@ namespace mce
 {
     class ShaderConstant : public MCE_GFX_CLASS(ShaderConstant)
     {
-        
     };
 }

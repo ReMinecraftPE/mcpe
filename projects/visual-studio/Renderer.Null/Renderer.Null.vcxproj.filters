@@ -62,6 +62,12 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.cpp">
       <Filter>Source Files\HAL\Null</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\AlphaStateNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.hpp">
@@ -101,6 +107,12 @@
       <Filter>Header Files\HAL\Null</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\AlphaStateNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderStateNull.hpp">
       <Filter>Header Files\HAL\Null</Filter>
     </ClInclude>
   </ItemGroup>

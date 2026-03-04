@@ -6,7 +6,5 @@ namespace mce
 {
     class RasterizerStateNull : public RasterizerStateBase
     {
-    public:
-        RasterizerStateNull();
     };
 }
