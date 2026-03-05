@@ -11,6 +11,7 @@
 #include "Utils.hpp"
 
 #include <cstring>
+#include <stack>
 
 #if MC_PLATFORM_WINPC
 
