@@ -147,10 +147,9 @@ void closedir(DIR* dir)
 bool createFolderIfNotExists(const char* pDir)
 {
 	size_t pathlen = strlen(pDir);
-	char *path = new char[pathlen + 1];
+	std::stack<std::string> st;
 
-	path[0] = pDir[0];
-	for (size_t i = 1; i < pathlen; ++i)
+	for (size_t i = pathlen - 1; i > 0; --i)
 	{
 		if (pDir[i] == '/'
 #ifdef _WIN32
@@ -158,19 +157,16 @@ bool createFolderIfNotExists(const char* pDir)
 #endif
 		   )
 		{
-			path[i] = '\0';
-			if (XPL_ACCESS(path, 0))
-			{
-				if (XPL_MKDIR(path, 0755) != 0)
-				{
-					delete[] path;
-					return false;
-				}
-			}
+			std::string path(pDir, i - 1);
+			if (XPL_ACCESS(path.c_str()) == 0)
+				break;
+			st.push(path);
 		}
-		path[i] = pDir[i];
 	}
-	delete[] path;
+	while (!st.empty())
+		if (XPL_MKDIR(st.pop().c_str()) != 0)
+			return false;
+
 	if (XPL_ACCESS(pDir, 0))
 		if (XPL_MKDIR(pDir, 0755) != 0)
 			return false;
