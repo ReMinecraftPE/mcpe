@@ -147,6 +147,8 @@ void closedir(DIR* dir)
 
 bool createFolderIfNotExists(const char* pDir)
 {
+	if (XPL_ACCESS(pDir, 0) == 0)
+		return true;
 	size_t pathlen = strlen(pDir);
 	std::stack<std::string> st;
 
@@ -171,9 +173,8 @@ bool createFolderIfNotExists(const char* pDir)
 		st.pop();
 	}
 
-	if (XPL_ACCESS(pDir, 0))
-		if (XPL_MKDIR(pDir, 0755) != 0)
-			return false;
+	if (XPL_MKDIR(pDir, 0755) != 0)
+		return false;
 	return true;
 }
 
