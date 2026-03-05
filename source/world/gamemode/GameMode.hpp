@@ -33,8 +33,8 @@ public:
 	// Used to be called getPickRange
 	virtual float getBlockReachDistance() const;
 	virtual float getEntityReachDistance() const;
-	virtual bool useItem(Player* player, Level* level, ItemStack& item);
-	virtual bool useItemOn(Player*, Level*, ItemStack&, const TilePos& pos, Facing::Name face);
+	virtual bool useItem(Player* player, ItemStack& item);
+	virtual bool useItemOn(Player*, ItemStack&, const TilePos& pos, Facing::Name face);
 	virtual void releaseUsingItem(Player* player);
 	virtual LocalPlayer* createPlayer(Level*);
 	virtual void initPlayer(Player*);

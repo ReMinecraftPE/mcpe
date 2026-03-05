@@ -52,10 +52,9 @@ public: // Methods
 	virtual Item* setMaxStackSize(int mss);
 	virtual Item* setIcon(int ix, int iy);
 	virtual int getIcon(const ItemStack*) const;
-	virtual bool useOn(ItemStack*, Level*, const TilePos& pos, Facing::Name face) const;
-	virtual bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const;
+	virtual bool useOn(ItemStack*, Player*, const TilePos& pos, Facing::Name face) const;
 	virtual float getDestroySpeed(ItemStack*, const Tile*) const;
-	virtual ItemStack* use(ItemStack*, Level*, Mob*) const;
+	virtual ItemStack* use(ItemStack*, Mob*) const;
 	virtual void releaseUsing(ItemStack&, Level&, Mob&, int durationLeft) const;
 	virtual int getMaxStackSize() const;
 	virtual TileData getLevelDataForAuxValue(int x) const;

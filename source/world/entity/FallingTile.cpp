@@ -13,7 +13,7 @@
 
 #define DATA_TILE_ID (20)
 
-void FallingTile::_init(Level*, const Vec3& pos, int id)
+void FallingTile::_init(const Vec3& pos, int id)
 {
 	m_renderType = RENDER_FALLING_TILE;
 	m_pDescriptor = &EntityTypeDescriptor::fallingTile;
@@ -33,12 +33,12 @@ void FallingTile::_init(Level*, const Vec3& pos, int id)
 
 FallingTile::FallingTile(TileSource& source) : Entity(source)
 {
-	_init(source, Vec3::ZERO, TILE_AIR);
+	_init(Vec3::ZERO, TILE_AIR);
 }
 
 FallingTile::FallingTile(TileSource& source, const Vec3& pos, int id) : Entity(source)
 {
-	_init(source, pos, id);
+	_init(pos, id);
 }
 
 void FallingTile::_defineEntityData()
@@ -91,7 +91,7 @@ void FallingTile::tick()
 	m_vel.z *= 0.7f;
 	m_vel.y *= -0.5f;
 	remove();
-	if (!Tile::tiles[m_id]->tryToPlace(m_tileSource, tilePos, 0))
+	if (!Tile::tiles[getTile()]->tryToPlace(m_tileSource, tilePos, 0))
 		spawnAtLocation(getTile(), 1);
 }
 

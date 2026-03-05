@@ -21,6 +21,6 @@ public:
 	eRenderShape getRenderShape() const override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
-	bool use(TileSource* source, const TilePos& pos, Player* player) override;
+	bool use(const TilePos& pos, Player* player) override;
 	void tick(TileSource*, const TilePos& pos, Random*) override;
 };

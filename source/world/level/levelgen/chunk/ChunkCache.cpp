@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "LevelChunk.hpp"
+/*#include "LevelChunk.hpp"
 #include "ChunkCache.hpp"
 #include "world/level/Level.hpp"
 #include "EmptyLevelChunk.hpp"
@@ -287,4 +287,4 @@ LevelChunk* ChunkCache::load(const ChunkPos& pos)
 		pChk->field_23C = m_pLevel->getTime();
 	
 	return pChk;
-}
+}*/

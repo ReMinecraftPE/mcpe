@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TestChunkSource.hpp"
-#include "world/level/Level.hpp"
+/*#include "world/level/Level.hpp"
 #include "EmptyLevelChunk.hpp"
 
 TestChunkSource::TestChunkSource(Level* pLevel)
@@ -66,7 +66,7 @@ LevelChunk* TestChunkSource::generateChunk(const ChunkPos& pos)
 						*p = TILE_FLOWER;
 					else if (rand() % 10 == 0)
 						*p = TILE_TOPSNOW;*/
-				}
+				/*}
 				else if (i > 64)
 					*p = TILE_AIR;
 				else if (i == 64) {
@@ -124,7 +124,7 @@ LevelChunk* TestChunkSource::generateChunk(const ChunkPos& pos)
 	assert(br4  == 6);
 	*/
 
-	pChunk->recalcHeightmap();
+	/*pChunk->recalcHeightmap();
 
 	return pChunk;
 }
@@ -190,5 +190,5 @@ bool TestChunkSource::shouldSave()
 int TestChunkSource::tick()
 {
 	return 0;
-}
+}*/
 

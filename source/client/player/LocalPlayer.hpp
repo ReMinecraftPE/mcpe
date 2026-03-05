@@ -20,7 +20,7 @@ private:
 	void _init();
 
 public:
-	LocalPlayer(Minecraft*, Level*, User*, GameType, int);
+	LocalPlayer(Minecraft*, Level*, User*, GameType, DimensionId);
 	virtual ~LocalPlayer();
 
 public:

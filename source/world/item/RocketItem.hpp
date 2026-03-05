@@ -15,5 +15,5 @@ public:
 	RocketItem(int id);
 
 public:
-	bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const override;
+	bool useOn(ItemStack*, Player*, const TilePos& pos, Facing::Name face) const override;
 };

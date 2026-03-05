@@ -229,7 +229,8 @@ bool LevelChunk::setData(const ChunkTilePos& pos, TileData data)
 
 Biome* LevelChunk::getBiome(const ChunkTilePos& pos)
 {
-	return Biome::getBiome(m_biomes[pos.index2D()].m_biomeId); // todo: add method to getBiome
+	//return Biome::getBiome(m_biomes[pos.index2D()].m_biomeId); // todo: add method to getBiome
+	throw std::bad_cast();
 }
 
 uint32_t LevelChunk::getGrassColor(const ChunkTilePos& pos)

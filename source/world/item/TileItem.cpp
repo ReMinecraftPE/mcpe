@@ -30,9 +30,10 @@ std::string TileItem::getDescriptionId(ItemStack* instance) const
 	return Tile::tiles[m_tile]->getDescriptionId();
 }
 
-bool TileItem::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool TileItem::useOn(ItemStack* instance, Player* player, const TilePos& pos, Facing::Name face) const
 {
 	TileSource& source = player->getTileSource();
+	Level& level = player->getLevel();
 
 	TilePos tp(pos);
 
@@ -65,15 +66,15 @@ bool TileItem::useOn(ItemStack* instance, Player* player, Level* level, const Ti
 	Tile::tiles[m_tile]->setPlacedOnFace(&source, tp, face);
 	Tile::tiles[m_tile]->setPlacedBy(&source, tp, player);
 
-	level->playSound(
+	level.playSound(
 		Vec3(tp) + 0.5f,
 		"step." + pTile->m_pSound->m_name,
 		(pTile->m_pSound->volume + 1.0f) * 0.5f,
 		pTile->m_pSound->pitch * 0.8f
 	);
 
-	if (level->m_pRakNetInstance)
-		level->m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp, (TileID)m_tile, face, instance->getAuxValue()));
+	if (level.m_pRakNetInstance)
+		level.m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp, (TileID)m_tile, face, instance->getAuxValue()));
 
 	player->useItem(*instance);
 	return true;

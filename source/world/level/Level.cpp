@@ -95,8 +95,6 @@ Entity* Level::getEntity(Entity::ID id) const
 
 void Level::getEntities(DimensionId dimensionId, const EntityType& type, const AABB& aabb, std::vector<Entity*>& output) const
 {
-	std::vector<Entity*> allEntities;
-
 	long lowerXBound = floor((aabb.min.x - 2.0f) / 16);
 	long lowerZBound = floor((aabb.min.z - 2.0f) / 16);
 	long upperXBound = floor((aabb.max.x + 2.0f) / 16);
@@ -297,7 +295,7 @@ const TilePos& Level::getSharedSpawnPos() const
 
 void Level::removeAllPendingEntityRemovals()
 {
-	Util::removeAll(m_entities, m_pendingEntityRemovals);
+	/*Util::removeAll(m_entities, m_pendingEntityRemovals);
 
 	for (EntityVector::iterator it = m_pendingEntityRemovals.begin(); it != m_pendingEntityRemovals.end(); it++)
 	{
@@ -310,7 +308,7 @@ void Level::removeAllPendingEntityRemovals()
 		entityRemoved(ent);
 
 		//@BUG: MEMORY LEAK -- probably leaking entities here?
-	}
+	}*/
 
 	m_pendingEntityRemovals.clear();
 }
@@ -337,6 +335,11 @@ bool Level::addEntity(std::unique_ptr<Entity> entity)
 	return true;
 }
 
+bool Level::addEntity(Entity* entity)
+{
+	return addEntity(std::unique_ptr<Entity>(entity));
+}
+
 void Level::removeEntity(Entity& entity)
 {
 	// TODO: this check needs to go away from here, i need to find where this is originally called for player
@@ -353,6 +356,12 @@ void Level::removeEntity(std::unique_ptr<Entity>&& entity)
 {
 	removeEntity(*entity);
 	m_pendingEntityRemovals.push_back(std::move(entity));
+}
+
+void Level::removeEntity(Entity*& entity)
+{
+	removeEntity(std::unique_ptr<Entity>(entity));
+	entity = nullptr;
 }
 
 void Level::loadPlayer(Player& player)
@@ -456,10 +465,13 @@ void Level::tick()
 {
 	tickEntities();
 
-	m_pMobSpawner->tick(*this, m_difficulty > 0, true);
-	//m_pChunkSource->tick();
-
 	tickTime();
+
+	for (DimensionVector::iterator it = m_dimensions.begin(); it != m_dimensions.end(); it++)
+	{
+		Dimension& dimension = **it;
+		dimension.tick();
+	}
 
 	m_pLevelData->incrementCurrentTick();
 }
@@ -468,24 +480,6 @@ void Level::tickEntities()
 {
 	// inlined in the original
 	removeAllPendingEntityRemovals();
-
-	for (size_t i = 0; i < m_entities.size(); i++)
-	{
-		Entity* pEnt = m_entities[i];
-
-		if (!pEnt->m_bRemoved)
-		{
-			tick(pEnt);
-		}
-		else if (!pEnt->isPlayer() || pEnt->m_bForceRemove)
-		{
-			m_entities.erase(m_entities.begin() + i);
-			i--;
-
-			entityRemoved(pEnt);
-			delete pEnt;
-		}
-	}
 }
 
 void Level::tickTime()
@@ -598,3 +592,8 @@ int Level::findPath(Path* path, Entity* ent, const TilePos& pos, float f) const
 	return m_pPathFinder->findPath(*path, ent, pos, f);
 }
 
+void Level::onChunkLoaded(LevelChunk& chunk)
+{
+	// @TODO: this
+	throw std::bad_cast();
+}

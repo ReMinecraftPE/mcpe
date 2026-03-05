@@ -22,7 +22,7 @@ DoorTile::DoorTile(int ID, Material* pMtl) : Tile(ID, pMtl)
 	Tile::setShape(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool DoorTile::use(TileSource* source, const TilePos& pos, Player* player)
+bool DoorTile::use(const TilePos& pos, Player* player)
 {
 	// well, you know, iron doors can't be opened by right clicking
 	if (m_pMaterial == Material::metal)

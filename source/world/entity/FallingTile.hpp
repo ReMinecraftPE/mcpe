@@ -13,7 +13,7 @@
 class FallingTile : public Entity
 {
 private:
-	void _init(Level*, const Vec3& pos, int id);
+	void _init(const Vec3& pos, int id);
 
 public:
 	FallingTile(TileSource& source);

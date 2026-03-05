@@ -32,18 +32,19 @@ std::string DyePowderItem::getDescriptionId(ItemStack* item) const
 	return Item::getDescriptionId() + "." + DyeColor::IDS[item->getAuxValue()];
 }
 
-bool DyePowderItem::useOn(ItemStack* item, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool DyePowderItem::useOn(ItemStack* item, Player* player, const TilePos& pos, Facing::Name face) const
 {
     // Aux value 15 is bonemeal
     if (item->getAuxValue() == 15)
 	{
 		TileSource& source = player->getTileSource();
+		Level& level = player->getLevel();
 
 		TileID tile = source.getTile(pos);
 		
 		if (tile == Tile::sapling->m_ID)
 		{
-			(static_cast<Sapling*>(Tile::sapling))->growTree(&source, pos, &level->m_random);
+			(static_cast<Sapling*>(Tile::sapling))->growTree(&source, pos, &level.m_random);
 			item->m_count--;
 			return true;
 		}

@@ -1,5 +1,5 @@
 #include "EmptyLevelChunk.hpp"
-#include "world/tile/Tile.hpp"
+/*#include "world/tile/Tile.hpp"
 
 EmptyLevelChunk::EmptyLevelChunk(Level* pLevel, TileID* pBlockData, const ChunkPos& pos)
 	:LevelChunk(pLevel, pBlockData, pos)
@@ -114,4 +114,4 @@ void EmptyLevelChunk::recalcHeight(const ChunkTilePos& pos)
 bool EmptyLevelChunk::isEmpty()
 {
 	return true;
-}
+}*/

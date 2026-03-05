@@ -8,7 +8,7 @@
 
 #include "Region.hpp"
 
-TileID Region::getTile(const TilePos& pos) const
+/*TileID Region::getTile(const TilePos& pos) const
 {
 	if (pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
 		return TILE_AIR;
@@ -142,7 +142,7 @@ Region::Region(const Level* level, const TilePos& min, const TilePos& max)
 	}
 	*/
 
-	field_C = new LevelChunk * [field_14.x * field_14.z];
+	/*field_C = new LevelChunk * [field_14.x * field_14.z];
 	//LOG_I("Region chunk-storage size: %d x %d = %d", m_noEntityRenderFrames.x, m_noEntityRenderFrames.z, m_noEntityRenderFrames.x * m_noEntityRenderFrames.z);
 
 	// NOTE: do NOT compare cp.x with max.x directly, no automatic conversion will occur
@@ -156,4 +156,4 @@ Region::Region(const Level* level, const TilePos& min, const TilePos& max)
 			field_C[index] = level->getChunk(cp);
 		}
 	}
-}
+}*/

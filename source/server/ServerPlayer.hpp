@@ -4,7 +4,7 @@
 class ServerPlayer : public Player, public ContainerListener
 {
 public:
-	ServerPlayer(Level* pLevel, GameType playerGameType);
+	ServerPlayer(Level& Level, GameType playerGameType);
 
 protected:
 	void _nextContainerCounter();

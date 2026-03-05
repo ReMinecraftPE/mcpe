@@ -16,7 +16,7 @@ public:
 	DoorTile(int ID, Material*);
 
 	void attack(TileSource*, const TilePos& pos, Player*) override;
-	bool use(TileSource*, const TilePos& pos, Player*) override;
+	bool use(const TilePos& pos, Player*) override;
 	HitResult clip(TileSource*, const TilePos& pos, Vec3, Vec3) override;
 	AABB* getAABB(TileSource*, const TilePos& pos) override;
 	eRenderShape getRenderShape() const override;

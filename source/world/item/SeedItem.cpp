@@ -3,11 +3,13 @@
 #include "world/tile/Tile.hpp"
 #include "world/level/TileSource.hpp"
 
-SeedItem::SeedItem(int id, int place) : Item(id), m_tile(place)
+SeedItem::SeedItem(int id, int place)
+    : Item(id)
+    , m_tile(place)
 {
 }
 
-bool SeedItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool SeedItem::useOn(ItemStack* inst, Player* player, const TilePos& pos, Facing::Name face) const
 {
     TileSource& source = player->getTileSource();
 

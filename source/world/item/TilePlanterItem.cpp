@@ -16,7 +16,7 @@ TilePlanterItem::TilePlanterItem(int id, int place) : Item(id)
 	m_tile = Tile::tiles[place]->m_ID;
 }
 
-bool TilePlanterItem::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool TilePlanterItem::useOn(ItemStack* instance, Player* player, const TilePos& pos, Facing::Name face) const
 {
 	TileSource& source = player->getTileSource();
 
@@ -40,8 +40,7 @@ bool TilePlanterItem::useOn(ItemStack* instance, Player* player, Level* level, c
 	if (!instance->m_count)
 		return false;
 
-	// why?
-	if (!source.mayPlace(m_tile, tp, false, 0, false, nullptr))
+	if (!source.mayPlace(m_tile, tp, face, player))
 		return true;
 
 	if (!source.setTile(tp, m_tile))

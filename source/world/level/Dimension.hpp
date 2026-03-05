@@ -61,6 +61,7 @@ public:
 
 public:
 	virtual void init();
+	virtual void tick();
 	virtual Color getFogColor(float, float) const;
 	virtual bool isNaturalDimension() const;
 	virtual bool mayRespawn() const;

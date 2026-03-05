@@ -42,7 +42,7 @@ bool RocketLauncherTile::isSolidRender() const
 	return false;
 }
 
-bool RocketLauncherTile::use(TileSource* source, const TilePos& pos, Player* player)
+bool RocketLauncherTile::use(const TilePos& pos, Player* player)
 {
 	if (source->getData(pos) == 1)
 		return true;

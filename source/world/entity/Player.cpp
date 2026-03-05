@@ -18,7 +18,7 @@ void Player::_init()
 	m_oBob = 0.0f;
 	m_bob = 0.0f;
 	m_dmgSpill = 0;
-	m_dimension = 0;
+	m_dimension = DIMENSION_OVERWORLD;
 	m_bFlying = false;
 	m_jumpTriggerTime = 0;
 	m_destroyingBlock = false;
@@ -69,7 +69,7 @@ Player::~Player()
 
 void Player::reallyDrop(ItemEntity* pEnt)
 {
-	m_pLevel->addEntity(std::make_unique<Entity>(pEnt));
+	m_pLevel->addEntity(pEnt);
 }
 
 void Player::reset()
@@ -234,7 +234,7 @@ void Player::aiStep()
 	scanAABB.grow(1, 1, 1);
 
 	std::vector<Entity*> ents;
-	m_pLevel->getEntities(this, scanAABB);
+	m_pLevel->getEntities(this->getDimensionId(), this->getDescriptor().getEntityType(), scanAABB, ents);
 
 	for (std::vector<Entity*>::iterator it = ents.begin(); it != ents.end(); it++)
 	{
@@ -318,7 +318,7 @@ void Player::readAdditionalSaveData(const CompoundTag& tag)
 	if (tag.contains("Inventory"))
 		m_pInventory->load(*tag.getList("Inventory"));
 
-	m_dimension = tag.getInt32("Dimension");
+	m_dimension = (DimensionId)tag.getInt32("Dimension");
 	//m_sleepTimer = tag.getInt32("SleepTimer");
 
 	if (tag.contains("SpawnX") && tag.contains("SpawnY") && tag.contains("SpawnZ")) {

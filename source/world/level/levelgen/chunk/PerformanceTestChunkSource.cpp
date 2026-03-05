@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "PerformanceTestChunkSource.hpp"
-#include "world/level/Level.hpp"
+/*#include "world/level/Level.hpp"
 
 PerformanceTestChunkSource::PerformanceTestChunkSource()
 {
@@ -89,5 +89,5 @@ bool PerformanceTestChunkSource::shouldSave()
 int PerformanceTestChunkSource::tick()
 {
 	return 0;
-}
+}*/
 

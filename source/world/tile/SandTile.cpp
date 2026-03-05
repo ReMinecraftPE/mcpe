@@ -58,7 +58,7 @@ void SandTile::checkSlide(TileSource* source, const TilePos& pos)
 		// The falling sand tile
 #if defined(ORIGINAL_CODE) || defined(ENH_ALLOW_SAND_GRAVITY)
 		Level& level = source->getLevel();
-		level.addEntity(std::make_unique<FallingTile>(&level, Vec3(float(pos.x) + 0.5f, float(pos.y) + 0.5f, float(pos.z) + 0.5f), m_ID));
+		level.addEntity(new FallingTile(*source, Vec3(float(pos.x) + 0.5f, float(pos.y) + 0.5f, float(pos.z) + 0.5f), m_ID));
 #endif
 	}
 }

@@ -400,6 +400,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\WeaponItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\DyePowderItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\CoalItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\HoeItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\SeedItem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

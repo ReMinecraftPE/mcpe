@@ -19,7 +19,7 @@ DoorItem::DoorItem(int id, Material* pMtl) : Item(id)
 	m_pMaterial = pMtl;
 }
 
-bool DoorItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool DoorItem::useOn(ItemStack* inst, Player* player, const TilePos& pos, Facing::Name face) const
 {
 	if (face != Facing::UP)
 		return false;

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Level.hpp"
+/*#include "Level.hpp"
 
 class Region : public LevelSource
 {
@@ -45,5 +45,5 @@ private:
 	LevelChunk** field_C;
 	const Level* m_pLevel;
 	ChunkPos field_14;
-};
+};*/
 

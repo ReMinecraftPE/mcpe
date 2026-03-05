@@ -126,7 +126,7 @@ LevelChunk* ChunkSource::getOrLoadChunk(const ChunkPos& pos, LoadMode loadMode)
 	{
 		if (chunk && loadMode == LOAD_DEFERRED && chunk->getState() == CS_UNLOADED)
 		{
-			requestChunk(pos, LOAD_NONE);
+			requestChunk(pos);
 
 			BackgroundQueuePool::GetFor(BackgroundQueuePool::QR_STREAMING).queue(
 				std::bind(&ChunkSource::_asyncChunkTask, this, chunk),
@@ -169,8 +169,8 @@ void ChunkSource::discard(std::unique_ptr<LevelChunk>& chunk)
 
 void ChunkSource::discard(LevelChunk& chunk)
 {
-	discard(std::make_unique<LevelChunk>(chunk));
-	delete& chunk;
+	discard(std::unique_ptr<LevelChunk>(&chunk));
+	delete& chunk; // brother, what the fuck
 }
 
 void ChunkSource::hintDiscardBatchBegin()
@@ -273,7 +273,7 @@ void ChunkSource::_asyncPostProcessingCallback(LevelChunk* chunk, std::shared_pt
 
 void ChunkSource::_startPostProcessing(LevelChunk& chunk)
 {
-	std::shared_ptr<ChunkViewSource> cvs(new ChunkViewSource(*this, LOAD_NONE));
+	std::shared_ptr<ChunkViewSource> cvs(new ChunkViewSource(*this, LOAD_NOW));
 
 	cvs->move(chunk.getMinPos() - ChunkConstants::XZ_SIZE, chunk.getMaxPos() + ChunkConstants::XZ_SIZE);
 

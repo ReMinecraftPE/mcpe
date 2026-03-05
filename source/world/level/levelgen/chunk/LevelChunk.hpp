@@ -130,6 +130,8 @@ public:
 
 			return false;
 		}
+
+		size_t getSize() const { return ChunkConstants::TILE_COUNT / 2; }
 	};
 
 protected:
@@ -163,7 +165,7 @@ protected:
 	std::unordered_map<ChunkTilePos, std::unique_ptr<TileEntity>> m_tileEntities;
 
 public:
-	LevelChunk(Level& level, Dimension& dimension, const ChunkPos& pos, bool readOnly);
+	LevelChunk(Level& level, Dimension& dimension, const ChunkPos& pos, bool readOnly = false);
 	~LevelChunk();
 
 public:
@@ -238,6 +240,11 @@ public:
 		return m_tiles;
 	}
 
+	NibbleTileArray& getTileData()
+	{
+		return m_tileData;
+	}
+
 	void setGenerator(ChunkSource& generator)
 	{
 		m_generator = &generator;
@@ -296,6 +303,6 @@ public:
 	uint8_t field_237;
 	int field_238;
 	int field_23C;
-	TileID* m_pBlockData;
+	//TileID* m_pBlockData;
 	//std::vector<Entity*> m_entities_OLD[128 / 16];
 };

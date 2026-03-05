@@ -9,9 +9,10 @@ HoeItem::HoeItem(int id, ToolItem::Tier& tier) : Item(id)
 	m_maxDamage = tier.m_uses;
 }
 
-bool HoeItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool HoeItem::useOn(ItemStack* inst, Player* player, const TilePos& pos, Facing::Name face) const
 {
     TileSource& source = player->getTileSource();
+    Level& level = player->getLevel();
 
     TileID tile = source.getTile(pos);
     TileID below = source.getTile(pos.above());
@@ -20,23 +21,23 @@ bool HoeItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos
         return false;
 
     Tile* newTile = Tile::farmland;
-    level->playSound(pos + 0.5f, "step." + newTile->m_pSound->m_name, (newTile->m_pSound->volume + 1.0f) / 2.0f, newTile->m_pSound->pitch * 0.8f);
+    level.playSound(pos + 0.5f, "step." + newTile->m_pSound->m_name, (newTile->m_pSound->volume + 1.0f) / 2.0f, newTile->m_pSound->pitch * 0.8f);
 
-    if (level->m_bIsClientSide)
+    if (level.m_bIsClientSide)
         return true;
 
 #ifndef FEATURE_PLANT_VEGGIES
-    if (tile == Tile::grass->m_ID && level->m_random.nextInt(8) == 0)
+    if (tile == Tile::grass->m_ID && level.m_random.nextInt(8) == 0)
     {
         float spread = 0.7f;
         TilePos spreadPos(
-            level->m_random.nextFloat() * spread + (1.0f - spread) * 0.5f,
+            level.m_random.nextFloat() * spread + (1.0f - spread) * 0.5f,
             1.2f,
-            level->m_random.nextFloat() * spread + (1.0f - spread) * 0.5f
+            level.m_random.nextFloat() * spread + (1.0f - spread) * 0.5f
         );
-        std::unique_ptr<ItemEntity> itemEntity(new ItemEntity(source, pos + spreadPos, ItemStack(Item::seeds)));
+        ItemEntity* itemEntity = new ItemEntity(source, pos + spreadPos, ItemStack(Item::seeds));
         itemEntity->m_throwTime = 10;
-        level->addEntity(std::move(itemEntity));
+        level.addEntity(itemEntity);
     }
 #endif
 

@@ -120,11 +120,10 @@ void CropsTile::spawnResources(TileSource* source, const TilePos& pos, TileData 
 			(level.m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f);
 
 		ItemStack item(Item::seeds, 1, getSpawnResourcesAuxValue(data));
-		
-		std::unique_ptr<ItemEntity> entity(new ItemEntity(*source, pos + deviation, item));
-		entity->m_throwTime = 10;
+		ItemEntity* pEntity = new ItemEntity(*source, pos + deviation, item);
+		pEntity->m_throwTime = 10;
 
-		level.addEntity(std::move(entity));
+		level.addEntity(pEntity);
 	}
 }
 
@@ -146,7 +145,7 @@ void CropsTile::neighborChanged(TileSource* source, const TilePos& pos, TileID t
         ItemEntity* itemEntity = new ItemEntity(*source, pos.above() + spreadPos, ItemStack(Item::seeds));
         itemEntity->m_throwTime = 10;
 
-		level.addEntity(std::make_unique<Entity>(itemEntity));
+		level.addEntity(itemEntity);
 	}
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LevelChunk.hpp"
+/*#include "LevelChunk.hpp"
 
 //@OVERSIGHT: Why the hell is EmptyLevelChunk derived from the WHOLE of LevelChunk?!
 class EmptyLevelChunk : public LevelChunk
@@ -30,4 +30,4 @@ public:
 	bool setData(const ChunkTilePos& pos, TileData data) override;
 	void recalcHeight(const ChunkTilePos& pos) override;
 	bool isEmpty() override;
-};
+};*/

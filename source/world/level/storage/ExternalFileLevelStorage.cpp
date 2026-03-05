@@ -164,7 +164,7 @@ void ExternalFileLevelStorage::tick()
 	{
 		for (cp.x = 0; cp.x < C_MAX_CHUNKS_X; cp.x++)
 		{
-			LevelChunk* pChunk = m_pLevel->getChunk(cp);
+			LevelChunk* pChunk = m_pLevel->getDimension(DIMENSION_OVERWORLD)->getChunkSource()->getAvailableChunkAt(cp);
 			if (!pChunk || !pChunk->m_bUnsaved)
 				continue;
 
@@ -240,13 +240,13 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, const ChunkPos& pos)
 	TileID* pData = new TileID[16 * 16 * 128];
 	pBitStream->Read((char*)pData, 16 * 16 * 128 * sizeof(TileID));
 
-	LevelChunk* pChunk = new LevelChunk(level, pData, pos);
-	pBitStream->Read((char*)pChunk->m_tileData.m_data, 16 * 16 * 128 / 2);
+	LevelChunk* pChunk = new LevelChunk(*level, *level->getDimension(DIMENSION_OVERWORLD), pos);
+	pBitStream->Read((char*)pChunk->getTiles(), 16 * 16 * 128 / 2);
 
 	if (m_storageVersion >= 1)
 	{
-		pBitStream->Read((char*)pChunk->m_lightSky.m_data, 16 * 16 * 128 / 2);
-		pBitStream->Read((char*)pChunk->m_lightBlk.m_data, 16 * 16 * 128 / 2);
+		pBitStream->Read((char*)pChunk->getLight(LightLayer::Sky).m_array, 16 * 16 * 128 / 2);
+		pBitStream->Read((char*)pChunk->getLight(LightLayer::Block).m_array, 16 * 16 * 128 / 2);
 	}
 
 	pBitStream->Read((char*)pChunk->m_updateMap, sizeof pChunk->m_updateMap);
@@ -323,6 +323,8 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 				const ListTag* entitiesTag = tag->getList("Entities");
 				if (entitiesTag)
 				{
+					TileSource& tileSource = *level->getDimension(DIMENSION_OVERWORLD)->getTileSource();
+
 					const std::vector<Tag*>& entities = entitiesTag->rawView();
 					for (std::vector<Tag*>::const_iterator it = entities.begin(); it != entities.end(); it++)
 					{
@@ -330,7 +332,7 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 						if (!betterTag || betterTag->getId() != Tag::TAG_TYPE_COMPOUND)
 							continue;
 
-						Entity* entity = EntityFactory::LoadEntity(*(CompoundTag*)betterTag, level);
+						Entity* entity = EntityFactory::LoadEntity(*(CompoundTag*)betterTag, tileSource);
 						if (entity)
 							level->addEntity(entity);
 					}
@@ -358,23 +360,23 @@ void ExternalFileLevelStorage::save(Level* level, LevelChunk* chunk)
 		SAFE_DELETE(m_pRegionFile);
 		m_pRegionFile = nullptr;
 
-		LOG_W("Not saving :(   (x: %d  z: %d)", chunk->m_chunkPos.x, chunk->m_chunkPos.z);
+		LOG_W("Not saving :(   (x: %d  z: %d)", chunk->getPos().x, chunk->getPos().z);
 		return;
 	}
 
 	RakNet::BitStream bs;
-	bs.Write((const char*)chunk->m_pBlockData,        16 * 16 * 128 * sizeof(TileID));
-	bs.Write((const char*)chunk->m_tileData.m_data, chunk->m_tileData.m_size);
+	bs.Write((const char*)chunk->getTiles(), 16 * 16 * 128 * sizeof(TileID));
+	bs.Write((const char*)chunk->getTileData().m_array, chunk->getTileData().getSize());
 
 	if (m_pLevelData->getStorageVersion() >= 1)
 	{
-		bs.Write((const char*)chunk->m_lightSky.m_data, chunk->m_lightSky.m_size);
-		bs.Write((const char*)chunk->m_lightBlk.m_data, chunk->m_lightBlk.m_size);
+		bs.Write((const char*)chunk->getLight(LightLayer::Sky).m_array, chunk->getLight(LightLayer::Sky).getSize());
+		bs.Write((const char*)chunk->getLight(LightLayer::Block).m_array, chunk->getLight(LightLayer::Block).getSize());
 	}
 
 	bs.Write((const char*)chunk->m_updateMap, sizeof chunk->m_updateMap);
 
-	m_pRegionFile->writeChunk(chunk->m_chunkPos, bs);
+	m_pRegionFile->writeChunk(chunk->getPos(), bs);
 }
 
 void ExternalFileLevelStorage::saveEntities(Level* level, LevelChunk* chunk)
@@ -383,16 +385,20 @@ void ExternalFileLevelStorage::saveEntities(Level* level, LevelChunk* chunk)
 	//getTimeS();
 	ListTag* entitiesTag = new ListTag();
 
-	const EntityVector* entities = level->getAllEntities();
-	for (EntityVector::const_iterator it = entities->begin(); it != entities->end(); it++)
+	for (Level::DimensionVector::iterator it = level->m_dimensions.begin(); it != level->m_dimensions.end(); it++)
 	{
-		const Entity* entity = *it;
-		CompoundTag* tag = new CompoundTag();
+		Dimension& dimension = **it;
+		const Dimension::EntityIdMap_t& entityIdMap = dimension.getEntityIdMap();
+		for (Dimension::EntityIdMap_t::const_iterator it = entityIdMap.begin(); it != entityIdMap.end(); it++)
+		{
+			const Entity* entity = it->second;
+			CompoundTag* tag = new CompoundTag();
 
-		if (!entity->save(*tag))
-			continue;
+			if (!entity->save(*tag))
+				continue;
 
-		entitiesTag->add(tag);
+			entitiesTag->add(tag);
+		}
 	}
 
 	CompoundTag tag = CompoundTag();

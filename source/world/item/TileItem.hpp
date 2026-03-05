@@ -17,7 +17,7 @@ public:
 public:
 	std::string getDescriptionId() const override;
 	std::string getDescriptionId(ItemStack*) const override;
-	bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const override;
+	bool useOn(ItemStack*, Player*, const TilePos& pos, Facing::Name face) const override;
 
 public:
 	int m_tile;

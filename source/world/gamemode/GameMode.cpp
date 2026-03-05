@@ -103,7 +103,7 @@ float GameMode::getEntityReachDistance() const
 
 LocalPlayer* GameMode::createPlayer(Level* pLevel)
 {
-	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.m_pDimension->getId());
+	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.getDimension(DIMENSION_OVERWORLD)->getId());
 }
 
 void GameMode::initPlayer(Player* pPlayer)
@@ -144,12 +144,13 @@ void GameMode::handleCloseInventory(int a, Player* player)
 	}
 }
 
-bool GameMode::useItem(Player* player, Level* level, ItemStack& item)
+bool GameMode::useItem(Player* player, ItemStack& item)
 {
+	Level& level = player->getLevel();
 	int oldCount = item.m_count;
-	ItemStack* result = item.use(level, player);
+	ItemStack* result = item.use(player);
 
-	if (level->m_bIsClientSide)
+	if (level.m_bIsClientSide)
 	{
 		_level.m_pRakNetInstance->send(new UseItemPacket(TilePos::ZERO, 255, player->m_EntityID, item));
 	}
@@ -160,10 +161,11 @@ bool GameMode::useItem(Player* player, Level* level, ItemStack& item)
 	return true;
 }
 
-bool GameMode::useItemOn(Player* player, Level* level, ItemStack& item, const TilePos& pos, Facing::Name face)
+bool GameMode::useItemOn(Player* player, ItemStack& item, const TilePos& pos, Facing::Name face)
 {
+	Level& level = player->getLevel();
 	// Sending this packet regardless is intentional. PE does this, Java does this.
-	if (level->m_bIsClientSide)
+	if (level.m_bIsClientSide)
 	{
 		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, item));
 	}
@@ -176,13 +178,13 @@ bool GameMode::useItemOn(Player* player, Level* level, ItemStack& item, const Ti
 
 	bool success = false;
 
-	if (tile > 0 && Tile::tiles[tile]->use(&source, pos, player))
+	if (tile > 0 && Tile::tiles[tile]->use(pos, player))
 	{
 		success = true;
 	}
 	else if (!item.isEmpty())
 	{
-		success = item.useOn(player, level, pos, face);
+		success = item.useOn(player, pos, face);
 	}
 
 	return success;

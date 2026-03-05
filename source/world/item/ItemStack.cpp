@@ -368,9 +368,9 @@ std::string ItemStack::toString() const
 	return ss.str();
 }
 
-ItemStack* ItemStack::use(Level* level, Mob* user)
+ItemStack* ItemStack::use(Mob* user)
 {
-	return getItem()->use(this, level, user);
+	return getItem()->use(this, user);
 }
 
 void ItemStack::releaseUsing(Level& level, Mob& user, int durationLeft)
@@ -378,9 +378,9 @@ void ItemStack::releaseUsing(Level& level, Mob& user, int durationLeft)
 	return getItem()->releaseUsing(*this, level, user, durationLeft);
 }
 
-bool ItemStack::useOn(Player* player, Level* level, const TilePos& pos, Facing::Name face)
+bool ItemStack::useOn(Player* player, const TilePos& pos, Facing::Name face)
 {
-	return getItem()->useOn(this, player, level, pos, face);
+	return getItem()->useOn(this, player, pos, face);
 }
 
 void ItemStack::onCraftedBy(Player* player, Level* level)

@@ -1159,7 +1159,7 @@ void Tile::wasExploded(TileSource* source, const TilePos& pos)
 
 }
 
-bool Tile::use(TileSource* source, const TilePos& pos, Player* player)
+bool Tile::use(const TilePos& pos, Player* player)
 {
 	return false;
 }

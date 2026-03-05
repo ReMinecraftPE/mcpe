@@ -6,7 +6,7 @@ FoodItem::FoodItem(int id, int nutrition) : Item(id), m_nutrition(nutrition)
 	m_maxStackSize = 1;
 }
 
-ItemStack* FoodItem::use(ItemStack* inst, Level* level, Mob* mob) const
+ItemStack* FoodItem::use(ItemStack* inst, Mob* mob) const
 {
     if (mob->m_health < mob->getMaxHealth())
     {

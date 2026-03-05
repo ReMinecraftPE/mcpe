@@ -155,7 +155,7 @@ public:
 	void getNearestEntityOfType(Entity*, const Vec3&, float, EntityType); // unk type
 	const std::vector<Entity*>& getEntities(Entity*, const AABB&); // unk type
 	void isUnobstructedByEntities(const AABB&, Entity*); // unk type
-	bool mayPlace(TileID, const TilePos&, int8_t, Mob*, bool, Entity*);
+	bool mayPlace(TileID tileId, const TilePos& pos, Facing::Name face, Entity* placer, bool ignoreEntities = false, Entity* ignoreEntity = nullptr) { throw std::bad_cast(); } // @TODO: implement this
 
 protected:
 	void _neighborChanged(const TilePos&, const TilePos&, TileID);

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <cstring>
+/*#include <cstring>
 #include "ChunkSource.hpp"
 
 class Level;
@@ -36,4 +36,4 @@ public:
 	LevelChunk* m_pEmptyChunk;
 	LevelChunk* m_pLastChunk;
 	ChunkPos m_lastChunkPos;
-};
+};*/

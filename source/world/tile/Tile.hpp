@@ -97,7 +97,7 @@ public: // virtual functions
 	virtual HitResult clip(TileSource*, const TilePos& pos, Vec3, Vec3);
 	virtual void wasExploded(TileSource*, const TilePos& pos);
 	virtual RenderLayer getRenderLayer(TileSource*, const TilePos&) const;
-	virtual bool use(TileSource*, const TilePos& pos, Player*);
+	virtual bool use(const TilePos& pos, Player*);
 	virtual void stepOn(TileSource*, const TilePos& pos, Entity*);
 	virtual void setPlacedOnFace(TileSource*, const TilePos& pos, Facing::Name face);
 	virtual void setPlacedBy(TileSource*, const TilePos& pos, Mob*);

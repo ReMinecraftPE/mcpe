@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 #include "compat/LegacyCPP_Compat.hpp"
-#include "common/stl/unique_ptr.hpp"
 
 class LevelChunk;
 

@@ -49,7 +49,7 @@ void TntTile::wasExploded(TileSource* source, const TilePos& pos)
 
 	PrimedTnt* tnt = new PrimedTnt(*source, Vec3(pos) + 0.5f);
 	tnt->m_fuseTimer = level.m_random.nextInt(tnt->m_fuseTimer / 4) + tnt->m_fuseTimer / 8;
-	level.addEntity(std::make_unique<PrimedTnt>(tnt));
+	level.addEntity(tnt);
 }
 
 void TntTile::neighborChanged(TileSource* source, const TilePos& pos, TileID tile)

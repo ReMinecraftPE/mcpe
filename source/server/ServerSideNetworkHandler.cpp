@@ -95,7 +95,7 @@ void ServerSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 
 		pPlayer->m_bForceRemove = true;
 		// remove it from our world
-		m_pLevel->removeEntity(pPlayer);
+		m_pLevel->removeEntity((Entity*&)pPlayer);
 	}
 	else if ((pPlayer = getPendingPlayerByGUID(guid)))
 	{
@@ -145,7 +145,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	}
 #endif
 
-	ServerPlayer* pPlayer = new ServerPlayer(m_pLevel, m_pLevel->getLevelData()->getGameType());
+	ServerPlayer* pPlayer = new ServerPlayer(*m_pLevel, m_pLevel->getLevelData()->getGameType());
 	pPlayer->m_guid = guid;
 	pPlayer->m_name = std::string(packet->m_userName.C_String());
 
@@ -215,15 +215,20 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ReadyPacke
 
 #if NETWORK_PROTOCOL_VERSION >= 3
 	// send the connecting player info about all entities in the world
-	for (size_t i = 0; i < m_pLevel->m_entities.size(); i++)
+	for (Level::DimensionVector::iterator it = m_pLevel->m_dimensions.begin(); it != m_pLevel->m_dimensions.end(); it++)
 	{
-		Entity* entity = m_pLevel->m_entities[i];
-		if (canReplicateEntity(entity))
+		Dimension& dimension = **it;
+		const Dimension::EntityIdMap_t& entityIdMap = dimension.getEntityIdMap();
+		for (Dimension::EntityIdMap_t::const_iterator it = entityIdMap.begin(); it != entityIdMap.end(); it++)
 		{
-			AddMobPacket packet(*((Mob*)entity));
-			bs.Reset();
-			packet.write(bs);
-			m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+			const Entity* entity = it->second;
+			if (canReplicateEntity(entity))
+			{
+				AddMobPacket packet(*((Mob*)entity));
+				bs.Reset();
+				packet.write(bs);
+				m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+			}
 		}
 	}
 #endif
@@ -317,14 +322,16 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 	Facing::Name face = (Facing::Name)packet->m_face;
 	TileData data = packet->m_data;
 
-	if (!m_pLevel->mayPlace(tileId, pos, true))
+	TileSource& tileSource = pMob->getTileSource();
+
+	if (!tileSource.mayPlace(tileId, pos, face, pMob))
 		return;
 
-	if (m_pLevel->setTileAndData(pos, tileId, data))
+	if (tileSource.setTile(pos, tileId, data))
 	{
 		Tile* pTile = Tile::tiles[tileId];
-		pTile->setPlacedOnFace(m_pLevel, pos, face);
-		pTile->setPlacedBy(m_pLevel, pos, pMob);
+		pTile->setPlacedOnFace(&tileSource, pos, face);
+		pTile->setPlacedBy(&tileSource, pos, pMob);
 
 		const Tile::SoundType* pSound = pTile->m_pSound;
 		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
@@ -445,18 +452,20 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPac
 	if (!pEntity->isPlayer())
 		return;
 
+	TileSource& tileSource = pPlayer->getTileSource();
+
 	bool onTile = packet->m_tileFace != 255;
 
 	if (onTile)
 	{
-		Tile* pTile = Tile::tiles[m_pLevel->getTile(packet->m_tilePos)];
+		Tile* pTile = Tile::tiles[tileSource.getTile(packet->m_tilePos)];
 		if (pTile)
 		{
 			if (pTile == Tile::invisible_bedrock)
 				return;
 
 			// Interface with tile instead of using item
-			if (pTile->use(m_pLevel, packet->m_tilePos, pPlayer))
+			if (pTile->use(packet->m_tilePos, pPlayer))
 			{
 				pPlayer->swing();
 				return;
@@ -469,11 +478,11 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPac
 
 	if (onTile)
 	{
-		packet->m_item.useOn(pPlayer, m_pLevel, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
+		packet->m_item.useOn(pPlayer, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
 	}
 	else
 	{
-		packet->m_item.use(m_pLevel, pPlayer);
+		packet->m_item.use(pPlayer);
 	}
 
 	pPlayer->swing();
@@ -512,7 +521,10 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 		return;
 	}
 
-	LevelChunk* pChunk = m_pLevel->getChunk(packet->m_chunkPos);
+	Dimension& overworld = *m_pLevel->getDimension(DIMENSION_OVERWORLD);
+	TileSource& tileSource = *overworld.getTileSource();
+
+	LevelChunk* pChunk = tileSource.getChunk(packet->m_chunkPos);
 	if (!pChunk)
 	{
 		LOG_E("No chunk at %d, %d", packet->m_chunkPos.x, packet->m_chunkPos.z);
@@ -520,7 +532,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 	}
 
 	// @NOTE: this allows the client to request empty chunks. Is that okay?
-	ChunkDataPacket cdp(pChunk->m_chunkPos, pChunk);
+	ChunkDataPacket cdp(pChunk->getPos(), pChunk);
 
 	RakNet::BitStream bs;
 	cdp.write(bs);
@@ -668,10 +680,12 @@ void ServerSideNetworkHandler::tileBrightnessChanged(const TilePos& pos)
 
 void ServerSideNetworkHandler::tileChanged(const TilePos& pos)
 {
+	TileSource& tileSource = *m_pLevel->getDimension(DIMENSION_OVERWORLD)->getTileSource();
+
 	UpdateBlockPacket ubp;
 	ubp.m_pos = pos;
-	ubp.m_tileTypeId = m_pLevel->getTile(pos);
-	ubp.m_data = m_pLevel->getData(pos);
+	ubp.m_tileTypeId = tileSource.getTile(pos);
+	ubp.m_data = tileSource.getData(pos);
 
 	RakNet::BitStream bs;
 	ubp.write(bs);
@@ -968,7 +982,7 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
     
 	if (!_checkPermissions(player)) return;
     
-	Vec3 pos = player->m_pPlayer->getPos(1.0f);
+	Vec3 pos = player->m_pPlayer->getInterpolatedPosition(1.0f);
     
 	std::stringstream ss;
 	if (parms[0] != "~")
@@ -993,7 +1007,7 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 	ss.clear();
     
 	player->m_pPlayer->setPos(pos);
-	pos = player->m_pPlayer->getPos(1.0f);
+	pos = player->m_pPlayer->getInterpolatedPosition(1.0f);
 
 	ss << "Teleported to " << pos.x << ", " << pos.y << ", " << pos.z;
     
@@ -1023,7 +1037,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 	const EntityTypeDescriptor* descriptor = EntityTypeDescriptor::GetByEntityTypeName(entityName);
 	if (descriptor != nullptr)
 	{
-		Vec3 pos = player->m_pPlayer->getPos(1.0f);
+		Vec3 pos = player->m_pPlayer->getInterpolatedPosition(1.0f);
 		pos.y -= player->m_pPlayer->m_heightOffset + player->m_pPlayer->m_ySlideOffset;
 
 		if (parmsSize >= 4)
@@ -1063,7 +1077,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 
 			for (int i = 0; i++ < amount;)
 			{
-				Mob* mob = MobFactory::CreateMob(descriptor->getEntityType().getId(), m_pLevel);
+				Mob* mob = MobFactory::CreateMob(descriptor->getEntityType().getId(), player->m_pPlayer->getTileSource());
 				if (mob == nullptr)
 				{
 					ss << "Unable to summon object";

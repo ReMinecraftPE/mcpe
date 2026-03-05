@@ -88,7 +88,7 @@ RandomLevelSource::RandomLevelSource(Level* level, Dimension* dimension, uint32_
 
 LevelChunk* RandomLevelSource::requestChunk(const ChunkPos& pos, LoadMode loadMode)
 {
-	if (loadMode == Deferred)
+	if (loadMode == LOAD_DEFERRED)
 		return new LevelChunk(*m_level, *m_dimension, pos, false);
 
 	return nullptr;

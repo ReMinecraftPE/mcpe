@@ -85,9 +85,9 @@ public:
 	void setDescriptionId(const std::string&);
 	void snap(Player*);
 	std::string toString() const;
-	ItemStack* use(Level*, Mob*);
+	ItemStack* use(Mob*);
 	void releaseUsing(Level&, Mob&, int durationLeft);
-	bool useOn(Player*, Level*, const TilePos& pos, Facing::Name face);
+	bool useOn(Player*, const TilePos& pos, Facing::Name face);
 	void onCraftedBy(Player*, Level*);
 	void onCraftedBy(Player*, Level*, int amount);
 

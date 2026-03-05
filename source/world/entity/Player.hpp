@@ -133,7 +133,7 @@ public:
 	float m_bob;
 	int m_dmgSpill;
 	std::string m_name;
-	int m_dimension;
+	DimensionId m_dimension;
 	RakNet::RakNetGUID m_guid;
 	bool m_bFlying;
 	TilePos m_respawnPos;

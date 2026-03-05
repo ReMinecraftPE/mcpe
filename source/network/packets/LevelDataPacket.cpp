@@ -40,7 +40,7 @@ void LevelDataPacket::write(RakNet::BitStream& bs)
 			bs2.Write(chunkSepMagic);
 
 			RakNet::BitStream bs3;
-			LevelChunk* pChunk = m_pLevel->getChunk(chunkPos);
+			LevelChunk* pChunk = m_pLevel->getDimension(DIMENSION_OVERWORLD)->getChunkSource()->getOrLoadChunk(chunkPos);
 			ChunkDataPacket cdp(chunkPos, pChunk);
 			cdp.write(bs3);
 

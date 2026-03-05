@@ -127,7 +127,7 @@ void MobSpawner::tick(TileSource& source, bool allowHostile, bool allowFriendly)
                     if (entity->canSpawn()) 
                     {
                         ++spawned;
-                        level.addEntity(std::make_unique<Entity>(entity));
+                        level.addEntity(entity);
                         FinalizeMobSettings(entity, source, pPos);
                         if (spawned >= entity->getMaxSpawnClusterSize())
                         {
@@ -158,7 +158,7 @@ bool MobSpawner::AddMob(TileSource& source, Mob *mob, const Vec3& pos, const Vec
         return false;
 
     mob->moveTo(pos, rot);
-    source.getLevel().addEntity(std::make_unique<Entity>(mob));
+    source.getLevel().addEntity(mob);
     FinalizeMobSettings(mob, source, pos);
 
     return true;

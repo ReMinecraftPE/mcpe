@@ -105,7 +105,7 @@ void RedStoneOreTile::attack(TileSource* source, const TilePos& pos, Player* pla
 	interact(source, pos);
 }
 
-bool RedStoneOreTile::use(TileSource* source, const TilePos& pos, Player* player)
+bool RedStoneOreTile::use(const TilePos& pos, Player* player)
 {
 	interact(source, pos);
 	return Tile::use(source, pos, player);

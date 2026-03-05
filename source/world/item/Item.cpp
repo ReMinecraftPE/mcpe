@@ -598,12 +598,7 @@ int Item::getIcon(const ItemStack* item) const
 	return m_icon;
 }
 
-bool Item::useOn(ItemStack* instance, Level* level, const TilePos& pos, Facing::Name face) const
-{
-	return false;
-}
-
-bool Item::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool Item::useOn(ItemStack* instance, Player* player, const TilePos& pos, Facing::Name face) const
 {
 	return false;
 }
@@ -613,7 +608,7 @@ float Item::getDestroySpeed(ItemStack* instance, const Tile* tile) const
 	return 1.0f;
 }
 
-ItemStack* Item::use(ItemStack* instance, Level* level, Mob* user) const
+ItemStack* Item::use(ItemStack* instance, Mob* user) const
 {
 	return instance;
 }

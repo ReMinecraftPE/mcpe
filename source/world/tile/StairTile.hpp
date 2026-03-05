@@ -41,7 +41,7 @@ public:
 	float getExplosionResistance(Entity*) const override;
 	void wasExploded(TileSource*, const TilePos& pos) override;
 	RenderLayer getRenderLayer(TileSource*, const TilePos&) const override;
-	bool use(TileSource*, const TilePos& pos, Player*) override;
+	bool use(const TilePos& pos, Player*) override;
 	void stepOn(TileSource*, const TilePos& pos, Entity*) override;
 	void setPlacedBy(TileSource*, const TilePos& pos, Mob*) override;
 	void prepareRender(TileSource*, const TilePos& pos) override;

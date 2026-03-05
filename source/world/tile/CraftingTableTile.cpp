@@ -7,13 +7,13 @@ CraftingTableTile::CraftingTableTile(TileID id) : Tile(id, TEXTURE_WORKBENCH_SID
 {
 }
 
-bool CraftingTableTile::use(TileSource* source, const TilePos& pos, Player* player)
+bool CraftingTableTile::use(const TilePos& pos, Player* player)
 {
 	if (player->isSneaking() && !player->getSelectedItem().isEmpty())
 	{
 		return false;
 	}
-	if (source->getLevelConst().m_bIsClientSide)
+	if (player->getLevel().m_bIsClientSide)
 	{
 		return true;
 	}

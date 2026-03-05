@@ -57,13 +57,14 @@ public:
 	void entityAdded(Entity* pEnt);
 	void entityRemoved(Entity* pEnt);
 	void levelEvent(const LevelEvent& event);
-	void lightColumnChanged(int x, int z, int y1, int y2);
 	bool checkAndHandleWater(const AABB&, const Material* pMtl, Entity* pEnt);
 	const TilePos& getSharedSpawnPos() const;
 	void loadPlayer(Player&);
-	virtual bool addEntity(std::unique_ptr<Entity> entity);
+	bool addEntity(std::unique_ptr<Entity> entity);
+	virtual bool addEntity(Entity* entity);
 	virtual void removeEntity(Entity& entity);
-	virtual void removeEntity(std::unique_ptr<Entity>&& entity);
+	void removeEntity(std::unique_ptr<Entity>&& entity);
+	virtual void removeEntity(Entity*& entity);
 	void removeAllPendingEntityRemovals();
 	void saveLevelData();
 	void savePlayerData();

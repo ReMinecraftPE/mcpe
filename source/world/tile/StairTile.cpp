@@ -178,7 +178,7 @@ Tile::RenderLayer StairTile::getRenderLayer(TileSource* source, const TilePos& p
 	return m_pParent->getRenderLayer(source, pos);
 }
 
-bool StairTile::use(TileSource* source, const TilePos& pos, Player* player)
+bool StairTile::use(const TilePos& pos, Player* player)
 {
 	return m_pParent->use(source, pos, player);
 }

@@ -30,7 +30,7 @@ void LocalPlayer::_init()
 	m_lastSelectedSlot = m_pInventory->getSelectedItemId();
 }
 
-LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int dimensionId) : Player(pLevel, playerGameType)
+LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, DimensionId dimensionId) : Player(pLevel, playerGameType)
 {
 	field_BEC = 0;
 	field_BF0 = Vec3::ZERO;

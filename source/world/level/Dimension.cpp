@@ -8,6 +8,7 @@
 
 #include "Dimension.hpp"
 #include "GameMods.hpp"
+#include "world/entity/MobSpawner.hpp"
 #include "world/level/levelgen/biome/BiomeSource.hpp"
 #include "world/level/levelgen/chunk/ChunkSource.hpp"
 #include "world/level/TileSource.hpp"
@@ -60,7 +61,7 @@ void Dimension::init()
 	if (!m_level.m_bIsClientSide)
 	{
 		ChunkSource* generator = _getGenerator(generatorType);
-		m_chunkSource = new MainChunkSource(std::make_unique<ChunkSource>(generator));
+		m_chunkSource = new MainChunkSource(std::unique_ptr<ChunkSource>(generator));
 	}
 	else
 	{
@@ -69,12 +70,39 @@ void Dimension::init()
 
 	if (generatorType == GENERATOR_OVERWORLD_LIMITED)
 	{
-		m_chunkSource = new WorldLimitChunkSource(std::make_unique<ChunkSource>(m_chunkSource), m_level.getLevelData()->getLimitedWorldOrigin());
+		m_chunkSource = new WorldLimitChunkSource(std::unique_ptr<ChunkSource>(m_chunkSource), m_level.getLevelData()->getLimitedWorldOrigin());
 	}
 
 	delete m_tileSource;
 	m_tileSource = new TileSource(m_level, *this, *m_chunkSource, true, false);
 	updateLightRamp();
+}
+
+void Dimension::tick()
+{
+	m_level.m_pMobSpawner->tick(*getTileSource(), m_level.m_difficulty > 0, true);
+	//getChunkSource()->tick();
+
+	for (EntityIdMap_t::iterator it = m_entityIdMap.begin(); it != m_entityIdMap.end(); it++)
+	{
+		Entity* pEnt = it->second;
+
+		if (!pEnt->m_bRemoved)
+		{
+			pEnt->m_posPrev = pEnt->m_pos;
+			pEnt->m_oRot = pEnt->m_rot;
+
+			if (pEnt->m_bInAChunk)
+				pEnt->tick();
+		}
+		else if (!pEnt->isPlayer() || pEnt->m_bForceRemove)
+		{
+			m_entityIdMap.erase(it);
+
+			m_level.entityRemoved(pEnt);
+			delete pEnt;
+		}
+	}
 }
 
 Dimension* Dimension::createNew(DimensionId type, Level& level)
@@ -90,8 +118,8 @@ Dimension* Dimension::createNew(DimensionId type, Level& level)
 
 bool Dimension::isDay() const
 {
-	// TODO: find this var
-	return m_skyDarken <= 3;
+	// @TODO: find this var
+	return true; //m_skyDarken <= 3;
 }
 
 Color Dimension::getFogColor(float a, float b) const

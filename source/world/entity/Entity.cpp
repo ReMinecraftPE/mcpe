@@ -801,14 +801,12 @@ void Entity::animateHurt()
 
 ItemEntity* Entity::spawnAtLocation(const ItemStack& itemStack, float y)
 {
-	std::unique_ptr<ItemEntity> itemEntity(new ItemEntity(*m_tileSource, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemStack));
-	ItemEntity* tempEntity = itemEntity.get();
+	ItemEntity* itemEntity = new ItemEntity(getTileSource(), Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemStack);
 	// @TODO: not sure what this does, or is for
 	itemEntity->m_oPos.x = 10;
+	m_pLevel->addEntity(itemEntity);
 
-	m_pLevel->addEntity(std::move(itemEntity));
-	
-	return tempEntity;
+	return itemEntity;
 }
 
 ItemEntity* Entity::spawnAtLocation(int itemID, int amount)
