@@ -12,7 +12,6 @@
 #include "world/phys/Vec3.hpp"
 #include "world/phys/Vec2.hpp"
 #include "world/phys/AABB.hpp"
-#include "world/level/Dimension.hpp"
 #include "world/level/Material.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/tile/Tile.hpp"
@@ -24,6 +23,8 @@ class Level;
 class Player;
 class ItemStack;
 class ItemEntity;
+class TileSource;
+enum DimensionId;
 
 struct EntityPos
 {
@@ -116,7 +117,8 @@ private:
 	void _init();
 public:
 	Entity() { _init(); }
-	Entity(Level*);
+	Entity(Level& level);
+	Entity(TileSource& tileSource);
 	virtual ~Entity();
 
 protected:
@@ -153,8 +155,8 @@ public:
 	virtual float getShadowHeightOffs() const { return m_bbHeight / 2.0f; }
 	virtual float getBrightness(float f) const;
 	virtual DimensionId getDimensionId() const { return m_dimensionId; }
-	virtual Vec3 getPos(float f) const;
-	virtual Vec2 getRot(float f) const;
+	virtual Vec3 getInterpolatedPosition(float f) const;
+	virtual Vec2 getInterpolatedRotation(float f) const;
 	virtual Vec3 getViewVector(float f) const;
 	virtual AuxValue getAuxValue() const;
 	virtual void setAuxValue(AuxValue value);
@@ -232,6 +234,16 @@ public:
 			(m_pos.z - pos.z) * (m_pos.z - pos.z);
 	}
 
+	Level& getLevel()
+	{
+		return *m_pLevel;
+	}
+
+	TileSource& getTileSource()
+	{
+		return *m_tileSource;
+	}
+
 protected:
 	SynchedEntityData m_entityData;
 	bool m_bMakeStepSound;
@@ -248,6 +260,7 @@ public:
 	DimensionId m_dimensionId;
 	bool m_bBlocksBuilding;
 	Level* m_pLevel;
+	TileSource* m_tileSource;
 	Vec3 m_oPos; // "o" in Java or "xo" "yo" "zo"
 	Vec3 m_vel;
 	Vec2 m_rot;

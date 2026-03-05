@@ -12,7 +12,7 @@
 
 #define C_TIMER 80
 
-TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(level)
+TripodCamera::TripodCamera(TileSource& source, Player* player, const Vec3& pos) : Mob(source)
 {
 	m_countdown = C_TIMER;
 	m_bActivated = false;

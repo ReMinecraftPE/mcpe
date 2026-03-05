@@ -31,6 +31,7 @@ bool RocketItem::useOn(ItemStack* inst, Player* player, Level* level, const Tile
 		case Facing::SOUTH: tp.z++; break;
 		case Facing::WEST: tp.x--; break;
 		case Facing::EAST: tp.x++; break;
+		default: assert(false); return false; break;
 	}
 
 	level->addEntity(new Rocket(level, tp + 0.5f));

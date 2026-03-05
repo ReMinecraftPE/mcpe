@@ -1,5 +1,5 @@
 #include "Feature.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 VegetationFeature::VegetationFeature(TileID id, TileData data, int count)
 {
@@ -8,24 +8,23 @@ VegetationFeature::VegetationFeature(TileID id, TileData data, int count)
 	m_count = count;
 }
 
-bool VegetationFeature::place(Level* level, Random* random, const TilePos& pos)
+bool VegetationFeature::place(TileSource* source, Random* random, const TilePos& pos)
 {
 	TilePos bPos(pos);
 	TilePos tp;
 	while (true)
 	{
-		int var11 = level->getTile(bPos);
-		if ((var11 != 0 && var11 != Tile::leaves->m_ID) || bPos.y <= 0)
+		TileID currentTile = source->getTile(bPos);
+		if ((currentTile != TILE_AIR && currentTile != Tile::leaves->m_ID) || bPos.y <= 0)
 		{
 			for (int var7 = 0; var7 < m_count; ++var7)
 			{
 				tp.x = bPos.x + random->nextInt(8) - random->nextInt(8);
 				tp.y = bPos.y + random->nextInt(4) - random->nextInt(4);
 				tp.z = bPos.z + random->nextInt(8) - random->nextInt(8);
-				if (level->isEmptyTile(tp) && Tile::tiles[m_ID]->canSurvive(level, tp))
+				if (source->isEmptyTile(tp) && Tile::tiles[m_ID]->canSurvive(source, tp))
 				{
-					if (m_data) level->setTileAndDataNoUpdate(tp, m_ID, m_data);
-					else level->setTileNoUpdate(tp, m_ID);
+					source->setTileAndDataNoUpdate(tp, FullTile(m_ID, m_data));
 				}
 			}
 

@@ -1,17 +1,18 @@
 #include "world/entity/MobSpawner.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/level/TileSource.hpp"
 
 #define MOB_SPAWNER_HOSTILE_BRIGHTNESS   7
 #define MOB_SPAWNER_FRIENDLY_BRIGHTNESS  9
 
-void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly) 
+void MobSpawner::tick(TileSource& source, bool allowHostile, bool allowFriendly) 
 {
     if (!allowHostile && !allowFriendly)
         return;
 
     chunksToPoll.clear();
 
-    for (std::vector<Player*>::const_iterator it = level.m_players.begin(); it != level.m_players.end(); ++it)
+    for (std::vector<Player*>::const_iterator it = source.getLevelConst().m_players.begin(); it != source.getLevelConst().m_players.end(); ++it)
     {
         const Player* player = *it;
         int cx = Mth::floor(player->m_pos.x / 16.0f);
@@ -26,6 +27,8 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
         }
     }
 
+    Level& level = source.getLevel();
+
     for (unsigned int i = 0; i < MobCategory::allCount; i++)
     {
         const MobCategory& category = *MobCategory::all[i]; 
@@ -33,15 +36,15 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
         bool isFriendly = category.isFriendly();
 
         // good mobs don't spawn after dark, otherwise they will crowd around torches like beta
-        if (!level.isDay() && isFriendly)
+        if (!source.getDimensionConst().isDay() && isFriendly)
             continue;
 
         if ((isFriendly && !allowFriendly) || (!isFriendly && !allowHostile))
             continue;
 
-        // maximum of this mob type
-        if (level.getEntityCount(baseType) > static_cast<unsigned int>(category.getMaxInstancesPerChunk() * static_cast<int>(chunksToPoll.size()) / 256))
-            continue;
+        // TODO
+        //if (level.getEntityCount(baseType) > static_cast<unsigned int>(category.getMaxInstancesPerChunk() * static_cast<int>(chunksToPoll.size()) / 256))
+        //    continue;
 
         for (std::set<ChunkPos>::iterator it = chunksToPoll.begin(); it != chunksToPoll.end(); ++it) 
         {
@@ -71,9 +74,9 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                 }
             }
 
-            TilePos tpos = getRandomPosWithin(level, pos.x * 16, pos.z * 16);
+            TilePos tpos = getRandomPosWithin(source, pos.x * 16, pos.z * 16);
 
-            if (level.isSolidTile(tpos) || level.getMaterial(tpos) != category.getSpawnPositionMaterial()) 
+            if (source.isSolidBlockingTile(tpos) || source.getMaterial(tpos) != category.getSpawnPositionMaterial()) 
                 continue;
 
             int spawned = 0;
@@ -90,10 +93,10 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                     tp.y += level.m_random.nextInt(1) - level.m_random.nextInt(1);
                     tp.z += level.m_random.nextInt(6) - level.m_random.nextInt(6);
 
-                    if (!IsSpawnPositionOk(category, level, tp)) 
+                    if (!IsSpawnPositionOk(category, source, tp)) 
                         continue;
 
-                    int lightLevel = level.getRawBrightness(tp);
+                    Brightness_t lightLevel = source.getRawBrightness(tp);
                     if (isFriendly)
                     {
                         if (lightLevel < MOB_SPAWNER_FRIENDLY_BRIGHTNESS)
@@ -115,7 +118,7 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                     if (dPos.lengthSqr() < 576.0f) 
                         continue;
                     
-                    Mob* entity = MobFactory::CreateMob(entityID, &level);
+                    Mob* entity = MobFactory::CreateMob(entityID, source);
                     if (!entity) 
                         break;
 
@@ -124,8 +127,8 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                     if (entity->canSpawn()) 
                     {
                         ++spawned;
-                        level.addEntity(entity);
-                        FinalizeMobSettings(entity, level, pPos);
+                        level.addEntity(std::make_unique<Entity>(entity));
+                        FinalizeMobSettings(entity, source, pPos);
                         if (spawned >= entity->getMaxSpawnClusterSize())
                         {
                             spawned = -1;
@@ -138,15 +141,15 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
     }
 }
 
-TilePos MobSpawner::getRandomPosWithin(Level& level, int chunkX, int chunkZ) 
+TilePos MobSpawner::getRandomPosWithin(TileSource& source, int chunkX, int chunkZ)
 {
-    int px = level.m_random.nextInt(16) + chunkX;
-    int py = level.m_random.nextInt(128);
-    int pz = level.m_random.nextInt(16) + chunkZ;
+    int px = source.getLevel().m_random.nextInt(16) + chunkX;
+    int py = source.getLevel().m_random.nextInt(128);
+    int pz = source.getLevel().m_random.nextInt(16) + chunkZ;
     return TilePos(px, py, pz);
 }
 
-bool MobSpawner::AddMob(Level& level, Mob *mob, const Vec3& pos, const Vec2& rot) 
+bool MobSpawner::AddMob(TileSource& source, Mob *mob, const Vec3& pos, const Vec2& rot)
 {
     if (!mob)
         return false;
@@ -155,33 +158,33 @@ bool MobSpawner::AddMob(Level& level, Mob *mob, const Vec3& pos, const Vec2& rot
         return false;
 
     mob->moveTo(pos, rot);
-    level.addEntity(mob);
-    FinalizeMobSettings(mob, level, pos);
+    source.getLevel().addEntity(std::make_unique<Entity>(mob));
+    FinalizeMobSettings(mob, source, pos);
 
     return true;
 }
 
-bool MobSpawner::IsSpawnPositionOk(const MobCategory& category, Level& level, const TilePos& pos) 
+bool MobSpawner::IsSpawnPositionOk(const MobCategory& category, TileSource& source, const TilePos& pos) 
 {
     if (category.getSpawnPositionMaterial() == Material::water) 
-        return level.getMaterial(pos)->isLiquid() && !level.isSolidTile(pos.above());
+        return source.getMaterial(pos)->isLiquid() && !source.isSolidBlockingTile(pos.above());
 
-    return level.isSolidTile(pos.below()) && !level.isSolidTile(pos) && !level.getMaterial(pos)->isLiquid() && !level.isSolidTile(pos.above());
+    return source.isSolidBlockingTile(pos.below()) && !source.isSolidBlockingTile(pos) && !source.getMaterial(pos)->isLiquid() && !source.isSolidBlockingTile(pos.above());
 }
 
-void MobSpawner::FinalizeMobSettings(Mob *mob, Level& level, const Vec3& pos) 
+void MobSpawner::FinalizeMobSettings(Mob *mob, TileSource& source, const Vec3& pos)
 {
     if (!mob)
         return;
 
     //mob->finalizeMobSpawn();
-    MakeBabyMob(mob, level);
+    MakeBabyMob(mob, source);
 }
 
 
-void MobSpawner::MakeBabyMob(Mob *mob, Level& level) 
+void MobSpawner::MakeBabyMob(Mob *mob, TileSource& source)
 {
-    level.m_random.setSeed(0x5deea8f);
+    source.getLevel().m_random.setSeed(0x5deea8f);
 
     if (mob->isBaby())
         return;
@@ -190,7 +193,7 @@ void MobSpawner::MakeBabyMob(Mob *mob, Level& level)
 }
 
 
-void MobSpawner::PostProcessSpawnMobs(Level& level, Biome& biome, const Vec3& pos) 
+void MobSpawner::PostProcessSpawnMobs(TileSource& source, Biome& biome, const Vec3& pos)
 {
   // empty (0.7.1)
 }

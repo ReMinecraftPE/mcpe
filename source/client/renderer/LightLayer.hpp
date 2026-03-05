@@ -7,14 +7,38 @@
  ********************************************************************/
 
 #pragma once
+#include "world/level/Brightness.hpp"
 
-class LightLayer
+struct LightLayer
 {
 public:
-	LightLayer(int x);
+	static LightLayer Sky;
+	static LightLayer Block;
+
+private:
+	Brightness_t m_surrounding;
+
 public:
-	static LightLayer Sky, Block;
+	LightLayer(Brightness_t surrounding)
+		: m_surrounding(surrounding)
+	{
+	}
+
 public:
-	int m_x;
+	bool operator==(const LightLayer& other) const
+	{
+		return this == &other;
+	}
+
+	bool operator!=(const LightLayer& other) const
+	{
+		return this != &other;
+	}
+
+public:
+	Brightness_t getSurrounding() const
+	{
+		return m_surrounding;
+	}
 };
 

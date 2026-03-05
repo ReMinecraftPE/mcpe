@@ -122,7 +122,7 @@ void EntityShaderManager::_setupShaderParameters(const Color& overlayColor, cons
 #endif
 }
 
-void EntityShaderManager::_setupShaderParameters(const LevelSource& source,
+void EntityShaderManager::_setupShaderParameters(const TileSource& source,
 	const TilePos& pos,
 	float a,
 	const Vec2& uvScale)

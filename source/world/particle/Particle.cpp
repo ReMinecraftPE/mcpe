@@ -26,7 +26,7 @@ void Particle::_init()
 	m_bMakeStepSound = false;
 }
 
-Particle::Particle(Level* level, const Vec3& pos, const Vec3& dir) : Entity(level)
+Particle::Particle(TileSource& source, const Vec3& pos, const Vec3& dir) : Entity(source)
 {
 	_init();
 

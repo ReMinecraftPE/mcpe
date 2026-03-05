@@ -10,7 +10,7 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
-Rocket::Rocket(Level* level, const Vec3& pos) : Entity(level)
+Rocket::Rocket(TileSource& source, const Vec3& pos) : Entity(source)
 {
 	m_lifetime = 80;
 	m_renderType = RENDER_ROCKET;

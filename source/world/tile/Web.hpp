@@ -8,10 +8,10 @@ public:
 	Web(TileID id, int texture);
 
 public:
-	AABB* getAABB(const Level*, const TilePos& pos) override;
+	AABB* getAABB(TileSource*, const TilePos& pos) override;
 	virtual eRenderShape getRenderShape() const override;
 	virtual bool isCubeShaped() const override;
 	virtual bool isSolidRender() const override;
-	void entityInside(Level*, const TilePos& pos, Entity*) const override;
+	void entityInside(TileSource*, const TilePos& pos, Entity*) const override;
 	int getResource(TileData data, Random* random) const override;
 };

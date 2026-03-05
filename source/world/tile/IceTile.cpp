@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "IceTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {
@@ -21,21 +21,21 @@ int IceTile::getResourceCount(Random* pRandom) const
 	return 0;
 }
 
-void IceTile::onRemove(Level* level, const TilePos& pos)
+void IceTile::onRemove(TileSource* source, const TilePos& pos)
 {
-	Material* pMtlBelow = level->getMaterial(pos.below());
+	Material* pMtlBelow = source->getMaterial(pos.below());
 	if (pMtlBelow->blocksMotion() || pMtlBelow->isLiquid())
 	{
-		level->setTile(pos, Tile::water->m_ID);
+		source->setTile(pos, Tile::water->m_ID);
 	}
 }
 
-void IceTile::tick(Level* level, const TilePos& pos, Random* random)
+void IceTile::tick(TileSource* source, const TilePos& pos, Random* random)
 {
-	if (level->getBrightness(LightLayer::Block, pos) <= 11 - Tile::lightBlock[m_ID])
+	if (source->getBrightness(LightLayer::Block, pos) <= 11 - Tile::lightBlock[m_ID])
 		return;
 
-	spawnResources(level, pos, level->getData(pos));
+	spawnResources(source, pos, source->getData(pos));
 
-	level->setTile(pos, Tile::calmWater->m_ID);
+	source->setTile(pos, Tile::calmWater->m_ID);
 }

@@ -7,9 +7,9 @@
  ********************************************************************/
 
 #include "Feature.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
-bool TreeFeature::place(Level* level, Random* random, const TilePos& pos)
+bool TreeFeature::place(TileSource* source, Random* random, const TilePos& pos)
 {
 	if (pos.y <= C_MIN_Y)
 		return false;
@@ -40,7 +40,7 @@ bool TreeFeature::place(Level* level, Random* random, const TilePos& pos)
 					break;
 				}
 
-				TileID tile = level->getTile(tp);
+				TileID tile = source->getTile(tp);
 
 				// other trees can overlap with this one, apparently
 				if (tile != TILE_AIR && tile != Tile::leaves->m_ID)
@@ -56,7 +56,7 @@ bool TreeFeature::place(Level* level, Random* random, const TilePos& pos)
 	if (!bCanPlace)
 		return false;
 
-	TileID tileBelow = level->getTile(pos.below());
+	TileID tileBelow = source->getTile(pos.below());
 
 	// If grass or dirt aren't below us, we can't possibly grow!
 	if (tileBelow != Tile::grass->m_ID && tileBelow != Tile::dirt->m_ID)
@@ -66,7 +66,7 @@ bool TreeFeature::place(Level* level, Random* random, const TilePos& pos)
 	if (pos.y >= C_MAX_Y - treeHeight)
 		return false;
 
-	level->setTileNoUpdate(pos.below(), Tile::dirt->m_ID);
+	source->setTileNoUpdate(pos.below(), Tile::dirt->m_ID);
 
 	int upperY = pos.y + treeHeight;
 	int lowerY = pos.y + treeHeight - 3;
@@ -87,9 +87,9 @@ bool TreeFeature::place(Level* level, Random* random, const TilePos& pos)
 
 			for (tp.z = pos.z - c1; tp.z <= pos.z + c1; tp.z++, c4++)
 			{
-                if ((abs(tp.x - pos.x) != c1 || abs(tp.z - pos.z) != c1 || (random->nextInt(2) != 0 && diff != 0)) && !Tile::solid[level->getTile(tp)])
+                if ((abs(tp.x - pos.x) != c1 || abs(tp.z - pos.z) != c1 || (random->nextInt(2) != 0 && diff != 0)) && !Tile::solid[source->getTile(tp)])
 				{
-					level->setTileNoUpdate(tp, Tile::leaves->m_ID);
+					source->setTileNoUpdate(tp, Tile::leaves->m_ID);
 				}
 			}
 		}
@@ -99,11 +99,11 @@ bool TreeFeature::place(Level* level, Random* random, const TilePos& pos)
 	{
 		TilePos t(pos);
 		t.y += y;
-		TileID tile = level->getTile(t);
+		TileID tile = source->getTile(t);
 		if (tile && tile != Tile::leaves->m_ID)
 			continue;
 
-		level->setTileNoUpdate(t, Tile::treeTrunk->m_ID);
+		source->setTileNoUpdate(t, Tile::treeTrunk->m_ID);
 	}
 
 	return true;

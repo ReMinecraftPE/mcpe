@@ -16,37 +16,37 @@ public:
 	StairTile(int ID, Tile* pParent);
 
 public:
-	void addAABBs(const Level*, const TilePos& pos, const AABB*, std::vector<AABB>&) override;
+	void addAABBs(TileSource*, const TilePos& pos, const AABB*, std::vector<AABB>&) override;
 	bool isSolidRender() const override;
 	bool isCubeShaped() const override;
 	eRenderShape getRenderShape() const override;
 
 	// Just overloads to forward to parent tile.
-	void addLights(Level*, const TilePos& pos) override;
-	void animateTick(Level*, const TilePos& pos, Random*) override;
-	void updateShape(const LevelSource*, const TilePos& pos) override;
-	float getBrightness(const LevelSource*, const TilePos& pos) const override;
+	void addLights(TileSource*, const TilePos& pos) override;
+	void animateTick(TileSource*, const TilePos& pos, Random*) override;
+	void updateShape(TileSource*, const TilePos& pos) override;
+	float getBrightness(TileSource*, const TilePos& pos) const override;
 	int getTexture(Facing::Name face) const override;
 	int getTexture(Facing::Name face, TileData data) const override;
-	int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
-	AABB getTileAABB(const Level*, const TilePos& pos) override;
+	int getTexture(TileSource*, const TilePos& pos, Facing::Name face) const override;
+	AABB getTileAABB(TileSource*, const TilePos& pos) override;
 	bool mayPick() const override;
 	bool mayPick(TileData data, bool) const override;
-	bool mayPlace(const Level*, const TilePos& pos) const override;
+	bool mayPlace(TileSource*, const TilePos& pos) const override;
 	int getTickDelay() const override;
-	void tick(Level*, const TilePos& pos, Random*) override;
-	void destroy(Level*, const TilePos& pos, TileData data) override;
-	void onPlace(Level*, const TilePos& pos) override;
-	void onRemove(Level*, const TilePos& pos) override;
+	void tick(TileSource*, const TilePos& pos, Random*) override;
+	void destroy(TileSource*, const TilePos& pos, TileData data) override;
+	void onPlace(TileSource*, const TilePos& pos) override;
+	void onRemove(TileSource*, const TilePos& pos) override;
 	float getExplosionResistance(Entity*) const override;
-	void wasExploded(Level*, const TilePos& pos) override;
-	RenderLayer getRenderLayer() const override;
-	bool use(Level*, const TilePos& pos, Player*) override;
-	void stepOn(Level*, const TilePos& pos, Entity*) override;
-	void setPlacedBy(Level*, const TilePos& pos, Mob*) override;
-	void prepareRender(Level*, const TilePos& pos) override;
-	void attack(Level*, const TilePos& pos, Player*) override;
-	void handleEntityInside(Level*, const TilePos& pos, const Entity*, Vec3&) override;
+	void wasExploded(TileSource*, const TilePos& pos) override;
+	RenderLayer getRenderLayer(TileSource*, const TilePos&) const override;
+	bool use(TileSource*, const TilePos& pos, Player*) override;
+	void stepOn(TileSource*, const TilePos& pos, Entity*) override;
+	void setPlacedBy(TileSource*, const TilePos& pos, Mob*) override;
+	void prepareRender(TileSource*, const TilePos& pos) override;
+	void attack(TileSource*, const TilePos& pos, Player*) override;
+	void handleEntityInside(TileSource*, const TilePos& pos, const Entity*, Vec3&) override;
 
 public:
 	Tile* m_pParent;

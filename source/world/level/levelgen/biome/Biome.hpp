@@ -9,11 +9,16 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "world/level/levelgen/synth/PerlinNoise.hpp"
 #include "world/level/levelgen/feature/Feature.hpp"
+#include "world/entity/MobSpawnerData.hpp"
 
 class Biome
 {
+public:
+	static std::vector<MobSpawnerData> EMPTY_MOBLIST;
+
 public: // Static Functions
 	static Biome* getBiome(float hum, float temp);
 	static void initBiomes();

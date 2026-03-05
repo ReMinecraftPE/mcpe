@@ -22,7 +22,7 @@
              ENT(SPIDER, Spider) \
              //ENT(PIG_ZOMBIE, PigZombie)
 
-#define ENT(enumType, classType) case EntityType::enumType: return new classType(level);
+#define ENT(enumType, classType) case EntityType::enumType: return new classType(source);
 
 // format: ID, spawnrate
 std::map<EntityType::ID, int> monsterList;
@@ -31,7 +31,7 @@ std::map<EntityType::ID, int> waterCreatureList;
 std::map<EntityType::ID, int> nullCreatureList;
 std::map<EntityCategories::CategoriesMask, std::map<EntityType::ID, int>*> mobListsByCategory;
 
-Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
+Mob* MobFactory::CreateMob(EntityType::ID entityType, TileSource& source)
 {
     switch (entityType)
     {

@@ -15,6 +15,7 @@
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "world/level/TileSource.hpp"
 
 #if MCE_GFX_API_OGL
 #include "thirdparty/GL/GL.hpp"
@@ -369,7 +370,7 @@ void LevelRenderer::_renderSunAndMoon(float alpha)
 
 void LevelRenderer::_renderStars(float alpha)
 {
-	float a = m_pLevel->getStarBrightness(alpha);
+	float a = m_pDimension->getStarBrightness(alpha);
 	if (a > 0.0f)
 	{
 		currentShaderColor = Color(a, a, a);
@@ -477,7 +478,7 @@ void LevelRenderer::_updateViewArea(const Entity& camera)
 void LevelRenderer::_startFrame(FrustumCuller& culler, float renderDistance, float f)
 {
 	const Entity& camera = *m_pMinecraft->m_pCameraEntity;
-	m_viewPos = camera.getPos(f);
+	m_viewPos = camera.getInterpolatedPosition(f);
 
 	_setupFog(camera, 1);
 
@@ -1134,9 +1135,6 @@ void LevelRenderer::tick()
 	m_ticksSinceStart++;
 }
 
-typedef std::vector<Chunk*> ChunkVector;
-typedef ChunkVector::iterator ChunkVectorIterator;
-
 bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 {
 	constexpr int C_MAX = 3;
@@ -1245,7 +1243,7 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	return pendingChunkRemoved + nr2 == pendingChunkSize;
 }
 
-void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
+void LevelRenderer::renderCracks(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
 	//currentShaderColor = Color(1.0f, 1.0f, 1.0f, (Mth::sin(float(getTimeMs()) / 100.0f) * 0.2f + 0.4f) * 0.5f);
@@ -1261,7 +1259,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			MatrixStack::Ref matrix = MatrixStack::World.push();
 
 			Tile* pTile = nullptr;
-			TileID tile = m_pLevel->getTile(hr.m_tilePos);
+			TileID tile = source.getTile(hr.m_tilePos);
 			if (tile > 0)
 				pTile = Tile::tiles[tile];
 
@@ -1292,14 +1290,14 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 	}*/
 }
 
-void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
+void LevelRenderer::renderHitSelect(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	if (mode != 0) return;
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 
 	Tile* pTile = nullptr;
-	TileID tileID = m_pLevel->getTile(hr.m_tilePos);
+	TileID tileID = source.getTile(hr.m_tilePos);
 	if (tileID > 0)
 		pTile = Tile::tiles[tileID];
 
@@ -1328,7 +1326,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	t.setOffset(0, 0, 0);
 }
 
-void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
+void LevelRenderer::renderHitOutline(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	if (mode != 0 || hr.m_hitType != 0)
 		return;
@@ -1339,16 +1337,16 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 	constexpr float distance = 0.002f;
 	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
 
-	TileID tile = m_pLevel->getTile(hr.m_tilePos);
+	TileID tile = source.getTile(hr.m_tilePos);
 	if (tile > 0)
 	{
 		Tile::tiles[tile]->updateShape(
-			m_pLevel,
+			&source,
 			hr.m_tilePos);
 		float posX = camera.m_posPrev.x + ((camera.m_pos.x - camera.m_posPrev.x) * a);
 		float posY = camera.m_posPrev.y + ((camera.m_pos.y - camera.m_posPrev.y) * a);
 		float posZ = camera.m_posPrev.z + ((camera.m_pos.z - camera.m_posPrev.z) * a);
-		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tilePos);
+		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(&source, hr.m_tilePos);
 		aabb.min.y = tileAABB.min.y - distance - posY;
 		aabb.max.y = tileAABB.max.y + distance - posY;
 		aabb.min.z = tileAABB.min.z - distance - posZ;
@@ -1390,12 +1388,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	m_pMinecraft->m_pGameRenderer->m_keepPic = -1;
 
 	static char str[256];
-	// @HUH: This has the potential to overwrite a file
-#ifdef ORIGINAL_CODE
-	sprintf(str, "%s" C_HOME_PATH "img_%.4d.jpg", m_pMinecraft->platform()->m_externalStorageDir.c_str(), getTimeMs());
-#else
 	sprintf(str, "img_%.4d.png", getTimeMs());
-#endif
 
 	m_pMinecraft->platform()->saveScreenshot(std::string(str), Minecraft::width, Minecraft::height);
 }

@@ -17,7 +17,7 @@ public:
 
 public:
 	virtual bool isSolidRender() const override;
-	virtual bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
+	virtual bool shouldRenderFace(TileSource*, const TilePos& pos, Facing::Name face) const override;
 
 private:
 	bool m_bAllowSame;

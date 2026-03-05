@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Bush.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 Bush::Bush(TileID id, int texture) : Tile(id, Material::plant)
 {
@@ -32,41 +32,41 @@ bool Bush::isSolidRender() const
 	return false;
 }
 
-bool Bush::mayPlace(const Level* level, const TilePos& pos) const
+bool Bush::mayPlace(TileSource* source, const TilePos& pos) const
 {
-	TileID tile = level->getTile(pos.below());
+	TileID tile = source->getTile(pos.below());
 
 	return tile == Tile::grass->m_ID || tile == Tile::dirt->m_ID || tile == Tile::farmland->m_ID;
 }
 
-bool Bush::canSurvive(const Level* level, const TilePos& pos) const
+bool Bush::canSurvive(TileSource* source, const TilePos& pos) const
 {
-	if (level->getRawBrightness(pos) <= 7 && !level->canSeeSky(pos))
+	if (source->getRawBrightness(pos) <= 7 && !source->canSeeSky(pos))
 		return false;
 
-	return mayPlace(level, pos);
+	return mayPlace(source, pos);
 }
 
-void Bush::checkAlive(Level* level, const TilePos& pos)
+void Bush::checkAlive(TileSource* source, const TilePos& pos)
 {
-	if (!canSurvive(level, pos))
+	if (!canSurvive(source, pos))
 	{
-		spawnResources(level, pos, level->getData(pos));
-		level->setTile(pos, TILE_AIR);
+		spawnResources(source, pos, source->getData(pos));
+		source->setTile(pos, TILE_AIR);
 	}
 }
 
-void Bush::neighborChanged(Level* level, const TilePos& pos, TileID tile)
+void Bush::neighborChanged(TileSource* source, const TilePos& pos, TileID tile)
 {
-	return checkAlive(level, pos);
+	return checkAlive(source, pos);
 }
 
-void Bush::tick(Level* level, const TilePos& pos, Random* random)
+void Bush::tick(TileSource* source, const TilePos& pos, Random* random)
 {
-	checkAlive(level, pos);
+	checkAlive(source, pos);
 }
 
-AABB* Bush::getAABB(const Level* level, const TilePos& pos)
+AABB* Bush::getAABB(TileSource* source, const TilePos& pos)
 {
 	return nullptr;
 }

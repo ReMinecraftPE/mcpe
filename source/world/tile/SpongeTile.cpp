@@ -7,13 +7,13 @@
  ********************************************************************/
 
 #include "SpongeTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 SpongeTile::SpongeTile(TileID id, int texture) : Tile(id, texture, Material::sponge)
 {
 }
 
-void SpongeTile::onPlace(Level* level, const TilePos& pos)
+void SpongeTile::onPlace(TileSource* source, const TilePos& pos)
 {
 	// get rid of all water in a 5x5 cube around this
 	TilePos o;
@@ -23,17 +23,17 @@ void SpongeTile::onPlace(Level* level, const TilePos& pos)
 		{
 			for (o.z = -2; o.z <= 2; o.z++)
 			{
-				if (level->getTile(pos + o) == Tile::water->m_ID ||
-					level->getTile(pos + o) == Tile::calmWater->m_ID)
+				if (source->getTile(pos + o) == Tile::water->m_ID ||
+					source->getTile(pos + o) == Tile::calmWater->m_ID)
 				{
-					level->setTile(pos + o, TILE_AIR);
+					source->setTile(pos + o, TILE_AIR);
 				}
 			}
 		}
 	}
 }
 
-void SpongeTile::destroy(Level* level, const TilePos& pos, TileData data)
+void SpongeTile::destroy(TileSource* source, const TilePos& pos, TileData data)
 {
 	// give an update to all water around us
 	TilePos o;
@@ -43,10 +43,11 @@ void SpongeTile::destroy(Level* level, const TilePos& pos, TileData data)
 		{
 			for (o.z = -3; o.z <= 3; o.z++)
 			{
-				if (level->getTile(pos + o) == Tile::water->m_ID ||
-					level->getTile(pos + o) == Tile::calmWater->m_ID)
+				if (source->getTile(pos + o) == Tile::water->m_ID ||
+					source->getTile(pos + o) == Tile::calmWater->m_ID)
 				{
-					level->neighborChanged(pos + o, TILE_AIR);
+					// TODO
+					//level->neighborChanged(pos + o, TILE_AIR);
 				}
 			}
 		}

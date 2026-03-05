@@ -6,6 +6,6 @@
 class EntityFactory
 {
 public:
-	static Entity* CreateEntity(EntityType::ID entityType, Level* level);
-	static Entity* LoadEntity(const CompoundTag& tag, Level* level);
+	static Entity* CreateEntity(EntityType::ID entityType, TileSource& source);
+	static Entity* LoadEntity(const CompoundTag& tag, TileSource& source);
 };

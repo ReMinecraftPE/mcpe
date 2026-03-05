@@ -16,7 +16,8 @@ private:
 	void _init();
 
 public:
-	Mob(Level* pLevel);
+	Mob(TileSource& source);
+	Mob(Level& level);
 	virtual ~Mob();
 
 protected:

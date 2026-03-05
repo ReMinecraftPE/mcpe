@@ -7,8 +7,9 @@ MultiPlayerLevel::MultiPlayerLevel(LevelStorage* pStor, const std::string& name,
 
 void MultiPlayerLevel::tick()
 {
-    _setTime(getTime() + 1); // Bypasses the normally-required update to LevelListeners
-    updateSkyDarken();
+    Level::tick();
+
+    setTime(getTime() + 1);
 
     for (size_t i = 0; i < 10 && i < m_reEntries.size(); i++)
     {

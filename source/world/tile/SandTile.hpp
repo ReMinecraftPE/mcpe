@@ -17,14 +17,14 @@ public:
 
 public:
 	int getTickDelay() const override;
-	void tick(Level* level, const TilePos& pos, Random* random) override;
-	void neighborChanged(Level* level, const TilePos& pos, TileID tile) override;
-	void onPlace(Level* level, const TilePos& pos) override;
+	void tick(TileSource* source, const TilePos& pos, Random* random) override;
+	void neighborChanged(TileSource* source, const TilePos& pos, TileID tile) override;
+	void onPlace(TileSource* source, const TilePos& pos) override;
 
-	void checkSlide(Level* level, const TilePos& pos);
+	void checkSlide(TileSource* source, const TilePos& pos);
 
 public:
-	static bool isFree(Level* level, const TilePos& pos);
+	static bool isFree(TileSource* source, const TilePos& pos);
 
 public:
 	static bool instaFall;

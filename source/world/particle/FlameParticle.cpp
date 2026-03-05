@@ -8,8 +8,8 @@
 
 #include "Particle.hpp"
 
-FlameParticle::FlameParticle(Level* level, const Vec3& pos, const Vec3& dir) :
-	Particle(level, pos, dir)
+FlameParticle::FlameParticle(TileSource& source, const Vec3& pos, const Vec3& dir) :
+	Particle(source, pos, dir)
 {
 	m_oSize = 0.0f;
 

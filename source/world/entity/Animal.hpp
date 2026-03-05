@@ -12,7 +12,7 @@
 class Animal : public PathfinderMob
 {
 public:
-	Animal(Level* pLevel);
+	Animal(TileSource& source);
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 	void aiStep() override;

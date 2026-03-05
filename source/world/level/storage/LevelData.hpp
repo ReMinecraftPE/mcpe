@@ -12,6 +12,7 @@
 #include "BitStream.h"
 #include "world/phys/Vec3.hpp"
 #include "world/item/Inventory.hpp"
+#include "world/level/Tick.hpp"
 
 #define LEVEL_STORAGE_VERSION_DEFAULT 2
 
@@ -76,21 +77,20 @@ public:
 	int32_t getSeed() const { return m_seed; }
 	void setSeed(int32_t seed) { m_seed = seed; }
 
-	int getXSpawn() const { return m_spawnPos.x; }
-	void setXSpawn(int xSpawn) { m_spawnPos.x = xSpawn; }
-	int getYSpawn() const { return m_spawnPos.y; }
-	void setYSpawn(int ySpawn) { m_spawnPos.y = ySpawn; }
-	int getZSpawn() const { return m_spawnPos.z; }
-	void setZSpawn(int zSpawn) { m_spawnPos.z = zSpawn; }
-
 	const TilePos& getSpawn() const { return m_spawnPos; }
 	void setSpawn(const TilePos& pos) { m_spawnPos = pos; }
+
+	const TilePos& getLimitedWorldOrigin() const { return m_limitedWorldOrigin; }
+	void setLimitedWorldOrigin(const TilePos& pos) { m_limitedWorldOrigin = pos; }
 
 	int32_t getTime() const { return m_time; }
 	void setTime(int32_t time) { m_time = time; }
 
 	int32_t getSizeOnDisk() const { return m_sizeOnDisk; }
 	void setSizeOnDisk(int32_t sizeOnDisk) { m_sizeOnDisk = sizeOnDisk; }
+
+	Tick_t getCurrentTick() const { return m_currentTick; }
+	void incrementCurrentTick() { m_currentTick++; }
 
 	const CompoundTag* getLoadedPlayerTag() const { return m_playerTag; }
 	void setLoadedPlayerTag(CompoundTag* playerTag);
@@ -123,9 +123,11 @@ private:
 	std::string m_levelName;
 	int32_t m_seed;
 	TilePos m_spawnPos;
+	TilePos m_limitedWorldOrigin;
 	int32_t m_time;
 	int32_t m_lastPlayed;
 	int32_t m_sizeOnDisk;
+	Tick_t m_currentTick;
 	CompoundTag* m_playerTag;
 	int m_dimensionId;
 	GameType m_gameType;

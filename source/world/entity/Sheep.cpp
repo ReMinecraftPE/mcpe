@@ -25,7 +25,7 @@ const Color Sheep::COLOR[] = {
 
 const unsigned int Sheep::COLOR_COUNT = sizeof(Sheep::COLOR) / (sizeof(float) * 3);
 
-Sheep::Sheep(Level* pLevel) : Animal(pLevel)
+Sheep::Sheep(TileSource& source) : Animal(source)
 {
 	m_pDescriptor = &EntityTypeDescriptor::sheep;
 	m_renderType = RENDER_SHEEP;

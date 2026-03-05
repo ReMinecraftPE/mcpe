@@ -20,5 +20,5 @@ public:
 	int getResourceCount(Random*) const override;
 	int getSpawnResourcesAuxValue(int) const override;
 	int getTexture(Facing::Name face, TileData data) const override;
-	void onRemove(Level*, const TilePos& pos) override;
+	void onRemove(TileSource*, const TilePos& pos) override;
 };

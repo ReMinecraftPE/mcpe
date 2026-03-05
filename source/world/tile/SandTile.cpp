@@ -8,6 +8,7 @@
 
 #include "SandTile.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 #include "world/entity/FallingTile.hpp"
 
 //@NOTE: True for now
@@ -26,45 +27,46 @@ int SandTile::getTickDelay() const
 	return 3;
 }
 
-void SandTile::checkSlide(Level* level, const TilePos& pos)
+void SandTile::checkSlide(TileSource* source, const TilePos& pos)
 {
 	//TileID tile = level->getTile(pos.below());
 
-	if (!isFree(level, pos.below()))
+	if (!isFree(source, pos.below()))
 		// standing on something, don't fall
 		return;
 
 	if (pos.y <= 0)
 		return;
 
-	if (SandTile::instaFall || !level->hasChunksAt(TilePos(pos.x - 32, pos.y - 32, pos.z - 32), TilePos(pos.x + 32, pos.y + 32, pos.z + 32)))
+	if (SandTile::instaFall || !source->hasChunksAt(TilePos(pos.x - 32, pos.y - 32, pos.z - 32), TilePos(pos.x + 32, pos.y + 32, pos.z + 32)))
 	{
-		level->setTile(pos, 0);
+		source->setTile(pos, TILE_AIR);
 
 		int y2;
 		for (y2 = pos.y - 1; y2 >= 0; y2--)
 		{
-			if (!isFree(level, TilePos(pos.x, y2, pos.z)))
+			if (!isFree(source, TilePos(pos.x, y2, pos.z)))
 				break;
 		}
 
 		if (y2 > -1)
-			level->setTile(TilePos(pos.x, y2 + 1, pos.z), m_ID);
+			source->setTile(TilePos(pos.x, y2 + 1, pos.z), m_ID);
 	}
 	else
 	{
 		// The original code attempts to spawn a falling tile entity, but it fails since it's not a player.
 		// The falling sand tile
 #if defined(ORIGINAL_CODE) || defined(ENH_ALLOW_SAND_GRAVITY)
-		level->addEntity(new FallingTile(level, Vec3(float(pos.x) + 0.5f, float(pos.y) + 0.5f, float(pos.z) + 0.5f), m_ID));
+		Level& level = source->getLevel();
+		level.addEntity(std::make_unique<FallingTile>(&level, Vec3(float(pos.x) + 0.5f, float(pos.y) + 0.5f, float(pos.z) + 0.5f), m_ID));
 #endif
 	}
 }
 
-bool SandTile::isFree(Level* level, const TilePos& pos)
+bool SandTile::isFree(TileSource* source, const TilePos& pos)
 {
-	TileID tile = level->getTile(pos);
-	if (!tile)
+	TileID tile = source->getTile(pos);
+	if (tile == TILE_AIR)
 		return true;
 
 	if (tile == Tile::fire->m_ID)
@@ -79,25 +81,25 @@ bool SandTile::isFree(Level* level, const TilePos& pos)
 	return false;
 }
 
-void SandTile::tick(Level* level, const TilePos& pos, Random* random)
+void SandTile::tick(TileSource* source, const TilePos& pos, Random* random)
 {
-	if (level->m_bIsClientSide)
+	if (source->getLevelConst().m_bIsClientSide)
 		return;
 
-	checkSlide(level, pos);
+	checkSlide(source, pos);
 }
 
-void SandTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
+void SandTile::neighborChanged(TileSource* source, const TilePos& pos, TileID tile)
 {
 #ifdef ENH_ALLOW_SAND_GRAVITY
-	level->addToTickNextTick(pos, m_ID, getTickDelay());
+	source->getTickQueue(pos)->add(source, pos, m_ID, getTickDelay());
 #endif
 }
 
-void SandTile::onPlace(Level* level, const TilePos& pos)
+void SandTile::onPlace(TileSource* source, const TilePos& pos)
 {
 #ifdef ENH_ALLOW_SAND_GRAVITY
-	level->addToTickNextTick(pos, m_ID, getTickDelay());
+	source->getTickQueue(pos)->add(source, pos, m_ID, getTickDelay());
 #endif
 }
 

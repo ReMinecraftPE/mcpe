@@ -12,7 +12,6 @@
 #include "client/gui/screens/PauseScreen.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
-#include "client/gui/screens/SavingWorldScreen.hpp"
 #include "client/gui/screens/DeathScreen.hpp"
 #include "client/gui/screens/ProgressScreen.hpp"
 #include "client/gui/screens/ConvertWorldScreen.hpp"
@@ -37,6 +36,7 @@
 #include "client/player/input/Multitouch.hpp"
 
 #include "world/tile/SandTile.hpp"
+#include "world/level/TileSource.hpp"
 
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
@@ -44,6 +44,8 @@
 
 #include "renderer/RenderContextImmediate.hpp"
 #include "client/renderer/LogoRenderer.hpp"
+
+#include "common/threading/BackgroundQueuePool.hpp"
 
 float Minecraft::_renderScaleMultiplier = 1.0f;
 
@@ -108,6 +110,8 @@ Minecraft::Minecraft()
 	m_fLastUpdated = 0;
 	m_fDeltaTime = 0;
 	m_lastInteractTime = 0;
+
+	BackgroundQueuePool::start(std::thread::hardware_concurrency());
 }
 
 Minecraft::~Minecraft()
@@ -428,7 +432,9 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 		}
 		case HitResult::TILE:
 		{
-			Tile* pTile = Tile::tiles[m_pLevel->getTile(m_hitResult.m_tilePos)];
+			TileSource& source = player->getTileSource();
+
+			Tile* pTile = Tile::tiles[source.getTile(m_hitResult.m_tilePos)];
 
 			if (action.isDestroy())
 			{
@@ -456,7 +462,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 					bool contDestory = m_pGameMode->continueDestroyBlock(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
 
 					destroyed = destroyed || contDestory;
-					m_pParticleEngine->crack(m_hitResult.m_tilePos, m_hitResult.m_hitSide);
+					m_pParticleEngine->crack(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
 
 					m_lastBlockBreakTime = getTimeMs();
 
@@ -470,7 +476,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			else if (action.isPick())
 			{
 				// Try to pick the tile.
-				int auxValue = m_pLevel->getData(m_hitResult.m_tilePos);
+				TileData auxValue = source.getData(m_hitResult.m_tilePos);
 				player->m_pInventory->pickItem(pTile->m_ID, auxValue, C_MAX_HOTBAR_ITEMS);
 			}
 			else if (action.isPlace() && canInteract)
@@ -751,22 +757,16 @@ void Minecraft::freeResources(bool bCopyMap)
 	m_pCameraEntity = nullptr;
 	m_pLocalPlayer = nullptr;
 
-#ifndef ENH_IMPROVED_SAVING
 	if (bCopyMap)
 		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 	else
 		gotoMainMenu();
-#endif
 
 	m_pGameRenderer->setLevel(nullptr, nullptr);
 
 	delete m_pNetEventCallback;
 	m_pNetEventCallback = nullptr;
 
-#ifdef ENH_IMPROVED_SAVING
-	m_bIsGamePaused = true;
-	setScreen(new SavingWorldScreen(bCopyMap/*, m_pLocalPlayer*/));
-#else
 	if (m_pLevel)
 	{
 		LevelStorage* pStorage = m_pLevel->getLevelStorage();
@@ -775,7 +775,6 @@ void Minecraft::freeResources(bool bCopyMap)
 
 		m_pLevel = nullptr;
 	}
-#endif
 
 	field_D9C = 0;
 }
@@ -877,6 +876,8 @@ void Minecraft::update()
 	tickMouse();
 	m_pSoundEngine->update();
 #endif
+
+	BackgroundQueuePool::getInstance().processCoroutines();
 
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 

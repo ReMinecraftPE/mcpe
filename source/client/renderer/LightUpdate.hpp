@@ -1,31 +1,26 @@
-/********************************************************************
-	Minecraft: Pocket Edition - Decompilation Project
-	Copyright (C) 2023 iProgramInCpp
-	
-	The following code is licensed under the BSD 1 clause license.
-	SPDX-License-Identifier: BSD-1-Clause
- ********************************************************************/
-
 #pragma once
-
-#include "LightLayer.hpp"
+#include "client/renderer/LightLayer.hpp"
 #include "world/level/TilePos.hpp"
 
-class Level;
+class TileSource;
 
-struct LightUpdate
+class LightUpdate
 {
-	const LightLayer* m_lightLayer;
-	TilePos m_tilePos1, m_tilePos2;
+private:
+	const LightLayer& m_lightLayer;
+	TileSource* m_source;
+	TilePos m_min;
+	TilePos m_max;
 
-	LightUpdate(const LightLayer& ll, const TilePos& tilePos1, const TilePos& tilePos2)
-	{
-		m_lightLayer = &ll;
-		m_tilePos1 = tilePos1;
-		m_tilePos2 = tilePos2;
-	}
+public:
+	LightUpdate(TileSource&, const LightLayer&, const TilePos&, const TilePos&);
 
-	void update(Level* pLevel);
-	bool expandToContain(const TilePos& tilePos1, const TilePos& tilePos2);
+public:
+	void update();
+	void updateFast();
+
+	bool expandIfCloseEnough(const TilePos& lowerPos, const TilePos& upperPos);
+	void expandToContain(const TilePos& pos);
+	void expandToContain(const TilePos& pos1, const TilePos& pos2);
 };
 

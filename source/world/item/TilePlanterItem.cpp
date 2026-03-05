@@ -9,6 +9,7 @@
 #include "TilePlanterItem.hpp"
 #include "world/level/Level.hpp"
 #include "world/tile/Tile.hpp"
+#include "world/level/TileSource.hpp"
 
 TilePlanterItem::TilePlanterItem(int id, int place) : Item(id)
 {
@@ -17,9 +18,11 @@ TilePlanterItem::TilePlanterItem(int id, int place) : Item(id)
 
 bool TilePlanterItem::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
+	TileSource& source = player->getTileSource();
+
 	TilePos tp(pos);
 
-	if (level->getTile(pos) == Tile::topSnow->m_ID)
+	if (source.getTile(pos) == Tile::topSnow->m_ID)
 	{
 		face = Facing::DOWN;
 	}
@@ -31,20 +34,21 @@ bool TilePlanterItem::useOn(ItemStack* instance, Player* player, Level* level, c
 		case Facing::SOUTH: tp.z++; break;
 		case Facing::WEST: tp.x--; break;
 		case Facing::EAST: tp.x++; break;
+		default: assert(false); return false; break;
 	}
 
 	if (!instance->m_count)
 		return false;
 
 	// why?
-	if (!level->mayPlace(m_tile, tp, false))
+	if (!source.mayPlace(m_tile, tp, false, 0, false, nullptr))
 		return true;
 
-	if (!level->setTile(tp, m_tile))
+	if (!source.setTile(tp, m_tile))
 		return true;
 
-	Tile::tiles[m_tile]->setPlacedOnFace(level, tp, face);
-	Tile::tiles[m_tile]->setPlacedBy(level, tp, player);
+	Tile::tiles[m_tile]->setPlacedOnFace(&source, tp, face);
+	Tile::tiles[m_tile]->setPlacedBy(&source, tp, player);
 
 	instance->m_count--;
 	return true;

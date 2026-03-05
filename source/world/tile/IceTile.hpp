@@ -17,6 +17,6 @@ public:
 
 public:
 	int getResourceCount(Random*) const override;
-	void onRemove(Level*, const TilePos& pos) override;
-	void tick(Level*, const TilePos& pos, Random*) override;
+	void onRemove(TileSource*, const TilePos& pos) override;
+	void tick(TileSource*, const TilePos& pos, Random*) override;
 };

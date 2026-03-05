@@ -7,6 +7,8 @@
  ********************************************************************/
 #include "RocketLauncherTile.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
+#include "world/level/TileTickingQueue.hpp"
 #include "world/entity/Rocket.hpp"
 
 RocketLauncherTile::RocketLauncherTile(TileID id) : Tile(id, 16*14+2, Material::wood)
@@ -20,7 +22,7 @@ int RocketLauncherTile::getTexture(Facing::Name face, TileData data) const
 	return data == 1 ? 16*14+3 : 16*14+2;
 }
 
-AABB* RocketLauncherTile::getAABB(const Level*, const TilePos& pos)
+AABB* RocketLauncherTile::getAABB(TileSource*, const TilePos& pos)
 {
 	return nullptr;
 }
@@ -40,26 +42,27 @@ bool RocketLauncherTile::isSolidRender() const
 	return false;
 }
 
-bool RocketLauncherTile::use(Level* level, const TilePos& pos, Player* player)
+bool RocketLauncherTile::use(TileSource* source, const TilePos& pos, Player* player)
 {
-	if (level->getData(pos) == 1)
+	if (source->getData(pos) == 1)
 		return true;
 
-	level->setData(pos, 1);
+	source->setTileAndData(pos, FullTile(m_ID, 1));
 
 	// spawn a rocket
-	level->addEntity(new Rocket(level, Vec3(pos) + 0.5f));
+	Level& level = source->getLevel();
+	level.addEntity(std::make_unique<Rocket>(*source, Vec3(pos) + 0.5f));
 
 	// add a tick so that the rocket launcher will reset
-	level->addToTickNextTick(pos, m_ID, 10);
+	source->getTickQueue(pos)->add(source, pos, m_ID, 10);
 
 	return true;
 }
 
-void RocketLauncherTile::tick(Level* level, const TilePos& pos, Random* random)
+void RocketLauncherTile::tick(TileSource* source, const TilePos& pos, Random* random)
 {
-	if (level->getData(pos) != 1)
+	if (source->getData(pos) != 1)
 		return;
 
-	level->setData(pos, 0);
+	source->setTileAndData(pos, FullTile(m_ID, 0));
 }

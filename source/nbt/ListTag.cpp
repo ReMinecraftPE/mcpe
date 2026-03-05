@@ -60,7 +60,7 @@ void ListTag::add(Tag* tag)
     m_list.push_back(tag);
 }
 
-float ListTag::getFloat(unsigned int index) const
+float ListTag::getFloat(size_t index) const
 {
 	if (index < m_list.size()
 		&& index >= 0
@@ -75,7 +75,7 @@ float ListTag::getFloat(unsigned int index) const
 	}
 }
 
-int32_t ListTag::getInt32(unsigned int index) const
+int32_t ListTag::getInt32(size_t index) const
 {
 	if (index < m_list.size()
 		&& index >= 0
@@ -90,7 +90,7 @@ int32_t ListTag::getInt32(unsigned int index) const
 	}
 }
 
-const std::string& ListTag::getString(unsigned int index) const
+const std::string& ListTag::getString(size_t index) const
 {
 	if (index >= m_list.size())
 		return Util::EMPTY_STRING;
@@ -104,7 +104,7 @@ const std::string& ListTag::getString(unsigned int index) const
 	return ((StringTag*)m_list[index])->m_data;
 }
 
-const CompoundTag* ListTag::getCompound(unsigned int index) const
+const CompoundTag* ListTag::getCompound(size_t index) const
 {
 	if (index < m_list.size()
 		&& index >= 0

@@ -8,10 +8,16 @@
 
 #pragma once
 
-#include "world/phys/Vec3.hpp"
+#include <string>
+#include <unordered_map>
+#include "world/level/LevelListener.hpp"
+#include "common/math/Color.hpp"
+#include "world/entity/Entity.hpp"
+#include "world/level/Brightness.hpp"
 
-class Level; // if included from Level.hpp
+class Level;
 class ChunkSource;
+class TileSource;
 class BiomeSource;
 
 enum DimensionId
@@ -23,34 +29,105 @@ enum DimensionId
 	DIMENSION_UNKNOWN
 };
 
-class Dimension
+enum GeneratorType
 {
-public:
-	Dimension();
-	virtual ~Dimension();
-	static Dimension* createNew(DimensionId type);
-
-	virtual Vec3 getFogColor(float, float) const;
-	virtual bool isNaturalDimension() const;
-	virtual void init();
-	virtual bool mayRespawn() const;
-	virtual bool isValidSpawn(const TilePos& pos) const;
-
-	const float* getSunriseColor(float, float);
-	float getTimeOfDay(int32_t, float) const;
-	void init(Level* pLevel);
-	void updateLightRamp();
-
-	ChunkSource* createRandomLevelSource();
-
-public:
-	Level* m_pLevel;
-	BiomeSource* m_pBiomeSource;
-	bool m_bFoggy;
-	bool m_bUltraWarm;
-	bool m_bHasCeiling;
-	float m_brightnessRamp[16];
-	int m_id;
-	float m_sunriseColor[4];
+	GENERATOR_OVERWORLD_LIMITED,
+	GENERATOR_OVERWORLD,
+	GENERATOR_FLAT,
+	GENERATOR_NETHER,
+	GENERATOR_THE_END
 };
 
+class Dimension : public LevelListener
+{
+public:
+	typedef std::unordered_map<Entity::ID, Entity*> EntityIdMap_t;
+
+protected:
+	Level& m_level;
+	BiomeSource* m_biomeSource;
+	bool m_bFoggy;
+	bool m_warm;
+	bool m_hasCeiling;
+	float m_brightnessRamp[Brightness::MAX + 1];
+	DimensionId m_dimensionId;
+	ChunkSource* m_chunkSource;
+	TileSource* m_tileSource;
+	EntityIdMap_t m_entityIdMap;
+
+public:
+	Dimension(Level& level, DimensionId dimensionId);
+	virtual ~Dimension();
+
+public:
+	virtual void init();
+	virtual Color getFogColor(float, float) const;
+	virtual bool isNaturalDimension() const;
+	virtual bool mayRespawn() const;
+	virtual bool isValidSpawn(const TilePos& pos) const;
+	virtual void updateLightRamp();
+	virtual std::string getName() const = 0;
+
+	bool isDay() const;
+	Color getFogColor(float f) const;
+	Color getSkyColor(const Entity& entity, float f) const;
+	float getSunAngle(float f) const;
+	Color getSunriseColor(float, float) const;
+	float getTimeOfDay(int32_t, float) const;
+	float getTimeOfDay(float f) const;
+	Color getCloudColor(float f) const;
+	float getStarBrightness(float f) const;
+
+	Entity* getEntity(Entity::ID id) const;
+	bool hasEntity(Entity& entity) const;
+	void addEntity(Entity& entity);
+	bool removeEntity(Entity& entity);
+	EntityIdMap_t& getEntityIdMap();
+	const EntityIdMap_t& getEntityIdMapConst() const;
+
+	DimensionId getId() const
+	{
+		return m_dimensionId;
+	}
+
+	bool isWarm() const
+	{
+		return m_warm;
+	}
+
+	bool hasCeiling() const
+	{
+		return m_hasCeiling;
+	}
+
+	float getBrightnessRamp(Brightness_t brightness) const
+	{
+		return m_brightnessRamp[brightness];
+	}
+
+	ChunkSource* getChunkSource()
+	{
+		return m_chunkSource;
+	}
+
+	TileSource* getTileSource()
+	{
+		return m_tileSource;
+	}
+
+protected:
+	ChunkSource* _getGenerator(GeneratorType type);
+
+public:
+	static Dimension* createNew(DimensionId type, Level& level);
+};
+
+class NormalDimension : public Dimension
+{
+public:
+	NormalDimension(Level& level);
+
+public:
+	void init() override;
+	std::string getName() const override;
+};

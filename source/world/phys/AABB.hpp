@@ -18,6 +18,7 @@ public:
 
 	AABB();
 	AABB(Vec3 min, Vec3 max);
+	AABB(Vec3, float); // TODO!!!
 	AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 
 public:

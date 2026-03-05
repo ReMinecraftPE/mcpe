@@ -18,7 +18,7 @@ public:
 public:
 	int getResourceCount(Random*) const override;
 	int getTexture(Facing::Name face) const override;
-	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
-	void destroy(Level*, const TilePos& pos, TileData data) override;
-	void wasExploded(Level*, const TilePos& pos) override;
+	void neighborChanged(TileSource*, const TilePos& pos, TileID tile) override;
+	void destroy(TileSource*, const TilePos& pos, TileData data) override;
+	void wasExploded(TileSource*, const TilePos& pos) override;
 };

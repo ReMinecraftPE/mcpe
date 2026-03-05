@@ -11,11 +11,8 @@
 #include "GameMods.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/level/TileSource.hpp"
 #include "ServerPlayer.hpp"
-
-// How frequently SetTimePackets are sent, in seconds.
-// b1.3 sends every second. 0.2.1 seems to send every 12.
-#define NETWORK_TIME_SEND_FREQUENCY 12
 
 // This lets you make the server shut up and not log events in the debug console.
 //#define VERBOSE_SERVER
@@ -348,13 +345,15 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 
 	pPlayer->swing();
 
+	TileSource& source = pPlayer->getTileSource();
+
 	TilePos pos = packet->m_pos;
-	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
-	int auxValue = m_pLevel->getData(pos);
+	Tile* pTile = Tile::tiles[source.getTile(pos)];
+	TileData auxValue = source.getData(pos);
 
-	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
+	m_pMinecraft->m_pParticleEngine->destroyEffect(pPlayer, pos);
 
-	bool setTileResult = m_pLevel->setTile(pos, TILE_AIR);
+	bool setTileResult = source.setTile(pos, TILE_AIR);
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
@@ -367,14 +366,14 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 			ItemStack tileItem(pTile, 1, auxValue);
 			if (pTile == Tile::grass || !pPlayer->m_pInventory->hasUnlimitedResource(tileItem))
 			{
-				pTile->spawnResources(m_pLevel, pos, auxValue);
+				pTile->spawnResources(&source, pos, auxValue);
 			}
 #else
-			pTile->spawnResources(m_pLevel, pos, auxValue);
+			pTile->spawnResources(&source, pos, auxValue);
 #endif
 		}
 
-		pTile->destroy(m_pLevel, pos, auxValue);
+		pTile->destroy(&source, pos, auxValue);
 
 		// redistribute the packet only if needed
 		redistributePacket(packet, guid);
@@ -678,14 +677,6 @@ void ServerSideNetworkHandler::tileChanged(const TilePos& pos)
 	ubp.write(bs);
 
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::AddressOrGUID(), true);
-}
-
-void ServerSideNetworkHandler::timeChanged(uint32_t time)
-{
-	if ((time % (20 * NETWORK_TIME_SEND_FREQUENCY)) == 0)
-	{
-		m_pRakNetInstance->send(new SetTimePacket(time));
-	}
 }
 
 void ServerSideNetworkHandler::entityAdded(Entity* entity)

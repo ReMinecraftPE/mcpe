@@ -8,40 +8,36 @@
 
 #pragma once
 
-// @NOTE: This class appears to reference a mythical "std::hashtable", but I couldn't find any traces of it.
-// I doubt they used C++11 (since it came out in 2011), but this is weird...
-// We'll use std::unordered_map instead.
-
-#include <map>
-#include "ChunkSource.hpp"
+#include "world/level/levelgen/chunk/ChunkSource.hpp"
 #include "world/level/levelgen/synth/PerlinNoise.hpp"
 #include "world/level/levelgen/biome/BiomeSource.hpp"
 #include "world/level/levelgen/feature/Feature.hpp"
 #include "world/level/levelgen/feature/LargeCaveFeature.hpp"
+#include "common/threading/ThreadLocal.hpp"
 
 class RandomLevelSource : public ChunkSource
 {
-public:
-	RandomLevelSource(Level*, int32_t seed, int);
-	int tick() override;
-	bool shouldSave() override;
-	bool hasChunk(const ChunkPos& pos) override;
-	LevelChunk* create(const ChunkPos& pos) override;
-	LevelChunk* getChunk(const ChunkPos& pos) override;
-	LevelChunk* getChunkDontCreate(const ChunkPos& pos) override;
-	std::string gatherStats() override;
-	void postProcess(ChunkSource*, const ChunkPos& pos) override;
+private:
+	struct ThreadData;
 
-	float* getHeights(float*, int, int, int, int, int, int);
-	void prepareHeights(const ChunkPos& pos, TileID*, void*, float*);
-	void buildSurfaces (const ChunkPos& pos, TileID*, Biome**);
+public:
+	RandomLevelSource(Level* level, Dimension* dimension, uint32_t seed);
+
+	LevelChunk* requestChunk(const ChunkPos& pos, LoadMode loadMode) override;
+	bool postProcess(ChunkViewSource& chunkViewSource) override;
+	void loadChunk(LevelChunk& chunk) override;
+	void postProcessMobsAt(TileSource* tileSource, int, int, Random& random) override;
+
+	void getHeights(float* fptr, int a3, int a4, int a5);
+	void prepareHeights(LevelChunk* chunk, float* biomeData);
+	void buildSurfaces(LevelChunk* chunk);
 	
-
 public:
+	ThreadLocal<ThreadData> m_threadData;
 	bool field_4;
 	LargeCaveFeature m_largeCaveFeature;
 	int field_9D8[1024];
-	std::map<int, LevelChunk*> m_chunks;
+	ChunkMap_t m_chunks;
 	float field_19F0;
 	Random m_random;
 	PerlinNoise m_perlinNoise1;
@@ -52,7 +48,6 @@ public:
 	PerlinNoise m_perlinNoise6;
 	PerlinNoise m_perlinNoise7;
 	PerlinNoise m_perlinNoise8;
-	Level* m_pLevel;
 	float* field_7280;
 	float field_7284[256];
 	float field_7684[256];

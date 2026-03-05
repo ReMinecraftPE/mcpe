@@ -103,6 +103,15 @@ public:
 
 	bool isFormatFixed() const;
 
+	bool isTesselating() const
+	{
+		return m_bTesselating;
+	}
+	size_t getVertices() const
+	{
+		return m_vertices;
+	}
+
 private:
 	CurrentVertexPointers m_currentVertex;
 
@@ -115,7 +124,7 @@ private:
 	mce::VertexFormat m_vertexFormat;
 
 	// Tesselation state
-	unsigned int m_vertices;
+	size_t m_vertices;
 
 	int m_pendingVertices;
 

@@ -34,6 +34,7 @@ public:
 	static float cos(float);
 	static float clamp(float x, float min, float max);
 	static int clamp(int x, int min, int max);
+	static uint8_t clamp(uint8_t x, uint8_t min, uint8_t max);
 	static int floor(float);
 	static int round(float);
 	static void initMth();

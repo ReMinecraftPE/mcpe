@@ -20,7 +20,7 @@ CreativeMode::CreativeMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
 
 bool CreativeMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	_level.extinguishFire(player, pos, face);
+	_level.extinguishFire(player->getTileSource(), pos, face);
 	return GameMode::destroyBlock(player, pos, face);
 }
 

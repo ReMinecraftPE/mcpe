@@ -1,13 +1,13 @@
 #include "DeadBush.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 DeadBush::DeadBush(int id, int texture) : Bush(id, texture)
 {
 }
 
-bool DeadBush::mayPlace(const Level* level, const TilePos& pos) const
+bool DeadBush::mayPlace(TileSource* source, const TilePos& pos) const
 {
-	TileID tile = level->getTile(pos.below());
+	TileID tile = source->getTile(pos.below());
 	
 	return tile == Tile::sand->m_ID;
 }

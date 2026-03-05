@@ -9,5 +9,5 @@ public:
 
 public:
 	int getResource(TileData, Random*) const override;
-	bool mayPlace(const Level*, const TilePos& pos) const override;
+	bool mayPlace(TileSource*, const TilePos& pos) const override;
 };

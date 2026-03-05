@@ -7,14 +7,14 @@
  ********************************************************************/
 
 #include "Feature.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 FlowerFeature::FlowerFeature(TileID id)
 {
 	m_ID = id;
 }
 
-bool FlowerFeature::place(Level* level, Random* random, const TilePos& pos)
+bool FlowerFeature::place(TileSource* source, Random* random, const TilePos& pos)
 {
 	TilePos tp;
 
@@ -24,8 +24,8 @@ bool FlowerFeature::place(Level* level, Random* random, const TilePos& pos)
 		tp.y = pos.y + random->nextInt(4) - random->nextInt(4);
 		tp.z = pos.z + random->nextInt(8) - random->nextInt(8);
 
-		if (level->isEmptyTile(tp) && Tile::tiles[m_ID]->canSurvive(level, tp))
-			level->setTileNoUpdate(tp, m_ID);
+		if (source->isEmptyTile(tp) && Tile::tiles[m_ID]->canSurvive(source, tp))
+			source->setTileNoUpdate(tp, m_ID);
 	}
 
 	return true;

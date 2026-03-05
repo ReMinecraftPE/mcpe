@@ -8,8 +8,8 @@
 
 #include "Particle.hpp"
 
-RedDustParticle::RedDustParticle(Level* level, const Vec3& pos, const Vec3& dir) :
-	Particle(level, pos, Vec3::ZERO)
+RedDustParticle::RedDustParticle(TileSource& source, const Vec3& pos, const Vec3& dir) :
+	Particle(source, pos, Vec3::ZERO)
 {
 	m_oSize = 0.0f;
 
