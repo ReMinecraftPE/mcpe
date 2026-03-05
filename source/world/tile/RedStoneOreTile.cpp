@@ -107,8 +107,8 @@ void RedStoneOreTile::attack(TileSource* source, const TilePos& pos, Player* pla
 
 bool RedStoneOreTile::use(const TilePos& pos, Player* player)
 {
-	interact(source, pos);
-	return Tile::use(source, pos, player);
+	interact(&player->getTileSource(), pos);
+	return Tile::use(pos, player);
 }
 
 void RedStoneOreTile::stepOn(TileSource* source, const TilePos& pos, Entity* entity)

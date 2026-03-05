@@ -44,17 +44,19 @@ bool RocketLauncherTile::isSolidRender() const
 
 bool RocketLauncherTile::use(const TilePos& pos, Player* player)
 {
-	if (source->getData(pos) == 1)
+	TileSource& source = player->getTileSource();
+
+	if (source.getData(pos) == 1)
 		return true;
 
-	source->setTileAndData(pos, FullTile(m_ID, 1));
+	source.setTileAndData(pos, FullTile(m_ID, 1));
 
 	// spawn a rocket
-	Level& level = source->getLevel();
-	level.addEntity(std::make_unique<Rocket>(*source, Vec3(pos) + 0.5f));
+	Level& level = player->getLevel();
+	level.addEntity(std::make_unique<Rocket>(source, Vec3(pos) + 0.5f));
 
 	// add a tick so that the rocket launcher will reset
-	source->getTickQueue(pos)->add(source, pos, m_ID, 10);
+	source.getTickQueue(pos)->add(&source, pos, m_ID, 10);
 
 	return true;
 }

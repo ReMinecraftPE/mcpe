@@ -180,7 +180,7 @@ Tile::RenderLayer StairTile::getRenderLayer(TileSource* source, const TilePos& p
 
 bool StairTile::use(const TilePos& pos, Player* player)
 {
-	return m_pParent->use(source, pos, player);
+	return m_pParent->use(pos, player);
 }
 
 void StairTile::stepOn(TileSource* source, const TilePos& pos, Entity* entity)

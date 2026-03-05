@@ -28,25 +28,27 @@ bool DoorTile::use(const TilePos& pos, Player* player)
 	if (m_pMaterial == Material::metal)
 		return true;
 
-	TileData data = source->getData(pos);
+	TileSource& source = player->getTileSource();
+
+	TileData data = source.getData(pos);
 
 	// if we're the top tile
 	if (data & 8)
 	{
-		if (source->getTile(pos.below()) == m_ID)
-			use(source, pos.below(), player);
+		if (source.getTile(pos.below()) == m_ID)
+			use(pos.below(), player);
 	}
 	else
 	{
 		data ^= 4;
-		if (source->getTile(pos.above()) == m_ID)
-			source->setTileAndData(pos.above(), FullTile(m_ID, data + 8), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
+		if (source.getTile(pos.above()) == m_ID)
+			source.setTileAndData(pos.above(), FullTile(m_ID, data + 8), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
 
-		source->setTileAndData(pos, FullTile(m_ID, data), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
+		source.setTileAndData(pos, FullTile(m_ID, data), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
 
 		// there is a fireTileChanged call here, but setTileAndData should already be calling that
 
-		source->getLevel().levelEvent(LevelEvent(LevelEvent::SOUND_DOOR, pos, 0, player));
+		player->getLevel().levelEvent(LevelEvent(LevelEvent::SOUND_DOOR, pos, 0, player));
 	}
 
 	return true;
@@ -54,7 +56,7 @@ bool DoorTile::use(const TilePos& pos, Player* player)
 
 void DoorTile::attack(TileSource* source, const TilePos& pos, Player* player)
 {
-	use(source, pos, player);
+	use(pos, player);
 }
 
 // @HUH: This function has NO references to itself. Not even in the vtable of the tile.
