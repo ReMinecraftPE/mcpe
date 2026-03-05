@@ -222,6 +222,15 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\WeaponItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyePowderItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\CoalItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\Bounds.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkRefCount.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkViewSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\MainChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\NetworkChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PlayerChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PostprocessingManager.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\WorldLimitChunkSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -386,6 +395,17 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\CoalItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\HoeItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\SeedItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\Bounds.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkConstants.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkRefCount.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkViewSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\GridArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\MainChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\NetworkChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PlayerChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PostprocessingManager.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\WorldLimitChunkSource.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

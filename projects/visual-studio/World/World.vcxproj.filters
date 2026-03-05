@@ -641,6 +641,33 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\CoalItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\Bounds.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkRefCount.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkViewSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\MainChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\NetworkChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PlayerChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PostprocessingManager.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\WorldLimitChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -1128,6 +1155,39 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\CoalItem.hpp">
       <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\Bounds.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkConstants.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkRefCount.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkViewSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\GridArea.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\MainChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\NetworkChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PlayerChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PostprocessingManager.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\WorldLimitChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
