@@ -170,9 +170,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\TickNextTickData.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\Dimension.cpp">
       <Filter>Source Files\Level</Filter>
     </ClCompile>
@@ -188,17 +185,11 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\Material.cpp">
       <Filter>Source Files\Level</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\Region.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.cpp">
       <Filter>Source Files\Level\LevelGen\Biome</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.cpp">
       <Filter>Source Files\Level\LevelGen\Biome</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.cpp">
-      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.cpp">
       <Filter>Source Files\Level\LevelGen\Chunk</Filter>
@@ -206,13 +197,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.cpp">
       <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp">
-      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.cpp">
-      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.cpp">
       <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\BirchFeature.cpp">
@@ -282,9 +267,6 @@
       <Filter>Source Files\Level\Storage</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelData.cpp">
-      <Filter>Source Files\Level\Storage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelSource.cpp">
       <Filter>Source Files\Level\Storage</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.cpp">
@@ -545,9 +527,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.cpp">
       <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.cpp">
-      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Sheep.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -580,9 +559,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityFactory.cpp">
       <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp">
-      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\ContainerListener.cpp">
       <Filter>Source Files</Filter>
@@ -742,20 +718,11 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\Material.hpp">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\Region.hpp">
-      <Filter>Header Files\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\TickNextTickData.hpp">
-      <Filter>Header Files\Level</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.hpp">
       <Filter>Header Files\Level\LevelGen\Biome</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.hpp">
       <Filter>Header Files\Level\LevelGen\Biome</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.hpp">
-      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.hpp">
       <Filter>Header Files\Level\LevelGen\Chunk</Filter>
@@ -763,13 +730,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.hpp">
       <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp">
-      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.hpp">
-      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.hpp">
       <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.hpp">
@@ -800,9 +761,6 @@
       <Filter>Header Files\Level\Storage</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelData.hpp">
-      <Filter>Header Files\Level\Storage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelSource.hpp">
       <Filter>Header Files\Level\Storage</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.hpp">
@@ -1039,9 +997,6 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkTilePos.hpp">
       <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.hpp">
-      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\Facing.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1083,9 +1038,6 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp">
       <Filter>Header Files\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp">
-      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp">
       <Filter>Header Files\Level</Filter>
@@ -1130,9 +1082,6 @@
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\ToolItem.hpp">
-      <Filter>Header Files\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\item\ArmorItem.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\HoeItem.hpp">
