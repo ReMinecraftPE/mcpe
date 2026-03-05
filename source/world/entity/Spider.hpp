@@ -5,7 +5,7 @@
 class Spider : public Monster
 {
 public:
-	Spider(Level* pLevel);
+	Spider(TileSource& source);
 
 public:
 	std::string getAmbientSound() const override { return "mob.spider"; }

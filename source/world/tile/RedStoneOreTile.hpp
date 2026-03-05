@@ -20,14 +20,14 @@ public:
 	int getResourceCount(Random*) const override;
 	int getSpawnResourcesAuxValue(int) const override;
 	int getTickDelay() const override;
-	void animateTick(Level*, const TilePos& pos, Random*) override;
-	void tick(Level*, const TilePos& pos, Random*) override;
-	void attack(Level*, const TilePos& pos, Player*) override;
-	bool use(Level*, const TilePos& pos, Player*) override;
-	void stepOn(Level*, const TilePos& pos, Entity*) override;
+	void animateTick(TileSource*, const TilePos& pos, Random*) override;
+	void tick(TileSource*, const TilePos& pos, Random*) override;
+	void attack(TileSource*, const TilePos& pos, Player*) override;
+	bool use(TileSource*, const TilePos& pos, Player*) override;
+	void stepOn(TileSource*, const TilePos& pos, Entity*) override;
 
-	int poofParticles(Level*, const TilePos& pos);
-	void interact(Level*, const TilePos& pos);
+	int poofParticles(TileSource*, const TilePos& pos);
+	void interact(TileSource*, const TilePos& pos);
 
 public:
 	bool m_bLit;

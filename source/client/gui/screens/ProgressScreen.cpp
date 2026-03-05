@@ -8,6 +8,17 @@
 
 #include "ProgressScreen.hpp"
 #include "client/app/Minecraft.hpp"
+#include "common/threading/BackgroundQueuePool.hpp"
+
+ProgressScreen::~ProgressScreen()
+{
+	BackgroundQueuePool::getInstance().setMainThreadHasPriority(true);
+}
+
+void ProgressScreen::init()
+{
+	BackgroundQueuePool::getInstance().setMainThreadHasPriority(false);
+}
 
 bool ProgressScreen::isInGameScreen()
 {

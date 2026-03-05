@@ -13,7 +13,7 @@
 class PathfinderMob : public Mob
 {
 public:
-	PathfinderMob(Level* pLevel);
+	PathfinderMob(TileSource& source);
 
 	virtual Entity* getAttackTarget();
 	virtual void setAttackTarget(Entity*);

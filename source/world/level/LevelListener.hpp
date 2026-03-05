@@ -13,6 +13,9 @@
 #include "world/level/LevelEvent.hpp"
 #include "world/level/TileEvent.hpp"
 
+class Player;
+class LevelChunk;
+
 class LevelListener
 {
 public:
@@ -31,6 +34,6 @@ public:
 	virtual void entityRemoved(Entity*) {}
 	virtual void levelEvent(const LevelEvent& event) {}
 	virtual void tileEvent(const TileEvent& event) {}
-	virtual void timeChanged(uint32_t time) {}
+	virtual void onNewChunkFor(Player& player, LevelChunk& chunk);
 };
 

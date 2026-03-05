@@ -18,6 +18,7 @@
 #define C_PLAYER_FLAG_USING_ITEM (4)
 
 class Inventory; // in case we're included from Inventory.hpp
+class Dimension;
 
 class Player : public Mob
 {
@@ -35,7 +36,7 @@ private:
 	void _init();
 
 public:
-	Player(Level* pLevel, GameType gameType);
+	Player(Level& pLevel, GameType gameType);
 	virtual ~Player();
 
 protected:

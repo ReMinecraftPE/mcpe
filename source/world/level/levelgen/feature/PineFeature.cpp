@@ -7,9 +7,9 @@
  ********************************************************************/
 
 #include "Feature.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
-bool PineFeature::place(Level* level, Random* random, const TilePos& pos)
+bool PineFeature::place(TileSource* source, Random* random, const TilePos& pos)
 {
 	if (pos.y <= C_MIN_Y)
 		return false;
@@ -43,7 +43,7 @@ bool PineFeature::place(Level* level, Random* random, const TilePos& pos)
 					break;
 				}
 
-				TileID tile = level->getTile(tp);
+				TileID tile = source->getTile(tp);
 				if (tile != TILE_AIR && tile != Tile::leaves->m_ID)
 					bCanPlace = false;
 			}
@@ -53,14 +53,14 @@ bool PineFeature::place(Level* level, Random* random, const TilePos& pos)
 	if (!bCanPlace)
 		return false;
 
-	TileID tileBelow = level->getTile(pos.below());
+	TileID tileBelow = source->getTile(pos.below());
 	if (tileBelow != Tile::grass->m_ID && tileBelow != Tile::dirt->m_ID)
 		return false;
 
 	if (pos.y >= C_MAX_Y - 1 - height)
 		return false;
 
-	level->setTileNoUpdate(pos.below(), Tile::dirt->m_ID);
+	source->setTileNoUpdate(pos.below(), Tile::dirt->m_ID);
 
 	int range = 0;
 
@@ -73,8 +73,8 @@ bool PineFeature::place(Level* level, Random* random, const TilePos& pos)
 			for (tp.z = pos.z - range; tp.z <= pos.z + range; tp.z++)
 			{
 				int dz = tp.z - pos.z;
-				if ((abs(dx) != range || abs(dz) != range || range <= 0) && !Tile::solid[level->getTile(TilePos(tp.x, b1, tp.z))])
-					level->setTileAndDataNoUpdate(TilePos(tp.x, b1, tp.z), Tile::leaves->m_ID, 1);
+				if ((abs(dx) != range || abs(dz) != range || range <= 0) && !Tile::solid[source->getTile(TilePos(tp.x, b1, tp.z))])
+					source->setTileAndDataNoUpdate(TilePos(tp.x, b1, tp.z), FullTile(Tile::leaves->m_ID, 1));
 			}
 		}
 
@@ -95,9 +95,9 @@ bool PineFeature::place(Level* level, Random* random, const TilePos& pos)
 	{
 		int cy = yd + pos.y;
 
-		TileID tile = level->getTile(TilePos(pos.x, cy, pos.z));
+		TileID tile = source->getTile(TilePos(pos.x, cy, pos.z));
 		if (tile == TILE_AIR || tile == Tile::leaves->m_ID)
-			level->setTileAndDataNoUpdate(TilePos(pos.x, cy, pos.z), Tile::treeTrunk->m_ID, 1);
+			source->setTileAndDataNoUpdate(TilePos(pos.x, cy, pos.z), FullTile(Tile::treeTrunk->m_ID, 1));
 	}
 
 	return true;

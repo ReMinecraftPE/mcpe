@@ -16,6 +16,6 @@ public:
 	SpongeTile(TileID ID, int texture);
 
 public:
-	void onPlace(Level*, const TilePos& pos) override;
-	void destroy(Level*, const TilePos& pos, TileData data) override;
+	void onPlace(TileSource*, const TilePos& pos) override;
+	void destroy(TileSource*, const TilePos& pos, TileData data) override;
 };

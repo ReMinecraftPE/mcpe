@@ -54,11 +54,12 @@ public:
     void load(IDataInput& dis) override;
 
 	std::string toString() const override;
+	size_t size() const { return m_list.size(); }
     void add(Tag* tag);
-	float getFloat(unsigned int index) const;
-	int32_t getInt32(unsigned int index) const;
-	const std::string& getString(unsigned int index) const;
-	const CompoundTag* getCompound(unsigned int index) const;
+	float getFloat(size_t index) const;
+	int32_t getInt32(size_t index) const;
+	const std::string& getString(size_t index) const;
+	const CompoundTag* getCompound(size_t index) const;
 	Tag* copy() const override;
 	ListTag* copyList() const;
 	void deleteChildren() override;

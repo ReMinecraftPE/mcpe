@@ -9,8 +9,8 @@
 #include "Particle.hpp"
 #include "world/level/Level.hpp"
 
-LavaParticle::LavaParticle(Level* level, const Vec3& pos) :
-	Particle(level, pos, Vec3::ZERO)
+LavaParticle::LavaParticle(TileSource& source, const Vec3& pos) :
+	Particle(source, pos, Vec3::ZERO)
 {
 	m_oSize = 0.0f;
 

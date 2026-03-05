@@ -32,8 +32,8 @@ public:
 	int getSpawnResourcesAuxValue(int) const override;
 	int getTexture(Facing::Name face) const override;
 	int getTexture(Facing::Name face, TileData data) const override;
-	void onPlace(Level*, const TilePos& pos) override;
-	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
+	void onPlace(TileSource*, const TilePos& pos) override;
+	bool shouldRenderFace(TileSource*, const TilePos& pos, Facing::Name face) const override;
 
 	bool m_bFull;
 };

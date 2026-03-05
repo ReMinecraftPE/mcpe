@@ -1,5 +1,5 @@
 #include "Web.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 Web::Web(TileID id, int texture) : Tile(id, texture, Material::web)
 {
@@ -21,7 +21,7 @@ bool Web::isSolidRender() const
 	return false;
 }
 
-void Web::entityInside(Level*, const TilePos& pos, Entity* entity) const
+void Web::entityInside(TileSource*, const TilePos& pos, Entity* entity) const
 {
 	entity->m_bIsInWeb = true;
 }
@@ -31,7 +31,7 @@ int Web::getResource(TileData data, Random* random) const
 	return Item::string->m_itemID;
 }
 
-AABB* Web::getAABB(const Level* level, const TilePos& pos)
+AABB* Web::getAABB(TileSource* level, const TilePos& pos)
 {
 	return nullptr;
 }

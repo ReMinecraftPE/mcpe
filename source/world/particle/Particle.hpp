@@ -32,7 +32,7 @@ private:
 	void _init();
 public:
 	Particle() { _init(); }
-	Particle(Level*, const Vec3& pos, const Vec3& dir);
+	Particle(TileSource& source, const Vec3& pos, const Vec3& dir);
 
 	virtual void render(Tesselator& t, float f, float xa, float ya, float za, float xa2, float za2);
 	virtual int getParticleTexture();
@@ -65,8 +65,8 @@ class TerrainParticle : public Particle
 private:
 	void _init(Tile* tile);
 public:
-	TerrainParticle(Level*, const Vec3& pos, Tile*);
-	TerrainParticle(Level*, const Vec3& pos, const Vec3& dir, Tile*);
+	TerrainParticle(TileSource& source, const Vec3& pos, Tile*);
+	TerrainParticle(TileSource& source, const Vec3& pos, const Vec3& dir, Tile*);
 
 	void render(Tesselator&, float, float, float, float, float, float) override;
 	int getParticleTexture() override;
@@ -79,14 +79,14 @@ public:
 class BubbleParticle : public Particle
 {
 public:
-	BubbleParticle(Level*, const Vec3& pos, const Vec3& dir);
+	BubbleParticle(TileSource& source, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 };
 
 class SmokeParticle : public Particle
 {
 public:
-	SmokeParticle(Level*, const Vec3& pos, const Vec3& dir, float a9);
+	SmokeParticle(TileSource& source, const Vec3& pos, const Vec3& dir, float a9);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
@@ -97,7 +97,7 @@ public:
 class RedDustParticle : public Particle
 {
 public:
-	RedDustParticle(Level*, const Vec3& pos, const Vec3& dir);
+	RedDustParticle(TileSource& source, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
@@ -108,14 +108,14 @@ public:
 class ExplodeParticle : public Particle
 {
 public:
-	ExplodeParticle(Level*, const Vec3& pos, const Vec3& dir);
+	ExplodeParticle(TileSource& source, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 };
 
 class FlameParticle : public Particle
 {
 public:
-	FlameParticle(Level*, const Vec3& pos, const Vec3& dir);
+	FlameParticle(TileSource& source, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
 	float getBrightness(float f) const override;
@@ -127,7 +127,7 @@ public:
 class LavaParticle : public Particle
 {
 public:
-	LavaParticle(Level*, const Vec3& pos);
+	LavaParticle(TileSource& source, const Vec3& pos);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
 	float getBrightness(float f) const override;

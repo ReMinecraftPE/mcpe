@@ -1,6 +1,7 @@
 #include "Arrow.hpp"
 #include "Mob.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 #include "nbt/CompoundTag.hpp"
 
 const unsigned int Arrow::ARROW_BASE_DAMAGE = 4;
@@ -22,25 +23,25 @@ void Arrow::_init()
     m_owner = nullptr;
 }
 
-Arrow::Arrow(Level* pLevel) : Entity(pLevel)
+Arrow::Arrow(TileSource& source) : Entity(source)
 {
     _init();
 }
 
-Arrow::Arrow(Level* pLevel, const Vec3& pos) : Entity(pLevel)
+Arrow::Arrow(TileSource& source, const Vec3& pos) : Entity(source)
 {
     _init();
 
 	setPos(pos);
 }
 
-Arrow::Arrow(Level* pLevel, Mob* pMob) : Entity(pLevel)
+Arrow::Arrow(Mob& mob) : Entity(*mob.m_tileSource)
 {
     _init();
 
-    m_owner = pMob;
+    m_owner = &mob;
     m_bIsPlayerOwned = m_owner->isPlayer();
-    moveTo(Vec3(pMob->m_pos.x, pMob->m_pos.y + pMob->getHeadHeight(), pMob->m_pos.z), Vec2(pMob->m_rot.y, pMob->m_rot.x));
+    moveTo(Vec3(mob.m_pos.x, mob.m_pos.y + mob.getHeadHeight(), mob.m_pos.z), Vec2(mob.m_rot.y, mob.m_rot.x));
     
     m_pos.x -= Mth::cos(m_rot.y / 180.0f * M_PI) * 0.16f;
     m_pos.y -= 0.1f;
@@ -101,7 +102,7 @@ void Arrow::tick()
 
     if (m_bInGround)
     {
-        if (m_pLevel->getTile(m_tilePos) == m_lastTile)
+        if (m_tileSource->getTile(m_tilePos) == m_lastTile)
         {
             ++m_life;
             if (m_life == 1200)
@@ -125,7 +126,8 @@ void Arrow::tick()
     }
 
     Vec3 future_pos = m_pos + m_vel;
-    HitResult hit_result = m_pLevel->clip(m_pos, future_pos);
+    HitResult hit_result;
+    m_tileSource->clip(hit_result, m_pos, future_pos, false, true);
     if (hit_result.isHit()) 
     {
         future_pos = hit_result.m_hitPos;
@@ -134,11 +136,11 @@ void Arrow::tick()
     Entity* hit_ent = nullptr;
     AABB hitbox = m_hitbox;
     hitbox.expand(m_vel.x, m_vel.y, m_vel.z).grow(1.0f);
-    EntityVector entities = m_pLevel->getEntities(this, hitbox);
+    const std::vector<Entity*>& entities = m_tileSource->getEntities(this, hitbox);
     
     float max_dist = 0.0f;
     constexpr float var10 = 0.3f;
-    for (EntityVector::iterator it = entities.begin(); it != entities.end(); it++)
+    for (std::vector<Entity*>::const_iterator it = entities.begin(); it != entities.end(); it++)
     {
         Entity* ent = *it;
         if (ent->isPickable() && (ent != m_owner || m_flightTime >= 5)) 
@@ -184,7 +186,7 @@ void Arrow::tick()
         else 
         {
             m_tilePos = hit_result.m_tilePos;
-            m_lastTile = m_pLevel->getTile(m_tilePos);
+            m_lastTile = m_tileSource->getTile(m_tilePos);
             m_vel = hit_result.m_hitPos - m_pos;
             m_pos -= (m_vel / m_pos.length() * 0.05f);
             m_pLevel->playSound(this, "random.drr", 1.0f, 1.2f / (sharedRandom.nextFloat() * 0.2f + 0.9f));

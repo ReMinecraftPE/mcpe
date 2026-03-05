@@ -15,16 +15,15 @@ class FarmTile : public Tile
 public:
 	FarmTile(TileID ID, Material*);
 
-public:
-	AABB* getAABB(const Level*, const TilePos& pos) override;
+	AABB* getAABB(TileSource*, const TilePos& pos) override;
 	int getResource(TileData, Random*) const override;
 	int getTexture(Facing::Name face, TileData data) const override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
-	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
-	void stepOn(Level* level, const TilePos& pos, Entity* pEnt) override;
-	void tick(Level* level, const TilePos& pos, Random* random) override;
+	void neighborChanged(TileSource*, const TilePos& pos, TileID tile) override;
+	void stepOn(TileSource* source, const TilePos& pos, Entity* pEnt) override;
+	void tick(TileSource* source, const TilePos& pos, Random* random) override;
 
-	bool isNearWater(Level* level, const TilePos& pos);
-	bool isUnderCrops(Level* level, const TilePos& pos);
+	bool isNearWater(TileSource* source, const TilePos& pos);
+	bool isUnderCrops(TileSource* source, const TilePos& pos);
 };

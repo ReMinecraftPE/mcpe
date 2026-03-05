@@ -8,6 +8,7 @@
 
 #include "LiquidTile.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 LiquidTile::LiquidTile(int id, Material* pMtl) : Tile(id, pMtl == Material::lava ? TEXTURE_LAVA : TEXTURE_WATER, pMtl)
 {
@@ -19,73 +20,73 @@ LiquidTile::LiquidTile(int id, Material* pMtl) : Tile(id, pMtl == Material::lava
 	setTicking(true);
 }
 
-void LiquidTile::animateTick(Level* level, const TilePos& pos, Random* random)
+void LiquidTile::animateTick(TileSource* source, const TilePos& pos, Random* random)
 {
 	if (m_pMaterial == Material::water)
 	{
 		if (!random->nextInt(64))
 			// @BUG: Return value unused.
-			level->getData(pos);
+			source->getData(pos);
 	}
 
 	// @BUG: Redundant check for isSolidTile?
-	if (m_pMaterial == Material::lava && level->getMaterial(pos.above()) == Material::air && !level->isSolidTile(pos.above()) && !random->nextInt(3))
+	if (m_pMaterial == Material::lava && source->getMaterial(pos.above()) == Material::air && !source->isSolidBlockingTile(pos.above()) && !random->nextInt(3))
 	{
-		level->addParticle("lava", Vec3(pos.x + random->nextFloat(), pos.y + m_aabb.max.y, pos.z + random->nextFloat()));
+		source->getLevel().addParticle("lava", Vec3(pos.x + random->nextFloat(), pos.y + m_aabb.max.y, pos.z + random->nextFloat()));
 	}
 }
 
-void LiquidTile::fizz(Level* level, const TilePos& pos)
+void LiquidTile::fizz(TileSource* source, const TilePos& pos)
 {
 	for (int i = 0; i < 8; i++)
 	{
-		level->addParticle("largesmoke", Vec3(pos.x + Mth::random(), pos.y + 1.2f, pos.z + Mth::random()));
+		source->getLevel().addParticle("largesmoke", Vec3(pos.x + Mth::random(), pos.y + 1.2f, pos.z + Mth::random()));
 	}
 }
 
-AABB* LiquidTile::getAABB(const Level*, const TilePos& pos)
+AABB* LiquidTile::getAABB(TileSource* source, const TilePos& pos)
 {
 	return nullptr;
 }
 
-float LiquidTile::getBrightness(const LevelSource* level, const TilePos& pos) const
+float LiquidTile::getBrightness(TileSource* source, const TilePos& pos) const
 {
-	float b1 = level->getBrightness(pos);
-	float b2 = level->getBrightness(pos.above());
+	float b1 = source->getBrightness(pos);
+	float b2 = source->getBrightness(pos.above());
 	if (b1 <= b2)
 		b1 = b2;
 	return b1;
 }
 
-int LiquidTile::getColor(const LevelSource* level, const TilePos& pos) const
+int LiquidTile::getColor(TileSource* source, const TilePos& pos) const
 {
 	return 0x999999FF;
 }
 
-int LiquidTile::getDepth(Level* level, const TilePos& pos)
+int LiquidTile::getDepth(TileSource* source, const TilePos& pos)
 {
-	if (level->getMaterial(pos) != m_pMaterial)
+	if (source->getMaterial(pos) != m_pMaterial)
 		return -1;
 
-	return level->getData(pos);
+	return source->getData(pos);
 }
 
-int LiquidTile::getRenderedDepth(const LevelSource* level, const TilePos& pos) const
+int LiquidTile::getRenderedDepth(TileSource* source, const TilePos& pos) const
 {
-	if (level->getMaterial(pos) != m_pMaterial)
+	if (source->getMaterial(pos) != m_pMaterial)
 		return -1;
 
-	int res = level->getData(pos);
+	int res = source->getData(pos);
 	if (res > 7)
 		res = 0;
 
 	return res;
 }
 
-Vec3 LiquidTile::getFlow(const LevelSource* level, const TilePos& pos) const
+Vec3 LiquidTile::getFlow(TileSource* source, const TilePos& pos) const
 {
 	Vec3 result;
-	int depthLocal = getRenderedDepth(level, pos);
+	int depthLocal = getRenderedDepth(source, pos);
 	for (int i = 0; i < 4; i++)
 	{
 		TilePos check(pos);
@@ -97,13 +98,13 @@ Vec3 LiquidTile::getFlow(const LevelSource* level, const TilePos& pos) const
 			case 3: check.z++; break;
 		}
 
-		int depthCheck = getRenderedDepth(level, check);
+		int depthCheck = getRenderedDepth(source, check);
 		if (depthCheck < 0)
 		{
-			if (level->getMaterial(check)->blocksMotion())
+			if (source->getMaterial(check)->blocksMotion())
 				continue;
 
-			depthCheck = getRenderedDepth(level, TilePos(check.x, check.y - 1, check.z));
+			depthCheck = getRenderedDepth(source, TilePos(check.x, check.y - 1, check.z));
 			if (depthCheck >= 0)
 			{
 				int mult = depthCheck - (depthLocal - 8);
@@ -121,16 +122,16 @@ Vec3 LiquidTile::getFlow(const LevelSource* level, const TilePos& pos) const
 		}
 	}
 
-	if (level->getData(pos) >= 8)
+	if (source->getData(pos) >= 8)
 	{
-		if (shouldRenderFace(level, pos.north(), Facing::NORTH) ||
-			shouldRenderFace(level, pos.south(), Facing::SOUTH) ||
-			shouldRenderFace(level, pos.west(), Facing::WEST) ||
-			shouldRenderFace(level, pos.east(), Facing::EAST) ||
-			shouldRenderFace(level, pos.above().north(), Facing::NORTH) ||
-			shouldRenderFace(level, pos.above().south(), Facing::SOUTH) ||
-			shouldRenderFace(level, pos.above().west(), Facing::WEST) ||
-			shouldRenderFace(level, pos.above().east(), Facing::EAST))
+		if (shouldRenderFace(source, pos.north(), Facing::NORTH) ||
+			shouldRenderFace(source, pos.south(), Facing::SOUTH) ||
+			shouldRenderFace(source, pos.west(), Facing::WEST) ||
+			shouldRenderFace(source, pos.east(), Facing::EAST) ||
+			shouldRenderFace(source, pos.above().north(), Facing::NORTH) ||
+			shouldRenderFace(source, pos.above().south(), Facing::SOUTH) ||
+			shouldRenderFace(source, pos.above().west(), Facing::WEST) ||
+			shouldRenderFace(source, pos.above().east(), Facing::EAST))
 		{
 			result = result.normalize() + Vec3(0, -6, 0);
 		}
@@ -154,13 +155,13 @@ int LiquidTile::getResourceCount(Random* random) const
 	return 0;
 }
 
-float LiquidTile::getSlopeAngle(const LevelSource* level, const TilePos& pos, const Material* pMtl)
+float LiquidTile::getSlopeAngle(TileSource* source, const TilePos& pos, const Material* pMtl)
 {
 	Vec3 vec;
 	if (pMtl == Material::water)
-		vec = ((LiquidTile*)Tile::water)->getFlow(level, pos);
+		vec = ((LiquidTile*)Tile::water)->getFlow(source, pos);
 	if (pMtl == Material::lava)
-		vec = ((LiquidTile*)Tile::lava)->getFlow(level, pos);
+		vec = ((LiquidTile*)Tile::lava)->getFlow(source, pos);
 
 	if (vec.x == 0 && vec.z == 0)
 		return -1000.0f;
@@ -192,9 +193,9 @@ int LiquidTile::getTickDelay() const
 	return 0;
 }
 
-void LiquidTile::handleEntityInside(Level* level, const TilePos& pos, const Entity* pEnt, Vec3& vec)
+void LiquidTile::handleEntityInside(TileSource* source, const TilePos& pos, const Entity* pEnt, Vec3& vec)
 {
-	vec += getFlow(level, pos);
+	vec += getFlow(source, pos);
 }
 
 bool LiquidTile::isCubeShaped() const
@@ -215,49 +216,49 @@ bool LiquidTile::mayPick(TileData data, bool b) const
 	return data == 0;
 }
 
-void LiquidTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
+void LiquidTile::neighborChanged(TileSource* source, const TilePos& pos, TileID tile)
 {
-	updateLiquid(level, pos);
+	updateLiquid(source, pos);
 }
 
-void LiquidTile::onPlace(Level* level, const TilePos& pos)
+void LiquidTile::onPlace(TileSource* source, const TilePos& pos)
 {
-	updateLiquid(level, pos);
+	updateLiquid(source, pos);
 }
 
-bool LiquidTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
+bool LiquidTile::shouldRenderFace(TileSource* source, const TilePos& pos, Facing::Name face) const
 {
-	Material* pMtl = level->getMaterial(pos);
+	Material* pMtl = source->getMaterial(pos);
 	if (pMtl == m_pMaterial || pMtl == Material::ice)
 		return false;
 
 	if (face == Facing::UP)
 		return true;
 
-	return Tile::shouldRenderFace(level, pos, face);
+	return Tile::shouldRenderFace(source, pos, face);
 }
 
-void LiquidTile::tick(Level*, const TilePos& pos, Random* random)
+void LiquidTile::tick(TileSource* source, const TilePos& pos, Random* random)
 {
 }
 
-void LiquidTile::updateLiquid(Level* level, const TilePos& pos)
+void LiquidTile::updateLiquid(TileSource* source, const TilePos& pos)
 {
-	if (level->getTile(pos) != m_ID)
+	if (source->getTile(pos) != m_ID)
 		return;
 
 	if (m_pMaterial != Material::lava)
 		// such interactions do not apply to water
 		return;
 
-	if (level->getMaterial(pos.north()) == Material::water ||
-		level->getMaterial(pos.south()) == Material::water ||
-		level->getMaterial(pos.west()) == Material::water ||
-		level->getMaterial(pos.east()) == Material::water ||
-		level->getMaterial(pos.above()) == Material::water)
+	if (source->getMaterial(pos.north()) == Material::water ||
+		source->getMaterial(pos.south()) == Material::water ||
+		source->getMaterial(pos.west()) == Material::water ||
+		source->getMaterial(pos.east()) == Material::water ||
+		source->getMaterial(pos.above()) == Material::water)
 	{
 		Tile* newTile;
-		TileData data = level->getData(pos);
+		TileData data = source->getData(pos);
 
 		if (data == 0)
 		{
@@ -266,7 +267,7 @@ void LiquidTile::updateLiquid(Level* level, const TilePos& pos)
 		else if (data > 4)
 		{
 			// @NOTE: huh?
-			fizz(level, pos);
+			fizz(source, pos);
 			return;
 		}
 		else
@@ -274,8 +275,8 @@ void LiquidTile::updateLiquid(Level* level, const TilePos& pos)
 			newTile = Tile::stoneBrick;
 		}
 
-		level->setTile(pos, newTile->m_ID);
+		source->setTile(pos, newTile->m_ID);
 
-		fizz(level, pos);
+		fizz(source, pos);
 	}
 }

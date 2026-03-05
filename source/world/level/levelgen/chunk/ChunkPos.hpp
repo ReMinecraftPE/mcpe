@@ -12,6 +12,7 @@ struct TilePos;
 
 struct ChunkPos
 {
+public:
 	int x, z;
     
 private:
@@ -41,7 +42,9 @@ public:
 	ChunkPos operator-(const ChunkPos& b) const;
 	ChunkPos operator-(int i) const;
 	void operator+=(const ChunkPos& b);
+	void operator+=(int i);
 	void operator-=(const ChunkPos& b);
+	void operator-=(int i);
 	void operator*=(int i);
 	ChunkPos operator-() const;
 	ChunkPos operator*(int i) const;
@@ -60,4 +63,7 @@ public:
 	{
 		return int(floorf(value / 16));
 	}
+
+public:
+	static const ChunkPos INVALID;
 };

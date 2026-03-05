@@ -144,9 +144,20 @@ void LevelData::loadTagData(CompoundTag& tag)
     setSeed(tag.getInt64("RandomSeed"));
     setGameType((GameType)tag.getInt32("GameType"));
 
-    setXSpawn(tag.getInt32("SpawnX"));
-    setYSpawn(tag.getInt32("SpawnY"));
-    setZSpawn(tag.getInt32("SpawnZ"));
+    m_spawnPos.x = tag.getInt32("SpawnX");
+	m_spawnPos.y = tag.getInt32("SpawnY");
+	m_spawnPos.z = tag.getInt32("SpawnZ");
+
+	if (tag.contains("LimitedWorldOriginX"))
+	{
+		m_limitedWorldOrigin.x = tag.getInt32("LimitedWorldOriginX");
+		m_limitedWorldOrigin.y = tag.getInt32("LimitedWorldOriginY");
+		m_limitedWorldOrigin.z = tag.getInt32("LimitedWorldOriginZ");
+	}
+	else
+	{
+		m_limitedWorldOrigin = TilePos(128, 64, 128);
+	}
 
     setTime(tag.getInt64("Time"));
     _setLastPlayed(tag.getInt64("LastPlayed"));
@@ -172,9 +183,9 @@ void LevelData::writeTagData(CompoundTag& levelTag, CompoundTag* playerTag) cons
 	tag.putInt64("RandomSeed", getSeed());
 	tag.putInt32("GameType", getGameType());
 
-	tag.putInt32("SpawnX", getXSpawn());
-	tag.putInt32("SpawnY", getYSpawn());
-	tag.putInt32("SpawnZ", getZSpawn());
+	tag.putInt32("SpawnX", m_spawnPos.x);
+	tag.putInt32("SpawnY", m_spawnPos.y);
+	tag.putInt32("SpawnZ", m_spawnPos.z);
 
 	tag.putInt64("Time", getTime());
 	tag.putInt64("SizeOnDisk", getSizeOnDisk());

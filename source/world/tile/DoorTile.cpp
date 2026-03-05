@@ -8,6 +8,7 @@
 
 #include "DoorTile.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 #include "world/item/Item.hpp"
 
 DoorTile::DoorTile(int ID, Material* pMtl) : Tile(ID, pMtl)
@@ -21,40 +22,39 @@ DoorTile::DoorTile(int ID, Material* pMtl) : Tile(ID, pMtl)
 	Tile::setShape(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool DoorTile::use(Level* level, const TilePos& pos, Player* player)
+bool DoorTile::use(TileSource* source, const TilePos& pos, Player* player)
 {
 	// well, you know, iron doors can't be opened by right clicking
 	if (m_pMaterial == Material::metal)
 		return true;
 
-	TileData data = level->getData(pos);
+	TileData data = source->getData(pos);
 
 	// if we're the top tile
 	if (data & 8)
 	{
-		if (level->getTile(pos.below()) == m_ID)
-			use(level, pos.below(), player);
+		if (source->getTile(pos.below()) == m_ID)
+			use(source, pos.below(), player);
 	}
 	else
 	{
 		data ^= 4;
-		if (level->getTile(pos.above()) == m_ID)
-			level->setData(pos.above(), data + 8);
+		if (source->getTile(pos.above()) == m_ID)
+			source->setTileAndData(pos.above(), FullTile(m_ID, data + 8), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
 
-		level->setData(pos, data);
+		source->setTileAndData(pos, FullTile(m_ID, data), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
 
-		// @BUG: marking the wrong tiles as dirty? No problem because setData sends an update immediately anyways
-		level->setTilesDirty(pos.below(), pos);
+		// there is a fireTileChanged call here, but setTileAndData should already be calling that
 
-		level->levelEvent(LevelEvent(LevelEvent::SOUND_DOOR, pos, 0, player));
+		source->getLevel().levelEvent(LevelEvent(LevelEvent::SOUND_DOOR, pos, 0, player));
 	}
 
 	return true;
 }
 
-void DoorTile::attack(Level* level, const TilePos& pos, Player* player)
+void DoorTile::attack(TileSource* source, const TilePos& pos, Player* player)
 {
-	use(level, pos, player);
+	use(source, pos, player);
 }
 
 // @HUH: This function has NO references to itself. Not even in the vtable of the tile.
@@ -65,17 +65,17 @@ bool DoorTile::blocksLight() const
 	return false;
 }
 
-HitResult DoorTile::clip(const Level* level, const TilePos& pos, Vec3 v1, Vec3 v2)
+HitResult DoorTile::clip(TileSource* source, const TilePos& pos, Vec3 v1, Vec3 v2)
 {
 	// @NOTE: Tile::clip calls updateShape too. So this is redundant
-	updateShape(level, pos);
-	return Tile::clip(level, pos, v1, v2);
+	updateShape(source, pos);
+	return Tile::clip(source, pos, v1, v2);
 }
 
-AABB* DoorTile::getAABB(const Level* level, const TilePos& pos)
+AABB* DoorTile::getAABB(TileSource* source, const TilePos& pos)
 {
-	updateShape(level, pos);
-	return Tile::getAABB(level, pos);
+	updateShape(source, pos);
+	return Tile::getAABB(source, pos);
 }
 
 int DoorTile::getDir(TileData data) const
@@ -124,10 +124,10 @@ int DoorTile::getTexture(Facing::Name face, TileData data) const
 	return idx;
 }
 
-AABB DoorTile::getTileAABB(const Level* level, const TilePos& pos)
+AABB DoorTile::getTileAABB(TileSource* source, const TilePos& pos)
 {
-	updateShape(level, pos);
-	return Tile::getTileAABB(level, pos);
+	updateShape(source, pos);
+	return Tile::getTileAABB(source, pos);
 }
 
 bool DoorTile::isCubeShaped() const
@@ -140,9 +140,9 @@ bool DoorTile::isSolidRender() const
 	return false;
 }
 
-bool DoorTile::mayPlace(const Level* level, const TilePos& pos) const
+bool DoorTile::mayPlace(TileSource* source, const TilePos& pos) const
 {
-	return pos.y <= 126 && level->isSolidTile(pos.below()) && Tile::mayPlace(level, pos) && Tile::mayPlace(level, pos.above());
+	return pos.y <= 126 && source->isSolidBlockingTile(pos.below()) && Tile::mayPlace(source, pos) && Tile::mayPlace(source, pos.above());
 }
 
 void DoorTile::setShape(int dir)
@@ -166,28 +166,29 @@ void DoorTile::setShape(int dir)
 	}
 }
 
-void DoorTile::updateShape(const LevelSource* level, const TilePos& pos)
+void DoorTile::updateShape(TileSource* source, const TilePos& pos)
 {
-	setShape(getDir(level->getData(pos)));
+	setShape(getDir(source->getData(pos)));
 }
 
-void DoorTile::setOpen(Level* level, const TilePos& pos, bool bOpen)
+void DoorTile::setOpen(TileSource* source, const TilePos& pos, bool bOpen)
 {
-	TileData data = level->getData(pos);
+	TileData data = source->getData(pos);
 	if (isTop(data))
 	{
-		if (level->getTile(pos.below()) == m_ID)
-			setOpen(level, pos.below(), bOpen);
+		if (source->getTile(pos.below()) == m_ID)
+			setOpen(source, pos.below(), bOpen);
 		return;
 	}
 
-	if (isOpen(level->getData(pos)) != bOpen)
+	if (isOpen(source->getData(pos)) != bOpen)
 	{
-		if (level->getTile(pos.above()) == m_ID)
-			level->setData(pos.above(), (data ^ 4) + 8);
+		if (source->getTile(pos.above()) == m_ID)
+			source->setTileAndData(pos.above(), FullTile(m_ID, (data ^ 4) + 8), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
 
-		level->setData(pos, data ^ 4);
-		level->setTilesDirty(pos.below(), pos);
+		source->setTileAndData(pos, FullTile(m_ID, data ^ 4), TileChange::UPDATE_ALL | TileChange::UPDATE_UNK3);
+
+		// there is a fireTileChanged call here, but setTileAndData should already be calling that
 
 		std::string snd;
 		if (Mth::random() < 0.5f)
@@ -195,52 +196,53 @@ void DoorTile::setOpen(Level* level, const TilePos& pos, bool bOpen)
 		else
 			snd = "random.door_close";
 
-		level->playSound(Vec3(pos) + 0.5f, snd, 1.0f, 0.9f + 0.1f * level->m_random.nextFloat());
+		Level& level = source->getLevel();
+		level.playSound(Vec3(pos) + 0.5f, snd, 1.0f, 0.9f + 0.1f * level.m_random.nextFloat());
 	}
 }
 
-void DoorTile::neighborChanged(Level* level, const TilePos& pos, TileID newTile)
+void DoorTile::neighborChanged(TileSource* source, const TilePos& pos, TileID newTile)
 {
-	int isTop = level->getData(pos) & 8;
+	int isTop = source->getData(pos) & 8;
 	if (isTop)
 	{
-		if (level->getTile(pos.below()) != m_ID)
+		if (source->getTile(pos.below()) != m_ID)
 		{
-			level->setTile(pos, TILE_AIR);
-			spawnResources(level, pos, level->getData(pos));
+			source->setTile(pos, TILE_AIR);
+			spawnResources(source, pos, source->getData(pos));
 		}
 
 		if (newTile > 0)
 		{
 			if (Tile::tiles[newTile]->isSignalSource())
-				neighborChanged(level, pos.below(), newTile);
+				neighborChanged(source, pos.below(), newTile);
 		}
 
 		return;
 	}
 
-	if (level->getTile(pos.above()) != m_ID)
+	if (source->getTile(pos.above()) != m_ID)
 	{
-		level->setTile(pos, TILE_AIR);
+		source->setTile(pos, TILE_AIR);
 		isTop = 1;
 	}
 
-	if (!level->isSolidTile(pos.below()))
+	if (!source->isSolidBlockingTile(pos.below()))
 	{
-		level->setTile(pos, TILE_AIR);
-		if (level->getTile(pos.above()) == m_ID)
+		source->setTile(pos, TILE_AIR);
+		if (source->getTile(pos.above()) == m_ID)
 		{
-			level->setTile(pos.above(), TILE_AIR);
-			spawnResources(level, pos, level->getData(pos));
+			source->setTile(pos.above(), TILE_AIR);
+			spawnResources(source, pos, source->getData(pos));
 		}
 	}
 
 	if (!isTop && newTile > 0 && Tile::tiles[newTile]->isSignalSource())
 	{
 		bool bOpen = false;
-		if (level->hasNeighborSignal(pos) || level->hasNeighborSignal(pos.above()))
+		if (source->hasNeighborSignal(pos) || source->hasNeighborSignal(pos.above()))
 			bOpen = true;
 
-		setOpen(level, pos, bOpen);
+		setOpen(source, pos, bOpen);
 	}
 }

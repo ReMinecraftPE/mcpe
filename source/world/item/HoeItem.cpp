@@ -1,6 +1,7 @@
 #include "HoeItem.hpp"
 #include "world/entity/Player.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 HoeItem::HoeItem(int id, ToolItem::Tier& tier) : Item(id)
 {
@@ -10,8 +11,10 @@ HoeItem::HoeItem(int id, ToolItem::Tier& tier) : Item(id)
 
 bool HoeItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
-    int tile = level->getTile(pos);
-    int below = level->getTile(pos.above());
+    TileSource& source = player->getTileSource();
+
+    TileID tile = source.getTile(pos);
+    TileID below = source.getTile(pos.above());
 
     if ((face == Facing::DOWN || below || tile != Tile::grass->m_ID) && tile != Tile::dirt->m_ID)
         return false;
@@ -31,13 +34,13 @@ bool HoeItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos
             1.2f,
             level->m_random.nextFloat() * spread + (1.0f - spread) * 0.5f
         );
-        ItemEntity* itemEntity = new ItemEntity(level, pos + spreadPos, ItemStack(Item::seeds));
+        std::unique_ptr<ItemEntity> itemEntity(new ItemEntity(source, pos + spreadPos, ItemStack(Item::seeds)));
         itemEntity->m_throwTime = 10;
-        level->addEntity(itemEntity);
+        level->addEntity(std::move(itemEntity));
     }
 #endif
 
-    level->setTile(pos, newTile->m_ID);
+    source.setTile(pos, newTile->m_ID);
     inst->hurtAndBreak(1, player);
     return true;
 }

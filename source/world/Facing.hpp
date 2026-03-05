@@ -1,5 +1,7 @@
 #pragma once
 
+struct TilePos;
+
 class Facing
 {
 public:
@@ -10,6 +12,11 @@ public:
 		NORTH, // -Z
 		SOUTH, // +Z
 		WEST,  // -X
-		EAST   // +X
+		EAST,  // +X
+		COUNT
 	};
+
+public:
+	static Name DIRECTIONS[COUNT];
+	static TilePos DIRECTION[COUNT];
 };

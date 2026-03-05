@@ -10,7 +10,7 @@ public:
 	static const unsigned int COLOR_COUNT; // NumColors on PE, stupid name
 
 public:
-	Sheep(Level* pLevel);
+	Sheep(TileSource& source);
 
 private:
 	void _defineEntityData();
@@ -23,7 +23,7 @@ public:
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 
-	Entity* getBreedOffspring(Animal* pOther) { return new Sheep(m_pLevel); }
+	Entity* getBreedOffspring(Animal* pOther) { return new Sheep(*m_tileSource); }
 
     int getColor() const;
     void setColor(int);

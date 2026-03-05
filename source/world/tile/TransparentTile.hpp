@@ -17,7 +17,7 @@ public:
 
 public:
 	bool isSolidRender() const override;
-	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
+	bool shouldRenderFace(TileSource*, const TilePos& pos, Facing::Name face) const override;
 
 public:
 	bool m_bTransparent;

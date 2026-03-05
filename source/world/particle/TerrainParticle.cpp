@@ -18,14 +18,14 @@ void TerrainParticle::_init(Tile* tile)
 	m_size *= 0.5f;
 }
 
-TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, Tile* tile) :
-	Particle(level, pos, Vec3::ZERO)
+TerrainParticle::TerrainParticle(TileSource& source, const Vec3& pos, Tile* tile) :
+	Particle(source, pos, Vec3::ZERO)
 {
 	_init(tile);
 }
 
-TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, const Vec3& dir, Tile* tile) :
-	Particle(level, pos, dir)
+TerrainParticle::TerrainParticle(TileSource& source, const Vec3& pos, const Vec3& dir, Tile* tile) :
+	Particle(source, pos, dir)
 {
 	_init(tile);
 }
@@ -36,12 +36,12 @@ TerrainParticle* TerrainParticle::init(const TilePos& tilePos, Facing::Name face
 	face = Facing::DOWN;
 #endif
 
-	m_tex = m_pTile->getTexture(m_pLevel, tilePos, face);
+	m_tex = m_pTile->getTexture(m_tileSource, tilePos, face);
 
 	if (m_pTile == Tile::grass && face != Facing::UP)
 		return this;
 
-	int color = m_pTile->getColor(m_pLevel, tilePos);
+	int color = m_pTile->getColor(m_tileSource, tilePos);
 	m_rCol *= float(GET_RED(color)) / 255.0f;
 	m_gCol *= float(GET_GREEN(color)) / 255.0f;
 	m_bCol *= float(GET_BLUE(color)) / 255.0f;

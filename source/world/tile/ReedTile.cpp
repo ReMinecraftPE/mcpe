@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "ReedTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 ReedTile::ReedTile(TileID id) : Tile(id, Material::plant)
 {
@@ -32,9 +32,9 @@ bool ReedTile::isSolidRender() const
 	return false;
 }
 
-bool ReedTile::mayPlace(const Level* level, const TilePos& pos) const
+bool ReedTile::mayPlace(TileSource* source, const TilePos& pos) const
 {
-	TileID tileBelow = level->getTile(pos.below());
+	TileID tileBelow = source->getTile(pos.below());
 
 	if (tileBelow == m_ID)
 		return true;
@@ -44,56 +44,56 @@ bool ReedTile::mayPlace(const Level* level, const TilePos& pos) const
 		return false;
 
 	return
-		level->getMaterial(pos.below().west()) == Material::water ||
-		level->getMaterial(pos.below().east()) == Material::water ||
-		level->getMaterial(pos.below().north()) == Material::water ||
-		level->getMaterial(pos.below().south()) == Material::water;
+		source->getMaterial(pos.below().west()) == Material::water ||
+		source->getMaterial(pos.below().east()) == Material::water ||
+		source->getMaterial(pos.below().north()) == Material::water ||
+		source->getMaterial(pos.below().south()) == Material::water;
 }
 
-bool ReedTile::canSurvive(const Level* level, const TilePos& pos) const
+bool ReedTile::canSurvive(TileSource* source, const TilePos& pos) const
 {
-	return mayPlace(level, pos);
+	return mayPlace(source, pos);
 }
 
-void ReedTile::checkAlive(Level* level, const TilePos& pos)
+void ReedTile::checkAlive(TileSource* source, const TilePos& pos)
 {
-	if (!canSurvive(level, pos))
+	if (!canSurvive(source, pos))
 	{
-		spawnResources(level, pos, level->getData(pos));
-		level->setTile(pos, TILE_AIR);
+		spawnResources(source, pos, source->getData(pos));
+		source->setTile(pos, TILE_AIR);
 	}
 }
 
-void ReedTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
+void ReedTile::neighborChanged(TileSource* source, const TilePos& pos, TileID tile)
 {
-	return checkAlive(level, pos);
+	return checkAlive(source, pos);
 }
 
-void ReedTile::tick(Level* level, const TilePos& pos, Random* random)
+void ReedTile::tick(TileSource* source, const TilePos& pos, Random* random)
 {
-	if (!level->isEmptyTile(pos))
+	if (!source->isEmptyTile(pos))
 		return;
 
 	int height;
-	for (height = 1; level->getTile(TilePos(pos.x, pos.y - height, pos.z)) == m_ID; height++);
+	for (height = 1; source->getTile(TilePos(pos.x, pos.y - height, pos.z)) == m_ID; height++);
 
 	if (height <= 2)
 	{
-		TileData data = level->getData(pos);
+		TileData data = source->getData(pos);
 
 		if (data == 15)
 		{
-			level->setTile(pos.above(), m_ID);
-			level->setData(pos, 0);
+			source->setTileAndData(pos.above(), FullTile(m_ID, 0));
+			source->setTileAndData(pos, FullTile(m_ID, 0));
 		}
 		else
 		{
-			level->setData(pos, data + 1);
+			source->setTileAndData(pos, FullTile(m_ID, data + 1));
 		}
 	}
 }
 
-AABB* ReedTile::getAABB(const Level* level, const TilePos& pos)
+AABB* ReedTile::getAABB(TileSource* source, const TilePos& pos)
 {
 	return nullptr;
 }

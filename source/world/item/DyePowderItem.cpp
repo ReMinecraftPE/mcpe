@@ -7,6 +7,7 @@
 #include "world/tile/CropsTile.hpp"
 #include "world/tile/ClothTile.hpp"
 #include "world/entity/EntityType.hpp"
+#include "world/level/TileSource.hpp"
 #include "DyeColor.hpp"
 
 DyePowderItem::DyePowderItem(int itemID) : Item(itemID)
@@ -36,18 +37,20 @@ bool DyePowderItem::useOn(ItemStack* item, Player* player, Level* level, const T
     // Aux value 15 is bonemeal
     if (item->getAuxValue() == 15)
 	{
-		TileID tile = level->getTile(pos);
+		TileSource& source = player->getTileSource();
+
+		TileID tile = source.getTile(pos);
 		
 		if (tile == Tile::sapling->m_ID)
 		{
-			(static_cast<Sapling*>(Tile::sapling))->growTree(level, pos, &level->m_random);
+			(static_cast<Sapling*>(Tile::sapling))->growTree(&source, pos, &level->m_random);
 			item->m_count--;
 			return true;
 		}
 		
 		if (tile == Tile::crops->m_ID)
 		{
-			static_cast<CropsTile*>(Tile::crops)->growCropsToMax(level, pos);
+			static_cast<CropsTile*>(Tile::crops)->growCropsToMax(&source, pos);
 			item->m_count--;
 			return true;
 		}

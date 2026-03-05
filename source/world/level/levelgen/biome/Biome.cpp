@@ -9,6 +9,8 @@
 #include "Biome.hpp"
 #include "world/tile/Tile.hpp"
 
+std::vector<MobSpawnerData> Biome::EMPTY_MOBLIST;
+
 Biome
 * Biome::rainForest,
 * Biome::swampland,

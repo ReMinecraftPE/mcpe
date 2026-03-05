@@ -7,9 +7,9 @@
  ********************************************************************/
 
 #include "Feature.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
-bool ReedsFeature::place(Level* level, Random* random, const TilePos& pos)
+bool ReedsFeature::place(TileSource* source, Random* random, const TilePos& pos)
 {
 	TilePos tp(pos);
 
@@ -18,20 +18,20 @@ bool ReedsFeature::place(Level* level, Random* random, const TilePos& pos)
 		tp.x = pos.x + random->nextInt(4) - random->nextInt(4);
 		tp.z = pos.z + random->nextInt(4) - random->nextInt(4);
 
-		if (!level->isEmptyTile(tp))
+		if (!source->isEmptyTile(tp))
 			continue;
 
-		if (level->getMaterial(TilePos(tp.x - 1, tp.y - 1, tp.z)) == Material::water ||
-			level->getMaterial(TilePos(tp.x + 1, tp.y - 1, tp.z)) == Material::water ||
-			level->getMaterial(TilePos(tp.x, tp.y - 1, tp.z - 1)) == Material::water ||
-			level->getMaterial(TilePos(tp.x, tp.y - 1, tp.z + 1)) == Material::water)
+		if (source->getMaterial(TilePos(tp.x - 1, tp.y - 1, tp.z)) == Material::water ||
+			source->getMaterial(TilePos(tp.x + 1, tp.y - 1, tp.z)) == Material::water ||
+			source->getMaterial(TilePos(tp.x, tp.y - 1, tp.z - 1)) == Material::water ||
+			source->getMaterial(TilePos(tp.x, tp.y - 1, tp.z + 1)) == Material::water)
 		{
 			int height = random->nextInt(random->nextInt(3) + 1) + 2;
 			for (int y1 = 0; y1 < height; y1++)
 			{
-				if (Tile::reeds->canSurvive(level, TilePos(tp.x, tp.y + y1, tp.z)))
+				if (Tile::reeds->canSurvive(source, TilePos(tp.x, tp.y + y1, tp.z)))
 				{
-					level->setTileNoUpdate(TilePos(tp.x, tp.y + y1, tp.z), Tile::reeds->m_ID);
+					source->setTileNoUpdate(TilePos(tp.x, tp.y + y1, tp.z), Tile::reeds->m_ID);
 				}
 			}
 		}

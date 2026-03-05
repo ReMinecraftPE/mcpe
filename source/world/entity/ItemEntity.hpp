@@ -16,8 +16,8 @@ private:
 	void _init(const ItemStack& itemStack = ItemStack::EMPTY);
 	void _init(const ItemStack& itemStack, const Vec3& pos);
 public:
-	ItemEntity(Level* level) : Entity(level) { _init(); }
-	ItemEntity(Level* level, const Vec3& pos, const ItemStack& itemStack) : Entity(level) { _init(itemStack, pos); }
+	ItemEntity(TileSource& source) : Entity(source) { _init(); }
+	ItemEntity(TileSource& source, const Vec3& pos, const ItemStack& itemStack) : Entity(source) { _init(itemStack, pos); }
 	~ItemEntity();
 
 	void burn(int damage) override;

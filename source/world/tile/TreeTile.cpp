@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TreeTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 TreeTile::TreeTile(int id) : Tile(id, Material::wood)
 {
@@ -45,10 +45,10 @@ int TreeTile::getTexture(Facing::Name face, TileData data) const
 	return TEXTURE_LOG_SIDE;
 }
 
-void TreeTile::onRemove(Level* level, const TilePos& pos)
+void TreeTile::onRemove(TileSource* source, const TilePos& pos)
 {
 	// signal to nearby leaves that they should decay
-	if (!level->hasChunksAt(pos - 5, pos + 5))
+	if (!source->hasChunksAt(pos - 5, pos + 5))
 		return;
 
 	TilePos tp;
@@ -58,14 +58,14 @@ void TreeTile::onRemove(Level* level, const TilePos& pos)
 		{
 			for (tp.z = -4; tp.z <= 5; tp.z++)
 			{
-				TileID tid = level->getTile(pos + tp);
+				TileID tid = source->getTile(pos + tp);
 				if (tid != Tile::leaves->m_ID) continue;
 
-				TileData data = level->getData(pos + tp);
+				TileData data = source->getData(pos + tp);
 				if (data & 4)
 					continue;
 
-				level->setDataNoUpdate(pos + tp, data | 8);
+				source->setTileAndDataNoUpdate(pos + tp, FullTile(m_ID, data | 8));
 			}
 		}
 	}

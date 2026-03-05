@@ -9,7 +9,7 @@ private:
 	static ItemStack bow;
 
 public:
-	Skeleton(Level* pLevel);
+	Skeleton(TileSource& source);
 
 public:
 	std::string getAmbientSound() const override { return "mob.skeleton"; }

@@ -13,6 +13,10 @@
 class ProgressScreen : public Screen
 {
 public:
+	virtual ~ProgressScreen();
+
+public:
+	void init() override;
 	void render(float f) override;
 	void updateEvents() override;
 	bool isInGameScreen() override;

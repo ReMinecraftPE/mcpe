@@ -39,7 +39,7 @@ protected:
 		const Vec2& glintUVScale, const Vec2& uvAnim,
 		float a);
 	// For TileEntities
-	void _setupShaderParameters(const LevelSource& source,
+	void _setupShaderParameters(const TileSource& source,
 		const TilePos& pos,
 		float a,
 		const Vec2& uvScale);

@@ -6,7 +6,7 @@
 class Monster : public PathfinderMob
 {
 public:
-	Monster(Level* pLevel);
+	Monster(TileSource& source);
 
 	void aiStep() override;
 	void tick() override;

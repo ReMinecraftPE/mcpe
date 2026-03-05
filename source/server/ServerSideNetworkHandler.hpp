@@ -69,7 +69,6 @@ public:
 	// Overridden from LevelListener
 	void tileBrightnessChanged(const TilePos& pos) override;
 	void tileChanged(const TilePos& pos) override;
-	void timeChanged(uint32_t time) override;
 	void entityAdded(Entity* entity) override;
 	void entityRemoved(Entity* entity) override;
 	void levelEvent(const LevelEvent& event) override;

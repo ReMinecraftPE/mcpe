@@ -1,5 +1,5 @@
 #include "CactusTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 CactusTile::CactusTile(int id, int texture) : Tile(id, texture, Material::cactus)
 {
@@ -7,40 +7,40 @@ CactusTile::CactusTile(int id, int texture) : Tile(id, texture, Material::cactus
 	setTicking(true);
 }
 
-AABB* CactusTile::getAABB(const Level* pLevel, const TilePos& pos)
+AABB* CactusTile::getAABB(TileSource* source, const TilePos& pos)
 {
-	AABB* aabb = Tile::getAABB(pLevel, pos);
+	AABB* aabb = Tile::getAABB(source, pos);
 	aabb->max.y -= 1.0f / 16.0f;
 	return aabb;
 }
 
-bool CactusTile::mayPlace(const Level* level, const TilePos& pos) const
+bool CactusTile::mayPlace(TileSource* source, const TilePos& pos) const
 {
-	return Tile::mayPlace(level, pos) && canSurvive(level, pos);
+	return Tile::mayPlace(source, pos) && canSurvive(source, pos);
 }
 
-bool CactusTile::canSurvive(const Level* level, const TilePos& pos) const
+bool CactusTile::canSurvive(TileSource* source, const TilePos& pos) const
 {
 	for (int i = Facing::NORTH; i <= Facing::EAST; ++i)
 	{
-		if (level->getMaterial(pos.relative((Facing::Name)i))->isSolid())
+		if (source->getMaterial(pos.relative((Facing::Name)i))->isSolid())
 		{
 			return false;
 		}
 	}
 
-	TileID tile = level->getTile(pos.below());
+	TileID tile = source->getTile(pos.below());
 
 	return tile == Tile::sand->m_ID || tile == m_ID;
 }
 
 
-void CactusTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
+void CactusTile::neighborChanged(TileSource* source, const TilePos& pos, TileID tile)
 {
-	if (!canSurvive(level, pos))
+	if (!canSurvive(source, pos))
 	{
-		spawnResources(level, pos, level->getData(pos));
-		level->setTile(pos, TILE_AIR);
+		spawnResources(source, pos, source->getData(pos));
+		source->setTile(pos, TILE_AIR);
 	}
 }
 
@@ -59,37 +59,36 @@ eRenderShape CactusTile::getRenderShape() const
 	return SHAPE_CACTUS;
 }
 
-void CactusTile::tick(Level* level, const TilePos& pos, Random* random) 
+void CactusTile::tick(TileSource* source, const TilePos& pos, Random* random)
 {
 	TilePos above = pos.above();
-	if (level->isEmptyTile(pos.above())) 
+	if (source->isEmptyTile(pos.above()))
 	{
 		int height;
-		for (height = 1; level->getTile(pos.below(height)) == m_ID; ++height)
+		for (height = 1; source->getTile(pos.below(height)) == m_ID; ++height)
 		{
 		}
 		if (height < 3) 
 		{
-			TileData data = level->getData(pos);
+			TileData data = source->getData(pos);
 			if (data == 15) 
 			{
-				level->setTile(above, m_ID);
-				level->setData(pos, 0);
+				source->setTileAndData(above, FullTile(m_ID, 0));
 			}
 			else 
 			{
-				level->setData(pos, data + 1);
+				source->setTileAndData(pos, FullTile(m_ID, data + 1));
 			}
 		}
 	}
 }
 
-void CactusTile::updateShape(const LevelSource* level, const TilePos& pos)
+void CactusTile::updateShape(TileSource* source, const TilePos& pos)
 {
 	setShape(0.0625, 0, 0.0625, 0.9375, 1, 0.9375);
 }
 
-void CactusTile::entityInside(Level* level, const TilePos& pos, Entity* entity) const
+void CactusTile::entityInside(TileSource* source, const TilePos& pos, Entity* entity) const
 {
 	entity->hurt(nullptr, 1);
 }

@@ -9,6 +9,7 @@
 #include "GameMode.hpp"
 #include "client/app/Minecraft.hpp"
 #include "network/packets/RemoveBlockPacket.hpp"
+#include "world/level/TileSource.hpp"
 
 GameMode::GameMode(Minecraft* pMinecraft, Level& level) :
 	_level(level),
@@ -33,15 +34,17 @@ bool GameMode::startDestroyBlock(Player* player, const TilePos& pos, Facing::Nam
 
 bool GameMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	Tile* oldTile = Tile::tiles[_level.getTile(pos)];
+	TileSource& source = player->getTileSource();
+
+	Tile* oldTile = Tile::tiles[source.getTile(pos)];
 	if (!oldTile)
 		return false;
 
-	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
+	m_pMinecraft->m_pParticleEngine->destroyEffect(player, pos);
 
-	int tileData = _level.getData(pos);
+	TileData tileData = source.getData(pos);
 	oldTile->playerWillDestroy(player, pos, face);
-	bool changed = _level.setTile(pos, TILE_AIR);
+	bool changed = source.setTile(pos, TILE_AIR);
 	if (!changed)
 		return false;
 
@@ -49,7 +52,7 @@ bool GameMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name fac
 	_level.playSound(pos + 0.5f, "step." + oldTile->m_pSound->m_name,
 		(oldTile->m_pSound->volume * 0.5f) + 0.5f, oldTile->m_pSound->pitch * 0.8f);
 
-	oldTile->destroy(&_level, pos, tileData);
+	oldTile->destroy(&source, pos, tileData);
 
 	if (m_pMinecraft->isOnline())
 	{
@@ -100,7 +103,7 @@ float GameMode::getEntityReachDistance() const
 
 LocalPlayer* GameMode::createPlayer(Level* pLevel)
 {
-	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.m_pDimension->m_id);
+	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.m_pDimension->getId());
 }
 
 void GameMode::initPlayer(Player* pPlayer)
@@ -165,13 +168,15 @@ bool GameMode::useItemOn(Player* player, Level* level, ItemStack& item, const Ti
 		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, item));
 	}
 
-	TileID tile = level->getTile(pos);
+	TileSource& source = player->getTileSource();
+
+	TileID tile = source.getTile(pos);
 	if (tile == Tile::invisible_bedrock->m_ID)
 		return false;
 
 	bool success = false;
 
-	if (tile > 0 && Tile::tiles[tile]->use(level, pos, player))
+	if (tile > 0 && Tile::tiles[tile]->use(&source, pos, player))
 	{
 		success = true;
 	}

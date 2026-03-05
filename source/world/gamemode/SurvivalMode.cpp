@@ -10,6 +10,7 @@
 #include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "network/packets/RemoveBlockPacket.hpp"
+#include "world/level/TileSource.hpp"
 
 SurvivalMode::SurvivalMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
 	m_destroyingPos(-1, -1, -1),
@@ -37,14 +38,16 @@ bool SurvivalMode::startDestroyBlock(Player* player, const TilePos& pos, Facing:
 	if (!item.isEmpty() && item.getItem() == Item::bow)
 		return true;
 
-	TileID tile = _level.getTile(pos);
+	TileSource& source = player->getTileSource();
+
+	TileID tile = source.getTile(pos);
 
 	if (tile <= 0)
 		return false;
 
 	if (m_destroyProgress == 0.0f)
 	{
-		Tile::tiles[tile]->attack(&_level, pos, player);
+		Tile::tiles[tile]->attack(&source, pos, player);
 	}
 
 	if (Tile::tiles[tile]->getDestroyProgress(player) >= 1.0f)
@@ -57,8 +60,10 @@ bool SurvivalMode::startDestroyBlock(Player* player, const TilePos& pos, Facing:
 
 bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	TileID tile = _level.getTile(pos);
-	int    data = _level.getData(pos);
+	TileSource& source = player->getTileSource();
+
+	TileID tile = source.getTile(pos);
+	int    data = source.getData(pos);
 
 	bool changed = GameMode::destroyBlock(player, pos, face);
 
@@ -80,10 +85,10 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 		ItemStack tileItem(tile, 1, data);
 		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(tileItem))
 		{
-			Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
+			Tile::tiles[tile]->playerDestroy(&source, player, pos, data);
 		}
 #else
-		Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
+		Tile::tiles[tile]->playerDestroy(&source, player, pos, data);
 #endif
 	}
 
@@ -107,7 +112,9 @@ bool SurvivalMode::continueDestroyBlock(Player* player, const TilePos& pos, Faci
 		return false;
 	}
 
-	TileID tile = _level.getTile(m_destroyingPos);
+	TileSource& source = player->getTileSource();
+
+	TileID tile = source.getTile(m_destroyingPos);
 	if (!tile)
 		return false;
 

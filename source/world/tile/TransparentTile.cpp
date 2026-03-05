@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TransparentTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 TransparentTile::TransparentTile(int ID, int texture, Material* mtl, bool bTransparent) :Tile(ID, texture, mtl)
 {
@@ -19,10 +19,10 @@ bool TransparentTile::isSolidRender() const
 	return false;
 }
 
-bool TransparentTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
+bool TransparentTile::shouldRenderFace(TileSource* source, const TilePos& pos, Facing::Name face) const
 {
-	if (!m_bTransparent && level->getTile(pos) == m_ID)
+	if (!m_bTransparent && source->getTile(pos) == m_ID)
 		return false;
 
-	return Tile::shouldRenderFace(level, pos, face);
+	return Tile::shouldRenderFace(source, pos, face);
 }

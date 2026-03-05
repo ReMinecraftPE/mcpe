@@ -7,21 +7,21 @@
  ********************************************************************/
 
 #include "FenceTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 FenceTile::FenceTile(int a, int b) : Tile(a, b, Material::wood)
 {
 }
 
-bool FenceTile::mayPlace(const Level* level, const TilePos& pos) const
+bool FenceTile::mayPlace(TileSource* source, const TilePos& pos) const
 {
 	TilePos below = pos.below();
-	return level->getTile(below) == m_ID || (Tile::mayPlace(level, pos) && level->getMaterial(below)->isSolid());
+	return source->getTile(below) == m_ID || (Tile::mayPlace(source, pos) && source->getMaterial(below)->isSolid());
 }
 
-AABB* FenceTile::getAABB(const Level* pLevel, const TilePos& pos)
+AABB* FenceTile::getAABB(TileSource* source, const TilePos& pos)
 {
-	AABB* rAABB = Tile::getAABB(pLevel, pos);
+	AABB* rAABB = Tile::getAABB(source, pos);
 	rAABB->max.y += 0.5f;
 	return rAABB;
 }

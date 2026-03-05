@@ -8,8 +8,9 @@
 #include "Animal.hpp"
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
+#include "world/level/TileSource.hpp"
 
-Animal::Animal(Level* pLevel) : PathfinderMob(pLevel)
+Animal::Animal(TileSource& source) : PathfinderMob(source)
 {
 	field_BB4 = 0;
 	m_age = 0;
@@ -49,7 +50,7 @@ bool Animal::canSpawn()
 {
 	TilePos pos(m_pos.x, m_hitbox.min.y, m_pos.z);
 
-	if (m_pLevel->getTile(pos.below()) != Tile::grass->m_ID || m_pLevel->getRawBrightness(pos) < 8)
+	if (m_tileSource->getTile(pos.below()) != Tile::grass->m_ID || m_tileSource->getRawBrightness(pos) < 8)
 		return false;
 
 	return PathfinderMob::canSpawn();
@@ -69,11 +70,11 @@ int Animal::getAmbientSoundInterval() const
 float Animal::getWalkTargetValue(const TilePos& pos) const
 {
 	// Animals would rather walk on grass.
-	if (m_pLevel->getTile(pos.below()) == Tile::grass->m_ID)
+	if (m_tileSource->getTile(pos.below()) == Tile::grass->m_ID)
 		return 10.0f;
 
 	// Animals will avoid dark areas.
-	return m_pLevel->getBrightness(pos) - 0.5f;
+	return m_tileSource->getBrightness(pos) - 0.5f;
 }
 
 /*bool Animal::hurt(Entity* pCulprit, int damage)

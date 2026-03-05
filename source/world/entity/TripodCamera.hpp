@@ -16,7 +16,7 @@ class Player;
 class TripodCamera : public Mob
 {
 public:
-	TripodCamera(Level*, Player*, const Vec3& pos);
+	TripodCamera(TileSource&, Player*, const Vec3& pos);
 
 	float getShadowHeightOffs() const override { return 0.0f; }
 	bool interact(Player* player) override;

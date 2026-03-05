@@ -3,6 +3,7 @@
 #include "ResultSlot.hpp"
 #include "world/item/crafting/Recipes.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 CraftingMenu::CraftingMenu(Inventory* inventory, const TilePos& tilePos, Level* level)
     : ContainerMenu(Container::CRAFTING)
@@ -61,7 +62,7 @@ void CraftingMenu::removed(Player* player)
 
 bool CraftingMenu::stillValid(Player* player) const 
 {
-    if (m_pLevel->getTile(m_pos) != Tile::craftingTable->m_ID)
+    if (player->getTileSource().getTile(m_pos) != Tile::craftingTable->m_ID)
         return false;
     else
         return !(player->distanceToSqr(Vec3(m_pos.x + 0.5f, m_pos.y + 0.5f, m_pos.z + 0.5f)) > 64.0f);

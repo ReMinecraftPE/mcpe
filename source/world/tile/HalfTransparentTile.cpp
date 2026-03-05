@@ -8,6 +8,7 @@
 
 #include "HalfTransparentTile.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 HalfTransparentTile::HalfTransparentTile(int a, int b, Material* c) : Tile(a, b, c)
 {
@@ -19,10 +20,10 @@ bool HalfTransparentTile::isSolidRender() const
 	return false;
 }
 
-bool HalfTransparentTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
+bool HalfTransparentTile::shouldRenderFace(TileSource* source, const TilePos& pos, Facing::Name face) const
 {
-	if (m_bAllowSame || level->getTile(pos) != m_ID)
-		return Tile::shouldRenderFace(level, pos, face);
+	if (m_bAllowSame || source->getTile(pos) != m_ID)
+		return Tile::shouldRenderFace(source, pos, face);
 	
 	return m_bAllowSame;
 }

@@ -8,6 +8,7 @@
 
 #include "ItemEntity.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 #include "nbt/CompoundTag.hpp"
 
 void ItemEntity::_init(const ItemStack& itemStack)
@@ -97,7 +98,7 @@ void ItemEntity::tick()
 	m_oPos = m_pos;
 	m_vel.y -= 0.04f;
 
-	if (m_pLevel->getMaterial(m_pos) == Material::lava)
+	if (m_tileSource->getMaterial(m_pos) == Material::lava)
 	{
 		// give it a small bounce upwards
 		m_vel.y = 0.2f;
@@ -114,7 +115,7 @@ void ItemEntity::tick()
 	if (m_bOnGround)
 	{
 		dragFactor = 0.588f;
-		TileID tile = m_pLevel->getTile(TilePos(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y) - 1, Mth::floor(m_pos.z)));
+		TileID tile = m_tileSource->getTile(TilePos(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y) - 1, Mth::floor(m_pos.z)));
 		if (tile > 0)
 			dragFactor = Tile::tiles[tile]->m_friction * 0.98f;
 	}
@@ -161,15 +162,15 @@ void ItemEntity::checkInTile(const Vec3& pos)
 {
 	TilePos flPos = pos;
 
-	if (!Tile::solid[m_pLevel->getTile(pos)])
+	if (!Tile::solid[m_tileSource->getTile(pos)])
 		return;
 	
-	bool solidXN = Tile::solid[m_pLevel->getTile(flPos.west())];
-	bool solidXP = Tile::solid[m_pLevel->getTile(flPos.east())];
-	bool solidYN = Tile::solid[m_pLevel->getTile(flPos.below())];
-	bool solidYP = Tile::solid[m_pLevel->getTile(flPos.above())];
-	bool solidZN = Tile::solid[m_pLevel->getTile(flPos.north())];
-	bool solidZP = Tile::solid[m_pLevel->getTile(flPos.south())];
+	bool solidXN = Tile::solid[m_tileSource->getTile(flPos.west())];
+	bool solidXP = Tile::solid[m_tileSource->getTile(flPos.east())];
+	bool solidYN = Tile::solid[m_tileSource->getTile(flPos.below())];
+	bool solidYP = Tile::solid[m_tileSource->getTile(flPos.above())];
+	bool solidZN = Tile::solid[m_tileSource->getTile(flPos.north())];
+	bool solidZP = Tile::solid[m_tileSource->getTile(flPos.south())];
 
 	float mindist = 9999.0f;
 	int mindir = -1;

@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "StoneSlabTile.hpp"
-#include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 
 StoneSlabTile::StoneSlabTile(int id, bool full) : Tile(id, TEXTURE_STONE_SLAB_TOP, Material::stone)
 {
@@ -75,34 +75,34 @@ int StoneSlabTile::getTexture(Facing::Name face, TileData data) const
 	}
 }
 
-void StoneSlabTile::onPlace(Level* level, const TilePos& pos)
+void StoneSlabTile::onPlace(TileSource* source, const TilePos& pos)
 {
-	TileID tileBelow = level->getTile(pos.below());
-	int tileHereData = level->getData(pos);
+	TileID tileBelow = source->getTile(pos.below());
+	int tileHereData = source->getData(pos);
 
 	// If there's a stone slab below us, set us to air and combine us into the lower slab block
 
-	if (tileHereData == level->getData(pos.below()) && tileBelow == Tile::stoneSlabHalf->m_ID)
+	if (tileHereData == source->getData(pos.below()) && tileBelow == Tile::stoneSlabHalf->m_ID)
 	{
-		level->setTile(pos, TILE_AIR);
-		level->setTileAndData(pos.below(), Tile::stoneSlab->m_ID, tileHereData);
+		source->setTile(pos, TILE_AIR);
+		source->setTileAndData(pos.below(), FullTile(Tile::stoneSlab->m_ID, tileHereData));
 	}
 }
 
-bool StoneSlabTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
+bool StoneSlabTile::shouldRenderFace(TileSource* source, const TilePos& pos, Facing::Name face) const
 {
 	if (this != Tile::stoneSlabHalf)
 		// @BUG: Missing return? In JE this is true too
-		Tile::shouldRenderFace(level, pos, face);
+		Tile::shouldRenderFace(source, pos, face);
 
 	if (face == Facing::UP)
 		return true;
 
-	if (!Tile::shouldRenderFace(level, pos, face))
+	if (!Tile::shouldRenderFace(source, pos, face))
 		return false;
 
 	if (face == Facing::DOWN)
 		return true;
 
-	return level->getTile(pos) != m_ID;
+	return source->getTile(pos) != m_ID;
 }

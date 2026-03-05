@@ -8,8 +8,8 @@
 
 #include "Particle.hpp"
 
-ExplodeParticle::ExplodeParticle(Level* level, const Vec3& pos, const Vec3& dir) :
-	Particle(level, pos, dir)
+ExplodeParticle::ExplodeParticle(TileSource& source, const Vec3& pos, const Vec3& dir) :
+	Particle(source, pos, dir)
 {
 	m_vel.x = dir.x + 0.05f * (2.0f * Mth::random() - 1.0f);
 	m_vel.y = dir.y + 0.05f * (2.0f * Mth::random() - 1.0f);

@@ -11,9 +11,9 @@ private:
 	void _init();
 
 public:
-	Arrow(Level* pLevel);
-	Arrow(Level* pLevel, const Vec3& pos);
-	Arrow(Level* pLevel, Mob* pMob);
+	Arrow(TileSource& source);
+	Arrow(TileSource& source, const Vec3& pos);
+	Arrow(Mob& mob);
 
 private:
 	void _lerpMotion(const Vec3& vel);

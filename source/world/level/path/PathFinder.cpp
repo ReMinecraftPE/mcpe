@@ -9,6 +9,7 @@
 #include "world/level/Level.hpp"
 #include "world/tile/DoorTile.hpp"
 #include "world/entity/Entity.hpp"
+#include "world/level/TileSource.hpp"
 
 static int dword_1CD868;
 static int dword_1CD870;
@@ -25,7 +26,6 @@ CONSTEXPR int MakeNodeHash(const TilePos& pos)
 
 PathFinder::PathFinder()
 {
-	m_pLevel = nullptr;
 	m_nodeCount = 0;
 	m_bEntityIsDoorBreaker = false;
 }
@@ -42,6 +42,8 @@ PathFinder::~PathFinder()
 // @TODO: return NodeType
 int PathFinder::isFree(Entity* pEntity, const TilePos& pos, const Node* node)
 {
+	TileSource& source = pEntity->getTileSource();
+
 	TilePos tp(pos);
 
 	for (tp.x = pos.x; tp.x < pos.x + node->tilePos.x; tp.x++)
@@ -50,7 +52,7 @@ int PathFinder::isFree(Entity* pEntity, const TilePos& pos, const Node* node)
 		{
 			for (tp.z = pos.z; tp.z < pos.z + node->tilePos.z; tp.z++)
 			{
-				TileID id = m_pLevel->getTile(tp);
+				TileID id = source.getTile(tp);
 				if (id <= 0)
 					continue;
 
@@ -58,7 +60,7 @@ int PathFinder::isFree(Entity* pEntity, const TilePos& pos, const Node* node)
 				{
 					if (id != Tile::door_wood->m_ID || !m_bEntityIsDoorBreaker)
 					{
-						if (!DoorTile::isOpen(m_pLevel->getData(tp)))
+						if (!DoorTile::isOpen(source.getData(tp)))
 							return 0; // 4 on 0.2.1
 					}
 
@@ -260,6 +262,8 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, const Vec3& pos, float d)
 	m_nodeCount = 0;
 	// not treating spillover btw? or what
 
+	TileSource& source = pEntity->getTileSource();
+
 	Node* node1 = getNode(pEntity->m_hitbox.min);
 
 	TilePos tp(pos.x - (pEntity->m_bbWidth / 2),
@@ -268,14 +272,14 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, const Vec3& pos, float d)
 	Node* node2 = nullptr;
 
 	// Not present in b1.2_02
-	if (!m_pLevel->getTile(tp.below()))
+	if (!source.getTile(tp.below()))
 	{
 		TilePos tp2(tp), tp3(pos + (0.5f * pEntity->m_bbWidth));
 		for (tp2.x = tp.x; tp2.x <= tp3.x; tp2.x++)
 		{
 			for (tp2.z = tp.z; tp2.z <= tp3.y; tp2.z++)
 			{
-				if (m_pLevel->getTile(TilePos(tp2.x, tp2.y - 1, tp2.z)))
+				if (source.getTile(TilePos(tp2.x, tp2.y - 1, tp2.z)))
 				{
 					node2 = getNode(tp2);
 					break; // breaking out of the tp2.z loop only.  Intended to break out of tp2.x too?

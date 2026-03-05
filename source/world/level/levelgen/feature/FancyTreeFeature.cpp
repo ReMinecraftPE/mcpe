@@ -1,5 +1,6 @@
 #include "Feature.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSource.hpp"
 #include <vector>
 
 struct FoliageCoord
@@ -8,10 +9,10 @@ struct FoliageCoord
 };
 
 // Static array definition for axis conversion
-const uint8_t FancyTreeFeature::axisConversionArray[] = {2, 0, 0, 1, 2, 1};
+static uint8_t AxisConversionArray[] = {2, 0, 0, 1, 2, 1};
 
 FancyTreeFeature::FancyTreeFeature() :
-    m_pLevel(NULL),
+    m_tileSource(NULL),
     m_origin(),
     m_height(0),
     m_trunkHeight(0),
@@ -29,7 +30,7 @@ FancyTreeFeature::~FancyTreeFeature()
 {
 }
 
-int& FancyTreeFeature::getAxisCoord(TilePos& pos, uint8_t axis)
+static int& GetAxisCoord(TilePos& pos, uint8_t axis)
 {
     switch (axis)
     {
@@ -40,7 +41,7 @@ int& FancyTreeFeature::getAxisCoord(TilePos& pos, uint8_t axis)
     }
 }
 
-int FancyTreeFeature::getAxisCoord(const TilePos& pos, uint8_t axis)
+static int GetAxisCoord(const TilePos& pos, uint8_t axis)
 {
     switch (axis)
     {
@@ -128,18 +129,18 @@ void FancyTreeFeature::generateBranchesAndTrunk()
     }
 }
 
-void FancyTreeFeature::crossection(int x, int y, int z, float radius, uint8_t majorAxis, int blockId)
+void FancyTreeFeature::crossection(int x, int y, int z, float radius, uint8_t majorAxis, TileID tileId)
 {
     int radiusRounded = static_cast<int>(radius + 0.618f);
-    uint8_t axis2 = axisConversionArray[majorAxis];
-    uint8_t axis3 = axisConversionArray[majorAxis + 3];
+    uint8_t axis2 = AxisConversionArray[majorAxis];
+    uint8_t axis3 = AxisConversionArray[majorAxis + 3];
     
     TilePos center(x, y, z);
     TilePos currentPos = center;
 
     for (int dx = -radiusRounded; dx <= radiusRounded; ++dx)
     {
-        getAxisCoord(currentPos, axis2) = getAxisCoord(center, axis2) + dx;
+        GetAxisCoord(currentPos, axis2) = GetAxisCoord(center, axis2) + dx;
 
         for (int dz = -radiusRounded; dz <= radiusRounded; ++dz)
         {
@@ -149,12 +150,12 @@ void FancyTreeFeature::crossection(int x, int y, int z, float radius, uint8_t ma
 
             if (distance <= radius)
             {
-                getAxisCoord(currentPos, axis3) = getAxisCoord(center, axis3) + dz;
-                int tileId = m_pLevel->getTile(currentPos);
+                GetAxisCoord(currentPos, axis3) = GetAxisCoord(center, axis3) + dz;
+                TileID currentTileId = m_tileSource->getTile(currentPos);
                 
-                if (tileId == TILE_AIR || tileId == TILE_LEAVES)
+                if (currentTileId == TILE_AIR || currentTileId == TILE_LEAVES)
                 {
-                    m_pLevel->setTileNoUpdate(currentPos, blockId);
+                    m_tileSource->setTileNoUpdate(currentPos, tileId);
                 }
             }
         }
@@ -204,35 +205,35 @@ void FancyTreeFeature::foliageCluster(int x, int y, int z)
     }
 }
 
-void FancyTreeFeature::limb(const TilePos& start, const TilePos& end, int blockId)
+void FancyTreeFeature::limb(const TilePos& start, const TilePos& end, TileID tileId)
 {
     TilePos delta(end.x - start.x, end.y - start.y, end.z - start.z);
     
     uint8_t majorAxis = 0;
     if (Mth::abs(delta.y) > Mth::abs(delta.x)) majorAxis = 1;
-    if (Mth::abs(delta.z) > Mth::abs(getAxisCoord(delta, majorAxis))) majorAxis = 2;
+    if (Mth::abs(delta.z) > Mth::abs(GetAxisCoord(delta, majorAxis))) majorAxis = 2;
 
-    int majorDelta = getAxisCoord(delta, majorAxis);
+    int majorDelta = GetAxisCoord(delta, majorAxis);
 
     if (majorDelta != 0)
     {
-        uint8_t axis2 = axisConversionArray[majorAxis];
-        uint8_t axis3 = axisConversionArray[majorAxis + 3];
+        uint8_t axis2 = AxisConversionArray[majorAxis];
+        uint8_t axis3 = AxisConversionArray[majorAxis + 3];
         int step = (majorDelta > 0) ? 1 : -1;
 
-        float ratio1 = static_cast<float>(getAxisCoord(delta, axis2)) / static_cast<float>(majorDelta);
-        float ratio2 = static_cast<float>(getAxisCoord(delta, axis3)) / static_cast<float>(majorDelta);
+        float ratio1 = static_cast<float>(GetAxisCoord(delta, axis2)) / static_cast<float>(majorDelta);
+        float ratio2 = static_cast<float>(GetAxisCoord(delta, axis3)) / static_cast<float>(majorDelta);
         
         TilePos currentPos;
         int endCounter = majorDelta + step;
 
         for (int counter = 0; counter != endCounter; counter += step)
         {
-            getAxisCoord(currentPos, majorAxis) = static_cast<int>(Mth::floor(static_cast<float>(getAxisCoord(start, majorAxis) + counter) + 0.5f));
-            getAxisCoord(currentPos, axis2) = static_cast<int>(Mth::floor(static_cast<float>(getAxisCoord(start, axis2)) + static_cast<float>(counter) * ratio1 + 0.5f));
-            getAxisCoord(currentPos, axis3) = static_cast<int>(Mth::floor(static_cast<float>(getAxisCoord(start, axis3)) + static_cast<float>(counter) * ratio2 + 0.5f));
+            GetAxisCoord(currentPos, majorAxis) = static_cast<int>(Mth::floor(static_cast<float>(GetAxisCoord(start, majorAxis) + counter) + 0.5f));
+            GetAxisCoord(currentPos, axis2) = static_cast<int>(Mth::floor(static_cast<float>(GetAxisCoord(start, axis2)) + static_cast<float>(counter) * ratio1 + 0.5f));
+            GetAxisCoord(currentPos, axis3) = static_cast<int>(Mth::floor(static_cast<float>(GetAxisCoord(start, axis3)) + static_cast<float>(counter) * ratio2 + 0.5f));
             
-            m_pLevel->setTileNoUpdate(currentPos, blockId);
+            m_tileSource->setTileNoUpdate(currentPos, tileId);
         }
     }
 }
@@ -259,38 +260,38 @@ void FancyTreeFeature::makeTrunk()
     }
 }
 
-int FancyTreeFeature::checkLine(TilePos& startPos, TilePos& endPos)
+int FancyTreeFeature::checkLine(const TilePos& startPos, const TilePos& endPos)
 {
-    TilePos delta(endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z);
+    TilePos delta = endPos - startPos;
 
     uint8_t majorAxisIdx = 0;
     if (Mth::abs(delta.y) > Mth::abs(delta.x)) majorAxisIdx = 1;
-    if (Mth::abs(delta.z) > Mth::abs(getAxisCoord(delta, majorAxisIdx))) majorAxisIdx = 2;
+    if (Mth::abs(delta.z) > Mth::abs(GetAxisCoord(delta, majorAxisIdx))) majorAxisIdx = 2;
 
-    int majorDelta = getAxisCoord(delta, majorAxisIdx);
+    int majorDelta = GetAxisCoord(delta, majorAxisIdx);
 
     if (majorDelta == 0)
     {
         return -1;
     }
 
-    uint8_t axis2 = axisConversionArray[majorAxisIdx];
-    uint8_t axis3 = axisConversionArray[majorAxisIdx + 3];
+    uint8_t axis2 = AxisConversionArray[majorAxisIdx];
+    uint8_t axis3 = AxisConversionArray[majorAxisIdx + 3];
     int step = (majorDelta > 0) ? 1 : -1;
 
-    float ratio1 = static_cast<float>(getAxisCoord(delta, axis2)) / static_cast<float>(majorDelta);
-    float ratio2 = static_cast<float>(getAxisCoord(delta, axis3)) / static_cast<float>(majorDelta);
+    float ratio1 = static_cast<float>(GetAxisCoord(delta, axis2)) / static_cast<float>(majorDelta);
+    float ratio2 = static_cast<float>(GetAxisCoord(delta, axis3)) / static_cast<float>(majorDelta);
     
     TilePos currentPos;
     int endCounter = majorDelta + step;
 
     for (int counter = 0; counter != endCounter; counter += step)
     {
-        getAxisCoord(currentPos, majorAxisIdx) = getAxisCoord(startPos, majorAxisIdx) + counter;
-        getAxisCoord(currentPos, axis2) = static_cast<int>(Mth::floor(static_cast<float>(getAxisCoord(startPos, axis2)) + static_cast<float>(counter) * ratio1));
-        getAxisCoord(currentPos, axis3) = static_cast<int>(Mth::floor(static_cast<float>(getAxisCoord(startPos, axis3)) + static_cast<float>(counter) * ratio2));
+        GetAxisCoord(currentPos, majorAxisIdx) = GetAxisCoord(startPos, majorAxisIdx) + counter;
+        GetAxisCoord(currentPos, axis2) = static_cast<int>(Mth::floor(static_cast<float>(GetAxisCoord(startPos, axis2)) + static_cast<float>(counter) * ratio1));
+        GetAxisCoord(currentPos, axis3) = static_cast<int>(Mth::floor(static_cast<float>(GetAxisCoord(startPos, axis3)) + static_cast<float>(counter) * ratio2));
         
-        int tileId = m_pLevel->getTile(currentPos);
+        TileID tileId = m_tileSource->getTile(currentPos);
         if (tileId != TILE_AIR && tileId != TILE_LEAVES)
         {
             return Mth::abs(counter);
@@ -300,11 +301,11 @@ int FancyTreeFeature::checkLine(TilePos& startPos, TilePos& endPos)
     return -1;
 }
 
-bool FancyTreeFeature::checkLocation()
+bool FancyTreeFeature::checkLocation(TileSource* source)
 {
     TilePos basePos(m_origin);
     TilePos topPos = m_origin.above(m_height - 1);
-    int groundTileId = m_pLevel->getTile(m_origin.below());
+    TileID groundTileId = source->getTile(m_origin.below());
     
     if (groundTileId != 2 && groundTileId != 3)
     {
@@ -338,9 +339,9 @@ void FancyTreeFeature::init(float density, float widthScale, float foliageDensit
     m_foliageDensity = foliageDensity;
 }
 
-bool FancyTreeFeature::place(Level* level, Random* random, const TilePos& pos)
+bool FancyTreeFeature::place(TileSource* source, Random* random, const TilePos& pos)
 {
-    m_pLevel = level;
+    m_tileSource = source;
     m_rnd.setSeed(random->nextLong());
     m_origin = pos;
     
@@ -349,7 +350,7 @@ bool FancyTreeFeature::place(Level* level, Random* random, const TilePos& pos)
         m_height = 5 + m_rnd.nextInt(m_heightVariance);
     }
 
-    if (!checkLocation())
+    if (!checkLocation(source))
     {
         return false;
     }

@@ -11,6 +11,7 @@
 #include "network/packets/PlaceBlockPacket.hpp"
 #include "world/level/Level.hpp"
 #include "world/tile/Tile.hpp"
+#include "world/level/TileSource.hpp"
 
 TileItem::TileItem(int id) : Item(id)
 {
@@ -31,9 +32,11 @@ std::string TileItem::getDescriptionId(ItemStack* instance) const
 
 bool TileItem::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
+	TileSource& source = player->getTileSource();
+
 	TilePos tp(pos);
 
-	if (level->getTile(pos) == Tile::topSnow->m_ID)
+	if (source.getTile(pos) == Tile::topSnow->m_ID)
 	{
 		face = Facing::DOWN;
 	}
@@ -45,21 +48,22 @@ bool TileItem::useOn(ItemStack* instance, Player* player, Level* level, const Ti
 		case Facing::SOUTH: tp.z++; break;
 		case Facing::WEST: tp.x--; break;
 		case Facing::EAST: tp.x++; break;
+		default: assert(false); return false; break;
 	}
 
 	if (instance->m_count == 0)
 		return false;
 
-	if (!level->mayPlace(m_tile, tp, false))
+	if (!source.mayPlace(m_tile, tp, face, player, false, nullptr))
 		return false;
 
 	Tile* pTile = Tile::tiles[m_tile];
 
-	if (!level->setTileAndData(tp, m_tile, getLevelDataForAuxValue(instance->getAuxValue())))
+	if (!source.setTileAndData(tp, FullTile(m_tile, getLevelDataForAuxValue(instance->getAuxValue()))))
 		return true;
 
-	Tile::tiles[m_tile]->setPlacedOnFace(level, tp, face);
-	Tile::tiles[m_tile]->setPlacedBy(level, tp, player);
+	Tile::tiles[m_tile]->setPlacedOnFace(&source, tp, face);
+	Tile::tiles[m_tile]->setPlacedBy(&source, tp, player);
 
 	level->playSound(
 		Vec3(tp) + 0.5f,

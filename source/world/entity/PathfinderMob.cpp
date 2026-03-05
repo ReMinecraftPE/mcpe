@@ -10,7 +10,7 @@
 
 #define MAX_TURN (30.0f)
 
-PathfinderMob::PathfinderMob(Level* pLevel) : Mob(pLevel)
+PathfinderMob::PathfinderMob(TileSource& source) : Mob(source)
 {
 	m_pAttackTarget = nullptr;
 	m_bHoldGround = false;

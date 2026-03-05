@@ -41,6 +41,29 @@ public:
 	TilePos west(int steps = 1) const  { return relative(Facing::WEST, steps); }
 	TilePos east(int steps = 1) const  { return relative(Facing::EAST, steps); }
 
+	int volume() const
+	{
+		return x * y * z;
+	}
+
+	TilePos min(const TilePos& other) const
+	{
+		return TilePos(
+			x < other.x ? x : other.x,
+			y < other.y ? y : other.y,
+			z < other.z ? z : other.z
+		);
+	}
+
+	TilePos max(const TilePos& other) const
+	{
+		return TilePos(
+			x < other.x ? other.x : x,
+			y < other.y ? other.y : y,
+			z < other.z ? other.z : z
+		);
+	}
+
 	bool operator<(const TilePos& b) const;
 	bool operator>(const TilePos& b) const;
 	bool operator<=(const TilePos& b) const;
@@ -56,9 +79,33 @@ public:
 	void operator*=(int i);
 	TilePos operator-() const;
 	TilePos operator*(int i) const;
+	TilePos operator*(const TilePos& other) const
+	{
+		return TilePos(x * other.x, y * other.y, z * other.z);
+	}
 	Vec3 operator*(float f) const;
 	TilePos operator/(int i) const;
 	Vec3 operator/(float f) const;
 	bool operator==(const TilePos& b) const;
 	bool operator!=(const TilePos& b) const;
+
+	int& operator[](size_t i)
+	{
+		return reinterpret_cast<int*>(this)[i];
+	}
+
+	const int& operator[](size_t i) const
+	{
+		return reinterpret_cast<const int*>(this)[i];
+	}
+
+	operator int*()
+	{
+		return reinterpret_cast<int*>(this);
+	}
+
+	operator const int*() const
+	{
+		return reinterpret_cast<const int*>(this);
+	}
 };

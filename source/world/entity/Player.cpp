@@ -27,7 +27,7 @@ void Player::_init()
 	m_abilities.bInvulnerable = false;
 }
 
-Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
+Player::Player(Level& pLevel, GameType playerGameType) : Mob(pLevel)
 {
 	_init();
 	m_pDescriptor = &EntityTypeDescriptor::player;
@@ -69,7 +69,7 @@ Player::~Player()
 
 void Player::reallyDrop(ItemEntity* pEnt)
 {
-	m_pLevel->addEntity(pEnt);
+	m_pLevel->addEntity(std::make_unique<Entity>(pEnt));
 }
 
 void Player::reset()
@@ -233,9 +233,10 @@ void Player::aiStep()
 	AABB scanAABB = m_hitbox;
 	scanAABB.grow(1, 1, 1);
 
-	EntityVector ents = m_pLevel->getEntities(this, scanAABB);
+	std::vector<Entity*> ents;
+	m_pLevel->getEntities(this, scanAABB);
 
-	for (EntityVector::iterator it = ents.begin(); it != ents.end(); it++)
+	for (std::vector<Entity*>::iterator it = ents.begin(); it != ents.end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_bRemoved)
@@ -528,7 +529,7 @@ void Player::drop(const ItemStack& item, bool randomly)
 	if (item.isEmpty())
 		return;
 
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item);
+	ItemEntity* pItemEntity = new ItemEntity(*m_tileSource, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item);
 	pItemEntity->m_throwTime = 40;
 
 	if (randomly)
