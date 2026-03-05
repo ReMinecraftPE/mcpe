@@ -410,7 +410,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 	pTile->setPlacedBy(m_pLevel, pos, pPlayer);
 
 	const Tile::SoundType* pSound = pTile->m_pSound;
-	m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
+	m_pLevel->playSound(pos + 0.5f, "step." + pSound->name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveBlockPacket* pRemoveBlockPkt)
@@ -444,7 +444,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
-		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
+		m_pLevel->playSound(pos + 0.5f, "step." + pSound->name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
 
 		pTile->destroy(m_pLevel, pos, auxValue);
 	}

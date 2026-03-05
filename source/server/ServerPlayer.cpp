@@ -87,7 +87,7 @@ void ServerPlayer::refreshContainer(ContainerMenu* menu, const std::vector<ItemS
 {
 #if NETWORK_PROTOCOL_VERSION >= 5
 	m_pLevel->m_pRakNetInstance->send(new ContainerSetContentPacket(menu->m_containerId, items));
-	// Not called on MCPE
+	// @PARITY: Not called on MCPE
 	//m_pLevel->m_pRakNetInstance->send(new ContainerSetSlotPacket(-1, -1, m_pInventory->getCarried()));
 #endif
 }

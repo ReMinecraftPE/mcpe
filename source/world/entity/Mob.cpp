@@ -247,7 +247,7 @@ void Mob::baseTick()
     if (isAlive() && isInWall())
         hurt(nullptr, 1);
 
-    // Java
+    // @PARITY: Java
     /*if (m_bFireImmune || m_pLevel->m_bIsClientSide)
     {
         m_fireTicks = 0;
@@ -468,7 +468,7 @@ void Mob::causeFallDamage(float level)
 		{
 			const Tile::SoundType* pSound = Tile::tiles[tileId]->m_pSound;
 
-			m_pLevel->playSound(this, "step." + pSound->m_name, pSound->volume * 0.5f, pSound->pitch * 0.75f);
+			m_pLevel->playSound(this, "step." + pSound->name, pSound->volume * 0.5f, pSound->pitch * 0.75f);
 		}
 	}
 }

@@ -14,5 +14,5 @@ public:
 	void write(RakNet::BitStream&) override;
 	void read(RakNet::BitStream&) override;
 public:
-	int8_t m_health; // int16_t in Java
+	int8_t m_health; // @PARITY: int16_t in Java
 };

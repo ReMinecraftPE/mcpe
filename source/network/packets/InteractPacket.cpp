@@ -23,7 +23,7 @@ void InteractPacket::write(RakNet::BitStream& bs)
 
 void InteractPacket::read(RakNet::BitStream& bs)
 {
-	// m_actionType is sent last on Java
+	// @PARITY: m_actionType is sent last on Java
 	bs.Read(m_actionType);
 	bs.Read(m_sourceId);
 	bs.Read(m_targetId);

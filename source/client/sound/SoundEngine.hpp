@@ -22,10 +22,10 @@ class Mob;
 class SoundEngine
 {
 private:
-    float _getVolumeMult(const Vec3& pos);
+    float _getVolumeMult(float distMod, float distance, const Vec3& pos);
 	void _playMusic(bool resetDelay = false);
 public:
-    SoundEngine(SoundSystem* soundSystem, float distance);
+    SoundEngine(SoundSystem* soundSystem, float maxDistance);
     void init(Options*);
     void enable(bool b);
     void updateOptions();

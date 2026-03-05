@@ -46,7 +46,7 @@ bool GameMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name fac
 		return false;
 
 
-	_level.playSound(pos + 0.5f, "step." + oldTile->m_pSound->m_name,
+	_level.playSound(pos + 0.5f, "step." + oldTile->m_pSound->name,
 		(oldTile->m_pSound->volume * 0.5f) + 0.5f, oldTile->m_pSound->pitch * 0.8f);
 
 	oldTile->destroy(&_level, pos, tileData);

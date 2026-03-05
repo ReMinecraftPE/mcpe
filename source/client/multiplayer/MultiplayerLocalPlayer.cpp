@@ -72,7 +72,7 @@ void MultiplayerLocalPlayer::heal(int health)
 
 /*void MultiplayerLocalPlayer::drop()
 {
-    // From Java
+    // @PARITY: From Java
 	m_pLevel->m_pRakNetInstance->send(new PlayerActionPacket(PlayerActionPacket::DROP_ITEM))
 }*/
 

@@ -118,7 +118,7 @@ bool SurvivalMode::continueDestroyBlock(Player* player, const TilePos& pos, Faci
 
 	if ((m_destroyTicks & 3) == 1)
 	{
-		_level.playSound(pos + 0.5f, "step." + pTile->m_pSound->m_name,
+		_level.playSound(pos + 0.5f, "step." + pTile->m_pSound->name,
 			0.125f * (1.0f + pTile->m_pSound->volume), 0.5f * pTile->m_pSound->pitch);
 	}
 
