@@ -158,7 +158,7 @@ bool createFolderIfNotExists(const char* pDir)
 #endif
 		   )
 		{
-			std::string path(pDir, i - 1);
+			std::string path(pDir, i);
 			if (XPL_ACCESS(path.c_str(), 0) == 0)
 				break;
 			st.push(path);
