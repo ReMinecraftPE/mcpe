@@ -11,8 +11,6 @@
 #include "common/Utils.hpp"
 #include "client/app/AppPlatform.hpp"
 
-// @TODO: fix crash in playAt when Asan is active
-
 SoundSystemDS::SoundSystemDS()
 {
 	m_available = false;
@@ -60,6 +58,8 @@ SoundSystemDS::SoundSystemDS()
 	{
 		LOG_E("SoundSystemDS failed to create 3D listener\n");
 	}
+
+	m_listener->SetRolloffFactor(SOUND_ROLLOFF_FACTOR * DS3D_MAXROLLOFFFACTOR, DS3D_IMMEDIATE);
 
 	m_available = true;
 	m_musicStream = new SoundStreamDS(m_directsound);
@@ -163,6 +163,9 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	// Release sounds that finished playing
 	_cleanSources();
 
+	if (m_buffers.size() >= SOUND_MAX_SOURCES)
+		return;
+
 	HRESULT result;
 	IDirectSoundBuffer* tempBuffer;
 	unsigned char* bufferPtr;
@@ -178,15 +181,16 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	// Set the buffer description of the secondary sound buffer that the wave file will be loaded onto.
 	DSBUFFERDESC bufferDesc;
 	bufferDesc.dwSize = sizeof(DSBUFFERDESC);
+	bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS;
 
-	//Because directsound does not support DSBCAPS_CTRL3D on a sound with 2 channels we can only do it on sounds with 1 channel
-	if (sound.m_header.m_channels == 1 && !is2D)
+	if (!is2D)
 	{
-		bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRL3D;
-	}
-	else
-	{
-		bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS;
+		bufferDesc.dwFlags |= DSBCAPS_MUTE3DATMAXDISTANCE;
+		//Because directsound does not support DSBCAPS_CTRL3D on a sound with 2 channels we can only do it on sounds with 1 channel
+		if (sound.m_header.m_channels == 1)
+		{
+			bufferDesc.dwFlags |= DSBCAPS_CTRL3D;
+		}
 	}
 
 	bufferDesc.dwBufferBytes = length;
@@ -198,7 +202,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	result = m_directsound->CreateSoundBuffer(&bufferDesc, &tempBuffer, NULL);
 	if (FAILED(result))
 	{
-		LOG_E("SoundSystemDS CreateSoundBuffer failed");
+		LOG_E("SoundSystemDS CreateSoundBuffer failed: 0x%X", result);
 		return;
 	}
 
@@ -206,7 +210,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer, (LPVOID*)&soundbuffer);
 	if (FAILED(result))
 	{
-		LOG_E("SoundSystemDS tempBuffer QueryInterface failed");
+		LOG_E("SoundSystemDS tempBuffer QueryInterface failed: 0x%X", result);
 		return;
 	}
 
@@ -219,7 +223,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	result = soundbuffer->Lock(0, length, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
 	if (FAILED(result))
 	{
-		LOG_E("SoundSystemDS lock failed");
+		LOG_E("SoundSystemDS lock failed: 0x%X", result);
 		return;
 		//return false;
 	}
@@ -236,7 +240,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	}
 
 	// references:
-	// https://gamedev.net/forums/topic/337397-sound-volume-question-directsound/3243306/
+	// https://gamedev.net/forums/topic/337397-sound-volume-question-directsound/3243306/#post-3197281
 	// https://learn.microsoft.com/en-us/previous-versions/windows/desktop/mt708939(v=vs.85)
 	// Conversion from 0-1 linear volume to directsound logarithmic volume..
 	// This seems to work for the most part, but accuracy testing should be done for actual MCPE, water splashing is pretty quiet.
@@ -270,11 +274,10 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 			return;
 		}
 
-		object3d->SetPosition(pos.x, pos.y, -pos.z, DS3D_IMMEDIATE); 
-
-		//Im not really sure what values original MCPE would use.
-		object3d->SetMinDistance(2.f, DS3D_IMMEDIATE); 
-		object3d->SetMaxDistance(100.f, DS3D_IMMEDIATE);
+		object3d->SetPosition(pos.x, pos.y, -pos.z, DS3D_IMMEDIATE);
+		// To avoid unnecessary processing on software buffers under VXD drivers, applications should set a reasonable maximum distance...
+		// Even though the engine should never pass out-of-range sounds to the SoundSystem, we do this regardless to prevent misuse
+		object3d->SetMaxDistance(SOUND_MAX_DISTANCE, DS3D_IMMEDIATE);
 
 		info.object3d = object3d;
 	}

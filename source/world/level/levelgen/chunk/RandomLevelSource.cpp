@@ -87,7 +87,7 @@ LevelChunk* RandomLevelSource::getChunk(const ChunkPos& pos)
 	buildSurfaces(pos, pLevelData, pBiomeBlock);
 	pChunk->recalcHeightmap();
 
-	// @NOTE: Java Edition Beta 1.6 uses the m_largeCaveFeature.
+	// @PARITY: Java Edition Beta 1.6 uses the m_largeCaveFeature.
 #ifdef FEATURE_CAVES
 	m_largeCaveFeature.apply(this, m_pLevel, tilePos.x, tilePos.z, pLevelData, 0);
 #endif

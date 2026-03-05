@@ -1541,7 +1541,11 @@ void Level::addListener(LevelListener* listener)
 
 void Level::tickPendingTicks(bool b)
 {
-	int size = 10000; // note: 65,536 in Minecraft Java
+#if MC_PLATFORM_MOBILE
+	int size = 100; // PE 0.1.3
+#else
+	int size = 1000; // Java b1.2_02
+#endif
 	if (size > int(m_pendingTicks.size()))
 		size = int(m_pendingTicks.size());
 
@@ -1587,7 +1591,9 @@ void Level::tickTiles()
 		ChunkPos pos = *it;
 		LevelChunk* pChunk = getChunk(pos);
 
-		for (int i = 0; i < 80; i++)
+		// @PARITY: 80 on Java
+		// changed from 80 to 20 in PE 0.2.0
+		for (int i = 0; i < 20; i++)
 		{
 			m_randValue = (int64_t)m_randValue * 3 + m_addend;
 			int rand = m_randValue >> 2;

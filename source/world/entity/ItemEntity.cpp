@@ -63,6 +63,12 @@ bool ItemEntity::isInWater()
 	return m_pLevel->checkAndHandleWater(m_hitbox, Material::water, this);
 }
 
+#if MC_PLATFORM_MOBILE
+#define C_ITEM_POP_VOLUME 0.3f
+#else
+#define C_ITEM_POP_VOLUME 0.2f
+#endif
+
 void ItemEntity::playerTouch(Player* player)
 {
 	if (m_pLevel->m_bIsClientSide)
@@ -77,7 +83,7 @@ void ItemEntity::playerTouch(Player* player)
 	if (!pInventory->add(m_itemStack))
 		return;
 
-	m_pLevel->playSound(this, "random.pop", 0.3f,
+	m_pLevel->playSound(this, "random.pop", C_ITEM_POP_VOLUME,
 		((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 
 	player->take(this, m_itemStack.m_count);

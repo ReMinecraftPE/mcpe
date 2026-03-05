@@ -100,6 +100,35 @@ void Entity::setSharedFlag(SharedFlag flag, bool value)
 	}
 }
 
+#if MC_PLATFORM_MOBILE
+// 0.35f on 0.1.3, 0.25f on 0.2.1+
+#define C_STEP_SOUND_VOLUME_SCALE 0.25f
+#else
+// Use Java value for everything else
+#define C_STEP_SOUND_VOLUME_SCALE 0.15f
+#endif
+
+void Entity::playStepSound(const TilePos& pos, TileID tileId)
+{
+	Tile* pTile = Tile::tiles[tileId];
+	const Tile::SoundType* sound = nullptr;
+	if (m_pLevel->getTile(pos.above()) == Tile::topSnow->m_ID)
+	{
+		sound = Tile::topSnow->m_pSound;
+	}
+	else if (!pTile->m_pMaterial->isLiquid())
+	{
+		sound = pTile->m_pSound;
+	}
+
+	if (sound != nullptr)
+	{
+		m_pLevel->playSound(this, "step." + sound->name, sound->volume * C_STEP_SOUND_VOLUME_SCALE, sound->pitch);
+	}
+
+	pTile->stepOn(m_pLevel, pos, this);
+}
+
 void Entity::setLevel(Level* pLvl)
 {
 	m_pLevel = pLvl;
@@ -275,30 +304,16 @@ void Entity::move(const Vec3& pos)
 		{
 			m_walkDist = float(m_walkDist + Mth::sqrt(diffX * diffX + diffZ * diffZ) * 0.6f);
 			TilePos tp(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z);
-			TileID i = m_pLevel->getTile(tp);
+			TileID tileId = m_pLevel->getTile(tp);
 
 			if (m_pLevel->getTile(tp.below()) == Tile::fence->m_ID)
-				i = Tile::fence->m_ID;
+				tileId = Tile::fence->m_ID;
 
-			if (m_walkDist > m_nextStep && i > 0)
+			if (m_walkDist > m_nextStep && tileId > 0)
 			{
-				m_nextStep = m_walkDist + 1;
+				m_nextStep = (int)m_walkDist + 1;
 
-				const Tile::SoundType* sound = nullptr;
-				// vol is * 0.15f in Java, is quiet for whatever reason, so bumping to 0.20f
-				if (m_pLevel->getTile(tp.above()) == Tile::topSnow->m_ID)
-				{
-					sound = Tile::topSnow->m_pSound;
-				}
-				else if (!Tile::tiles[i]->m_pMaterial->isLiquid())
-				{
-					sound = Tile::tiles[i]->m_pSound;
-				}
-
-				if (sound != nullptr)
-					m_pLevel->playSound(this, "step." + sound->m_name, sound->volume * 0.20f, sound->pitch);
-
-				Tile::tiles[i]->stepOn(m_pLevel, tp, this);
+				playStepSound(tp, tileId);
 			}
 		}
 

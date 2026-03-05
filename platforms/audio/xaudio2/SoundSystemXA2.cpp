@@ -189,6 +189,9 @@ void SoundSystemXA2::playAt(const SoundDesc& sound, const Vec3& pos, float volum
 
     _cleanSources();
 
+    if (m_activeVoices.size() >= SOUND_MAX_SOURCES)
+        return;
+
     // 1. Get Format and Voice
     WAVEFORMATEX wf = _getWaveFormat(sound.m_header, 1.0f);
     VoiceWrapper* voice = _findFreeVoice(wf);

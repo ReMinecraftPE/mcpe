@@ -15,7 +15,7 @@ void AnimatePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& cal
 void AnimatePacket::write(RakNet::BitStream& bs)
 {
 	bs.Write((unsigned char)PACKET_ANIMATE);
-	// Mojang swapped the order on PE for fun
+	// @PARITY: Mojang swapped the order on PE for fun
 	bs.Write(m_actionId);
 	bs.Write(m_entityId);
 }

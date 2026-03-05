@@ -33,7 +33,7 @@ void ContainerMenu::addSlotListener(ContainerListener* listener)
 {
     m_listeners.push_back(listener);
 
-    // Not done on PE
+    // @PARITY: Not done on PE
     /*std::vector<ItemStack> snapshot = copyItems();
     listener->refreshContainer(this, snapshot);
     broadcastChanges();*/

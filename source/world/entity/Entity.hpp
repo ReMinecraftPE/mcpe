@@ -122,6 +122,7 @@ public:
 protected:
 	virtual bool getSharedFlag(SharedFlag flag) const;
 	virtual void setSharedFlag(SharedFlag flag, bool value);
+	virtual void playStepSound(const TilePos& pos, TileID tileId);
 
 public:
 	virtual void reset();

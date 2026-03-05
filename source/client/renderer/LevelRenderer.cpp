@@ -1488,7 +1488,7 @@ void LevelRenderer::playSound(const std::string& name, const Vec3& pos, float vo
 		maxDist = 256.0f;
 	}
 
-	if (maxDist * maxDist > playerDist)
+	if (playerDist <= maxDist * maxDist)
 		m_pMinecraft->m_pSoundEngine->play(name, pos, volume, pitch);
 }
 

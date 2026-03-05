@@ -16,10 +16,6 @@ struct TilePos;
 
 #define __VEC3_HPP
 
-// NOTE: I don't think that Vec3 was implemented like that - it was
-// probably implemented just like in Java. However, I think it looks
-// nicer this way :)
-
 class Vec3
 {
 public:
