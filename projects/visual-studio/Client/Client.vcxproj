@@ -110,7 +110,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\Cube.hpp" />
@@ -292,7 +291,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\Cube.cpp" />

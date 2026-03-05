@@ -200,9 +200,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.hpp">
-      <Filter>Header Files\GUI\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
@@ -752,9 +749,6 @@
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.cpp">
-      <Filter>Source Files\GUI\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.cpp">
