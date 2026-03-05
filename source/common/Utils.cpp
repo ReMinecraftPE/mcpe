@@ -165,8 +165,11 @@ bool createFolderIfNotExists(const char* pDir)
 		}
 	}
 	while (!st.empty())
-		if (XPL_MKDIR(st.pop_back().c_str(), 0755) != 0)
+	{
+		if (XPL_MKDIR(st.top().c_str(), 0755) != 0)
 			return false;
+		st.pop();
+	}
 
 	if (XPL_ACCESS(pDir, 0))
 		if (XPL_MKDIR(pDir, 0755) != 0)
