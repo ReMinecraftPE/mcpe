@@ -40,7 +40,7 @@ LevelChunk* NetworkChunkSource::requestChunk(const ChunkPos& pos, LoadMode loadM
 		}
 	}
 
-	if (loadMode == Deferred)
+	if (loadMode == LOAD_DEFERRED)
 	{
 		LevelChunk* chunk = new LevelChunk(*m_level, *m_dimension, pos, false);
 		m_chunks[pos] = ChunkRefCount(*chunk, 1);
