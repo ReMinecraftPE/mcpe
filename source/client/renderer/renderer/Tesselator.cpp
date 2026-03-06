@@ -7,6 +7,8 @@
  ********************************************************************/
 
 #include <cstddef>
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 #include "Tesselator.hpp"
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
