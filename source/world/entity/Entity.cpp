@@ -1051,6 +1051,11 @@ EntityType::ID Entity::getEncodeId() const
 	return getDescriptor().getEntityType().getId();
 }
 
+Dimension* Entity::getDimension() const
+{
+	return getLevel().getDimension(getDimensionId());
+}
+
 bool Entity::operator==(const Entity& other) const
 {
 	return m_EntityID == other.m_EntityID;

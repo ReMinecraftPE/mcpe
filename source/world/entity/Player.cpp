@@ -27,7 +27,7 @@ void Player::_init()
 	m_abilities.bInvulnerable = false;
 }
 
-Player::Player(Level& pLevel, GameType playerGameType) : Mob(pLevel)
+Player::Player(Level& level, GameType playerGameType) : Mob(level)
 {
 	_init();
 	m_pDescriptor = &EntityTypeDescriptor::player;

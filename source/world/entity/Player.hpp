@@ -36,7 +36,7 @@ private:
 	void _init();
 
 public:
-	Player(Level& pLevel, GameType gameType);
+	Player(Level& level, GameType gameType);
 	virtual ~Player();
 
 protected:

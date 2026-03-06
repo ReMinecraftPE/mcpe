@@ -100,7 +100,7 @@ public:
 	float getBestScaleForThisScreenSize(int width, int height);
 	void setupLevelRendering(Level* pLevel, Dimension* pDimension, Mob* pCamera);
 	void onClientStartedLevel(Level* pLevel, LocalPlayer* pLocalPlayer);
-	void generateLevel(const std::string& unused, Level* pLevel);
+	void generateLevel(const std::string& unused, Level& level);
 	void prepareLevel(const std::string& unused);
 	bool isOnline() const;
 	bool isOnlineClient() const;

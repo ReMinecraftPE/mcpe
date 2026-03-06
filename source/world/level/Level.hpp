@@ -38,6 +38,9 @@ class MobSpawner;
 
 class Level : public LevelListener, public TileSourceListener
 {
+protected:
+	typedef std::vector<LevelListener*> Listeners;
+
 public:
 	typedef std::vector<Dimension*> DimensionVector;
 
@@ -91,6 +94,8 @@ public:
 	bool extinguishFire(TileSource& source, const TilePos& pos, Facing::Name face);
 	int findPath(Path* path, Entity* ent1, Entity* ent2, float f) const;
 	int findPath(Path* path, Entity* ent, const TilePos& pos, float f) const;
+	void addListener(LevelListener& listener);
+	void removeListener(LevelListener& listener);
 
 	Entity* getEntity(Entity::ID id) const;
 	void getEntities(DimensionId dimensionId, const EntityType& type, const AABB& aabb, std::vector<Entity*>& output) const;
@@ -125,7 +130,7 @@ public:
 	Random m_random;
 	Random m_random2;
 	RakNetInstance* m_pRakNetInstance;
-	std::vector<LevelListener*> m_levelListeners;
+	Listeners m_listeners;
 	LevelStorage* m_pLevelStorage;
 	std::vector<std::unique_ptr<Entity>> m_pendingEntityRemovals;
 	std::set<ChunkPos> m_chunksToUpdate;

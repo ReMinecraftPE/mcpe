@@ -3,8 +3,8 @@
 #include "network/RakNetInstance.hpp"
 #include "world/level/Level.hpp"
 
-MultiplayerLocalPlayer::MultiplayerLocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType gameType, int dimensionId)
-	: LocalPlayer(pMinecraft, pLevel, pUser, gameType, dimensionId)
+MultiplayerLocalPlayer::MultiplayerLocalPlayer(Minecraft* pMinecraft, Level& level, User* pUser, GameType gameType, DimensionId dimensionId)
+    : LocalPlayer(pMinecraft, level, pUser, gameType, dimensionId)
 {
 	m_flashOnSetHealth = false;
 

@@ -169,7 +169,7 @@ void Level::_syncTime(int32_t time)
 
 void Level::entityAdded(Entity* pEnt)
 {
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->entityAdded(pEnt);
@@ -178,7 +178,7 @@ void Level::entityAdded(Entity* pEnt)
 
 void Level::entityRemoved(Entity* pEnt)
 {
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->entityRemoved(pEnt);
@@ -187,7 +187,7 @@ void Level::entityRemoved(Entity* pEnt)
 
 void Level::levelEvent(const LevelEvent& event)
 {
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->levelEvent(event);
@@ -449,16 +449,16 @@ void Level::broadcastEntityEvent(const Entity& entity, Entity::EventType::ID eve
 	m_pRakNetInstance->send(new EntityEventPacket(entity.m_EntityID, eventId));
 }
 
-void Level::removeListener(LevelListener* listener)
-{
-	std::vector<LevelListener*>::iterator iter = std::find(m_levelListeners.begin(), m_levelListeners.end(), listener);
-	if (iter != m_levelListeners.end())
-		m_levelListeners.erase(iter);
-}
-
 void Level::addListener(LevelListener* listener)
 {
-	m_levelListeners.push_back(listener);
+	m_listeners.push_back(listener);
+}
+
+void Level::removeListener(LevelListener* listener)
+{
+	std::vector<LevelListener*>::iterator iter = std::find(m_listeners.begin(), m_listeners.end(), listener);
+	if (iter != m_listeners.end())
+		m_listeners.erase(iter);
 }
 
 void Level::tick()
@@ -498,7 +498,7 @@ void Level::tickTime()
 
 void Level::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->takePicture(pCamera, pOwner);
@@ -507,7 +507,7 @@ void Level::takePicture(TripodCamera* pCamera, Entity* pOwner)
 
 void Level::addParticle(const std::string& name, const Vec3& pos, const Vec3& dir)
 {
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->addParticle(name, pos, dir);
@@ -516,7 +516,7 @@ void Level::addParticle(const std::string& name, const Vec3& pos, const Vec3& di
 
 void Level::playSound(Entity* entity, const std::string& name, float volume, float pitch)
 {
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->playSound(name, Vec3(entity->m_pos.x, entity->m_pos.y - entity->m_heightOffset, entity->m_pos.z), volume, pitch);
@@ -525,7 +525,7 @@ void Level::playSound(Entity* entity, const std::string& name, float volume, flo
 
 void Level::playSound(const Vec3& pos, const std::string& name, float a, float b)
 {
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->playSound(name, pos, a, b);
@@ -590,6 +590,18 @@ int Level::findPath(Path* path, Entity* ent, const TilePos& pos, float f) const
 	TilePos tp(ent->m_pos);
 	
 	return m_pPathFinder->findPath(*path, ent, pos, f);
+}
+
+void Level::addListener(LevelListener& listener)
+{
+	m_listeners.push_back(&listener);
+}
+
+void Level::removeListener(LevelListener& listener)
+{
+	Listeners::iterator it = std::find(m_listeners.begin(), m_listeners.end(), &listener);
+	if (it != m_listeners.end())
+		m_listeners.erase(it);
 }
 
 void Level::onChunkLoaded(LevelChunk& chunk)

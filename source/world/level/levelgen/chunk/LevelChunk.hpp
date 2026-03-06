@@ -181,7 +181,7 @@ public:
 	void recalcHeightmap();
 	int getBrightness(const LightLayer& lightLayer, const ChunkTilePos& pos) const;
 	void setBrightness(const LightLayer& lightLayer, const ChunkTilePos& pos, Brightness_t brightness);
-	Brightness_t getRawBrightness(const ChunkTilePos& pos, Brightness_t skyDampen);
+	Brightness_t getRawBrightness(const ChunkTilePos& pos, Brightness_t skyDampen) const;
 	bool isSkyLit(const ChunkTilePos& pos) const;
 	void recalcBlockLights();
 	size_t countEntities() const

@@ -1107,7 +1107,7 @@ void Minecraft::onClientStartedLevel(Level* pLevel, LocalPlayer* pLocalPlayer)
 	setupLevelRendering(pLevel, pLocalPlayer->getDimension(), pLocalPlayer);
 }
 
-void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
+void Minecraft::generateLevel(const std::string& unused, Level& level)
 {
 	float time = float(getTimeS()); //@UNUSED
 
@@ -1121,7 +1121,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	LocalPlayer* pLocalPlayer = m_pLocalPlayer;
 	if (!pLocalPlayer)
 	{
-		pLocalPlayer = m_pGameMode->createPlayer(pLevel);
+		pLocalPlayer = m_pGameMode->createPlayer(level);
 		pLocalPlayer->resetPos();
 		m_pGameMode->initPlayer(pLocalPlayer);
 	}
@@ -1131,8 +1131,8 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 
 	m_pGameMode->adjustPlayer(pLocalPlayer);
 
-	pLevel->validateSpawn();
-	pLevel->loadPlayer(*pLocalPlayer);
+	level.validateSpawn();
+	level.loadPlayer(*pLocalPlayer);
 
 	m_pLocalPlayer = pLocalPlayer;
 
@@ -1146,7 +1146,7 @@ void* Minecraft::prepareLevel_tspawn(void* ptr)
 {
 	Minecraft* pMinecraft = (Minecraft*)ptr;
 
-	pMinecraft->generateLevel("Currently not used", pMinecraft->m_pLevel);
+	pMinecraft->generateLevel("Currently not used", *pMinecraft->m_pLevel);
 
 	return nullptr;
 }

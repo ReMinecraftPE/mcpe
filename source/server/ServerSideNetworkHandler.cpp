@@ -324,7 +324,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 
 	TileSource& tileSource = pMob->getTileSource();
 
-	if (!tileSource.mayPlace(tileId, pos, face, pMob))
+	if (!tileSource.mayPlace(tileId, pos, face, pMob, true))
 		return;
 
 	if (tileSource.setTile(pos, tileId, data))

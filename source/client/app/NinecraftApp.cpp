@@ -10,6 +10,7 @@
 #include "world/item/Item.hpp"
 #include "world/entity/MobCategory.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/level/levelgen/biome/Biome.hpp"
 #include "client/player/input/GameControllerHandler.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"

@@ -122,7 +122,7 @@ void RenderChunkBuilder::build(RenderChunk& renderChunk, bool transparentLeaves)
 	if (renderChunk.isRebuildState(RenderChunk::BS_UNK2))
 		return;
 
-	TileSource region(m_localSource->getLevel(), m_localSource->getDimension(), m_localSource, false, false);
+	TileSource region(m_localSource->getLevel(), m_localSource->getDimension(), *m_localSource, false, false);
 
 	VisibilityExtimator* visibilityHelper = _getVisibilityHelper();
 	if (visibilityHelper)
@@ -294,7 +294,7 @@ bool RenderChunkBuilder::_tessellateQueues(RenderChunk& renderChunk, TileSource&
 			if (tile)
 				m_tileTessellator->tesselateInWorld(tile, pos, false);
 
-			iter++;
+			++iter;
 		}
 
 		// TODO: tessellator stuff is being flipped here

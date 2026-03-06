@@ -22,9 +22,16 @@ struct Bounds;
 
 class TileSource
 {
+protected:
+	typedef std::vector<TileSourceListener*> Listeners;
+
 public:
 	TileSource(Level& level, Dimension& dimension, ChunkSource& source, bool publicSource, bool allowUnpopulatedChunks);
 	virtual ~TileSource();
+
+protected:
+	void _neighborChanged(const TilePos&, const TilePos&, TileID);
+	void _tileChanged(const TilePos& pos, FullTile oldTile, FullTile newTile, TileChange updateFlags);
 
 public:
 	Level& getLevel() const;
@@ -38,15 +45,16 @@ public:
 	void setTickingQueue(TileTickingQueue& queue);
 	TileTickingQueue* getTickQueue(const TilePos& pos);
 	LevelChunk* getChunk(const ChunkPos& pos);
-	LevelChunk* getChunk(int x, int z);
+	LevelChunk* getChunk(int x, int z) { return getChunk(ChunkPos(x, z)); }
 	LevelChunk* getWritableChunk(const ChunkPos& pos);
 	bool shouldFireEvents(LevelChunk& chunk) const;
+	bool hasChunkAt(const TilePos& pos) { return getChunk(pos) != nullptr; }
 	bool hasChunksAt(const Bounds& bounds);
 	bool hasChunksAt(const AABB& aabb);
 	bool hasChunksAt(const TilePos& min, const TilePos& max);
 	bool hasChunksAt(const TilePos& pos, int r);
 	bool hasChunksAt(int x, int y, int z, int r);
-	Brightness_t getSkyDarken();
+	Brightness_t getSkyDarken() const;
 	const std::vector<MobSpawnerData>& getMobsAt(EntityType entityType, const TilePos& pos);
 	bool hasNeighborSignal(const TilePos& pos); // custom
 	bool hasNeighborSignal(int x, int y, int z);
@@ -146,10 +154,8 @@ public:
 	const std::vector<Entity*>& getEntities(Entity* except, const AABB& bb);
 	void isUnobstructedByEntities(const AABB&, Entity*); // unk type
 	bool mayPlace(TileID tileId, const TilePos& pos, Facing::Name face, Entity* placer, bool ignoreEntities = false, Entity* ignoreEntity = nullptr) { throw std::bad_cast(); } // @TODO: implement this
-
-protected:
-	void _neighborChanged(const TilePos&, const TilePos&, TileID);
-	void _tileChanged(const TilePos& pos, FullTile oldTile, FullTile newTile, TileChange updateFlags);
+	void addListener(TileSourceListener& listener);
+	void removeListener(TileSourceListener& listener);
 
 protected:
 	std::thread::id m_threadId;
@@ -158,7 +164,7 @@ protected:
 	Level& m_level;
 	ChunkSource& m_chunkSource;
 	Dimension& m_dimension;
-	std::vector<TileSourceListener*> m_listeners;
+	Listeners m_listeners;
 	LevelChunk* m_lastChunk;
 	TileTickingQueue* m_tileTickingQueue;
 };

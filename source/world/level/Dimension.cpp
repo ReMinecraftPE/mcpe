@@ -24,18 +24,21 @@
 #define C_TIMEOFDAY_SCALE C_TIMEOFDAY_SCALE_JAVA
 
 Dimension::Dimension(Level& level, DimensionId dimensionId)
-	: m_level(level),
-	  m_dimensionId(dimensionId),
-	  m_biomeSource(nullptr), // TODO: nuke
-	  m_bFoggy(false),
-	  m_warm(false),
-	  m_hasCeiling(false)
+	: m_level(level)
+	, m_biomeSource(nullptr) // TODO: nuke
+	, m_bFoggy(false)
+	, m_bUltraWarm(false)
+	, m_hasCeiling(false)
+	, m_dimensionId(dimensionId)
+	, m_chunkSource(nullptr)
+	, m_tileSource(nullptr)
 {
 	m_level.addListener(this);
 }
 
 Dimension::~Dimension()
 {
+	m_level.removeListener(*this);
 	delete m_biomeSource;
 }
 
@@ -114,12 +117,6 @@ Dimension* Dimension::createNew(DimensionId type, Level& level)
 	default:
 		return nullptr;
 	}
-}
-
-bool Dimension::isDay() const
-{
-	// @TODO: find this var
-	return true; //m_skyDarken <= 3;
 }
 
 Color Dimension::getFogColor(float a, float b) const

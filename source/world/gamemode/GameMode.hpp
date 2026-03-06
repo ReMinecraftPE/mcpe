@@ -36,7 +36,7 @@ public:
 	virtual bool useItem(Player* player, ItemStack& item);
 	virtual bool useItemOn(Player*, ItemStack&, const TilePos& pos, Facing::Name face);
 	virtual void releaseUsingItem(Player* player);
-	virtual LocalPlayer* createPlayer(Level*);
+	virtual LocalPlayer* createPlayer(Level&);
 	virtual void initPlayer(Player*);
 	virtual void adjustPlayer(Player*);
 	virtual bool canHurtPlayer();

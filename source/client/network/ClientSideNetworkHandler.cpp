@@ -18,6 +18,7 @@
 #include "world/entity/EntityFactory.hpp"
 #include "world/entity/PrimedTnt.hpp"
 #include "world/level/Explosion.hpp"
+#include "world/level/TileSource.hpp"
 #include "world/inventory/SimpleContainer.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
@@ -145,7 +146,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 
 	m_pLevel->m_bIsClientSide = true;
 
-	MultiplayerLocalPlayer *pLocalPlayer = new MultiplayerLocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, settings.m_gameType, m_pLevel->m_pDimension->m_dimensionId);
+	DimensionId dimensionId = DIMENSION_OVERWORLD;
+	MultiplayerLocalPlayer *pLocalPlayer = new MultiplayerLocalPlayer(m_pMinecraft, *m_pLevel, m_pMinecraft->m_pUser, settings.m_gameType, dimensionId);
 	pLocalPlayer->m_guid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
 	pLocalPlayer->m_EntityID = pStartGamePkt->m_entityId;
 	
@@ -172,7 +174,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 
 	if (!m_pLevel) return;
 
-	Player* pPlayer = new Player(m_pLevel, m_pLevel->getDefaultGameType());
+	Player* pPlayer = new Player(*m_pLevel, m_pLevel->getDefaultGameType());
 	pPlayer->m_EntityID = pAddPlayerPkt->m_id;
 	m_pLevel->addEntity(pPlayer);
 
@@ -214,7 +216,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobP
 		return;
 	}
 
-	Entity* entity = MobFactory::CreateMob(entityTypeId, m_pLevel);
+	Dimension& dimension = *m_pLevel->getDimension(DIMENSION_OVERWORLD);
+	TileSource& tileSource = *dimension.getTileSource();
+	Entity* entity = MobFactory::CreateMob(entityTypeId, tileSource);
 	// Mojang, in all of their infinite wisdon, does not have this check here in 0.2.1,
 	// so the game will just crash if you replicate a mob it can't create.
 	if (!entity)
@@ -246,7 +250,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddEnti
 		return;
 	}
 
-	Entity* entity = EntityFactory::CreateEntity(entityTypeId, m_pLevel);
+	Dimension& dimension = *m_pLevel->getDimension(DIMENSION_OVERWORLD);
+	TileSource& tileSource = *dimension.getTileSource();
+
+	Entity* entity = EntityFactory::CreateEntity(entityTypeId, tileSource);
 	if (!entity)
 	{
 		LOG_E("Server tried to add an unknown entity type! :%d", entityTypeId);
@@ -296,7 +303,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddItem
 		return;
 	}
 
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, packet->m_pos, itemStack);
+	Dimension& dimension = *m_pLevel->getDimension(DIMENSION_OVERWORLD);
+	TileSource& tileSource = *dimension.getTileSource();
+
+	ItemEntity* pItemEntity = new ItemEntity(tileSource, packet->m_pos, itemStack);
 
 	pItemEntity->m_vel.x = packet->m_velX * (1.f / 128.f);
 	pItemEntity->m_vel.y = packet->m_velY * (1.f / 128.f);
@@ -395,19 +405,22 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 	if (!areAllChunksLoaded())
 		return;
 
+	Dimension& dimension = *pPlayer->getDimension();
+	TileSource& tileSource = *dimension.getTileSource();
+
 	const TilePos& pos = pPlaceBlockPkt->m_pos;
 	TileID tileTypeId = pPlaceBlockPkt->m_tileTypeId;
 	Facing::Name face = (Facing::Name)pPlaceBlockPkt->m_face;
 
-	if (!m_pLevel->mayPlace(tileTypeId, pos, true))
+	if (!tileSource.mayPlace(tileTypeId, pos, face, pPlayer, true))
 		return;
 
 	Tile* pTile = Tile::tiles[tileTypeId];
-	if (!m_pLevel->setTile(pos, tileTypeId))
+	if (!tileSource.setTile(pos, tileTypeId))
 		return;
 
-	pTile->setPlacedOnFace(m_pLevel, pos, face);
-	pTile->setPlacedBy(m_pLevel, pos, pPlayer);
+	pTile->setPlacedOnFace(&tileSource, pos, face);
+	pTile->setPlacedBy(&tileSource, pos, pPlayer);
 
 	const Tile::SoundType* pSound = pTile->m_pSound;
 	m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
@@ -434,19 +447,22 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 	if (!areAllChunksLoaded())
 		return;
 
+	Dimension& dimension = *pPlayer->getDimension();
+	TileSource& tileSource = *dimension.getTileSource();
+
 	const TilePos& pos = pRemoveBlockPkt->m_pos;
-	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
-	int auxValue = m_pLevel->getData(pos);
+	Tile* pTile = Tile::tiles[tileSource.getTile(pos)];
+	int auxValue = tileSource.getData(pos);
 
-	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
+	m_pMinecraft->m_pParticleEngine->destroyEffect(pPlayer, pos);
 
-	bool setTileResult = m_pLevel->setTile(pos, TILE_AIR);
+	bool setTileResult = tileSource.setTile(pos, TILE_AIR);
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
 		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
 
-		pTile->destroy(m_pLevel, pos, auxValue);
+		pTile->destroy(&tileSource, pos, auxValue);
 	}
 }
 
@@ -469,7 +485,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Explode
 {
 	if (!m_pLevel) return;
 
-	Explosion explosion(m_pLevel, nullptr, pkt->m_pos, pkt->m_range);
+	Dimension& dimension = *m_pLevel->getDimension(DIMENSION_OVERWORLD);
+	TileSource& tileSource = *dimension.getTileSource();
+
+	Explosion explosion(tileSource, nullptr, pkt->m_pos, pkt->m_range);
 	explosion.addParticles(); // @TODO: have addParticles pick random spots to throw particles
 }
 
@@ -507,13 +526,19 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 		return;
 	}
 
-	LevelChunk* pChunk = m_pLevel->getChunkSource()->create(pChunkDataPkt->m_chunkPos);
-	if (!pChunk || pChunk->isEmpty())
+	Dimension& dimension = *m_pLevel->getDimension(DIMENSION_OVERWORLD);
+	ChunkSource& chunkSource = *dimension.getChunkSource();
+
+	// @TODO: is this the right method call?
+	LevelChunk* pChunk = chunkSource.getOrLoadChunk(pChunkDataPkt->m_chunkPos, ChunkSource::LOAD_NONE);
+	if (!pChunk /* || pChunk->isEmpty()*/)
 	{
 		LOG_E("Failed to find write-able chunk");
 		// @BUG: Not trying again.
 		return;
 	}
+
+	TileSource& tileSource = *dimension.getTileSource();
 
 	int x16 = 16 * pChunkDataPkt->m_chunkPos.x;
 	int z16 = 16 * pChunkDataPkt->m_chunkPos.z;
@@ -545,11 +570,11 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 
 				for (int i = 0; i < 16; i++)
 				{
-					m_pLevel->setTileNoUpdate(TilePos(x16 + (k & 0xF), yPos + i, z16 + (k >> 4)), tiles[i]);
+					tileSource.setTileNoUpdate(TilePos(x16 + (k & 0xF), yPos + i, z16 + (k >> 4)), tiles[i]);
 				}
 
 				int idx = ((k & 0xF) << 11) | (((k >> 4) << 7) + yPos);
-				memcpy(&pChunk->m_tileData.m_data[idx >> 1], datas, sizeof datas);
+				memcpy(&pChunk->getTiles()[idx >> 1], datas, sizeof datas);
 			}
 
 			int ymin = 16 * (1 << j);
@@ -1024,5 +1049,8 @@ void ClientSideNetworkHandler::flushAllBufferedUpdates()
 
 void ClientSideNetworkHandler::handleBlockUpdate(const BlockUpdate& u)
 {
-	m_pLevel->setTileAndData(u.pos, Tile::TransformToValidBlockId(u.tile), u.data);
+	Dimension& dimension = *m_pLevel->getDimension(DIMENSION_OVERWORLD);
+	TileSource& tileSource = *dimension.getTileSource();
+
+	tileSource.setTile(u.pos, Tile::TransformToValidBlockId(u.tile), u.data);
 }

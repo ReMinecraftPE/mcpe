@@ -103,7 +103,7 @@ void LevelChunk::setBrightness(const LightLayer& lightLayer, const ChunkTilePos&
 		m_lightBlock.set(pos, brightness);
 }
 
-Brightness_t LevelChunk::getRawBrightness(const ChunkTilePos& pos, Brightness_t skyDampen)
+Brightness_t LevelChunk::getRawBrightness(const ChunkTilePos& pos, Brightness_t skyDampen) const
 {
 	Brightness_t skyBrightness = static_cast<Brightness_t>(m_lightSky.get(pos));
 	if (skyBrightness > skyDampen)

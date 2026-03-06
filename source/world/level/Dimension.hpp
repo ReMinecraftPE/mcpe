@@ -47,7 +47,7 @@ protected:
 	Level& m_level;
 	BiomeSource* m_biomeSource;
 	bool m_bFoggy;
-	bool m_warm;
+	bool m_bUltraWarm;
 	bool m_hasCeiling;
 	float m_brightnessRamp[Brightness::MAX + 1];
 	DimensionId m_dimensionId;
@@ -69,7 +69,8 @@ public:
 	virtual void updateLightRamp();
 	virtual std::string getName() const = 0;
 
-	bool isDay() const;
+	bool isDay() const { return true; /*m_skyDarken <= 3;*/ } // @TODO: find this var
+	bool isFoggy() const { return m_bFoggy; }
 	Color getFogColor(float f) const;
 	Color getSkyColor(const Entity& entity, float f) const;
 	float getSunAngle(float f) const;
@@ -93,7 +94,7 @@ public:
 
 	bool isWarm() const
 	{
-		return m_warm;
+		return m_bUltraWarm;
 	}
 
 	bool hasCeiling() const

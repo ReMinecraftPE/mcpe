@@ -101,9 +101,9 @@ float GameMode::getEntityReachDistance() const
 	return 5.0f;
 }
 
-LocalPlayer* GameMode::createPlayer(Level* pLevel)
+LocalPlayer* GameMode::createPlayer(Level& level)
 {
-	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.getDimension(DIMENSION_OVERWORLD)->getId());
+	return new LocalPlayer(m_pMinecraft, level, m_pMinecraft->m_pUser, level.getDefaultGameType(), level.getDimension(DIMENSION_OVERWORLD)->getId());
 }
 
 void GameMode::initPlayer(Player* pPlayer)

@@ -24,6 +24,30 @@ TileSource::TileSource(Level& level, Dimension& dimension, ChunkSource& source, 
 	}
 }
 
+void TileSource::_neighborChanged(const TilePos& neighborPos, const TilePos& originalPos, TileID tileID)
+{
+	if (getLevelConst().m_bIsClientSide)
+		return;
+
+	// TODO
+}
+
+void TileSource::_tileChanged(const TilePos& pos, FullTile oldTile, FullTile newTile, TileChange updateFlags)
+{
+	if (updateFlags.isUpdateNeighbors())
+	{
+		updateNeighborsAt(pos, oldTile.getTypeId());
+	}
+
+	if (updateFlags.isUpdateListeners())
+	{
+		if (!m_level.m_bIsClientSide || !updateFlags.isUpdateListenersServerOnly())
+		{
+			fireTileChanged(pos, oldTile, newTile, updateFlags);
+		}
+	}
+}
+
 Level& TileSource::getLevel() const
 {
 	return m_level;
@@ -72,11 +96,6 @@ LevelChunk* TileSource::getChunk(const ChunkPos& pos)
 	}
 
 	return m_lastChunk;
-}
-
-LevelChunk* TileSource::getChunk(int x, int z)
-{
-	return getChunk(ChunkPos(x, z));
 }
 
 LevelChunk* TileSource::getWritableChunk(const ChunkPos& pos)
@@ -250,7 +269,7 @@ Brightness_t TileSource::getRawBrightness(const TilePos& pos, bool unk)
 		return b;
 	}
 
-	LevelChunk* chunk = getChunk(pos);
+	const LevelChunk* chunk = getChunk(pos);
 	if (!chunk)
 		return Brightness::MAX;
 
@@ -289,26 +308,14 @@ float TileSource::getBrightness(int x, int y, int z)
 	return getBrightness(TilePos(x, y, z));
 }
 
-void TileSource::_neighborChanged(const TilePos& neighborPos, const TilePos& originalPos, TileID tileID)
+void TileSource::addListener(TileSourceListener& listener)
 {
-	if (getLevelConst().m_bIsClientSide)
-		return;
-
-	// TODO
+	m_listeners.push_back(&listener);
 }
 
-void TileSource::_tileChanged(const TilePos& pos, FullTile oldTile, FullTile newTile, TileChange updateFlags)
+void TileSource::removeListener(TileSourceListener& listener)
 {
-	if (updateFlags.isUpdateNeighbors())
-	{
-		updateNeighborsAt(pos, oldTile.getTypeId());
-	}
-
-	if (updateFlags.isUpdateListeners())
-	{
-		if (!m_level.m_bIsClientSide || !updateFlags.isUpdateListenersServerOnly())
-		{
-			fireTileChanged(pos, oldTile, newTile, updateFlags);
-		}
-	}
+	Listeners::iterator it = std::find(m_listeners.begin(), m_listeners.end(), &listener);
+	if (it != m_listeners.end())
+		m_listeners.erase(it);
 }
