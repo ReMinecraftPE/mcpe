@@ -11,9 +11,10 @@
 #include <algorithm>
 #include <sstream>
 #include "client/app/AppPlatformListener.hpp"
-#include "renderer/hal/interface/FogState.hpp"
 #include "client/renderer/FrustumCuller.hpp"
+#include "renderer/hal/interface/FogState.hpp"
 #include "world/level/LevelListener.hpp"
+#include "world/level/Dimension.hpp"
 #include "Textures.hpp"
 #include "RenderList.hpp"
 #include "TileRenderer.hpp"
@@ -117,9 +118,9 @@ public:
 	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();
 	bool updateDirtyChunks(const Entity& camera, bool b);
-	void renderCracks(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
-	void renderHitSelect(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
-	void renderHitOutline(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
+	void renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
+	void renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
+	void renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
 
 protected:
 	Vec3 m_viewPos;

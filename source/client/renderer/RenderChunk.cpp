@@ -193,7 +193,7 @@ RenderChunk::DataState RenderChunk::getDataState(TileSource& source)
 		if (chunk->getState() <= CS_POST_PROCESSING)
 			return DS_LOADING;
 
-		iter++;
+		++iter;
 	}
 
 	return DS_LOADED;

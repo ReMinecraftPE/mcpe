@@ -594,8 +594,7 @@ HitResult Mob::pick(float f1, float f2)
 
 	Vec3 limit = pos + view * f1;
 
-	HitResult result;
-	m_tileSource->clip(result, pos, limit, false, false);
+	HitResult result = m_tileSource->clip(pos, limit);
 	return result;
 }
 
@@ -716,8 +715,7 @@ bool Mob::canSee(Entity* pEnt) const
 	Vec3 v2 = pEnt->m_pos;
 	v2.y += pEnt->getHeadHeight();
 
-	HitResult result;
-	m_tileSource->clip(result, v1, v2, false, false);
+	HitResult result = m_tileSource->clip(v1, v2);
 	return result.m_hitType == HitResult::NONE;
 }
 

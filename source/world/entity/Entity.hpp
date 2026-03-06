@@ -64,6 +64,7 @@ protected:
 public:
 	typedef int32_t ID;
 	typedef int32_t AuxValue;
+	typedef std::vector<Entity*> Vector;
 public:
 	class EventType
 	{
@@ -234,15 +235,8 @@ public:
 			(m_pos.z - pos.z) * (m_pos.z - pos.z);
 	}
 
-	Level& getLevel()
-	{
-		return *m_pLevel;
-	}
-
-	TileSource& getTileSource()
-	{
-		return *m_tileSource;
-	}
+	Level& getLevel() const { return *m_pLevel; }
+	TileSource& getTileSource() const { return *m_tileSource; }
 
 protected:
 	SynchedEntityData m_entityData;

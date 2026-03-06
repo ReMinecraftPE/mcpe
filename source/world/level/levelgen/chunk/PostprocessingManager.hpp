@@ -7,6 +7,7 @@
 
 class PostprocessingManager
 {
+public:
 	class ScopedLock;
 	friend class ScopedLock;
 

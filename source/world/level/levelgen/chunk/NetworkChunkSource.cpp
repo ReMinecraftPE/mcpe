@@ -7,7 +7,7 @@ LevelChunk* NetworkChunkSource::getIncomingChunk(const ChunkPos& pos)
 		return existingChunk;
 
 	LevelChunk* blankChunk = new LevelChunk(*m_level, *m_dimension, pos, false);
-	m_incomingChunks[pos] = std::make_unique<LevelChunk>(blankChunk);
+	m_incomingChunks[pos] = std::unique_ptr<LevelChunk>(blankChunk);
 
 	return blankChunk;
 }
@@ -46,6 +46,8 @@ LevelChunk* NetworkChunkSource::requestChunk(const ChunkPos& pos, LoadMode loadM
 		m_chunks[pos] = ChunkRefCount(*chunk, 1);
 		return chunk;
 	}
+
+	return nullptr;
 }
 
 bool NetworkChunkSource::releaseChunk(LevelChunk& chunk)

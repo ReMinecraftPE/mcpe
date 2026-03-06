@@ -12,6 +12,7 @@
 #include "client/renderer/entity/HumanoidMobRenderer.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
+#include "world/level/TileSource.hpp"
 #include "Lighting.hpp"
 
 ItemInHandRenderer::Materials::Materials()
@@ -48,14 +49,15 @@ void ItemInHandRenderer::itemUsed()
 
 void ItemInHandRenderer::render(float a)
 {
-	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
+	LocalPlayer& player = *m_pMinecraft->m_pLocalPlayer;
+    TileSource& tileSource = player.getTileSource();
 
 #ifndef FEATURE_GFX_SHADERS
     // Apply lighting
     {
         MatrixStack::Ref matrix = MatrixStack::World.push();
-        matrix->rotate(pLP->m_oRot.y + (pLP->m_rot.y - pLP->m_oRot.y) * a, Vec3::UNIT_X);
-        matrix->rotate(pLP->m_oRot.x + (pLP->m_rot.x - pLP->m_oRot.x) * a, Vec3::UNIT_Y);
+        matrix->rotate(player.m_oRot.y + (player.m_rot.y - player.m_oRot.y) * a, Vec3::UNIT_X);
+        matrix->rotate(player.m_oRot.x + (player.m_rot.x - player.m_oRot.x) * a, Vec3::UNIT_Y);
 
         Lighting::turnOn(matrix);
     }
@@ -63,31 +65,31 @@ void ItemInHandRenderer::render(float a)
 
     MatrixStack::Ref matrix = MatrixStack::World.push();
 
-	if (m_pMinecraft->getOptions()->m_dynamicHand.get() && m_pMinecraft->m_pCameraEntity == pLP)
+	if (m_pMinecraft->getOptions()->m_dynamicHand.get() && m_pMinecraft->m_pCameraEntity == &player)
 	{
-		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmRot.x, pLP->m_renderArmRot.x, a);
-		float rPitch = Mth::Lerp(pLP->m_lastRenderArmRot.y, pLP->m_renderArmRot.y, a);
-		matrix->rotate((pLP->m_rot.y - rPitch) * 0.1f, Vec3::UNIT_X);
-		matrix->rotate((pLP->m_rot.x - rYaw  ) * 0.1f, Vec3::UNIT_Y);
+		float rYaw   = Mth::Lerp(player.m_lastRenderArmRot.x, player.m_renderArmRot.x, a);
+		float rPitch = Mth::Lerp(player.m_lastRenderArmRot.y, player.m_renderArmRot.y, a);
+		matrix->rotate((player.m_rot.y - rPitch) * 0.1f, Vec3::UNIT_X);
+		matrix->rotate((player.m_rot.x - rYaw  ) * 0.1f, Vec3::UNIT_Y);
 	}
 
-	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
+	float fBright = tileSource.getBrightness(player.m_pos);
     currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color(fBright, fBright, fBright);
 
-	ItemStack* pItem = &m_selectedItem;
-	/*if (pLP->m_fishing != null)
+	ItemStack& item = m_selectedItem;
+	/*if (player.m_fishing != null)
     {
         // We shouldn't do this, make this static or something
 		pItem = new ItemStack(Item::stick);
 	}*/
     
     float swing2, swing3;
-    float fAnim = pLP->getAttackAnim(a);
+    float fAnim = player.getAttackAnim(a);
     float h = m_oHeight + (m_height - m_oHeight) * a;
     constexpr float d = 0.8f;
     
-	if (!ItemStack::isEmpty(pItem))
+	if (!item.isEmpty())
 	{
         matrix->translate(Vec3(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim)));
         matrix->translate(Vec3(0.7f * d, -0.65f * d - (1.0f - h) * 0.6f, -0.9f * d));
@@ -105,12 +107,12 @@ void ItemInHandRenderer::render(float a)
         matrix->rotate(swing2 * -80.0f, Vec3::UNIT_X);
         matrix->scale(0.4f);
 
-        if (pItem->getItem()->isMirroredArt())
+        if (item.getItem()->isMirroredArt())
         {
             matrix->rotate(180.0f, Vec3::UNIT_Y);
         }
 
-        renderItem(*pLP, *pItem, a);
+        renderItem(player, item, a);
 	}
 	else
 	{
@@ -132,10 +134,10 @@ void ItemInHandRenderer::render(float a)
         matrix->scale(1.0f);
         matrix->translate(Vec3(5.6f, 0.0f, 0.0f));
 
-        HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(*pLP);
+        HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(player);
         swing2 = 1.0f;
         matrix->scale(swing2);
-        pRenderer->renderHand(*pLP, a);
+        pRenderer->renderHand(player, a);
 	}
 
 #if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
@@ -278,21 +280,24 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
 
 void ItemInHandRenderer::renderScreenEffect(float a)
 {
-    LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
-    Textures* textures = m_pMinecraft->m_pTextures;
-    Level* level = m_pMinecraft->m_pLevel;
+    Minecraft& mc = *m_pMinecraft;
+    Textures& textures = *mc.m_pTextures;
+    Level& level = *mc.m_pLevel;
+    Options& options = *mc.getOptions();
+    LocalPlayer& player = *mc.m_pLocalPlayer;
+    TileSource& tileSource = player.getTileSource();
 
-    if (player->isOnFire())
+    if (player.isOnFire())
     {
-        textures->loadAndBindTexture(C_TERRAIN_NAME);
+        textures.loadAndBindTexture(C_TERRAIN_NAME);
         renderFire(a);
     }
 
-    if (player->isInWall() && !m_pMinecraft->getOptions()->m_flightHax.get())
+    if (player.isInWall() && !options.m_flightHax.get())
     {
-        textures->loadAndBindTexture(C_TERRAIN_NAME);
+        textures.loadAndBindTexture(C_TERRAIN_NAME);
 
-        Tile* pTile = Tile::tiles[level->getTile(player->m_pos)];
+        Tile* pTile = Tile::tiles[tileSource.getTile(player.m_pos)];
         if (pTile)
         {
             int texture = pTile->getTexture(Facing::NORTH);
@@ -300,9 +305,9 @@ void ItemInHandRenderer::renderScreenEffect(float a)
         }
     }
 
-    if (player->isUnderLiquid(Material::water))
+    if (player.isUnderLiquid(Material::water))
     {
-        if (textures->loadAndBindTexture("misc/water.png", false))
+        if (textures.loadAndBindTexture("misc/water.png", false))
         {
             renderWater(a);
         }

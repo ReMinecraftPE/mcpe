@@ -365,7 +365,9 @@ void Screen::renderConsolePanorama(bool isNight)
 
 void Screen::renderConsolePanorama()
 {
-	renderConsolePanorama(m_pMinecraft->m_pLevel && !m_pMinecraft->m_pLevel->isDay());
+	Level* pLevel = m_pMinecraft->m_pLevel;
+	Dimension* pOverworld = pLevel ? pLevel->getDimension(DIMENSION_OVERWORLD) : nullptr;
+	renderConsolePanorama(pOverworld && pOverworld->isDay());
 }
 
 void Screen::renderConsoleLoading(int x, int y, int blockSize, int blockDistance)

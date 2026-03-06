@@ -125,15 +125,14 @@ void Arrow::tick()
         ++m_flightTime;
     }
 
-    Vec3 future_pos = m_pos + m_vel;
-    HitResult hit_result;
-    m_tileSource->clip(hit_result, m_pos, future_pos, false, true);
-    if (hit_result.isHit()) 
+    Vec3 futurePos = m_pos + m_vel;
+    HitResult hitResult = m_tileSource->clip(m_pos, futurePos, false, true);
+    if (hitResult.isHit())
     {
-        future_pos = hit_result.m_hitPos;
+        futurePos = hitResult.m_hitPos;
     }
 
-    Entity* hit_ent = nullptr;
+    Entity* hitEnt = nullptr;
     AABB hitbox = m_hitbox;
     hitbox.expand(m_vel.x, m_vel.y, m_vel.z).grow(1.0f);
     const std::vector<Entity*>& entities = m_tileSource->getEntities(this, hitbox);
@@ -148,29 +147,29 @@ void Arrow::tick()
             AABB aabb = ent->m_hitbox;
             aabb.grow(var10);
             // these Vec3's are copied in the TilePos::clip fn, so no need to create them over and over like in b1.2
-            HitResult hit = aabb.clip(m_pos, future_pos);
+            HitResult hit = aabb.clip(m_pos, futurePos);
             if (hit.isHit())
             {
                 float distance = m_pos.distanceTo(hit.m_hitPos);
                 if (distance < max_dist || max_dist == 0.0f)
                 {
-                    hit_ent = ent;
+                    hitEnt = ent;
                     max_dist = distance;
                 }
             }
         }
     }
 
-    if (hit_ent != nullptr)
+    if (hitEnt != nullptr)
     {
-        hit_result = HitResult(hit_ent);
+        hitResult = HitResult(hitEnt);
     }
 
-    if (hit_result.isHit())
+    if (hitResult.isHit())
     {
-        if (hit_result.m_pEnt != nullptr)
+        if (hitResult.m_pEnt != nullptr)
         {
-            if (hit_result.m_pEnt->hurt(m_owner, ARROW_BASE_DAMAGE))
+            if (hitResult.m_pEnt->hurt(m_owner, ARROW_BASE_DAMAGE))
             {
                 m_pLevel->playSound(this, "random.drr", 1.0f, 1.2f / (sharedRandom.nextFloat() * 0.2f + 0.9f));
                 remove();
@@ -185,9 +184,9 @@ void Arrow::tick()
         }
         else 
         {
-            m_tilePos = hit_result.m_tilePos;
+            m_tilePos = hitResult.m_tilePos;
             m_lastTile = m_tileSource->getTile(m_tilePos);
-            m_vel = hit_result.m_hitPos - m_pos;
+            m_vel = hitResult.m_hitPos - m_pos;
             m_pos -= (m_vel / m_pos.length() * 0.05f);
             m_pLevel->playSound(this, "random.drr", 1.0f, 1.2f / (sharedRandom.nextFloat() * 0.2f + 0.9f));
             m_bInGround = true;

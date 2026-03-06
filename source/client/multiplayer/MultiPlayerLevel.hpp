@@ -22,16 +22,15 @@ private:
 	};
 
 public:
-	MultiPlayerLevel(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT, Dimension* pDimension = nullptr);
+	MultiPlayerLevel(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT);
 
 public:
 	void tick() override;
-	ChunkSource* createChunkSource() override;
 	void putEntity(int id, Entity* e);
 
 private:
 	std::vector<ResetInfo> m_updatesToReset;
 	std::map<int, Entity*> m_entitiesById;
-	EntityVector m_forced;
-	EntityVector m_reEntries;
+	Entity::Vector m_forced;
+	Entity::Vector m_reEntries;
 };

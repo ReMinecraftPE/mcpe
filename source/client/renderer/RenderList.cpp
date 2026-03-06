@@ -126,13 +126,13 @@ void RenderList::renderChunks(TerrainLayer layer, bool fog)
 			if (!chk) continue;
 
 			MatrixStack::Ref matrix = MatrixStack::World.push();
-			matrix->translate(chk->m_pos);
+			matrix->translate(chk->getPos());
 
 #ifdef FEATURE_GFX_SHADERS
 			mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
 			mce::RenderChunkConstants& chunkConstants = globalBuffers.m_renderChunkConstants;
 
-			Vec3 chunkOrigin = chk->m_pos;
+			Vec3 chunkOrigin = chk->getPos();
 			chunkConstants.CHUNK_ORIGIN->setData(&chunkOrigin);
 
 			chunkConstants.sync();

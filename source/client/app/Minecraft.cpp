@@ -482,7 +482,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			else if (action.isPlace() && canInteract)
 			{
 				ItemStack& item = getSelectedItem();
-				if (m_pGameMode->useItemOn(player, m_pLevel, item, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
+				if (m_pGameMode->useItemOn(player, item, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
 				{
 					bInteract = false;
 
@@ -503,7 +503,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 		if (!item.isEmpty())
 		{
 			m_lastInteractTime = getTimeMs();
-			if (m_pGameMode->useItem(player, m_pLevel, item))
+			if (m_pGameMode->useItem(player, item))
 				m_pGameRenderer->m_pItemInHandRenderer->itemUsed();
 		}
 	}
@@ -828,7 +828,7 @@ void Minecraft::tick()
 
 			if (m_pLocalPlayer)
 			{
-				m_pLevel->animateTick(m_pLocalPlayer->m_pos);
+				m_pLevel->animateTick(m_pLocalPlayer);
 			}
 		}
 
@@ -903,6 +903,7 @@ void Minecraft::init()
 
 void Minecraft::prepareLevel(const std::string& unused)
 {
+	// @TODO: redo this function
 	field_DA0 = 1;
 
 	float startTime = float(getTimeS());
@@ -1227,9 +1228,8 @@ void Minecraft::selectLevel(const LevelSummary& ls, bool forceConversion)
 void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, const LevelSettings& levelSettings, bool forceConversion)
 {
 	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(levelDir, false, forceConversion);
-	Dimension* pDim = Dimension::createNew(DIMENSION_OVERWORLD);
 
-	m_pLevel = new Level(pStor, levelName, levelSettings, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
+	m_pLevel = new Level(pStor, levelName, levelSettings, LEVEL_STORAGE_VERSION_DEFAULT);
 	setLevel(m_pLevel, "Generating level", nullptr);
 
 	field_D9C = 1;

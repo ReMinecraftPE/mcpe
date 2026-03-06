@@ -266,9 +266,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\TripodCameraRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Chunk.hpp">
-      <Filter>Header Files\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Culler.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
@@ -815,9 +812,6 @@
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterTexture.cpp">
-      <Filter>Source Files\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Chunk.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Culler.cpp">

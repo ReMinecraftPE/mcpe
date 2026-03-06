@@ -105,7 +105,7 @@ private:
 
 		T& get_at(size_t index) const
 		{
-			Primitive& p = m_items[index];
+			char& p = m_items[index];
 			return reinterpret_cast<T&>(p);
 		}
 

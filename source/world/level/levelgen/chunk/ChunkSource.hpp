@@ -26,7 +26,7 @@ class ChunkSource
 public:
 	enum LoadMode
 	{
-		LOAD_NOW,
+		LOAD_NONE,
 		LOAD_DEFERRED
 	};
 
@@ -70,11 +70,11 @@ public:
 	LevelChunk* getAvailableChunk(const ChunkPos& pos);
 	LevelChunk* getAvailableChunkAt(const TilePos& tilePos);
 	virtual LevelChunk* getExistingChunk(const ChunkPos& pos);
-	virtual LevelChunk* requestChunk(const ChunkPos& pos, LoadMode loadMode = LOAD_NOW);
+	virtual LevelChunk* requestChunk(const ChunkPos& pos, LoadMode loadMode);
 	virtual bool releaseChunk(LevelChunk& chunk);
 	virtual bool postProcess(ChunkViewSource& chunkViewSource);
 	virtual void loadChunk(LevelChunk& chunk);
-	LevelChunk* getOrLoadChunk(const ChunkPos& pos, LoadMode loadMode = LOAD_NOW);
+	LevelChunk* getOrLoadChunk(const ChunkPos& pos, LoadMode loadMode);
 	virtual void postProcessMobsAt(TileSource* tileSource, int, int, Random& random);
 	virtual const std::vector<MobSpawnerData>& getMobsAt(TileSource& tileSource, EntityType entityType, const TilePos& pos);
 	virtual bool saveLiveChunk(LevelChunk& chunk);

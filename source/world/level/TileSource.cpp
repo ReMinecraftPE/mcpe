@@ -1,11 +1,27 @@
 #include "world/level/TileSource.hpp"
 #include "world/level/levelgen/chunk/ChunkSource.hpp"
 #include "world/level/Level.hpp"
+#include "world/level/TileSourceListener.hpp"
 
 TileSource::TileSource(Level& level, Dimension& dimension, ChunkSource& source, bool publicSource, bool allowUnpopulatedChunks)
+	: m_threadId(std::this_thread::get_id())
+	, m_bAllowUnpopulatedChunks(allowUnpopulatedChunks)
+	, m_bPublicSource(publicSource)
+	, m_level(level)
+	, m_chunkSource(source)
+	, m_dimension(dimension)
+	, m_lastChunk(nullptr)
+	, m_tileTickingQueue(nullptr)
 {
+	if (publicSource)
+	{
+		m_listeners.push_back(&level);
 
-	// TODO
+		for (size_t i = 0; i < m_listeners.size(); i++)
+		{
+			m_listeners[i]->onSourceCreated(*this);
+		}
+	}
 }
 
 Level& TileSource::getLevel() const
@@ -49,7 +65,7 @@ LevelChunk* TileSource::getChunk(const ChunkPos& pos)
 {
 	if (!m_lastChunk || m_lastChunk->getPos() != pos)
 	{
-		LevelChunk* chunk = m_allowUnpopulatedChunks ? m_chunkSource.getGeneratedChunk(pos) : m_chunkSource.getAvailableChunk(pos);
+		LevelChunk* chunk = m_bAllowUnpopulatedChunks ? m_chunkSource.getGeneratedChunk(pos) : m_chunkSource.getAvailableChunk(pos);
 		if (chunk)
 			m_lastChunk = chunk;
 		return chunk;
@@ -60,7 +76,7 @@ LevelChunk* TileSource::getChunk(const ChunkPos& pos)
 
 LevelChunk* TileSource::getChunk(int x, int z)
 {
-	return getChunk(x, z);
+	return getChunk(ChunkPos(x, z));
 }
 
 LevelChunk* TileSource::getWritableChunk(const ChunkPos& pos)
@@ -77,7 +93,7 @@ LevelChunk* TileSource::getWritableChunk(const ChunkPos& pos)
 
 bool TileSource::shouldFireEvents(LevelChunk& chunk) const
 {
-	if (m_allowUnpopulatedChunks)
+	if (m_bAllowUnpopulatedChunks)
 		return false;
 
 	return chunk.getState() == CS_POST_PROCESSED;
@@ -103,7 +119,7 @@ bool TileSource::hasChunksAt(const Bounds& bounds)
 
 bool TileSource::hasChunksAt(const AABB& aabb)
 {
-	hasChunksAt(aabb.min * Vec3(1, 0, 1), aabb.max * Vec3(1, 0, 1));
+	return hasChunksAt(aabb.min * Vec3(1, 0, 1), aabb.max * Vec3(1, 0, 1));
 }
 
 bool TileSource::hasChunksAt(const TilePos& min, const TilePos& max)
@@ -179,7 +195,7 @@ Tile* TileSource::getTilePtr(const TilePos& pos)
 
 Tile* TileSource::getTilePtr(int x, int y, int z)
 {
-	return getTilePtr(x, y, z);
+	return getTilePtr(TilePos(x, y, z));
 }
 
 TileData TileSource::getData(const TilePos& pos)

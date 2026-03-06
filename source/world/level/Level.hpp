@@ -27,6 +27,7 @@
 #include "Dimension.hpp"
 #include "LevelListener.hpp"
 #include "LevelEvent.hpp"
+#include "TileSourceListener.hpp"
 
 class Dimension;
 class Level;
@@ -35,7 +36,7 @@ class RakNetInstance;
 class Packet;
 class MobSpawner;
 
-class Level : public LevelListener
+class Level : public LevelListener, public TileSourceListener
 {
 public:
 	typedef std::vector<Dimension*> DimensionVector;

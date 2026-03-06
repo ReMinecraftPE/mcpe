@@ -24,7 +24,7 @@ void TileTickingQueue::add(TileSource* region, const TilePos& pos, TileID tileID
 	}
 	else
 	{
-		m_tickData.push(pos, tileID, m_currentTick + tickDelay);
+		m_tickData.push(TickNextTickData(pos, tileID, m_currentTick + tickDelay));
 	}
 }
 
@@ -89,6 +89,6 @@ void TileTickingQueue::load(const CompoundTag& tag)
 		TilePos pos = TilePos(childTag->getInt32("x"), childTag->getInt32("y"), childTag->getInt32("z"));
 		TileID tileID = static_cast<TileID>(childTag->getInt8("tileID"));
 		Tick_t tick = static_cast<Tick_t>(childTag->getInt64("tick"));
-		m_tickData.push(pos, tileID, tick);
+		m_tickData.push(TickNextTickData(pos, tileID, tick));
 	}
 }

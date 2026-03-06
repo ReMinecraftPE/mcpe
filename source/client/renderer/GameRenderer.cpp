@@ -17,6 +17,7 @@
 #include "renderer/GL/GL.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "world/level/TileSource.hpp"
 #include "thirdparty/glm/glm.hpp"
 
 //#define SHOW_VERTEX_COUNTER_GRAPHIC
@@ -175,14 +176,15 @@ void GameRenderer::_renderDebugOverlay(float a)
 	 */
 	if (m_pMinecraft->m_pLocalPlayer && !m_pMinecraft->m_bPreparingLevel)
 	{
+		LocalPlayer& player = *m_pMinecraft->m_pLocalPlayer;
 		char posStr[96];
-		Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(a);
+		Vec3 pos = player.getInterpolatedPosition(a);
 		sprintf(posStr, "%.2f / %.2f / %.2f", pos.x, pos.y, pos.z);
 
 		debugText << m_pMinecraft->m_pLevelRenderer->gatherStats1();
 		debugText << m_pMinecraft->m_pLevelRenderer->gatherStats2() << "\n";
 		debugText << "XYZ: " << posStr << "\n";
-		debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
+		debugText << "Biome: " << player.getTileSource().getBiome(pos).m_name << "\n";
 	}
 
 #ifdef SHOW_VERTEX_COUNTER_GRAPHIC
@@ -303,13 +305,14 @@ void GameRenderer::setupCamera(float f, int i)
 
 void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 {
-	Mob* pMob = m_pMinecraft->m_pCameraEntity;
+	Mob& mob = *m_pMinecraft->m_pCameraEntity;
+	TileSource& tileSource = mob.getTileSource();
 
-	float headHeightDiff = pMob->m_heightOffset - 1.62f;
+	float headHeightDiff = mob.m_heightOffset - 1.62f;
 
-	float posX = Mth::Lerp(pMob->m_oPos.x, pMob->m_pos.x, f);
-	float posY = Mth::Lerp(pMob->m_oPos.y, pMob->m_pos.y, f);
-	float posZ = Mth::Lerp(pMob->m_oPos.z, pMob->m_pos.z, f);
+	float posX = Mth::Lerp(mob.m_oPos.x, mob.m_pos.x, f);
+	float posY = Mth::Lerp(mob.m_oPos.y, mob.m_pos.y, f);
+	float posZ = Mth::Lerp(mob.m_oPos.z, mob.m_pos.z, f);
 
 	matrix.rotate(field_5C + f * (field_58 - field_5C), Vec3::UNIT_Z);
 
@@ -324,8 +327,8 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 		}
 		else
 		{
-			float mob_yaw = pMob->m_rot.x;
-			float mob_pitch = pMob->m_rot.y;
+			float mob_yaw = mob.m_rot.x;
+			float mob_pitch = mob.m_rot.y;
 
 			float pitchRad = mob_pitch / 180.0f * float(M_PI);
 
@@ -339,7 +342,7 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 				float offsY = ((i & 2) - 1) * 0.1f;
 				float offsZ = (2 * ((i >> 2) & 1) - 1) * 0.1f;
 
-				HitResult hr = m_pMinecraft->m_pLevel->clip(
+				HitResult hr = tileSource.clip(
 					Vec3(posX + offsX, posY + offsY, posZ + offsZ),
 					Vec3(aX + offsX + offsZ, aY + offsY, aZ + offsZ) // @NOTE: Not sure why it adds offsZ to offsX.
 				);
@@ -355,11 +358,11 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 				}
 			}
 
-			matrix.rotate(pMob->m_rot.y - mob_pitch, Vec3::UNIT_X);
-			matrix.rotate(pMob->m_rot.x - mob_yaw, Vec3::UNIT_Y);
+			matrix.rotate(mob.m_rot.y - mob_pitch, Vec3::UNIT_X);
+			matrix.rotate(mob.m_rot.x - mob_yaw, Vec3::UNIT_Y);
 			matrix.translate(Vec3::NEG_UNIT_Z * v11);
-			matrix.rotate(mob_yaw - pMob->m_rot.x, Vec3::UNIT_Y);
-			matrix.rotate(mob_pitch - pMob->m_rot.y, Vec3::UNIT_X);
+			matrix.rotate(mob_yaw - mob.m_rot.x, Vec3::UNIT_Y);
+			matrix.rotate(mob_pitch - mob.m_rot.y, Vec3::UNIT_X);
 		}
 	}
 	else
@@ -369,8 +372,8 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 
 	if (!m_pMinecraft->getOptions()->m_bFixedCamera)
 	{
-		matrix.rotate(pMob->m_oRot.y + f * (pMob->m_rot.y - pMob->m_oRot.y), Vec3::UNIT_X);
-		matrix.rotate(pMob->m_oRot.x + f * (pMob->m_rot.x - pMob->m_oRot.x) + 180.0f, Vec3::UNIT_Y);
+		matrix.rotate(mob.m_oRot.y + f * (mob.m_rot.y - mob.m_oRot.y), Vec3::UNIT_X);
+		matrix.rotate(mob.m_oRot.x + f * (mob.m_rot.x - mob.m_oRot.x) + 180.0f, Vec3::UNIT_Y);
 	}
 
 	matrix.translate(Vec3::UNIT_Y * headHeightDiff);
@@ -724,8 +727,9 @@ void GameRenderer::render(const Timer& timer)
 	{
 		m_lastUpdatedMS = timeMs;
 		m_shownFPS = m_pMinecraft->getFpsIntlCounter();
-		m_shownChunkUpdates = Chunk::updates;
-		Chunk::updates = 0;
+		// @TODO: fix this
+		//m_shownChunkUpdates = Chunk::updates;
+		//Chunk::updates = 0;
 	}
 }
 
@@ -897,7 +901,8 @@ void GameRenderer::pick(float f)
 	if (!m_pMinecraft->m_pCameraEntity || !m_pMinecraft->m_pLevel)
 		return;
 
-	Mob* pMob = m_pMinecraft->m_pCameraEntity;
+	Mob& mob = *m_pMinecraft->m_pCameraEntity;
+	TileSource& tileSource = mob.getTileSource();
 	HitResult& mchr = m_pMinecraft->m_hitResult;
 	float dist = m_pMinecraft->m_pGameMode->getBlockReachDistance();
 	bool isFirstPerson = !m_pMinecraft->getOptions()->m_thirdPerson.get();
@@ -906,7 +911,7 @@ void GameRenderer::pick(float f)
 
 	if (!m_pMinecraft->useSplitControls())
 	{
-		Vec3 mobPos = pMob->getPos(f);
+		Vec3 mobPos = mob.getInterpolatedPosition(f);
 		Vec3 foundPosNear, foundPosFar;
 		bool flag = true;
 		float offset = isFirstPerson ? 6.0f : 12.0f;
@@ -965,11 +970,11 @@ void GameRenderer::pick(float f)
 		{
 			if (isFirstPerson)
 			{
-				mchr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
+				mchr = tileSource.clip(foundPosNear, foundPosFar, false);
 			}
 			else
 			{
-				HitResult hr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
+				HitResult hr = tileSource.clip(foundPosNear, foundPosFar, false);
 
 				float diffX = float(hr.m_tilePos.x) - m_pMinecraft->m_pCameraEntity->m_pos.x;
 				float diffY = float(hr.m_tilePos.y) - m_pMinecraft->m_pCameraEntity->m_pos.y;
@@ -985,11 +990,11 @@ void GameRenderer::pick(float f)
 	else
 	{
 		// easy case: pick from the middle of the screen
-		HitResult hrMob = pMob->pick(dist, f);
+		HitResult hrMob = mob.pick(dist, f);
 		mchr = hrMob;
 	}
 
-	Vec3 mobPos = pMob->getPos(f);
+	Vec3 mobPos = mob.getInterpolatedPosition(f);
 
 	if (mchr.m_hitType != HitResult::NONE)
 		dist = mchr.m_hitPos.distanceTo(mobPos);
@@ -1000,7 +1005,7 @@ void GameRenderer::pick(float f)
 	else */if (dist > maxEntityDist)
 		dist = maxEntityDist;
 
-	Vec3 view = pMob->getViewVector(f);
+	Vec3 view = mob.getViewVector(f);
 	Vec3 exp;
 	Vec3 limit;
 	Vec3 rayStart;
@@ -1046,7 +1051,7 @@ void GameRenderer::pick(float f)
 		else
 		{
 			// Split
-			scanAABB = pMob->m_hitbox;
+			scanAABB = mob.m_hitbox;
 			if (exp.x < 0) scanAABB.min.x += exp.x;
 			if (exp.x > 0) scanAABB.max.x += exp.x;
 			if (exp.y < 0) scanAABB.min.y += exp.y;
@@ -1056,7 +1061,7 @@ void GameRenderer::pick(float f)
 			scanAABB.grow(1, 1, 1);
 		}
 
-		EntityVector ents = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
+		const Entity::Vector& ents = tileSource.getEntities(&mob, scanAABB);
 
 		float fDist = 0.0f;
 		for (size_t i = 0; i < ents.size(); i++)
@@ -1107,11 +1112,11 @@ void GameRenderer::pick(float f)
 	if (mchr.m_hitType != HitResult::NONE || view.y >= -0.7f)
 		return;
 
-	mobPos = pMob->getPos(f);
+	mobPos = mob.getInterpolatedPosition(f);
 	Vec3 checkVec = mobPos;
 	checkVec.translate(0, -2, 0);
 
-	HitResult hrLevelChk = m_pMinecraft->m_pLevel->clip(mobPos, checkVec);
+	HitResult hrLevelChk = tileSource.clip(mobPos, checkVec);
 
 	if (hrLevelChk.m_hitType == HitResult::NONE)
 		return;

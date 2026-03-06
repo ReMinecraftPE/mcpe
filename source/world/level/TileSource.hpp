@@ -1,13 +1,14 @@
 #pragma once
 #include <memory>
 #include <thread>
-#include "world/level/levelgen/chunk/ChunkPos.hpp"
+#include "client/renderer/LightLayer.hpp"
 #include "world/entity/EntityType.hpp"
-#include "world/tile/Tile.hpp"
+#include "world/entity/MobSpawnerData.hpp"
+#include "world/level/levelgen/biome/Biome.hpp"
+#include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/level/Brightness.hpp"
 #include "world/level/TileChange.hpp"
-#include "client/renderer/LightLayer.hpp"
-#include "world/entity/MobSpawnerData.hpp"
+#include "world/tile/Tile.hpp"
 
 class TileTickingQueue;
 class AABB;
@@ -21,17 +22,6 @@ struct Bounds;
 
 class TileSource
 {
-protected:
-	std::thread::id m_threadId;
-	bool m_allowUnpopulatedChunks;
-	bool m_publicSource;
-	Level& m_level;
-	ChunkSource& m_chunkSource;
-	Dimension& m_dimension;
-	std::vector<TileSourceListener*> m_tileSourceListeners;
-	LevelChunk* m_lastChunk;
-	TileTickingQueue* m_tileTickingQueue;
-
 public:
 	TileSource(Level& level, Dimension& dimension, ChunkSource& source, bool publicSource, bool allowUnpopulatedChunks);
 	virtual ~TileSource();
@@ -127,10 +117,10 @@ public:
 	void isTopSolidBlocking(const TilePos&); // unk type
 	void isTopSolidBlocking(int, int, int); // unk type
 	void getTileAndData(int, int, int); // unk type
-	void clip(HitResult&, const Vec3&, const Vec3&, bool, bool);
+	HitResult clip(const Vec3& A, const Vec3& B, bool liquid = false, bool solidOnly = false);
 	float getSeenPercent(const Vec3&, const AABB&);
 	void getLightColor(const TilePos&, int); // unk type
-	void getBiome(const TilePos&); // unk type
+	Biome& getBiome(const TilePos&);
 	void shouldFreeze(const TilePos&, bool); // unk type
 	void shouldFreezeIgnoreNeighbors(const TilePos&); // unk type
 	void shouldThaw(const TilePos&, bool); // unk type
@@ -153,11 +143,22 @@ public:
 	void getEntities(EntityType, const AABB&, Entity*); // unk type
 	void getNearestEntityOfType(Entity*, const AABB&, EntityType); // unk type
 	void getNearestEntityOfType(Entity*, const Vec3&, float, EntityType); // unk type
-	const std::vector<Entity*>& getEntities(Entity*, const AABB&); // unk type
+	const std::vector<Entity*>& getEntities(Entity* except, const AABB& bb);
 	void isUnobstructedByEntities(const AABB&, Entity*); // unk type
 	bool mayPlace(TileID tileId, const TilePos& pos, Facing::Name face, Entity* placer, bool ignoreEntities = false, Entity* ignoreEntity = nullptr) { throw std::bad_cast(); } // @TODO: implement this
 
 protected:
 	void _neighborChanged(const TilePos&, const TilePos&, TileID);
 	void _tileChanged(const TilePos& pos, FullTile oldTile, FullTile newTile, TileChange updateFlags);
+
+protected:
+	std::thread::id m_threadId;
+	bool m_bAllowUnpopulatedChunks;
+	bool m_bPublicSource;
+	Level& m_level;
+	ChunkSource& m_chunkSource;
+	Dimension& m_dimension;
+	std::vector<TileSourceListener*> m_listeners;
+	LevelChunk* m_lastChunk;
+	TileTickingQueue* m_tileTickingQueue;
 };

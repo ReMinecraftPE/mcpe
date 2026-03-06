@@ -18,24 +18,10 @@ public:
 	}
 
 public:
-	template<typename Arg1>
-	void push(const Arg1& arg1)
+	template<typename Value>
+	void push(const Value& value)
 	{
-		m_items.push_back(arg1);
-		std::push_heap(m_items.begin(), m_items.end(), Comparator());
-	}
-
-	template<typename Arg1, typename Arg2>
-	void push(const Arg1& arg1, const Arg2& arg2)
-	{
-		m_items.push_back(arg1, arg2);
-		std::push_heap(m_items.begin(), m_items.end(), Comparator());
-	}
-
-	template<typename Arg1, typename Arg2, typename Arg3>
-	void push(const Arg1& arg1, const Arg2& arg2, const Arg3& arg3)
-	{
-		m_items.push_back(arg1, arg2, arg3);
+		m_items.push_back(value);
 		std::push_heap(m_items.begin(), m_items.end(), Comparator());
 	}
 

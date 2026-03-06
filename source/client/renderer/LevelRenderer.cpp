@@ -1243,8 +1243,10 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	return pendingChunkRemoved + nr2 == pendingChunkSize;
 }
 
-void LevelRenderer::renderCracks(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
+void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
+	const TileSource& tileSource = camera.getTileSource();
+
 	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
 	//currentShaderColor = Color(1.0f, 1.0f, 1.0f, (Mth::sin(float(getTimeMs()) / 100.0f) * 0.2f + 0.4f) * 0.5f);
 
@@ -1259,7 +1261,7 @@ void LevelRenderer::renderCracks(TileSource& source, const Entity& camera, const
 			MatrixStack::Ref matrix = MatrixStack::World.push();
 
 			Tile* pTile = nullptr;
-			TileID tile = source.getTile(hr.m_tilePos);
+			TileID tile = tileSource.getTile(hr.m_tilePos);
 			if (tile > 0)
 				pTile = Tile::tiles[tile];
 
@@ -1290,14 +1292,16 @@ void LevelRenderer::renderCracks(TileSource& source, const Entity& camera, const
 	}*/
 }
 
-void LevelRenderer::renderHitSelect(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
+void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	if (mode != 0) return;
+
+	const TileSource& tileSource = camera.getTileSource();
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 
 	Tile* pTile = nullptr;
-	TileID tileID = source.getTile(hr.m_tilePos);
+	TileID tileID = tileSource.getTile(hr.m_tilePos);
 	if (tileID > 0)
 		pTile = Tile::tiles[tileID];
 
@@ -1326,10 +1330,12 @@ void LevelRenderer::renderHitSelect(TileSource& source, const Entity& camera, co
 	t.setOffset(0, 0, 0);
 }
 
-void LevelRenderer::renderHitOutline(TileSource& source, const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
+void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	if (mode != 0 || hr.m_hitType != 0)
 		return;
+
+	TileSource& tileSource = camera.getTileSource();
 
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
 	currentShaderDarkColor = Color::WHITE;
@@ -1337,16 +1343,16 @@ void LevelRenderer::renderHitOutline(TileSource& source, const Entity& camera, c
 	constexpr float distance = 0.002f;
 	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
 
-	TileID tile = source.getTile(hr.m_tilePos);
+	TileID tile = tileSource.getTile(hr.m_tilePos);
 	if (tile > 0)
 	{
 		Tile::tiles[tile]->updateShape(
-			&source,
+			&tileSource,
 			hr.m_tilePos);
 		float posX = camera.m_posPrev.x + ((camera.m_pos.x - camera.m_posPrev.x) * a);
 		float posY = camera.m_posPrev.y + ((camera.m_pos.y - camera.m_posPrev.y) * a);
 		float posZ = camera.m_posPrev.z + ((camera.m_pos.z - camera.m_posPrev.z) * a);
-		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(&source, hr.m_tilePos);
+		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(&tileSource, hr.m_tilePos);
 		aabb.min.y = tileAABB.min.y - distance - posY;
 		aabb.max.y = tileAABB.max.y + distance - posY;
 		aabb.min.z = tileAABB.min.z - distance - posZ;

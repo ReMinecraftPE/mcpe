@@ -8,18 +8,60 @@
 struct Bounds
 {
 public:
-	class Iterator;
+	struct Iterator
+	{
+		Iterator(const Bounds& bounds, int startIndex = 0)
+			: _pos(bounds.getMin())
+			, _bounds(bounds)
+			, _index(startIndex)
+		{
+		}
 
-private:
-	Vec3Int32 m_min;
-	Vec3Int32 m_max;
-	Vec3Int32 m_dimensions;
-	int m_area;
-	int m_volume;
-	int m_sides;
+		Iterator& operator++()
+		{
+			_index++;
+
+			_pos.x++;
+			if (_pos.x > _bounds.getMax().x)
+			{
+				_pos.z++;
+				if (_pos.z > _bounds.getMax().z)
+				{
+					_pos.y++;
+				}
+			}
+
+			return *this;
+		}
+
+		const Vec3Int32& operator*() const
+		{
+			return _pos;
+		}
+
+		const Vec3Int32& pos() const
+		{
+			return _pos;
+		}
+
+		bool end() const
+		{
+			return _index == _bounds.getVolume();
+		}
+
+		int index() const
+		{
+			return _index;
+		}
+
+	private:
+		Vec3Int32 _pos;
+		const Bounds& _bounds;
+		int _index;
+	};
 
 public:
-	Bounds() : m_area(0), m_volume(0), m_sides(0)
+	Bounds() : _area(0), _volume(0), _sides(0)
 	{
 	}
 
@@ -28,37 +70,37 @@ public:
 
 	const Vec3Int32& getMin() const
 	{
-		return m_min;
+		return _min;
 	}
 
 	const Vec3Int32& getMax() const
 	{
-		return m_max;
+		return _max;
 	}
 
 	const Vec3Int32& getDimensions() const
 	{
-		return m_dimensions;
+		return _dimensions;
 	}
 
 	int getArea() const
 	{
-		return m_area;
+		return _area;
 	}
 
 	int getVolume() const
 	{
-		return m_volume;
+		return _volume;
 	}
 
 	int getSides() const
 	{
-		return m_sides;
+		return _sides;
 	}
 
 	Vec3 getCenter() const
 	{
-		return (m_min + m_max) * 0.5f;
+		return (_min + _max) * 0.5f;
 	}
 
 	bool contains(const Vec3Int32& pos) const
@@ -66,77 +108,29 @@ public:
 		if (!isValid())
 			return false;
 
-		return pos.x >= m_min.x
-			&& pos.x <= m_max.x
-			&& pos.y >= m_min.y
-			&& pos.y <= m_max.y
-			&& pos.z >= m_min.z
-			&& pos.z <= m_max.z;
+		return pos.x >= _min.x
+			&& pos.x <= _max.x
+			&& pos.y >= _min.y
+			&& pos.y <= _max.y
+			&& pos.z >= _min.z
+			&& pos.z <= _max.z;
 	}
 
 	bool isValid() const
 	{
-		return m_area > 0;
+		return _area > 0;
 	}
 
-	Iterator begin() const;
-};
+	Iterator begin() const
+	{
+		return Bounds::Iterator(*this);
+	}
 
-class Bounds::Iterator
-{
 private:
-	Vec3Int32 m_pos;
-	const Bounds& m_bounds;
-	int m_index;
-
-public:
-	Iterator(const Bounds& bounds, int startIndex = 0)
-		: m_pos(bounds.getMin()),
-		  m_bounds(bounds),
-		  m_index(startIndex)
-	{
-	}
-
-public:
-	Iterator& operator++()
-	{
-		m_index++;
-
-		m_pos.x++;
-		if (m_pos.x > m_bounds.getMax().x)
-		{
-			m_pos.z++;
-			if (m_pos.z > m_bounds.getMax().z)
-			{
-				m_pos.y++;
-			}
-		}
-
-		return *this;
-	}
-
-	const Vec3Int32& operator*() const
-	{
-		return m_pos;
-	}
-
-	const Vec3Int32& pos() const
-	{
-		return m_pos;
-	}
-
-	bool end() const
-	{
-		return m_index == m_bounds.getVolume();
-	}
-
-	int index() const
-	{
-		return m_index;
-	}
+	Vec3Int32 _min;
+	Vec3Int32 _max;
+	Vec3Int32 _dimensions;
+	int _area;
+	int _volume;
+	int _sides;
 };
-
-Bounds::Iterator Bounds::begin() const
-{
-	return Bounds::Iterator(*this);
-}

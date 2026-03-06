@@ -11,11 +11,11 @@ static Vec3Int32 convertTilePos(const TilePos& pos, int sides, bool noSides)
 }
 
 Bounds::Bounds(const TilePos& min, const TilePos& max, int sides, bool noSides)
-	: m_min(convertTilePos(min, sides, noSides)),
-	  m_max(convertTilePos(max, sides, noSides)),
-	  m_sides(sides)
+	: _min(convertTilePos(min, sides, noSides)),
+	  _max(convertTilePos(max, sides, noSides)),
+	  _sides(sides)
 {
-	m_dimensions = m_max - m_min + 1;
-	m_area = m_dimensions.x * m_dimensions.z;
-	m_volume = m_dimensions.x * m_dimensions.y * m_dimensions.z;
+	_dimensions = _max - _min + 1;
+	_area = _dimensions.x * _dimensions.z;
+	_volume = _dimensions.x * _dimensions.y * _dimensions.z;
 }

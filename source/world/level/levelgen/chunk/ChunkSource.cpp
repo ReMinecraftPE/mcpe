@@ -126,7 +126,7 @@ LevelChunk* ChunkSource::getOrLoadChunk(const ChunkPos& pos, LoadMode loadMode)
 	{
 		if (chunk && loadMode == LOAD_DEFERRED && chunk->getState() == CS_UNLOADED)
 		{
-			requestChunk(pos);
+			requestChunk(pos, LOAD_NONE);
 
 			BackgroundQueuePool::GetFor(BackgroundQueuePool::QR_STREAMING).queue(
 				std::bind(&ChunkSource::_asyncChunkTask, this, chunk),
@@ -209,13 +209,13 @@ void ChunkSource::waitDiscardFinished()
 		return m_parent->waitDiscardFinished();
 }
 
-static LevelChunk* ChunkViewGenerate(ChunkSource::LoadMode loadMode, ChunkSource* source, const Vec3Int32& pos)
+LevelChunk* _chunkViewGenerate(ChunkSource::LoadMode loadMode, ChunkSource* source, const Vec3Int32& pos)
 {
 	ChunkPos chunkPos(pos.x, pos.y, pos.z);
 	return source->getOrLoadChunk(chunkPos, loadMode);
 }
 
-static LevelChunk* ChunkViewClear(ChunkSource::LoadMode loadMode, ChunkSource* source, LevelChunk*& chunk)
+void _chunkViewClear(ChunkSource::LoadMode loadMode, ChunkSource* source, LevelChunk*& chunk)
 {
 	source->releaseChunk(*chunk);
 }
@@ -225,8 +225,8 @@ GridArea<LevelChunk*> ChunkSource::getView(const TilePos& tileMin, const TilePos
 	TilePos minPos(tileMin.x, 0, tileMin.z);
 	TilePos maxPos(tileMax.x, 0, tileMax.z);
 
-	std::function<LevelChunk* (const Vec3Int32&)> generate = std::bind(&ChunkViewGenerate, loadMode, this, std::placeholders::_1);
-	std::function<void(LevelChunk*&)> clearCallback = std::bind(&ChunkViewClear, loadMode, this, std::placeholders::_1);
+	std::function<LevelChunk* (const Vec3Int32&)> generate = std::bind(&_chunkViewGenerate, loadMode, this, std::placeholders::_1);
+	std::function<void(LevelChunk*&)> clearCallback = std::bind(&_chunkViewClear, loadMode, this, std::placeholders::_1);
 
 	return GridArea<LevelChunk*>(minPos, maxPos, 16, generate, clearCallback, circular, addCallback, moveCallback);
 }
@@ -273,7 +273,7 @@ void ChunkSource::_asyncPostProcessingCallback(LevelChunk* chunk, std::shared_pt
 
 void ChunkSource::_startPostProcessing(LevelChunk& chunk)
 {
-	std::shared_ptr<ChunkViewSource> cvs(new ChunkViewSource(*this, LOAD_NOW));
+	std::shared_ptr<ChunkViewSource> cvs(new ChunkViewSource(*this, LOAD_NONE));
 
 	cvs->move(chunk.getMinPos() - ChunkConstants::XZ_SIZE, chunk.getMaxPos() + ChunkConstants::XZ_SIZE);
 

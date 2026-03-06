@@ -130,7 +130,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\Mouse.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseTurnInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\User.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Chunk.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Culler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\DynamicTexture.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderDispatcher.hpp" />
@@ -312,7 +311,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\KeyboardInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\Mouse.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseTurnInput.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Chunk.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Culler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\DynamicTexture.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderDispatcher.cpp" />

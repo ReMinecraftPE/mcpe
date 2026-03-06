@@ -7,16 +7,6 @@
 template<typename T>
 class GridArea
 {
-private:
-	std::function<void(T&)> m_clearCallback;
-	std::function<T(const Vec3Int32&)> m_generate;
-	std::function<void(T&)> m_addCallback;
-	std::function<void(T&)> m_moveCallback;
-	Bounds m_bounds;
-	std::vector<T> m_chunks;
-	std::vector<T> m_newChunks;
-	bool m_circular;
-
 public:
 	GridArea()
 		: m_circular(false)
@@ -111,10 +101,10 @@ public:
 private:
 	static int _getChunkIndex(const Bounds& bounds, const Vec3Int32& pos)
 	{
-		return (pos.x - bounds.getMin().x) + m_dimensions.x * (pos.z - bounds.getMin().z) + m_area * (pos.y - bounds.getMin().y);
+		return (pos.x - bounds.getMin().x) + bounds.getDimensions().x * (pos.z - bounds.getMin().z) + bounds.getArea() * (pos.y - bounds.getMin().y);
 	}
 
-	void _callback(const std::function<void(T)>& callback)
+	void _callback(const std::function<void(T&)>& callback)
 	{
 		if (callback)
 		{
@@ -153,7 +143,7 @@ private:
 					}
 				}
 
-				iter++;
+				++iter;
 			}
 		}
 		else
@@ -172,7 +162,7 @@ private:
 						m_addCallback(chunk);
 				}
 
-				iter++;
+				++iter;
 			}
 		}
 	}
@@ -194,14 +184,14 @@ private:
 				T& chunk = m_chunks[index];
 				if (chunk)
 				{
-					if (newBounds.contains(pos) && (radius * radius) > center.distanceToSqr(pos))
+					if (newBounds.contains(pos) && (radius * radius) > center.distanceToSqr(Vec3(pos.x, pos.y, pos.z)))
 					{
 						m_newChunks[_getChunkIndex(newBounds, pos)] = chunk;
 						m_chunks[index] = nullptr;
 					}
 				}
 
-				iter++;
+				++iter;
 			}
 		}
 		else
@@ -221,7 +211,7 @@ private:
 					}
 				}
 
-				iter++;
+				++iter;
 			}
 		}
 	}
@@ -232,4 +222,14 @@ private:
 		
 		// TODO: the rest
 	}
+
+private:
+	std::function<void(T&)> m_clearCallback;
+	std::function<T(const Vec3Int32&)> m_generate;
+	std::function<void(T&)> m_addCallback;
+	std::function<void(T&)> m_moveCallback;
+	Bounds m_bounds;
+	std::vector<T> m_chunks;
+	std::vector<T> m_newChunks;
+	bool m_circular;
 };
