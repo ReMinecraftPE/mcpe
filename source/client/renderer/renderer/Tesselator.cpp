@@ -353,15 +353,19 @@ void Tesselator::normal(float x, float y, float z)
 		LOG_W("But...");*/
 
 #if MCE_GFX_SUPPORTS_SINT8_4_N
-	int8_t bx = static_cast<int8_t>(ceilf(x * 127));
-	int8_t by = static_cast<int8_t>(ceilf(y * 127));
-	int8_t bz = static_cast<int8_t>(ceilf(z * 127));
+	int8_t bx = static_cast<int8_t>(ceilf(x * INT8_MAX));
+	int8_t by = static_cast<int8_t>(ceilf(y * INT8_MAX));
+	int8_t bz = static_cast<int8_t>(ceilf(z * INT8_MAX));
 
 	int8_t* normalarray = reinterpret_cast<int8_t*>(&m_nextVtxNormal);
 #elif MCE_GFX_SUPPORTS_UINT8_4_N
-	uint8_t bx = static_cast<uint8_t>(ceilf(x * 255));
-	uint8_t by = static_cast<uint8_t>(ceilf(y * 255));
-	uint8_t bz = static_cast<uint8_t>(ceilf(z * 255));
+	// transformation is undone by the entity shader in TransformRGBA8_SNORM
+	x = (x + 1.0f) / 2.0f;
+	y = (y + 1.0f) / 2.0f;
+	z = (z + 1.0f) / 2.0f;
+	uint8_t bx = static_cast<uint8_t>(ceilf(x * UINT8_MAX));
+	uint8_t by = static_cast<uint8_t>(ceilf(y * UINT8_MAX));
+	uint8_t bz = static_cast<uint8_t>(ceilf(z * UINT8_MAX));
 
 	uint8_t* normalarray = reinterpret_cast<uint8_t*>(&m_nextVtxNormal);
 #endif

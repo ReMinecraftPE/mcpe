@@ -23,7 +23,7 @@ namespace mce
 #if MCE_GFX_SUPPORTS_SINT8_4_N
         /* NORMAL*/    VERTEX_FIELD_TYPE_SINT8_4_N, // Everything else
 #elif MCE_GFX_SUPPORTS_UINT8_4_N
-        /* NORMAL*/    VERTEX_FIELD_TYPE_UINT8_4, // D3D9, should be normalized, but this somehow looks like it has no lighting
+        /* NORMAL*/    VERTEX_FIELD_TYPE_UINT8_4_N,
 #else
 #error Failed to choose a VertexFieldType for NORMAL
 #endif
