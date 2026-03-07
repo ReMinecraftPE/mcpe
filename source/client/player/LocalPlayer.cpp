@@ -373,6 +373,7 @@ void LocalPlayer::readAdditionalSaveData(const CompoundTag& tag)
 
 void LocalPlayer::sendPosition()
 {
+	// @PARITY: xyzabc
 	if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
 		fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
 		fabsf(m_pos.z - m_lastSentPos.z) > 0.1f ||
