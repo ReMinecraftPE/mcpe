@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <cstdlib>
 #include "Util.hpp"
+#include "compat/LegacyCPP.hpp"
 
 const std::string Util::EMPTY_STRING = "";
 
