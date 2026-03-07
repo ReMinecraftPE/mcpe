@@ -53,7 +53,11 @@ std::string Util::vformat(const char *fmt, va_list argPtr)
 {
 	va_list argPtr2;
 	va_copy(argPtr2, argPtr);
+#ifdef _WIN32
+	int len = _vscprintf(fmt, argPtr2);
+#else
 	int len = vsnprintf(nullptr, 0, fmt, argPtr2);
+#endif
 	va_end(argPtr2);
 	if (len < 0)
 		return "";
