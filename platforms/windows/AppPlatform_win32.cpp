@@ -465,9 +465,8 @@ bool AppPlatform_win32::initGraphics(int width, int height)
 #if MCE_GFX_API_OGL
 	if (!mce::Platform::OGL::InitBindings())
 	{
-		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
-		LOG_E(GL_ERROR_MSG);
-		MessageBoxA((HWND)m_hWnd, GL_ERROR_MSG, "OpenGL Error", MB_OK);
+		LOG_E(mce::Platform::OGL::ERROR_MSG);
+		MessageBoxA((HWND)m_hWnd, mce::Platform::OGL::ERROR_MSG, "OpenGL Error", MB_OK);
 
 		return false;
 	}

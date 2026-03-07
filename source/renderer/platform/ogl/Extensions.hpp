@@ -8,6 +8,8 @@ namespace mce
     {
         namespace OGL
         {
+            extern const char* ERROR_MSG;
+
             bool InitBindings();
             void* GetProcAddress(const char* name);
         }
