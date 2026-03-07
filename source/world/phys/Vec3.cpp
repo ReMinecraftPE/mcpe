@@ -17,33 +17,6 @@ const Vec3 Vec3::UNIT_Y = Vec3(0, 1, 0), Vec3::NEG_UNIT_Y = Vec3(0, -1, 0);
 const Vec3 Vec3::UNIT_Z = Vec3(0, 0, 1), Vec3::NEG_UNIT_Z = Vec3(0, 0, -1);
 const Vec3 Vec3::MIN = Vec3(FLT_MIN, FLT_MIN, FLT_MIN), Vec3::MAX = Vec3(FLT_MAX, FLT_MAX, FLT_MAX);
 
-void Vec3::_init(float x, float y, float z)
-{
-    this->x = x;
-    this->y = y;
-    this->z = z;
-}
-
-Vec3::Vec3()
-{
-    _init(0, 0, 0);
-}
-
-Vec3::Vec3(float xyz)
-{
-    _init(xyz, xyz, xyz);
-}
-
-Vec3::Vec3(float x, float y, float z)
-{
-    _init(x, y, z);
-}
-
-Vec3::Vec3(const TilePos& tilePos)
-{
-    _init(tilePos.x, tilePos.y, tilePos.z);
-}
-
 Vec3 Vec3::interpolateTo(const Vec3& to, float t) const
 {
 	float nx = x + (to.x - x) * t;

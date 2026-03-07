@@ -29,14 +29,23 @@ public:
 	float x, y, z;
     
 private:
-    void _init(float x, float y, float z);
+    void _init(float x, float y, float z) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
 
 public:
 	// this constructor is nice to have, but it's probably inlined
-	Vec3();
-	Vec3(float xyz);
-	Vec3(float x, float y, float z);
-	Vec3(const TilePos& tilePos);
+	Vec3() {
+		_init(0, 0, 0);
+	}
+	Vec3(float xyz) {
+		_init(xyz, xyz, xyz);
+	}
+	Vec3(float x, float y, float z) {
+		_init(x, y, z);
+	}
 
 	Vec3 interpolateTo(const Vec3& to, float t) const;
 	Vec3 vectorTo(const Vec3& to) const
