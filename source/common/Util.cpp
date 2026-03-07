@@ -63,7 +63,7 @@ std::string Util::vformat(const char *fmt, va_list argPtr)
 	vsnprintf(str, len, fmt, argPtr);
 	std::string ret = str;
 	delete[] str;
-	return str;
+	return ret;
 }
 
 std::string Util::format(const char *fmt, ...)
