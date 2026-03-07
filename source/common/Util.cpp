@@ -50,11 +50,19 @@ std::string Util::stringTrim(const std::string& str)
 
 std::string Util::vformat(const char *fmt, va_list argPtr)
 {
-	char str[1024];
+	va_list argPtr2;
+	va_copy(argPtr2, argPtr);
+	int len = vsnprintf(nullptr, 0, fmt, argPtr2);
+	va_end(argPtr2);
+	if (len < 0)
+		return "";
+	++len;
 
-	vsnprintf(str, sizeof(str), fmt, argPtr);
-
-	return std::string(str);
+	char *str = new char[len];
+	vsnprintf(str, len, fmt, argPtr);
+	std::string ret = str;
+	delete[] str;
+	return str;
 }
 
 std::string Util::format(const char *fmt, ...)
