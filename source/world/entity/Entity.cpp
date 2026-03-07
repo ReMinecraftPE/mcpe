@@ -124,6 +124,11 @@ void Entity::removed()
 	m_bRemoved = true;
 }
 
+const Vec3& Entity::getPos() const
+{
+	return m_pos;
+}
+
 void Entity::setPos(const Vec3& pos)
 {
 	m_pos = pos;

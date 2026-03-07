@@ -131,6 +131,7 @@ public:
 	virtual void reset();
 	virtual void setLevel(Level*);
 	virtual void removed();
+	virtual const Vec3& getPos() const;
 	virtual void setPos(const Vec3& pos);
 	virtual void remove();
 	virtual void move(const Vec3& posIn);

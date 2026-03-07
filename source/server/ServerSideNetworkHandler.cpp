@@ -982,7 +982,7 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
     
 	if (!_checkPermissions(player)) return;
     
-	Vec3 pos = player->m_pPlayer->getInterpolatedPosition(1.0f);
+	Vec3 pos = player->m_pPlayer->getPos();
     
 	std::stringstream ss;
 	if (parms[0] != "~")
@@ -1007,7 +1007,7 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 	ss.clear();
     
 	player->m_pPlayer->setPos(pos);
-	pos = player->m_pPlayer->getInterpolatedPosition(1.0f);
+	pos = player->m_pPlayer->getPos();
 
 	ss << "Teleported to " << pos.x << ", " << pos.y << ", " << pos.z;
     
@@ -1037,7 +1037,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 	const EntityTypeDescriptor* descriptor = EntityTypeDescriptor::GetByEntityTypeName(entityName);
 	if (descriptor != nullptr)
 	{
-		Vec3 pos = player->m_pPlayer->getInterpolatedPosition(1.0f);
+		Vec3 pos = player->m_pPlayer->getPos();
 		pos.y -= player->m_pPlayer->m_heightOffset + player->m_pPlayer->m_ySlideOffset;
 
 		if (parmsSize >= 4)
