@@ -77,9 +77,8 @@ static void initGraphics()
 
 	if (!mce::Platform::OGL::InitBindings())
 	{
-		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
-		LOG_E(GL_ERROR_MSG);
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
+		LOG_E(mce::Platform::OGL::ERROR_MSG);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", mce::Platform::OGL::ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
 #else

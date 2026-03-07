@@ -4,6 +4,8 @@
 
 using namespace mce::Platform;
 
+const char* OGL::ERROR_MSG = "Error initializing GL extensions. OpenGL 1.5 or later is required. Update your graphics drivers!";
+
 bool OGL::InitBindings()
 {
     bool result = true;
@@ -132,8 +134,8 @@ bool xglInitted()
 		&& p_glDeleteBuffers
 		&& p_glBufferSubData
 #if GL_VERSION_2_0
-		&& p_glStencilFuncSeparate
-		&& p_glStencilOpSeparate
+		/*&& p_glStencilFuncSeparate
+		&& p_glStencilOpSeparate*/
 #ifdef FEATURE_GFX_SHADERS
 		&& p_glUniform1i
 		&& p_glUniform1fv
@@ -347,11 +349,17 @@ void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLv
 
 void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask)
 {
+	if (!p_glStencilFuncSeparate)
+		return;
+
 	p_glStencilFuncSeparate(face, func, ref, mask);
 }
 
 void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass)
 {
+	if (!p_glStencilOpSeparate)
+		return;
+
 	p_glStencilOpSeparate(face, sfail, dpfail, dppass);
 }
 
