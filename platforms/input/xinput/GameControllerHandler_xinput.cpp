@@ -16,6 +16,13 @@
 GameControllerHandler_xinput::GameControllerHandler_xinput()
 	: GameControllerHandler()
 {
+    getState = nullptr;
+    HMODULE module = LoadLibraryA("XINPUT1_3.dll");
+    if (module)
+    {
+        getState = (DWORD (*)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
+    }
+
     _initButtonMap();
 
     // need to have the connection states ready for AppPlatform->hasGamepad()
@@ -84,10 +91,16 @@ void GameControllerHandler_xinput::_processMotion(GameController::ID controllerI
 
 void GameControllerHandler_xinput::refresh()
 {
-    // Ingest our input "queue"
-    for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
+    if (!getState)
     {
-        DWORD result = XInputGetState(i, &m_inputStates.m_inputState[i]);
+        for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+            m_connectionStates[i] = GameController::STATE_DISCONNECTED;
+        return;
+    }
+    // Ingest our input "queue"
+    for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+    {
+        DWORD result = getState(i, &m_inputStates.m_inputState[i]);
         m_connectionStates[i] = result == ERROR_SUCCESS ? GameController::STATE_CONNECTED : GameController::STATE_DISCONNECTED;
     }
 

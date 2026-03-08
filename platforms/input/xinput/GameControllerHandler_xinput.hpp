@@ -43,4 +43,5 @@ public:
 
 protected:
 	InputState_xinput m_inputStates;
+	DWORD (*getState)(DWORD, XINPUT_STATE *);
 };
