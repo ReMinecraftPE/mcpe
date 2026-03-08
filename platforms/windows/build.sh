@@ -137,8 +137,10 @@ fi
 
 if [ -n "$DEBUG" ]; then
     build=Debug
+    set --
 else
     build=Release
+    set -- -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
 fi
 
 # Delete old build files if build settings change or if the SDK changes.
@@ -155,7 +157,7 @@ mkdir -p "build-$arch"
 cd "build-$arch"
 
 if command -v ccache >/dev/null; then
-    set -- \
+    set -- "$@" \
         -DCMAKE_C_COMPILER_LAUNCHER=ccache \
         -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 fi
@@ -165,6 +167,8 @@ cmake "$platformdir/../.." \
     -DCMAKE_SYSTEM_NAME=Windows \
     -DCMAKE_C_COMPILER="$target-gcc" \
     -DCMAKE_CXX_COMPILER="$target-g++" \
+    -DCMAKE_AR="$(command -v "$target-gcc-ar")" \
+    -DCMAKE_RANLIB="$(command -v "$target-gcc-ranlib")" \
     -DCMAKE_EXE_LINKER_FLAGS='-static' \
     -DNBC_PLATFORM="${NBC_PLATFORM:-windows}" \
     -DNBC_GFX_API="${NBC_GFX_API:-OGL}" \
