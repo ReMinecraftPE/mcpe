@@ -24,7 +24,11 @@ GameControllerHandler_xinput::GameControllerHandler_xinput()
     if (module)
         getState = (DWORD (*)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
     if (!getState)
+    {
         LOG_W("Could not find xinput driver, xinput controllers will be disabled.");
+        for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+            m_connectionStates[i] = GameController::STATE_DISCONNECTED;
+    }
 #endif
 
     _initButtonMap();
@@ -96,11 +100,8 @@ void GameControllerHandler_xinput::_processMotion(GameController::ID controllerI
 void GameControllerHandler_xinput::refresh()
 {
     if (!getState)
-    {
-        for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
-            m_connectionStates[i] = GameController::STATE_DISCONNECTED;
         return;
-    }
+
     // Ingest our input "queue"
     for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
     {
