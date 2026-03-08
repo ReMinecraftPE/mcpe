@@ -16,12 +16,16 @@
 GameControllerHandler_xinput::GameControllerHandler_xinput()
 	: GameControllerHandler()
 {
+#ifdef _XBOX
+    getState = XInputGetState;
+#else
     getState = nullptr;
     HMODULE module = LoadLibraryA("XINPUT1_3.dll");
     if (module)
-    {
         getState = (DWORD (*)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
-    }
+    if (!getState)
+        LOG_W("Could not find xinput driver, xinput controllers will be disabled.");
+#endif
 
     _initButtonMap();
 
