@@ -109,11 +109,6 @@ This fetches the project's necessary dependencies.
 
 ### Windows
 
-Click the thumbnail below to watch a video guide showcasing how to build NBCraft.
-<a href="https://youtu.be/Tx1u7C2DCPI" target="_blank">
-  <img alt="How to Compile NBCraft for Windows" src="http://i.ytimg.com/vi/Tx1u7C2DCPI/maxresdefault.jpg" />
-</a>
-
 The project is configured to target Windows XP by default by using "v141_xp" build tools. If you would like
 to build with Windows XP support, please follow the guide [here](https://learn.microsoft.com/en-us/cpp/build/configuring-programs-for-windows-xp?view=msvc-170#install-the-windows-xp-platform-toolset)
 to obtain the build tools via the Visual Studio installer.
@@ -140,54 +135,37 @@ Once you have the proper build tools installed (v140_xp or newer), you can now b
 After building, place the `assets` folder you have prepared in the working directory of the output executable.
 (if running from VS, it's in `game/`, otherwise, where your executable is)
 
-### WebAssembly
+### Unix-like systems
 
-**Make sure you have CMake and Ninja installed. On Windows, the ninja executable must be in your PATH.**
-On Linux, the package names are `cmake` and `ninja-build` respectively if you are using apt.
-
-The game will use the assets from within the `game/` directory. So put your assets there if you want to build
-for wasm. Then run the `build-wasm` script corresponding to your platform (`-.sh` on linux/WSL, `-.bat` on
-windows).
-
-The output files will be in `./wasm/dist`, but you need to upload them to a web host (localhost works too) to
-use. (problem with Emscripten)
-
-**NOTE:** If you are using nginx, make sure the `*.wasm` file is served as `application/wasm`, and not
-`application/octet-stream`. This can be done by opening `/etc/nginx/mime.types` as root and adding
-`application/wasm wasm;` to the types block.
-
-### Linux
-
-This project uses CMake on Linux. Just like WebAssembly, the game assets must be placed in the `game/` directory.
+This project uses CMake on Unix-like systems.
 
 #### Dependencies (Ubuntu/Debian)
 
 - `build-essential` (C/C++ Toolchain)
 - `cmake` (CMake)
-- `ninja-build` (Ninja)
 - `libsdl2-dev` (SDL2)
 - `libopenal-dev` (OpenAL)
 - `zlib1g-dev` (ZLib)
+
+#### Dependencies (macOS)
+
+- `cmake` (CMake)
+
+#### Dependencies (Haiku)
+
+- `libsdl2_devel` (SDL2)
+- `glu_devel mesa_devel` (Mesa)
+- `cmake` (CMake)
 
 #### How To Build
 
 ```sh
 mkdir build && cd build
-cmake -GNinja ..
+cmake ..
 cmake --build .
 # Run
 ./nbcraft
 ```
-
-### HaikuOS
-
-Dependencies:
-- `libsdl2_devel` (SDL2)
-- `glu_devel mesa_devel` (Mesa)
-- `cmake` (CMake)
-- `ninja` (Ninja)
-
-To build, perform the same steps as on Linux.
 
 ### iOS
 
