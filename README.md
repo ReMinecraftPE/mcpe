@@ -135,7 +135,7 @@ Once you have the proper build tools installed (v140_xp or newer), you can now b
 After building, place the `assets` folder you have prepared in the working directory of the output executable.
 (if running from VS, it's in `game/`, otherwise, where your executable is)
 
-### Unix-like systems
+### Unix-like systems (Linux, *BSD, Haiku)
 
 This project uses CMake on Unix-like systems.
 
