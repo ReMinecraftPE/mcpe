@@ -147,10 +147,6 @@ This project uses CMake on Unix-like systems.
 - `libopenal-dev` (OpenAL)
 - `zlib1g-dev` (ZLib)
 
-#### Dependencies (macOS)
-
-- `cmake` (CMake)
-
 #### Dependencies (Haiku)
 
 - `libsdl2_devel` (SDL2)
@@ -164,6 +160,47 @@ mkdir build && cd build
 cmake ..
 cmake --build .
 # Run
+./nbcraft
+```
+
+### macOS
+
+There are 3 ways to build on macOS, Xcode, CMake, or the universal build script.
+
+#### Xcode
+
+Open the Xcode project at projects/xcode/NBCraft.xcodeproj and build either the NBCraftClient.SDL1 or NBCraftClient.SDL2 targets. You must have SDL 1.2 or SDL 2 installed from homebrew or macports.
+
+#### CMake
+
+You can build with CMake as detailed in the Unix-like systems section above.  You do not need to have SDL 2 installed.
+
+#### Universal build script
+
+There is a script to easily create a version of NBCraft that works on all versions of macOS since 10.4 tiger, and on PowerPC.
+
+You will need to install the following dependencies, in addition to the Xcode command line tools:
+
+- `cmake` (CMake) (The homebrew version of CMake currently has a bug that causes the build to fail, MacPorts is recommended)
+- `wget` (Wget)
+- `gmp mpfr mpc` (GCC dependencies)
+
+Then run
+
+```sh
+# if gmp, mpfr, and mpc were installed from homebrew
+export GMP="$(brew --prefix)"
+export MPFR="$(brew --prefix)"
+export MPC="$(brew --prefix)"
+# if gmp, mpfr, and mpc were installed from macports
+export GMP='/opt/local'
+export MPFR='/opt/local'
+export MPC='/opt/local'
+
+./platforms/macos/build.sh
+
+# run
+cd platforms/macos/build/NBCraft
 ./nbcraft
 ```
 
