@@ -20,7 +20,7 @@ GameControllerHandler_xinput::GameControllerHandler_xinput()
     getState = XInputGetState;
 #else
     getState = nullptr;
-    HMODULE module = LoadLibraryA("XINPUT1_3.dll");
+    HMODULE module = LoadLibraryA("xinput1_3.dll");
     if (module)
         getState = (DWORD (WINAPI *)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
     if (!getState)
