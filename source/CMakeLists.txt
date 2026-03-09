@@ -624,19 +624,19 @@ target_link_libraries(nbcraft-core PUBLIC raknet)
 
 # zlib
 add_library(zlib-interface INTERFACE)
-if(NBC_WIN32 OR XENON) # @TODO: libXenon has zlib included, how do we get to it?
-    # Compile Vendored ZLib
-    add_subdirectory(../thirdparty/zlib zlib)
-    target_link_libraries(zlib-interface INTERFACE zlib)
+if (NBC_SYSTEM_ZLIB)
+    # Use System ZLib, might be useful for some weird platform that needs to patch zlib
+    find_package(ZLIB REQUIRED)
+    target_link_libraries(zlib-interface INTERFACE ZLIB::ZLIB)
 elseif(EMSCRIPTEN)
     # Use Emscripten's ZLib
     set(ZLIB_FLAG -sUSE_ZLIB=1)
     target_compile_options(zlib-interface INTERFACE "${ZLIB_FLAG}")
     target_link_options(zlib-interface INTERFACE "${ZLIB_FLAG}")
 else()
-    # Use System ZLib
-    find_package(ZLIB REQUIRED)
-    target_link_libraries(zlib-interface INTERFACE ZLIB::ZLIB)
+    # Compile Vendored ZLib
+    add_subdirectory(../thirdparty/zlib zlib)
+    target_link_libraries(zlib-interface INTERFACE zlib)
 endif()
 target_link_libraries(nbcraft-core PUBLIC zlib-interface)
 

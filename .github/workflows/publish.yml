@@ -12,17 +12,17 @@ jobs:
                 include:
                   - name: x86_64 SDL 2
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
-                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
+                    packages: 'libsdl2-dev libopenal-dev'
                     runner: ubuntu-24.04
                     arch: x86_64
                   - name: i686 SDL 2
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
-                    packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386 zlib1g-dev:i386'
+                    packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386'
                     runner: ubuntu-22.04
                     arch: i686
                   - name: aarch64 SDL 2
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
-                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
+                    packages: 'libsdl2-dev libopenal-dev'
                     runner: ubuntu-24.04-arm
                     arch: aarch64
         name: Linux (${{ matrix.name }})

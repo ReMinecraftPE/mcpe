@@ -40,7 +40,6 @@ jobs:
                     cmake ninja-build \
                     ccache \
                     libopenal-dev \
-                    zlib1g-dev \
                     ${{ matrix.packages }}
           - name: Build
             run: |

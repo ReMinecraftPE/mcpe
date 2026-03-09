@@ -12,29 +12,29 @@ jobs:
                 include:
                   - name: x86_64 SDL 2 (OGL)
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
-                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
+                    packages: 'libsdl2-dev libopenal-dev'
                     runner: ubuntu-24.04
                   - name: x86_64 SDL 2 (OGL + Shaders)
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL_SHADERS'
-                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
+                    packages: 'libsdl2-dev libopenal-dev'
                     runner: ubuntu-24.04
                   - name: i686 SDL 2 (OGL)
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
-                    packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386 zlib1g-dev:i386'
+                    packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386'
                     runner: ubuntu-22.04
                     i386: true
                   - name: i686 SDL 2 (OGL + Shaders)
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
-                    packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386 zlib1g-dev:i386'
+                    packages: 'gcc-multilib g++-multilib libsdl2-dev:i386 libopenal-dev:i386'
                     runner: ubuntu-22.04
                     i386: true
                   - name: aarch64 SDL 2 (OGL)
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL'
-                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
+                    packages: 'libsdl2-dev libopenal-dev'
                     runner: ubuntu-24.04-arm
                   - name: aarch64 SDL 2 (OGL + Shaders)
                     flags: '-DNBC_PLATFORM=sdl2 -DNBC_GFX_API=OGL_SHADERS'
-                    packages: 'libsdl2-dev libopenal-dev zlib1g-dev'
+                    packages: 'libsdl2-dev libopenal-dev'
                     runner: ubuntu-24.04-arm
         name: Linux (${{ matrix.name }})
         runs-on: ${{ matrix.runner }}
