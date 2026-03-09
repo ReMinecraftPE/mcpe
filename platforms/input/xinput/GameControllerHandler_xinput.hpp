@@ -43,5 +43,4 @@ public:
 
 protected:
 	InputState_xinput m_inputStates;
-	DWORD (WINAPI *getState)(DWORD, XINPUT_STATE *);
 };

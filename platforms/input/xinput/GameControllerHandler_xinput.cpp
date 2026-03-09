@@ -1,10 +1,4 @@
-#ifdef _XBOX
-#include <xtl.h>
-#else
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
-
+#include "XInput.hpp"
 #include "GameControllerHandler_xinput.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "client/player/input/GameControllerManager.hpp"
@@ -16,20 +10,11 @@
 GameControllerHandler_xinput::GameControllerHandler_xinput()
 	: GameControllerHandler()
 {
-#ifdef _XBOX
-    getState = XInputGetState;
-#else
-    getState = nullptr;
-    HMODULE module = LoadLibraryA("xinput1_3.dll");
-    if (module)
-        getState = (DWORD (WINAPI *)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
-    if (!getState)
-    {
-        LOG_W("Could not find xinput driver, xinput controllers will be disabled.");
+    XInput::init();
+
+    if (!XInput::XInputGetState)
         for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
             m_connectionStates[i] = GameController::STATE_DISCONNECTED;
-    }
-#endif
 
     _initButtonMap();
 
@@ -99,13 +84,13 @@ void GameControllerHandler_xinput::_processMotion(GameController::ID controllerI
 
 void GameControllerHandler_xinput::refresh()
 {
-    if (!getState)
+    if (!XInput::XInputGetState)
         return;
 
     // Ingest our input "queue"
     for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
     {
-        DWORD result = getState(i, &m_inputStates.m_inputState[i]);
+        DWORD result = XInput::XInputGetState(i, &m_inputStates.m_inputState[i]);
         m_connectionStates[i] = result == ERROR_SUCCESS ? GameController::STATE_CONNECTED : GameController::STATE_DISCONNECTED;
     }
 

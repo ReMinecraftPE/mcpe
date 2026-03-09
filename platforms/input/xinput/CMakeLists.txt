@@ -4,6 +4,7 @@ project(nbcraft-input-xinput)
 # Build
 add_library(nbcraft-input STATIC
 	GameControllerHandler_xinput.cpp
+	XInput.cpp
 )
 
 target_link_libraries(nbcraft-input
