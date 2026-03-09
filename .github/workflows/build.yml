@@ -295,7 +295,6 @@ jobs:
                 mkdir build
                 cd build
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
-                    -DNBC_SYSTEM_ZLIB=ON \
                     -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     -DWERROR=ON
