@@ -22,7 +22,7 @@ GameControllerHandler_xinput::GameControllerHandler_xinput()
     getState = nullptr;
     HMODULE module = LoadLibraryA("XINPUT1_3.dll");
     if (module)
-        getState = (DWORD (*)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
+        getState = (DWORD (WINAPI *)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
     if (!getState)
     {
         LOG_W("Could not find xinput driver, xinput controllers will be disabled.");
