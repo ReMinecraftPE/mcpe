@@ -238,8 +238,8 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: switch-${{ steps.get-time.outputs.time }}
-              restore-keys: switch-
+              key: mingw-${{ steps.get-time.outputs.time }}
+              restore-keys: mingw-
           - name: Unpack cache
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
@@ -295,6 +295,7 @@ jobs:
                 mkdir build
                 cd build
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
+                    -DNBC_SYSTEM_ZLIB=ON \
                     -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
                     -DWERROR=ON
