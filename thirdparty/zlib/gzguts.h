@@ -53,7 +53,7 @@
 #  include <unistd.h>
 #endif
 
-#if defined(_WIN32) && !defined(WIDECHAR) && !defined(_XBOX)
+#if defined(_WIN32) && !defined(_XBOX) && !defined(WIDECHAR)
 #  define WIDECHAR
 #endif
 
