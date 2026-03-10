@@ -21,16 +21,16 @@ def extract_minecraft_jar(jar_path, destination):
 
     # List of files and folders to extract
     items_to_extract = [
-        "armor",
-        "art",
-        "environment",
-        "font",
-        "gui",
-        "item",
-        "misc",
-        "mob",
-        "terrain",
-        "title",
+        "armor/",
+        "art/",
+        "environment/",
+        "font/",
+        "gui/",
+        "item/",
+        "misc/",
+        "mob/",
+        "terrain/",
+        "title/",
         "pack.png",
         "particles.png",
         "terrain.png",
@@ -39,12 +39,15 @@ def extract_minecraft_jar(jar_path, destination):
     # Open the JAR file as a ZIP archive
     with zipfile.ZipFile(jar_path, 'r') as jar:
         for item in items_to_extract:
-            # Check if the item exists in the JAR file
-            if item in jar.namelist():
-                # Extract the item to the destination directory
-                print(f"Extracting {item}...")
-                jar.extract(item, destination)
-            else:
+            found = False
+            for file in jar.namelist():
+                # Check if the file starts with the folder name or matches the file
+                if file.startswith(item):
+                    found = True
+                    # Extract the file to the destination directory
+                    print(f"Extracting {file}...")
+                    jar.extract(file, destination)
+            if not found:
                 print(f"Warning: {item} not found in {jar_path}.")
 
     print("Extraction complete.")
