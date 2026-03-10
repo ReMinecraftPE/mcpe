@@ -1,6 +1,7 @@
 import os
 import zipfile
 import shutil
+import sys
 
 def extract_minecraft_jar(jar_path, destination):
     """
@@ -53,8 +54,12 @@ def extract_minecraft_jar(jar_path, destination):
     print("Extraction complete.")
 
 if __name__ == "__main__":
-    # Path to the minecraft.jar file
-    jar_path = input("Enter the path to minecraft.jar: ").strip()
+    # Check if a JAR path is provided as a command-line argument
+    if len(sys.argv) > 1:
+        jar_path = sys.argv[1]
+    else:
+        # Prompt the user for the JAR path if not provided
+        jar_path = input("Enter the path to minecraft.jar: ").strip()
 
     # Destination directory within the project
     destination = os.path.join("..", "game", "assets", "resource_packs", "minecraft")
