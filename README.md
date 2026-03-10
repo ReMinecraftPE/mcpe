@@ -71,7 +71,12 @@ Once your code is tested and ready, [submit a pull request](https://github.com/n
 Prepare a copy of minecraft.jar from Beta 1.7.3.
 Then, copy the assets (including sounds and textures) into the "minecraft" resource pack within the project.<br>
    Do this by performing the following:
-   - Open minecraft.jar as if it were a ZIP file, either by renaming it to "minecraft.jar.zip", or by opening it with an unarchiver.
+   - If you have [Python](https://www.python.org/) installed:
+     - Run the script in `tools/extract_jar.py`.
+     - Click and drag the "minecraft.jar" file onto the window.
+     - Hit enter, and the script should extract the JAR's assets into the "minecraft" resource pack.<br>
+   - If you do not have [Python](https://www.python.org/) installed, or do not wish to use the script, you can extract the assets manually by doing the following:
+     - Open minecraft.jar as if it were a ZIP file, either by renaming it to "minecraft.jar.zip", or by opening it with an unarchiver.
      - Locate the the following files/folders in minecraft.jar, and copy them into the `game/assets/resource_packs/minecraft` directory of the project:
 	   ```
 	   armor
@@ -87,8 +92,8 @@ Then, copy the assets (including sounds and textures) into the "minecraft" resou
 	   pack.png
 	   particles.png
 	   terrain.png
-	   ```
-     - Any Pocket Edition assets will need to be manually extracted from _Pocket Edition_.
+	   ```<br>
+   - Any Pocket Edition assets will need to be manually extracted from _Pocket Edition_.
    - **To retrieve the sounds**, locate the `resources` directory in the `.minecraft` folder
      - Copy the contents (e.g. `music`, `sound`, etc.) into the `game/assets/resource_packs/minecraft` directory of the project.
 <br>
