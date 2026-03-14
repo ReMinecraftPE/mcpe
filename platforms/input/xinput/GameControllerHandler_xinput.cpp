@@ -90,7 +90,7 @@ void GameControllerHandler_xinput::refresh()
     // Ingest our input "queue"
     for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
     {
-        DWORD result = XInput::XInputGetState(i, &m_inputStates.m_inputState[i]);
+        DWORD result = XInput::GetState(i, &m_inputStates.m_inputState[i]);
         m_connectionStates[i] = result == ERROR_SUCCESS ? GameController::STATE_CONNECTED : GameController::STATE_DISCONNECTED;
     }
 

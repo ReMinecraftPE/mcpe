@@ -14,17 +14,17 @@ class XInput
 {
 public:
 
-    static DWORD (WINAPI *XInputGetState)(DWORD, XINPUT_STATE *);
+    static DWORD (WINAPI *GetState)(DWORD, XINPUT_STATE *);
 
     static void init(void)
     {
 #ifdef _XBOX
-        XInputGetState = ::XInputGetState;
+        GetState = ::XInputGetState;
 #else
         HMODULE module = LoadLibrary("xinput1_3.dll");
         if (module)
-            XInputGetState = (DWORD (WINAPI *)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
-        if (!XInputGetState)
+            GetState = (DWORD (WINAPI *)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
+        if (!GetState)
             LOG_W("Could not find xinput driver, xinput controllers will be disabled.");
 #endif
     }
