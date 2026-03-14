@@ -43,23 +43,26 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  <!-- This is not a bug, not everyone is going to have SDL built as debug, and it's just kinda inconvenient for not much benefit -->
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith('Debug'))">$(SDL2_PATH)\VisualC\$(Platform)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith('Release'))">$(SDL2_PATH)\VisualC\$(Platform)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent Condition="$(Configuration.StartsWith('Debug'))">
+      <Command>copy $(SDL2_PATH)\VisualC\$(Platform)\Release\SDL2.dll $(TargetDir) /y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent Condition="$(Configuration.StartsWith('Release'))">
+      <Command>copy $(SDL2_PATH)\VisualC\$(Platform)\Release\SDL2.dll $(TargetDir) /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
-      <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\Win32\Release;$(OPENAL_PATH)\libs\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OPENAL_PATH)\libs\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(SDL2_PATH)\VisualC\Win32\Release\SDL2.dll $(TargetDir) /y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\x64\Release;$(OPENAL_PATH)\libs\Win64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OPENAL_PATH)\libs\Win64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(SDL2_PATH)\VisualC\x64\Release\SDL2.dll $(TargetDir) /y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl2\main.cpp" />

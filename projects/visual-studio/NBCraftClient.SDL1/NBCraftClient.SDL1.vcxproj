@@ -38,47 +38,49 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\openal;$(SDL1_PATH)\include;$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\audio\openal;$(SDL1_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDLmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  <!-- This is not a bug, not everyone is going to have SDL built as debug, and it's just kinda inconvenient for not much benefit -->
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith('Debug'))">$(SDL1_PATH)\VisualC\SDL\$(Platform)\Release;$(SDL1_PATH)\VisualC\SDLmain\$(Platform)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith('Release'))">$(SDL1_PATH)\VisualC\SDL\$(Platform)\Release;$(SDL1_PATH)\VisualC\SDLmain\$(Platform)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent Condition="$(Configuration.StartsWith('Debug'))">
+      <Command>copy $(SDL1_PATH)\VisualC\SDL\$(Platform)\Release\SDL.dll $(TargetDir) /y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent Condition="$(Configuration.StartsWith('Release'))">
+      <Command>copy $(SDL1_PATH)\VisualC\SDL\$(Platform)\Release\SDL.dll $(TargetDir) /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
-      <AdditionalLibraryDirectories>$(SDL1_PATH)\VisualC\SDL\Win32\Release;$(SDL1_PATH)\VisualC\SDLmain\Win32\Release;$(OPENAL_PATH)\libs\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OPENAL_PATH)\libs\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(SDL1_PATH)\VisualC\SDL\Win32\Release\SDL.dll $(TargetDir) /y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SDL1_PATH)\VisualC\SDL\x64\Release;$(SDL1_PATH)\VisualC\SDLmain\x64\Release;$(OPENAL_PATH)\libs\Win64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OPENAL_PATH)\libs\Win64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(SDL1_PATH)\VisualC\SDL\x64\Release\SDL.dll $(TargetDir) /y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundSystemAL.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl1\main.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl1\base\AppPlatform_sdl1.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl1\desktop\AppPlatform_sdl1_desktop.cpp" />
-    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
-    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\CustomSoundSystem.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl1\base\AppPlatform_sdl1.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl1\desktop\AppPlatform_sdl1_desktop.hpp" />
-    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Audio.OpenAL\Audio.OpenAL.vcxproj">
+      <Project>{e6c837a7-ef58-4628-a0d6-a8aee0a63754}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Client\Client.vcxproj">
       <Project>{a6e03dca-99f6-45b8-800d-73060ae407fc}</Project>
     </ProjectReference>
