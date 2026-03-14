@@ -12,7 +12,7 @@ GameControllerHandler_xinput::GameControllerHandler_xinput()
 {
     XInput::init();
 
-    if (!XInput::XInputGetState)
+    if (!XInput::GetState)
         for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
             m_connectionStates[i] = GameController::STATE_DISCONNECTED;
 
@@ -84,7 +84,7 @@ void GameControllerHandler_xinput::_processMotion(GameController::ID controllerI
 
 void GameControllerHandler_xinput::refresh()
 {
-    if (!XInput::XInputGetState)
+    if (!XInput::GetState)
         return;
 
     // Ingest our input "queue"
