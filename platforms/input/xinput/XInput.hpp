@@ -22,14 +22,10 @@ public:
         GetState = ::XInputGetState;
 #else
         HMODULE module = LoadLibrary("XINPUT1_4.DLL");
-        if (!module)
-            module = LoadLibrary("XINPUT1_3.DLL");
-        if (!module)
-            module = LoadLibrary("XINPUT1_2.DLL");
-        if (!module)
-            module = LoadLibrary("XINPUT1_1.DLL");
-        if (!module)
-            module = LoadLibrary("XINPUT9_1_0.DLL");
+        if (!module) module = LoadLibrary("XINPUT1_3.DLL");
+        if (!module) module = LoadLibrary("XINPUT1_2.DLL");
+        if (!module) module = LoadLibrary("XINPUT1_1.DLL");
+        if (!module) module = LoadLibrary("XINPUT9_1_0.DLL");
         if (module)
             GetState = (DWORD (WINAPI *)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
         if (!GetState)
