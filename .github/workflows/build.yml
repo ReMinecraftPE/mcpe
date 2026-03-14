@@ -40,7 +40,6 @@ jobs:
                     cmake ninja-build \
                     ccache \
                     libopenal-dev \
-                    zlib1g-dev \
                     ${{ matrix.packages }}
           - name: Build
             run: |
@@ -239,8 +238,8 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: switch-${{ steps.get-time.outputs.time }}
-              restore-keys: switch-
+              key: mingw-${{ steps.get-time.outputs.time }}
+              restore-keys: mingw-
           - name: Unpack cache
             run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
