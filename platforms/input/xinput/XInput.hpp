@@ -21,8 +21,7 @@ public:
 #ifdef _XBOX
         XInputGetState = ::XInputGetState;
 #else
-        XInputGetState = nullptr;
-        HMODULE module = LoadLibraryA("xinput1_3.dll");
+        HMODULE module = LoadLibrary("xinput1_3.dll");
         if (module)
             XInputGetState = (DWORD (WINAPI *)(DWORD, XINPUT_STATE *))GetProcAddress(module, "XInputGetState");
         if (!XInputGetState)
