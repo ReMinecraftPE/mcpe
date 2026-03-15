@@ -26,8 +26,7 @@ void* OGL::GetProcAddress(const char* name)
     result = (void*)wglGetProcAddress(name);
     if (result == nullptr)
     {
-		// Doing LoadLibrary here instead of GetModuleHandle, because LoadLibraryEx exists in Win2K, but GetModuleHandleEx doesn't
-        HMODULE handle = LoadLibrary("opengl32.dll");
+        static HMODULE handle = GetModuleHandle("opengl32.dll");
         if (handle != NULL)
         {
             result = (void*)GetProcAddress(handle, name);
