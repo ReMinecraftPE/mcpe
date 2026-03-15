@@ -14,9 +14,15 @@
     <ClCompile Include="$(MC_ROOT)\platforms\input\xinput\GameControllerHandler_xinput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\platforms\input\xinput\XInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\input\xinput\GameControllerHandler_xinput.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\platforms\input\xinput\XInput.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
