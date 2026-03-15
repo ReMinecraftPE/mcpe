@@ -21,7 +21,7 @@ public:
 #ifdef _XBOX
         GetState = ::XInputGetState;
 #else
-        HMODULE module =      LoadLibrary("XINPUT1_4.DLL");
+        HMODULE module      = LoadLibrary("XINPUT1_4.DLL");
         if (!module) module = LoadLibrary("XINPUT1_3.DLL");
         if (!module) module = LoadLibrary("XINPUT1_2.DLL");
         if (!module) module = LoadLibrary("XINPUT1_1.DLL");
