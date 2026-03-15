@@ -4,7 +4,15 @@
 
 using namespace mce::Platform;
 
-const char* OGL::ERROR_MSG = "Error initializing GL extensions. OpenGL 1.5 or later is required. Update your graphics drivers!";
+#ifdef FEATURE_GFX_SHADERS
+#define MIN_GL_VERSION "2.0"
+#define ERROR_MSG_EXTRA " Try switching to a non-shader build, or update your graphics drivers!"
+#else
+#define MIN_GL_VERSION "1.5"
+#define ERROR_MSG_EXTRA " Update your graphics drivers!"
+#endif
+
+const char* OGL::ERROR_MSG = "Error initializing GL extensions. OpenGL " MIN_GL_VERSION " or later is required." ERROR_MSG_EXTRA;
 
 bool OGL::InitBindings()
 {
