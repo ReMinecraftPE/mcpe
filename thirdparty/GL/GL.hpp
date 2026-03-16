@@ -118,6 +118,15 @@ bool xglInitted();
 
 #if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32) && !defined(__DREAMCAST__)
 
+#if GL_VERSION_1_1 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
+#define xglEnableClientState glEnableClientState
+#define xglDisableClientState glDisableClientState
+#define xglTexCoordPointer glTexCoordPointer
+#define xglColorPointer glColorPointer
+#define xglNormalPointer glNormalPointer
+#define xglVertexPointer glVertexPointer
+#define xglDrawArrays glDrawArrays
+#endif // GL_VERSION_1_1 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
 #if GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
 #define xglActiveTexture glActiveTexture
 #endif // GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
@@ -127,13 +136,6 @@ bool xglInitted();
 #define xglGenBuffers glGenBuffers
 #define xglDeleteBuffers glDeleteBuffers
 #define xglBufferSubData glBufferSubData
-#define xglEnableClientState glEnableClientState
-#define xglDisableClientState glDisableClientState
-#define xglTexCoordPointer glTexCoordPointer
-#define xglColorPointer glColorPointer
-#define xglNormalPointer glNormalPointer
-#define xglVertexPointer glVertexPointer
-#define xglDrawArrays glDrawArrays
 #endif // GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define USE_GL_STENCIL_SEPARATE
@@ -186,6 +188,17 @@ bool xglInitted();
 
 #else
 
+// @NOTE: the GLES checks don't really matter here, since we're never compiling for Windows with GLES
+// However, we are keeping the GLES checks here for quick-reference
+#if GL_VERSION_1_1 || GL_VERSION_ES_CM_1_0
+void xglEnableClientState(GLenum _array);
+void xglDisableClientState(GLenum _array);
+void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
+#endif // GL_VERSION_1_1 || GL_VERSION_ES_CM_1_0
 #if GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
 void xglActiveTexture(GLenum texture);
 #endif // GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
@@ -244,15 +257,10 @@ void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint*
 #ifdef MC_GL_DEBUG_OUTPUT
 void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam);
 #endif
+// Been here since GL 1.0
 void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearpl, GLfloat farpl);
+// Windows-specific, entirely optional
 void xglSwapIntervalEXT(int interval);
-void xglEnableClientState(GLenum _array);
-void xglDisableClientState(GLenum _array);
-void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
-void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
-void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer);
-void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
-void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
 
 #endif
 
