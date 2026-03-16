@@ -315,6 +315,47 @@ void xglInit()
 
 #ifdef USE_HARDWARE_GL_BUFFERS
 
+#if GL_VERSION_1_1
+
+void xglEnableClientState(GLenum _array)
+{
+	glEnableClientState(_array);
+}
+
+void xglDisableClientState(GLenum _array)
+{
+	glDisableClientState(_array);
+}
+
+void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+	glTexCoordPointer(size, type, stride, pointer);
+}
+
+void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+	glColorPointer(size, type, stride, pointer);
+}
+
+void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+#ifdef USE_GL_NORMAL_LIGHTING
+	glNormalPointer(type, stride, pointer);
+#endif
+}
+
+void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+	glVertexPointer(size, type, stride, pointer);
+}
+
+void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
+{
+	glDrawArrays(mode, first, count);
+}
+
+#endif // GL_VERSION_1_1
+
 #if GL_VERSION_1_3
 
 void xglActiveTexture(GLenum texture)
@@ -563,43 +604,7 @@ void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam)
 }
 #endif
 
-void xglEnableClientState(GLenum _array)
-{
-	glEnableClientState(_array);
-}
-
-void xglDisableClientState(GLenum _array)
-{
-	glDisableClientState(_array);
-}
-
-void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
-{
-	glTexCoordPointer(size, type, stride, pointer);
-}
-
-void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
-{
-	glColorPointer(size, type, stride, pointer);
-}
-
-void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer)
-{
-#ifdef USE_GL_NORMAL_LIGHTING
-	glNormalPointer(type, stride, pointer);
-#endif
-}
-
-void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
-{
-	glVertexPointer(size, type, stride, pointer);
-}
-
-void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
-{
-	glDrawArrays(mode, first, count);
-}
-#endif
+#endif // USE_HARDWARE_GL_BUFFERS
 
 #ifndef xglOrthof
 

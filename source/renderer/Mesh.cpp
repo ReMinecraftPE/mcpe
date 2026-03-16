@@ -134,7 +134,7 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
     }
     else
     {
-        assert(false);
+        assert(!"Attempted to render Mesh with NULL MaterialPtr. Maybe a material failed to load?");
     }
 
 #ifndef FEATURE_GFX_SHADERS
