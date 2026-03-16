@@ -11,10 +11,7 @@ void AppPlatform_sdl2_emscripten::loadImage(ImageData& data, const std::string& 
 {
 	char *rawData = emscripten_get_preloaded_image_data(("/" + path).c_str(), &data.m_width, &data.m_height);
 	if (rawData == nullptr)
-	{
-		LOG_E("Couldn't find file: %s", path.c_str());
 		return;
-	}
 	
 	data.m_data = (uint8_t*)rawData;
 	data.m_colorSpace = COLOR_SPACE_RGBA;
