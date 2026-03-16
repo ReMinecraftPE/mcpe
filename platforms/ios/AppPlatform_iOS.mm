@@ -73,10 +73,7 @@ void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
 						[NSString stringWithUTF8String: realPath.c_str()]];
 	
 	if (!image || !image.CGImage)
-	{
-		LOG_E("Couldn't find file: %s", path.c_str());
 		return;
-	}
 	
 	data.m_width = CGImageGetWidth(image.CGImage);
 	data.m_height = CGImageGetHeight(image.CGImage);
