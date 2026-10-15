@@ -11,8 +11,10 @@
     <MC_GLOBAL_PROPS>whattimeisit?</MC_GLOBAL_PROPS>
     <MC_ROOT>$(ProjectDir)..\..\..\</MC_ROOT>
     <RAKNET_PATH>$(MC_ROOT)thirdparty\raknet\</RAKNET_PATH>
-	<!-- fallback value -->
-	<MC_GFX_API>OGL</MC_GFX_API>
+    <SDL2_PATH>$(MC_ROOT)thirdparty\SDL2\src\</SDL2_PATH>
+    <OPENAL_PATH>$(MC_ROOT)thirdparty\OpenAL\</OPENAL_PATH>
+    <!-- fallback value -->
+    <MC_GFX_API>OGL</MC_GFX_API>
   </PropertyGroup>
   <!--PropertyGroup Label="Configuration">
     <EnableASAN>true</EnableASAN>

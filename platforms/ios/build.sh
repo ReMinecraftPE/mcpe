@@ -22,7 +22,8 @@ cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
-sdkver=1
+sdkver=2
+sdkjsonver=11.0
 if ! [ -d "$sdk" ] || [ "$(cat sdks/sdkver 2>/dev/null)" != "$sdkver" ]; then
     # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
     # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
@@ -33,6 +34,8 @@ if ! [ -d "$sdk" ] || [ "$(cat sdks/sdkver 2>/dev/null)" != "$sdkver" ]; then
     tar -x --lzma -f iPhoneOS8.0.sdk.tar.lzma
     mv iPhoneOS8.0.sdk "$sdk"
     rm iPhoneOS8.0.sdk.tar.lzma
+    printf '{"Version":"%s","DefaultDeploymentTarget":"%s","MaximumDeploymentTarget":"%s.99","CanonicalName":"iphoneos%s"}' \
+        "$sdkjsonver" "$sdkjsonver" "$sdkjsonver" "$sdkjsonver" > "$sdk/SDKSettings.json"
     printf '%s' "$sdkver" > sdks/sdkver
     outdated_sdk=1
 fi
