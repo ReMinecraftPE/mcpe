@@ -2541,7 +2541,7 @@
 		8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FireworkParticle.hpp; sourceTree = "<group>"; };
 		8470AF3E2BE9B80900BCA54E /* DisconnectionScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisconnectionScreen.cpp; sourceTree = "<group>"; };
 		8470AF3F2BE9B80900BCA54E /* DisconnectionScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisconnectionScreen.hpp; sourceTree = "<group>"; };
-		8470AF452BE9BC8500BCA54E /* GameMods.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../gameMods.hpp; sourceTree = "<group>"; };
+		8470AF452BE9BC8500BCA54E /* GameMods.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../GameMods.hpp; sourceTree = "<group>"; };
 		8477B39C2C4DC374004E1AC5 /* ControllerBuildInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerBuildInput.cpp; sourceTree = "<group>"; };
 		8477B39D2C4DC374004E1AC5 /* ControllerBuildInput.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ControllerBuildInput.hpp; sourceTree = "<group>"; };
 		8477B39E2C4DC374004E1AC5 /* ControllerMoveInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerMoveInput.cpp; sourceTree = "<group>"; };
