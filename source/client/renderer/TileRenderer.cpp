@@ -2693,7 +2693,10 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 				break;
 		}
 
-		if (((GrassTile*)tile)->m_bFancyGrass && tile->getTexture(*m_pTileSource, pos, (Facing::Name)dir) == TEXTURE_GRASS_SIDE && (dir == Facing::WEST || dir == Facing::EAST || dir == Facing::NORTH || dir == Facing::SOUTH))
+		if (m_fixedTexture == -1
+			&& ((GrassTile*)tile)->m_bFancyGrass
+			&& tile->getTexture(*m_pTileSource, pos, (Facing::Name)dir) == TEXTURE_GRASS_SIDE
+			&& (dir == Facing::WEST || dir == Facing::EAST || dir == Facing::NORTH || dir == Facing::SOUTH))
 		{
 			for (int i = 0; i < 4; i++)
 				m_vtxRed[i] = m_vtxGreen[i] = m_vtxBlue[i] = 1.0f;
