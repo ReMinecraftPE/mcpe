@@ -1475,7 +1475,6 @@
 		84F66DEB2F18C9DA00DE508E /* GameControllerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F66DE52F18C9DA00DE508E /* GameControllerManager.cpp */; };
 		84F66DEC2F18C9DA00DE508E /* GameControllerManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DE62F18C9DA00DE508E /* GameControllerManager.hpp */; };
 		84F66DF12F18CA3B00DE508E /* ToolsetDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DED2F18CA3B00DE508E /* ToolsetDefinitions.h */; };
-		84F66DF22F18CA3B00DE508E /* Unused.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DEE2F18CA3B00DE508E /* Unused.hpp */; };
 		84F66DF72F18CB3D00DE508E /* MapType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DF52F18CB3D00DE508E /* MapType.hpp */; };
 		84F66DF82F18CB3D00DE508E /* VertexField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F66DF62F18CB3D00DE508E /* VertexField.cpp */; };
 		84F77A002EA1BFB40045C907 /* libNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842610682AE988D30065905F /* libNetwork.a */; };
@@ -2542,7 +2541,7 @@
 		8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FireworkParticle.hpp; sourceTree = "<group>"; };
 		8470AF3E2BE9B80900BCA54E /* DisconnectionScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisconnectionScreen.cpp; sourceTree = "<group>"; };
 		8470AF3F2BE9B80900BCA54E /* DisconnectionScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisconnectionScreen.hpp; sourceTree = "<group>"; };
-		8470AF452BE9BC8500BCA54E /* GameMods.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../gameMods.hpp; sourceTree = "<group>"; };
+		8470AF452BE9BC8500BCA54E /* GameMods.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../GameMods.hpp; sourceTree = "<group>"; };
 		8477B39C2C4DC374004E1AC5 /* ControllerBuildInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerBuildInput.cpp; sourceTree = "<group>"; };
 		8477B39D2C4DC374004E1AC5 /* ControllerBuildInput.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ControllerBuildInput.hpp; sourceTree = "<group>"; };
 		8477B39E2C4DC374004E1AC5 /* ControllerMoveInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerMoveInput.cpp; sourceTree = "<group>"; };
@@ -3432,7 +3431,6 @@
 		84F66DE52F18C9DA00DE508E /* GameControllerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameControllerManager.cpp; sourceTree = "<group>"; };
 		84F66DE62F18C9DA00DE508E /* GameControllerManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameControllerManager.hpp; sourceTree = "<group>"; };
 		84F66DED2F18CA3B00DE508E /* ToolsetDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolsetDefinitions.h; sourceTree = "<group>"; };
-		84F66DEE2F18CA3B00DE508E /* Unused.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Unused.hpp; sourceTree = "<group>"; };
 		84F66DF52F18CB3D00DE508E /* MapType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MapType.hpp; sourceTree = "<group>"; };
 		84F66DF62F18CB3D00DE508E /* VertexField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexField.cpp; sourceTree = "<group>"; };
 		84F779FD2EA1BF8E0045C907 /* libServer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libServer.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3647,7 +3645,6 @@
 				84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */,
 				840DD57A2AC810620006A435 /* SDLKeyCodes.h */,
 				84F66DED2F18CA3B00DE508E /* ToolsetDefinitions.h */,
-				84F66DEE2F18CA3B00DE508E /* Unused.hpp */,
 			);
 			name = compat;
 			path = ../../compat;
@@ -6764,7 +6761,6 @@
 				84EB0E0F2EE2D4D4008FB007 /* InheritanceTree.hpp in Headers */,
 				8406FD332AF1823600B09C1D /* Logger.hpp in Headers */,
 				8406FD362AF1823600B09C1D /* Mth.hpp in Headers */,
-				84F66DF22F18CA3B00DE508E /* Unused.hpp in Headers */,
 				8406FD372AF1823600B09C1D /* Random.hpp in Headers */,
 				84EB0E0C2EE2D4CA008FB007 /* Color.hpp in Headers */,
 				84BE45F730107B90001C93C6 /* MovePriorityQueue.hpp in Headers */,
@@ -8362,6 +8358,7 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release [SDL2] (x86)";
@@ -9139,6 +9136,7 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Debug [SDL2] (Default)";
@@ -9151,6 +9149,7 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release [SDL2] (Default)";
@@ -9488,6 +9487,7 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Debug [SDL1] (Default)";
@@ -9659,6 +9659,7 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release [SDL1] (Default)";
