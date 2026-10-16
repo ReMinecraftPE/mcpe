@@ -114,6 +114,8 @@ void closedir(DIR* dir);
 
 #endif
 
+#define ARRAY_SIZE_OF(array) sizeof(array) / sizeof(array[0])
+
 // don't know where to declare these:
 
 #define C_MAX_TILES (256)

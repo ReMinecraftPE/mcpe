@@ -773,6 +773,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen_Console.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\client\renderer\Font_Console.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\ViewportSize.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -1404,6 +1407,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen_Console.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Font_Console.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\app\VirtualKeyboardManager.cpp">
       <Filter>Source Files\App</Filter>

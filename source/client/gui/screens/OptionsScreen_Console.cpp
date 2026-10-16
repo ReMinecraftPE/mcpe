@@ -140,7 +140,7 @@ void SettingsPanelScreen::render(float f)
 
 	blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::POINTER_TEXT_PANEL_SLICES, difficultyPanelX, difficultyPanelY, difficultyPanelWidth, difficultyPanelHeight, 8);
 	
-	m_pFont->drawWordWrap(Language::get(m_pMinecraft->getOptions()->m_difficulty.getValue() + ".desc"), difficultyPanelX + 11, difficultyPanelY + 15, Color::WHITE, (difficultyPanelWidth - 22) / 2, 22, false, true);
+	m_pFont->drawWordWrap(Language::get(m_pMinecraft->getOptions()->m_difficulty.getValue() + ".desc"), difficultyPanelX + 11, difficultyPanelY + 15, Color::WHITE, (difficultyPanelWidth - 22) / 2, 22, false);
 }
 
 void SettingsPanelScreen::removed()

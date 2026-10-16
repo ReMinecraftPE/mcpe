@@ -212,7 +212,7 @@ void NinecraftApp::_initAll()
 	_initInput();
 
 	m_pGui = new Gui(this);
-	m_pFont = new Font(getOptions(), "font/default.png", m_pTextures);
+	_reloadFontInternal();
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
@@ -227,6 +227,8 @@ void NinecraftApp::_initAll()
 	SplashManager::singleton().init(m_pUser->m_name);
 
 	field_D9C = 0;
+
+	markInitialized();
 }
 
 bool NinecraftApp::handleBack(bool b)

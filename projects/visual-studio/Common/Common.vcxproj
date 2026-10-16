@@ -128,6 +128,9 @@
     <ClInclude Include="$(MC_ROOT)\source\common\threading\Mutex.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\threading\Mutex_win32.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\threading\MutexGuards.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\hashing\HashCombine.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\hashing\HashMix.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\FixedCircularBuffer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -904,4 +904,8 @@ void UIThemeOption::apply()
 	{
 		mc.getOptions()->m_logoType.apply();
 	}
+
+	//if (m_pMinecraft->m_pFont)
+	//	m_pMinecraft->m_pFont->clearTextObjectCache();
+	m_pMinecraft->reloadFont();
 }

@@ -121,6 +121,22 @@ public:
 	UITheme getUiTheme();
 	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 
+	bool isInitialized() const
+	{
+		return m_initialized;
+	}
+
+	void reloadFont();
+
+protected:
+	Font* _createFont(const std::string& fileName) const;
+	void _reloadFontInternal();
+
+	void markInitialized()
+	{
+		m_initialized = true;
+	}
+
 public:
 	static Minecraft& singleton() { return *_singletonPtr; }
 
@@ -205,5 +221,8 @@ public:
 	// in 0.8. Offset 3368
 	double m_fDeltaTime, m_fLastUpdated;
 	int m_lastInteractTime;
+	
+private:
+	bool m_initialized;
 };
 

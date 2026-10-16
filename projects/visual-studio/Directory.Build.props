@@ -59,7 +59,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;NOMINMAX;$(MC_GFX_API_MACRO);_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UTF8PROC_STATIC;HANDLE_CHARS_SEPARATELY;NOMINMAX;$(MC_GFX_API_MACRO);_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 	  <!-- Needed for dynamic_cast to work -->
 	  <RuntimeTypeInfo>true</RuntimeTypeInfo>
 	  <!-- Needed to allow __cplusplus to be set correctly -->

@@ -45,6 +45,7 @@
 
 #include "renderer/RenderContextImmediate.hpp"
 #include "client/renderer/LogoRenderer.hpp"
+#include "client/renderer/Font_Console.hpp"
 
 Minecraft* Minecraft::_singletonPtr;
 float Minecraft::_renderScaleMultiplier = 1.0f;
@@ -1473,6 +1474,34 @@ ScreenChooser* Minecraft::getScreenChooser()
 UITheme Minecraft::getUiTheme()
 {
 	return m_pScreen ? m_pScreen->m_uiTheme : getOptions()->getUiTheme();
+}
+
+Font* Minecraft::_createFont(const std::string& fileName) const
+{
+	assert(m_pOptions);
+
+	switch (m_pOptions->getUiTheme())
+	{
+	case UI_CONSOLE:
+		return new Font_Console(m_pOptions, fileName, m_pTextures);
+
+	default:
+		return new Font(m_pOptions, fileName, m_pTextures);
+	}
+}
+
+void Minecraft::_reloadFontInternal()
+{
+	delete m_pFont;
+	m_pFont = _createFont("font/default.png");
+}
+
+void Minecraft::reloadFont()
+{
+	if (!m_initialized)
+		return;
+
+	_reloadFontInternal();
 }
 
 void Minecraft::reloadFancy(bool isFancy)

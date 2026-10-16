@@ -291,6 +291,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\LoadWorldScreen_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen_Console.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Font_Console.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\ViewportSize.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\app\VirtualKeyboardManager.hpp" />
   </ItemGroup>
@@ -502,6 +503,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\LoadWorldScreen_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen_Console.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Font_Console.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\app\VirtualKeyboardManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -519,6 +521,10 @@
     </ProjectReference>
     <ProjectReference Include="..\STB\STB.vcxproj">
       <Project>{f332cb57-ff16-4d43-bbe0-76f28301daa8}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="..\utf8proc\utf8proc.vcxproj">
+      <Project>{9482d455-4054-4907-a583-c57e33d7e57a}</Project>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>

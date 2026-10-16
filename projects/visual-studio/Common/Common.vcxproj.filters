@@ -27,6 +27,9 @@
     <Filter Include="Source Files\Threading">
       <UniqueIdentifier>{98eb3faf-163b-46e7-a605-a52084709e4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utility\Hashing">
+      <UniqueIdentifier>{b3b34e59-bac8-41ae-817c-86293b22d841}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp">
@@ -165,6 +168,15 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\common\threading\MutexGuards.hpp">
       <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\hashing\HashMix.hpp">
+      <Filter>Header Files\Utility\Hashing</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\hashing\HashCombine.hpp">
+      <Filter>Header Files\Utility\Hashing</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\FixedCircularBuffer.hpp">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

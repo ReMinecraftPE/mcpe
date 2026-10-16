@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "common/Mth.hpp"
 
 #define GET_RED(c)   (uint8_t(((c) >>  0) & 0xFF))
 #define GET_GREEN(c) (uint8_t(((c) >>  8) & 0xFF))
@@ -86,6 +87,16 @@ public:
         g *= mul;
         b *= mul;
         return *this;
+    }
+
+    uint32_t toUInt32() const
+    {
+        uint8_t r8 = static_cast<uint8_t>(Mth::clamp(r * 255.0f, 0.0f, 255.0f));
+        uint8_t g8 = static_cast<uint8_t>(Mth::clamp(g * 255.0f, 0.0f, 255.0f));
+        uint8_t b8 = static_cast<uint8_t>(Mth::clamp(b * 255.0f, 0.0f, 255.0f));
+        uint8_t a8 = static_cast<uint8_t>(Mth::clamp(a * 255.0f, 0.0f, 255.0f));
+
+        return (r8 << 24) + (g8 << 16) + (b8 << 8) + a8;
     }
 
     Color operator+(float f) const

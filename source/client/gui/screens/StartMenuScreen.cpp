@@ -176,7 +176,8 @@ void StartMenuScreen::init()
 
 	_addElement(m_creditsButton, false);
 
-	m_watermarkText = "\xFFMojang AB";
+	// TODO: change copyright symbol back to \xFF if utf8 is disabled
+	m_watermarkText = "\xC3\xBFMojang AB";
 	m_watermarkX = m_width - 1 - m_pFont->width(m_watermarkText);
 
 	m_versionText = m_pMinecraft->getVersionString();

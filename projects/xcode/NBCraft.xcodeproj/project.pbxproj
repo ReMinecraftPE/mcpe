@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8406DCE2306509AA007FB1A3 /* Font_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8406DCE0306509AA007FB1A3 /* Font_Console.cpp */; };
+		8406DCE3306509AA007FB1A3 /* Font_Console.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8406DCE1306509AA007FB1A3 /* Font_Console.hpp */; };
+		8406DCE6306509C9007FB1A3 /* HashMap.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8406DCE5306509C9007FB1A3 /* HashMap.hpp */; };
+		8406DCEE306509EC007FB1A3 /* HashCombine.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8406DCEC306509EC007FB1A3 /* HashCombine.hpp */; };
+		8406DCEF306509EC007FB1A3 /* HashMix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8406DCED306509EC007FB1A3 /* HashMix.hpp */; };
+		8406DD6E30650A5F007FB1A3 /* utf8proc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8406DD5230650A5F007FB1A3 /* utf8proc.c */; };
+		8406DD6F30650A5F007FB1A3 /* utf8proc.h in Headers */ = {isa = PBXBuildFile; fileRef = 8406DD5330650A5F007FB1A3 /* utf8proc.h */; };
 		8406FD2A2AF181B800B09C1D /* GL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6542AC810620006A435 /* GL.cpp */; };
 		8406FD2C2AF1820700B09C1D /* MinecraftPackets.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63B2AC810620006A435 /* MinecraftPackets.hpp */; };
 		8406FD2D2AF1820700B09C1D /* NetEventCallback.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63D2AC810620006A435 /* NetEventCallback.hpp */; };
@@ -838,6 +845,7 @@
 		84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CED51D2E672826006BC585 /* ConvertWorldScreen.cpp */; };
 		84CED5202E672826006BC585 /* ConvertWorldScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84CED51E2E672826006BC585 /* ConvertWorldScreen.hpp */; };
 		84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CEF0022AE3C97D006C5829 /* EAGLView.m */; };
+		84D0DBD13066380100F27C2A /* libutf8proc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8406DD1830650A03007FB1A3 /* libutf8proc.a */; };
 		84D770132EE5158C00701DCB /* stb_image_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8E462B32FB33003F5B82 /* stb_image_impl.c */; };
 		84D772272EE5182B00701DCB /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 84D772262EE5180600701DCB /* assets */; };
 		84D828792FFA18A000415AB4 /* AutosaveWarningScreen_Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D828712FFA18A000415AB4 /* AutosaveWarningScreen_Console.cpp */; };
@@ -1670,6 +1678,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8406DD7130650B07007FB1A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8406DCF030650A03007FB1A3;
+			remoteInfo = utf8proc;
+		};
 		842610802AE9898E0065905F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
@@ -1807,6 +1822,14 @@
 
 /* Begin PBXFileReference section */
 		8400360F2E89DADB00C14213 /* SDL_gamecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_gamecontroller.h; sourceTree = "<group>"; };
+		8406DCE0306509AA007FB1A3 /* Font_Console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font_Console.cpp; sourceTree = "<group>"; };
+		8406DCE1306509AA007FB1A3 /* Font_Console.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font_Console.hpp; sourceTree = "<group>"; };
+		8406DCE5306509C9007FB1A3 /* HashMap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HashMap.hpp; sourceTree = "<group>"; };
+		8406DCEC306509EC007FB1A3 /* HashCombine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HashCombine.hpp; sourceTree = "<group>"; };
+		8406DCED306509EC007FB1A3 /* HashMix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HashMix.hpp; sourceTree = "<group>"; };
+		8406DD1830650A03007FB1A3 /* libutf8proc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libutf8proc.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8406DD5230650A5F007FB1A3 /* utf8proc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utf8proc.c; sourceTree = "<group>"; };
+		8406DD5330650A5F007FB1A3 /* utf8proc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8proc.h; sourceTree = "<group>"; };
 		8406FD292AF1814500B09C1D /* libRenderer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRenderer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		840823D72F4FF4B80097F6A5 /* CoalItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CoalItem.cpp; sourceTree = "<group>"; };
 		840823D82F4FF4B80097F6A5 /* CoalItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CoalItem.hpp; sourceTree = "<group>"; };
@@ -3517,6 +3540,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8406DD0D30650A03007FB1A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8406FD222AF1814500B09C1D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3592,6 +3622,7 @@
 				84B8AF882AF18A2C008DE93D /* libNetwork.a in Frameworks */,
 				84E8DCE52E84ACBC00B30789 /* libRenderer.a in Frameworks */,
 				84F77A032EA1BFF30045C907 /* libServer.a in Frameworks */,
+				84D0DBD13066380100F27C2A /* libutf8proc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3636,6 +3667,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8406DCEB306509EC007FB1A3 /* hashing */ = {
+			isa = PBXGroup;
+			children = (
+				8406DCEC306509EC007FB1A3 /* HashCombine.hpp */,
+				8406DCED306509EC007FB1A3 /* HashMix.hpp */,
+			);
+			path = hashing;
+			sourceTree = "<group>";
+		};
+		8406DD1930650A5F007FB1A3 /* utf8proc */ = {
+			isa = PBXGroup;
+			children = (
+				8406DD5230650A5F007FB1A3 /* utf8proc.c */,
+				8406DD5330650A5F007FB1A3 /* utf8proc.h */,
+			);
+			path = utf8proc;
+			sourceTree = "<group>";
+		};
 		840DD5782AC810620006A435 /* compat */ = {
 			isa = PBXGroup;
 			children = (
@@ -4710,6 +4759,7 @@
 				840DD7392AC810620006A435 /* raknet */,
 				840DD8472AC810630006A435 /* SDL */,
 				84AA8C802B32FB32003F5B82 /* stb_image */,
+				8406DD1930650A5F007FB1A3 /* utf8proc */,
 				840DD84D2AC810630006A435 /* zlib */,
 			);
 			name = thirdparty;
@@ -5206,6 +5256,7 @@
 				84CCBC452E61849800E251AF /* libNBT.a */,
 				844496762E76685C008CF2E0 /* NBCraftClient.SDL1 */,
 				84F779FD2EA1BF8E0045C907 /* libServer.a */,
+				8406DD1830650A03007FB1A3 /* libutf8proc.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5276,6 +5327,8 @@
 				84AA8BC62B32F3F3003F5B82 /* FoliageColor.hpp */,
 				84AA8BC72B32F3F3003F5B82 /* Font.cpp */,
 				84AA8BC82B32F3F3003F5B82 /* Font.hpp */,
+				8406DCE0306509AA007FB1A3 /* Font_Console.cpp */,
+				8406DCE1306509AA007FB1A3 /* Font_Console.hpp */,
 				84AA8BC92B32F3F3003F5B82 /* Frustum.cpp */,
 				84AA8BCA2B32F3F3003F5B82 /* Frustum.hpp */,
 				84AA8BCB2B32F3F3003F5B82 /* FrustumCuller.cpp */,
@@ -5730,6 +5783,8 @@
 			children = (
 				84EB0A002EE2CCC0008FB007 /* AlignmentHelper.cpp */,
 				84EB0A012EE2CCC0008FB007 /* AlignmentHelper.hpp */,
+				8406DCEB306509EC007FB1A3 /* hashing */,
+				8406DCE5306509C9007FB1A3 /* HashMap.hpp */,
 				84EB0A022EE2CCC0008FB007 /* InheritanceTree.hpp */,
 				84EB0A032EE2CCC0008FB007 /* JsonParser.cpp */,
 				84EB0A042EE2CCC0008FB007 /* JsonParser.hpp */,
@@ -6061,6 +6116,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		8406DCF130650A03007FB1A3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8406DD6F30650A5F007FB1A3 /* utf8proc.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8406FD172AF1814500B09C1D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -6328,6 +6391,8 @@
 				84B8AF4F2AF189D8008DE93D /* ProgressScreen.hpp in Headers */,
 				84B8AF502AF189D8008DE93D /* RenameMPLevelScreen.hpp in Headers */,
 				84B8AF512AF189D8008DE93D /* SavingWorldScreen.hpp in Headers */,
+				8406DCE6306509C9007FB1A3 /* HashMap.hpp in Headers */,
+				8406DCE3306509AA007FB1A3 /* Font_Console.hpp in Headers */,
 				84B8AF522AF189D8008DE93D /* SelectWorldScreen.hpp in Headers */,
 				84B8AF532AF189D8008DE93D /* StartMenuScreen.hpp in Headers */,
 				84EB099C2EE2CC3B008FB007 /* GuiElement.hpp in Headers */,
@@ -6382,6 +6447,7 @@
 				84E001302AF39E84009B9555 /* PolygonArea.hpp in Headers */,
 				84EB09DF2EE2CC86008FB007 /* ZombieModel.hpp in Headers */,
 				844336FC2F405DCA00EB3115 /* VerticalLayout.hpp in Headers */,
+				8406DCEF306509EC007FB1A3 /* HashMix.hpp in Headers */,
 				84EE49F42F387DBD00677881 /* SwitchValuesButton.hpp in Headers */,
 				84E8F9E92FEF60F300D0669F /* SquidRenderer.hpp in Headers */,
 				84E001322AF39E84009B9555 /* RectangleArea.hpp in Headers */,
@@ -6412,6 +6478,7 @@
 				84AA8BF22B32F3F3003F5B82 /* ChickenRenderer.hpp in Headers */,
 				84EB09C22EE2CC86008FB007 /* Cube.hpp in Headers */,
 				84AA8BF42B32F3F3003F5B82 /* CowRenderer.hpp in Headers */,
+				8406DCEE306509EC007FB1A3 /* HashCombine.hpp in Headers */,
 				849488372C9284DA006DB706 /* Lighting.hpp in Headers */,
 				84EAF8232FE8CC1B00D54A38 /* TabButton.hpp in Headers */,
 				84AA8BF62B32F3F3003F5B82 /* CreeperRenderer.hpp in Headers */,
@@ -6954,6 +7021,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		8406DCF030650A03007FB1A3 /* utf8proc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8406DD0E30650A03007FB1A3 /* Build configuration list for PBXNativeTarget "utf8proc" */;
+			buildPhases = (
+				8406DCF130650A03007FB1A3 /* Headers */,
+				8406DCFD30650A03007FB1A3 /* Sources */,
+				8406DD0D30650A03007FB1A3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = utf8proc;
+			productName = Common;
+			productReference = 8406DD1830650A03007FB1A3 /* libutf8proc.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		8406FD162AF1814500B09C1D /* Renderer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8406FD232AF1814500B09C1D /* Build configuration list for PBXNativeTarget "Renderer" */;
@@ -7081,6 +7165,7 @@
 				84B8AF862AF18A25008DE93D /* PBXTargetDependency */,
 				84E8DCE42E84ACB000B30789 /* PBXTargetDependency */,
 				84F77A022EA1BFC90045C907 /* PBXTargetDependency */,
+				8406DD7230650B07007FB1A3 /* PBXTargetDependency */,
 			);
 			name = Client;
 			productName = Client;
@@ -7218,6 +7303,7 @@
 				84FFBD7D2ACA2876005A8CCF /* RakNet */,
 				8406FD162AF1814500B09C1D /* Renderer */,
 				84F779CE2EA1BF8E0045C907 /* Server */,
+				8406DCF030650A03007FB1A3 /* utf8proc */,
 				84BF62FE2AF1859D008A9995 /* World */,
 				84498A762AF18C7A005EF5A5 /* ZLib */,
 			);
@@ -7263,6 +7349,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8406DCFD30650A03007FB1A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8406DD6E30650A5F007FB1A3 /* utf8proc.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8406FD182AF1814500B09C1D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7645,6 +7739,7 @@
 				84E022FC2F2A0230003C8FFE /* Language.cpp in Sources */,
 				84AA8BFD2B32F3F3003F5B82 /* HumanoidMobRenderer.cpp in Sources */,
 				84E8F9E82FEF60F300D0669F /* SquidRenderer.cpp in Sources */,
+				8406DCE2306509AA007FB1A3 /* Font_Console.cpp in Sources */,
 				84EB09CE2EE2CC86008FB007 /* HumanoidModel.cpp in Sources */,
 				84AA8BFF2B32F3F3003F5B82 /* ItemRenderer.cpp in Sources */,
 				84AA8C012B32F3F3003F5B82 /* ItemSpriteRenderer.cpp in Sources */,
@@ -8140,6 +8235,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8406DD7230650B07007FB1A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8406DCF030650A03007FB1A3 /* utf8proc */;
+			targetProxy = 8406DD7130650B07007FB1A3 /* PBXContainerItemProxy */;
+		};
 		842610812AE9898E0065905F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84FFBD7D2ACA2876005A8CCF /* RakNet */;
@@ -8243,6 +8343,114 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8406DD0F30650A03007FB1A3 /* Debug [SDL2] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Debug [SDL2] (Default)";
+		};
+		8406DD1030650A03007FB1A3 /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		8406DD1130650A03007FB1A3 /* Debug [iOS] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Debug [iOS] (Default)";
+		};
+		8406DD1230650A03007FB1A3 /* Release [SDL2] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Release [SDL2] (Default)";
+		};
+		8406DD1330650A03007FB1A3 /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		8406DD1430650A03007FB1A3 /* Release [iOS] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Release [iOS] (Default)";
+		};
+		8406DD1530650A03007FB1A3 /* Release [SDL2] (x86) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Release [SDL2] (x86)";
+		};
+		8406DD1630650A03007FB1A3 /* Release [SDL1] (PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Release [SDL1] (PPC)";
+		};
+		8406DD1730650A03007FB1A3 /* Release [SDL1] (x86-PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					UTF8PROC_STATIC,
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+				);
+				PRODUCT_NAME = utf8proc;
+			};
+			name = "Release [SDL1] (x86-PPC)";
+		};
 		8406FD242AF1814500B09C1D /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -9869,6 +10077,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8406DD0E30650A03007FB1A3 /* Build configuration list for PBXNativeTarget "utf8proc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8406DD0F30650A03007FB1A3 /* Debug [SDL2] (Default) */,
+				8406DD1030650A03007FB1A3 /* Debug [SDL1] (Default) */,
+				8406DD1130650A03007FB1A3 /* Debug [iOS] (Default) */,
+				8406DD1230650A03007FB1A3 /* Release [SDL2] (Default) */,
+				8406DD1330650A03007FB1A3 /* Release [SDL1] (Default) */,
+				8406DD1430650A03007FB1A3 /* Release [iOS] (Default) */,
+				8406DD1530650A03007FB1A3 /* Release [SDL2] (x86) */,
+				8406DD1630650A03007FB1A3 /* Release [SDL1] (PPC) */,
+				8406DD1730650A03007FB1A3 /* Release [SDL1] (x86-PPC) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Release [SDL2] (Default)";
+		};
 		8406FD232AF1814500B09C1D /* Build configuration list for PBXNativeTarget "Renderer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

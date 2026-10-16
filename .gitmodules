@@ -10,3 +10,6 @@
 [submodule "thirdparty/OpenAL"]
 	path = thirdparty/OpenAL
 	url = https://github.com/kcat/openal-soft.git
+[submodule "thirdparty/utf8proc"]
+	path = thirdparty/utf8proc
+	url = https://github.com/JuliaStrings/utf8proc.git
