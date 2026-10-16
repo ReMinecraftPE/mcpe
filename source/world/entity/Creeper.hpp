@@ -21,11 +21,14 @@ public:
 
 	void die(Entity* pCulprit) override;
 	void checkHurtTarget(Entity*, float) override;
+	bool interact(Player* player) override;
 
 private:
 	void _defineEntityData();
+	void _tickSwell();
 
 public:
 	int m_swell;
 	int m_oldSwell;
+	bool m_ignited;
 };

@@ -35,27 +35,30 @@ std::string DyePowderItem::getDescriptionId(ItemStack& item) const
 bool DyePowderItem::useOn(ItemStack& item, Player& player, const TilePos& pos, Facing::Name face) const
 {
     // Aux value 15 is bonemeal
-    if (item.getAuxValue() == 15)
-	{
-		TileSource& source = player.getTileSource();
-		Level& level = player.getLevel();
 
-		TileID tile = source.getTile(pos);
-		
-		if (tile == Tile::sapling->m_ID)
-		{
-			(static_cast<Sapling*>(Tile::sapling))->growTree(source, pos, &level.m_random);
-			item.shrink();
-			return true;
-		}
-		
-		if (tile == Tile::crops->m_ID)
-		{
-			static_cast<CropsTile*>(Tile::crops)->growCropsToMax(source, pos);
-			item.shrink();
-			return true;
-		}
+    if (item.getAuxValue() != 15)  {
+		return false;
 	}
+
+	TileSource& source = player.getTileSource();
+	Level& level = player.getLevel();
+
+	TileID tile = source.getTile(pos);
+	
+	if (tile == Tile::sapling->m_ID)
+	{
+		(static_cast<Sapling*>(Tile::sapling))->growTree(source, pos, &level.m_random);
+		item.shrink();
+		return true;
+	}
+	
+	if (tile == Tile::crops->m_ID)
+	{
+		static_cast<CropsTile*>(Tile::crops)->growCropsToMax(source, pos);
+		item.shrink();
+		return true;
+	}
+
 	
 	return false;
 }

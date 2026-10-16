@@ -9,6 +9,7 @@
 #include "ItemStack.hpp"
 #include "GameMods.hpp"
 #include "world/tile/Tile.hpp"
+#include "world/entity/Player.hpp"
 #include "nbt/CompoundTag.hpp"
 
 const std::string
@@ -277,6 +278,11 @@ void ItemStack::hurt(int by)
 void ItemStack::hurtAndBreak(int amount, Entity& ent)
 {
 	if (!isDamageableItem())
+	{
+		return;
+	}
+
+	if (ent.isPlayer() && static_cast<Player&>(ent).isCreative())
 	{
 		return;
 	}

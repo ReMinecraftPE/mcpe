@@ -1,4 +1,5 @@
 #include "world/entity/Creeper.hpp"
+#include "world/entity/Player.hpp"
 
 Creeper::Creeper(TileSource& source) : Monster(source)
 {
@@ -7,6 +8,7 @@ Creeper::Creeper(TileSource& source) : Monster(source)
 	m_texture = "mob/creeper.png";
 	m_swell = 0;
 	m_oldSwell = 0;
+	m_ignited = false;
 
 	_defineEntityData();
 }
@@ -19,24 +21,23 @@ void Creeper::_defineEntityData()
 void Creeper::tick()
 {
 	m_oldSwell = m_swell;
+
 	if (m_pLevel->m_bIsClientSide)
 	{
 		int swellDir = getSwellDir();
+
 		if (swellDir > 0 && m_swell == 0)
 		{
 			m_pLevel->playSound(this, "random.fuse", 1.0f, 0.5f);
 		}
 
 		m_swell += swellDir;
+		m_swell = Mth::clamp(m_swell, 0, MAX_SWELL);
+	}
 
-		if (m_swell < 0)
-		{
-			m_swell = 0;
-		}
-		else if (m_swell > MAX_SWELL)
-		{
-			m_swell = MAX_SWELL;
-		}
+	if (m_ignited && !m_pLevel->m_bIsClientSide)
+	{
+		_tickSwell();
 	}
 
 	Monster::tick();
@@ -52,25 +53,64 @@ void Creeper::die(Entity* pCulprit)
 	}
 }
 
+bool Creeper::interact(Player* player)
+{
+	ItemStack& selected = player->getSelectedItem();
+	if (selected.getId() != Item::flintAndSteel->m_itemID)
+	{
+		return false;
+	}
+
+	if (m_ignited)
+	{
+		return true;
+	}
+
+	m_ignited = true;
+	selected.hurtAndBreak(1, *player);
+
+	if (selected.m_count <= 0)
+	{
+		selected.snap(*player);
+		player->removeSelectedItem();
+	}
+
+	return true;
+}
+
+
+void Creeper::_tickSwell() 
+{
+	if (m_swell == 0)
+	{
+		m_pLevel->playSound(this, "random.fuse", 1.0f, 0.5f);
+	}
+
+	setSwellDir(1);
+	m_swell++;
+
+	if (m_swell >= MAX_SWELL)
+	{
+		m_pLevel->explode(this, m_pos, 3.0f);
+		remove();
+	}
+
+	m_bHoldGround = true;
+}
+
+
 void Creeper::checkHurtTarget(Entity* pEnt, float f)
 {
+	if (m_ignited)
+	{
+		return;
+	}
+
 	int swellDir = getSwellDir();
+
 	if ((swellDir <= 0 && f < 3.0f) || (swellDir > 0 && f < 7.0f))
 	{
-		if (m_swell == 0)
-		{
-			m_pLevel->playSound(this, "random.fuse", 1.0f, 0.5f);
-		}
-
-		setSwellDir(1);
-		m_swell++;
-		if (m_swell >= MAX_SWELL)
-		{
-			m_pLevel->explode(this, m_pos, 3.0f);
-			remove();
-		}
-
-		m_bHoldGround = true;
+		_tickSwell();
 	}
 	else
 	{

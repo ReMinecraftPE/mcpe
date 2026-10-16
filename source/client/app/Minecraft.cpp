@@ -493,6 +493,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 				InteractPacket pkt(player->m_EntityID, pTarget->m_EntityID, InteractPacket::INTERACT);
 				m_pRakNetInstance->send(pkt);
 
+				player->swing();
 				pGameMode->interact(*player, *pTarget);
 				m_lastInteractTime = getTimeMs();
 			}
