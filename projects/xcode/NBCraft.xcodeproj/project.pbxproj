@@ -8442,7 +8442,6 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release [SDL1] (PPC)";
@@ -8526,7 +8525,6 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release [SDL1] (x86-PPC)";
@@ -8765,7 +8763,6 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Debug [iOS] (Default)";
@@ -8913,7 +8910,6 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release [iOS] (Default)";
